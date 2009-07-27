@@ -1,0 +1,146 @@
+C166 COMPILER V6.18, TPL_OS_TIMEOBJ_KERNEL                                                 07/06/2009 12:43:17 PAGE 1   
+
+
+C166 COMPILER V6.18, COMPILATION OF MODULE TPL_OS_TIMEOBJ_KERNEL
+OBJECT MODULE PLACED IN .\objs\tpl_os_timeobj_kernel.obj
+COMPILER INVOKED BY: E:\programs\keil_arm_eval\C166\BIN\C166.EXE ..\..\..\trampoline-1.1_svn\os\tpl_os_timeobj_kernel.c 
+                    -TINY BROWSE INCDIR(.\archi_appli;..\..\..\trampoline-1.1_svn\os;..\..\..\trampoline-1.1_svn\com;..\..\..\trampoline-1.1_
+                    -svn\machines\c166;..\..\..\trampoline-1.1_svn\debug;..\..\..\trampoline-1.1_svn\goil\templates\c166) MOD167 DEFINE(WITH_
+                    -COMPILER_SETTINGS) DEBUG PRINT(.\tpl_os_timeobj_kernel.lst) OBJECT(.\objs\tpl_os_timeobj_kernel.obj) 
+
+ stmt lvl     source
+
+    1         /**
+    2          * @file tpl_os_timeobj_kernel.c
+    3          *
+    4          * @section desc File description
+    5          *
+    6          * Trampoline time object Kernel implementation file. A time object is the
+    7          * parent object of alarms and schedule tables.
+    8          *
+    9          * @section copyright Copyright
+   10          *
+   11          * Trampoline OS
+   12          *
+   13          * Trampoline is copyright (c) IRCCyN 2005-2007
+   14          * Trampoline is protected by the French intellectual property law.
+   15          *
+   16          * This software is distributed under the Lesser GNU Public Licence
+   17          *
+   18          * @section infos File informations
+   19          *
+   20          * $Date: 2009-06-25 15:58:52 +0200 (jeu. 25 juin 2009) $
+   21          * $Rev: 903 $
+   22          * $Author: fp $
+   23          * $URL: http://trampoline.rts-software.org/svn/trunk/os/tpl_os_timeobj_kernel.c $
+   24          */
+   25         
+   26         /*#include "tpl_os_definitions.h"*/
+   27         #include "tpl_os_timeobj_kernel.h"
+*** WARNING C34 IN LINE 45 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: 'tpl_buffer': missing declaration sp
+             -ecifiers
+*** ERROR C42 IN LINE 45 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: 'tpl_buffer': not in formal parameter 
+             -list
+*** ERROR C29 IN LINE 65 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: formal/parameter has illegal storage c
+             -lass
+*** ERROR C33 IN LINE 65 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: 'tpl_time': invalid storage class
+*** ERROR C29 IN LINE 42 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: formal/parameter has illegal storag
+             -e class
+*** ERROR C33 IN LINE 42 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'c166_context': invalid storage cla
+             -ss
+*** ERROR C25 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'c166_context'
+*** WARNING C34 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'ic': missing declaration specifi
+             -ers
+*** ERROR C42 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'ic': not in formal parameter list
+*** ERROR C25 IN LINE 47 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near '}'
+*** WARNING C34 IN LINE 52 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'idle_task_context': missing decl
+             -aration specifiers
+*** ERROR C42 IN LINE 52 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'idle_task_context': not in formal 
+             -parameter list
+*** ERROR C25 IN LINE 58 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'tpl_stack_word'
+*** WARNING C34 IN LINE 58 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_zone': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 58 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_zone': not in formal par
+             -ameter list
+C166 COMPILER V6.18, TPL_OS_TIMEOBJ_KERNEL                                                 07/06/2009 12:43:17 PAGE 2   
+
+*** WARNING C34 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': not in formal par
+             -ameter list
+*** ERROR C25 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'sys_stack_size'
+*** WARNING C34 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_size': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_size': not in formal par
+             -ameter list
+*** WARNING C34 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_word': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_word': not in formal par
+             -ameter list
+*** ERROR C25 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near '*'
+*** WARNING C34 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_zone': missing declar
+             -ation specifiers
+*** ERROR C42 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_zone': not in formal pa
+             -rameter list
+*** WARNING C34 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': not in formal par
+             -ameter list
+*** ERROR C25 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'user_stack_size'
+*** WARNING C34 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_size': missing declar
+             -ation specifiers
+*** ERROR C42 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_size': not in formal pa
+             -rameter list
+*** ERROR C25 IN LINE 62 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near '}'
+*** WARNING C34 IN LINE 41 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_task_id': missing declaration
+             - specifiers
+*** ERROR C42 IN LINE 41 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_task_id': not in formal paramet
+             -er list
+*** ERROR C29 IN LINE 49 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storage
+             - class
+*** ERROR C33 IN LINE 49 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_proc_id': invalid storage class
+*** ERROR C25 IN LINE 49 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: syntax error near 'tpl_isr_id'
+*** ERROR C33 IN LINE 49 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_isr_id': invalid storage class
+*** ERROR C29 IN LINE 65 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storage
+             - class
+*** ERROR C33 IN LINE 65 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_bool': invalid storage class
+*** ERROR C29 IN LINE 81 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storage
+             - class
+*** ERROR C33 IN LINE 81 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_status': invalid storage class
+*** ERROR C29 IN LINE 100 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storag
+             -e class
+*** ERROR C33 IN LINE 100 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_proc_state': invalid storage c
+             -lass
+*** ERROR C25 IN LINE 110 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: syntax error near 'maxallowedvalue'
+*** ERROR C60 IN LINE 113 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: TYPEDEF: duplicate member
+*** ERROR C60 IN LINE 118 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: TYPEDEF: duplicate member
+*** ERROR C29 IN LINE 134 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storag
+             -e class
+*** ERROR C33 IN LINE 134 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_alarm_base': invalid storage c
+             -lass
+*** ERROR C29 IN LINE 143 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storag
+             -e class
+*** ERROR C33 IN LINE 143 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_application_mode': invalid sto
+             -rage class
+*** ERROR C29 IN LINE 151 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storag
+             -e class
+*** ERROR C33 IN LINE 151 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_callback_func': invalid storag
+             -e class
+C166 COMPILER V6.18, TPL_OS_TIMEOBJ_KERNEL                                                 07/06/2009 12:43:17 PAGE 3   
+
+*** ERROR C29 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TIMEOBJ_KERNEL.H: formal/parameter has illegal storage
+             - class
+*** ERROR C33 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TIMEOBJ_KERNEL.H: 'tpl_time_obj_state': invalid storag
+             -e class
+*** ERROR C29 IN LINE 53 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TIMEOBJ_KERNEL.H: formal/parameter has illegal storage
+             - class
+*** ERROR C25 IN LINE 53 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TIMEOBJ_KERNEL.H: syntax error near '*'
+*** ERROR C126 IN LINE 55 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TIMEOBJ_KERNEL.H: 'tpl_status': function returning in
+             -valid type
+*** ERROR C33 IN LINE 55 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TIMEOBJ_KERNEL.H: 'tpl_status': invalid storage class
+*** ERROR C129 IN LINE 67 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TIMEOBJ_KERNEL.H: 'TYPEDEF' uses undefined struct/uni
+             -on 'TPL_COUNTER'
+*** ERROR C25 IN LINE 67 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TIMEOBJ_KERNEL.H: syntax error near '*'
+*** ERROR C7 IN LINE 67 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TIMEOBJ_KERNEL.H: compilation aborted
+
+C166 COMPILATION COMPLETE.  11 WARNING(S),  50 ERROR(S)

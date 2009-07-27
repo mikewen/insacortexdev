@@ -1,0 +1,280 @@
+### uVision2 Project, (C) Keil Software
+### Do not modify !
+
+Target (simulateur), 0x0002 // Tools: '166/167'
+Target (mcb167net), 0x0002 // Tools: '166/167'
+
+Group (sources)
+Group (environnement)
+Group (libs)
+Group (doc)
+Group (lib_can)
+
+File 1,2,<..\..\includes\start167.a66><start167.a66> 0x0 
+File 1,1,<.\main_enregistreur.c><main_enregistreur.c> 0x0 
+File 2,5,<..\..\sim_files\environnement_rame_v1.ini><environnement_rame_v1.ini> 0x0 
+File 3,1,<..\..\includes\libs\driveurs_2007a.c><driveurs_2007a.c> 0x0 
+File 3,1,<..\..\includes\libs\mon_stdio_2007a.c><mon_stdio_2007a.c> 0x0 
+File 3,1,<..\..\includes\libs\comm_matlab_2007a.c><comm_matlab_2007a.c> 0x0 
+File 3,1,<..\..\includes\user_libs\notre_lib_can_2007a.c><notre_lib_can_2007a.c> 0x0 
+File 5,1,<..\..\includes\libCAN\chkbo16x.c><chkbo16x.c> 0x0 
+File 5,1,<..\..\includes\libCAN\chkmo16x.c><chkmo16x.c> 0x0 
+File 5,1,<..\..\includes\libCAN\chm1516x.c><chm1516x.c> 0x0 
+File 5,1,<..\..\includes\libCAN\defmo16x.c><defmo16x.c> 0x0 
+File 5,1,<..\..\includes\libCAN\incan16x.c><incan16x.c> 0x0 
+File 5,1,<..\..\includes\libCAN\ldmod16x.c><ldmod16x.c> 0x0 
+File 5,1,<..\..\includes\libCAN\rdm1516x.c><rdm1516x.c> 0x0 
+File 5,1,<..\..\includes\libCAN\rdmod16x.c><rdmod16x.c> 0x0 
+File 5,1,<..\..\includes\libCAN\sndmo16x.c><sndmo16x.c> 0x0 
+
+
+Options 1,0,0  // Target 'simulateur'
+ Device (C167CS-LM)
+ Vendor (Infineon)
+ Cpu (IRAM(0xF200-0xFDFF) XRAM(0xE000-0xE7FF) XRAM2 (0xC000-0xD7FF) ICAN(0xE800-0xEFFF) CLOCK(25000000) MOD167)
+ FlashUt ()
+ StupF ("LIB\START167.A66" ("C16x/ST10 Startup Code"))
+ FlashDR ()
+ DevID ()
+ Rgf (C167CS.H)
+ Mem ()
+ C ()
+ A ()
+ RL ()
+ OH ()
+ DBC_IFX ()
+ DBC_CMS ()
+ DBC_AMS ()
+ DBC_LMS ()
+ UseEnv=0
+ EnvBin ()
+ EnvInc ()
+ EnvLib ()
+ EnvReg ()
+ OrgReg ()
+ TgStat=16
+ OutDir (.\)
+ OutName (version1)
+ GenApp=1
+ GenLib=0
+ GenHex=0
+ Debug=1
+ Browse=1
+ LstDir (.\)
+ HexSel=1
+ MG32K=0
+ TGMORE=0
+ RunUsr 0 0 <>
+ RunUsr 1 0 <>
+ BrunUsr 0 0 <>
+ BrunUsr 1 0 <>
+ CrunUsr 0 0 <>
+ CrunUsr 1 0 <>
+ SVCSID <>
+ Model=1
+ RTOS=1
+ nHold=6
+ iHold=65535
+ sHold=65535
+ bHold=65535
+ MOD167=1
+ MODV2=0
+ UseOnChipRom=0
+ UseOnchipXCAN=1
+ UseOnchipXRAM2=1
+ NearRam=0
+ NearRom=0
+ ExtMem 0 1,512,7680
+ ExtMem 1 0,65536,16384
+ ExtMem 2 0,0,0
+ ExtMem 3 0,0,0
+ ExtMem 4 0,0,0
+ ExtMem 5 0,0,0
+ Optimize=0
+ SpeedSize=1
+ RegColor=0
+ Static=0
+ WarningLev=2
+ Alias=1
+ Order=0
+ UnsignedChar=0
+ NoDppSave=1
+ Float64=0
+ SaveUsr=0
+ Reorder=0
+ cMisc (MOD167)
+ Define (STDIO=1,CONTROLLEUR)
+ Undefine ()
+ INCC6 ()
+ EC166 { 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ECMISC ()
+ ECDEFINE ()
+ ECUNDEF ()
+ ECINC ()
+ MPL=1
+ CASE=0
+ aMisc (MOD167)
+ aSet ()
+ aReset (MCB167NET)
+ INCA6 ()
+ PropFld { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ IncBld=1
+ AlwaysBuild=0
+ GenAsm=0
+ AsmAsm=0
+ PublicsOnly=0
+ StopCode=3
+ CustArgs ()
+ LibMods ()
+ useLinkFile=0
+ LnkFile ()
+ LinkOnly=0
+ UseTargSet=1
+ DppUse=0
+ nDataSel=2
+ nConstSel=1
+ NearDataStr ()
+ NearConstStr ()
+ CinitTab (0x000200 - 0x001FFF)
+ IntVectAddr ()
+ lWarnLev=2
+ lDisWarn ()
+ lAssign ()
+ lRegbank ()
+ lReserve ()
+ lMisc ()
+ lClasses ()
+ lSect ()
+  OPTDL (S166.DLL)()(D167.DLL)(-p167CS)(S166.DLL)()(T167.DLL)(-p167CS)
+  OPTDBG 44029,0,()()()()(..\..\sim_files\environnement_rame_v1.ini)()()()()() (MONITOR\MON166.DLL)()()()
+ FLASH1 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ FLASH2 ()
+ FLASH3 ()
+ FLASH4 ()
+EndOpt
+
+Options 2,0,0  // Target 'mcb167net'
+ Device (C167CS-LM)
+ Vendor (Infineon)
+ Cpu (IRAM(0xF200-0xFDFF) XRAM(0xE000-0xE7FF) XRAM2 (0xC000-0xD7FF) ICAN(0xE800-0xEFFF) CLOCK(25000000) MOD167)
+ FlashUt ()
+ StupF ("LIB\START167.A66" ("C16x/ST10 Startup Code"))
+ FlashDR ()
+ DevID ()
+ Rgf (C167CS.H)
+ Mem ()
+ C ()
+ A ()
+ RL ()
+ OH ()
+ DBC_IFX ()
+ DBC_CMS ()
+ DBC_AMS ()
+ DBC_LMS ()
+ UseEnv=0
+ EnvBin ()
+ EnvInc ()
+ EnvLib ()
+ EnvReg ()
+ OrgReg ()
+ TgStat=16
+ OutDir (.\)
+ OutName (version1)
+ GenApp=1
+ GenLib=0
+ GenHex=0
+ Debug=1
+ Browse=1
+ LstDir (.\)
+ HexSel=1
+ MG32K=0
+ TGMORE=0
+ RunUsr 0 0 <>
+ RunUsr 1 0 <>
+ BrunUsr 0 0 <>
+ BrunUsr 1 0 <>
+ CrunUsr 0 0 <>
+ CrunUsr 1 0 <>
+ SVCSID <>
+ Model=1
+ RTOS=1
+ nHold=6
+ iHold=65535
+ sHold=65535
+ bHold=65535
+ MOD167=1
+ MODV2=0
+ UseOnChipRom=0
+ UseOnchipXCAN=1
+ UseOnchipXRAM2=1
+ NearRam=0
+ NearRom=0
+ ExtMem 0 1,512,7680
+ ExtMem 1 0,65536,16384
+ ExtMem 2 0,0,0
+ ExtMem 3 0,0,0
+ ExtMem 4 0,0,0
+ ExtMem 5 0,0,0
+ Optimize=6
+ SpeedSize=1
+ RegColor=0
+ Static=0
+ WarningLev=2
+ Alias=1
+ Order=0
+ UnsignedChar=0
+ NoDppSave=1
+ Float64=0
+ SaveUsr=0
+ Reorder=0
+ cMisc (MOD167)
+ Define ()
+ Undefine ()
+ INCC6 (..\..\libs_thierry\SourceC167\Developpement_Capcom_V2)
+ EC166 { 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ECMISC ()
+ ECDEFINE ()
+ ECUNDEF ()
+ ECINC ()
+ MPL=1
+ CASE=0
+ aMisc (MOD167)
+ aSet ()
+ aReset (MCB167NET)
+ INCA6 ()
+ PropFld { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ IncBld=1
+ AlwaysBuild=0
+ GenAsm=0
+ AsmAsm=0
+ PublicsOnly=0
+ StopCode=3
+ CustArgs ()
+ LibMods ()
+ useLinkFile=0
+ LnkFile ()
+ LinkOnly=0
+ UseTargSet=1
+ DppUse=0
+ nDataSel=2
+ nConstSel=1
+ NearDataStr ()
+ NearConstStr ()
+ CinitTab ()
+ IntVectAddr ()
+ lWarnLev=2
+ lDisWarn ()
+ lAssign ()
+ lRegbank ()
+ lReserve (  8H-0BH, 0ACH-0AFH)
+ lMisc ()
+ lClasses ()
+ lSect ()
+  OPTDL (S166.DLL)()(D167.DLL)(-p167CS)(S166.DLL)()(T167.DLL)(-p167CS)
+  OPTDBG 44030,0,()()()()()()()()()() (MONITOR\MON166.DLL)()()()
+ FLASH1 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ FLASH2 ()
+ FLASH3 ()
+ FLASH4 ()
+EndOpt
+

@@ -1,0 +1,137 @@
+### uVision2 Project, (C) Keil Software
+### Do not modify !
+
+ cExt (*.c)
+ aExt (*.s*; *.src; *.a*)
+ oExt (*.obj)
+ lExt (*.lib)
+ tExt (*.txt; *.h; *.inc)
+ pExt (*.plm)
+ CppX (*.cpp)
+ DaveTm { 0,0,0,0,0,0,0,0 }
+
+Target (simu), 0x0002 // Tools: '166/167'
+Target (reel), 0x0002 // Tools: '166/167'
+Target (voiture_1), 0x0002 // Tools: '166/167'
+GRPOPT 1,(boot),0,0,0
+GRPOPT 2,(libs),0,0,0
+GRPOPT 3,(os),1,0,0
+GRPOPT 4,(comm),0,0,0
+GRPOPT 5,(oil),0,0,0
+GRPOPT 6,(archi_appli),0,0,0
+GRPOPT 7,(app),0,0,0
+
+OPTFFF 1,1,2,0,0,0,0,0,<.\START167.A66><START167.A66> 
+OPTFFF 2,2,1,0,0,0,0,0,<.\driveurs_2008a.c><driveurs_2008a.c> 
+OPTFFF 2,3,1,0,0,0,0,0,<.\lib_autom_2008a.c><lib_autom_2008a.c> 
+OPTFFF 2,4,1,0,0,0,0,0,<.\mon_stdio_2007b.c><mon_stdio_2007b.c> 
+OPTFFF 3,5,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_trace.c><tpl_trace.c> 
+OPTFFF 3,6,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os.c><tpl_os.c> 
+OPTFFF 3,7,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_action.c><tpl_os_action.c> 
+OPTFFF 3,8,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_alarm.c><tpl_os_alarm.c> 
+OPTFFF 3,9,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_alarm_kernel.c><tpl_os_alarm_kernel.c> 
+OPTFFF 3,10,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_dispatch_table.c><tpl_os_dispatch_table.c> 
+OPTFFF 3,11,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_error.c><tpl_os_error.c> 
+OPTFFF 3,12,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_event.c><tpl_os_event.c> 
+OPTFFF 3,13,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_event_kernel.c><tpl_os_event_kernel.c> 
+OPTFFF 3,14,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_it.c><tpl_os_it.c> 
+OPTFFF 3,15,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_it_kernel.c><tpl_os_it_kernel.c> 
+OPTFFF 3,16,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_kernel.c><tpl_os_kernel.c> 
+OPTFFF 3,17,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_rez.c><tpl_os_rez.c> 
+OPTFFF 3,18,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_rez_kernel.c><tpl_os_rez_kernel.c> 
+OPTFFF 3,19,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_task.c><tpl_os_task.c> 
+OPTFFF 3,20,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_task_kernel.c><tpl_os_task_kernel.c> 
+OPTFFF 3,21,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\os\tpl_os_timeobj_kernel.c><tpl_os_timeobj_kernel.c> 
+OPTFFF 3,22,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\machines\c166\tpl_machine_c166.c><tpl_machine_c166.c> 
+OPTFFF 4,23,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\com\tpl_com_queue.c><tpl_com_queue.c> 
+OPTFFF 4,24,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\com\tpl_com_app_copy.c><tpl_com_app_copy.c> 
+OPTFFF 4,25,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\com\tpl_com_errorhook.c><tpl_com_errorhook.c> 
+OPTFFF 4,26,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\com\tpl_com_external_com.c><tpl_com_external_com.c> 
+OPTFFF 4,27,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\com\tpl_com_filtering.c><tpl_com_filtering.c> 
+OPTFFF 4,28,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\com\tpl_com_filters.c><tpl_com_filters.c> 
+OPTFFF 4,29,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\com\tpl_com_internal_com.c><tpl_com_internal_com.c> 
+OPTFFF 4,30,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\com\tpl_com_message_management.c><tpl_com_message_management.c> 
+OPTFFF 4,31,1,0,0,0,0,0,<..\..\..\trampoline-1.1_svn\com\tpl_com_notification.c><tpl_com_notification.c> 
+OPTFFF 5,32,5,0,0,0,0,0,<.\archi_appli.oil><archi_appli.oil> 
+OPTFFF 6,33,1,0,0,66,66,0,<.\archi_appli\tpl_os_generated_configuration.c><tpl_os_generated_configuration.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,88,0,0,0,88,0,0,0,161,3,0,0,116,1,0,0 }
+OPTFFF 7,34,1,0,0,0,0,0,<.\code_appli.c><code_appli.c> 
+
+ExtF <J:\acco\zipzap\cortex_dev\TRAMPOLINE-1.1\OS\OS_MACHINE\C166\tpl_machine.h> 53,53,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,88,0,0,0,88,0,0,0,161,3,0,0,116,1,0,0 }
+ExtF <E:\edu\5can\2008_09\dev\os\os_machine\c166\tpl_machine.h> 16,24,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,22,0,0,0,22,0,0,0,95,3,0,0,50,1,0,0 }
+ExtF <J:\acco\zipzap\cortex_dev\TRAMPOLINE-1.1_SVN\OS\tpl_os_custom_types.h> 41,45,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,0,0,0,0,0,0,0,0,51,3,0,0,24,1,0,0 }
+
+TARGOPT 1, (simu)
+  OPT166 25000000,0,1,0,1,1,0,0,0
+  OPT166MMM { 1,0,0,0,0,0,80,0,0,0,0,80,0,0,0,80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+  OPT166ICA { 0,0,232,0,0,0,8,0,0 }
+  OPT166IRO { 0,0,0,0,0,0,0,0,0 }
+  OPT166XRA { 0,0,224,0,0,0,8,0,0 }
+  OPT166IRA { 0,0,242,0,0,0,12,0,0 }
+  OPT166IR2 { 0,0,0,0,0,0,0,0,0 }
+  OPT166IR3 { 0,0,0,0,0,0,0,0,0 }
+  OPT166XR3 { 0,0,0,0,0,0,0,0,0 }
+  OPTTT 1,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 120,65,8,<.\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 1,0,1
+  OPTAX 0
+  OPTDL (S166.DLL)()(D167.DLL)(-p167CS)(S166.DLL)()(T167.DLL)(-p167CS)
+  OPTDBG 48125,-1,()()()()()()()()()() ()()()()
+  OPTDF 0x0
+  OPTLE <>
+  OPTLC <>
+EndOpt
+
+TARGOPT 2, (reel)
+  OPT166 25000000,0,1,0,1,1,0,0,0
+  OPT166MMM { 1,0,0,0,0,0,80,0,0,0,0,80,0,0,0,80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+  OPT166ICA { 0,0,232,0,0,0,8,0,0 }
+  OPT166IRO { 0,0,0,0,0,0,0,0,0 }
+  OPT166XRA { 0,0,224,0,0,0,8,0,0 }
+  OPT166IRA { 0,0,242,0,0,0,12,0,0 }
+  OPT166IR2 { 0,0,0,0,0,0,0,0,0 }
+  OPT166IR3 { 0,0,0,0,0,0,0,0,0 }
+  OPT166XR3 { 0,0,0,0,0,0,0,0,0 }
+  OPTTT 0,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 120,65,8,<.\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 0,0,0
+  OPTAX 0
+  OPTDL (S166.DLL)()(D167.DLL)(-p167CS)(S166.DLL)()(T167.DLL)(-p167CS)
+  OPTDBG 48126,0,()()()()()()()()()() (MONITOR\MON166.DLL)()()()
+  OPTDF 0x0
+  OPTLE <>
+  OPTLC <>
+EndOpt
+
+TARGOPT 3, (voiture_1)
+  OPT166 25000000,0,1,0,1,1,0,0,0
+  OPT166MMM { 1,0,0,0,0,0,80,0,0,0,0,80,0,0,0,80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+  OPT166ICA { 0,0,232,0,0,0,8,0,0 }
+  OPT166IRO { 0,0,0,0,0,0,0,0,0 }
+  OPT166XRA { 0,0,224,0,0,0,8,0,0 }
+  OPT166IRA { 0,0,242,0,0,0,12,0,0 }
+  OPT166IR2 { 0,0,0,0,0,0,0,0,0 }
+  OPT166IR3 { 0,0,0,0,0,0,0,0,0 }
+  OPT166XR3 { 0,0,0,0,0,0,0,0,0 }
+  OPTTT 0,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 120,65,8,<.\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 0,0,0
+  OPTAX 0
+  OPTDL (S166.DLL)()(D167.DLL)(-p167CS)(S166.DLL)()(T167.DLL)(-p167CS)
+  OPTDBG 48125,-1,()()()()()()()()()() ()()()()
+  OPTDF 0x0
+  OPTLE <>
+  OPTLC <>
+EndOpt
+

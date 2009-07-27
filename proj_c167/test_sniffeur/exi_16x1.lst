@@ -1,0 +1,217 @@
+C166 COMPILER V6.06, EXI_16X1                                                              12/21/2007 15:13:03 PAGE 1   
+
+
+C166 COMPILER V6.06, COMPILATION OF MODULE EXI_16X1
+OBJECT MODULE PLACED IN .\exi_16x1.obj
+COMPILER INVOKED BY: C:\Keil\C166\BIN\C166.EXE ..\..\includes\libCAN\exi_16x1.c OPTIMIZE(0,SPEED) BROWSE MOD167 DEFINE(S
+                    -TDIO=1,CONTROLLEUR) DEBUG PRINT(.\exi_16x1.lst) OBJECT(.\exi_16x1.obj) 
+
+ stmt lvl     source
+
+    1         /* ----------------------------------------- header: ----------------*/
+    2         /*********************************************************************
+    3          * Program name:        "CANEX_SI.C"                                 *
+    4          * Compiler used:       BSO/Tasking C166                             *
+    5          * Task:                Example program for Siemens ApNote AP2922    *
+    6          *                      "'C' CAN Driver Routines for the C166 family'*
+    7          *                                                                   * 
+    8          * Last modifications:  April 28nd 1997                              *
+    9          * Authors:             Axel Wolf,  SCI Cupertino                    *
+   10          *                      Dr. Jens Barrenscheen, HL MC PD, Munich      *
+   11          *********************************************************************/
+   12         /* ----------------------------------- include files: -------------- */
+   13         #include <REG167.H>         /* register definitions C167             */
+   14         
+   15         #define MY_IEN_BIT      1       /* General Interrupt Enable = yes */
+   16         #define MY_XP0IC_VALUE  0x44    /* Interrupts from CAN mod. (CPU side) = yes */
+   17         
+   18         #define MY_BAUD_RATE    1000    /* 1000 kBit/s on the CAN bus */ 
+   19         #define IE_BIT          1       /* Interrupts from CAN mod. (CAN side) = yes */
+   20         #define EIE_BIT         0       /* no error interrupts from the CAN module */ 
+   21         #define SIE_BIT         0       /* no status interrupts from the CAN module */
+   22         
+   23         /* Specify Message Object (MO) Features (RF=Remote Frame, DF = Data Frame) */
+   24         
+   25         #define MO1_XTD_BIT     0               /* MO1 uses 11 bit ID */
+   26         #define MO1_ID          0x001           /* 11-bit identifier of MO1 */
+   27         #define MO1_DIR_BIT     1               /* MO1 transmits DF, receives RF */
+   28         #define MO1_DLC         8               /* MO1 data length = 8 bytes */
+   29         #define MO1_TXIE_BIT    0               /* MO1 gen. no transmit interrupts */
+   30         #define MO1_RXIE_BIT    0               /* MO1 gen. no receive interrupts */
+   31         
+   32         #define MO2_XTD_BIT     0               /* MO2 uses 11 bit ID */
+   33         #define MO2_ID          0x002           /* 11-bit identifier of MO2 */
+   34         #define MO2_DIR_BIT     0               /* MO2 receives DF, transmits RF */
+   35         #define MO2_DLC         0               /* MO2 data length = 0 bytes */
+   36         #define MO2_TXIE_BIT    0               /* MO2 gen. no transmit interrupts */
+   37         #define MO2_RXIE_BIT    1               /* MO2 gen. receive interrupts */
+   38         
+   39         #define MO3_XTD_BIT     0               /* MO3 uses 11 bit ID */
+   40         #define MO3_ID          0x003           /* 11-bit identifier of MO3 */
+   41         #define MO3_DIR_BIT     1               /* MO3 transmits DF, receives RF */
+   42         #define MO3_DLC         8               /* MO3 data length = 8 bytes */
+   43         #define MO3_TXIE_BIT    0               /* MO3 gen. no transmit interrupts */
+   44         #define MO3_RXIE_BIT    0               /* MO3 gen. no receive interrupts */
+   45         
+   46         #define MO15_XTD_BIT    0               /* MO15 uses 11 bit ID */
+   47         #define MO15_ID         0x123           /* 11-bit identifier of MO15 (dummy) */
+   48         #define MO15_DIR_BIT    0               /* MO15 receives DF (NO transmission)*/
+   49         #define MO15_DLC        8               /* MO15 data length = 8 bytes (dummy)*/
+   50         #define MO15_TXIE_BIT   0               /* MO15 gen. no transmit interrupts */
+   51         #define MO15_RXIE_BIT   1               /* MO15 receive interrupts */
+   52         
+   53         /* ----------------------------------- externals, prototypes: ------ */
+   54         extern void init_can_16x(unsigned int baud_rate, unsigned char eie,
+C166 COMPILER V6.06, EXI_16X1                                                              12/21/2007 15:13:03 PAGE 2   
+
+   55                 unsigned char sie, unsigned char ie);
+   56                 /* Initialization of CAN-Module: (baud_rate, eie, sie, ie) */
+   57         extern void def_mo_16x(unsigned char nr, unsigned char xtd, unsigned long id,
+   58                 unsigned char dir, unsigned char dlc, unsigned char txie,
+   59                 unsigned char rxie);
+   60                 /* Define message object: MO-number, xtd, id, dir, dlc, TXIE, RXIE */
+   61         extern void ld_modata_16x(unsigned char nr, unsigned char *upl_data_ptr);
+   62                 /* load data bytes of a message object (1..14) */
+   63         extern void rd_modata_16x(unsigned char nr, unsigned char *downl_data_ptr);
+   64                 /* read data bytes from message object 'nr' (1..14) */
+   65         extern void rd_mo15_16x(unsigned char *mo15_db_ptr,
+   66                 unsigned long *mo15_id_ptr, unsigned char *mo15_dlc_ptr);
+   67                 /* read dlc, identifier and data from MO 15 of C167 (Basic CAN) */
+   68         extern void send_mo_16x(unsigned char nr);
+   69                 /* Transmit message object 'nr' (1..14) */
+   70         extern unsigned char check_mo_16x(unsigned char nr);
+   71                 /* check for new data in MO 'nr' (1..14) and if so, return 1 */
+   72         extern unsigned char check_mo15_16x(void);
+   73                 /* check for new data or remote frame in MO 15 and if so, return 1 */
+   74         extern unsigned char check_busoff_16x(void);
+   75                 /* check for bus off situation and recover if necessary */
+   76         
+   77         void delay(unsigned char value);
+   78                 /* creates variable delays with Timer T4 (1 ms < x < 26 ms) */
+   79         
+   80         void main (void);
+   81         /* ----------------------------------- PEC, Register: -------------- */
+   82         /* ----------------------------------- global bit/byte/word data: -- */
+   83         /* ----------------------------------- code: main program: --------- */
+   84         void main ()
+   85         {
+   86  1         /* -------------------------------- local  byte/word/bit data: -- */
+   87  1         unsigned char i;
+   88  1      
+   89  1         unsigned char download_data_buf[8]={0, 1, 2, 3, 4, 5, 6, 7};
+   90  1         unsigned char upload_data_buf[8]={0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77};
+   91  1         /* -------------------------------- program: -------------------- */
+   92  1      
+   93  1         init_can_16x(MY_BAUD_RATE, EIE_BIT, SIE_BIT, IE_BIT);
+   94  1              /* Initialization of CAN-Module: (baud_rate, eie, sie, ie) */
+   95  1      
+   96  1         def_mo_16x(1,        MO1_XTD_BIT,    MO1_ID,         MO1_DIR_BIT,
+   97  1                              MO1_DLC,        MO1_TXIE_BIT,   MO1_RXIE_BIT);
+   98  1              /* Define message object 1 for data frame transmission: */
+   99  1              /* MO=1, xtd=no , id=001, dir=transmit, dlc=8, TXIE=no, RXIE=no */
+  100  1              /* When sent, MO 1 gen. data frames; it receives remote frames */
+  101  1              /* Remote frames will be automatically answered with a data frame */
+  102  1      
+  103  1         def_mo_16x(2,        MO2_XTD_BIT,    MO2_ID,         MO2_DIR_BIT,
+  104  1                              MO2_DLC,        MO2_TXIE_BIT,   MO2_RXIE_BIT);
+  105  1              /* Define message object 2 for data frame reception: */
+  106  1              /* MO=2, xtd=no, id=002, dir=receive, dlc=0, TXIE=no, RXIE=no */
+  107  1              /* When sent, MO 2 gen. remote frames; it receives data frames */
+  108  1      
+  109  1         def_mo_16x(3,        MO3_XTD_BIT,    MO3_ID,         MO3_DIR_BIT,
+  110  1                              MO3_DLC,        MO3_TXIE_BIT,   MO3_RXIE_BIT);
+  111  1              /* Define message object 3 for data frame transmission: */
+  112  1              /* MO=3, xtd=no, id=003, dir=transmit, dlc=8, TXIE=no, RXIE=no */
+  113  1              /* When sent, MO 3 gen. data frames; it receives remote frames */
+  114  1              /* Remote frames will be automatically answered with a data frame */
+  115  1      
+  116  1         def_mo_16x(15,       MO15_XTD_BIT,   MO15_ID,        MO15_DIR_BIT,
+C166 COMPILER V6.06, EXI_16X1                                                              12/21/2007 15:13:03 PAGE 3   
+
+  117  1                              MO15_DLC,       MO15_TXIE_BIT,  MO15_RXIE_BIT);
+  118  1              /* Define message object 15 for data frame reception: */
+  119  1              /* MO=15, xtd=no, id=xxx, dir=receive, dlc=xxx, TXIE=no, RXIE=no */
+  120  1              /* MO 15 cannot be sent; it now receives data frames */
+  121  1      
+  122  1         XP0IC=MY_XP0IC_VALUE;        /* load CAN-Module Interrupt Register */
+  123  1      
+  124  1         /* IEN bit in PSW:                                                */
+  125  1         IEN = MY_IEN_BIT;                    /* global interrupt enable   */
+  126  1         /*----------------------------------------------------------------*/
+  127  1         while (1)
+  128  1         {
+  129  2      
+  130  2         delay (10);                                  /* 10 ms delay */
+  131  2         /* section 1 */
+  132  2      
+  133  2              /* Transmit message 1 (sends data frame): */
+  134  2              ld_modata_16x(1, upload_data_buf);      /* load data bytes MO 1 */
+  135  2              send_mo_16x(1);                         /* transmit MO 1 */
+  136  2      
+  137  2              /* increase data bytes: */
+  138  2              for (i=0;i<8;i++) upload_data_buf[i]++;
+  139  2      
+  140  2         delay (10);                                  /* 10 ms delay */
+  141  2         /* section 2 */
+  142  2      
+  143  2      /* This section is now done in the ISR! */
+  144  2              /* Check message 2 for incoming data frame */
+  145  2              /* load data bytes of MO 3 with data just read from MO 2 */
+  146  2              /* Transmit message 3 (sends data frame) */
+  147  2      
+  148  2         delay (10);                                  /* 10 ms delay */
+  149  2         /* section 3 */
+  150  2      
+  151  2      /* This section is now done in the ISR! */
+  152  2              /* Check message object 15 for incoming data frame: */
+  153  2              /* read out id, dlc & data bytes from MO 15 */
+  154  2              /* Define message object 14 for data frame transmission: */
+  155  2              /* MO=14,xtd=no,id=MO15,dir=tr,dlc=MO15,TXIE=no,RXIE=no */
+  156  2              /* load data bytes of MO 14 with data just read from MO 15: */
+  157  2              /* Transmit message 14 (sends data frame): */
+  158  2      
+  159  2         delay (10);                                  /* 10 ms delay */
+  160  2         /* section 4 */
+  161  2      
+  162  2      /* This section is now done in the ISR! */
+  163  2              /* check for bus off situation and recover (reset INIT bit) */
+  164  2      
+  165  2         }    /* end of forever while loop */
+  166  1         /* -------------------------------- end: ------------------------ */
+  167  1      }
+  168         
+  169         void delay(unsigned char value)
+  170         {
+  171  1              if (value<1) value=1;
+  172  1              if (value>26) value=26;         
+  173  1              T4=value*2500;                  /* load Timer T4 according to value */
+  174  1              T4CON=0x0080;                   /* T4: downwards, resol.= 400ns */
+  175  1              T4IC=0;                         /* no IR Timer 4 */
+  176  1              T4R = 1;                        /* start Timer T4 */
+  177  1              while(T4IR==0);                 /* wait for timer underflow */
+  178  1              T4IR=T4R=0;                     /* reset interrupt request flag */
+C166 COMPILER V6.06, EXI_16X1                                                              12/21/2007 15:13:03 PAGE 4   
+
+  179  1                                              /* stop Timer T4 */
+  180  1      }
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =         354     --------
+  NEAR-CONST SIZE  =          16     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =    --------     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =    --------     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
