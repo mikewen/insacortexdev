@@ -1,0 +1,1 @@
+-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MD -Wall -O -mapcs-frame -mthumb-interwork -g -IE:/programs/keil_arm_eval/ARM/INC/ST/STM32F10x/ -Wa,-alhms="./lst/serial.lst" -o ./obj/serial.o "Serial.c"

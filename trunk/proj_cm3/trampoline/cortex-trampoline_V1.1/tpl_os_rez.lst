@@ -1,0 +1,180 @@
+C166 COMPILER V6.08, TPL_OS_REZ                                                            06/28/2009 16:38:40 PAGE 1   
+
+
+C166 COMPILER V6.08, COMPILATION OF MODULE TPL_OS_REZ
+OBJECT MODULE PLACED IN .\objs\tpl_os_rez.obj
+COMPILER INVOKED BY: C:\Keil\Evalsoft\C166\BIN\C166.EXE ..\..\..\trampoline-1.1\os\tpl_os_rez.c TINY BROWSE INCDIR(.\arc
+                    -hi_appli;..\..\..\trampoline-1.1\os;..\..\..\trampoline-1.1\com;..\..\..\trampoline-1.1\os\os_machine\c166;..\..\..\tram
+                    -poline-1.1\goil\templates\c166;..\..\..\trampoline-1.1\debug) MOD167 DEFINE(WITH_COMPILER_SETTINGS) DEBUG PRINT(.\tpl_os
+                    -_rez.lst) OBJECT(.\objs\tpl_os_rez.obj) 
+
+ stmt lvl     source
+
+    1         /*
+    2          * Trampoline OS
+    3          *
+    4          * Trampoline is copyright (c) IRCCyN 2005+
+    5          * Trampoline is protected by the French intellectual property law.
+    6          *
+    7          * This software is distributed under the Lesser GNU Public Licence
+    8          *
+    9          * Trampoline Resource Management
+   10          *
+   11          * $Date: 2007-11-09 14:33:58 +0100 (Fri, 09 Nov 2007) $
+   12          * $Rev: 401 $
+   13          * $Author: ayrton $
+   14          * $URL: https://trampoline.rts-software.org/svn/trunk/os/tpl_os_rez.c $
+   15          *
+   16          */
+   17         
+   18         #include "tpl_machine_interface.h"
+   19         #include "tpl_os_kernel.h"
+   20         #include "tpl_os_rez_kernel.h"
+   21         #include "tpl_os_error.h"
+   22         
+   23         #define OS_START_SEC_CODE
+   24         #include "tpl_memmap.h"
+   25         
+   26         /*
+   27          * OSEK/VDX API services
+   28          */
+   29         FUNC(StatusType, OS_CODE) GetResource(
+   30             CONST(ResourceType, AUTOMATIC) res_id)
+   31         {
+   32  1          /*  init the error to no error  */
+   33  1          VAR(StatusType, AUTOMATIC) result = E_OK;
+   34  1      
+   35  1          P2VAR(tpl_resource, OS_APPL_DATA, AUTOMATIC) res;
+   36  1      
+   37  1          LOCK_WHEN_HOOK()
+   38  1      
+   39  1          STORE_SERVICE(OSServiceId_GetResource)
+   40  1          STORE_RESOURCE_ID(res_id)
+   41  1      
+   42  1          CHECK_RESOURCE_ID_ERROR(res_id,result)
+   43  1      
+   44  1          IF_NO_EXTENDED_ERROR(result)
+   45  1              if (res_id == RES_SCHEDULER)
+   46  1              {
+   47  2                  res = &res_sched;
+   48  2              }
+   49  1              else
+   50  1              {
+   51  2            #ifndef NO_RESOURCE
+                            res = tpl_resource_table[res_id];
+C166 COMPILER V6.08, TPL_OS_REZ                                                            06/28/2009 16:38:40 PAGE 2   
+
+                    #else
+   54  2              res = NULL; /* error */
+   55  2            #endif
+   56  2              }
+   57  1      
+   58  1              LOCK_WHEN_NO_HOOK()
+   59  1      
+   60  1              /*  Return an error if the task that attempt to get
+   61  1                  the resource has a higher priority than the resource
+   62  1                  or the resource is already owned by another task
+   63  1                  By using PCP, this situation should no occur.           */
+   64  1              CHECK_RESOURCE_PRIO_ERROR_ON_GET(res,result)
+   65  1      
+   66  1              IF_NO_EXTENDED_ERROR(result)
+   67  1                  tpl_get_resource(res);
+   68  1              #ifdef WITH_AUTOSAR_TIMING_PROTECTION
+                      tpl_start_resource_monitor (tpl_running_obj, res_id);
+                      #endif /* WITH_AUTOSAR_TIMING_PROTECTION */
+   71  1              IF_NO_EXTENDED_ERROR_END()
+   72  1      
+   73  1              UNLOCK_WHEN_NO_HOOK()
+   74  1          IF_NO_EXTENDED_ERROR_END()
+   75  1      
+   76  1          PROCESS_ERROR(result)
+   77  1      
+   78  1          UNLOCK_WHEN_HOOK()
+   79  1      
+   80  1          return result;
+   81  1      }
+   82         
+   83         FUNC(StatusType, OS_CODE) ReleaseResource(
+   84             CONST(ResourceType, AUTOMATIC) res_id)
+   85         {
+   86  1          /*  init the error to no error  */
+   87  1          VAR(StatusType, AUTOMATIC) result = E_OK;
+   88  1      
+   89  1          P2VAR(tpl_resource, OS_APPL_DATA, AUTOMATIC) res;
+   90  1      
+   91  1          LOCK_WHEN_HOOK()
+   92  1      
+   93  1          STORE_SERVICE(OSServiceId_GetResource)
+   94  1          STORE_RESOURCE_ID(res_id)
+   95  1      
+   96  1          CHECK_RESOURCE_ID_ERROR(res_id,result)
+   97  1      
+   98  1          IF_NO_EXTENDED_ERROR(result)
+   99  1              if (res_id == RES_SCHEDULER)
+  100  1              {
+  101  2                  res = &res_sched;
+  102  2              }
+  103  1              else
+  104  1              {
+  105  2            #ifndef NO_RESOURCE
+                            res = tpl_resource_table[res_id];
+                    #else
+  108  2              res = NULL; /* error */
+  109  2            #endif
+  110  2              }
+  111  1      
+  112  1              LOCK_WHEN_NO_HOOK()
+  113  1      
+  114  1              /*  Return an error if the task that attempt to get
+C166 COMPILER V6.08, TPL_OS_REZ                                                            06/28/2009 16:38:40 PAGE 3   
+
+  115  1                  the resource has a higher priority than the resource    */
+  116  1              CHECK_RESOURCE_PRIO_ERROR_ON_RELEASE(res,result)
+  117  1      
+  118  1              /*  the spec requires resources to be released in
+  119  1                  the reverse order of the getting. if the resource
+  120  1                  is not owned or not release in the good order       */
+  121  1              CHECK_RESOURCE_ORDER_ON_RELEASE(res,result)
+  122  1      
+  123  1              IF_NO_EXTENDED_ERROR(result)
+  124  1                  tpl_release_resource(res);
+  125  1              #ifdef WITH_AUTOSAR_TIMING_PROTECTION
+                      tpl_disable_resource_monitor (tpl_running_obj, res_id);
+                      #endif /* WITH_AUTOSAR_TIMING_PROTECTION */
+  128  1              IF_NO_EXTENDED_ERROR_END()
+  129  1      
+  130  1              UNLOCK_WHEN_NO_HOOK()
+  131  1          IF_NO_EXTENDED_ERROR_END()
+  132  1      
+  133  1          PROCESS_ERROR(result)
+  134  1      
+  135  1          UNLOCK_WHEN_HOOK()
+  136  1      
+  137  1          return result;
+  138  1      }
+  139         
+  140         #define OS_STOP_SEC_CODE
+  141         #include "tpl_memmap.h"
+  142         
+  143         /* End of file tpl_os_rez.c */
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =          88     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =    --------     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =    --------     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

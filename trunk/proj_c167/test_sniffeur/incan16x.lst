@@ -1,0 +1,167 @@
+C166 COMPILER V6.08, INCAN16X                                                              12/11/2008 08:49:51 PAGE 1   
+
+
+C166 COMPILER V6.08, COMPILATION OF MODULE INCAN16X
+OBJECT MODULE PLACED IN .\incan16x.obj
+COMPILER INVOKED BY: C:\Keil\Evalsoft\C166\BIN\C166.EXE ..\..\includes\libCAN\incan16x.c BROWSE INCDIR(..\..\libs_thierr
+                    -y\SourceC167\Developpement_Capcom_V2) MOD167 DEBUG PRINT(.\incan16x.lst) OBJECT(.\incan16x.obj) 
+
+ stmt lvl     source
+
+    1         /* ----------------------------------------- header: ----------------*/
+    2         /*********************************************************************
+    3          * Program name:        "INCAN16X.C"                                 *
+    4          * Compiler used:       BSO/Tasking C166                             *
+    5          * Task:                Source File for procedure can_init_16x       *
+    6          *                      belonging to Siemens ApNote AP2922           *
+    7          *                      "'C' CAN Driver Routines for the C166 family"*
+    8          *                                                                   * 
+    9          * Last modifications:  April 28nd 1997                              *
+   10          * Version:             1.0                                          *
+   11          * Authors:             Axel Wolf,  SCI Cupertino                    *
+   12          *                      Dr. Jens Barrenscheen, HL MC PD, Munich      *
+   13          *********************************************************************/
+   14         /* ----------------------------------- include files: -------------- */
+   15         #include <REG167.H>         /* register definitions C167             */
+   16         #include <C167CS.H>
+   17         #include <CAN167.h>
+   18         #include "CANR_16X.H"       /* CAN control register definitions      */
+   19         #include <intrins.h>
+   20         
+   21         #define BTR_VALUE_50KBAUD       0x7aC9
+   22         #define BTR_VALUE_125KBAUD      0x7aC3
+   23         #define BTR_VALUE_250KBAUD      0x7aC1
+   24         #define BTR_VALUE_500KBAUD      0x7aC0
+   25         #define BTR_VALUE_1MBAUD        0x3400//        0x25c0
+   26         
+   27         #define Set_Default_CAN_IO 0xF8FF /* Required to set up CAN IO pins on C167CS */ 
+   28         /* Set Up CAN1 IO Pins (C167CS) */ /*------------------------------*/ 
+   29         //CAN1_Control_Status |= CCE ; // Enable access to bit timing register (and IPC field) 
+   30         // Use standard C167CR Rx & Tx pin allocations on P4 CAN1_Control_Status = 0 ; 
+   31         // End of CAN module initialisation 
+   32         
+   33         
+   34         /* ----------------------------------- externals, prototypes: ------ */
+   35         void init_can_16x(unsigned int baud_rate, unsigned char eie,
+   36                 unsigned char sie, unsigned char ie);
+   37                 /* Initialization of CAN-Module: (baud_rate, eie, sie, ie) */
+   38         /* ----------------------------------- PEC, Register: -------------- */
+   39         /* ----------------------------------- global bit/byte/word data: -- */
+   40         #pragma global
+*** WARNING C2 IN LINE 40 OF ..\..\INCLUDES\LIBCAN\INCAN16X.C: 'GLOBAL': unknown #pragma/control, line ignored
+   41         
+   42         /* C167CR variables: */
+   43         unsigned int *id_ptr_16x[16];           /* pointer to message id's (UAReg) */
+   44         unsigned char *db0_ptr_16x[16];         /* pointer to 'databyte 0's */  
+   45         unsigned int *msgctrl_ptr_16x[16];      /* pointer to msg. contrl. regs */
+   46         unsigned char *msgconf_ptr_16x[16];     /* pointer to msg. conf. regs */
+   47         unsigned char dir_bit_16x[16];          /* DIR bits MO 1...15 */
+   48         unsigned char xtd_bit_16x[16];          /* XTD bits MO 1...15 */
+   49         unsigned char dlc_16x[16];              /* data byte lengths MO 1...15 */
+   50         
+   51         #pragma public
+*** WARNING C2 IN LINE 51 OF ..\..\INCLUDES\LIBCAN\INCAN16X.C: 'PUBLIC': unknown #pragma/control, line ignored
+   52         /* ----------------------------------- code ------------------------ */
+C166 COMPILER V6.08, INCAN16X                                                              12/11/2008 08:49:51 PAGE 2   
+
+   53         void init_can_16x(unsigned int baud_rate, unsigned char eie,
+   54                 unsigned char sie, unsigned char ie)
+   55                 /* Initialization of CAN-Module: (baud rate, eie, sie, ie) */
+   56         {       
+   57  1         /* -------------------------------- local  byte/word/bit data: -- */
+   58  1              unsigned char i, n;
+   59  1              unsigned char *dummy_dbptr;
+   60  1         /* -------------------------------- program: -------------------- */
+   61  1              /* Initialization PORT4 (CAN) (P4.6 to output; P4.5 to input): */
+   62  1              _bfld_ (P4, 0x0060, 0x0060);
+   63  1              _bfld_ (DP4, 0x0060, 0x0040);
+   64  1              //P4 = 0x0060;
+   65  1              //DP4 = 0x0060;
+   66  1      
+   67  1      
+   68  1              /* Load C167 pointers: */
+   69  1              for (i=1;i<16;i++)
+   70  1              {
+   71  2                 db0_ptr_16x[i] = (unsigned char *)(0xef07+i*16);
+   72  2                              /* set pointers to data bytes 0 of MO 1..15 */
+   73  2                 id_ptr_16x[i] = (unsigned int *)(0xef02+i*16);
+   74  2                              /* set pointers to id's of MO 1..15 (UARs) */
+   75  2                 msgconf_ptr_16x[i] = (unsigned char *)(0xef06+i*16);
+   76  2                      /* set pointers to Message Conf. Registers of MO 1..15 */
+   77  2                 msgctrl_ptr_16x[i] = (unsigned int *)(0xef00+i*16);
+   78  2                      /* set pointers to Message Control Registers of MO 1..15 */
+   79  2                 dir_bit_16x[i] = 0;          /* clear DIR bit array */
+   80  2                 xtd_bit_16x[i] = 0;          /* clear XTD bit array */
+   81  2                 dlc_16x[i] = 0;              /* clear data length code array */
+   82  2              }
+   83  1              /* Load General CAN-Registers: */
+   84  1              CR=0x41;        /* set CCE and INIT in Control Register (EF00h) */
+   85  1              SR=0x00;        /* Clear Status Partition (EF01h) */
+   86  1      
+   87  1              switch (baud_rate)
+   88  1              {
+   89  2                 case 50:     BTR=BTR_VALUE_50KBAUD;
+   90  2                              break;
+   91  2                 case 125:    BTR=BTR_VALUE_125KBAUD;
+   92  2                              break;
+   93  2                 case 250:    BTR=BTR_VALUE_250KBAUD;
+   94  2                              break;
+   95  2                 case 500:    BTR=BTR_VALUE_500KBAUD;
+   96  2                              break;
+   97  2                 case 1000:   BTR=BTR_VALUE_1MBAUD;
+   98  2                              break;
+   99  2                 default:     BTR=BTR_VALUE_500KBAUD;
+  100  2                              break;
+  101  2                      /* 0 1 1 1  1 0 1 0  1 1 0 0  0 0 0 0 = 500 kBit/s @ 20MHz  */
+  102  2                      /* - TSEG2   TSEG1   SJW|<--  BRP -->|                      */
+  103  2              }
+  104  1      
+  105  1              GMS=0xe0ff;     /* Global Mask Short (EF06h) */
+  106  1                              /* each bit of standard ID must match to store mess. */
+  107  1      
+  108  1              UGML=0xffff;    /* Upper Global Mask Long (EF08h) */
+  109  1              LGML=0xf8ff;    /* Lower Global Mask Long (EF0Ah) */
+  110  1                              /* each bit of extended ID must match to store mess. */
+  111  1      
+  112  1              UMLM=0x0000;    /* Upper Mask of Last Message (EF0Ch) */
+  113  1              LMLM=0x0000;    /* Lower Mask of Last Message (EF0Eh) */
+  114  1                              /* every message into MO 15 (Basic CAN Feature)*/
+C166 COMPILER V6.08, INCAN16X                                                              12/11/2008 08:49:51 PAGE 3   
+
+  115  1      
+  116  1              /* reset all elements incl MSGVAL in all Message Object Ctrl. Reg.: */
+  117  1              for (i=1;i<16;i++) *msgctrl_ptr_16x[i] = 0x5555;
+  118  1      
+  119  1              /* reset all data bytes in all Message Objects: */
+  120  1              for (i=1;i<16;i++)
+  121  1              {
+  122  2                 dummy_dbptr=db0_ptr_16x[i];  
+  123  2                 for (n=0;n<8;n++) *dummy_dbptr++ = 0x00;
+  124  2              }
+  125  1              CAN_INTID=CAN_INTID & Set_Default_CAN_IO;          // ICP=0 !
+  126  1      /* Bit Timing Register */ 
+  127  1              /* end initialization (CCE=0, INIT=0); Interrupts EIE, SIE, IE=user: */
+  128  1              CR = (0x00 | (eie<<3) | (sie<<2) | (ie<<1));
+*** WARNING C192 IN LINE 128 OF ..\..\INCLUDES\LIBCAN\INCAN16X.C: '=': value truncated
+  129  1      }
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =         338     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =         176     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =    --------     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  3 WARNING(S),  0 ERROR(S)

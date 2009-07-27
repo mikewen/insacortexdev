@@ -1,0 +1,169 @@
+C166 COMPILER V6.18, TPL_MACHINE_C166                                                      07/06/2009 12:43:17 PAGE 1   
+
+
+C166 COMPILER V6.18, COMPILATION OF MODULE TPL_MACHINE_C166
+OBJECT MODULE PLACED IN .\objs\tpl_machine_c166.obj
+COMPILER INVOKED BY: E:\programs\keil_arm_eval\C166\BIN\C166.EXE ..\..\..\trampoline-1.1_svn\machines\c166\tpl_machine_c
+                    -166.c TINY BROWSE INCDIR(.\archi_appli;..\..\..\trampoline-1.1_svn\os;..\..\..\trampoline-1.1_svn\com;..\..\..\trampolin
+                    -e-1.1_svn\machines\c166;..\..\..\trampoline-1.1_svn\debug;..\..\..\trampoline-1.1_svn\goil\templates\c166) MOD167 DEFINE
+                    -(WITH_COMPILER_SETTINGS) DEBUG PRINT(.\tpl_machine_c166.lst) OBJECT(.\objs\tpl_machine_c166.obj) 
+
+ stmt lvl     source
+
+    1         /*
+    2          * Trampoline OS
+    3          *
+    4          * Trampoline is copyright (c) IRCCyN 2005+
+    5          * Trampoline est prot��par la loi sur la propri��intellectuelle
+    6          *
+    7          * This software is distributed under the Lesser GNU Public Licence
+    8          *
+    9          * Trampoline C166 specifics
+   10          *
+   11          * $Date:$
+   12          * $Rev$
+   13          * $Author$
+   14          * $URL$
+   15          */
+   16         
+   17         #include "tpl_os_internal_types.h"
+*** WARNING C34 IN LINE 45 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: 'tpl_buffer': missing
+             - declaration specifiers
+*** ERROR C42 IN LINE 45 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: 'tpl_buffer': not in fo
+             -rmal parameter list
+*** ERROR C29 IN LINE 65 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: formal/parameter has il
+             -legal storage class
+*** ERROR C33 IN LINE 65 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: 'tpl_time': invalid sto
+             -rage class
+*** ERROR C29 IN LINE 42 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: formal/parameter has illegal storag
+             -e class
+*** ERROR C33 IN LINE 42 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'c166_context': invalid storage cla
+             -ss
+*** ERROR C25 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'c166_context'
+*** WARNING C34 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'ic': missing declaration specifi
+             -ers
+*** ERROR C42 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'ic': not in formal parameter list
+*** ERROR C25 IN LINE 47 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near '}'
+*** WARNING C34 IN LINE 52 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'idle_task_context': missing decl
+             -aration specifiers
+*** ERROR C42 IN LINE 52 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'idle_task_context': not in formal 
+             -parameter list
+*** ERROR C25 IN LINE 58 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'tpl_stack_word'
+*** WARNING C34 IN LINE 58 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_zone': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 58 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_zone': not in formal par
+             -ameter list
+*** WARNING C34 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': not in formal par
+             -ameter list
+*** ERROR C25 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'sys_stack_size'
+*** WARNING C34 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_size': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_size': not in formal par
+             -ameter list
+C166 COMPILER V6.18, TPL_MACHINE_C166                                                      07/06/2009 12:43:17 PAGE 2   
+
+*** WARNING C34 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_word': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_word': not in formal par
+             -ameter list
+*** ERROR C25 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near '*'
+*** WARNING C34 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_zone': missing declar
+             -ation specifiers
+*** ERROR C42 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_zone': not in formal pa
+             -rameter list
+*** WARNING C34 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': not in formal par
+             -ameter list
+*** ERROR C25 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'user_stack_size'
+*** WARNING C34 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_size': missing declar
+             -ation specifiers
+*** ERROR C42 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_size': not in formal pa
+             -rameter list
+*** ERROR C25 IN LINE 62 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near '}'
+*** WARNING C34 IN LINE 41 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_task_id': missing declaration
+             - specifiers
+*** ERROR C42 IN LINE 41 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_task_id': not in formal paramet
+             -er list
+*** ERROR C29 IN LINE 49 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storage
+             - class
+*** ERROR C33 IN LINE 49 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_proc_id': invalid storage class
+*** ERROR C25 IN LINE 49 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: syntax error near 'tpl_isr_id'
+*** ERROR C33 IN LINE 49 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_isr_id': invalid storage class
+*** ERROR C29 IN LINE 65 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storage
+             - class
+*** ERROR C33 IN LINE 65 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_bool': invalid storage class
+*** ERROR C29 IN LINE 81 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storage
+             - class
+*** ERROR C33 IN LINE 81 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_status': invalid storage class
+*** ERROR C29 IN LINE 100 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storag
+             -e class
+*** ERROR C33 IN LINE 100 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_proc_state': invalid storage c
+             -lass
+*** ERROR C25 IN LINE 110 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: syntax error near 'maxallowedvalue'
+*** ERROR C60 IN LINE 113 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: TYPEDEF: duplicate member
+*** ERROR C60 IN LINE 118 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: TYPEDEF: duplicate member
+*** ERROR C29 IN LINE 134 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storag
+             -e class
+*** ERROR C33 IN LINE 134 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_alarm_base': invalid storage c
+             -lass
+*** ERROR C29 IN LINE 143 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storag
+             -e class
+*** ERROR C33 IN LINE 143 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_application_mode': invalid sto
+             -rage class
+*** ERROR C29 IN LINE 151 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has illegal storag
+             -e class
+*** ERROR C33 IN LINE 151 OF ..\..\..\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_callback_func': invalid storag
+             -e class
+   18         #include "tpl_machine.h"
+   19         #include "tpl_os_application_def.h"   /* NO_ALARM */
+   20         #include "tpl_os_generated_configuration.h"        /* TASK_COUNT and ISR_COUNT*/
+   21         #include "tpl_os_definitions.h" /* IS_ROUTINE  */
+   22         #include <C167CS.H>     /*TODO: update with a more generic standard include file.*/
+*** ERROR C25 IN LINE 15 OF E:\PROGRAMS\KEIL_ARM_EVAL\C166\INC\C167CS.H: syntax error near 'sfr'
+   23         
+   24         
+   25         
+C166 COMPILER V6.18, TPL_MACHINE_C166                                                      07/06/2009 12:43:17 PAGE 3   
+
+   26         #pragma warning disable = 47 /* disables the "unreferenced parameter" warning */
+   27                                                                  /* used for the tpl_switch_context function      */
+   28         
+   29         
+   30         c166_context idle_task_context;
+*** WARNING C34 IN LINE 30 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE_C166.C: 'idle_task_context': missing
+             - declaration specifiers
+*** ERROR C42 IN LINE 30 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE_C166.C: 'idle_task_context': not in fo
+             -rmal parameter list
+   31         
+   32         _STATIC_ VAR(u16, OS_VAR) Os_CptTaskLock;
+*** ERROR C29 IN LINE 32 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE_C166.C: formal/parameter has illegal s
+             -torage class
+*** ERROR C33 IN LINE 32 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE_C166.C: 'Os_CptTaskLock': invalid stor
+             -age class
+   33         
+   34         
+   35         #define SMALL_MEMORY_MODEL
+   36         
+   37         #ifdef SMALL_MEMORY_MODEL
+   38         /* use a register bank for interrupts and in the context switch function */
+   39         unsigned int idata registers_it[16];
+*** ERROR C42 IN LINE 39 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE_C166.C: 'registers_it': not in formal 
+             -parameter list
+   40         unsigned int idata registers_c166[TASK_COUNT+ISR_COUNT+1][16];
+*** ERROR C42 IN LINE 40 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE_C166.C: 'registers_c166': not in forma
+             -l parameter list
+   41         
+   42         /*
+   43          * tpl_sleep is used by the idle task
+   44          */
+   45         void tpl_sleep(void)
+   46         {
+*** ERROR C42 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE_C166.C: 'tpl_sleep': not in formal par
+             -ameter list
+*** ERROR C25 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE_C166.C: syntax error near '{'
+*** ERROR C7 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE_C166.C: compilation aborted
+
+C166 COMPILATION COMPLETE.  12 WARNING(S),  50 ERROR(S)

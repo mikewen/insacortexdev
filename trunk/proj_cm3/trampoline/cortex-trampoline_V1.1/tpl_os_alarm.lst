@@ -1,0 +1,307 @@
+C166 COMPILER V6.08, TPL_OS_ALARM                                                          06/28/2009 16:38:37 PAGE 1   
+
+
+C166 COMPILER V6.08, COMPILATION OF MODULE TPL_OS_ALARM
+OBJECT MODULE PLACED IN .\objs\tpl_os_alarm.obj
+COMPILER INVOKED BY: C:\Keil\Evalsoft\C166\BIN\C166.EXE ..\..\..\trampoline-1.1\os\tpl_os_alarm.c TINY BROWSE INCDIR(.\a
+                    -rchi_appli;..\..\..\trampoline-1.1\os;..\..\..\trampoline-1.1\com;..\..\..\trampoline-1.1\os\os_machine\c166;..\..\..\tr
+                    -ampoline-1.1\goil\templates\c166;..\..\..\trampoline-1.1\debug) MOD167 DEFINE(WITH_COMPILER_SETTINGS) DEBUG PRINT(.\tpl_
+                    -os_alarm.lst) OBJECT(.\objs\tpl_os_alarm.obj) 
+
+ stmt lvl     source
+
+    1         /**
+    2          * @file tpl_os_alarm.c
+    3          *
+    4          * @section desc File description
+    5          *
+    6          * Trampoline Alarm Management Services implementation file
+    7          * See paragraph 13.6,
+    8          * pages 62+ of OSEK/VDX 2.2.2 spec
+    9          *
+   10          * @section copyright Copyright
+   11          *
+   12          * Trampoline OS
+   13          *
+   14          * Trampoline is copyright (c) IRCCyN 2005-2007
+   15          * Trampoline is protected by the French intellectual property law.
+   16          *
+   17          * This software is distributed under the Lesser GNU Public Licence
+   18          *
+   19          * @section infos File informations
+   20          *
+   21          * $Date: 2007-11-09 14:33:58 +0100 (Fri, 09 Nov 2007) $
+   22          * $Rev: 401 $
+   23          * $Author: ayrton $
+   24          * $URL: https://trampoline.rts-software.org/svn/trunk/os/tpl_os_alarm.c $
+   25          */
+   26         
+   27         #include "tpl_os_error.h"
+   28         #include "tpl_os_kernel.h"
+   29         #include "tpl_os_alarm_kernel.h"
+   30         #include "tpl_os_alarm.h"
+   31         
+   32         #define OS_START_SEC_CODE
+   33         #include "tpl_memmap.h"
+   34         
+   35         /*
+   36          * GetAlarmBase
+   37          *
+   38          * See page 63 of the OSEK spec
+   39          */
+   40         FUNC(StatusType, OS_CODE) GetAlarmBase(
+   41             CONST(AlarmType, AUTOMATIC)       alarm_id,
+   42             VAR(AlarmBaseRefType, AUTOMATIC)  info
+   43         )
+   44         {
+   45  1          VAR(StatusType, AUTOMATIC) result = E_OK;
+   46  1      
+   47  1      #ifndef NO_ALARM
+   48  1          P2VAR(tpl_time_obj, OS_APPL_DATA, AUTOMATIC) alarm;
+   49  1      #endif
+   50  1      
+   51  1          STORE_SERVICE(OSServiceId_GetAlarm)
+   52  1          STORE_ALARM_ID(alarm_id)
+C166 COMPILER V6.08, TPL_OS_ALARM                                                          06/28/2009 16:38:37 PAGE 2   
+
+   53  1          STORE_ALARM_BASE_REF(info)
+   54  1      
+   55  1          CHECK_ALARM_ID_ERROR(alarm_id,result)
+   56  1      
+   57  1      #ifndef NO_ALARM
+   58  1          IF_NO_EXTENDED_ERROR(result)
+   59  1              alarm = tpl_alarm_table[alarm_id];
+   60  1      
+   61  1              info->ticksperbase = alarm->stat_part->counter->ticks_per_base;
+   62  1              info->maxallowedvalue = alarm->stat_part->counter->max_allowed_value;
+   63  1              info->mincycle = alarm->stat_part->counter->min_cycle;
+   64  1          IF_NO_EXTENDED_ERROR_END()
+   65  1      #endif
+   66  1      
+   67  1          PROCESS_ERROR(result)
+   68  1      
+   69  1          return result;
+   70  1      }
+   71         
+   72         /*
+   73          * GetAlarm
+   74          *
+   75          * See page 63 of the OSEK spec
+   76          */
+   77         FUNC(StatusType, OS_CODE) GetAlarm(
+   78             CONST(AlarmType, AUTOMATIC) alarm_id,
+   79             VAR(TickRefType, AUTOMATIC) tick)
+   80         {
+   81  1          VAR(StatusType, AUTOMATIC) result = E_OK;
+   82  1      
+   83  1      #ifndef NO_ALARM
+   84  1          P2VAR(tpl_time_obj, OS_APPL_DATA, AUTOMATIC) alarm;
+   85  1      #endif
+   86  1      
+   87  1          STORE_SERVICE(OSServiceId_GetAlarm)
+   88  1          STORE_ALARM_ID(alarm_id)
+   89  1          STORE_TICK_REF(tick)
+   90  1      
+   91  1          CHECK_ALARM_ID_ERROR(alarm_id,result)
+   92  1      
+   93  1      #ifndef NO_ALARM
+   94  1          IF_NO_EXTENDED_ERROR(result)
+   95  1              alarm = tpl_alarm_table[alarm_id];
+   96  1      
+   97  1              /*  verify the alarm is active  */
+   98  1              if (alarm->state == (tpl_time_obj_state)ALARM_ACTIVE)
+   99  1              {
+  100  2                  *tick = alarm->date - alarm->stat_part->counter->current_date;
+  101  2              }
+  102  1              else
+  103  1              {
+  104  2                  result = E_OS_NOFUNC;
+  105  2              }
+  106  1          IF_NO_EXTENDED_ERROR_END()
+  107  1      #endif
+  108  1      
+  109  1          PROCESS_ERROR(result)
+  110  1      
+  111  1          return result;
+  112  1      }
+  113         
+  114         /*
+C166 COMPILER V6.08, TPL_OS_ALARM                                                          06/28/2009 16:38:37 PAGE 3   
+
+  115          * SetRelAlarm
+  116          *
+  117          * See page 63 of the OSEK spec
+  118          */
+  119         FUNC(StatusType, OS_CODE) SetRelAlarm(
+  120             CONST(AlarmType, AUTOMATIC) alarm_id,
+  121             CONST(TickType, AUTOMATIC)  increment,
+  122             CONST(TickType, AUTOMATIC)  cycle
+  123         )
+  124         {
+  125  1          VAR(StatusType, AUTOMATIC) result = E_OK;
+  126  1      
+  127  1      #ifndef NO_ALARM
+  128  1          P2VAR(tpl_time_obj, OS_APPL_DATA, AUTOMATIC) alarm;
+  129  1      #endif
+  130  1      
+  131  1          STORE_SERVICE(OSServiceId_SetRelAlarm)
+  132  1          STORE_ALARM_ID(alarm_id)
+  133  1          STORE_TICK_1(increment)
+  134  1          STORE_TICK_2(cycle)
+  135  1      
+  136  1          CHECK_ALARM_ID_ERROR(alarm_id,result)
+  137  1          CHECK_ALARM_MAX_ALLOWED_VALUE_ERROR(alarm_id,increment,result)
+  138  1          CHECK_ALARM_MIN_CYCLE_ERROR(alarm_id,cycle,result)
+  139  1      
+  140  1      #ifndef NO_ALARM
+  141  1          IF_NO_EXTENDED_ERROR(result)
+  142  1              alarm = tpl_alarm_table[alarm_id];
+  143  1      
+  144  1              if (alarm->state == (tpl_time_obj_state)ALARM_SLEEP)
+  145  1              {
+  146  2                  tpl_counter *cnt = alarm->stat_part->counter;
+  147  2                  /*  the alarm is not in use, proceed    */
+  148  2                  tpl_tick date = cnt->current_date + increment;
+  149  2                  if (date > cnt->max_allowed_value)
+  150  2                  {
+  151  3                      date -= cnt->max_allowed_value;
+  152  3                  }
+  153  2                  alarm->date = date;
+  154  2                  alarm->cycle = cycle;
+  155  2                  alarm->state = ALARM_ACTIVE;
+  156  2                  tpl_insert_time_obj(alarm);
+  157  2              }
+  158  1              else
+  159  1              {
+  160  2                  /*  the alarm is in use, return the proper error code   */
+  161  2                  result = E_OS_STATE;
+  162  2              }
+  163  1          IF_NO_EXTENDED_ERROR_END()
+  164  1      #endif
+  165  1      
+  166  1          PROCESS_ERROR(result)
+  167  1      
+  168  1          return result;
+  169  1      }
+  170         
+  171         /*
+  172          * SetAbsAlarm
+  173          *
+  174          * See page 64 of the OSEK spec
+  175          */
+  176         FUNC(StatusType, OS_CODE) SetAbsAlarm(
+C166 COMPILER V6.08, TPL_OS_ALARM                                                          06/28/2009 16:38:37 PAGE 4   
+
+  177             CONST(AlarmType, AUTOMATIC) alarm_id,
+  178             CONST(TickType, AUTOMATIC)  start,
+  179             CONST(TickType, AUTOMATIC)  cycle
+  180         )
+  181         {
+  182  1          VAR(StatusType, AUTOMATIC) result = E_OK;
+  183  1      
+  184  1      #ifndef NO_ALARM
+  185  1          P2VAR(tpl_time_obj, OS_APPL_DATA, AUTOMATIC) alarm;
+  186  1      #endif
+  187  1      
+  188  1          STORE_SERVICE(OSServiceId_SetAbsAlarm)
+  189  1          STORE_ALARM_ID(alarm_id)
+  190  1          STORE_TICK_1(start)
+  191  1          STORE_TICK_2(cycle)
+  192  1      
+  193  1          CHECK_ALARM_ID_ERROR(alarm_id,result)
+  194  1          CHECK_ALARM_MAX_ALLOWED_VALUE_ERROR(alarm_id,start,result)
+  195  1          CHECK_ALARM_MIN_CYCLE_ERROR(alarm_id,cycle,result)
+  196  1      
+  197  1      #ifndef NO_ALARM
+  198  1          IF_NO_EXTENDED_ERROR(result)
+  199  1          alarm = tpl_alarm_table[alarm_id];
+  200  1      
+  201  1          if (alarm->state == (tpl_time_obj_state)ALARM_SLEEP)
+  202  1          {
+  203  2              /*  the alarm is not in use, proceed    */
+  204  2              alarm->date = start;
+  205  2              alarm->cycle = cycle;
+  206  2              alarm->state = ALARM_ACTIVE;
+  207  2              tpl_insert_time_obj(alarm);
+  208  2          }
+  209  1          else
+  210  1          {
+  211  2              /*  the alarm is in use, return the proper error code   */
+  212  2              result = E_OS_STATE;
+  213  2          }
+  214  1          IF_NO_EXTENDED_ERROR_END()
+  215  1      #endif
+  216  1      
+  217  1          PROCESS_ERROR(result)
+  218  1      
+  219  1          return result;
+  220  1      }
+  221         
+  222         /*
+  223          * CancelAlarm
+  224          *
+  225          * See page 65 of the OSEK spec
+  226          */
+  227         FUNC(StatusType, OS_CODE) CancelAlarm(
+  228             CONST(AlarmType, AUTOMATIC) alarm_id
+  229         )
+  230         {
+  231  1          VAR(StatusType, AUTOMATIC) result = E_OK;
+  232  1      
+  233  1      #ifndef NO_ALARM
+  234  1          P2VAR(tpl_time_obj, OS_APPL_DATA, AUTOMATIC) alarm;
+  235  1      #endif
+  236  1      
+  237  1          STORE_SERVICE(OSServiceId_CancelAlarm)
+  238  1          STORE_ALARM_ID(alarm_id)
+C166 COMPILER V6.08, TPL_OS_ALARM                                                          06/28/2009 16:38:37 PAGE 5   
+
+  239  1      
+  240  1          CHECK_ALARM_ID_ERROR(alarm_id,result)
+  241  1      
+  242  1      #ifndef NO_ALARM
+  243  1          IF_NO_EXTENDED_ERROR(result)
+  244  1          alarm = tpl_alarm_table[alarm_id];
+  245  1      
+  246  1          if (alarm->state == (tpl_time_obj_state)ALARM_ACTIVE)
+  247  1          {
+  248  2              tpl_remove_time_obj(alarm);
+  249  2              alarm->state = ALARM_SLEEP;
+  250  2          }
+  251  1          else
+  252  1          {
+  253  2              result = E_OS_NOFUNC;
+  254  2          }
+  255  1          IF_NO_EXTENDED_ERROR_END()
+  256  1      #endif
+  257  1      
+  258  1          PROCESS_ERROR(result)
+  259  1      
+  260  1          return result;
+  261  1      }
+  262         
+  263         #define OS_STOP_SEC_CODE
+  264         #include "tpl_memmap.h"
+  265         
+  266         /* End of file tpl_os_alarm.c */
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =         350     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =    --------     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =    --------     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

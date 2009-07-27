@@ -1,0 +1,114 @@
+C166 COMPILER V6.08, TPL_OS_REZ_KERNEL                                                     06/28/2009 16:38:40 PAGE 1   
+
+
+C166 COMPILER V6.08, COMPILATION OF MODULE TPL_OS_REZ_KERNEL
+OBJECT MODULE PLACED IN .\objs\tpl_os_rez_kernel.obj
+COMPILER INVOKED BY: C:\Keil\Evalsoft\C166\BIN\C166.EXE ..\..\..\trampoline-1.1\os\tpl_os_rez_kernel.c TINY BROWSE INCDI
+                    -R(.\archi_appli;..\..\..\trampoline-1.1\os;..\..\..\trampoline-1.1\com;..\..\..\trampoline-1.1\os\os_machine\c166;..\..\
+                    -..\trampoline-1.1\goil\templates\c166;..\..\..\trampoline-1.1\debug) MOD167 DEFINE(WITH_COMPILER_SETTINGS) DEBUG PRINT(.
+                    -\tpl_os_rez_kernel.lst) OBJECT(.\objs\tpl_os_rez_kernel.obj) 
+
+ stmt lvl     source
+
+    1         /**
+    2          * @file tpl_os_rez_kernel.c
+    3          *
+    4          * @section desc File description
+    5          *
+    6          * This implementation file provides internal function
+    7          * for resource management.
+    8          *
+    9          * @section copyright Copyright
+   10          *
+   11          * Trampoline OS
+   12          *
+   13          * Trampoline is copyright (c) IRCCyN 2005+
+   14          * Trampoline is protected by the French intellectual property law.
+   15          *
+   16          * This software is distributed under the Lesser GNU Public Licence
+   17          *
+   18          * @section infos File informations
+   19          *
+   20          * $Date$
+   21          * $Rev$
+   22          * $Author$
+   23          * $URL$
+   24          */
+   25         
+   26         #include "tpl_os_application_def.h"
+   27         #include "tpl_os_definitions.h"
+   28         #include "tpl_os_internal_types.h"
+   29         #include "tpl_os_kernel.h"
+   30         #include "tpl_os_rez_kernel.h"
+   31         
+   32         #define OS_START_SEC_CODE
+   33         #include "tpl_memmap.h"
+   34         
+   35         /*
+   36          * Getting a resource.
+   37          */
+   38         FUNC(void, OS_CODE) tpl_get_resource(
+   39             P2VAR(tpl_resource, OS_APPL_DATA, AUTOMATIC) res)
+   40         {
+   41  1          /*  set the owner of the resource to the calling task       */
+   42  1          res->owner = tpl_running_obj;
+   43  1          /*  add the ressource at the beginning of the
+   44  1              resource list stored in the task descriptor             */
+   45  1          res->next_res = tpl_running_obj->resources;
+   46  1          tpl_running_obj->resources = res;
+   47  1          /*  save the current priority of the task in the resource   */
+   48  1          res->owner_prev_priority = tpl_running_obj->priority;
+   49  1      
+   50  1          if (tpl_running_obj->priority < res->ceiling_priority)
+   51  1          {
+   52  2              /*  set the task priority at the ceiling priority of the resource
+C166 COMPILER V6.08, TPL_OS_REZ_KERNEL                                                     06/28/2009 16:38:40 PAGE 2   
+
+   53  2                  if the ceiling priority is greater than the current priority of
+   54  2                  the task  */
+   55  2              tpl_running_obj->priority = res->ceiling_priority;
+   56  2          }
+   57  1      }
+   58         
+   59         /*
+   60          * Releasing a resource
+   61          */
+   62         FUNC(void, OS_CODE) tpl_release_resource(
+   63             P2VAR(tpl_resource, OS_APPL_DATA, AUTOMATIC) res)
+   64         {
+   65  1          /*  get the saved priority  */
+   66  1          tpl_running_obj->priority = res->owner_prev_priority;
+   67  1          /*  remove the resource from the resource list  */
+   68  1          tpl_running_obj->resources = res->next_res;
+   69  1          res->next_res = NULL;
+   70  1          /*  remove the owner    */
+   71  1          res->owner = NULL;
+   72  1      
+   73  1          tpl_schedule(FROM_TASK_LEVEL);
+   74  1      }
+   75         
+   76         #define OS_STOP_SEC_CODE
+   77         #include "tpl_memmap.h"
+   78         
+   79         /* End of file tpl_os_rez_kernel.c */
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =         102     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =    --------     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =    --------     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

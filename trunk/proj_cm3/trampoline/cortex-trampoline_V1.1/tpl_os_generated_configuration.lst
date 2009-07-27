@@ -1,0 +1,439 @@
+C166 COMPILER V6.08, TPL_OS_GENERATED_CONFIGURATION                                        06/28/2009 16:38:41 PAGE 1   
+
+
+C166 COMPILER V6.08, COMPILATION OF MODULE TPL_OS_GENERATED_CONFIGURATION
+OBJECT MODULE PLACED IN .\objs\tpl_os_generated_configuration.obj
+COMPILER INVOKED BY: C:\Keil\Evalsoft\C166\BIN\C166.EXE archi_appli\tpl_os_generated_configuration.c TINY BROWSE INCDIR(
+                    -.\archi_appli;..\..\..\trampoline-1.1\os;..\..\..\trampoline-1.1\com;..\..\..\trampoline-1.1\os\os_machine\c166;..\..\..
+                    -\trampoline-1.1\goil\templates\c166;..\..\..\trampoline-1.1\debug) MOD167 DEFINE(WITH_COMPILER_SETTINGS) DEBUG PRINT(.\t
+                    -pl_os_generated_configuration.lst) OBJECT(.\objs\tpl_os_generated_configuration.obj) 
+
+ stmt lvl     source
+
+    1         #include "tpl_os_internal_types.h"
+    2         #include "tpl_os_definitions.h"
+    3         #include "tpl_machine.h"
+    4         #include "tpl_os_it.h"
+    5         #include "tpl_os_it_kernel.h"
+    6         #include "tpl_os_alarm_kernel.h"
+    7         #include "tpl_os_action.h"
+    8         
+    9         #ifndef WITH_AUTOSAR
+   10         #include "tpl_com_notification.h"
+   11         #include "tpl_com_mo.h"
+   12         #include "tpl_com_internal_com.h"
+   13         #include "tpl_com_app_copy.h"
+   14         #include "tpl_com_filters.h"
+   15         #endif
+   16         
+   17         #include "tpl_os_generated_configuration.h"
+   18         #include "tpl_app_objects.h"
+   19         
+   20         #ifdef WITH_AUTOSAR
+              #include "tpl_as_st_kernel.h"
+              #include "tpl_as_action.h"
+              #endif
+   24         
+   25         /*=============================================================================
+   26          * Definition and initialization of event related defines and structures
+   27          */
+   28         
+   29         
+   30         /*=============================================================================
+   31          * Definition and initialization of Resource related structures
+   32          */
+   33         
+   34         
+   35         
+   36         /*=============================================================================
+   37          * Definition and initialization of Task related defines and structures
+   38          */
+   39         extern tpl_internal_resource INTERNAL_RES_SCHEDULER;
+   40         
+   41         
+   42         /*
+   43          * Controler_Voiture stacks
+   44          *
+   45          * System stack
+   46          */
+   47         tpl_stack_word idata sys_stack_zone_of_Controler_Voiture[256/sizeof(tpl_stack_word)];
+   48         
+   49         /*
+   50          * User stack
+   51          */
+   52         tpl_stack_word near usr_stack_zone_of_Controler_Voiture[256/sizeof(tpl_stack_word)];
+C166 COMPILER V6.08, TPL_OS_GENERATED_CONFIGURATION                                        06/28/2009 16:38:41 PAGE 2   
+
+   53         
+   54         #define STACK_OF_TASK_Controler_Voiture { sys_stack_zone_of_Controler_Voiture, 256, usr_stack_zone_of_Cont
+             -roler_Voiture, 256 }
+   55         
+   56         /*
+   57          * Controler_Voiture context
+   58          */
+   59         c166_context integer_context_of_Controler_Voiture;
+   60         
+   61         #define CONTEXT_OF_TASK_Controler_Voiture { &integer_context_of_Controler_Voiture }
+   62         
+   63         /*
+   64          * Task Controler_Voiture function prototype
+   65          */
+   66         void function_of_task_Controler_Voiture(void);
+   67         
+   68         #ifdef WITH_AUTOSAR_TIMING_PROTECTION
+              
+              #endif
+   71         
+   72         /*
+   73          * Static descriptor of task Controler_Voiture
+   74          */
+   75         tpl_exec_static static_descriptor_of_task_Controler_Voiture = {
+   76             /* context                  */  CONTEXT_OF_TASK_Controler_Voiture,
+   77             /* stack                    */  STACK_OF_TASK_Controler_Voiture,
+   78             /* entry point (function)   */  function_of_task_Controler_Voiture,
+   79             /* internal ressource       */  &INTERNAL_RES_SCHEDULER,
+   80             /* task id                  */  task_id_of_Controler_Voiture,
+   81             /* task base priority       */  (tpl_priority)2,
+   82             /* max activation count     */  1,
+   83             /* task type                */  TASK_BASIC,
+   84         #ifdef WITH_AUTOSAR_TIMING_PROTECTION
+                  /* pointer to the timing
+                     protection descriptor    */  NULL
+              #endif
+   88         };
+   89         
+   90         /*
+   91          * Dynamic descriptor of task Controler_Voiture
+   92          */
+   93         tpl_task descriptor_of_task_Controler_Voiture = {
+   94             {       /* beginning of exec_desc part */
+   95             /* static descriptor    */  &static_descriptor_of_task_Controler_Voiture,
+   96             /* resources            */  NULL,
+   97             /* activate count       */  0,
+   98             /* task priority        */  (tpl_priority)2,
+   99             /* task state           */  SUSPENDED,
+  100         #ifdef WITH_AUTOSAR_TIMING_PROTECTION
+                  /* start date           */  0,
+                  /* time left            */  0,
+              #endif
+  104             },    /* end of exec_desc part */
+  105             /* event mask           */  0,
+  106             /* event wait           */  0
+  107         };
+  108         
+  109         
+  110         /*
+  111          * Generer_Trajectoire stacks
+  112          *
+  113          * System stack
+C166 COMPILER V6.08, TPL_OS_GENERATED_CONFIGURATION                                        06/28/2009 16:38:41 PAGE 3   
+
+  114          */
+  115         tpl_stack_word idata sys_stack_zone_of_Generer_Trajectoire[256/sizeof(tpl_stack_word)];
+  116         
+  117         /*
+  118          * User stack
+  119          */
+  120         tpl_stack_word near usr_stack_zone_of_Generer_Trajectoire[256/sizeof(tpl_stack_word)];
+  121         
+  122         #define STACK_OF_TASK_Generer_Trajectoire { sys_stack_zone_of_Generer_Trajectoire, 256, usr_stack_zone_of_
+             -Generer_Trajectoire, 256 }
+  123         
+  124         /*
+  125          * Generer_Trajectoire context
+  126          */
+  127         c166_context integer_context_of_Generer_Trajectoire;
+  128         
+  129         #define CONTEXT_OF_TASK_Generer_Trajectoire { &integer_context_of_Generer_Trajectoire }
+  130         
+  131         /*
+  132          * Task Generer_Trajectoire function prototype
+  133          */
+  134         void function_of_task_Generer_Trajectoire(void);
+  135         
+  136         #ifdef WITH_AUTOSAR_TIMING_PROTECTION
+              
+              #endif
+  139         
+  140         /*
+  141          * Static descriptor of task Generer_Trajectoire
+  142          */
+  143         tpl_exec_static static_descriptor_of_task_Generer_Trajectoire = {
+  144             /* context                  */  CONTEXT_OF_TASK_Generer_Trajectoire,
+  145             /* stack                    */  STACK_OF_TASK_Generer_Trajectoire,
+  146             /* entry point (function)   */  function_of_task_Generer_Trajectoire,
+  147             /* internal ressource       */  &INTERNAL_RES_SCHEDULER,
+  148             /* task id                  */  task_id_of_Generer_Trajectoire,
+  149             /* task base priority       */  (tpl_priority)1,
+  150             /* max activation count     */  1,
+  151             /* task type                */  TASK_BASIC,
+  152         #ifdef WITH_AUTOSAR_TIMING_PROTECTION
+                  /* pointer to the timing
+                     protection descriptor    */  NULL
+              #endif
+  156         };
+  157         
+  158         /*
+  159          * Dynamic descriptor of task Generer_Trajectoire
+  160          */
+  161         tpl_task descriptor_of_task_Generer_Trajectoire = {
+  162             {       /* beginning of exec_desc part */
+  163             /* static descriptor    */  &static_descriptor_of_task_Generer_Trajectoire,
+  164             /* resources            */  NULL,
+  165             /* activate count       */  0,
+  166             /* task priority        */  (tpl_priority)1,
+  167             /* task state           */  SUSPENDED,
+  168         #ifdef WITH_AUTOSAR_TIMING_PROTECTION
+                  /* start date           */  0,
+                  /* time left            */  0,
+              #endif
+  172             },    /* end of exec_desc part */
+  173             /* event mask           */  0,
+  174             /* event wait           */  0
+C166 COMPILER V6.08, TPL_OS_GENERATED_CONFIGURATION                                        06/28/2009 16:38:41 PAGE 4   
+
+  175         };
+  176         
+  177         
+  178         tpl_task *tpl_task_table[TASK_COUNT] = {
+  179             (tpl_task *)&descriptor_of_task_Controler_Voiture,
+  180             (tpl_task *)&descriptor_of_task_Generer_Trajectoire
+  181         };
+  182         
+  183         
+  184         /*=============================================================================
+  185          * Definition and initialization of ISR2 related defines and structures
+  186          */
+  187         
+  188         
+  189         
+  190         /*=============================================================================
+  191          * Definition and initialization of Counters related defines and structures
+  192          */
+  193         
+  194         /*
+  195          * Counter descriptor of counter General_counter
+  196          */
+  197         tpl_counter descriptor_of_counter_General_counter = {
+  198             /* ticks per base       */  1,
+  199             /* max allowed value    */  65535,
+  200             /* minimum cycle        */  1,
+  201             /* current tick         */  0,
+  202             /* current date         */  0,
+  203             /* first alarm          */  NULL,
+  204             /* next alarm to raise  */  NULL
+  205         };
+  206         
+  207         /*
+  208          * Tick for counters. 
+  209          * There is a tick each 1ms for a 40 MHz microcontroller
+  210          * WARNING: It uses *** timer 6 ***
+  211          * This timer MUST NOT be used elsewhere in the application.
+  212          */
+  213         #include <C167CS.H> /*TODO: C166 */
+  214         void tpl_init_tick_timer()
+  215         {
+  216  1        /* use interrupt mode: 
+  217  1         * T6IE:1 Interrupt enable
+  218  1         * ilvl:13 Interrupt Level
+  219  1         * glvl:1 Group Level
+  220  1        */
+  221  1        T6IC = 0x61;
+  222  1        /* at 40 MHz, resultion max is 100ns.
+  223  1         * To get 1ms, we need 10 000 ticks.
+  224  1         * 65536 - 10000 = 55536
+  225  1         */
+  226  1        CAPREL = 55536;
+  227  1        /* T6SR :1 reload with CAPREL
+  228  1         * T6OTL:0 No toggle latch.
+  229  1         * T6OE :0 Output Function disabled
+  230  1         * T6UDE:0 No external Up/Down
+  231  1         * T6UD :0 Count Up
+  232  1         * T6R  :1 Run
+  233  1         * T6M  :0 Timer mode
+  234  1         * T6I  :0 100ns resolution
+  235  1         */
+  236  1        T6CON = 0x8040;
+C166 COMPILER V6.08, TPL_OS_GENERATED_CONFIGURATION                                        06/28/2009 16:38:41 PAGE 5   
+
+  237  1      }
+  238         
+  239         void tpl_schedule(int from);
+  240         tpl_status tpl_counter_tick(tpl_counter *counter);
+  241         void tpl_call_counter_tick()
+  242         {
+  243  1              tpl_status  need_rescheduling = NO_SPECIAL_CODE;
+  244  1          need_rescheduling |= tpl_counter_tick(&descriptor_of_counter_General_counter);
+  245  1      
+  246  1              if (need_rescheduling == NEED_RESCHEDULING) {
+  247  2                      tpl_schedule(FROM_IT_LEVEL);
+  248  2          }
+  249  1      }
+  250         
+  251         extern unsigned int registers_it[16]; 
+  252         
+  253         #pragma NOFRAME
+  254         #pragma warning disable = 138 /* disables the "expression with possibly no effect" warning */
+  255         /* timer 6 -> trap number 38*/
+  256         void tpl_timer6_tick(void) interrupt 38
+  257         {
+  258  1              __asm {
+  259  1                      BCLR IEN /*disable interrupt */
+  260  1                      SCXT DPP3, #3
+  261  1                      NOP
+  262  1                      SCXT CP,#registers_it
+  263  1                      NOP
+  264  1                      MOV R0,0xfe12 
+  265  1                      MOV R0,[R0] //get R0<-CP
+  266  1                      MOV R0,[R0] //get the previous user stack.
+  267  1                      NOP
+  268  1                      PUSH DPP0
+  269  1              }
+  270  1              
+  271  1              /* We have to call a function, because we can not use any local var here.*/
+  272  1              tpl_call_counter_tick();
+  273  1              
+  274  1              /* dummy code to allow the use of registers_it in
+  275  1               * the assembly code
+  276  1               */
+  277  1              if(registers_it[0]);
+  278  1              __asm {
+  279  1                      POP DPP0
+  280  1                      POP CP
+  281  1                      POP DPP3
+  282  1              }
+  283  1      }
+  284         
+  285         
+  286         
+  287         
+  288         /*=============================================================================
+  289          * Definition and initialization of Alarm related structures
+  290          */
+  291         
+  292         /*
+  293          * Alarm descriptor of alarm Active_Tache1
+  294          */
+  295         tpl_task_activation_action task_act_of_Active_Tache1 = {
+  296             {
+  297                 /* action function  */  tpl_action_activate_task
+  298             },
+C166 COMPILER V6.08, TPL_OS_GENERATED_CONFIGURATION                                        06/28/2009 16:38:41 PAGE 6   
+
+  299             /* task descriptor ptr  */  &descriptor_of_task_Controler_Voiture
+  300         };
+  301         
+  302         tpl_alarm_static stat_descriptor_of_alarm_Active_Tache1 = {
+  303             {
+  304                 /* pointer to counter           */  &descriptor_of_counter_General_counter,
+  305                 /* pointer to the expiration    */  tpl_raise_alarm
+  306             },
+  307             /* action of the alarm  */  (tpl_action *)&task_act_of_Active_Tache1
+  308         };
+  309         
+  310         tpl_time_obj descriptor_of_alarm_Active_Tache1 = {
+  311             /* pointer to the static part   */  (tpl_time_obj_static *)&stat_descriptor_of_alarm_Active_Tache1,
+  312             /* next alarm                   */  NULL,
+  313             /* prev alarm                   */  NULL,
+  314             /* cycle                        */  1,
+  315             /* date                         */  1,
+  316             /* State of the alarm           */  ALARM_AUTOSTART
+  317         };
+  318         
+  319         /*
+  320          * Alarm descriptor of alarm Active_Tache2
+  321          */
+  322         tpl_task_activation_action task_act_of_Active_Tache2 = {
+  323             {
+  324                 /* action function  */  tpl_action_activate_task
+  325             },
+  326             /* task descriptor ptr  */  &descriptor_of_task_Generer_Trajectoire
+  327         };
+  328         
+  329         tpl_alarm_static stat_descriptor_of_alarm_Active_Tache2 = {
+  330             {
+  331                 /* pointer to counter           */  &descriptor_of_counter_General_counter,
+  332                 /* pointer to the expiration    */  tpl_raise_alarm
+  333             },
+  334             /* action of the alarm  */  (tpl_action *)&task_act_of_Active_Tache2
+  335         };
+  336         
+  337         tpl_time_obj descriptor_of_alarm_Active_Tache2 = {
+  338             /* pointer to the static part   */  (tpl_time_obj_static *)&stat_descriptor_of_alarm_Active_Tache2,
+  339             /* next alarm                   */  NULL,
+  340             /* prev alarm                   */  NULL,
+  341             /* cycle                        */  10,
+  342             /* date                         */  1,
+  343             /* State of the alarm           */  ALARM_AUTOSTART
+  344         };
+  345         
+  346         tpl_time_obj *tpl_alarm_table[ALARM_COUNT] = {
+  347             (tpl_time_obj *)&descriptor_of_alarm_Active_Tache1,
+  348             (tpl_time_obj *)&descriptor_of_alarm_Active_Tache2
+  349         };
+  350         
+  351         
+  352         /*=============================================================================
+  353          * Declaration of flags functions
+  354          */
+  355         
+  356         
+  357         /*=============================================================================
+  358          * Definition and initialization of Messages related structures
+  359          */
+  360         
+C166 COMPILER V6.08, TPL_OS_GENERATED_CONFIGURATION                                        06/28/2009 16:38:41 PAGE 7   
+
+  361         
+  362         
+  363         
+  364         #ifdef WITH_AUTOSAR
+              /*=============================================================================
+               * Declaration of schedule tables related defines and structures
+               */
+              $SCHEDULETABLES$
+              #endif
+  370         
+  371         /*=============================================================================
+  372          * Definition and initialization of Ready List structures
+  373          */
+  374         tpl_exec_common *tpl_priority_0_fifo[1];
+  375         tpl_exec_common *tpl_priority_1_fifo[1];
+  376         tpl_exec_common *tpl_priority_2_fifo[2];
+  377         
+  378         tpl_fifo_state tpl_fifo_rw[3] = {
+  379             { 0 , 0 },
+  380             { 0 , 0 },
+  381             { 0 , 0 }
+  382         };
+  383         
+  384         tpl_priority_level tpl_ready_list[3] = {
+  385             { tpl_priority_0_fifo , 1 },
+  386             { tpl_priority_1_fifo , 1 },
+  387             { tpl_priority_2_fifo , 2 }
+  388         };
+  389         
+  390         
+  391         
+  392         /* End of file tpl_os_generated_configuration.c */
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =          82     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =         742     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =         512     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =         222     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

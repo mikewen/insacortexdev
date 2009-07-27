@@ -1,0 +1,497 @@
+### uVision2 Project, (C) Keil Software
+### Do not modify !
+
+Target (simu), 0x0004 // Tools: 'ARM-ADS'
+Target (reel), 0x0002 // Tools: '166/167'
+Target (voiture_1), 0x0002 // Tools: '166/167'
+
+Group (boot)
+Group (libs)
+Group (os)
+Group (comm)
+Group (oil)
+Group (archi_appli)
+Group (app)
+
+File 1,2,<..\..\..\system\STM32F10x.s><STM32F10x.s>
+File 1,1,<..\..\..\system\STM32_Init.c><STM32_Init.c>
+File 2,1,<.\lib_autom_2008a.c><lib_autom_2008a.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_event_kernel.c><tpl_os_event_kernel.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_it.c><tpl_os_it.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_it_kernel.c><tpl_os_it_kernel.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_kernel.c><tpl_os_kernel.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_rez.c><tpl_os_rez.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_rez_kernel.c><tpl_os_rez_kernel.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_task.c><tpl_os_task.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_task_kernel.c><tpl_os_task_kernel.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_timeobj_kernel.c><tpl_os_timeobj_kernel.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_trace.c><tpl_trace.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os.c><tpl_os.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_action.c><tpl_os_action.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_alarm.c><tpl_os_alarm.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_alarm_kernel.c><tpl_os_alarm_kernel.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_dispatch_table.c><tpl_os_dispatch_table.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_error.c><tpl_os_error.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\os\tpl_os_event.c><tpl_os_event.c>
+File 3,1,<..\..\..\trampoline-1.1_svn\machines\cortex_m3\tpl_machine_cm3.c><tpl_machine_cm3.c>
+File 3,2,<..\..\..\trampoline-1.1_svn\machines\cortex_m3\tpl_machine_cm3_asm.s><tpl_machine_cm3_asm.s>
+File 4,1,<..\..\..\trampoline-1.1_svn\com\tpl_com_queue.c><tpl_com_queue.c>
+File 4,1,<..\..\..\trampoline-1.1_svn\com\tpl_com_app_copy.c><tpl_com_app_copy.c>
+File 4,1,<..\..\..\trampoline-1.1_svn\com\tpl_com_errorhook.c><tpl_com_errorhook.c>
+File 4,1,<..\..\..\trampoline-1.1_svn\com\tpl_com_external_com.c><tpl_com_external_com.c>
+File 4,1,<..\..\..\trampoline-1.1_svn\com\tpl_com_filtering.c><tpl_com_filtering.c>
+File 4,1,<..\..\..\trampoline-1.1_svn\com\tpl_com_filters.c><tpl_com_filters.c>
+File 4,1,<..\..\..\trampoline-1.1_svn\com\tpl_com_internal_com.c><tpl_com_internal_com.c>
+File 4,1,<..\..\..\trampoline-1.1_svn\com\tpl_com_message_management.c><tpl_com_message_management.c>
+File 4,1,<..\..\..\trampoline-1.1_svn\com\tpl_com_notification.c><tpl_com_notification.c>
+File 5,5,<.\archi_appli.oil><archi_appli.oil>
+File 6,1,<.\archi_appli\tpl_os_generated_configuration.c><tpl_os_generated_configuration.c>
+File 7,1,<.\code_appli.c><code_appli.c>
+
+
+Options 1,0,0  // Target 'simu'
+ Device (STM32F103RB)
+ Vendor (STMicroelectronics)
+ Cpu (IRAM(0x20000000-0x20004FFF) IROM(0x8000000-0x801FFFF) CLOCK(8000000) CPUTYPE("Cortex-M3"))
+ FlashUt ()
+ StupF ("STARTUP\ST\STM32F10x.s" ("STM32 Startup Code"))
+ FlashDR (UL2CM3(-O14 -S0 -C0 -N00("ARM Cortex-M3") -D00(1BA00477) -L00(4) -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000))
+ DevID (4231)
+ Rgf (stm32f10x_lib.h)
+ Mem ()
+ C ()
+ A ()
+ RL ()
+ OH ()
+ DBC_IFX ()
+ DBC_CMS ()
+ DBC_AMS ()
+ DBC_LMS ()
+ UseEnv=0
+ EnvBin ()
+ EnvInc ()
+ EnvLib ()
+ EnvReg (ÿST\STM32F10x\)
+ OrgReg (ÿST\STM32F10x\)
+ TgStat=16
+ OutDir (.\)
+ OutName (test_diodes)
+ GenApp=1
+ GenLib=0
+ GenHex=0
+ Debug=1
+ Browse=0
+ LstDir (.\)
+ HexSel=1
+ MG32K=0
+ TGMORE=0
+ RunUsr 0 0 <>
+ RunUsr 1 0 <>
+ BrunUsr 0 0 <J:\acco\zipzap\cortex_dev\projets\trampoline\cortex-trampoline_V1.1\tpl_c166.bat>
+ BrunUsr 1 0 <>
+ CrunUsr 0 0 <>
+ CrunUsr 1 0 <>
+ SVCSID <>
+ GLFLAGS=1790
+ ADSFLGA { 243,31,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ACPUTYP ("Cortex-M3")
+ RVDEV ()
+ ADSTFLGA { 0,12,0,0,160,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ OCMADSOCM { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ OCMADSIRAM { 0,0,0,0,32,0,80,0,0 }
+ OCMADSIROM { 1,0,0,0,8,0,0,2,0 }
+ OCMADSXRAM { 0,0,0,0,0,0,0,0,0 }
+ OCR_RVCT { 1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,8,0,0,2,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,80,0,0,0,0,0,0,0,0,0,0,0 }
+ RV_STAVEC ()
+ ADSCCFLG { 5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSCMISC ()
+ ADSCDEFN ()
+ ADSCUDEF ()
+ ADSCINCD (..\..\..\system;.\defaultAppWorkstation;..\..\..\trampoline-1.1_svn\os;..\..\..\trampoline-1.1_svn\machines\cortex_m3;..\..\..\trampoline-1.1_svn\autosar;..\..\..\trampoline-1.1_svn\com;..\..\..\trampoline-1.1_svn\debug)
+ ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSAMISC ()
+ ADSADEFN ()
+ ADSAUDEF ()
+ ADSAINCD ()
+ PropFld { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ IncBld=1
+ AlwaysBuild=0
+ GenAsm=0
+ AsmAsm=0
+ PublicsOnly=0
+ StopCode=3
+ CustArgs ()
+ LibMods ()
+ ADSLDFG { 16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSLDTA ()
+ ADSLDDA ()
+ ADSLDSC ()
+ ADSLDIB ()
+ ADSLDIC ()
+ ADSLDMC ()
+ ADSLDIF ()
+ ADSLDDW ()
+  OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
+  OPTDBG 48125,-1,()()()()()()()()()() ()()()()
+ FLASH1 { 1,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
+ FLASH2 ()
+ FLASH3 ()
+ FLASH4 ()
+EndOpt
+
+Options 2,0,0  // Target 'reel'
+ Device (C167CS-LM)
+ Vendor (Infineon)
+ Cpu (IRAM(0xF200-0xFDFF) XRAM(0xE000-0xE7FF) XRAM2 (0xC000-0xD7FF) ICAN(0xE800-0xEFFF) CLOCK(25000000) MOD167)
+ FlashUt ()
+ StupF ("LIB\START167.A66" ("C16x/ST10 Startup Code"))
+ FlashDR ()
+ DevID (3251)
+ Rgf (C167CS.H)
+ Mem ()
+ C ()
+ A ()
+ RL ()
+ OH ()
+ DBC_IFX ()
+ DBC_CMS ()
+ DBC_AMS ()
+ DBC_LMS ()
+ UseEnv=0
+ EnvBin ()
+ EnvInc ()
+ EnvLib ()
+ EnvReg ()
+ OrgReg ()
+ TgStat=16
+ OutDir (.\objs\)
+ OutName (test_diodes)
+ GenApp=1
+ GenLib=0
+ GenHex=0
+ Debug=1
+ Browse=1
+ LstDir (.\)
+ HexSel=1
+ MG32K=0
+ TGMORE=0
+ RunUsr 0 0 <>
+ RunUsr 1 0 <>
+ BrunUsr 0 0 <>
+ BrunUsr 1 0 <>
+ CrunUsr 0 0 <>
+ CrunUsr 1 0 <>
+ SVCSID <>
+ Model=0
+ RTOS=0
+ nHold=6
+ iHold=65535
+ sHold=65535
+ bHold=65535
+ MOD167=1
+ MODV2=0
+ UseOnChipRom=0
+ UseOnchipXCAN=1
+ UseOnchipXRAM2=1
+ NearRam=0
+ NearRom=0
+ UseOnChipIROM2=0
+ UseOnChipIROM3=0
+ UseOnChipXRAM3=0
+ ExtMem 0 1,0,20480
+ ExtMem 1 0,20480,20480
+ ExtMem 2 0,0,0
+ ExtMem 3 0,0,0
+ ExtMem 4 0,0,0
+ ExtMem 5 0,0,0
+ Optimize=6
+ SpeedSize=1
+ RegColor=0
+ Static=0
+ WarningLev=2
+ Alias=1
+ Order=0
+ UnsignedChar=0
+ NoDppSave=1
+ Float64=0
+ SaveUsr=0
+ Reorder=0
+ cMisc (MOD167)
+ Define ()
+ Undefine ()
+ INCC6 (..\..\os;..\..\os\com;..\..\os\os_machine\c166;.\archi_appli;..\..\os\templates\c166;..\..\inc)
+ EC166 { 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ECMISC ()
+ ECDEFINE ()
+ ECUNDEF ()
+ ECINC ()
+ MPL=1
+ CASE=0
+ aMisc (MOD167)
+ aSet ()
+ aReset ()
+ INCA6 ()
+ PropFld { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ IncBld=1
+ AlwaysBuild=0
+ GenAsm=0
+ AsmAsm=0
+ PublicsOnly=0
+ StopCode=3
+ CustArgs ()
+ LibMods ()
+ useLinkFile=0
+ LnkFile ()
+ LinkOnly=0
+ UseTargSet=1
+ DppUse=0
+ nDataSel=2
+ nConstSel=1
+ NearDataStr ()
+ NearConstStr ()
+ CinitTab ()
+ IntVectAddr ()
+ lWarnLev=2
+ lDisWarn ()
+ lAssign ()
+ lRegbank ()
+ lReserve ()
+ lMisc ()
+ lClasses ()
+ lSect ()
+  OPTDL (S166.DLL)()(D167.DLL)(-p167CS)(S166.DLL)()(T167.DLL)(-p167CS)
+  OPTDBG 48126,0,()()()()()()()()()() (MONITOR\MON166.DLL)()()()
+ FLASH1 { 1,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
+ FLASH2 ()
+ FLASH3 ("" ())
+ FLASH4 ()
+EndOpt
+
+Options 3,0,0  // Target 'voiture_1'
+ Device (C167CS-LM)
+ Vendor (Infineon)
+ Cpu (IRAM(0xF200-0xFDFF) XRAM(0xE000-0xE7FF) XRAM2 (0xC000-0xD7FF) ICAN(0xE800-0xEFFF) CLOCK(25000000) MOD167)
+ FlashUt ()
+ StupF ("LIB\START167.A66" ("C16x/ST10 Startup Code"))
+ FlashDR ()
+ DevID (3251)
+ Rgf (C167CS.H)
+ Mem ()
+ C ()
+ A ()
+ RL ()
+ OH ()
+ DBC_IFX ()
+ DBC_CMS ()
+ DBC_AMS ()
+ DBC_LMS ()
+ UseEnv=0
+ EnvBin ()
+ EnvInc ()
+ EnvLib ()
+ EnvReg ()
+ OrgReg ()
+ TgStat=16
+ OutDir (.\objs_voiture1\)
+ OutName (test_diodes)
+ GenApp=1
+ GenLib=0
+ GenHex=0
+ Debug=1
+ Browse=1
+ LstDir (.\)
+ HexSel=1
+ MG32K=0
+ TGMORE=0
+ RunUsr 0 0 <>
+ RunUsr 1 0 <>
+ BrunUsr 0 1 <U:\zipzap\5trs_metro\dev\projects\test_generateur\tpl_c166.bat>
+ BrunUsr 1 0 <>
+ CrunUsr 0 0 <>
+ CrunUsr 1 0 <>
+ SVCSID <>
+ Model=0
+ RTOS=0
+ nHold=6
+ iHold=65535
+ sHold=65535
+ bHold=65535
+ MOD167=1
+ MODV2=0
+ UseOnChipRom=0
+ UseOnchipXCAN=1
+ UseOnchipXRAM2=1
+ NearRam=0
+ NearRom=0
+ UseOnChipIROM2=0
+ UseOnChipIROM3=0
+ UseOnChipXRAM3=0
+ ExtMem 0 1,0,20480
+ ExtMem 1 0,20480,20480
+ ExtMem 2 0,0,0
+ ExtMem 3 0,0,0
+ ExtMem 4 0,0,0
+ ExtMem 5 0,0,0
+ Optimize=6
+ SpeedSize=1
+ RegColor=0
+ Static=0
+ WarningLev=2
+ Alias=1
+ Order=0
+ UnsignedChar=0
+ NoDppSave=1
+ Float64=0
+ SaveUsr=0
+ Reorder=0
+ cMisc (MOD167)
+ Define (VOITURE=1)
+ Undefine ()
+ INCC6 (..\..\os;..\..\os\com;..\..\os\os_machine\c166;.\archi_appli;..\..\os\templates\c166;..\..\inc)
+ EC166 { 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ECMISC ()
+ ECDEFINE ()
+ ECUNDEF ()
+ ECINC ()
+ MPL=1
+ CASE=0
+ aMisc (MOD167)
+ aSet ()
+ aReset ()
+ INCA6 ()
+ PropFld { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ IncBld=1
+ AlwaysBuild=0
+ GenAsm=0
+ AsmAsm=0
+ PublicsOnly=0
+ StopCode=3
+ CustArgs ()
+ LibMods ()
+ useLinkFile=0
+ LnkFile ()
+ LinkOnly=0
+ UseTargSet=1
+ DppUse=0
+ nDataSel=2
+ nConstSel=1
+ NearDataStr ()
+ NearConstStr ()
+ CinitTab ()
+ IntVectAddr ()
+ lWarnLev=2
+ lDisWarn ()
+ lAssign ()
+ lRegbank ()
+ lReserve ()
+ lMisc ()
+ lClasses ()
+ lSect ()
+  OPTDL (S166.DLL)()(D167.DLL)(-p167CS)(S166.DLL)()(T167.DLL)(-p167CS)
+  OPTDBG 48125,-1,()()()()()()()()()() ()()()()
+ FLASH1 { 1,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
+ FLASH2 ()
+ FLASH3 ("" ())
+ FLASH4 ()
+EndOpt
+
+Options 1,4,0  // Group 'comm'
+ PropFld { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ IncBld=0
+ AlwaysBuild=2
+ GenAsm=2
+ AsmAsm=2
+ PublicsOnly=2
+ StopCode=11
+ CustArgs ()
+ LibMods ()
+ ADSCCFLG { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSCMISC ((null))
+ ADSCDEFN ((null))
+ ADSCUDEF ((null))
+ ADSCINCD ()
+ ADSASFLG { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSAMISC ((null))
+ ADSADEFN ((null))
+ ADSAUDEF ((null))
+ ADSAINCD ()
+EndOpt
+
+Options 2,4,0  // Group 'comm'
+ PropFld { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ IncBld=0
+ AlwaysBuild=2
+ GenAsm=2
+ AsmAsm=2
+ PublicsOnly=2
+ StopCode=11
+ CustArgs ()
+ LibMods ()
+ Optimize=9
+ SpeedSize=2
+ RegColor=2
+ Static=2
+ WarningLev=4
+ Alias=2
+ Order=2
+ UnsignedChar=2
+ NoDppSave=2
+ Float64=2
+ SaveUsr=2
+ Reorder=0
+ cMisc (MOD167)
+ Define ()
+ Undefine ()
+ INCC6 ()
+ EC166 { 4,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ECMISC ()
+ ECDEFINE ()
+ ECUNDEF ()
+ ECINC ()
+ MPL=2
+ CASE=2
+ aMisc (MOD167)
+ aSet ()
+ aReset ()
+ INCA6 ()
+EndOpt
+
+Options 3,4,0  // Group 'comm'
+ PropFld { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ IncBld=0
+ AlwaysBuild=2
+ GenAsm=2
+ AsmAsm=2
+ PublicsOnly=2
+ StopCode=11
+ CustArgs ()
+ LibMods ()
+ Optimize=9
+ SpeedSize=2
+ RegColor=2
+ Static=2
+ WarningLev=4
+ Alias=2
+ Order=2
+ UnsignedChar=2
+ NoDppSave=2
+ Float64=2
+ SaveUsr=2
+ Reorder=0
+ cMisc (MOD167)
+ Define ()
+ Undefine ()
+ INCC6 ()
+ EC166 { 4,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ECMISC ()
+ ECDEFINE ()
+ ECUNDEF ()
+ ECINC ()
+ MPL=2
+ CASE=2
+ aMisc (MOD167)
+ aSet ()
+ aReset ()
+ INCA6 ()
+EndOpt
+

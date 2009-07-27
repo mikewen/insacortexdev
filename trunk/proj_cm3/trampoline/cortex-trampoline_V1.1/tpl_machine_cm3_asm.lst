@@ -1,0 +1,266 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;/*
+    2 00000000         ; * Trampoline OS
+    3 00000000         ; *
+    4 00000000         ; * Trampoline is copyright (c) IRCCyN 2005+
+    5 00000000         ; * Trampoline est prot��par la loi sur la propri�
+                       �intellectuelle
+    6 00000000         ; *
+    7 00000000         ; * This software is distributed under the Lesser GNU Pu
+                       blic Licence
+    8 00000000         ; *
+    9 00000000         ; * Trampoline ARM7 specifics
+   10 00000000         ; *
+   11 00000000         ; * $Date:$
+   12 00000000         ; * $Rev$
+   13 00000000         ; * $Author$
+   14 00000000         ; * $URL$
+   15 00000000         ; ;;
+   16 00000000         
+   17 00000000                 EXPORT           tpl_shutdown
+   18 00000000                 EXPORT           tpl_switch_context
+   19 00000000                 EXPORT           tpl_switch_context_from_it
+   20 00000000                 EXPORT           tpl_get_task_lock
+   21 00000000                 EXPORT           tpl_release_task_lock
+   22 00000000         
+   23 00000000                 AREA             os_cm3_asm_routines, CODE, READ
+ONLY
+   24 00000000         ;_______________________________________________________
+                       ____________________
+   25 00000000         tpl_shutdown
+                               PROC
+   26 00000000         
+   27 00000000 F04F 0018 
+                       stop    MOV              r0, #0x18   ; angel_SWIreason_R
+                                                            eportException
+   28 00000004 4900            LDR              r1, =0x20026 ; ADP_Stopped_Appl
+                                                            icationExit
+   29 00000006         ;SVC     #0x123456         ; ARM semihosting (formerly S
+                       WI)
+   30 00000006         
+   31 00000006         foo
+   32 00000006 E7FE            B                foo
+   33 00000008                 ENDP
+   34 00000008         ;_______________________________________________________
+                       ____________________
+   35 00000008         
+   36 00000008         
+   37 00000008         ;_______________________________________________________
+                       ____________________
+   38 00000008         tpl_switch_context
+                               PROC
+   39 00000008         
+   40 00000008                 ENDP
+   41 00000008         ;_______________________________________________________
+                       ____________________
+   42 00000008         
+   43 00000008         
+   44 00000008         ;_______________________________________________________
+                       ____________________
+   45 00000008         tpl_switch_context_from_it
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                               PROC
+   46 00000008         
+   47 00000008                 ENDP
+   48 00000008         ;_______________________________________________________
+                       ____________________
+   49 00000008         
+   50 00000008         
+   51 00000008         ;_______________________________________________________
+                       ____________________
+   52 00000008         tpl_get_task_lock
+                               PROC
+   53 00000008         
+   54 00000008                 ENDP
+   55 00000008         ;_______________________________________________________
+                       ____________________
+   56 00000008         
+   57 00000008         
+   58 00000008         ;_______________________________________________________
+                       ____________________
+   59 00000008         tpl_release_task_lock
+                               PROC
+   60 00000008         
+   61 00000008                 ENDP
+   62 00000008         ;_______________________________________________________
+                       ____________________
+   63 00000008         
+   64 00000008                 END
+              00020026 
+Command Line: --debug --xref --device=DARMSTM --apcs=interwork -o.\tpl_machine_
+cm3_asm.o -IE:\programs\keil_arm_eval\ARM\INC\ST\STM32F10x --predefine="__EVAL 
+SETA 1" --list=.\tpl_machine_cm3_asm.lst ..\..\..\trampoline-1.1\os\os_machine\
+cortex_m3\tpl_machine_cm3_asm.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+foo 00000006
+
+Symbol: foo
+   Definitions
+      At line 31 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+   Uses
+      At line 32 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+Comment: foo used once
+os_cm3_asm_routines 00000000
+
+Symbol: os_cm3_asm_routines
+   Definitions
+      At line 23 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+   Uses
+      None
+Comment: os_cm3_asm_routines unused
+stop 00000000
+
+Symbol: stop
+   Definitions
+      At line 27 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+   Uses
+      None
+Comment: stop unused
+tpl_get_task_lock 00000008
+
+Symbol: tpl_get_task_lock
+   Definitions
+      At line 52 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+   Uses
+      At line 20 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+Comment: tpl_get_task_lock used once
+tpl_release_task_lock 00000008
+
+Symbol: tpl_release_task_lock
+   Definitions
+      At line 59 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+   Uses
+      At line 21 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+Comment: tpl_release_task_lock used once
+tpl_shutdown 00000000
+
+Symbol: tpl_shutdown
+   Definitions
+      At line 25 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+   Uses
+      At line 17 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+Comment: tpl_shutdown used once
+tpl_switch_context 00000008
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+
+Symbol: tpl_switch_context
+   Definitions
+      At line 38 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+   Uses
+      At line 18 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+Comment: tpl_switch_context used once
+tpl_switch_context_from_it 00000008
+
+Symbol: tpl_switch_context_from_it
+   Definitions
+      At line 45 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+   Uses
+      At line 19 in file ..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_ma
+chine_cm3_asm.s
+Comment: tpl_switch_context_from_it used once
+8 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.debug_info$$$os_cm3_asm_routines 00000000
+
+Symbol: .debug_info$$$os_cm3_asm_routines
+   Definitions
+      None
+   Uses
+      None
+Warning: .debug_info$$$os_cm3_asm_routines undefinedComment: .debug_info$$$os_c
+m3_asm_routines unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.debug_line$$$os_cm3_asm_routines 00000000
+
+Symbol: .debug_line$$$os_cm3_asm_routines
+   Definitions
+      None
+   Uses
+      None
+Warning: .debug_line$$$os_cm3_asm_routines undefinedComment: .debug_line$$$os_c
+m3_asm_routines unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.debug_abbrev 00000000
+
+Symbol: .debug_abbrev
+   Definitions
+      None
+   Uses
+      None
+Warning: .debug_abbrev undefinedComment: .debug_abbrev unused
+__ARM_asm.debug_abbrev 00000000
+
+Symbol: __ARM_asm.debug_abbrev
+   Definitions
+      None
+   Uses
+      None
+Warning: __ARM_asm.debug_abbrev undefinedComment: __ARM_asm.debug_abbrev unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.debug_frame$$$os_cm3_asm_routines 00000000
+
+Symbol: .debug_frame$$$os_cm3_asm_routines
+   Definitions
+      None
+   Uses
+      None
+Warning: .debug_frame$$$os_cm3_asm_routines undefinedComment: .debug_frame$$$os
+_cm3_asm_routines unused
+1 symbol
+335 symbols in table

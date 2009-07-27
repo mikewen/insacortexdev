@@ -1,0 +1,69 @@
+C166 COMPILER V6.11, LIB_AUTOM_2008A                                                       01/09/2009 16:11:26 PAGE 1   
+
+
+C166 COMPILER V6.11, COMPILATION OF MODULE LIB_AUTOM_2008A
+OBJECT MODULE PLACED IN .\lib_autom_2008a.obj
+COMPILER INVOKED BY: C:\Keil\C166\BIN\C166.EXE ..\..\includes\libs\lib_autom_2008a.c COMPACT BROWSE INCDIR(..\..\libs_th
+                    -ierry\SourceC167\Developpement_Capcom_V2) MOD167 DEBUG PRINT(.\lib_autom_2008a.lst) OBJECT(.\lib_autom_2008a.obj) 
+
+ stmt lvl     source
+
+    1         #include "lib_autom_2008a.h"
+    2         #include "driveurs_2008a.h"
+    3         
+    4         float Vieux_I_Pos = 0.0;
+    5         
+    6         
+    7         
+    8         Un_Etat Lire_Etat_Absolu(void)
+    9         {
+   10  1              Un_Etat Courant;
+   11  1              Courant.Pos=Lire_Position();
+   12  1              Courant.Vit=Lire_Vitesse();
+   13  1              Courant.I_Pos = 666;
+   14  1      
+   15  1         return Courant;
+   16  1      }
+   17         
+   18         Un_Etat Calculer_Etat_Relatif(Un_Etat Etat_Cons)
+   19         {
+   20  1              Un_Etat Courant;
+   21  1              Courant.Pos= Etat_Cons.Pos - Lire_Position();
+   22  1              Courant.Vit= Etat_Cons.Vit -  Lire_Vitesse();
+   23  1              Vieux_I_Pos = (float)(Courant.Pos) * TE + Vieux_I_Pos ;
+   24  1              if (Vieux_I_Pos > I_Max) Vieux_I_Pos = I_Max;
+   25  1              if (Vieux_I_Pos < I_Min) Vieux_I_Pos = I_Min;
+   26  1      
+   27  1              Courant.I_Pos = (signed int)(Vieux_I_Pos);
+   28  1              return Courant;
+   29  1      }
+   30         
+   31         void Reinit_Etat(int Longueur_Trajet)
+   32         {
+   33  1              Init_Position(Lire_Position()-Longueur_Trajet);
+   34  1              Vieux_I_Pos = 0.0;
+   35  1      }
+   36         
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =         240     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =           4     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =           8     --------
+END OF MODULE INFORMATION.
+C166 COMPILER V6.11, LIB_AUTOM_2008A                                                       01/09/2009 16:11:26 PAGE 2   
+
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

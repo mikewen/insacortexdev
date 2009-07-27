@@ -1,0 +1,102 @@
+ARM GAS  startup.s 			page 1
+
+
+   1              	/* 
+   2              	 * Routines d'init 
+   3              	 */
+   4              		
+   5              		.section ".text"
+   6              		.align	2
+   7              	
+   8              		.global	Startup
+   9              		.type	Startup, %function
+  10              	
+  11              	Startup:
+  12              	/* Initialisation de la stack */
+  13 0000 0F48     		LDR	 	R0, Startup_constants+12
+  14 0002 8546     		MOV		SP, R0
+  15              	
+  16              	/* 
+  17              	 * Initialisation à des variables initialisées 
+  18              	 * R0: @Destination, R1: @Source, R2: taille, R3: compteur, R4: temp
+  19              	 */
+  20              	debut_init_ram:
+  21 0004 0F48     		LDR		R0, Startup_constants+16
+  22 0006 1049     		LDR		R1, Startup_constants+20
+  23 0008 104A     		LDR		R2, Startup_constants+24
+  24 000a 0023     		MOV		R3, #0
+  25              	boucle_init_ram:
+  26 000c 9342     		CMP		R3, R2
+  27 000e 05D2     		BCS		debut_zero_ram
+  28 0010 0C68     	    LDR		R4,[R1,#0]
+  29 0012 0460     		STR		R4,[R0,#0]
+  30 0014 0433     		ADD		R3, #4
+  31 0016 0431     		ADD		R1, #4
+  32 0018 0430     		ADD		R0, #4
+  33 001a F7E7     		B		boucle_init_ram
+  34              	
+  35              	/* 
+  36              	 * Initialisation à zero des variables non initialisées 
+  37              	 * R0: @Destination, R2: taille, R3: compteur, R4: temp
+  38              	 */
+  39              	debut_zero_ram:
+  40 001c 0548     		LDR		R0, Startup_constants+0
+  41 001e 074A     		LDR		R2, Startup_constants+8
+  42 0020 0023     		MOV		R3, #0
+  43 0022 0024     		MOV		R4, #0
+  44              	boucle_zero_ram:
+  45 0024 9342     		CMP		R3, R2
+  46 0026 03D2     		BCS		appel_main
+  47 0028 0460     		STR		R4,[R0,#0]
+  48 002a 0433     		ADD		R3, #4
+  49 002c 0430     		ADD		R0, #4
+  50 002e F9E7     		B		boucle_zero_ram
+  51              	
+  52              	/* 
+  53              	 * Fin de la routine d'init, appel du main 
+  54              	 */
+  55              	appel_main:
+  56 0030 FFF7FEFF 		BL		main
+  57              	
+ARM GAS  startup.s 			page 2
+
+
+  58              	/*
+  59              	 * Constantes utilisées par Startup		
+  60              	 * Stockées en section .text, après la routine
+  61              	 */
+  62              		/* .align	2 inutile, normalement */
+  63              		.section ".text"	
+  64              	Startup_constants:
+  65 0034 00000000 		.word	__cs3_region_start_bss
+  66 0038 00000000 		.word	__cs3_region_zero_ram_loadaddr
+  67 003c 00000000 		.word	__cs3_region_zero_ram_size
+  68 0040 00000000 		.word	__cs3_stack
+  69 0044 00000000 		.word	__cs3_region_start_data
+  70 0048 00000000 		.word	__cs3_region_init_ram_loadaddr
+  71 004c 00000000 		.word   __cs3_region_init_ram_size
+  72              		
+  73              		.end
+ARM GAS  startup.s 			page 3
+
+
+DEFINED SYMBOLS
+           startup.s:6      .text:00000000 $t
+           startup.s:11     .text:00000000 Startup
+           startup.s:64     .text:00000034 Startup_constants
+           startup.s:20     .text:00000004 debut_init_ram
+           startup.s:25     .text:0000000c boucle_init_ram
+           startup.s:39     .text:0000001c debut_zero_ram
+           startup.s:44     .text:00000024 boucle_zero_ram
+           startup.s:55     .text:00000030 appel_main
+           startup.s:65     .text:00000034 $d
+
+UNDEFINED SYMBOLS
+main
+__cs3_region_start_bss
+__cs3_region_zero_ram_loadaddr
+__cs3_region_zero_ram_size
+__cs3_stack
+__cs3_region_start_data
+__cs3_region_init_ram_loadaddr
+__cs3_region_init_ram_size

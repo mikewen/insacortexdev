@@ -1,0 +1,148 @@
+C166 COMPILER V6.08, TPL_OS                                                                06/28/2009 16:38:36 PAGE 1   
+
+
+C166 COMPILER V6.08, COMPILATION OF MODULE TPL_OS
+OBJECT MODULE PLACED IN .\objs\tpl_os.obj
+COMPILER INVOKED BY: C:\Keil\Evalsoft\C166\BIN\C166.EXE ..\..\..\trampoline-1.1\os\tpl_os.c TINY BROWSE INCDIR(.\archi_a
+                    -ppli;..\..\..\trampoline-1.1\os;..\..\..\trampoline-1.1\com;..\..\..\trampoline-1.1\os\os_machine\c166;..\..\..\trampoli
+                    -ne-1.1\goil\templates\c166;..\..\..\trampoline-1.1\debug) MOD167 DEFINE(WITH_COMPILER_SETTINGS) DEBUG PRINT(.\tpl_os.lst
+                    -) OBJECT(.\objs\tpl_os.obj) 
+
+ stmt lvl     source
+
+    1         /**
+    2          * @file tpl_os.c
+    3          *
+    4          * @section Copyright
+    5          * Trampoline OS
+    6          *
+    7          * Trampoline is copyright (c) IRCCyN 2005+
+    8          * Copyright ESEO for function and data structures documentation
+    9          * Trampoline is protected by the French intellectual property law.
+   10          *
+   11          * This software is distributed under the Lesser GNU Public Licence
+   12          *
+   13          * @section File informations
+   14          *
+   15          * $Date: 2007-11-09 14:33:58 +0100 (Fri, 09 Nov 2007) $
+   16          * $Rev: 401 $
+   17          * $Author: ayrton $
+   18          * $URL: https://trampoline.rts-software.org/svn/trunk/os/tpl_os.c $
+   19          *
+   20          * @section File description
+   21          *
+   22          * Here stands services for :
+   23          * - hardware and application initialization
+   24          * - OS startup
+   25          * - OS shutdown
+   26          */
+   27         
+   28         #include "tpl_os.h"
+   29         #include "tpl_os_kernel.h"
+   30         #include "tpl_os_definitions.h"
+   31         #include "tpl_os_hooks.h"
+   32         #include "tpl_os_std_types.h"
+   33         #include "tpl_machine_interface.h"
+   34         #include "tpl_os_application_def.h"
+   35         
+   36         #ifdef WITH_AUTOSAR_TIMING_PROTECTION
+              #include "tpl_as_timing_protec.h"
+              #endif
+   39         
+   40         #define OS_START_SEC_VAR_UNSPECIFIED
+   41         #include "tpl_memmap.h"
+   42         
+   43         _STATIC_ VAR(AppModeType, OS_VAR) application_mode;
+   44         
+   45         #define OS_STOP_SEC_VAR_UNSPECIFIED
+   46         #include "tpl_memmap.h"
+   47         
+   48         
+   49         #define OS_START_SEC_CODE
+   50         #include "tpl_memmap.h"
+   51         
+   52         FUNC(AppModeType, OS_CODE) GetActiveApplicationMode(void)
+C166 COMPILER V6.08, TPL_OS                                                                06/28/2009 16:38:36 PAGE 2   
+
+   53         {
+   54  1          return application_mode;
+   55  1      }
+   56         
+   57         /*
+   58          * StartOS can be called by the app to start the OS in
+   59          * an appropriate mode.
+   60          */
+   61         FUNC(void, OS_CODE) StartOS(
+   62             CONST(AppModeType, AUTOMATIC) mode
+   63         )
+   64         {
+   65  1          application_mode = mode;
+   66  1      
+   67  1          /*  Set the initial state of the OS */
+   68  1          tpl_os_state = (u8)OS_INIT;
+   69  1      
+   70  1          tpl_init_machine();
+   71  1      
+   72  1          tpl_get_task_lock();
+   73  1      
+   74  1          tpl_init_os(mode);
+   75  1      
+   76  1      #ifdef WITH_AUTOSAR_TIMING_PROTECTION
+                  tpl_init_timing_protection ();
+              #endif
+   79  1      
+   80  1          /*  Call the startup hook. According to the spec, it should be called
+   81  1              after the os is initialized and before the scheduler is running   */
+   82  1          CALL_STARTUP_HOOK()
+   83  1      
+   84  1          /*  Call tpl_schedule to elect the greatest priority task
+   85  1              tpl_schedule also set the state of the OS according to the elected
+   86  1              task */
+   87  1          tpl_schedule(FROM_TASK_LEVEL);
+   88  1      
+   89  1          tpl_release_task_lock();
+   90  1      
+   91  1          /*  Fall back to the idle loop */
+   92  1          tpl_sleep();
+   93  1      }
+   94         
+   95         /*
+   96          * ShutdownOS can be called by the app to shutdown it
+   97          */
+   98         void ShutdownOS(
+   99             CONST(StatusType, AUTOMATIC) error  /*@unused@*/
+  100         )
+  101         {
+  102  1          CALL_SHUTDOWN_HOOK(error)
+  103  1          /* architecture dependant shutdown. */
+  104  1          tpl_shutdown();
+  105  1      }
+*** WARNING C47 IN LINE 99 OF ..\..\..\TRAMPOLINE-1.1\OS\TPL_OS.C: 'error': unreferenced parameter
+  106         
+  107         #define OS_STOP_SEC_CODE
+  108         #include "tpl_memmap.h"
+  109         
+  110         /* End of file tpl_os.c */
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+C166 COMPILER V6.08, TPL_OS                                                                06/28/2009 16:38:36 PAGE 3   
+
+  CODE SIZE        =          60     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =           1     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =    --------     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
