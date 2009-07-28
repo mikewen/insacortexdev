@@ -1,0 +1,20 @@
+close all;
+plot(temps,ecarts);
+title('ecarts');
+
+figure
+plot(temps,vitesses);
+title('vitesses');
+
+
+figure;
+plot(temps,angles_consignes)
+hold on
+plot(temps,angles,'--')
+title('positions');
+
+figure;
+plot(temps,commandes_courant)
+hold on
+plot([temps(1) temps(length(temps))],[Imax Imax],'k')
+title('courants');

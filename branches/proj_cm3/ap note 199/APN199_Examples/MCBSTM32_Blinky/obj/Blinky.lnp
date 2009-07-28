@@ -1,0 +1,1 @@
+-T ./Cortex_M_light.ld  -g -mcpu=cortex-m3 -mthumb -mthumb-interwork -Wl,-Map="./lst/Blinky.map" -o ./obj/Blinky.elf "./obj/stm32f10x.o" "./obj/startup.o" "./obj/syscalls.o" "./obj/lcd_4bit.o" "./obj/serial.o" "./obj/stm32_init.o" "./obj/blinky.o"

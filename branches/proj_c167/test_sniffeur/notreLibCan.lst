@@ -1,0 +1,234 @@
+C166 COMPILER V6.06, NOTRELIBCAN                                                           12/21/2007 14:39:59 PAGE 1   
+
+
+C166 COMPILER V6.06, COMPILATION OF MODULE NOTRELIBCAN
+OBJECT MODULE PLACED IN .\notreLibCan.obj
+COMPILER INVOKED BY: C:\Keil\C166\BIN\C166.EXE ..\..\includes\user_libs\notreLibCan.c OPTIMIZE(0,SPEED) BROWSE MOD167 DE
+                    -FINE(STDIO=1) DEBUG PRINT(.\notreLibCan.lst) OBJECT(.\notreLibCan.obj) 
+
+ stmt lvl     source
+
+    1         #include <CAN167.h>
+    2         #include <structDonnees.h>
+*** ERROR C318 IN LINE 2 OF ..\..\includes\user_libs\notreLibCan.c: can't open file 'structDonnees.h'
+    3         
+    4         
+    5         #define MY_BAUD_RATE    1000    /* 1000 kBit/s on the CAN bus */ 
+    6         #define IE_BIT          0       /* Interrupts from CAN mod. (CAN side) = no */
+    7         #define EIE_BIT         0       /* no error interrupts from the CAN module */ 
+    8         #define SIE_BIT         0       /* no status interrupts from the CAN module */
+    9         
+   10         #define MY_XP0IC_VALUE  0x00    /* Interrupts from CAN mod. (CPU side) = no */
+   11         #define MY_BAUD_RATE    1000    /* 1000 kBit/s on the CAN bus */ 
+   12         #define IE_BIT          0       /* Interrupts from CAN mod. (CAN side) = no */
+   13         #define EIE_BIT         0       /* no error interrupts from the CAN module */ 
+   14         #define SIE_BIT         0       /* no status interrupts from the CAN module */
+   15         #define MO_XTD_BIT      0       /* MO uses 11 bit ID */
+   16         #define MO1_ID          0x020   /* 11-bit identifier of Module Object */
+   17         #define MO2_ID          0x030   /* 11-bit identifier of Module Object */
+   18         #define MO3_ID          0x040   /* 11-bit identifier of Module Object */
+   19         #define MO4_ID          0x010   /* 11-bit identifier of Module Object */
+   20         #define MO5_ID          0x005   /* 11-bit identifier of Module Object */
+   21         
+   22         #define MO_DLC_ETAT_TROT        sizeof(Etat_Trotinette)
+   23         #define MO_DLC_ETAT_RAME        sizeof(char)            
+   24                                                 /* MO1 data length code = length of strcture containing the position and speed of trotinette */
+   25         #define MO_TXIE_BIT     0       /* MO1 gen. no transmit interrupts */
+   26         #define MO_RXIE_BIT     0       /* MO1 gen. no receive interrupts */
+   27         
+   28         
+   29         #define BIT_EMETRE   1
+   30         #define BIT_RECEVOIR 0
+   31         
+   32         /* Initialization of CAN-Module: (baud_rate, eie, sie, ie)         */
+   33         extern void init_can_16x(unsigned int baud_rate, unsigned char eie,
+   34                 unsigned char sie, unsigned char ie);
+   35         
+   36         /* Define message object: MO-number, xtd, id, dir, dlc, TXIE, RXIE */   
+   37         extern void def_mo_16x(unsigned char nr, unsigned char xtd, unsigned long id,
+   38                 unsigned char dir, unsigned char dlc, unsigned char txie,
+   39                 unsigned char rxie);
+   40         
+   41         /* load data bytes of a message object (1..14)                     */   
+   42         extern void ld_modata_16x(unsigned char nr, unsigned char *upl_data_ptr);
+   43                 
+   44         /* read data bytes from message object 'nr' (1..14)                */
+   45         extern void rd_modata_16x(unsigned char nr, unsigned char *downl_data_ptr);
+   46         
+   47         /* Transmit message object 'nr' (1..14)                            */   
+   48         extern void send_mo_16x(unsigned char nr);
+   49                 
+   50         /* check for new data in MO 'nr' (1..14) and if so, return 1       */
+   51         extern unsigned char check_mo_16x(unsigned char nr);
+   52                 
+   53         /* check for bus off situation and recover if necessary            */
+C166 COMPILER V6.06, NOTRELIBCAN                                                           12/21/2007 14:39:59 PAGE 2   
+
+   54         extern unsigned char check_busoff_16x(void);
+   55         
+   56         /* ptr to msg. contrl. regs */
+   57         extern unsigned int *msgctrl_ptr_16x[16];
+   58         
+   59         //Bit de direction des différent module object
+   60         int Bit_Direction_MO1= BIT_RECEVOIR;
+   61         int Bit_Direction_MO2= BIT_RECEVOIR;
+   62         int Bit_Direction_MO3= BIT_RECEVOIR;
+   63         int Bit_Direction_MO4= BIT_RECEVOIR;
+   64         int Bit_Direction_MO5= BIT_RECEVOIR;
+   65         
+   66         int Initialiser_Can(int Num_Station){
+   67  1      
+   68  1              //1 - Test numero valide
+   69  1              if ((Num_Station >4)|| (Num_Station<1)){
+   70  2                      return -1;
+   71  2              }
+   72  1              else
+   73  1              {
+   74  2                      //1 - Initialisation generale du CAN
+   75  2                      init_can_16x(MY_BAUD_RATE, EIE_BIT, SIE_BIT, IE_BIT);
+   76  2                      
+   77  2                      //1- Configuration des differents modules objects
+   78  2      
+   79  2                      //2- Calcul des bits correspondants à l'émission ou la reception 
+   80  2                      //pour les differentes modules objects
+   81  2                      switch (Num_Station){
+   82  3                              case 1 : 
+   83  3                                      Bit_Direction_MO1=BIT_EMETRE;
+   84  3                                      break;
+   85  3                              case 2 : 
+   86  3                                      Bit_Direction_MO2=BIT_EMETRE;
+   87  3                                      break;
+   88  3                              case 3 : 
+   89  3                                      Bit_Direction_MO3=BIT_EMETRE;
+   90  3                                      break;
+   91  3                              case 4 : 
+   92  3                                      Bit_Direction_MO4=BIT_EMETRE;
+   93  3                                      Bit_Direction_MO5=BIT_EMETRE;
+   94  3                                      break;
+   95  3                      }
+   96  2                      
+   97  2                      //2- Configuration effective
+   98  2                      //Configuration du module object 1
+   99  2      
+  100  2                      
+  101  2                      //def_mo_16x(1, MO_XTD_BIT, MO1_ID, Bit_Direction_MO1 , MO_DLC_ETAT_TROT, MO_TXIE_BIT,MO_RXIE_BIT); 
+  102  2                      def_mo_16x(1,  //Numero du module object
+  103  2                                              MO_XTD_BIT, // Longueur de l'id (11 ou 29 bits)
+  104  2                                              MO1_ID, // Identifiant du message observé par l'id
+  105  2                                              Bit_Direction_MO1, //Direction du message
+  106  2                                              MO_DLC_ETAT_TROT, //Longueur des données échangées
+*** ERROR C67 IN LINE 106 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'Etat_Trotinette': undefined identifier
+  107  2                                              MO_TXIE_BIT, // Generation d'interruption sur transission
+  108  2                                              MO_RXIE_BIT); // Generation d'interruption sur reception
+*** WARNING C96 IN LINE 108 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'def_mo_16x': too few actual parameters
+  109  2                                              
+  110  2                      //Configuration du module object 1
+  111  2                      def_mo_16x(2,  //Numero du module object
+  112  2                                              MO_XTD_BIT, // Longueur de l'id (11 ou 29 bits)
+  113  2                                              MO2_ID, // Identifiant du message observé par l'id
+C166 COMPILER V6.06, NOTRELIBCAN                                                           12/21/2007 14:39:59 PAGE 3   
+
+  114  2                                              Bit_Direction_MO2, //Direction du message
+  115  2                                              MO_DLC_ETAT_TROT, //Longueur des données échangées
+*** ERROR C67 IN LINE 115 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'Etat_Trotinette': undefined identifier
+  116  2                                              MO_TXIE_BIT, // Generation d'interruption sur transission
+  117  2                                              MO_RXIE_BIT // Generation d'interruption sur reception
+  118  2                                              );
+*** WARNING C96 IN LINE 118 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'def_mo_16x': too few actual parameters
+  119  2      
+  120  2                      //Configuration du module object 1
+  121  2                      def_mo_16x(3,  //Numero du module object
+  122  2                                              MO_XTD_BIT, // Longueur de l'id (11 ou 29 bits)
+  123  2                                              MO3_ID, // Identifiant du message observé par l'id
+  124  2                                              Bit_Direction_MO3, //Direction du message
+  125  2                                              MO_DLC_ETAT_TROT, //Longueur des données échangées
+*** ERROR C67 IN LINE 125 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'Etat_Trotinette': undefined identifier
+  126  2                                              MO_TXIE_BIT, // Generation d'interruption sur transission
+  127  2                                              MO_RXIE_BIT // Generation d'interruption sur reception
+  128  2                                              );
+*** WARNING C96 IN LINE 128 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'def_mo_16x': too few actual parameters
+  129  2      
+  130  2                      //Configuration du module object 4
+  131  2                      def_mo_16x(4,  //Numero du module object
+  132  2                                              MO_XTD_BIT, // Longueur de l'id (11 ou 29 bits)
+  133  2                                              MO4_ID, // Identifiant du message observé par l'id
+  134  2                                              Bit_Direction_MO4, //Direction du message
+  135  2                                              MO_DLC_ETAT_TROT, //Longueur des données échangées
+*** ERROR C67 IN LINE 135 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'Etat_Trotinette': undefined identifier
+  136  2                                              MO_TXIE_BIT, // Generation d'interruption sur transission
+  137  2                                              MO_RXIE_BIT // Generation d'interruption sur reception
+  138  2                              );
+*** WARNING C96 IN LINE 138 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'def_mo_16x': too few actual parameters
+  139  2      
+  140  2                      //Configuration du module object 5
+  141  2                      def_mo_16x(5,  //Numero du module object
+  142  2                                              MO_XTD_BIT, // Longueur de l'id (11 ou 29 bits)
+  143  2                                              MO5_ID, // Identifiant du message observé par l'id
+  144  2                                              Bit_Direction_MO5, //Direction du message
+  145  2                                              MO_DLC_ETAT_RAME, //Longueur des données échangées
+  146  2                                              MO_TXIE_BIT, // Generation d'interruption sur transission
+  147  2                                              MO_RXIE_BIT // Generation d'interruption sur reception
+  148  2                              );
+  149  2      
+  150  2                      return 0;
+  151  2              }
+  152  1      }
+  153         
+  154         
+  155         //Envoie le message "Msg_A_Envoyer" sur le réseau. "Num_Station" code pour le
+  156         //numéro de station qui réalise l'action.
+  157         int Envoyer_Msg(int Num_Station, Etat_Trotinette Msg_A_Envoyer)
+*** ERROR C25 IN LINE 157 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: syntax error near 'Msg_A_Envoyer'
+  158         {
+*** WARNING C35 IN LINE 158 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'Envoyer_Msg': uses old-style declarator
+  159  1              //1 - Test numero valide
+  160  1              if ((Num_Station >4)|| (Num_Station<1)){
+  161  2                      return -1;
+  162  2              }       
+  163  1              else{
+  164  2                      //1- Envoie du message
+  165  2                      //2- Chargement dans le module object des données
+  166  2                      ld_modata_16x(Num_Station, (char *)&Msg_A_Envoyer);
+*** ERROR C67 IN LINE 166 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'Msg_A_Envoyer': undefined identifier
+C166 COMPILER V6.06, NOTRELIBCAN                                                           12/21/2007 14:39:59 PAGE 4   
+
+*** WARNING C96 IN LINE 166 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'ld_modata_16x': too few actual parameters
+  167  2                      //2- Envoie du message
+  168  2                      send_mo_16x(Num_Station);
+  169  2                      return 0;
+  170  2              }
+  171  1      }
+*** WARNING C47 IN LINE 157 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'Etat_Trotinette': unreferenced parameter
+  172         
+  173         //Lit le message de la station codée par "Num_Station"
+  174         //le message est renvoyé à l'adresse Msg_A_Lire
+  175         int Lire_Msg(int Num_Station, Etat_Trotinette * Msg_A_Lire)
+*** ERROR C25 IN LINE 175 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: syntax error near '*'
+  176         {
+*** WARNING C35 IN LINE 176 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'Lire_Msg': uses old-style declarator
+  177  1              //1- Lecture sur le module object
+  178  1              rd_modata_16x(Num_Station,(char *) Msg_A_Lire);
+*** ERROR C67 IN LINE 178 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'Msg_A_Lire': undefined identifier
+*** WARNING C96 IN LINE 178 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'rd_modata_16x': too few actual parameters
+  179  1              return 0;
+  180  1      }
+*** WARNING C47 IN LINE 175 OF ..\..\INCLUDES\USER_LIBS\NOTRELIBCAN.C: 'Etat_Trotinette': unreferenced parameter
+  181         
+  182         //Envoie du mode  : a l'arret ou en marche
+  183         void Envoyer_Mode_Rame (char Le_Mode)
+  184         {
+  185  1              //1 - Chargement des données
+  186  1              ld_modata_16x(5, &Le_Mode);
+  187  1              //2 - Envoie du message
+  188  1              send_mo_16x(5);
+  189  1      }
+  190         
+  191         //Envoie du mode  : a l'arret ou en marche
+  192         void Lire_Mode_Rame (char * Le_Mode)
+  193         {
+  194  1              rd_modata_16x(5,(char *) Le_Mode);
+  195  1      }
+  196         
+  197         //Note : il aurait fallu utiliser le codage des trotinettes defini dans "structDonnes.h"
+
+C166 COMPILATION COMPLETE.  10 WARNING(S),  9 ERROR(S)

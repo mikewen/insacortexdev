@@ -1,0 +1,14 @@
+tpl_machine_cm3.o: ..\..\..\trampoline-1.1_svn\machines\cortex_m3\tpl_machine_cm3.c
+tpl_machine_cm3.o: ..\..\..\trampoline-1.1_svn\machines\cortex_m3\tpl_machine.h
+tpl_machine_cm3.o: ..\..\..\trampoline-1.1_svn\machines\cortex_m3\../../os/tpl_os_internal_types.h
+tpl_machine_cm3.o: ..\..\..\trampoline-1.1_svn\machines\cortex_m3\tpl_os_std_types.h
+tpl_machine_cm3.o: ..\..\..\trampoline-1.1_svn\machines\cortex_m3\../../os/tpl_os_custom_types.h
+tpl_machine_cm3.o: ..\..\..\trampoline-1.1_svn\machines\cortex_m3\../../os/tpl_os_application_def.h
+tpl_machine_cm3.o: .\defaultAppWorkstation\tpl_app_objects.h
+tpl_machine_cm3.o: ..\..\..\trampoline-1.1_svn\machines\cortex_m3\../../os/tpl_config_check.h
+tpl_machine_cm3.o: .\defaultAppWorkstation\tpl_app_custom_types.h
+tpl_machine_cm3.o: ..\..\..\trampoline-1.1_svn\os\tpl_compiler.h
+tpl_machine_cm3.o: ..\..\..\trampoline-1.1_svn\machines\cortex_m3\tpl_machine.h
+tpl_machine_cm3.o: ..\..\..\trampoline-1.1_svn\machines\cortex_m3\../../os/tpl_os_internal_types.h
+tpl_machine_cm3.o: ..\..\..\trampoline-1.1_svn\machines\cortex_m3\tpl_machine_cm3_asm.h
+tpl_machine_cm3.o: E:\programs\keil_arm_eval\ARM\RV31\INC\stdio.h

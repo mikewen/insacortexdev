@@ -1,0 +1,656 @@
+<html>
+<body>
+<pre>
+<h1>µVision3 Build Log</h1>
+<h2>Project:</h2>
+J:\acco\zipzap\insacortexdev_svn\proj_cm3\test_USARTx_Pol\Usart.uv2
+Project File Date:  07/27/2009
+
+<h2>Output:</h2>
+Build target 'Simulator'
+compiling STM32_Init.c...
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(2554): warning:  #223-D: function "stm32_UsartSetup" declared implicitly
+linking...
+.\Obj\usart.axf: Error: L6200E: Symbol stm32_Init multiply defined (by lib_usartx_pol.o and stm32_init.o).
+.\Obj\usart.axf: Error: L6200E: Symbol stm32_GetPCLK1 multiply defined (by lib_usartx_pol.o and stm32_init.o).
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+.\Obj\usart.axf: Error: L6200E: Symbol stm32_GetPCLK1 multiply defined (by lib_usartx_pol.o and stm32_init.o).
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+.\Obj\usart.axf: Error: L6915E: Library reports error: __use_no_semihosting_swi was requested, but a semihosting fgetc was linked in
+.\Obj\usart.axf: Error: L6915E: Library reports error: __use_no_semihosting_swi was requested, but a semihosting fputc was linked in
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=516 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=516 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling STM32_Init.c...
+linking...
+Program Size: Code=516 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=516 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+test_usart.c(24): warning:  #223-D: function "stm32_Init" declared implicitly
+linking...
+Program Size: Code=1584 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 1 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+linking...
+Program Size: Code=1584 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+assembling STM32F10x.s...
+compiling STM32_Init.c...
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1088 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+assembling STM32F10x.s...
+compiling STM32_Init.c...
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1088 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1088 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1088 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1088 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(35): error:  #20: identifier "AFIO" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(36): error:  #20: identifier "__USART1_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(37): error:  #20: identifier "RCC" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(38): error:  #20: identifier "GPIOA" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(43): error:  #20: identifier "RCC" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(46): error:  #20: identifier "GPIOB" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(51): error:  #20: identifier "RCC" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "USART1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): warning:  #223-D: function "__USART_BRR" declared implicitly
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__PCLK2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__USART1_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(54): error:  #20: identifier "__USART1_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(55): error:  #20: identifier "__USART1_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(56): error:  #20: identifier "__USART1_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(57): error:  #20: identifier "__USART1_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(61): error:  #20: identifier "__USART_INTERRUPTS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(62): error:  #20: identifier "__USART1_CR1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(63): error:  #20: identifier "__USART1_CR2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(64): error:  #20: identifier "__USART1_CR3" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(65): error:  #20: identifier "NVIC" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(65): error:  #20: identifier "USART1_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(191): error:  #20: identifier "__AFIO_MAPR" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(36): error:  #20: identifier "__USART1_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): warning:  #223-D: function "__USART_BRR" declared implicitly
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__PCLK2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__USART1_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(54): error:  #20: identifier "__USART1_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(55): error:  #20: identifier "__USART1_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(56): error:  #20: identifier "__USART1_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(57): error:  #20: identifier "__USART1_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(61): error:  #20: identifier "__USART_INTERRUPTS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(62): error:  #20: identifier "__USART1_CR1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(63): error:  #20: identifier "__USART1_CR2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(64): error:  #20: identifier "__USART1_CR3" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(65): error:  #20: identifier "USART1_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(76): error:  #20: identifier "__USART2_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(81): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(94): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(103): error:  #20: identifier "__PCLK1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(103): error:  #20: identifier "__USART2_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(104): error:  #20: identifier "__USART2_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(105): error:  #20: identifier "__USART2_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(106): error:  #20: identifier "__USART2_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(107): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(36): error:  #20: identifier "__USART1_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): warning:  #223-D: function "__USART_BRR" declared implicitly
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__PCLK2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__USART1_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(54): error:  #20: identifier "__USART1_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(55): error:  #20: identifier "__USART1_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(56): error:  #20: identifier "__USART1_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(57): error:  #20: identifier "__USART1_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(61): error:  #20: identifier "__USART_INTERRUPTS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(62): error:  #20: identifier "__USART1_CR1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(63): error:  #20: identifier "__USART1_CR2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(64): error:  #20: identifier "__USART1_CR3" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(65): error:  #20: identifier "USART1_IRQChannel" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(36): error:  #20: identifier "__USART1_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): warning:  #223-D: function "__USART_BRR" declared implicitly
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__PCLK2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__USART1_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(54): error:  #20: identifier "__USART1_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(55): error:  #20: identifier "__USART1_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(56): error:  #20: identifier "__USART1_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(57): error:  #20: identifier "__USART1_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(61): error:  #20: identifier "__USART_INTERRUPTS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(62): error:  #20: identifier "__USART1_CR1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(63): error:  #20: identifier "__USART1_CR2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(64): error:  #20: identifier "__USART1_CR3" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(65): error:  #20: identifier "USART1_IRQChannel" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(14): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(17): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #29: expected an expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #59: function call is not allowed in a constant expression
+..\..\lib_cm3\lib_usartx_pol.c(20): error:  #18: expected a ")"
+..\..\lib_cm3\lib_usartx_pol.c(36): error:  #20: identifier "__USART1_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): warning:  #223-D: function "__USART_BRR" declared implicitly
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__PCLK2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__USART1_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(54): error:  #20: identifier "__USART1_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(55): error:  #20: identifier "__USART1_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(56): error:  #20: identifier "__USART1_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(57): error:  #20: identifier "__USART1_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(61): error:  #20: identifier "__USART_INTERRUPTS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(62): error:  #20: identifier "__USART1_CR1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(63): error:  #20: identifier "__USART1_CR2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(64): error:  #20: identifier "__USART1_CR3" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(65): error:  #20: identifier "USART1_IRQChannel" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(36): error:  #20: identifier "__USART1_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): warning:  #223-D: function "__USART_BRR" declared implicitly
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__PCLK2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(53): error:  #20: identifier "__USART1_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(54): error:  #20: identifier "__USART1_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(55): error:  #20: identifier "__USART1_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(56): error:  #20: identifier "__USART1_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(57): error:  #20: identifier "__USART1_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(61): error:  #20: identifier "__USART_INTERRUPTS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(62): error:  #20: identifier "__USART1_CR1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(63): error:  #20: identifier "__USART1_CR2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(64): error:  #20: identifier "__USART1_CR3" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(65): error:  #20: identifier "USART1_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(76): error:  #20: identifier "__USART2_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(81): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(94): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(103): error:  #20: identifier "__PCLK1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(103): error:  #20: identifier "__USART2_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(104): error:  #20: identifier "__USART2_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(105): error:  #20: identifier "__USART2_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(106): error:  #20: identifier "__USART2_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(107): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(112): error:  #20: identifier "__USART2_CR1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(113): error:  #20: identifier "__USART2_CR2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(114): error:  #20: identifier "__USART2_CR3" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(115): error:  #20: identifier "USART2_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(127): error:  #20: identifier "__USART3_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(132): error:  #20: identifier "__USART3_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(145): error:  #20: identifier "__USART3_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(159): error:  #20: identifier "__USART3_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(168): error:  #20: identifier "__USART3_BAUDRATE" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(1): error:  #5: cannot open source input file "stm32f10x_types.h": No such file or directory
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(38): error:  #20: identifier "__USART1_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(55): warning:  #223-D: function "__USART_BRR" declared implicitly
+..\..\lib_cm3\lib_usartx_pol.c(55): error:  #20: identifier "__PCLK2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(55): error:  #20: identifier "__USART1_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(56): error:  #20: identifier "__USART1_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(57): error:  #20: identifier "__USART1_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(58): error:  #20: identifier "__USART1_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(59): error:  #20: identifier "__USART1_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(63): error:  #20: identifier "__USART_INTERRUPTS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(64): error:  #20: identifier "__USART1_CR1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(65): error:  #20: identifier "__USART1_CR2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(66): error:  #20: identifier "__USART1_CR3" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(67): error:  #20: identifier "USART1_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(78): error:  #20: identifier "__USART2_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(83): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(96): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(105): error:  #20: identifier "__PCLK1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(105): error:  #20: identifier "__USART2_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(106): error:  #20: identifier "__USART2_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(107): error:  #20: identifier "__USART2_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(108): error:  #20: identifier "__USART2_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(109): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(114): error:  #20: identifier "__USART2_CR1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(115): error:  #20: identifier "__USART2_CR2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(116): error:  #20: identifier "__USART2_CR3" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(117): error:  #20: identifier "USART2_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(129): error:  #20: identifier "__USART3_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(134): error:  #20: identifier "__USART3_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(147): error:  #20: identifier "__USART3_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(161): error:  #20: identifier "__USART3_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(170): error:  #20: identifier "__USART3_BAUDRATE" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(39): error:  #20: identifier "__USART1_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(56): warning:  #223-D: function "__USART_BRR" declared implicitly
+..\..\lib_cm3\lib_usartx_pol.c(56): error:  #20: identifier "__PCLK2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(56): error:  #20: identifier "__USART1_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(57): error:  #20: identifier "__USART1_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(58): error:  #20: identifier "__USART1_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(59): error:  #20: identifier "__USART1_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(60): error:  #20: identifier "__USART1_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(64): error:  #20: identifier "__USART_INTERRUPTS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(65): error:  #20: identifier "__USART1_CR1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(66): error:  #20: identifier "__USART1_CR2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(67): error:  #20: identifier "__USART1_CR3" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(68): error:  #20: identifier "USART1_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(79): error:  #20: identifier "__USART2_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(84): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(97): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(106): error:  #20: identifier "__PCLK1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(106): error:  #20: identifier "__USART2_BAUDRATE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(107): error:  #20: identifier "__USART2_DATABITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(108): error:  #20: identifier "__USART2_STOPBITS" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(109): error:  #20: identifier "__USART2_PARITY" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(110): error:  #20: identifier "__USART2_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(115): error:  #20: identifier "__USART2_CR1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(116): error:  #20: identifier "__USART2_CR2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(117): error:  #20: identifier "__USART2_CR3" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(118): error:  #20: identifier "USART2_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(130): error:  #20: identifier "__USART3_REMAP" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(135): error:  #20: identifier "__USART3_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(148): error:  #20: identifier "__USART3_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(162): error:  #20: identifier "__USART3_FLOWCTRL" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(171): error:  #20: identifier "__USART3_BAUDRATE" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(91): warning:  #223-D: function "__USART_BRR" declared implicitly
+..\..\lib_cm3\lib_usartx_pol.c(91): error:  #20: identifier "__PCLK2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(103): error:  #20: identifier "USART1_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(141): error:  #20: identifier "__PCLK1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(153): error:  #20: identifier "USART2_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(218): error:  #20: identifier "USART3_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(229): error:  #20: identifier "__AFIO_MAPR" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(91): warning:  #223-D: function "__USART_BRR" declared implicitly
+..\..\lib_cm3\lib_usartx_pol.c(91): error:  #20: identifier "__PCLK2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(103): error:  #20: identifier "USART1_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(141): error:  #20: identifier "__PCLK1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(153): error:  #20: identifier "USART2_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(218): error:  #20: identifier "USART3_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(229): error:  #20: identifier "__AFIO_MAPR" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(99): error:  #20: identifier "__PCLK2" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(111): error:  #20: identifier "USART1_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(149): error:  #20: identifier "__PCLK1" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(161): error:  #20: identifier "USART2_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(226): error:  #20: identifier "USART3_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(237): error:  #20: identifier "__AFIO_MAPR" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(131): error:  #20: identifier "__SYSCLK" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(143): error:  #20: identifier "USART1_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(193): error:  #20: identifier "USART2_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(258): error:  #20: identifier "USART3_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(269): error:  #20: identifier "__AFIO_MAPR" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(167): error:  #20: identifier "USART1_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(217): error:  #20: identifier "USART2_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(282): error:  #20: identifier "USART3_IRQChannel" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(293): error:  #20: identifier "__AFIO_MAPR" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(293): error:  #20: identifier "__AFIO_MAPR" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(293): error:  #20: identifier "__AFIO_MAPR" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(139): error:  #20: identifier "RCC_APB2ENR_IOPAEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(145): error:  #20: identifier "RCC_APB2ENR_AFIOEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(147): error:  #20: identifier "RCC_APB2ENR_IOPBEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(153): error:  #20: identifier "RCC_APB2ENR_USART1EN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(161): error:  #20: identifier "USART_CR1_RE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(161): error:  #20: identifier "USART_CR1_TE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(170): error:  #20: identifier "USART_CR1_UE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(179): error:  #20: identifier "RCC_APB2ENR_IOPAEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(190): error:  #20: identifier "RCC_APB2ENR_AFIOEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(192): error:  #20: identifier "RCC_APB2ENR_IOPDEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(203): error:  #20: identifier "RCC_APB1ENR_USART2EN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(230): error:  #20: identifier "RCC_APB2ENR_IOPBEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(241): error:  #20: identifier "RCC_APB2ENR_AFIOEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(243): error:  #20: identifier "RCC_APB2ENR_IOPCEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(248): error:  #20: identifier "RCC_APB2ENR_IOPBEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(255): error:  #20: identifier "RCC_APB2ENR_AFIOEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(257): error:  #20: identifier "RCC_APB2ENR_IOPDEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(268): error:  #20: identifier "RCC_APB1ENR_USART3EN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(291): error:  #20: identifier "RCC_APB2ENR_AFIOEN" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(293): error:  #20: identifier "__AFIO_MAPR" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(293): error:  #20: identifier "__AFIO_MAPR" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(293): error:  #20: identifier "__AFIO_MAPR" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1684 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+assembling STM32F10x.s...
+compiling STM32_Init.c...
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1684 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(358): warning:  #9-D: nested comment is not allowed
+..\..\lib_cm3\lib_usartx_pol.c(366): warning:  #9-D: nested comment is not allowed
+..\..\lib_cm3\lib_usartx_pol.c(373): warning:  #1-D: last line of file ends without a newline
+linking...
+.\Obj\usart.axf: Error: L6218E: Undefined symbol GetKey (referred from lib_usartx_pol.o).
+.\Obj\usart.axf: Error: L6218E: Undefined symbol SendChar (referred from lib_usartx_pol.o).
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(373): warning:  #1-D: last line of file ends without a newline
+linking...
+.\Obj\usart.axf: Error: L6218E: Undefined symbol GetKey (referred from lib_usartx_pol.o).
+.\Obj\usart.axf: Error: L6218E: Undefined symbol SendChar (referred from lib_usartx_pol.o).
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+.\Obj\usart.axf: Error: L6218E: Undefined symbol GetKey (referred from lib_usartx_pol.o).
+.\Obj\usart.axf: Error: L6218E: Undefined symbol SendChar (referred from lib_usartx_pol.o).
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(381): error:  #20: identifier "USARTx" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(381): error:  #20: identifier "USART_FLAG_TXE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(394): error:  #20: identifier "USARTx" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(394): error:  #20: identifier "USART_FLAG_RXNE" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(384): error:  #20: identifier "USART_FLAG_TXE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(397): error:  #20: identifier "USART_FLAG_RXNE" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1740 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+assembling STM32F10x.s...
+compiling STM32_Init.c...
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1740 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1740 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+assembling STM32F10x.s...
+compiling STM32_Init.c...
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1740 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1740 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+linking...
+Program Size: Code=1740 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1740 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+test_usart.c(25): warning:  #223-D: function "usartx_setup" declared implicitly
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.h(5): warning:  #1-D: last line of file ends without a newline
+linking...
+Program Size: Code=1740 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 2 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+../../lib_cm3/lib_usartx_pol.h(5): warning:  #1-D: last line of file ends without a newline
+linking...
+Program Size: Code=1740 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 1 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1740 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling STM32_Init.c...
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1736 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+linking...
+Program Size: Code=1168 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+assembling STM32F10x.s...
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=1168 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(390): warning:  #940-D: missing return statement at end of non-void function "SendChar"
+..\..\lib_cm3\lib_usartx_pol.c(400): warning:  #940-D: missing return statement at end of non-void function "GetKey"
+linking...
+Program Size: Code=1148 RO-data=16652 RW-data=8 ZI-data=512  
+".\Obj\usart.axf" - 0 Error(s), 2 Warning(s).
+Build target 'Simulator'
+assembling STM32F10x.s...
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(390): warning:  #940-D: missing return statement at end of non-void function "SendChar"
+..\..\lib_cm3\lib_usartx_pol.c(400): warning:  #940-D: missing return statement at end of non-void function "GetKey"
+linking...
+.\Obj\usart.axf: Error: L6915E: Library reports error: __use_no_semihosting_swi was requested, but _sys_exit was referenced
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=2446 RO-data=16670 RW-data=8 ZI-data=608  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+linking...
+Program Size: Code=2446 RO-data=16670 RW-data=8 ZI-data=608  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(9): warning:  #47-D: incompatible redefinition of macro "NUM_USART" (declared at line 30 of "..\..\lib_cm3\lib_usartx_pol.h")
+..\..\lib_cm3\lib_usartx_pol.c(10): warning:  #47-D: incompatible redefinition of macro "BAUDRATEx" (declared at line 40 of "..\..\lib_cm3\lib_usartx_pol.h")
+linking...
+Program Size: Code=2446 RO-data=16670 RW-data=8 ZI-data=608  
+".\Obj\usart.axf" - 0 Error(s), 2 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=2442 RO-data=16670 RW-data=8 ZI-data=608  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+..\..\lib_cm3\lib_usartx_pol.c(334): error:  #20: identifier "FILE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(335): error:  #20: identifier "FILE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(341): error:  #20: identifier "FILE" is undefined
+..\..\lib_cm3\lib_usartx_pol.c(352): error:  #20: identifier "FILE" is undefined
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=2442 RO-data=16670 RW-data=8 ZI-data=608  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+.\Obj\usart.axf: Error: L6915E: Library reports error: __use_no_semihosting_swi was requested, but _sys_exit was referenced
+Target not created
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=2442 RO-data=16670 RW-data=8 ZI-data=608  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=2442 RO-data=16670 RW-data=8 ZI-data=608  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=2442 RO-data=16670 RW-data=8 ZI-data=608  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=2442 RO-data=16670 RW-data=8 ZI-data=608  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=2442 RO-data=16670 RW-data=8 ZI-data=608  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Simulator'
+compiling test_usart.c...
+compiling lib_usartx_pol.c...
+linking...
+Program Size: Code=2442 RO-data=16670 RW-data=8 ZI-data=608  
+".\Obj\usart.axf" - 0 Error(s), 0 Warning(s).

@@ -1,0 +1,117 @@
+C166 COMPILER V6.08, TPL_OS_IT                                                             06/28/2009 16:38:39 PAGE 1   
+
+
+C166 COMPILER V6.08, COMPILATION OF MODULE TPL_OS_IT
+OBJECT MODULE PLACED IN .\objs\tpl_os_it.obj
+COMPILER INVOKED BY: C:\Keil\Evalsoft\C166\BIN\C166.EXE ..\..\..\trampoline-1.1\os\tpl_os_it.c TINY BROWSE INCDIR(.\arch
+                    -i_appli;..\..\..\trampoline-1.1\os;..\..\..\trampoline-1.1\com;..\..\..\trampoline-1.1\os\os_machine\c166;..\..\..\tramp
+                    -oline-1.1\goil\templates\c166;..\..\..\trampoline-1.1\debug) MOD167 DEFINE(WITH_COMPILER_SETTINGS) DEBUG PRINT(.\tpl_os_
+                    -it.lst) OBJECT(.\objs\tpl_os_it.obj) 
+
+ stmt lvl     source
+
+    1         /**
+    2          * @file tpl_os_it.c
+    3          *
+    4          * @section desc File description
+    5          *
+    6          * This implementation file provides standard OSEK-VDX API
+    7          * for interrupts management.
+    8          *
+    9          * @section copyright Copyright
+   10          *
+   11          * Trampoline OS
+   12          *
+   13          * Trampoline is copyright (c) IRCCyN 2005+
+   14          * Copyright ESEO for function and data structures documentation
+   15          * Trampoline is protected by the French intellectual property law.
+   16          *
+   17          * This software is distributed under the Lesser GNU Public Licence
+   18          *
+   19          * @section infos File informations
+   20          *
+   21          * $Date$
+   22          * $Rev$
+   23          * $Author$
+   24          * $URL$
+   25          */
+   26         
+   27         #include "tpl_os_error.h"
+   28         #include "tpl_os_it.h"
+   29         #include "tpl_os_kernel.h"
+   30         #include "tpl_os_hooks.h"
+   31         #include "tpl_os_definitions.h"
+   32         #include "tpl_machine_interface.h"
+   33         
+   34         #define OS_START_SEC_CODE
+   35         #include "tpl_memmap.h"
+   36         
+   37         /*
+   38          * TerminateISR
+   39          *
+   40          * While this function is not part of the OSEK API, it is used
+   41          * to terminate an ISR2 routine
+   42          */
+   43         FUNC(StatusType, OS_CODE) TerminateISR2(void)
+   44         {
+   45  1          /*  init the error to no error  */
+   46  1          VAR(StatusType, AUTOMATIC) result = E_OK;
+   47  1      
+   48  1          /*  lock the task structures    */
+   49  1          LOCK_WHEN_ISR()
+   50  1      
+   51  1          /*  store information for error hook routine    */
+   52  1          STORE_SERVICE(OSServiceId_TerminateISR)
+C166 COMPILER V6.08, TPL_OS_IT                                                             06/28/2009 16:38:39 PAGE 2   
+
+   53  1      
+   54  1          /*  check we are at the ISR2 level  */
+   55  1          CHECK_ISR2_CALL_LEVEL_ERROR(result)
+   56  1          /*  check the ISR2 does not own a resource  */
+   57  1          CHECK_RUNNING_OWNS_REZ_ERROR(result)
+   58  1      
+   59  1      #ifndef NO_ISR
+                  IF_NO_EXTENDED_ERROR(result)
+              
+                      /*  set the state of the running task to DYING                  */
+                      tpl_running_obj->state = (tpl_exec_state)DYING;
+              
+                      /*  and let the scheduler do its job                            */
+                      tpl_schedule(FROM_TASK_LEVEL);
+              
+                  IF_NO_EXTENDED_ERROR_END()
+              #endif
+   70  1      
+   71  1          PROCESS_ERROR(result)
+   72  1      
+   73  1          /*  unlock the task structures  */
+   74  1          UNLOCK_WHEN_ISR()
+   75  1      
+   76  1          return result;
+   77  1      }
+   78         
+   79         #define OS_STOP_SEC_CODE
+   80         #include "tpl_memmap.h"
+   81         
+   82         /* End of file tpl_os_it.h */
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =           4     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =    --------     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =    --------     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
