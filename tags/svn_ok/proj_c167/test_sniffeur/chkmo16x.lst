@@ -1,0 +1,70 @@
+C166 COMPILER V6.08, CHKMO16X                                                              12/11/2008 08:49:50 PAGE 1   
+
+
+C166 COMPILER V6.08, COMPILATION OF MODULE CHKMO16X
+OBJECT MODULE PLACED IN .\chkmo16x.obj
+COMPILER INVOKED BY: C:\Keil\Evalsoft\C166\BIN\C166.EXE ..\..\includes\libCAN\chkmo16x.c BROWSE INCDIR(..\..\libs_thierr
+                    -y\SourceC167\Developpement_Capcom_V2) MOD167 DEBUG PRINT(.\chkmo16x.lst) OBJECT(.\chkmo16x.obj) 
+
+ stmt lvl     source
+
+    1         /* ----------------------------------------- header: ----------------*/
+    2         /*********************************************************************
+    3          * Program name:        "CHKMO16X.C"                                 *
+    4          * Compiler used:       BSO/Tasking C166                             *
+    5          * Task:                Source File for function check_mo_16x        *
+    6          *                      belonging to Siemens ApNote AP2922           *
+    7          *                      "'C' CAN Driver Routines for the C166 family"*
+    8          *                                                                   * 
+    9          * Last modifications:  April 28nd 1997                              *
+   10          * Version:             1.0                                          *
+   11          * Authors:             Axel Wolf,  SCI Cupertino                    *
+   12          *                      Dr. Jens Barrenscheen, HL MC PD, Munich      *
+   13          *********************************************************************/
+   14         /* ----------------------------------- include files: -------------- */
+   15         /* ----------------------------------- externals, prototypes: ------ */
+   16         extern unsigned int *msgctrl_ptr_16x[16];       /* ptr to msg. contrl. regs */
+   17         
+   18         unsigned char check_mo_16x(unsigned char nr);
+   19                 /* check for new data in MO 'nr' (1..14) and if so, return 1 */
+   20         
+   21         /* ----------------------------------- PEC, Register: -------------- */
+   22         /* ----------------------------------- global bit/byte/word data: -- */
+   23         /* ----------------------------------- code ------------------------ */
+   24         unsigned char check_mo_16x(unsigned char nr)
+   25                 /* check for new data in MO 'nr' (1..14) and if so, return 1 */
+   26         {
+   27  1         /* -------------------------------- local  byte/word/bit data: -- */
+   28  1              unsigned char new_data_var=0;
+   29  1         /* -------------------------------- program: -------------------- */
+   30  1              if ((nr<15) && (nr))
+   31  1              {
+   32  2                 if (*msgctrl_ptr_16x[nr] & 0x0200) new_data_var=1;
+   33  2                      /* if NEWDAT is set, return 1 */
+   34  2              }
+   35  1              return new_data_var;
+   36  1         /* -------------------------------- end: ------------------------ */
+   37  1      }
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =          34     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =    --------     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =    --------     --------
+C166 COMPILER V6.08, CHKMO16X                                                              12/11/2008 08:49:50 PAGE 2   
+
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

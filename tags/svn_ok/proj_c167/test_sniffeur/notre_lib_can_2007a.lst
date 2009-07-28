@@ -1,0 +1,183 @@
+C166 COMPILER V6.08, NOTRE_LIB_CAN_2007A                                                   12/11/2008 08:49:49 PAGE 1   
+
+
+C166 COMPILER V6.08, COMPILATION OF MODULE NOTRE_LIB_CAN_2007A
+OBJECT MODULE PLACED IN .\notre_lib_can_2007a.obj
+COMPILER INVOKED BY: C:\Keil\Evalsoft\C166\BIN\C166.EXE ..\..\includes\user_libs\notre_lib_can_2007a.c BROWSE INCDIR(..\
+                    -..\libs_thierry\SourceC167\Developpement_Capcom_V2) MOD167 DEBUG PRINT(.\notre_lib_can_2007a.lst) OBJECT(.\notre_lib_can
+                    -_2007a.obj) 
+
+ stmt lvl     source
+
+    1         /*************************************************************************************
+    2         ** Titre: NOTRE_LIB_CAN.C                                                                                               **
+    3         ** Auteurs: Claire DUBOIS, Denis DESMAELE, Sébastien DARDONVILLE, Katia ROULLET     **
+    4         ** Date:31/10/2007                                                                                                                      **
+    5         ** Sujet:                                                                                                                       **
+    6         **************************************************************************************/
+    7         
+    8         
+    9         #include "../../includes/user_libs/notre_lib_can_2007a.h"
+   10         
+   11         
+   12         #define BAUD_RATE       1000
+   13         #define EIE                     '0'               // Error Interrupt Enable/Disable
+   14         #define SIE                     '0'               // Status Interrupt Enable/Disable
+   15         #define IE                      '0'               // Interrupt Line Enable/Disable
+   16         
+   17         
+   18         extern void init_can_16x (unsigned int , unsigned char ,
+   19                 unsigned char, unsigned char );
+   20         
+   21         extern void def_mo_16x(unsigned char , unsigned char , unsigned long ,
+   22                 unsigned char , unsigned char , unsigned char , unsigned char ) ;
+   23         
+   24         extern void send_mo_16x(unsigned char);
+   25         
+   26         extern void ld_modata_16x(unsigned char, unsigned char *);
+   27         
+   28         extern void rd_modata_16x(unsigned char , unsigned char *);
+   29         
+   30         extern unsigned char check_mo_16x(unsigned char nr);
+   31         
+   32         
+   33         int Initialiser_Can (void) {
+   34  1      
+   35  1              //Init config CAN
+   36  1              init_can_16x(BAUD_RATE,EIE,SIE,IE);
+   37  1      
+   38  1      #ifdef ID_VOITURE       
+              #if ID_VOITURE == IDMO_VOITURE
+                      //Configuration MO1
+                      def_mo_16x(1,0,0x10,1,6,0,0);
+                      //Configuration MO2
+                      def_mo_16x(2,0,0x20,0,6,0,0);
+                      //Configuration MO3
+                      def_mo_16x(3,0,0x30,0,6,0,0);
+              #endif
+              
+              #if ID_VOITURE == (IDMO_VOITURE+1)
+                      //Configuration MO1
+                      def_mo_16x(1,0,0x10,0,6,0,0);
+                      //Configuration MO2
+                      def_mo_16x(2,0,0x20,1,6,0,0);
+                      //Configuration MO3
+C166 COMPILER V6.08, NOTRE_LIB_CAN_2007A                                                   12/11/2008 08:49:49 PAGE 2   
+
+                      def_mo_16x(3,0,0x30,0,6,0,0);
+              #endif
+              
+              #if ID_VOITURE == (IDMO_VOITURE+2)
+                      //Configuration MO1
+                      def_mo_16x(1,0,0x10,0,6,0,0);
+                      //Configuration MO2
+                      def_mo_16x(2,0,0x20,0,6,0,0);
+                      //Configuration MO3
+                      def_mo_16x(3,0,0x30,1,6,0,0);
+              #endif
+              
+              #endif
+   67  1      
+   68  1      #ifdef CONTROLEUR
+                      //Configuration MO1
+                      def_mo_16x((IDMO_VOITURE),0,0x10,0,6,0,0);
+                      //Configuration MO2
+                      def_mo_16x((IDMO_VOITURE+1),0,0x20,0,6,0,0);
+                      //Configuration MO3
+                      def_mo_16x((IDMO_VOITURE+2),0,0x30,0,6,0,0);
+                      //Configuration MO4
+                      def_mo_16x(IDMO_CONSIGNE,0,0x05,1,6,0,0);
+                      //Configuration MO5
+                      def_mo_16x(IDMO_MODE,0,0x04,1,1,0,0);
+              #else  //Voiture
+   80  1              //Configuration MO4
+   81  1              def_mo_16x(IDMO_CONSIGNE,0,0x05,0,6,0,0);
+   82  1              //Configuration MO5
+   83  1              def_mo_16x(IDMO_MODE,0,0x04,0,1,0,0);
+   84  1      #endif
+   85  1      
+   86  1      
+   87  1      
+   88  1              return 0;
+   89  1      
+   90  1      }
+   91         
+   92         
+   93         int Envoyer_Msg (Etat_Trottinette State_To_Send){
+   94  1              ld_modata_16x(2,&State_To_Send);
+*** WARNING C98 IN LINE 94 OF ..\..\INCLUDES\USER_LIBS\NOTRE_LIB_CAN_2007A.C: parameter 2: pointer to different objects
+   95  1              send_mo_16x(2);
+   96  1              return 0;
+   97  1      }               
+   98         
+   99         int Envoyer_Consigne (Etat_Trottinette Etat_Consigne){
+  100  1              ld_modata_16x(4,&Etat_Consigne);
+*** WARNING C98 IN LINE 100 OF ..\..\INCLUDES\USER_LIBS\NOTRE_LIB_CAN_2007A.C: parameter 2: pointer to different objects
+  101  1              send_mo_16x(4);
+  102  1              return 0;
+  103  1      }
+  104         
+  105         int Envoyer_Mode (char Mode){
+  106  1              ld_modata_16x(5,&Mode);
+  107  1              send_mo_16x(5);
+  108  1              return 0;
+  109  1      }
+  110         
+  111         
+  112         int Lire_Msg(int Num_Station, Etat_Trottinette* Etat_A_Lire){
+  113  1      
+C166 COMPILER V6.08, NOTRE_LIB_CAN_2007A                                                   12/11/2008 08:49:49 PAGE 3   
+
+  114  1              //while (check_mo_16x(Num_Station) != 1);//     
+  115  1              
+  116  1              rd_modata_16x(Num_Station,Etat_A_Lire);
+*** WARNING C98 IN LINE 116 OF ..\..\INCLUDES\USER_LIBS\NOTRE_LIB_CAN_2007A.C: parameter 2: pointer to different objects
+  117  1      
+  118  1              return 0;
+  119  1      }
+  120         
+  121         
+  122         int Lire_Consigne(Etat_Trottinette * Etat_Consigne){ 
+  123  1              //while (check_mo_16x(4) != 1);//       
+  124  1              rd_modata_16x(4,Etat_Consigne);
+*** WARNING C98 IN LINE 124 OF ..\..\INCLUDES\USER_LIBS\NOTRE_LIB_CAN_2007A.C: parameter 2: pointer to different objects
+  125  1              return 0;
+  126  1      }
+  127         
+  128         int Lire_Mode(char * Mode){     
+  129  1              //while (check_mo_16x(5) != 1);//
+  130  1              rd_modata_16x(5,Mode);
+  131  1              return 0;
+  132  1      }
+  133         
+  134         void Init_Sniffer(char mode){
+  135  1      }
+*** WARNING C47 IN LINE 134 OF ..\..\INCLUDES\USER_LIBS\NOTRE_LIB_CAN_2007A.C: 'mode': unreferenced parameter
+  136         
+  137         void Sniffer(char mode){
+  138  1      }
+*** WARNING C47 IN LINE 137 OF ..\..\INCLUDES\USER_LIBS\NOTRE_LIB_CAN_2007A.C: 'mode': unreferenced parameter
+  139         
+  140         
+  141         
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =         174     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =    --------     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =    --------     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  6 WARNING(S),  0 ERROR(S)

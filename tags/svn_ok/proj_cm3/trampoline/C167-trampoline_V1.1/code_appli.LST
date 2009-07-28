@@ -1,0 +1,138 @@
+C166 COMPILER V6.18, CODE_APPLI                                                            07/06/2009 12:43:18 PAGE 1   
+
+
+C166 COMPILER V6.18, COMPILATION OF MODULE CODE_APPLI
+OBJECT MODULE PLACED IN .\objs\code_appli.obj
+COMPILER INVOKED BY: E:\programs\keil_arm_eval\C166\BIN\C166.EXE code_appli.c TINY BROWSE INCDIR(.\archi_appli;..\..\..\
+                    -trampoline-1.1_svn\os;..\..\..\trampoline-1.1_svn\com;..\..\..\trampoline-1.1_svn\machines\c166;..\..\..\trampoline-1.1_
+                    -svn\debug;..\..\..\trampoline-1.1_svn\goil\templates\c166) MOD167 DEFINE(WITH_COMPILER_SETTINGS) DEBUG OBJECT(.\objs\cod
+                    -e_appli.obj) 
+
+ stmt lvl     source
+
+    1         // Hugues Malgouyres
+    2         // Modifie par Pierre-Emmanuel Hladik
+    3         // 06/01/2009
+    4         /***********************************
+    5         Fichier type du code pour la consigne
+    6         ************************************/
+    7          #include <C167CS.H>
+    8         //#include "../os/tpl_os.h"
+    9         //#include "../com/tpl_com.h"
+   10         #include "tpl_os.h"
+*** WARNING C34 IN LINE 45 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: 'tpl_buffer': missing
+             - declaration specifiers
+*** ERROR C42 IN LINE 45 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: 'tpl_buffer': not in fo
+             -rmal parameter list
+*** ERROR C29 IN LINE 65 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: formal/parameter has il
+             -legal storage class
+*** ERROR C33 IN LINE 65 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_CUSTOM_TYPES.H: 'tpl_time': invalid sto
+             -rage class
+*** ERROR C29 IN LINE 42 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: formal/parameter has illegal storag
+             -e class
+*** ERROR C33 IN LINE 42 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'c166_context': invalid storage cla
+             -ss
+*** ERROR C25 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'c166_context'
+*** WARNING C34 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'ic': missing declaration specifi
+             -ers
+*** ERROR C42 IN LINE 46 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'ic': not in formal parameter list
+*** ERROR C25 IN LINE 47 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near '}'
+*** WARNING C34 IN LINE 52 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'idle_task_context': missing decl
+             -aration specifiers
+*** ERROR C42 IN LINE 52 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'idle_task_context': not in formal 
+             -parameter list
+*** ERROR C25 IN LINE 58 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'tpl_stack_word'
+*** WARNING C34 IN LINE 58 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_zone': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 58 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_zone': not in formal par
+             -ameter list
+*** WARNING C34 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': not in formal par
+             -ameter list
+*** ERROR C25 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'sys_stack_size'
+*** WARNING C34 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_size': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 59 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'sys_stack_size': not in formal par
+             -ameter list
+*** WARNING C34 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_word': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_word': not in formal par
+             -ameter list
+*** ERROR C25 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near '*'
+*** WARNING C34 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_zone': missing declar
+             -ation specifiers
+C166 COMPILER V6.18, CODE_APPLI                                                            07/06/2009 12:43:18 PAGE 2   
+
+*** ERROR C42 IN LINE 60 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_zone': not in formal pa
+             -rameter list
+*** WARNING C34 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': missing declara
+             -tion specifiers
+*** ERROR C42 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'tpl_stack_size': not in formal par
+             -ameter list
+*** ERROR C25 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near 'user_stack_size'
+*** WARNING C34 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_size': missing declar
+             -ation specifiers
+*** ERROR C42 IN LINE 61 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: 'user_stack_size': not in formal pa
+             -rameter list
+*** ERROR C25 IN LINE 62 OF ..\..\..\TRAMPOLINE-1.1_SVN\MACHINES\C166\TPL_MACHINE.H: syntax error near '}'
+*** WARNING C34 IN LINE 41 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_task_id': miss
+             -ing declaration specifiers
+*** ERROR C42 IN LINE 41 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_task_id': not in
+             - formal parameter list
+*** ERROR C29 IN LINE 49 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has 
+             -illegal storage class
+*** ERROR C33 IN LINE 49 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_proc_id': invali
+             -d storage class
+*** ERROR C25 IN LINE 49 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: syntax error near 'tp
+             -l_isr_id'
+*** ERROR C33 IN LINE 49 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_isr_id': invalid
+             - storage class
+*** ERROR C29 IN LINE 65 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has 
+             -illegal storage class
+*** ERROR C33 IN LINE 65 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_bool': invalid s
+             -torage class
+*** ERROR C29 IN LINE 81 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has 
+             -illegal storage class
+*** ERROR C33 IN LINE 81 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_status': invalid
+             - storage class
+*** ERROR C29 IN LINE 100 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has
+             - illegal storage class
+*** ERROR C33 IN LINE 100 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_proc_state': in
+             -valid storage class
+*** ERROR C25 IN LINE 110 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: syntax error near 'm
+             -axallowedvalue'
+*** ERROR C60 IN LINE 113 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: TYPEDEF: duplicate m
+             -ember
+*** ERROR C60 IN LINE 118 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: TYPEDEF: duplicate m
+             -ember
+*** ERROR C29 IN LINE 134 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has
+             - illegal storage class
+*** ERROR C33 IN LINE 134 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_alarm_base': in
+             -valid storage class
+*** ERROR C29 IN LINE 143 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has
+             - illegal storage class
+*** ERROR C33 IN LINE 143 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_application_mod
+             -e': invalid storage class
+*** ERROR C29 IN LINE 151 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: formal/parameter has
+             - illegal storage class
+*** ERROR C33 IN LINE 151 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_INTERNAL_TYPES.H: 'tpl_callback_func':
+             - invalid storage class
+*** ERROR C29 IN LINE 42 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TYPES.H: formal/parameter has illegal s
+             -torage class
+*** ERROR C33 IN LINE 42 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TYPES.H: 'tpl_status': invalid storage 
+             -class
+*** ERROR C25 IN LINE 42 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TYPES.H: syntax error near 'StatusType'
+*** ERROR C33 IN LINE 42 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TYPES.H: 'StatusType': invalid storage 
+             -class
+*** ERROR C29 IN LINE 52 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TYPES.H: formal/parameter has illegal s
+C166 COMPILER V6.18, CODE_APPLI                                                            07/06/2009 12:43:18 PAGE 3   
+
+             -torage class
+*** ERROR C33 IN LINE 52 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TYPES.H: 'tpl_proc_state': invalid stor
+             -age class
+*** ERROR C25 IN LINE 52 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TYPES.H: syntax error near 'TaskStateTy
+             -pe'
+*** ERROR C7 IN LINE 52 OF \ACCO\ZIPZAP\CORTEX_DEV\TRAMPOLINE-1.1_SVN\OS\TPL_OS_TYPES.H: compilation aborted
+
+C166 COMPILATION COMPLETE.  11 WARNING(S),  49 ERROR(S)

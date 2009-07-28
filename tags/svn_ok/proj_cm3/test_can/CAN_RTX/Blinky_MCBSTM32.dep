@@ -1,0 +1,7 @@
+Dependencies for Project 'Blinky', Target 'MCBSTM32': (DO NOT MODIFY !)
+F (.\STM32F10x.s)(0x49018856)(--device DARMSTM --pd "__RTX SETA 1" --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1" -I "E:\programs\keil_arm_eval\ARM\INC\ST\STM32F10x" --list ".\Lst\STM32F10x.lst" --xref -o ".\Obj\STM32F10x.o")
+F (.\STM32_Init.c)(0x48D898A6)(-c --device DARMSTM -D__RTX -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork -I. -I "E:\programs\keil_arm_eval\ARM\INC\ST\STM32F10x" -o ".\Obj\stm32_init.o" --depend ".\Obj\stm32_init.d")
+F (.\RTX_Config.c)(0x494BA37E)(-c --device DARMSTM -D__RTX -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork -I. -I "E:\programs\keil_arm_eval\ARM\INC\ST\STM32F10x" -o ".\Obj\rtx_config.o" --depend ".\Obj\rtx_config.d")
+F (.\Blinky.c)(0x494BA37E)(-c --device DARMSTM -D__RTX -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork -I. -I "E:\programs\keil_arm_eval\ARM\INC\ST\STM32F10x" -o ".\Obj\blinky.o" --depend ".\Obj\blinky.d")
+F (.\LCD_4bit.c)(0x48D898A6)(-c --device DARMSTM -D__RTX -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork -I. -I "E:\programs\keil_arm_eval\ARM\INC\ST\STM32F10x" -o ".\Obj\lcd_4bit.o" --depend ".\Obj\lcd_4bit.d")
+F (.\Abstract.txt)(0x48D898A6)()

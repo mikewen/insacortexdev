@@ -1,0 +1,12 @@
+tpl_machine_c166.o: ..\..\..\trampoline-1.1\os\os_machine\c166\tpl_machine_c166.c
+tpl_machine_c166.o: ..\..\..\trampoline-1.1\os\os_machine\c166\tpl_machine.h
+tpl_machine_c166.o: ..\..\..\trampoline-1.1\os\tpl_os_custom_types.h
+tpl_machine_c166.o: ..\..\..\trampoline-1.1\os\tpl_compiler.h
+tpl_machine_c166.o: .\archi_appli\tpl_app_objects.h
+tpl_machine_c166.o: ..\..\..\trampoline-1.1\os\os_machine\ARM7\tpl_os_std_types.h
+tpl_machine_c166.o: ..\..\..\trampoline-1.1\os\tpl_os_application_def.h
+tpl_machine_c166.o: .\archi_appli\tpl_os_generated_configuration.h
+tpl_machine_c166.o: ..\..\..\trampoline-1.1\os\tpl_os_definitions.h
+tpl_machine_c166.o: ..\..\..\trampoline-1.1\os\tpl_os_internal_types.h
+tpl_machine_c166.o: ..\..\..\trampoline-1.1\os\os_machine\ARM7\tpl_machine.h
+tpl_machine_c166.o: ..\..\..\trampoline-1.1\os\os_machine\ARM7\../../tpl_os_internal_types.h

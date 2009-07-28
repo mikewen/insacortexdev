@@ -1,0 +1,170 @@
+C166 COMPILER V6.08, TPL_OS_IT_KERNEL                                                      06/28/2009 16:38:39 PAGE 1   
+
+
+C166 COMPILER V6.08, COMPILATION OF MODULE TPL_OS_IT_KERNEL
+OBJECT MODULE PLACED IN .\objs\tpl_os_it_kernel.obj
+COMPILER INVOKED BY: C:\Keil\Evalsoft\C166\BIN\C166.EXE ..\..\..\trampoline-1.1\os\tpl_os_it_kernel.c TINY BROWSE INCDIR
+                    -(.\archi_appli;..\..\..\trampoline-1.1\os;..\..\..\trampoline-1.1\com;..\..\..\trampoline-1.1\os\os_machine\c166;..\..\.
+                    -.\trampoline-1.1\goil\templates\c166;..\..\..\trampoline-1.1\debug) MOD167 DEFINE(WITH_COMPILER_SETTINGS) DEBUG PRINT(.\
+                    -tpl_os_it_kernel.lst) OBJECT(.\objs\tpl_os_it_kernel.obj) 
+
+ stmt lvl     source
+
+    1         /*
+    2          * Trampoline OS
+    3          *
+    4          * Trampoline is copyright (c) IRCCyN 2005+
+    5          * Trampoline is protected by the French intellectual property law.
+    6          *
+    7          * This software is distributed under the Lesser GNU Public Licence
+    8          *
+    9          * Trampoline interrupt service routines management
+   10          *
+   11          * $Date: 2007-11-30 14:24:05 +0100 (Fri, 30 Nov 2007) $
+   12          * $Rev: 405 $
+   13          * $Author: jlb $
+   14          * $URL: https://trampoline.rts-software.org/svn/trunk/os/tpl_os_it_kernel.c $
+   15          */
+   16         
+   17         #include "tpl_os_it_kernel.h"
+   18         #include "tpl_os_kernel.h"
+   19         #include "tpl_os_definitions.h"
+   20         #include "tpl_os.h"
+   21         #include "tpl_os_application_def.h"
+   22         #include "tpl_machine_interface.h"
+   23         
+   24         #ifdef WITH_AUTOSAR_STACK_MONITORING
+              #include "tpl_as_stack_monitor.h"
+              #endif /* WITH_AUTOSAR_STACK_MONITORING */
+   27         
+   28         #ifdef WITH_AUTOSAR
+              #include "tpl_as_isr_kernel.h"
+              #endif
+   31         
+   32         #ifndef NO_ISR
+              
+              #define OS_START_SEC_CODE
+              #include "tpl_memmap.h"
+              
+              _STATIC_ FUNC(void, OS_CODE) tpl_activate_isr(
+                  P2VAR(tpl_isr, OS_APPL_DATA, AUTOMATIC) a_isr);
+              
+              /*
+               */
+              _STATIC_ FUNC(void, OS_CODE) tpl_activate_isr(
+                  P2VAR(tpl_isr, OS_APPL_DATA, AUTOMATIC) a_isr)
+              {
+                  if ((a_isr->exec_desc.activate_count <
+                      a_isr->exec_desc.static_desc->max_activate_count)
+              #ifdef WITH_AUTOSAR
+                      && (tpl_is_isr2_enabled (a_isr))
+              #endif
+              
+                      )
+                  {
+C166 COMPILER V6.08, TPL_OS_IT_KERNEL                                                      06/28/2009 16:38:39 PAGE 2   
+
+                      /*  check the isr is in the SUSPENDED state before moving it        */
+                      if (a_isr->exec_desc.state == (tpl_exec_state)SUSPENDED)
+                      {
+                          /*  init the isr       */
+                          tpl_init_exec_object(&(a_isr->exec_desc));
+                          /*  put it in the list  */
+                          tpl_put_new_exec_object(&(a_isr->exec_desc));
+                      }
+                      /*  inc the isr activation count. When the isr will terminate
+                          it will dec this count and if not zero it will be reactivated   */
+                      a_isr->exec_desc.activate_count++;
+                  }
+              }
+              
+              /*
+               * The central interrupt handler is called by the interrupt handler
+               * with the id of the interrupt (usually its priority) as parameter
+               * tpl_central_interrupt_handler saves the context of the interrupted
+               * task / interrupt handler, switches to the context of the handler
+               * and calls the handler
+               */
+              FUNC(void, OS_CODE) tpl_central_interrupt_handler(CONST(u16, AUTOMATIC) id)
+              {
+                  _STATIC_ VAR(s32, AUTOMATIC) tpl_it_nesting =  0;
+                  P2VAR(tpl_isr, OS_APPL_DATA, AUTOMATIC) a_isr_desc;
+              
+              #ifdef WITH_AUTOSAR_STACK_MONITORING
+                  tpl_check_stack (tpl_running_obj);
+              #endif /* WITH_AUTOSAR_STACK_MONITORING */
+              
+                /*  Is there a handler for this id ?
+                  ie the id has been counted in the table and there
+                  is a tpl_isr available
+                  */
+              #ifdef OS_EXTENDED
+                  if (id < ISR_COUNT)
+                  {
+              #endif
+                      tpl_it_nesting++;
+              
+                      a_isr_desc = tpl_isr_table[id];
+              
+                      if (a_isr_desc != NULL)
+                      {
+                          if ((a_isr_desc->static_desc->next) == NULL)
+                          {
+                              /*  Only one handler for this id. run the handler   */
+                              tpl_activate_isr(a_isr_desc);
+                          }
+                          else
+                          {
+                              /*  look for the handler    */
+                              while (a_isr_desc != NULL)
+                              {
+                                  if (a_isr_desc->static_desc->helper() == TRUE)
+                                  {
+                                      /* activate the handler */
+                                      tpl_activate_isr(a_isr_desc);
+                                  }
+                                  a_isr_desc = a_isr_desc->static_desc->next;
+                              }
+                          }
+C166 COMPILER V6.08, TPL_OS_IT_KERNEL                                                      06/28/2009 16:38:39 PAGE 3   
+
+                      }
+              
+                      tpl_it_nesting--;
+              
+                      if (tpl_it_nesting == 0)
+                      {
+                          tpl_schedule((u8)FROM_IT_LEVEL);
+                      }
+              #ifdef OS_EXTENDED
+                  }
+              #endif
+              }
+              
+              #define OS_STOP_SEC_CODE
+              #include "tpl_memmap.h"
+              
+              #endif /* NO_ISR */
+  132         
+  133         /* End of file tpl_os_it_kernel.c */
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =    --------     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =    --------     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =    --------     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

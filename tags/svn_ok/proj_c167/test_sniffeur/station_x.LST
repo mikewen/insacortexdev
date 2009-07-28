@@ -1,0 +1,228 @@
+C166 COMPILER V6.06, STATION_X                                                             12/21/2007 12:06:53 PAGE 1   
+
+
+C166 COMPILER V6.06, COMPILATION OF MODULE STATION_X
+OBJECT MODULE PLACED IN station_x.OBJ
+COMPILER INVOKED BY: C:\Keil\C166\BIN\C166.EXE station_x.c OPTIMIZE(0,SPEED) BROWSE MOD167 DEFINE(STDIO=1) DEBUG
+
+ stmt lvl     source
+
+    1         //Hugues Malgouyres
+    2         //16 10 2006
+    3         //Prise en main du controleur de CAN
+    4         
+    5         //Définir ses clefs dans l'onglet C166 du projet
+    6         //ID_VOITURE 0 1 ou 2
+    7         //VERBEUX   // active les printf 
+    8         //DEBUG     // Active les envois incrémentaux de vitesse et position (pas de périph)
+    9         
+   10         
+   11         #include <c167cs.h>
+   12         #include <intrins.h>
+   13         #include <rtx166t.h>
+   14         #include <structDonnees.h> 
+*** ERROR C318 IN LINE 14 OF station_x.c: can't open file 'structDonnees.h'
+   15         #include <../../includes/driveurs_2007a.h> 
+*** ERROR C318 IN LINE 15 OF station_x.c: can't open file '../../includes/driveurs_2007a.h'
+   16         #include <stdio.h>
+   17         
+   18         
+   19         #define NUM_T_ASSERVIR          1
+   20         #define NUM_T_INIT                      0
+   21         
+   22         #define PERIODE_ASSERVIR     2  //periode d'asservissement à 2[ms]
+   23         #define TE  ((float)PERIODE_ASSERVIR/1000.0) //pareil en float [secondes]
+   24         extern void Init_IO_SSC(void);
+   25         
+   26         
+   27         Etat_Trotinette  Voiture[NB_TROT];
+*** ERROR C67 IN LINE 27 OF STATION_X.C: 'NB_TROT': undefined identifier
+*** WARNING C34 IN LINE 27 OF STATION_X.C: 'Voiture': missing declaration specifiers
+*** ERROR C42 IN LINE 27 OF STATION_X.C: 'Voiture': not in formal parameter list
+   28         Etat_Trotinette  Consigne;
+*** WARNING C34 IN LINE 28 OF STATION_X.C: 'Etat_Trotinette': missing declaration specifiers
+*** ERROR C42 IN LINE 28 OF STATION_X.C: 'Etat_Trotinette': not in formal parameter list
+*** ERROR C25 IN LINE 28 OF STATION_X.C: syntax error near 'Consigne'
+*** WARNING C34 IN LINE 28 OF STATION_X.C: 'Consigne': missing declaration specifiers
+*** ERROR C42 IN LINE 28 OF STATION_X.C: 'Consigne': not in formal parameter list
+   29         float I_Err_Pos[NB_TROT]; // pour Intégrale de l'Erreur de Position
+*** ERROR C67 IN LINE 29 OF STATION_X.C: 'NB_TROT': undefined identifier
+*** ERROR C42 IN LINE 29 OF STATION_X.C: 'I_Err_Pos': not in formal parameter list
+   30         float Com_Courant;
+*** ERROR C42 IN LINE 30 OF STATION_X.C: 'Com_Courant': not in formal parameter list
+   31         
+   32         // Gains de la loi de commande
+   33         #if (ID_VOITURE==0)
+*** WARNING C322 IN LINE 33 OF station_x.c: 'ID_VOITURE': unknown identifier
+   34         float K_Int[NB_TROT]={1.7321/4.0*PAS,0.0,0.0};
+*** ERROR C67 IN LINE 34 OF STATION_X.C: 'NB_TROT': undefined identifier
+*** ERROR C142 IN LINE 34 OF STATION_X.C: illegal initialization
+*** ERROR C67 IN LINE 34 OF STATION_X.C: 'PAS': undefined identifier
+   35         float K_Pos[NB_TROT]={1.5729/4.0*PAS,0.0,0.0};
+*** ERROR C67 IN LINE 35 OF STATION_X.C: 'NB_TROT': undefined identifier
+*** ERROR C142 IN LINE 35 OF STATION_X.C: illegal initialization
+*** ERROR C67 IN LINE 35 OF STATION_X.C: 'PAS': undefined identifier
+C166 COMPILER V6.06, STATION_X                                                             12/21/2007 12:06:53 PAGE 2   
+
+   36         float K_Vit[NB_TROT]={0.4811/4.0,0.0,0.0};
+*** ERROR C67 IN LINE 36 OF STATION_X.C: 'NB_TROT': undefined identifier
+*** ERROR C142 IN LINE 36 OF STATION_X.C: illegal initialization
+   37         #endif
+   38         #if (ID_VOITURE==1)
+*** WARNING C322 IN LINE 38 OF station_x.c: 'ID_VOITURE': unknown identifier
+              float K_Int[NB_TROT]={0.0,1.7321/4.0*PAS,0.0};
+              float K_Pos[NB_TROT]={0.0,1.5729/4.0*PAS,0.0};
+              float K_Vit[NB_TROT]={0.0,0.4811/4.0,0.0};
+              #endif
+   43         #if (ID_VOITURE==2)
+*** WARNING C322 IN LINE 43 OF station_x.c: 'ID_VOITURE': unknown identifier
+              float K_Int[NB_TROT]={0.0,0.0,1.7321/4.0*PAS};
+              float K_Pos[NB_TROT]={0.0,0.0,1.5729/4.0*PAS};
+              float K_Vit[NB_TROT]={0.0,0.0,0.4811/4.0};
+              #endif
+   48         
+   49         void Lecture_Donnes () 
+   50         {
+*** ERROR C42 IN LINE 50 OF STATION_X.C: 'Lecture_Donnes': not in formal parameter list
+*** ERROR C25 IN LINE 50 OF STATION_X.C: syntax error near '{'
+   51                 unsigned char Id_Trot;
+   52         
+   53                 //1 Lecture des données
+   54         
+   55                 //2 - Lecture consigne
+   56                 Lire_Msg(NUM_MO_CONTROLEUR, &Consigne);
+   57         
+   58                 #ifdef VERBEUX
+                      printf("___________\nCV = %f         CP=%d\n",Consigne.Vitesse,Consigne.Position);
+                      #endif
+   61         
+   62                 //2 - Lecture de l'état des autres voitures
+   63                 for (Id_Trot=0;Id_Trot<NB_TROT;Id_Trot++)
+   64                 {
+   65                         if (Id_Trot != ID_VOITURE)
+   66                                 {
+   67                                 Lire_Msg(NUM_MO_TROTINETTE_0+Id_Trot, &Voiture[Id_Trot]);
+   68                                 #ifdef VERBEUX
+                                      printf("Trotinnette %d : V = %f m/s      P = %d pas\n",
+                                         Id_Trot,Voiture[Id_Trot].Vitesse,Voiture[Id_Trot].Position);
+                                      #endif
+   72                         }
+   73                 }
+   74         
+   75                 //2- Lecture de l'état de local
+   76                 Voiture[ID_VOITURE].Vitesse = Lire_Vitesse();
+   77                 Voiture[ID_VOITURE].Position= Lire_Position();
+   78         }
+   79         
+   80         void Calculer_Integrales(void)
+   81         {
+   82                 unsigned char Id_Trot;
+   83         
+   84                 for (Id_Trot=0;Id_Trot<NB_TROT;Id_Trot++)
+   85                 {
+   86                         I_Err_Pos[Id_Trot] = I_Err_Pos[Id_Trot] + TE * ((float)(Consigne.Position-Voiture[ID_VOITURE].Position))
+             -;
+*** ERROR C25 IN LINE 86 OF STATION_X.C: syntax error near 'float'
+   87                         if (I_Err_Pos[Id_Trot]>(1.0/K_Int[Id_Trot])) I_Err_Pos[Id_Trot] = 1.0/K_Int[Id_Trot];
+   88                         if (I_Err_Pos[Id_Trot]<(-1.0/K_Int[Id_Trot])) I_Err_Pos[Id_Trot] = -1.0/K_Int[Id_Trot];
+   89         
+C166 COMPILER V6.06, STATION_X                                                             12/21/2007 12:06:53 PAGE 3   
+
+   90                 }
+   91         }
+   92         void Initialiser_Integrales(void)
+   93         {
+   94                 unsigned char Id_Trot;
+   95         
+   96                 for (Id_Trot=0;Id_Trot<NB_TROT;Id_Trot++)
+   97                 {
+   98                         I_Err_Pos[Id_Trot] = 0.0;
+   99                 }
+  100         }
+  101         
+  102         void tAsservir(void) _task_ NUM_T_ASSERVIR
+  103         {
+  104                 unsigned char Id_Trot,Le_Mode;
+  105                 float Com_Int, Com_Pos, Com_Vit;
+  106                 bit Y_A_Recallage=0;
+  107         
+  108                 while (1){
+  109                         os_wait(K_IVL,PERIODE_ASSERVIR,0);
+  110         
+  111                         Lire_Mode_Rame (&Le_Mode);
+  112         
+  113                         if (Le_Mode==MODE_EN_MARCHE)
+  114                         {
+  115                                 Y_A_Recallage=1;
+  116                         
+  117                                 //1 - Lecture de l'état du système global
+  118                                 Lecture_Donnes ();
+  119                                 Calculer_Integrales();
+  120         
+  121                                 //1 - Calculer loi de commande
+  122                                 Com_Int = 0.0;
+  123                                 Com_Pos = 0.0;
+  124                                 Com_Vit = 0.0;
+  125                                 for (Id_Trot=0;Id_Trot<NB_TROT;Id_Trot++)
+  126                                 {
+  127                                         //2 - Calculer l'apport de l'erreur d'intégrale
+  128                                         Com_Int = Com_Int + K_Int[Id_Trot]*I_Err_Pos[Id_Trot];                  
+*** ERROR C67 IN LINE 128 OF STATION_X.C: 'Id_Trot': undefined identifier
+*** ERROR C42 IN LINE 128 OF STATION_X.C: 'I_Err_Pos': not in formal parameter list
+  129                         
+  130                                         //2 - Calculer l'apport de l'erreur de position
+  131                                         Com_Pos = Com_Pos + K_Pos[Id_Trot]*(Consigne.Position-Voiture[Id_Trot].Position);                       
+*** ERROR C142 IN LINE 131 OF STATION_X.C: illegal initialization
+*** ERROR C67 IN LINE 131 OF STATION_X.C: 'Com_Pos': undefined identifier
+*** ERROR C67 IN LINE 131 OF STATION_X.C: 'Id_Trot': undefined identifier
+*** ERROR C67 IN LINE 131 OF STATION_X.C: 'K_Pos': undefined identifier
+*** ERROR C67 IN LINE 131 OF STATION_X.C: 'Consigne': undefined identifier
+*** ERROR C67 IN LINE 131 OF STATION_X.C: 'Id_Trot': undefined identifier
+*** ERROR C67 IN LINE 131 OF STATION_X.C: 'Voiture': undefined identifier
+*** ERROR C53 IN LINE 131 OF STATION_X.C: redefinition of 'Com_Pos': different basic types
+  132         
+  133                                         //2 - Calculer l'apport de l'erreur de vitesse
+  134                                         Com_Vit = Com_Vit + K_Vit[Id_Trot]*(Consigne.Vitesse-Voiture[Id_Trot].Vitesse);
+*** ERROR C142 IN LINE 134 OF STATION_X.C: illegal initialization
+*** ERROR C67 IN LINE 134 OF STATION_X.C: 'Com_Vit': undefined identifier
+*** ERROR C67 IN LINE 134 OF STATION_X.C: 'Id_Trot': undefined identifier
+*** ERROR C67 IN LINE 134 OF STATION_X.C: 'K_Vit': undefined identifier
+*** ERROR C67 IN LINE 134 OF STATION_X.C: 'Consigne': undefined identifier
+*** ERROR C67 IN LINE 134 OF STATION_X.C: 'Id_Trot': undefined identifier
+*** ERROR C67 IN LINE 134 OF STATION_X.C: 'Voiture': undefined identifier
+C166 COMPILER V6.06, STATION_X                                                             12/21/2007 12:06:53 PAGE 4   
+
+*** ERROR C53 IN LINE 134 OF STATION_X.C: redefinition of 'Com_Vit': different basic types
+  135                                 }
+*** ERROR C25 IN LINE 135 OF STATION_X.C: syntax error near '}'
+  136                                                 
+  137                                 //1 - Envoyer Commande
+  138                                 Com_Courant = (Com_Int + Com_Pos + Com_Vit);
+*** ERROR C67 IN LINE 138 OF STATION_X.C: 'Com_Int': undefined identifier
+*** ERROR C67 IN LINE 138 OF STATION_X.C: 'Com_Pos': undefined identifier
+*** ERROR C67 IN LINE 138 OF STATION_X.C: 'Com_Vit': undefined identifier
+  139                                 if (Com_Courant>1.0)  Com_Courant=1.0;
+*** ERROR C25 IN LINE 139 OF STATION_X.C: syntax error near 'if'
+*** ERROR C25 IN LINE 139 OF STATION_X.C: syntax error near '>'
+  140                                 if (Com_Courant< -1.0) Com_Courant=-1.0;
+*** ERROR C25 IN LINE 140 OF STATION_X.C: syntax error near 'if'
+*** ERROR C25 IN LINE 140 OF STATION_X.C: syntax error near '<'
+  141                                 Fixe_Courrant(Com_Courant);
+  142         
+  143                                 //1 - Transmettre état local de la voiture
+  144         
+  145                                 Envoyer_Msg(ID_VOITURE+1, Voiture[ID_VOITURE]);
+*** ERROR C25 IN LINE 145 OF STATION_X.C: syntax error near '+'
+  146                                 #ifdef VERBEUX
+                                      printf("MsgEnvoyé voture %d: V=%f       P=%d\n",
+                                        ID_VOITURE, Voiture[ID_VOITURE].Vitesse, Voiture[ID_VOITURE].Position);
+                                      #endif
+  150                         }
+*** ERROR C25 IN LINE 150 OF STATION_X.C: syntax error near '}'
+  151                         else  // On est à l'arret
+  152                         {
+  153                                 Fixe_Courrant(0.0);
+*** ERROR C25 IN LINE 153 OF STATION_X.C: syntax error near '0.0'
+*** ERROR C7 IN LINE 153 OF STATION_X.C: compilation aborted
+
+C166 COMPILATION COMPLETE.  6 WARNING(S),  51 ERROR(S)
