@@ -1,1 +1,0 @@
---device DARMSTM --pd "__EVAL SETA 1" -g --apcs=interwork -I "E:\programs\keil_arm_eval\ARM\INC\ST\STM32F10x" --list ".\tpl_machine_cm3_asm.lst" --xref -o ".\tpl_machine_cm3_asm.o" "..\..\..\trampoline-1.1\os\os_machine\cortex_m3\tpl_machine_cm3_asm.s"

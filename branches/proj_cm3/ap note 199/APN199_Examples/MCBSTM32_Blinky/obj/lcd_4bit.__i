@@ -1,1 +1,0 @@
--c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MD -Wall -O -mapcs-frame -mthumb-interwork -g -IE:/programs/keil_arm_eval/ARM/INC/ST/STM32F10x/ -Wa,-alhms="./lst/lcd_4bit.lst" -o ./obj/lcd_4bit.o "LCD_4bit.c"

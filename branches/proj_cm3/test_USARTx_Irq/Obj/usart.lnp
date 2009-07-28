@@ -1,3 +1,0 @@
---device DARMSTM ".\obj\stm32f10x.o" ".\obj\lib_usartx_irq.o" ".\obj\test_usartx_irq.o" --ro-base 0x08000000 --entry Reset_Handler --rw-base 0x20000000 --first __Vectors --strict --autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
---info sizes --info totals --info unused --info veneers 
- --list ".\Lst\usart.map" -o ".\Obj\usart.axf"
