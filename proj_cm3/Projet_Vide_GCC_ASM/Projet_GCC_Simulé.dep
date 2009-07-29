@@ -1,0 +1,5 @@
+Dependencies for Project 'Projet_GCC', Target 'Simulé': (DO NOT MODIFY !)
+F (../../system/STM32F10x_GCC.s)(0x4A704640)(-mcpu=cortex-m3 -mthumb --gdwarf-2 -mthumb-interwork --MD ./obj/STM32F10x_GCC.d -g -ID:/Keil/ARM/INC/ST/STM32F10x/ -o ./obj/STM32F10x_GCC.o)
+F (..\..\system\Linker_Script_GCC.ld)(0x4A70108D)()
+F (../../system/Startup_GCC.s)(0x4A70463D)(-mcpu=cortex-m3 -mthumb --gdwarf-2 -mthumb-interwork --MD ./obj/Startup_GCC.d -g -ID:/Keil/ARM/INC/ST/STM32F10x/ -o ./obj/Startup_GCC.o)
+F (.\main.s)(0x4A7012B1)(-mcpu=cortex-m3 -mthumb --gdwarf-2 -mthumb-interwork --MD ./obj/main.d -g -ID:/Keil/ARM/INC/ST/STM32F10x/ -o ./obj/main.o)
