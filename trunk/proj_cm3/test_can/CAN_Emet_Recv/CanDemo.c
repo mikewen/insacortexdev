@@ -96,10 +96,11 @@ void val_display (void) {
 void can_Init (void) {
 
   CAN_setup ();                                   // setup CAN interface
+ 
   CAN_wrFilter (33, STANDARD_FORMAT);             // Enable reception of messages
-
+ 
   /* COMMENT THE LINE BELOW TO ENABLE DEVICE TO PARTICIPATE IN CAN NETWORK   */
-  CAN_testmode(CAN_BTR_SILM | CAN_BTR_LBKM);      // Loopback, Silent Mode (self-test)
+  CAN_testmode(CAN_BTR_LBKM);      // Loopback, Silent Mode (self-test)
 
   CAN_start ();                                   // leave init mode
 
@@ -117,7 +118,7 @@ int main (void)  {
   stm32_Init ();                                  // STM32 setup
   adc_Init ();                                    // initialise A/D converter
   can_Init ();                                    // initialise CAN interface
-
+  #ifndef NO_LCD
   #ifdef LCD
   lcd_init  ();                                   // initialise LCD
   lcd_clear ();
@@ -136,8 +137,13 @@ int main (void)  {
   #ifdef LCD
   lcd_clear ();
   lcd_print ("CAN at 500kbit/s");
+<<<<<<< .mine
+ #endif 
+
+=======
   #endif
  
+>>>>>>> .r12
   CAN_TxMsg.id = 33;                              // initialise message to send
   for (i = 0; i < 8; i++) CAN_TxMsg.data[i] = 0;
   CAN_TxMsg.len = 1;
@@ -164,11 +170,19 @@ int main (void)  {
       val_Rx = CAN_RxMsg.data[0];
     }
   #endif
+<<<<<<< .mine
+  #ifndef NO_LCD 
+=======
   #ifdef LCD
  
+>>>>>>> .r12
     val_display ();                               // display TX and RX values
+<<<<<<< .mine
+  #endif
+=======
   #endif
   
+>>>>>>> .r12
   } // end while
 
 } // end main
