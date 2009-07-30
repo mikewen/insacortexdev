@@ -25,6 +25,7 @@
 	______________________________________________________________________
 	TODO :
 	-	tester en réel
+	    + 9600 bauds OK avec zeegbee et hyperterminal windows
 	- 	voir la compatibilité avec le noyau TR
 	-   clarifier l'histoire du //#pragma import(__use_no_semihosting_swi) 
  */
@@ -37,14 +38,14 @@
 #define NUM_USART	3   // choose to use USART3
 
 //choose baudrate among following values
-//#define BAUDRATEx   9600 
+#define BAUDRATEx   9600 
 //#define BAUDRATEx   14400 
 //#define BAUDRATEx   19200 
 //#define BAUDRATEx   28800 
 //#define BAUDRATEx   38400 
 //#define BAUDRATEx   56000 
 //#define BAUDRATEx   57600 
-#define BAUDRATEx   115200 
+//#define BAUDRATEx   115200 
 
 /*-------BUFFER CONFIGURATION-----------------------------------------------
   Notes:

@@ -1,3 +1,4 @@
-".\obj\stm32f10x.o" ".\obj\stm32_init.o" ".\obj\rtx_config.o" ".\obj\blinky.o" ".\obj\lcd_4bit.o" ".\obj\can.o" "E:\programs\keil_arm_eval\ARM\RV31\LIB\RTX_CM3.LIB" --library_type=microlib --device DARMSTM --ro-base 0x08000000 --entry Reset_Handler --rw-base 0x20000000 --first __Vectors --strict --autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--device DARMSTM ".\obj\stm32f10x.o" ".\obj\stm32_init.o" ".\obj\rtx_config.o" ".\obj\blinky.o" ".\obj\lcd_4bit.o" ".\obj\can.o" "C:\Keil\ARM\RV31\LIB\RTX_CM3.LIB" --library_type=microlib --strict --scatter ".\Obj\Blinky.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
 --info sizes --info totals --info unused --info veneers 
  --list ".\Lst\Blinky.map" -o ".\Obj\Blinky.axf"

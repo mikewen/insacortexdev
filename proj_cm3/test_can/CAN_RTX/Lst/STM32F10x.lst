@@ -434,9 +434,9 @@ ARM Macro Assembler    Page 7
   289 00000018                 END
               00000000 
 Command Line: --debug --xref --device=DARMSTM --apcs=interwork -o.\Obj\STM32F10
-x.o -IE:\programs\keil_arm_eval\ARM\INC\ST\STM32F10x --predefine="__RTX SETA 1"
- --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --list=.\Lst\STM32
-F10x.lst STM32F10x.s
+x.o -IC:\Keil\ARM\INC\ST\STM32F10x --predefine="__RTX SETA 1" --predefine="__EV
+AL SETA 1" --predefine="__MICROLIB SETA 1" --list=.\Lst\STM32F10x.lst STM32F10x
+.s
 
 
 
@@ -1083,74 +1083,6 @@ Symbol: WWDG_IRQHandler
 
 
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
-Relocatable symbols
-
-.debug_info$$$.text 00000000
-
-Symbol: .debug_info$$$.text
-   Definitions
-      None
-   Uses
-      None
-Warning: .debug_info$$$.text undefinedComment: .debug_info$$$.text unused
-1 symbol
-
-
-
-ARM Macro Assembler    Page 1 Alphabetic symbol ordering
-Relocatable symbols
-
-.debug_line$$$.text 00000000
-
-Symbol: .debug_line$$$.text
-   Definitions
-      None
-   Uses
-      None
-Warning: .debug_line$$$.text undefinedComment: .debug_line$$$.text unused
-1 symbol
-
-
-
-ARM Macro Assembler    Page 1 Alphabetic symbol ordering
-Relocatable symbols
-
-.debug_abbrev 00000000
-
-Symbol: .debug_abbrev
-   Definitions
-      None
-   Uses
-      None
-Warning: .debug_abbrev undefinedComment: .debug_abbrev unused
-__ARM_asm.debug_abbrev 00000000
-
-Symbol: __ARM_asm.debug_abbrev
-   Definitions
-      None
-   Uses
-      None
-Warning: __ARM_asm.debug_abbrev undefinedComment: __ARM_asm.debug_abbrev unused
-2 symbols
-
-
-
-ARM Macro Assembler    Page 1 Alphabetic symbol ordering
-Relocatable symbols
-
-.debug_frame$$$.text 00000000
-
-Symbol: .debug_frame$$$.text
-   Definitions
-      None
-   Uses
-      None
-Warning: .debug_frame$$$.text undefinedComment: .debug_frame$$$.text unused
-1 symbol
-
-
-
-ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Absolute symbols
 
 Heap_Size 00000000
@@ -1185,4 +1117,4 @@ Symbol: __main
       At line 117 in file STM32F10x.s
 Comment: __main used once
 1 symbol
-396 symbols in table
+391 symbols in table
