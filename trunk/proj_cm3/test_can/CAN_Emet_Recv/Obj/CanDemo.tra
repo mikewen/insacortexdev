@@ -7,13 +7,14 @@
 ### List of Objects: adding '".\obj\can.o"'
 ### List of Objects: adding '".\obj\candemo.o"'
 ### ADS-LD Command completed:
-".\obj\stm32f10x.o" ".\obj\stm32_init.o" ".\obj\lcd_4bit.o" ".\obj\can.o" ".\obj\candemo.o" --library_type=microlib --device DARMSTM --ro-base 0x08000000 --entry Reset_Handler --rw-base 0x20000000 --first __Vectors --strict --autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--device DARMSTM ".\obj\stm32f10x.o" ".\obj\stm32_init.o" ".\obj\lcd_4bit.o" ".\obj\can.o" ".\obj\candemo.o" --library_type=microlib --strict --scatter ".\Obj\CanDemo.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
 --info sizes --info totals --info unused --info veneers 
  --list ".\Lst\CanDemo.map" -o ".\Obj\CanDemo.axf"### Preparing Environment (PrepEnvAds)
 ### ADS-LD Output File: '.\Obj\CanDemo.axf'
 ### ADS-LD Command File: '.\Obj\CanDemo.lnp'
 ### Checking for dirty Components...
-### Creating CmdFile '.\Obj\CanDemo.lnp', Handle=0x000002C4
+### Creating CmdFile '.\Obj\CanDemo.lnp', Handle=0x000005B4
 ### Writing '.lnp' file
 ### ADS-LD Command file '.\Obj\CanDemo.lnp' is ready.
 ### ADS-LD: About to start ADS-LD Thread.

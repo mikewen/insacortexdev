@@ -11,7 +11,6 @@ Group (Source)
 Group (Documentation)
 
 File 1,2,<.\STM32F10x.s><STM32F10x.s>
-File 2,1,<.\STM32_Init.c><STM32_Init.c>
 File 3,1,<..\..\lib_cm3\lib_usartx_irq.c><lib_usartx_irq.c>
 File 4,1,<.\test_usartx_irq.c><test_usartx_irq.c>
 File 5,5,<.\Abstract.txt><Abstract.txt>
@@ -64,7 +63,7 @@ Options 1,0,0  // Target 'Simulator'
  ADSFLGA { 242,31,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ACPUTYP ("Cortex-M3")
  RVDEV ()
- ADSTFLGA { 0,12,0,18,99,0,0,66,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSTFLGA { 0,12,0,2,99,0,0,66,0,0,0,0,0,0,0,0,0,0,0,0 }
  OCMADSOCM { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  OCMADSIRAM { 0,0,0,0,32,0,80,0,0 }
  OCMADSIROM { 1,0,0,0,8,0,0,2,0 }

@@ -114,8 +114,11 @@ void val_display (void) {
 void can_Init (void) {
 
   CAN_setup ();                                   // setup CAN interface
-  CAN_wrFilter (33, STANDARD_FORMAT);             // Enable reception of messages
-
+#ifdef OLIMEX
+ CAN_wrFilter (33, STANDARD_FORMAT);             // Enable reception of messages
+#else
+ CAN_wrFilter (32, STANDARD_FORMAT);             // Enable reception of messages
+#endif
   /* COMMENT THE LINE BELOW TO ENABLE DEVICE TO PARTICIPATE IN CAN NETWORK   */
   CAN_testmode(CAN_BTR_SILM | CAN_BTR_LBKM);      // Loopback, Silent Mode (self-test)
 
@@ -142,7 +145,11 @@ void signal_func (OS_TID task)  {
 __task void emmit (void) {
 	int i;
 
+#ifdef OLIMEX
+	 CAN_TxMsg.id = 32;                              // initialise message to send
+#else
 	 CAN_TxMsg.id = 33;                              // initialise message to send
+#endif
   	for (i = 0; i < 8; i++) CAN_TxMsg.data[i] = 0;
   	CAN_TxMsg.len = 1;
   	CAN_TxMsg.format = STANDARD_FORMAT;
@@ -175,7 +182,12 @@ __task void receiv (void)
 {
   int i; 
 
-  CAN_TxMsg.id = 33;                              // initialise message to send
+#ifdef OLIMEX
+	 CAN_TxMsg.id = 33;                              // initialise message to send
+#else
+	 CAN_TxMsg.id = 32;                              // initialise message to send
+#endif
+//    CAN_TxMsg.id = 32;                              // initialise message to send
   for (i = 0; i < 8; i++) CAN_TxMsg.data[i] = 0;
   CAN_TxMsg.len = 1;
   CAN_TxMsg.format = STANDARD_FORMAT;
@@ -217,6 +229,7 @@ __task void clock (void) {
  *---------------------------------------------------------------------------*/
 __task void lcd (void) {
   int i;
+  #ifndef OLIMEX
   lcd_init ();                           /* Initialize LCD display module    */
   lcd_clear ();
 
@@ -237,6 +250,7 @@ __task void lcd (void) {
 
 	}
   }
+  #endif
 }
 
 /*----------------------------------------------------------------------------
@@ -261,9 +275,10 @@ int main (void) {
   adc_Init ();                                    // initialise A/D converter
   can_Init ();                                    // initialise CAN interface
 
+#ifndef OLIMEX
   lcd_init  ();                                   // initialise LCD
   lcd_clear ();
-
+#endif
   os_sys_init (init);                    /* Initialize RTX and start init    */
 }
 

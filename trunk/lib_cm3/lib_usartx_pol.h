@@ -7,7 +7,7 @@
  * ACCO [28 Juillet 2009] création et test en simulé sur USART 1,2 et 3 
  *     c'est une dérive du projet boards/keil/stm32/USART_pol
  *  utilise seulement des includes de la microlib.
- * 
+ * ACCO 
  *----------------------------------------------------------------------------
   USAGE :
   	1\ include the lib_usartx_pol.c in project
@@ -24,6 +24,16 @@
 	______________________________________________________________________
 	TODO :
 	-	tester en réel
+		+ 9600 bauds OK avec zeegbee
+		- 19200 bauds marche pas ! 
+		   sur l'hyperterm à 9600 passage de zegbee à 19200 avec
+		   +++[CR] réponse OK
+		   ATBD4[CR] réponse OK
+		   ATCN[CR]
+		   ouverture de l'hterm à 19200 bauds
+		   c'est bien 19200 car  +++[CR] répondes OK ! (je fais ATCN[CR] pour sortir)
+		   compil du projet avec la lib à 19200 bauds + tests => CARACTERES BIZARRES
+		   sans doute un problème de data rate...
 	- 	voir la compatibilité avec le noyau TR
 	-   clarifier l'histoire du //#pragma import(__use_no_semihosting_swi) 
  */
@@ -32,17 +42,17 @@
 
 // USART config
 //#define NUM_USART	1   // choose to use USART1
-#define NUM_USART	2   // choose to use USART2
-//#define NUM_USART	3   // choose to use USART3
+//#define NUM_USART	2   // choose to use USART2
+#define NUM_USART	3   // choose to use USART3
 
 //choose baudrate among following values
-//#define BAUDRATEx   9600 
+#define BAUDRATEx   9600      // OK avec zigbee
 //#define BAUDRATEx   14400 
 //#define BAUDRATEx   19200 
 //#define BAUDRATEx   28800 
 //#define BAUDRATEx   38400 
 //#define BAUDRATEx   56000 
 //#define BAUDRATEx   57600 
-#define BAUDRATEx   115200 
+//#define BAUDRATEx   115200 
 
-void usartx_setup(void);
+void setup_usart(void);

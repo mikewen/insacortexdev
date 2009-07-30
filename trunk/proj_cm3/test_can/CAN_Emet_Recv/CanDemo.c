@@ -86,7 +86,7 @@ void val_display (void) {
   set_cursor (0, 1);
   lcd_print  ((char *)disp_buf);                  // print string to LCD
 
-  delay (1000000);                                // Wait wait a while
+  //delay (1000000);                                // Wait wait a while
 }
 
 
@@ -118,6 +118,7 @@ int main (void)  {
   adc_Init ();                                    // initialise A/D converter
   can_Init ();                                    // initialise CAN interface
 
+  #ifdef LCD
   lcd_init  ();                                   // initialise LCD
   lcd_clear ();
   #ifdef EMMETEUR                                   // Loop forever
@@ -128,12 +129,15 @@ int main (void)  {
   #endif
   set_cursor (0, 1);                              // Set cursor position on LCD display
   lcd_print ("  www.acco.com  ");
-  #ifndef SIMU
+  #endif
+   #ifndef SIMU
   delay (45000000);                               // Wait for initial display (~5s)
   #endif
+  #ifdef LCD
   lcd_clear ();
   lcd_print ("CAN at 500kbit/s");
-
+  #endif
+ 
   CAN_TxMsg.id = 33;                              // initialise message to send
   for (i = 0; i < 8; i++) CAN_TxMsg.data[i] = 0;
   CAN_TxMsg.len = 1;
@@ -160,8 +164,11 @@ int main (void)  {
       val_Rx = CAN_RxMsg.data[0];
     }
   #endif
+  #ifdef LCD
+ 
     val_display ();                               // display TX and RX values
-
+  #endif
+  
   } // end while
 
 } // end main
