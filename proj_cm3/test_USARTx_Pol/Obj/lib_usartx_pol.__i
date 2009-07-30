@@ -1,1 +1,0 @@
--c --device DARMSTM -D__EVAL -g -O0 --apcs=interwork -I.\ -I "E:\programs\keil_arm_eval\ARM\INC\ST\STM32F10x" -o ".\Obj\lib_usartx_pol.o" --omf_browse ".\Obj\lib_usartx_pol.crf" --depend ".\Obj\lib_usartx_pol.d" "..\..\lib_cm3\lib_usartx_pol.c"

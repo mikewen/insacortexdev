@@ -1,1 +1,0 @@
-"..\..\..\trampoline-1.1\os\tpl_os_it_kernel.c" TINY BROWSE INCDIR(.\archi_appli;..\..\..\trampoline-1.1\os;..\..\..\trampoline-1.1\com;..\..\..\trampoline-1.1\os\os_machine\c166;..\..\..\trampoline-1.1\goil\templates\c166;..\..\..\trampoline-1.1\debug) MOD167 DEFINE (WITH_COMPILER_SETTINGS) DEBUG PRINT(.\tpl_os_it_kernel.lst) OBJECT(.\objs\tpl_os_it_kernel.obj)

@@ -1,1 +1,0 @@
-"mon_stdio_2007b.c" TINY BROWSE INCDIR(.\archi_appli;..\..\..\trampoline-1.1_svn\os;..\..\..\trampoline-1.1_svn\com;..\..\..\trampoline-1.1_svn\machines\c166;..\..\..\trampoline-1.1_svn\debug;..\..\..\trampoline-1.1_svn\goil\templates\c166) MOD167 DEFINE (WITH_COMPILER_SETTINGS) DEBUG OBJECT(.\objs\mon_stdio_2007b.obj)
