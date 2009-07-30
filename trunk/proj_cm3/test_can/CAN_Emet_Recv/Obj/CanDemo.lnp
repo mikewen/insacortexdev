@@ -1,4 +1,0 @@
---device DARMSTM ".\obj\stm32f10x.o" ".\obj\stm32_init.o" ".\obj\lcd_4bit.o" ".\obj\can.o" ".\obj\candemo.o" --library_type=microlib --strict --scatter ".\Obj\CanDemo.sct" 
---autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
---info sizes --info totals --info unused --info veneers 
- --list ".\Lst\CanDemo.map" -o ".\Obj\CanDemo.axf"

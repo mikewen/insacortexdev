@@ -1,3 +1,0 @@
-".\obj\stm32f10x.o" ".\obj\stm32_init.o" ".\obj\main.o" --library_type=microlib --device DARMSTM --ro-base 0x08000000 --entry Reset_Handler --rw-base 0x20000000 --first __Vectors --strict --autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
---info sizes --info totals --info unused --info veneers 
- --list ".\Lst\Blinky.map" -o ".\Obj\Blinky.axf"

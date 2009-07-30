@@ -1,4 +1,0 @@
---device DARMSTM ".\obj\stm32f10x.o" ".\obj\test_usart.o" ".\obj\lib_usartx_pol.o" --strict --scatter ".\Obj\usart.sct" 
---autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
---info sizes --info totals --info unused --info veneers 
- --list ".\Lst\usart.map" -o ".\Obj\usart.axf"
