@@ -1,0 +1,18 @@
+<html>
+<body>
+<pre>
+<h1>µVision3 Build Log</h1>
+<h2>Project:</h2>
+C:\insacortexdev_svn\proj_cm3\Metro\Metro_Version_2009d\metro.uv2
+Project File Date:  09/03/2009
+
+<h2>Output:</h2>
+Build target 'reel'
+assembling STM32F10x.s...
+compiling RTX_Conf_CM.c...
+compiling Metro_Librairie_Version2009d.c...
+Metro_Librairie_Version2009d.c(436): warning:  #223-D: function "strncpy" declared implicitly
+compiling Identification.c...
+linking...
+Program Size: Code=5852 RO-data=388 RW-data=80 ZI-data=14288  
+"metro.axf" - 0 Error(s), 1 Warning(s).
