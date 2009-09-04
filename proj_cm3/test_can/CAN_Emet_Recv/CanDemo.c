@@ -137,13 +137,9 @@ int main (void)  {
   #ifdef LCD
   lcd_clear ();
   lcd_print ("CAN at 500kbit/s");
-<<<<<<< .mine
- #endif 
 
-=======
+ #endif 
   #endif
- 
->>>>>>> .r12
   CAN_TxMsg.id = 33;                              // initialise message to send
   for (i = 0; i < 8; i++) CAN_TxMsg.data[i] = 0;
   CAN_TxMsg.len = 1;
@@ -170,19 +166,9 @@ int main (void)  {
       val_Rx = CAN_RxMsg.data[0];
     }
   #endif
-<<<<<<< .mine
   #ifndef NO_LCD 
-=======
-  #ifdef LCD
- 
->>>>>>> .r12
     val_display ();                               // display TX and RX values
-<<<<<<< .mine
   #endif
-=======
-  #endif
-  
->>>>>>> .r12
   } // end while
 
 } // end main

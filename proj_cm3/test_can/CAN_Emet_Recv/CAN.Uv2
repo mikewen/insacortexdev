@@ -104,7 +104,7 @@ Options 1,0,0  // Target 'Simulator_Emetteru'
  ADSLDIF ()
  ADSLDDW ()
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
-  OPTDBG 49149,1,()()()()(.\CAN_Simulate.ini)()()()()() (BIN\UL2CM3.DLL)()()()
+  OPTDBG 49149,5,()()()()(.\CAN_Simulate.ini)()()()()() (BIN\UL2CM3.DLL)()()()
  FLASH1 { 1,0,0,0,1,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0 }
  FLASH2 (BIN\UL2CM3.DLL)
  FLASH3 ()
@@ -437,11 +437,7 @@ Options 5,0,0  // Target 'OLIMEX Emmeteur'
  RV_STAVEC ()
  ADSCCFLG { 5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSCMISC ()
-<<<<<<< .mine
  ADSCDEFN (EMMETEUR,RECEPTEUR,NO_LCD)
-=======
- ADSCDEFN (EMMETEUR)
->>>>>>> .r12
  ADSCUDEF ()
  ADSCINCD (.\)
  ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }

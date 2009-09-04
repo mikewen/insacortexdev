@@ -24,8 +24,9 @@ int main (void) {
     unsigned char c;
 
     printf ("Press a key. ");
-    c = getchar ();
-    printf ("\r\n");
-    printf ("You pressed '%c'.\r\n\r\n", c);
+	  printf ("Press a key. 2");
+    //c = getchar ();
+   //printf ("\r\n");
+    //printf ("You pressed '%c'.\r\n\r\n", c);
   } // end while
 } // end main
