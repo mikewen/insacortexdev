@@ -29,4 +29,5 @@ metro_librairie_version2009d.o: C:\Keil\ARM\INC\ST\STM32F10x\stm32f10x_usart.h
 metro_librairie_version2009d.o: C:\Keil\ARM\INC\ST\STM32F10x\stm32f10x_wwdg.h
 metro_librairie_version2009d.o: STM32_Reg.h
 metro_librairie_version2009d.o: C:\Keil\ARM\RV31\INC\stdio.h
-metro_librairie_version2009d.o: C:\Keil\ARM\RV31\INC\stdlib.h
+metro_librairie_version2009d.o: C:\Keil\ARM\RV31\INC\string.h
+metro_librairie_version2009d.o: Metro_Librairie_Version2009d.h

@@ -9,12 +9,13 @@ Section Cross References
     stm32f10x.o(RESET) refers to hal_cm3.o(.emb_text) for SVC_Handler
     stm32f10x.o(RESET) refers to metro_librairie_version2009d.o(.text) for DMAChannel2_IRQHandler
     stm32f10x.o(.text) refers to entry.o(.ARM.Collect$$$$00000000) for __main
-    metro_librairie_version2009d.o(.text) refers to metro_librairie_version2009d.o(.bss) for DATA_EMIS
-    metro_librairie_version2009d.o(.text) refers to metro_librairie_version2009d.o(.data) for DATA_RECU
-    metro_librairie_version2009d.o(.text) refers to strncpy.o(.text) for strncpy
-    metro_librairie_version2009d.o(.text) refers to dflti.o(.text) for __aeabi_i2d
+    metro_librairie_version2009d.o(.text) refers to fflti.o(.text) for __aeabi_i2f
+    metro_librairie_version2009d.o(.text) refers to f2d.o(.text) for __aeabi_f2d
     metro_librairie_version2009d.o(.text) refers to ddiv.o(.text) for __aeabi_ddiv
     metro_librairie_version2009d.o(.text) refers to dfixi.o(.text) for __aeabi_d2iz
+    metro_librairie_version2009d.o(.text) refers to metro_librairie_version2009d.o(.data) for .data
+    metro_librairie_version2009d.o(.text) refers to metro_librairie_version2009d.o(.bss) for buff
+    metro_librairie_version2009d.o(.data) refers to metro_librairie_version2009d.o(.bss) for buff
     identification.o(.text) refers to metro_librairie_version2009d.o(.text) for Lire_Position
     identification.o(.text) refers to printf1.o(i.__0printf$1) for __2printf
     identification.o(.text) refers to getc.o(i.getc) for getc
@@ -26,7 +27,7 @@ Section Cross References
     identification.o(.text) refers to rt_task.o(i.rt_tsk_create) for rt_tsk_create
     identification.o(.text) refers to rt_time.o(i.rt_dly_wait) for rt_dly_wait
     identification.o(.text) refers to identification.o(.constdata) for .constdata
-    identification.o(.text) refers to metro_librairie_version2009d.o(.data) for __stdin
+    identification.o(.text) refers to stdin.o(.data) for __stdin
     identification.o(.text) refers to rt_task.o(i.rt_sys_init) for rt_sys_init
     rt_task.o(i.rt_block) refers to rt_list.o(i.rt_put_dly) for rt_put_dly
     rt_task.o(i.rt_block) refers to rt_list.o(i.rt_get_first) for rt_get_first
@@ -214,12 +215,12 @@ Section Cross References
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry7.o(.ARM.Collect$$$$00000007) for _main_init
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry5.o(.ARM.Collect$$$$00000004) for _main_scatterload
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry2.o(.ARM.Collect$$$$00000001) for _main_stk
-    getc.o(i.getc) refers to metro_librairie_version2009d.o(.text) for fgetc
+    getc.o(i.getc) refers to fgetc.o(.text) for fgetc
     printfb.o(i.__0fprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
     printfb.o(i.__0fprintf$bare) refers to metro_librairie_version2009d.o(.text) for fputc
     printfb.o(i.__0printf$bare) refers to printfb.o(i._printf_core) for _printf_core
     printfb.o(i.__0printf$bare) refers to metro_librairie_version2009d.o(.text) for fputc
-    printfb.o(i.__0printf$bare) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printfb.o(i.__0printf$bare) refers to stdout.o(.data) for __stdout
     printfb.o(i.__0snprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
     printfb.o(i.__0snprintf$bare) refers to printfb.o(i._snputc) for _snputc
     printfb.o(i.__0sprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
@@ -228,7 +229,7 @@ Section Cross References
     printfb.o(i.__0vfprintf$bare) refers to metro_librairie_version2009d.o(.text) for fputc
     printfb.o(i.__0vprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
     printfb.o(i.__0vprintf$bare) refers to metro_librairie_version2009d.o(.text) for fputc
-    printfb.o(i.__0vprintf$bare) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printfb.o(i.__0vprintf$bare) refers to stdout.o(.data) for __stdout
     printfb.o(i.__0vsnprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
     printfb.o(i.__0vsnprintf$bare) refers to printfb.o(i._snputc) for _snputc
     printfb.o(i.__0vsprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
@@ -237,7 +238,7 @@ Section Cross References
     printf0.o(i.__0fprintf$0) refers to metro_librairie_version2009d.o(.text) for fputc
     printf0.o(i.__0printf$0) refers to printf0.o(i._printf_core) for _printf_core
     printf0.o(i.__0printf$0) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf0.o(i.__0printf$0) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf0.o(i.__0printf$0) refers to stdout.o(.data) for __stdout
     printf0.o(i.__0snprintf$0) refers to printf0.o(i._printf_core) for _printf_core
     printf0.o(i.__0snprintf$0) refers to printf0.o(i._snputc) for _snputc
     printf0.o(i.__0sprintf$0) refers to printf0.o(i._printf_core) for _printf_core
@@ -246,7 +247,7 @@ Section Cross References
     printf0.o(i.__0vfprintf$0) refers to metro_librairie_version2009d.o(.text) for fputc
     printf0.o(i.__0vprintf$0) refers to printf0.o(i._printf_core) for _printf_core
     printf0.o(i.__0vprintf$0) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf0.o(i.__0vprintf$0) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf0.o(i.__0vprintf$0) refers to stdout.o(.data) for __stdout
     printf0.o(i.__0vsnprintf$0) refers to printf0.o(i._printf_core) for _printf_core
     printf0.o(i.__0vsnprintf$0) refers to printf0.o(i._snputc) for _snputc
     printf0.o(i.__0vsprintf$0) refers to printf0.o(i._printf_core) for _printf_core
@@ -255,7 +256,7 @@ Section Cross References
     printf1.o(i.__0fprintf$1) refers to metro_librairie_version2009d.o(.text) for fputc
     printf1.o(i.__0printf$1) refers to printf1.o(i._printf_core) for _printf_core
     printf1.o(i.__0printf$1) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf1.o(i.__0printf$1) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf1.o(i.__0printf$1) refers to stdout.o(.data) for __stdout
     printf1.o(i.__0snprintf$1) refers to printf1.o(i._printf_core) for _printf_core
     printf1.o(i.__0snprintf$1) refers to printf1.o(i._snputc) for _snputc
     printf1.o(i.__0sprintf$1) refers to printf1.o(i._printf_core) for _printf_core
@@ -264,7 +265,7 @@ Section Cross References
     printf1.o(i.__0vfprintf$1) refers to metro_librairie_version2009d.o(.text) for fputc
     printf1.o(i.__0vprintf$1) refers to printf1.o(i._printf_core) for _printf_core
     printf1.o(i.__0vprintf$1) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf1.o(i.__0vprintf$1) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf1.o(i.__0vprintf$1) refers to stdout.o(.data) for __stdout
     printf1.o(i.__0vsnprintf$1) refers to printf1.o(i._printf_core) for _printf_core
     printf1.o(i.__0vsnprintf$1) refers to printf1.o(i._snputc) for _snputc
     printf1.o(i.__0vsprintf$1) refers to printf1.o(i._printf_core) for _printf_core
@@ -274,7 +275,7 @@ Section Cross References
     printf2.o(i.__0fprintf$2) refers to metro_librairie_version2009d.o(.text) for fputc
     printf2.o(i.__0printf$2) refers to printf2.o(i._printf_core) for _printf_core
     printf2.o(i.__0printf$2) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf2.o(i.__0printf$2) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf2.o(i.__0printf$2) refers to stdout.o(.data) for __stdout
     printf2.o(i.__0snprintf$2) refers to printf2.o(i._printf_core) for _printf_core
     printf2.o(i.__0snprintf$2) refers to printf2.o(i._snputc) for _snputc
     printf2.o(i.__0sprintf$2) refers to printf2.o(i._printf_core) for _printf_core
@@ -283,7 +284,7 @@ Section Cross References
     printf2.o(i.__0vfprintf$2) refers to metro_librairie_version2009d.o(.text) for fputc
     printf2.o(i.__0vprintf$2) refers to printf2.o(i._printf_core) for _printf_core
     printf2.o(i.__0vprintf$2) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf2.o(i.__0vprintf$2) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf2.o(i.__0vprintf$2) refers to stdout.o(.data) for __stdout
     printf2.o(i.__0vsnprintf$2) refers to printf2.o(i._printf_core) for _printf_core
     printf2.o(i.__0vsnprintf$2) refers to printf2.o(i._snputc) for _snputc
     printf2.o(i.__0vsprintf$2) refers to printf2.o(i._printf_core) for _printf_core
@@ -292,7 +293,7 @@ Section Cross References
     printf3.o(i.__0fprintf$3) refers to metro_librairie_version2009d.o(.text) for fputc
     printf3.o(i.__0printf$3) refers to printf3.o(i._printf_core) for _printf_core
     printf3.o(i.__0printf$3) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf3.o(i.__0printf$3) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf3.o(i.__0printf$3) refers to stdout.o(.data) for __stdout
     printf3.o(i.__0snprintf$3) refers to printf3.o(i._printf_core) for _printf_core
     printf3.o(i.__0snprintf$3) refers to printf3.o(i._snputc) for _snputc
     printf3.o(i.__0sprintf$3) refers to printf3.o(i._printf_core) for _printf_core
@@ -301,7 +302,7 @@ Section Cross References
     printf3.o(i.__0vfprintf$3) refers to metro_librairie_version2009d.o(.text) for fputc
     printf3.o(i.__0vprintf$3) refers to printf3.o(i._printf_core) for _printf_core
     printf3.o(i.__0vprintf$3) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf3.o(i.__0vprintf$3) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf3.o(i.__0vprintf$3) refers to stdout.o(.data) for __stdout
     printf3.o(i.__0vsnprintf$3) refers to printf3.o(i._printf_core) for _printf_core
     printf3.o(i.__0vsnprintf$3) refers to printf3.o(i._snputc) for _snputc
     printf3.o(i.__0vsprintf$3) refers to printf3.o(i._printf_core) for _printf_core
@@ -311,7 +312,7 @@ Section Cross References
     printf4.o(i.__0fprintf$4) refers to metro_librairie_version2009d.o(.text) for fputc
     printf4.o(i.__0printf$4) refers to printf4.o(i._printf_core) for _printf_core
     printf4.o(i.__0printf$4) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf4.o(i.__0printf$4) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf4.o(i.__0printf$4) refers to stdout.o(.data) for __stdout
     printf4.o(i.__0snprintf$4) refers to printf4.o(i._printf_core) for _printf_core
     printf4.o(i.__0snprintf$4) refers to printf4.o(i._snputc) for _snputc
     printf4.o(i.__0sprintf$4) refers to printf4.o(i._printf_core) for _printf_core
@@ -320,7 +321,7 @@ Section Cross References
     printf4.o(i.__0vfprintf$4) refers to metro_librairie_version2009d.o(.text) for fputc
     printf4.o(i.__0vprintf$4) refers to printf4.o(i._printf_core) for _printf_core
     printf4.o(i.__0vprintf$4) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf4.o(i.__0vprintf$4) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf4.o(i.__0vprintf$4) refers to stdout.o(.data) for __stdout
     printf4.o(i.__0vsnprintf$4) refers to printf4.o(i._printf_core) for _printf_core
     printf4.o(i.__0vsnprintf$4) refers to printf4.o(i._snputc) for _snputc
     printf4.o(i.__0vsprintf$4) refers to printf4.o(i._printf_core) for _printf_core
@@ -330,7 +331,7 @@ Section Cross References
     printf5.o(i.__0fprintf$5) refers to metro_librairie_version2009d.o(.text) for fputc
     printf5.o(i.__0printf$5) refers to printf5.o(i._printf_core) for _printf_core
     printf5.o(i.__0printf$5) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf5.o(i.__0printf$5) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf5.o(i.__0printf$5) refers to stdout.o(.data) for __stdout
     printf5.o(i.__0snprintf$5) refers to printf5.o(i._printf_core) for _printf_core
     printf5.o(i.__0snprintf$5) refers to printf5.o(i._snputc) for _snputc
     printf5.o(i.__0sprintf$5) refers to printf5.o(i._printf_core) for _printf_core
@@ -339,7 +340,7 @@ Section Cross References
     printf5.o(i.__0vfprintf$5) refers to metro_librairie_version2009d.o(.text) for fputc
     printf5.o(i.__0vprintf$5) refers to printf5.o(i._printf_core) for _printf_core
     printf5.o(i.__0vprintf$5) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf5.o(i.__0vprintf$5) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf5.o(i.__0vprintf$5) refers to stdout.o(.data) for __stdout
     printf5.o(i.__0vsnprintf$5) refers to printf5.o(i._printf_core) for _printf_core
     printf5.o(i.__0vsnprintf$5) refers to printf5.o(i._snputc) for _snputc
     printf5.o(i.__0vsprintf$5) refers to printf5.o(i._printf_core) for _printf_core
@@ -349,7 +350,7 @@ Section Cross References
     printf6.o(i.__0fprintf$6) refers to metro_librairie_version2009d.o(.text) for fputc
     printf6.o(i.__0printf$6) refers to printf6.o(i._printf_core) for _printf_core
     printf6.o(i.__0printf$6) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf6.o(i.__0printf$6) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf6.o(i.__0printf$6) refers to stdout.o(.data) for __stdout
     printf6.o(i.__0snprintf$6) refers to printf6.o(i._printf_core) for _printf_core
     printf6.o(i.__0snprintf$6) refers to printf6.o(i._snputc) for _snputc
     printf6.o(i.__0sprintf$6) refers to printf6.o(i._printf_core) for _printf_core
@@ -358,7 +359,7 @@ Section Cross References
     printf6.o(i.__0vfprintf$6) refers to metro_librairie_version2009d.o(.text) for fputc
     printf6.o(i.__0vprintf$6) refers to printf6.o(i._printf_core) for _printf_core
     printf6.o(i.__0vprintf$6) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf6.o(i.__0vprintf$6) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf6.o(i.__0vprintf$6) refers to stdout.o(.data) for __stdout
     printf6.o(i.__0vsnprintf$6) refers to printf6.o(i._printf_core) for _printf_core
     printf6.o(i.__0vsnprintf$6) refers to printf6.o(i._snputc) for _snputc
     printf6.o(i.__0vsprintf$6) refers to printf6.o(i._printf_core) for _printf_core
@@ -370,7 +371,7 @@ Section Cross References
     printf7.o(i.__0fprintf$7) refers to metro_librairie_version2009d.o(.text) for fputc
     printf7.o(i.__0printf$7) refers to printf7.o(i._printf_core) for _printf_core
     printf7.o(i.__0printf$7) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf7.o(i.__0printf$7) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf7.o(i.__0printf$7) refers to stdout.o(.data) for __stdout
     printf7.o(i.__0snprintf$7) refers to printf7.o(i._printf_core) for _printf_core
     printf7.o(i.__0snprintf$7) refers to printf7.o(i._snputc) for _snputc
     printf7.o(i.__0sprintf$7) refers to printf7.o(i._printf_core) for _printf_core
@@ -379,7 +380,7 @@ Section Cross References
     printf7.o(i.__0vfprintf$7) refers to metro_librairie_version2009d.o(.text) for fputc
     printf7.o(i.__0vprintf$7) refers to printf7.o(i._printf_core) for _printf_core
     printf7.o(i.__0vprintf$7) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf7.o(i.__0vprintf$7) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf7.o(i.__0vprintf$7) refers to stdout.o(.data) for __stdout
     printf7.o(i.__0vsnprintf$7) refers to printf7.o(i._printf_core) for _printf_core
     printf7.o(i.__0vsnprintf$7) refers to printf7.o(i._snputc) for _snputc
     printf7.o(i.__0vsprintf$7) refers to printf7.o(i._printf_core) for _printf_core
@@ -391,7 +392,7 @@ Section Cross References
     printf8.o(i.__0fprintf$8) refers to metro_librairie_version2009d.o(.text) for fputc
     printf8.o(i.__0printf$8) refers to printf8.o(i._printf_core) for _printf_core
     printf8.o(i.__0printf$8) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf8.o(i.__0printf$8) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf8.o(i.__0printf$8) refers to stdout.o(.data) for __stdout
     printf8.o(i.__0snprintf$8) refers to printf8.o(i._printf_core) for _printf_core
     printf8.o(i.__0snprintf$8) refers to printf8.o(i._snputc) for _snputc
     printf8.o(i.__0sprintf$8) refers to printf8.o(i._printf_core) for _printf_core
@@ -400,7 +401,7 @@ Section Cross References
     printf8.o(i.__0vfprintf$8) refers to metro_librairie_version2009d.o(.text) for fputc
     printf8.o(i.__0vprintf$8) refers to printf8.o(i._printf_core) for _printf_core
     printf8.o(i.__0vprintf$8) refers to metro_librairie_version2009d.o(.text) for fputc
-    printf8.o(i.__0vprintf$8) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printf8.o(i.__0vprintf$8) refers to stdout.o(.data) for __stdout
     printf8.o(i.__0vsnprintf$8) refers to printf8.o(i._printf_core) for _printf_core
     printf8.o(i.__0vsnprintf$8) refers to printf8.o(i._snputc) for _snputc
     printf8.o(i.__0vsprintf$8) refers to printf8.o(i._printf_core) for _printf_core
@@ -414,7 +415,7 @@ Section Cross References
     printfa.o(i.__0printf) refers (Special) to iusefp.o(.text) for __I$use$fp
     printfa.o(i.__0printf) refers to printfa.o(i._printf_core) for _printf_core
     printfa.o(i.__0printf) refers to metro_librairie_version2009d.o(.text) for fputc
-    printfa.o(i.__0printf) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printfa.o(i.__0printf) refers to stdout.o(.data) for __stdout
     printfa.o(i.__0snprintf) refers (Special) to iusefp.o(.text) for __I$use$fp
     printfa.o(i.__0snprintf) refers to printfa.o(i._printf_core) for _printf_core
     printfa.o(i.__0snprintf) refers to printfa.o(i._snputc) for _snputc
@@ -427,7 +428,7 @@ Section Cross References
     printfa.o(i.__0vprintf) refers (Special) to iusefp.o(.text) for __I$use$fp
     printfa.o(i.__0vprintf) refers to printfa.o(i._printf_core) for _printf_core
     printfa.o(i.__0vprintf) refers to metro_librairie_version2009d.o(.text) for fputc
-    printfa.o(i.__0vprintf) refers to metro_librairie_version2009d.o(.data) for __stdout
+    printfa.o(i.__0vprintf) refers to stdout.o(.data) for __stdout
     printfa.o(i.__0vsnprintf) refers (Special) to iusefp.o(.text) for __I$use$fp
     printfa.o(i.__0vsnprintf) refers to printfa.o(i._printf_core) for _printf_core
     printfa.o(i.__0vsnprintf) refers to printfa.o(i._snputc) for _snputc
@@ -453,16 +454,27 @@ Section Cross References
     printfa.o(i._sputc) refers (Special) to iusefp.o(.text) for __I$use$fp
     ddiv.o(.text) refers (Special) to iusefp.o(.text) for __I$use$fp
     ddiv.o(.text) refers to depilogue.o(.text) for _double_epilogue
-    dflti.o(.text) refers (Special) to iusefp.o(.text) for __I$use$fp
-    dflti.o(.text) refers to depilogue.o(.text) for _double_epilogue
+    fflti.o(.text) refers (Special) to iusefp.o(.text) for __I$use$fp
+    fflti.o(.text) refers to fepilogue.o(.text) for _float_epilogue
     dfixi.o(.text) refers (Special) to iusefp.o(.text) for __I$use$fp
     dfixi.o(.text) refers to llushr.o(.text) for __aeabi_llsr
+    f2d.o(.text) refers (Special) to iusefp.o(.text) for __I$use$fp
     entry2.o(.ARM.Collect$$$$00000001) refers to entry2.o(.ARM.Collect$$$$00002712) for __lit__00000000
     entry2.o(.ARM.Collect$$$$00002712) refers to stm32f10x.o(STACK) for __initial_sp
     entry2.o(__vectab_stack_and_reset_area) refers to stm32f10x.o(STACK) for __initial_sp
     entry2.o(__vectab_stack_and_reset_area) refers to entry.o(.ARM.Collect$$$$00000000) for __main
     entry5.o(.ARM.Collect$$$$00000004) refers to init.o(.text) for __scatterload
     entry7.o(.ARM.Collect$$$$00000007) refers to identification.o(.text) for main
+    fgetc.o(.text) refers (Special) to iusesemig.o(.text) for __I$use$semihosting$fgetc
+    fgetc_u.o(.text) refers (Special) to iusesemig.o(.text) for __I$use$semihosting$fgetc
+    fgetc_u.o(.text) refers to fgetc_u.o(.data) for .data
+    fgetc_u.o(.data) refers (Special) to iusesemig.o(.text) for __I$use$semihosting$fgetc
+    fgetc_b.o(.text) refers (Special) to iusesemig.o(.text) for __I$use$semihosting$fgetc
+    fgetc_b.o(.text) refers to fgetc_b.o(.data) for .data
+    fgetc_b.o(.data) refers (Special) to iusesemig.o(.text) for __I$use$semihosting$fgetc
+    fgetc_ub.o(.text) refers (Special) to iusesemig.o(.text) for __I$use$semihosting$fgetc
+    fgetc_ub.o(.text) refers to fgetc_ub.o(.data) for .data
+    fgetc_ub.o(.data) refers (Special) to iusesemig.o(.text) for __I$use$semihosting$fgetc
     uldiv.o(.text) refers to llushr.o(.text) for __aeabi_llsr
     uldiv.o(.text) refers to llshl.o(.text) for __aeabi_llsl
     dadd.o(.text) refers to llushr.o(.text) for __aeabi_llsr
@@ -526,34 +538,42 @@ Image Symbol Table
 
     ../../microlib/division.c                0x00000000   Number         0  uldiv.o ABSOLUTE
     ../../microlib/division.c                0x00000000   Number         0  uidiv.o ABSOLUTE
+    ../../microlib/f2d.c                     0x00000000   Number         0  f2d.o ABSOLUTE
     ../../microlib/fpadd.c                   0x00000000   Number         0  dadd.o ABSOLUTE
     ../../microlib/fpdiv.c                   0x00000000   Number         0  ddiv.o ABSOLUTE
+    ../../microlib/fpepilogue.c              0x00000000   Number         0  fepilogue.o ABSOLUTE
     ../../microlib/fpepilogue.c              0x00000000   Number         0  depilogue.o ABSOLUTE
-    ../../microlib/fpfix.c                   0x00000000   Number         0  dfixul.o ABSOLUTE
     ../../microlib/fpfix.c                   0x00000000   Number         0  dfixi.o ABSOLUTE
-    ../../microlib/fpflt.c                   0x00000000   Number         0  dflti.o ABSOLUTE
+    ../../microlib/fpfix.c                   0x00000000   Number         0  dfixul.o ABSOLUTE
+    ../../microlib/fpflt.c                   0x00000000   Number         0  fflti.o ABSOLUTE
     ../../microlib/fpmul.c                   0x00000000   Number         0  dmul.o ABSOLUTE
-    ../../microlib/init/entry.s              0x00000000   Number         0  entry7.o ABSOLUTE
-    ../../microlib/init/entry.s              0x00000000   Number         0  entry.o ABSOLUTE
-    ../../microlib/init/entry.s              0x00000000   Number         0  entry2.o ABSOLUTE
     ../../microlib/init/entry.s              0x00000000   Number         0  entry5.o ABSOLUTE
+    ../../microlib/init/entry.s              0x00000000   Number         0  entry7.o ABSOLUTE
+    ../../microlib/init/entry.s              0x00000000   Number         0  entry2.o ABSOLUTE
+    ../../microlib/init/entry.s              0x00000000   Number         0  entry.o ABSOLUTE
     ../../microlib/longlong.c                0x00000000   Number         0  llshl.o ABSOLUTE
     ../../microlib/longlong.c                0x00000000   Number         0  llushr.o ABSOLUTE
-    ../../microlib/printf/printf.c           0x00000000   Number         0  printf8.o ABSOLUTE
-    ../../microlib/printf/printf.c           0x00000000   Number         0  printf0.o ABSOLUTE
+    ../../microlib/printf/printf.c           0x00000000   Number         0  printf4.o ABSOLUTE
+    ../../microlib/printf/printf.c           0x00000000   Number         0  printf2.o ABSOLUTE
     ../../microlib/printf/printf.c           0x00000000   Number         0  printf7.o ABSOLUTE
+    ../../microlib/printf/printf.c           0x00000000   Number         0  printf6.o ABSOLUTE
+    ../../microlib/printf/printf.c           0x00000000   Number         0  printf8.o ABSOLUTE
+    ../../microlib/printf/printf.c           0x00000000   Number         0  printf5.o ABSOLUTE
+    ../../microlib/printf/printf.c           0x00000000   Number         0  printfb.o ABSOLUTE
+    ../../microlib/printf/printf.c           0x00000000   Number         0  printf3.o ABSOLUTE
+    ../../microlib/printf/printf.c           0x00000000   Number         0  printf0.o ABSOLUTE
     ../../microlib/printf/printf.c           0x00000000   Number         0  printf1.o ABSOLUTE
     ../../microlib/printf/printf.c           0x00000000   Number         0  printfa.o ABSOLUTE
-    ../../microlib/printf/printf.c           0x00000000   Number         0  printfb.o ABSOLUTE
-    ../../microlib/printf/printf.c           0x00000000   Number         0  printf5.o ABSOLUTE
-    ../../microlib/printf/printf.c           0x00000000   Number         0  printf6.o ABSOLUTE
-    ../../microlib/printf/printf.c           0x00000000   Number         0  printf4.o ABSOLUTE
-    ../../microlib/printf/printf.c           0x00000000   Number         0  printf3.o ABSOLUTE
-    ../../microlib/printf/printf.c           0x00000000   Number         0  printf2.o ABSOLUTE
     ../../microlib/printf/stubs.s            0x00000000   Number         0  stubs.o ABSOLUTE
+    ../../microlib/stdio/fgetc.c             0x00000000   Number         0  fgetc_b.o ABSOLUTE
+    ../../microlib/stdio/fgetc.c             0x00000000   Number         0  fgetc_u.o ABSOLUTE
+    ../../microlib/stdio/fgetc.c             0x00000000   Number         0  fgetc.o ABSOLUTE
+    ../../microlib/stdio/fgetc.c             0x00000000   Number         0  fgetc_ub.o ABSOLUTE
     ../../microlib/stdio/getc.c              0x00000000   Number         0  getc.o ABSOLUTE
-    ../../microlib/string/strncpy.c          0x00000000   Number         0  strncpy.o ABSOLUTE
+    ../../microlib/stdio/streams.c           0x00000000   Number         0  stdin.o ABSOLUTE
+    ../../microlib/stdio/streams.c           0x00000000   Number         0  stdout.o ABSOLUTE
     ../../microlib/stubs.s                   0x00000000   Number         0  iusefp.o ABSOLUTE
+    ../../microlib/stubs.s                   0x00000000   Number         0  iusesemig.o ABSOLUTE
     Identification.c                         0x00000000   Number         0  identification.o ABSOLUTE
     Metro_Librairie_Version2009d.c           0x00000000   Number         0  metro_librairie_version2009d.o ABSOLUTE
     RTX_Conf_CM.c                            0x00000000   Number         0  rtx_conf_cm.o ABSOLUTE
@@ -586,78 +606,83 @@ Image Symbol Table
     .emb_text                                0x08000100   Section      356  hal_cm3.o(.emb_text)
     .text                                    0x08000264   Section       28  stm32f10x.o(.text)
     .text                                    0x08000280   Section       10  rtx_conf_cm.o(.text)
-    .text                                    0x0800028c   Section     1788  metro_librairie_version2009d.o(.text)
-    .text                                    0x08000988   Section      496  identification.o(.text)
-    .text                                    0x08000b78   Section       24  strncpy.o(.text)
-    .text                                    0x08000b90   Section      248  ddiv.o(.text)
-    .text                                    0x08000c88   Section       36  dflti.o(.text)
-    .text                                    0x08000cac   Section       82  dfixi.o(.text)
-    .text                                    0x08000cfe   Section       44  uidiv.o(.text)
-    .text                                    0x08000d2a   Section       30  llushr.o(.text)
-    .text                                    0x08000d48   Section      200  depilogue.o(.text)
-    .text                                    0x08000d48   Section        0  iusefp.o(.text)
-    .text                                    0x08000e10   Section       36  init.o(.text)
-    SVC_TABLE                                0x08000e34   Section        4  SVC_Table.o(SVC_TABLE)
-    i.__0printf$1                            0x08000e38   Section       32  printf1.o(i.__0printf$1)
-    i.__scatterload_copy                     0x08000e58   Section       14  handlers.o(i.__scatterload_copy)
-    i.__scatterload_null                     0x08000e66   Section        2  handlers.o(i.__scatterload_null)
-    i.__scatterload_zeroinit                 0x08000e68   Section       14  handlers.o(i.__scatterload_zeroinit)
-    i._init_box                              0x08000e76   Section       70  rt_membox.o(i._init_box)
-    i._printf_core                           0x08000ebc   Section      332  printf1.o(i._printf_core)
-    _printf_core                             0x08000ebd   Thumb Code   328  printf1.o(i._printf_core)
-    i.dbg_init                               0x08001008   Section       44  hal_cm3.o(i.dbg_init)
-    i.dbg_task_notify                        0x08001034   Section       32  hal_cm3.o(i.dbg_task_notify)
-    i.dbg_task_switch                        0x08001054   Section       16  hal_cm3.o(i.dbg_task_switch)
-    i.getc                                   0x08001064   Section        4  getc.o(i.getc)
-    i.rt_alloc_box                           0x08001068   Section       28  rt_membox.o(i.rt_alloc_box)
-    i.rt_block                               0x08001084   Section       56  rt_task.o(i.rt_block)
-    i.rt_chk_robin                           0x080010bc   Section       84  rt_robin.o(i.rt_chk_robin)
-    i.rt_dec_dly                             0x08001110   Section      116  rt_list.o(i.rt_dec_dly)
-    i.rt_dispatch                            0x08001184   Section       68  rt_task.o(i.rt_dispatch)
-    i.rt_dly_wait                            0x080011c8   Section        6  rt_time.o(i.rt_dly_wait)
-    i.rt_evt_psh                             0x080011d0   Section       84  rt_event.o(i.rt_evt_psh)
-    i.rt_free_box                            0x08001224   Section       38  rt_membox.o(i.rt_free_box)
-    i.rt_get_first                           0x0800124a   Section       40  rt_list.o(i.rt_get_first)
-    i.rt_init_context                        0x08001274   Section       68  rt_task.o(i.rt_init_context)
-    rt_init_context                          0x08001275   Thumb Code    64  rt_task.o(i.rt_init_context)
-    i.rt_init_stack                          0x080012b8   Section       80  hal_cm3.o(i.rt_init_stack)
-    i.rt_itv_set                             0x08001308   Section       24  rt_time.o(i.rt_itv_set)
-    i.rt_itv_wait                            0x08001320   Section       40  rt_time.o(i.rt_itv_wait)
-    i.rt_mbx_psh                             0x08001348   Section      124  rt_mailbox.o(i.rt_mbx_psh)
-    i.rt_pop_req                             0x080013c4   Section       96  rt_system.o(i.rt_pop_req)
-    i.rt_psq_deq                             0x08001424   Section       32  rt_list.o(i.rt_psq_deq)
-    i.rt_put_dly                             0x08001444   Section       76  rt_list.o(i.rt_put_dly)
-    i.rt_put_prio                            0x08001490   Section       54  rt_list.o(i.rt_put_prio)
-    i.rt_put_rdy_first                       0x080014c8   Section       20  rt_list.o(i.rt_put_rdy_first)
-    i.rt_rmv_dly                             0x080014dc   Section       40  rt_list.o(i.rt_rmv_dly)
-    i.rt_sem_psh                             0x08001504   Section       52  rt_semaphore.o(i.rt_sem_psh)
-    i.rt_switch_req                          0x08001538   Section       92  rt_task.o(i.rt_switch_req)
-    i.rt_sys_init                            0x08001594   Section      288  rt_task.o(i.rt_sys_init)
-    i.rt_systick                             0x080016b4   Section       68  rt_system.o(i.rt_systick)
-    i.rt_tmr_tick                            0x080016f8   Section       64  rt_timer.o(i.rt_tmr_tick)
-    i.rt_tsk_create                          0x08001738   Section      144  rt_task.o(i.rt_tsk_create)
-    .constdata                               0x080017c8   Section       38  rtx_conf_cm.o(.constdata)
-    .constdata                               0x080017f0   Section       80  identification.o(.constdata)
+    .text                                    0x0800028c   Section     1860  metro_librairie_version2009d.o(.text)
+    .text                                    0x080009d0   Section      496  identification.o(.text)
+    .text                                    0x08000bc0   Section      248  ddiv.o(.text)
+    .text                                    0x08000cb8   Section       20  fflti.o(.text)
+    .text                                    0x08000ccc   Section       82  dfixi.o(.text)
+    .text                                    0x08000d1e   Section       36  f2d.o(.text)
+    .text                                    0x08000d42   Section        8  fgetc.o(.text)
+    .text                                    0x08000d4a   Section       44  uidiv.o(.text)
+    .text                                    0x08000d76   Section       30  llushr.o(.text)
+    .text                                    0x08000d94   Section       92  fepilogue.o(.text)
+    .text                                    0x08000d94   Section        0  iusefp.o(.text)
+    .text                                    0x08000df0   Section      200  depilogue.o(.text)
+    .text                                    0x08000eb8   Section       36  init.o(.text)
+    .text                                    0x08000edc   Section        0  iusesemig.o(.text)
+    SVC_TABLE                                0x08000edc   Section        4  SVC_Table.o(SVC_TABLE)
+    i.__0printf$1                            0x08000ee0   Section       32  printf1.o(i.__0printf$1)
+    i.__scatterload_copy                     0x08000f00   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x08000f0e   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x08000f10   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i._init_box                              0x08000f1e   Section       70  rt_membox.o(i._init_box)
+    i._printf_core                           0x08000f64   Section      332  printf1.o(i._printf_core)
+    _printf_core                             0x08000f65   Thumb Code   328  printf1.o(i._printf_core)
+    i.dbg_init                               0x080010b0   Section       44  hal_cm3.o(i.dbg_init)
+    i.dbg_task_notify                        0x080010dc   Section       32  hal_cm3.o(i.dbg_task_notify)
+    i.dbg_task_switch                        0x080010fc   Section       16  hal_cm3.o(i.dbg_task_switch)
+    i.getc                                   0x0800110c   Section        4  getc.o(i.getc)
+    i.rt_alloc_box                           0x08001110   Section       28  rt_membox.o(i.rt_alloc_box)
+    i.rt_block                               0x0800112c   Section       56  rt_task.o(i.rt_block)
+    i.rt_chk_robin                           0x08001164   Section       84  rt_robin.o(i.rt_chk_robin)
+    i.rt_dec_dly                             0x080011b8   Section      116  rt_list.o(i.rt_dec_dly)
+    i.rt_dispatch                            0x0800122c   Section       68  rt_task.o(i.rt_dispatch)
+    i.rt_dly_wait                            0x08001270   Section        6  rt_time.o(i.rt_dly_wait)
+    i.rt_evt_psh                             0x08001278   Section       84  rt_event.o(i.rt_evt_psh)
+    i.rt_free_box                            0x080012cc   Section       38  rt_membox.o(i.rt_free_box)
+    i.rt_get_first                           0x080012f2   Section       40  rt_list.o(i.rt_get_first)
+    i.rt_init_context                        0x0800131c   Section       68  rt_task.o(i.rt_init_context)
+    rt_init_context                          0x0800131d   Thumb Code    64  rt_task.o(i.rt_init_context)
+    i.rt_init_stack                          0x08001360   Section       80  hal_cm3.o(i.rt_init_stack)
+    i.rt_itv_set                             0x080013b0   Section       24  rt_time.o(i.rt_itv_set)
+    i.rt_itv_wait                            0x080013c8   Section       40  rt_time.o(i.rt_itv_wait)
+    i.rt_mbx_psh                             0x080013f0   Section      124  rt_mailbox.o(i.rt_mbx_psh)
+    i.rt_pop_req                             0x0800146c   Section       96  rt_system.o(i.rt_pop_req)
+    i.rt_psq_deq                             0x080014cc   Section       32  rt_list.o(i.rt_psq_deq)
+    i.rt_put_dly                             0x080014ec   Section       76  rt_list.o(i.rt_put_dly)
+    i.rt_put_prio                            0x08001538   Section       54  rt_list.o(i.rt_put_prio)
+    i.rt_put_rdy_first                       0x08001570   Section       20  rt_list.o(i.rt_put_rdy_first)
+    i.rt_rmv_dly                             0x08001584   Section       40  rt_list.o(i.rt_rmv_dly)
+    i.rt_sem_psh                             0x080015ac   Section       52  rt_semaphore.o(i.rt_sem_psh)
+    i.rt_switch_req                          0x080015e0   Section       92  rt_task.o(i.rt_switch_req)
+    i.rt_sys_init                            0x0800163c   Section      288  rt_task.o(i.rt_sys_init)
+    i.rt_systick                             0x0800175c   Section       68  rt_system.o(i.rt_systick)
+    i.rt_tmr_tick                            0x080017a0   Section       64  rt_timer.o(i.rt_tmr_tick)
+    i.rt_tsk_create                          0x080017e0   Section      144  rt_task.o(i.rt_tsk_create)
+    .constdata                               0x08001870   Section       38  rtx_conf_cm.o(.constdata)
+    .constdata                               0x08001898   Section       80  identification.o(.constdata)
     .data                                    0x20000000   Section        4  rtx_conf_cm.o(.data)
-    .data                                    0x20000004   Section       28  metro_librairie_version2009d.o(.data)
-    compteur                                 0x2000000c   Data           4  metro_librairie_version2009d.o(.data)
-    position                                 0x20000010   Data           4  metro_librairie_version2009d.o(.data)
-    .data                                    0x20000020   Section       16  identification.o(.data)
-    i                                        0x20000024   Data           4  identification.o(.data)
-    .data                                    0x20000030   Section        8  rt_task.o(.data)
-    .data                                    0x20000038   Section        2  rt_time.o(.data)
-    .data                                    0x2000003a   Section        1  hal_cm3.o(.data)
-    .data                                    0x2000003b   Section        2  rt_system.o(.data)
-    os_lock                                  0x2000003b   Data           1  rt_system.o(.data)
-    os_psh_flag                              0x2000003c   Data           1  rt_system.o(.data)
-    .data                                    0x20000040   Section        8  rt_robin.o(.data)
-    .data                                    0x20000048   Section        8  rt_timer.o(.data)
-    .bss                                     0x20000050   Section     5944  rtx_conf_cm.o(.bss)
-    .bss                                     0x20001788   Section      100  metro_librairie_version2009d.o(.bss)
-    .bss                                     0x200017ec   Section     7500  identification.o(.bss)
-    .bss                                     0x20003538   Section      180  rt_task.o(.bss)
-    .bss                                     0x200035ec   Section       48  rt_list.o(.bss)
-    STACK                                    0x20003620   Section      512  stm32f10x.o(STACK)
+    .data                                    0x20000004   Section       24  metro_librairie_version2009d.o(.data)
+    new_position                             0x20000004   Data           4  metro_librairie_version2009d.o(.data)
+    old_position                             0x20000010   Data           4  metro_librairie_version2009d.o(.data)
+    .data                                    0x2000001c   Section       16  identification.o(.data)
+    i                                        0x20000020   Data           4  identification.o(.data)
+    .data                                    0x2000002c   Section        8  rt_task.o(.data)
+    .data                                    0x20000034   Section        2  rt_time.o(.data)
+    .data                                    0x20000036   Section        1  hal_cm3.o(.data)
+    .data                                    0x20000037   Section        2  rt_system.o(.data)
+    os_lock                                  0x20000037   Data           1  rt_system.o(.data)
+    os_psh_flag                              0x20000038   Data           1  rt_system.o(.data)
+    .data                                    0x2000003c   Section        8  rt_robin.o(.data)
+    .data                                    0x20000044   Section        8  rt_timer.o(.data)
+    .data                                    0x2000004c   Section        4  stdin.o(.data)
+    .data                                    0x20000050   Section        4  stdout.o(.data)
+    .bss                                     0x20000058   Section     5944  rtx_conf_cm.o(.bss)
+    .bss                                     0x20001790   Section      500  metro_librairie_version2009d.o(.bss)
+    .bss                                     0x20001984   Section     7500  identification.o(.bss)
+    .bss                                     0x200036d0   Section      180  rt_task.o(.bss)
+    .bss                                     0x20003784   Section       48  rt_list.o(.bss)
+    STACK                                    0x200037b8   Section      512  stm32f10x.o(STACK)
 
     Global Symbols
 
@@ -735,6 +760,7 @@ Image Symbol Table
     CAN_RX1_IRQHandler                       0x0800027b   Thumb Code     0  stm32f10x.o(.text)
     CAN_SCE_IRQHandler                       0x0800027b   Thumb Code     0  stm32f10x.o(.text)
     DMAChannel1_IRQHandler                   0x0800027b   Thumb Code     0  stm32f10x.o(.text)
+    DMAChannel3_IRQHandler                   0x0800027b   Thumb Code     0  stm32f10x.o(.text)
     DMAChannel4_IRQHandler                   0x0800027b   Thumb Code     0  stm32f10x.o(.text)
     DMAChannel5_IRQHandler                   0x0800027b   Thumb Code     0  stm32f10x.o(.text)
     DMAChannel6_IRQHandler                   0x0800027b   Thumb Code     0  stm32f10x.o(.text)
@@ -774,125 +800,126 @@ Image Symbol Table
     os_idle_demon                            0x08000281   Thumb Code     4  rtx_conf_cm.o(.text)
     os_tmr_call                              0x08000285   Thumb Code     2  rtx_conf_cm.o(.text)
     os_stk_overflow                          0x08000287   Thumb Code     4  rtx_conf_cm.o(.text)
-    Init_PortA                               0x0800028d   Thumb Code    36  metro_librairie_version2009d.o(.text)
-    Init_PortB                               0x080002b1   Thumb Code    22  metro_librairie_version2009d.o(.text)
-    Init_PortC                               0x080002c7   Thumb Code    34  metro_librairie_version2009d.o(.text)
-    Init_Timer2                              0x080002e9   Thumb Code    82  metro_librairie_version2009d.o(.text)
-    Init_Timer3                              0x0800033b   Thumb Code   130  metro_librairie_version2009d.o(.text)
-    Init_Timer4                              0x080003bd   Thumb Code   136  metro_librairie_version2009d.o(.text)
-    Setup_Pll_As_Clock_System                0x08000445   Thumb Code    94  metro_librairie_version2009d.o(.text)
-    Setup_Adc                                0x080004a3   Thumb Code   126  metro_librairie_version2009d.o(.text)
-    Adc_On                                   0x08000521   Thumb Code    18  metro_librairie_version2009d.o(.text)
-    Start_Conversion                         0x08000533   Thumb Code    18  metro_librairie_version2009d.o(.text)
-    ADC_IRQHandler                           0x08000545   Thumb Code    34  metro_librairie_version2009d.o(.text)
-    setup_usart                              0x08000567   Thumb Code   354  metro_librairie_version2009d.o(.text)
-    Pwm1                                     0x080006c9   Thumb Code    78  metro_librairie_version2009d.o(.text)
-    Pwm2                                     0x08000717   Thumb Code    78  metro_librairie_version2009d.o(.text)
-    Fixe_Rapport                             0x08000765   Thumb Code   148  metro_librairie_version2009d.o(.text)
-    fputc                                    0x080007f9   Thumb Code   102  metro_librairie_version2009d.o(.text)
-    fgetc                                    0x0800085f   Thumb Code    24  metro_librairie_version2009d.o(.text)
-    Lire_Position                            0x08000877   Thumb Code     6  metro_librairie_version2009d.o(.text)
-    Lire_courant                             0x0800087d   Thumb Code     8  metro_librairie_version2009d.o(.text)
-    Calcule_vitesse                          0x08000885   Thumb Code    56  metro_librairie_version2009d.o(.text)
-    Lire_Vitesse                             0x080008bd   Thumb Code     8  metro_librairie_version2009d.o(.text)
-    TIM4_IRQHandler                          0x080008c5   Thumb Code    36  metro_librairie_version2009d.o(.text)
-    DMAChannel2_IRQHandler                   0x080008e9   Thumb Code    30  metro_librairie_version2009d.o(.text)
-    DMAChannel3_IRQHandler                   0x08000907   Thumb Code    30  metro_librairie_version2009d.o(.text)
-    Init_Periphs                             0x08000925   Thumb Code    48  metro_librairie_version2009d.o(.text)
-    mesure                                   0x08000989   Thumb Code    86  identification.o(.text)
-    consigne                                 0x080009df   Thumb Code   238  identification.o(.text)
-    main                                     0x08000acd   Thumb Code    28  identification.o(.text)
-    strncpy                                  0x08000b79   Thumb Code    24  strncpy.o(.text)
-    __aeabi_ddiv                             0x08000b91   Thumb Code   248  ddiv.o(.text)
-    __aeabi_i2d                              0x08000c89   Thumb Code    36  dflti.o(.text)
-    __aeabi_d2iz                             0x08000cad   Thumb Code    82  dfixi.o(.text)
-    __aeabi_uidiv                            0x08000cff   Thumb Code     0  uidiv.o(.text)
-    __aeabi_uidivmod                         0x08000cff   Thumb Code    44  uidiv.o(.text)
-    __aeabi_llsr                             0x08000d2b   Thumb Code    30  llushr.o(.text)
-    _ll_ushift_r                             0x08000d2b   Thumb Code     0  llushr.o(.text)
-    __I$use$fp                               0x08000d49   Thumb Code     0  iusefp.o(.text)
-    _double_round                            0x08000d49   Thumb Code    54  depilogue.o(.text)
-    _double_epilogue                         0x08000d7f   Thumb Code   142  depilogue.o(.text)
-    __scatterload                            0x08000e11   Thumb Code    28  init.o(.text)
-    __scatterload_rt2                        0x08000e11   Thumb Code     0  init.o(.text)
-    SVC_Count                                0x08000e34   Data           4  SVC_Table.o(SVC_TABLE)
-    SVC_Table                                0x08000e38   Data           0  SVC_Table.o(SVC_TABLE)
-    __0printf$1                              0x08000e39   Thumb Code    22  printf1.o(i.__0printf$1)
-    __1printf$1                              0x08000e39   Thumb Code     0  printf1.o(i.__0printf$1)
-    __2printf                                0x08000e39   Thumb Code     0  printf1.o(i.__0printf$1)
-    __scatterload_copy                       0x08000e59   Thumb Code    14  handlers.o(i.__scatterload_copy)
-    __scatterload_null                       0x08000e67   Thumb Code     2  handlers.o(i.__scatterload_null)
-    __scatterload_zeroinit                   0x08000e69   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    _init_box                                0x08000e77   Thumb Code    70  rt_membox.o(i._init_box)
-    dbg_init                                 0x08001009   Thumb Code    36  hal_cm3.o(i.dbg_init)
-    dbg_task_notify                          0x08001035   Thumb Code    32  hal_cm3.o(i.dbg_task_notify)
-    dbg_task_switch                          0x08001055   Thumb Code    16  hal_cm3.o(i.dbg_task_switch)
-    getc                                     0x08001065   Thumb Code     4  getc.o(i.getc)
-    rt_alloc_box                             0x08001069   Thumb Code    28  rt_membox.o(i.rt_alloc_box)
-    rt_block                                 0x08001085   Thumb Code    48  rt_task.o(i.rt_block)
-    rt_chk_robin                             0x080010bd   Thumb Code    66  rt_robin.o(i.rt_chk_robin)
-    rt_dec_dly                               0x08001111   Thumb Code   106  rt_list.o(i.rt_dec_dly)
-    rt_dispatch                              0x08001185   Thumb Code    60  rt_task.o(i.rt_dispatch)
-    rt_dly_wait                              0x080011c9   Thumb Code     6  rt_time.o(i.rt_dly_wait)
-    rt_evt_psh                               0x080011d1   Thumb Code    80  rt_event.o(i.rt_evt_psh)
-    rt_free_box                              0x08001225   Thumb Code    38  rt_membox.o(i.rt_free_box)
-    rt_get_first                             0x0800124b   Thumb Code    40  rt_list.o(i.rt_get_first)
-    rt_init_stack                            0x080012b9   Thumb Code    70  hal_cm3.o(i.rt_init_stack)
-    rt_itv_set                               0x08001309   Thumb Code    16  rt_time.o(i.rt_itv_set)
-    rt_itv_wait                              0x08001321   Thumb Code    32  rt_time.o(i.rt_itv_wait)
-    rt_mbx_psh                               0x08001349   Thumb Code   120  rt_mailbox.o(i.rt_mbx_psh)
-    rt_pop_req                               0x080013c5   Thumb Code    80  rt_system.o(i.rt_pop_req)
-    rt_psq_deq                               0x08001425   Thumb Code    28  rt_list.o(i.rt_psq_deq)
-    rt_put_dly                               0x08001445   Thumb Code    70  rt_list.o(i.rt_put_dly)
-    rt_put_prio                              0x08001491   Thumb Code    54  rt_list.o(i.rt_put_prio)
-    rt_put_rdy_first                         0x080014c9   Thumb Code    14  rt_list.o(i.rt_put_rdy_first)
-    rt_rmv_dly                               0x080014dd   Thumb Code    40  rt_list.o(i.rt_rmv_dly)
-    rt_sem_psh                               0x08001505   Thumb Code    46  rt_semaphore.o(i.rt_sem_psh)
-    rt_switch_req                            0x08001539   Thumb Code    74  rt_task.o(i.rt_switch_req)
-    rt_sys_init                              0x08001595   Thumb Code   214  rt_task.o(i.rt_sys_init)
-    rt_systick                               0x080016b5   Thumb Code    52  rt_system.o(i.rt_systick)
-    rt_tmr_tick                              0x080016f9   Thumb Code    56  rt_timer.o(i.rt_tmr_tick)
-    rt_tsk_create                            0x08001739   Thumb Code   122  rt_task.o(i.rt_tsk_create)
-    os_maxtaskrun                            0x080017c8   Data           2  rtx_conf_cm.o(.constdata)
-    os_stackinfo                             0x080017cc   Data           4  rtx_conf_cm.o(.constdata)
-    os_rrobin                                0x080017d0   Data           4  rtx_conf_cm.o(.constdata)
-    os_trv                                   0x080017d4   Data           4  rtx_conf_cm.o(.constdata)
-    os_flags                                 0x080017d8   Data           1  rtx_conf_cm.o(.constdata)
-    os_clockrate                             0x080017dc   Data           4  rtx_conf_cm.o(.constdata)
-    os_timernum                              0x080017e0   Data           4  rtx_conf_cm.o(.constdata)
-    mp_tcb_size                              0x080017e4   Data           2  rtx_conf_cm.o(.constdata)
-    mp_stk_size                              0x080017e8   Data           4  rtx_conf_cm.o(.constdata)
-    mp_tmr_size                              0x080017ec   Data           2  rtx_conf_cm.o(.constdata)
-    Region$$Table$$Base                      0x08001840   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08001860   Number         0  anon$$obj.o(Region$$Table)
+    Setup_Pll_As_Clock_System                0x0800028d   Thumb Code    94  metro_librairie_version2009d.o(.text)
+    Init_PortA                               0x080002eb   Thumb Code    36  metro_librairie_version2009d.o(.text)
+    Init_PortB                               0x0800030f   Thumb Code    22  metro_librairie_version2009d.o(.text)
+    Init_PortC                               0x08000325   Thumb Code    34  metro_librairie_version2009d.o(.text)
+    Init_Timer2                              0x08000347   Thumb Code    82  metro_librairie_version2009d.o(.text)
+    Pwm1                                     0x08000399   Thumb Code    78  metro_librairie_version2009d.o(.text)
+    Pwm2                                     0x080003e7   Thumb Code    78  metro_librairie_version2009d.o(.text)
+    Fixe_Rapport                             0x08000435   Thumb Code   148  metro_librairie_version2009d.o(.text)
+    Init_Timer3                              0x080004c9   Thumb Code   130  metro_librairie_version2009d.o(.text)
+    Lire_Position                            0x0800054b   Thumb Code     8  metro_librairie_version2009d.o(.text)
+    Init_Timer4                              0x08000553   Thumb Code   136  metro_librairie_version2009d.o(.text)
+    TIM4_IRQHandler                          0x080005db   Thumb Code    52  metro_librairie_version2009d.o(.text)
+    Lire_Vitesse                             0x0800060f   Thumb Code    50  metro_librairie_version2009d.o(.text)
+    Setup_Adc                                0x08000641   Thumb Code   200  metro_librairie_version2009d.o(.text)
+    Adc_On                                   0x08000709   Thumb Code    16  metro_librairie_version2009d.o(.text)
+    Start_Conversion                         0x08000719   Thumb Code    16  metro_librairie_version2009d.o(.text)
+    ADC_IRQHandler                           0x08000729   Thumb Code    34  metro_librairie_version2009d.o(.text)
+    Lire_courant                             0x0800074b   Thumb Code    12  metro_librairie_version2009d.o(.text)
+    setup_usart                              0x08000757   Thumb Code   268  metro_librairie_version2009d.o(.text)
+    fputc                                    0x08000863   Thumb Code   136  metro_librairie_version2009d.o(.text)
+    DMAChannel2_IRQHandler                   0x080008eb   Thumb Code   140  metro_librairie_version2009d.o(.text)
+    Init_Periphs                             0x08000977   Thumb Code    48  metro_librairie_version2009d.o(.text)
+    mesure                                   0x080009d1   Thumb Code    86  identification.o(.text)
+    consigne                                 0x08000a27   Thumb Code   238  identification.o(.text)
+    main                                     0x08000b15   Thumb Code    28  identification.o(.text)
+    __aeabi_ddiv                             0x08000bc1   Thumb Code   248  ddiv.o(.text)
+    __aeabi_i2f                              0x08000cb9   Thumb Code    20  fflti.o(.text)
+    __aeabi_d2iz                             0x08000ccd   Thumb Code    82  dfixi.o(.text)
+    __aeabi_f2d                              0x08000d1f   Thumb Code    36  f2d.o(.text)
+    fgetc                                    0x08000d43   Thumb Code     8  fgetc.o(.text)
+    __aeabi_uidiv                            0x08000d4b   Thumb Code     0  uidiv.o(.text)
+    __aeabi_uidivmod                         0x08000d4b   Thumb Code    44  uidiv.o(.text)
+    __aeabi_llsr                             0x08000d77   Thumb Code    30  llushr.o(.text)
+    _ll_ushift_r                             0x08000d77   Thumb Code     0  llushr.o(.text)
+    __I$use$fp                               0x08000d95   Thumb Code     0  iusefp.o(.text)
+    _float_round                             0x08000d95   Thumb Code    18  fepilogue.o(.text)
+    _float_epilogue                          0x08000da7   Thumb Code    74  fepilogue.o(.text)
+    _double_round                            0x08000df1   Thumb Code    54  depilogue.o(.text)
+    _double_epilogue                         0x08000e27   Thumb Code   142  depilogue.o(.text)
+    __scatterload                            0x08000eb9   Thumb Code    28  init.o(.text)
+    __scatterload_rt2                        0x08000eb9   Thumb Code     0  init.o(.text)
+    SVC_Count                                0x08000edc   Data           4  SVC_Table.o(SVC_TABLE)
+    __I$use$semihosting$fgetc                0x08000edd   Thumb Code     0  iusesemig.o(.text)
+    SVC_Table                                0x08000ee0   Data           0  SVC_Table.o(SVC_TABLE)
+    __0printf$1                              0x08000ee1   Thumb Code    22  printf1.o(i.__0printf$1)
+    __1printf$1                              0x08000ee1   Thumb Code     0  printf1.o(i.__0printf$1)
+    __2printf                                0x08000ee1   Thumb Code     0  printf1.o(i.__0printf$1)
+    __scatterload_copy                       0x08000f01   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x08000f0f   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x08000f11   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    _init_box                                0x08000f1f   Thumb Code    70  rt_membox.o(i._init_box)
+    dbg_init                                 0x080010b1   Thumb Code    36  hal_cm3.o(i.dbg_init)
+    dbg_task_notify                          0x080010dd   Thumb Code    32  hal_cm3.o(i.dbg_task_notify)
+    dbg_task_switch                          0x080010fd   Thumb Code    16  hal_cm3.o(i.dbg_task_switch)
+    getc                                     0x0800110d   Thumb Code     4  getc.o(i.getc)
+    rt_alloc_box                             0x08001111   Thumb Code    28  rt_membox.o(i.rt_alloc_box)
+    rt_block                                 0x0800112d   Thumb Code    48  rt_task.o(i.rt_block)
+    rt_chk_robin                             0x08001165   Thumb Code    66  rt_robin.o(i.rt_chk_robin)
+    rt_dec_dly                               0x080011b9   Thumb Code   106  rt_list.o(i.rt_dec_dly)
+    rt_dispatch                              0x0800122d   Thumb Code    60  rt_task.o(i.rt_dispatch)
+    rt_dly_wait                              0x08001271   Thumb Code     6  rt_time.o(i.rt_dly_wait)
+    rt_evt_psh                               0x08001279   Thumb Code    80  rt_event.o(i.rt_evt_psh)
+    rt_free_box                              0x080012cd   Thumb Code    38  rt_membox.o(i.rt_free_box)
+    rt_get_first                             0x080012f3   Thumb Code    40  rt_list.o(i.rt_get_first)
+    rt_init_stack                            0x08001361   Thumb Code    70  hal_cm3.o(i.rt_init_stack)
+    rt_itv_set                               0x080013b1   Thumb Code    16  rt_time.o(i.rt_itv_set)
+    rt_itv_wait                              0x080013c9   Thumb Code    32  rt_time.o(i.rt_itv_wait)
+    rt_mbx_psh                               0x080013f1   Thumb Code   120  rt_mailbox.o(i.rt_mbx_psh)
+    rt_pop_req                               0x0800146d   Thumb Code    80  rt_system.o(i.rt_pop_req)
+    rt_psq_deq                               0x080014cd   Thumb Code    28  rt_list.o(i.rt_psq_deq)
+    rt_put_dly                               0x080014ed   Thumb Code    70  rt_list.o(i.rt_put_dly)
+    rt_put_prio                              0x08001539   Thumb Code    54  rt_list.o(i.rt_put_prio)
+    rt_put_rdy_first                         0x08001571   Thumb Code    14  rt_list.o(i.rt_put_rdy_first)
+    rt_rmv_dly                               0x08001585   Thumb Code    40  rt_list.o(i.rt_rmv_dly)
+    rt_sem_psh                               0x080015ad   Thumb Code    46  rt_semaphore.o(i.rt_sem_psh)
+    rt_switch_req                            0x080015e1   Thumb Code    74  rt_task.o(i.rt_switch_req)
+    rt_sys_init                              0x0800163d   Thumb Code   214  rt_task.o(i.rt_sys_init)
+    rt_systick                               0x0800175d   Thumb Code    52  rt_system.o(i.rt_systick)
+    rt_tmr_tick                              0x080017a1   Thumb Code    56  rt_timer.o(i.rt_tmr_tick)
+    rt_tsk_create                            0x080017e1   Thumb Code   122  rt_task.o(i.rt_tsk_create)
+    os_maxtaskrun                            0x08001870   Data           2  rtx_conf_cm.o(.constdata)
+    os_stackinfo                             0x08001874   Data           4  rtx_conf_cm.o(.constdata)
+    os_rrobin                                0x08001878   Data           4  rtx_conf_cm.o(.constdata)
+    os_trv                                   0x0800187c   Data           4  rtx_conf_cm.o(.constdata)
+    os_flags                                 0x08001880   Data           1  rtx_conf_cm.o(.constdata)
+    os_clockrate                             0x08001884   Data           4  rtx_conf_cm.o(.constdata)
+    os_timernum                              0x08001888   Data           4  rtx_conf_cm.o(.constdata)
+    mp_tcb_size                              0x0800188c   Data           2  rtx_conf_cm.o(.constdata)
+    mp_stk_size                              0x08001890   Data           4  rtx_conf_cm.o(.constdata)
+    mp_tmr_size                              0x08001894   Data           2  rtx_conf_cm.o(.constdata)
+    Region$$Table$$Base                      0x080018e8   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08001908   Number         0  anon$$obj.o(Region$$Table)
     m_tmr                                    0x20000000   Data           4  rtx_conf_cm.o(.data)
-    ok                                       0x20000004   Data           4  metro_librairie_version2009d.o(.data)
-    rok                                      0x20000008   Data           4  metro_librairie_version2009d.o(.data)
+    pointeur                                 0x20000008   Data           4  metro_librairie_version2009d.o(.data)
+    buffer_empty                             0x2000000c   Data           4  metro_librairie_version2009d.o(.data)
     DATA_RECU                                0x20000014   Data           1  metro_librairie_version2009d.o(.data)
-    vitesse                                  0x20000016   Data           2  metro_librairie_version2009d.o(.data)
-    __stdout                                 0x20000018   Data           4  metro_librairie_version2009d.o(.data)
-    __stdin                                  0x2000001c   Data           4  metro_librairie_version2009d.o(.data)
-    go                                       0x20000020   Data           1  identification.o(.data)
-    tsk_mesure                               0x20000028   Data           4  identification.o(.data)
-    tsk_consigne                             0x2000002c   Data           4  identification.o(.data)
-    os_tsk                                   0x20000030   Data           8  rt_task.o(.data)
-    os_time                                  0x20000038   Data           2  rt_time.o(.data)
-    dbg_msg                                  0x2000003a   Data           1  hal_cm3.o(.data)
-    os_robin_time                            0x20000040   Data           2  rt_robin.o(.data)
-    os_tsk_robin                             0x20000044   Data           4  rt_robin.o(.data)
-    os_tmr                                   0x20000048   Data           8  rt_timer.o(.data)
-    mp_tcb                                   0x20000050   Data         300  rtx_conf_cm.o(.bss)
-    mp_stk                                   0x20000180   Data        5616  rtx_conf_cm.o(.bss)
-    os_active_TCB                            0x20001770   Data          24  rtx_conf_cm.o(.bss)
-    DATA_EMIS                                0x20001788   Data         100  metro_librairie_version2009d.o(.bss)
-    stock_courant                            0x200017ec   Data        2500  identification.o(.bss)
-    stock_position                           0x200021b0   Data        2500  identification.o(.bss)
-    stock_vitesse                            0x20002b74   Data        2500  identification.o(.bss)
-    os_psq                                   0x20003538   Data         132  rt_task.o(.bss)
-    os_idle_TCB                              0x200035bc   Data          48  rt_task.o(.bss)
-    os_rdy                                   0x200035ec   Data          24  rt_list.o(.bss)
-    os_dly                                   0x20003604   Data          24  rt_list.o(.bss)
-    __initial_sp                             0x20003820   Data           0  stm32f10x.o(STACK)
+    pdma                                     0x20000018   Data           4  metro_librairie_version2009d.o(.data)
+    go                                       0x2000001c   Data           1  identification.o(.data)
+    tsk_mesure                               0x20000024   Data           4  identification.o(.data)
+    tsk_consigne                             0x20000028   Data           4  identification.o(.data)
+    os_tsk                                   0x2000002c   Data           8  rt_task.o(.data)
+    os_time                                  0x20000034   Data           2  rt_time.o(.data)
+    dbg_msg                                  0x20000036   Data           1  hal_cm3.o(.data)
+    os_robin_time                            0x2000003c   Data           2  rt_robin.o(.data)
+    os_tsk_robin                             0x20000040   Data           4  rt_robin.o(.data)
+    os_tmr                                   0x20000044   Data           8  rt_timer.o(.data)
+    __stdin                                  0x2000004c   Data           4  stdin.o(.data)
+    __stdout                                 0x20000050   Data           4  stdout.o(.data)
+    mp_tcb                                   0x20000058   Data         300  rtx_conf_cm.o(.bss)
+    mp_stk                                   0x20000188   Data        5616  rtx_conf_cm.o(.bss)
+    os_active_TCB                            0x20001778   Data          24  rtx_conf_cm.o(.bss)
+    buff                                     0x20001790   Data         500  metro_librairie_version2009d.o(.bss)
+    stock_courant                            0x20001984   Data        2500  identification.o(.bss)
+    stock_position                           0x20002348   Data        2500  identification.o(.bss)
+    stock_vitesse                            0x20002d0c   Data        2500  identification.o(.bss)
+    os_psq                                   0x200036d0   Data         132  rt_task.o(.bss)
+    os_idle_TCB                              0x20003754   Data          48  rt_task.o(.bss)
+    os_rdy                                   0x20003784   Data          24  rt_list.o(.bss)
+    os_dly                                   0x2000379c   Data          24  rt_list.o(.bss)
+    __initial_sp                             0x200039b8   Data           0  stm32f10x.o(STACK)
 
 
 
@@ -902,106 +929,112 @@ Memory Map of the image
 
   Image Entry point : 0x08000265
 
-  Load Region LR_1 (Base: 0x08000000, Size: 0x000018b0, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x08000000, Size: 0x0000195c, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Base: 0x08000000, Size: 0x00001860, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Base: 0x08000000, Size: 0x00001908, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x08000000   0x000000ec   Data   RO            3    RESET               stm32f10x.o
-    0x080000ec   0x00000000   Code   RO          669  * .ARM.Collect$$$$00000000  entry.o(mc_w.l)
+    0x080000ec   0x00000000   Code   RO          668  * .ARM.Collect$$$$00000000  entry.o(mc_w.l)
     0x080000ec   0x00000004   Code   RO          943    .ARM.Collect$$$$00000001  entry2.o(mc_w.l)
     0x080000f0   0x00000004   Code   RO          946    .ARM.Collect$$$$00000004  entry5.o(mc_w.l)
     0x080000f4   0x00000008   Code   RO          947    .ARM.Collect$$$$00000007  entry7.o(mc_w.l)
     0x080000fc   0x00000004   Code   RO          944    .ARM.Collect$$$$00002712  entry2.o(mc_w.l)
-    0x08000100   0x00000164   Code   RO          295    .emb_text           hal_cm3.o(RTX_CM3.LIB)
+    0x08000100   0x00000164   Code   RO          294    .emb_text           hal_cm3.o(RTX_CM3.LIB)
     0x08000264   0x0000001c   Code   RO            4  * .text               stm32f10x.o
     0x08000280   0x0000000a   Code   RO           10    .text               rtx_conf_cm.o
     0x0800028a   0x00000002   PAD
-    0x0800028c   0x000006fc   Code   RO           34    .text               metro_librairie_version2009d.o
-    0x08000988   0x000001f0   Code   RO          144    .text               identification.o
-    0x08000b78   0x00000018   Code   RO          674    .text               strncpy.o(mc_w.l)
-    0x08000b90   0x000000f8   Code   RO          937    .text               ddiv.o(mf_w.l)
-    0x08000c88   0x00000024   Code   RO          939    .text               dflti.o(mf_w.l)
-    0x08000cac   0x00000052   Code   RO          941    .text               dfixi.o(mf_w.l)
-    0x08000cfe   0x0000002c   Code   RO          948    .text               uidiv.o(mc_w.l)
-    0x08000d2a   0x0000001e   Code   RO          952    .text               llushr.o(mc_w.l)
-    0x08000d48   0x00000000   Code   RO          954    .text               iusefp.o(mc_w.l)
-    0x08000d48   0x000000c8   Code   RO          955    .text               depilogue.o(mf_w.l)
-    0x08000e10   0x00000024   Code   RO          965    .text               init.o(mc_w.l)
-    0x08000e34   0x00000004   Code   RO          513    SVC_TABLE           SVC_Table.o(RTX_CM3.LIB)
-    0x08000e38   0x00000020   Code   RO          721    i.__0printf$1       printf1.o(mc_w.l)
-    0x08000e58   0x0000000e   Code   RO          971    i.__scatterload_copy  handlers.o(mc_w.l)
-    0x08000e66   0x00000002   Code   RO          972    i.__scatterload_null  handlers.o(mc_w.l)
-    0x08000e68   0x0000000e   Code   RO          973    i.__scatterload_zeroinit  handlers.o(mc_w.l)
-    0x08000e76   0x00000046   Code   RO          484    i._init_box         rt_membox.o(RTX_CM3.LIB)
-    0x08000ebc   0x0000014c   Code   RO          728    i._printf_core      printf1.o(mc_w.l)
-    0x08001008   0x0000002c   Code   RO          296    i.dbg_init          hal_cm3.o(RTX_CM3.LIB)
-    0x08001034   0x00000020   Code   RO          297    i.dbg_task_notify   hal_cm3.o(RTX_CM3.LIB)
-    0x08001054   0x00000010   Code   RO          298    i.dbg_task_switch   hal_cm3.o(RTX_CM3.LIB)
-    0x08001064   0x00000004   Code   RO          672    i.getc              getc.o(mc_w.l)
-    0x08001068   0x0000001c   Code   RO          485    i.rt_alloc_box      rt_membox.o(RTX_CM3.LIB)
-    0x08001084   0x00000038   Code   RO          168    i.rt_block          rt_task.o(RTX_CM3.LIB)
-    0x080010bc   0x00000054   Code   RO          465    i.rt_chk_robin      rt_robin.o(RTX_CM3.LIB)
-    0x08001110   0x00000074   Code   RO          387    i.rt_dec_dly        rt_list.o(RTX_CM3.LIB)
-    0x08001184   0x00000044   Code   RO          169    i.rt_dispatch       rt_task.o(RTX_CM3.LIB)
-    0x080011c8   0x00000006   Code   RO          264    i.rt_dly_wait       rt_time.o(RTX_CM3.LIB)
-    0x080011ce   0x00000002   PAD
-    0x080011d0   0x00000054   Code   RO          519    i.rt_evt_psh        rt_event.o(RTX_CM3.LIB)
-    0x08001224   0x00000026   Code   RO          486    i.rt_free_box       rt_membox.o(RTX_CM3.LIB)
-    0x0800124a   0x00000028   Code   RO          388    i.rt_get_first      rt_list.o(RTX_CM3.LIB)
-    0x08001272   0x00000002   PAD
-    0x08001274   0x00000044   Code   RO          170    i.rt_init_context   rt_task.o(RTX_CM3.LIB)
-    0x080012b8   0x00000050   Code   RO          299    i.rt_init_stack     hal_cm3.o(RTX_CM3.LIB)
-    0x08001308   0x00000018   Code   RO          265    i.rt_itv_set        rt_time.o(RTX_CM3.LIB)
-    0x08001320   0x00000028   Code   RO          266    i.rt_itv_wait       rt_time.o(RTX_CM3.LIB)
-    0x08001348   0x0000007c   Code   RO          562    i.rt_mbx_psh        rt_mailbox.o(RTX_CM3.LIB)
-    0x080013c4   0x00000060   Code   RO          336    i.rt_pop_req        rt_system.o(RTX_CM3.LIB)
-    0x08001424   0x00000020   Code   RO          390    i.rt_psq_deq        rt_list.o(RTX_CM3.LIB)
-    0x08001444   0x0000004c   Code   RO          392    i.rt_put_dly        rt_list.o(RTX_CM3.LIB)
-    0x08001490   0x00000036   Code   RO          393    i.rt_put_prio       rt_list.o(RTX_CM3.LIB)
-    0x080014c6   0x00000002   PAD
-    0x080014c8   0x00000014   Code   RO          394    i.rt_put_rdy_first  rt_list.o(RTX_CM3.LIB)
-    0x080014dc   0x00000028   Code   RO          396    i.rt_rmv_dly        rt_list.o(RTX_CM3.LIB)
-    0x08001504   0x00000034   Code   RO          608    i.rt_sem_psh        rt_semaphore.o(RTX_CM3.LIB)
-    0x08001538   0x0000005c   Code   RO          171    i.rt_switch_req     rt_task.o(RTX_CM3.LIB)
-    0x08001594   0x00000120   Code   RO          172    i.rt_sys_init       rt_task.o(RTX_CM3.LIB)
-    0x080016b4   0x00000044   Code   RO          338    i.rt_systick        rt_system.o(RTX_CM3.LIB)
-    0x080016f8   0x00000040   Code   RO          644    i.rt_tmr_tick       rt_timer.o(RTX_CM3.LIB)
-    0x08001738   0x00000090   Code   RO          173    i.rt_tsk_create     rt_task.o(RTX_CM3.LIB)
-    0x080017c8   0x00000026   Data   RO           12    .constdata          rtx_conf_cm.o
-    0x080017ee   0x00000002   PAD
-    0x080017f0   0x00000050   Data   RO          146    .constdata          identification.o
-    0x08001840   0x00000020   Data   RO          969    Region$$Table       anon$$obj.o
+    0x0800028c   0x00000744   Code   RO           34    .text               metro_librairie_version2009d.o
+    0x080009d0   0x000001f0   Code   RO          147    .text               identification.o
+    0x08000bc0   0x000000f8   Code   RO          935    .text               ddiv.o(mf_w.l)
+    0x08000cb8   0x00000014   Code   RO          937    .text               fflti.o(mf_w.l)
+    0x08000ccc   0x00000052   Code   RO          939    .text               dfixi.o(mf_w.l)
+    0x08000d1e   0x00000024   Code   RO          941    .text               f2d.o(mf_w.l)
+    0x08000d42   0x00000008   Code   RO          948    .text               fgetc.o(mc_w.l)
+    0x08000d4a   0x0000002c   Code   RO          960    .text               uidiv.o(mc_w.l)
+    0x08000d76   0x0000001e   Code   RO          964    .text               llushr.o(mc_w.l)
+    0x08000d94   0x00000000   Code   RO          966    .text               iusefp.o(mc_w.l)
+    0x08000d94   0x0000005c   Code   RO          967    .text               fepilogue.o(mf_w.l)
+    0x08000df0   0x000000c8   Code   RO          969    .text               depilogue.o(mf_w.l)
+    0x08000eb8   0x00000024   Code   RO          979    .text               init.o(mc_w.l)
+    0x08000edc   0x00000000   Code   RO          983    .text               iusesemig.o(mc_w.l)
+    0x08000edc   0x00000004   Code   RO          512    SVC_TABLE           SVC_Table.o(RTX_CM3.LIB)
+    0x08000ee0   0x00000020   Code   RO          719    i.__0printf$1       printf1.o(mc_w.l)
+    0x08000f00   0x0000000e   Code   RO          986    i.__scatterload_copy  handlers.o(mc_w.l)
+    0x08000f0e   0x00000002   Code   RO          987    i.__scatterload_null  handlers.o(mc_w.l)
+    0x08000f10   0x0000000e   Code   RO          988    i.__scatterload_zeroinit  handlers.o(mc_w.l)
+    0x08000f1e   0x00000046   Code   RO          483    i._init_box         rt_membox.o(RTX_CM3.LIB)
+    0x08000f64   0x0000014c   Code   RO          726    i._printf_core      printf1.o(mc_w.l)
+    0x080010b0   0x0000002c   Code   RO          295    i.dbg_init          hal_cm3.o(RTX_CM3.LIB)
+    0x080010dc   0x00000020   Code   RO          296    i.dbg_task_notify   hal_cm3.o(RTX_CM3.LIB)
+    0x080010fc   0x00000010   Code   RO          297    i.dbg_task_switch   hal_cm3.o(RTX_CM3.LIB)
+    0x0800110c   0x00000004   Code   RO          671    i.getc              getc.o(mc_w.l)
+    0x08001110   0x0000001c   Code   RO          484    i.rt_alloc_box      rt_membox.o(RTX_CM3.LIB)
+    0x0800112c   0x00000038   Code   RO          167    i.rt_block          rt_task.o(RTX_CM3.LIB)
+    0x08001164   0x00000054   Code   RO          464    i.rt_chk_robin      rt_robin.o(RTX_CM3.LIB)
+    0x080011b8   0x00000074   Code   RO          386    i.rt_dec_dly        rt_list.o(RTX_CM3.LIB)
+    0x0800122c   0x00000044   Code   RO          168    i.rt_dispatch       rt_task.o(RTX_CM3.LIB)
+    0x08001270   0x00000006   Code   RO          263    i.rt_dly_wait       rt_time.o(RTX_CM3.LIB)
+    0x08001276   0x00000002   PAD
+    0x08001278   0x00000054   Code   RO          518    i.rt_evt_psh        rt_event.o(RTX_CM3.LIB)
+    0x080012cc   0x00000026   Code   RO          485    i.rt_free_box       rt_membox.o(RTX_CM3.LIB)
+    0x080012f2   0x00000028   Code   RO          387    i.rt_get_first      rt_list.o(RTX_CM3.LIB)
+    0x0800131a   0x00000002   PAD
+    0x0800131c   0x00000044   Code   RO          169    i.rt_init_context   rt_task.o(RTX_CM3.LIB)
+    0x08001360   0x00000050   Code   RO          298    i.rt_init_stack     hal_cm3.o(RTX_CM3.LIB)
+    0x080013b0   0x00000018   Code   RO          264    i.rt_itv_set        rt_time.o(RTX_CM3.LIB)
+    0x080013c8   0x00000028   Code   RO          265    i.rt_itv_wait       rt_time.o(RTX_CM3.LIB)
+    0x080013f0   0x0000007c   Code   RO          561    i.rt_mbx_psh        rt_mailbox.o(RTX_CM3.LIB)
+    0x0800146c   0x00000060   Code   RO          335    i.rt_pop_req        rt_system.o(RTX_CM3.LIB)
+    0x080014cc   0x00000020   Code   RO          389    i.rt_psq_deq        rt_list.o(RTX_CM3.LIB)
+    0x080014ec   0x0000004c   Code   RO          391    i.rt_put_dly        rt_list.o(RTX_CM3.LIB)
+    0x08001538   0x00000036   Code   RO          392    i.rt_put_prio       rt_list.o(RTX_CM3.LIB)
+    0x0800156e   0x00000002   PAD
+    0x08001570   0x00000014   Code   RO          393    i.rt_put_rdy_first  rt_list.o(RTX_CM3.LIB)
+    0x08001584   0x00000028   Code   RO          395    i.rt_rmv_dly        rt_list.o(RTX_CM3.LIB)
+    0x080015ac   0x00000034   Code   RO          607    i.rt_sem_psh        rt_semaphore.o(RTX_CM3.LIB)
+    0x080015e0   0x0000005c   Code   RO          170    i.rt_switch_req     rt_task.o(RTX_CM3.LIB)
+    0x0800163c   0x00000120   Code   RO          171    i.rt_sys_init       rt_task.o(RTX_CM3.LIB)
+    0x0800175c   0x00000044   Code   RO          337    i.rt_systick        rt_system.o(RTX_CM3.LIB)
+    0x080017a0   0x00000040   Code   RO          643    i.rt_tmr_tick       rt_timer.o(RTX_CM3.LIB)
+    0x080017e0   0x00000090   Code   RO          172    i.rt_tsk_create     rt_task.o(RTX_CM3.LIB)
+    0x08001870   0x00000026   Data   RO           12    .constdata          rtx_conf_cm.o
+    0x08001896   0x00000002   PAD
+    0x08001898   0x00000050   Data   RO          149    .constdata          identification.o
+    0x080018e8   0x00000020   Data   RO          984    Region$$Table       anon$$obj.o
 
 
-    Execution Region ER_RW (Base: 0x20000000, Size: 0x00000050, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Base: 0x20000000, Size: 0x00000054, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x20000000   0x00000004   Data   RW           13    .data               rtx_conf_cm.o
-    0x20000004   0x0000001c   Data   RW           36    .data               metro_librairie_version2009d.o
-    0x20000020   0x00000010   Data   RW          147    .data               identification.o
-    0x20000030   0x00000008   Data   RW          179    .data               rt_task.o(RTX_CM3.LIB)
-    0x20000038   0x00000002   Data   RW          267    .data               rt_time.o(RTX_CM3.LIB)
-    0x2000003a   0x00000001   Data   RW          300    .data               hal_cm3.o(RTX_CM3.LIB)
-    0x2000003b   0x00000002   Data   RW          341    .data               rt_system.o(RTX_CM3.LIB)
-    0x2000003d   0x00000003   PAD
-    0x20000040   0x00000008   Data   RW          466    .data               rt_robin.o(RTX_CM3.LIB)
-    0x20000048   0x00000008   Data   RW          645    .data               rt_timer.o(RTX_CM3.LIB)
+    0x20000004   0x00000018   Data   RW           36    .data               metro_librairie_version2009d.o
+    0x2000001c   0x00000010   Data   RW          150    .data               identification.o
+    0x2000002c   0x00000008   Data   RW          178    .data               rt_task.o(RTX_CM3.LIB)
+    0x20000034   0x00000002   Data   RW          266    .data               rt_time.o(RTX_CM3.LIB)
+    0x20000036   0x00000001   Data   RW          299    .data               hal_cm3.o(RTX_CM3.LIB)
+    0x20000037   0x00000002   Data   RW          340    .data               rt_system.o(RTX_CM3.LIB)
+    0x20000039   0x00000003   PAD
+    0x2000003c   0x00000008   Data   RW          465    .data               rt_robin.o(RTX_CM3.LIB)
+    0x20000044   0x00000008   Data   RW          644    .data               rt_timer.o(RTX_CM3.LIB)
+    0x2000004c   0x00000004   Data   RW          673    .data               stdin.o(mc_w.l)
+    0x20000050   0x00000004   Data   RW          959    .data               stdout.o(mc_w.l)
 
 
-    Execution Region ER_ZI (Base: 0x20000050, Size: 0x000037d0, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Base: 0x20000054, Size: 0x00003964, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000050   0x00001738   Zero   RW           11    .bss                rtx_conf_cm.o
-    0x20001788   0x00000064   Zero   RW           35    .bss                metro_librairie_version2009d.o
-    0x200017ec   0x00001d4c   Zero   RW          145    .bss                identification.o
-    0x20003538   0x000000b4   Zero   RW          178    .bss                rt_task.o(RTX_CM3.LIB)
-    0x200035ec   0x00000030   Zero   RW          398    .bss                rt_list.o(RTX_CM3.LIB)
-    0x2000361c   0x00000004   PAD
-    0x20003620   0x00000200   Zero   RW            1    STACK               stm32f10x.o
+    0x20000054   0x00000004   PAD
+    0x20000058   0x00001738   Zero   RW           11    .bss                rtx_conf_cm.o
+    0x20001790   0x000001f4   Zero   RW           35    .bss                metro_librairie_version2009d.o
+    0x20001984   0x00001d4c   Zero   RW          148    .bss                identification.o
+    0x200036d0   0x000000b4   Zero   RW          177    .bss                rt_task.o(RTX_CM3.LIB)
+    0x20003784   0x00000030   Zero   RW          397    .bss                rt_list.o(RTX_CM3.LIB)
+    0x200037b4   0x00000004   PAD
+    0x200037b8   0x00000200   Zero   RW            1    STACK               stm32f10x.o
 
 
 ==============================================================================
@@ -1012,12 +1045,12 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
        496        150         80         16       7500       6471   identification.o
-      1788        134          0         28        100       8265   metro_librairie_version2009d.o
+      1860        114          0         24        500       7875   metro_librairie_version2009d.o
         10          0         38          4       5944       7894   rtx_conf_cm.o
         28          4        236          0        512        456   stm32f10x.o
 
     ----------------------------------------------------------------------
-      2324        288        388         48      14056      23086   Object Totals
+      2396        268        388         44      14456      22696   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          2          0          2          0          0          1   (incl. Padding)
 
@@ -1029,16 +1062,20 @@ Image component sizes
        248          0          0          0          0         96   ddiv.o
        200          4          0          0          0        136   depilogue.o
         82          0          0          0          0         80   dfixi.o
-        36          0          0          0          0         76   dflti.o
          0          0          0          0          0          0   entry.o
          8          4          0          0          0          0   entry2.o
          4          0          0          0          0          0   entry5.o
          8          4          0          0          0          0   entry7.o
+        36          0          0          0          0         68   f2d.o
+        92          0          0          0          0        152   fepilogue.o
+        20          0          0          0          0         68   fflti.o
+         8          0          0          0          0         68   fgetc.o
          4          0          0          0          0         68   getc.o
        528         48          0          1          0       2529   hal_cm3.o
         30          0          0          0          0          0   handlers.o
         36          8          0          0          0         68   init.o
          0          0          0          0          0          0   iusefp.o
+         0          0          0          0          0          0   iusesemig.o
         30          0          0          0          0         68   llushr.o
        364         14          0          0          0        180   printf1.o
         84          4          0          0          0        593   rt_event.o
@@ -1051,23 +1088,24 @@ Image component sizes
        716        134          0          8        180       6211   rt_task.o
         70         16          0          2          0       1363   rt_time.o
         64          8          0          8          0        627   rt_timer.o
-        24          0          0          0          0         76   strncpy.o
+         0          0          0          4          0          0   stdin.o
+         0          0          0          4          0          0   stdout.o
         44          0          0          0          0         76   uidiv.o
 
     ----------------------------------------------------------------------
-      3528        334          0         32        232      21407   Library Totals
-         6          0          0          3          4          0   (incl. Padding)
+      3624        334          0         40        236      21611   Library Totals
+         6          0          0          3          8          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name
 
       2404        300          0         29        228      20483   RTX_CM3.LIB
-       552         30          0          0          0        536   mc_w.l
-       566          4          0          0          0        388   mf_w.l
+       536         30          0          8          0        528   mc_w.l
+       678          4          0          0          0        600   mf_w.l
 
     ----------------------------------------------------------------------
-      3528        334          0         32        232      21407   Library Totals
+      3624        334          0         40        236      21611   Library Totals
 
     ----------------------------------------------------------------------
 
@@ -1076,15 +1114,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      5852        622        388         80      14288      42444   Grand Totals
-      5852        622        388         80      14288      42444   ELF Image Totals
-      5852        622        388         80          0          0   ROM Totals
+      6020        602        388         84      14692      42108   Grand Totals
+      6020        602        388         84      14692      42108   ELF Image Totals
+      6020        602        388         84          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 6240 (   6.09kB)
-    Total RW  Size (RW Data + ZI Data)             14368 (  14.03kB)
-    Total ROM Size (Code + RO Data + RW Data)       6320 (   6.17kB)
+    Total RO  Size (Code + RO Data)                 6408 (   6.26kB)
+    Total RW  Size (RW Data + ZI Data)             14776 (  14.43kB)
+    Total ROM Size (Code + RO Data + RW Data)       6492 (   6.34kB)
 
 ==============================================================================
 

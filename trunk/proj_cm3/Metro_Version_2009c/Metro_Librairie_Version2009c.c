@@ -1,14 +1,10 @@
 #include <stm32f10x_lib.h>
 #include "STM32_Reg.h"
 #include <stdio.h> 
-//#include <stdlib.h>
-#include <string.h>
-#include "Metro_Librairie_Version2009d.h"
-
-
+#include <stdlib.h>
 
 #define __RCC_CR_HSE_AND_PLL_ON	  0x01010000
-#define __RCC_CFGR_SET1	          0x000D0402	  
+#define __RCC_CFGR_SET1	          0x000D0402
 #define __RCC_CFGR_SET0	          0xFFDDC40E
 #define __RCC_CIR            	  0x00001800
 #define __RCC_CR_RESET            0x00000083
@@ -58,7 +54,7 @@
 #define __RCC_APB1ENR_TIM4EN	                     0x00000004
 #define __TIM4_EGR_UG                                0x0001                
 #define __TIM4_PSC                                   0x00FF                
-//#define __TIM4_ARR                                   0x009c               
+#define __TIM4_ARR                                   0x009c               
 #define __TIM4_CR1                                   0x0004                   
 #define __TIM4_CR2                                   0x0000                  
 #define __TIM4_SMCR                                  0x0000                 
@@ -96,7 +92,7 @@
 #define __CONT__MASQUE_AND     0xFFFFFFFD // Single conversion mode 
 #define __CAL__MASQUE_OR       0x00000004 // enable calibration 
 #define __SWSTART__MASQUE_OR   0x00400000 // start conversion  of regular  channel
-#define __SMP12                ((1<<8)||(1<<7)||(1<<6)) // sample time 239.5 cycles for channel 12 
+#define __SMP12                0x00000000  // sample time 1.5 cycles for channel 12 
 #define __SQR1                 0x00000000  // only conversion 
 #define __SQR3__MASQUE_OR      0x0000000C  // channel 12 in the first conversion in regular sequence 
 #define __EXTSEL__MASQUE_OR	   0x000E0000  //these bits select the external event used  to trigger the start of conversion (SWSTART)of a regular group
@@ -105,49 +101,14 @@
 #define __ADC_GLOBAL_INTERRUPT 0x00040000 
 #define __RESET_EOC_AND_FLAG_START_CONVERSION  	 0xFFFFFFED
 #define __TEST_END_OF_CONVERSION				 0x00000002
-#define DT_VITESSE  ( DT/0.0000064)
+
 							   
-
-
-/*--------------------------------------config clock system 40Mhz -------------------------------------------------*/
-//
-// HSE clock en entrée (quartz 8M)
-// PLL x5 => 40M
-// AHB 40M
-// APB1 APB2 input à 40M 
-// APB1 output à 20M (PORTA et TIM2-6,...) 
-// APB2 output à 40M (PORTA et TIM2-6,...)
-//   tout périph APB2 à 40 sauf l'ADC à 20M
-// Pas d'interruption de clock
-
-void Setup_Pll_As_Clock_System()
-{ RCC->CR   =__RCC_CR_RESET ;
- // AHB sur la clock interne HSI
-  RCC->CFGR =__RCC_CFGR_RESET;
-  RCC->CIR  =__RCC_CIR_RESET;
-  
-  RCC->CFGR |=__RCC_CFGR_SET1;
-  RCC->CFGR &=__RCC_CFGR_SET0;
-  
-  RCC->CIR  |=__RCC_CIR;
- 
-  //AHB sur PLL qui est sur HSE
-  RCC->CR |=0x00010000;
- 
-  // wait for HSE OK
-  while(RCC->CR & 0x00020000 ==0);
-  
-  //active la PLL
-  RCC->CR |=0x01000000;
-  
-  //wait PLL OK
-  while(RCC->CR & 0x02000000 ==0);
-
-  //RCC->CR   |=__RCC_CR_HSE_AND_PLL_ON;
-}
-
- /*------------------------------------end config clock system 40Mhz ------------------------------------------------*/
-
+//------------------------------------------------------------------------
+char DATA_EMIS[100];
+char DATA_RECU[100];
+int ok=1;
+unsigned short int vitesse;
+//-------------------------------------------------------------------------
 
 
  void Init_PortA()
@@ -166,25 +127,11 @@ GPIOB->CRH = __ALTERNATE_OUTPUT_PUSH_PULL_PORTB; 	                 // port pB9 c
 
   void Init_PortC()
 {
-RCC->APB2ENR |=__RCC_APB2ENR_PORTCEN;	        	 				  // enable clock for port C
-                                            // port pC2 config as ANALG INPUT
-GPIOC->CRL   =0x34444044;                   //port pc7 config as output
-GPIOC->CRH   =0x44444434;					 //port pc9 config as output
-
-GPIOC->ODR	 |=0x00000280;                   //two leds off 
+RCC->APB2ENR |=__RCC_APB2ENR_PORTCEN;	        	 				  // enable clock for port A
+GPIOC->CRL   &= 0xFFFFF0FF ; 	              // port pC2 config as ANALG INPUT
 }
 
  /*-----------------------------------------config timerx-------------------------------------------------*/
-
-#ifdef USE_PWM
-//_________________________________________PWM_________________________________________________
-//
-// précision sur 12 bits
-// TIMER 2 config for PWM outputs
-// pas de prescaler sur APB1 (40M)
-// reload sur 12 bits => 17,5KHz environ, 
-// mode  PWM mode-1
-// pas d'interruption
 void  Init_Timer2()	  
 {
 
@@ -211,87 +158,8 @@ void  Init_Timer2()
     // TIM2->CR1 |= __TIMX_CR1_CEN;                     // enable timer
                                  
 }
- 
- 
- void Pwm1()	//ça roule en arriére
-{
-  
-  // bloque TIMER 2 pour changer de canal PWM actif
-  // évite les impulsions parasites
-  TIM2->CR1 &=__TIMX_CR1_CDISABLE;
-   
-  TIM2->CCER &=__CC3_OFF;
-  TIM2->CCER |=__CC2_ON;
 
-  // channel 2 actif on réactive le timer
-  TIM2->CR1  |= __TIMX_CR1_CEN;
- 
-  GPIOC->ODR &=0xFFFFFDFF;			  //LED ARRIERE ON
-  GPIOC->ODR  |=0x00000080; 		  //LED AVANCE OFF
-}
-
-
-
-void Pwm2()		//ça roule en avance 
-{
-  TIM2->CR1 &=__TIMX_CR1_CDISABLE;
-  TIM2->CCER &=__CC2_OFF;
-  TIM2->CCER |=__CC3_ON; 		                                // output control oc2 signal is output on the corresponding output pin
-  TIM2->CR1 |= __TIMX_CR1_CEN;
-  GPIOC->ODR &=0xFFFFFF7F;	       //LED AVANCE ON
-  GPIOC->ODR |=0x00000200; 		   //LED ARRIERE OFF
-}
-
-void Fixe_Rapport( short int duty_cycle)				 // frequency is fixed for 12 bits, so the value of duty cycle is max for 12 bits 4095 
-{
- if(duty_cycle > 0)
-      { 
-	   if(duty_cycle > __TIM2_ARR)
-	       TIM2->CCR3 =__TIM2_ARR;
-	   else 
-		  TIM2->CCR3 = (duty_cycle); 	  	  
-	  
-	   Pwm2();    
-	  }
-  else if(duty_cycle < 0)
-      {
-	   if(duty_cycle < -__TIM2_ARR)
-		 TIM2->CCR2 =__TIM2_ARR;
-	   else
-	     TIM2->CCR2 =-duty_cycle;	   
-	    
-		Pwm1();
-	 
-	  }
-	  
- if(duty_cycle==0)
-   {
-    TIM2->CR1 &=__TIMX_CR1_CDISABLE;	
-	TIM2->CCER &=__CC2_OFF;
-	TIM2->CCER &=__CC3_OFF;
-	GPIOC->ODR |=0x00000200;    // LED ARRIERE OFF
-	GPIOC->ODR  |=0x00000080;	//LED AVANCE OFF
-   }	  
-	  
-}
- #endif
-//_________________________________________FIN PWM_________________________________________________
-
-
-
-//_____________________________________________________CODEURS INCREMENTAUX__________________________
-#ifdef USE_POSITION
-	#define USE_T3
-#endif
-#ifdef USE_SPEED
-	#define USE_T3
-#endif
-#ifdef USE_T3
 void  Init_Timer3()	  
-// mode encod incremental-3 (compte et décompte)
-// pas d'interrupt
-// résultat dans TIM3->CNT (16 bits signés) -32535 à 32536 max !!!
-// TO DEBUG
 {
 
       RCC->APB1ENR |= __RCC_APB1ENR_TIM3EN;                          // enable clock for TIM3
@@ -321,22 +189,8 @@ void  Init_Timer3()
 	  TIM3->CR1 |= __TIMX_CR1_CEN;                     // enable timer
                                  
 }
-#endif  
-#ifdef USE_POSITION
-  int Lire_Position()
-{
-   return (int)	(TIM3->CNT);
-}
-#endif  
-//_____________________________________________FIN CODEURS INCREMENTAUX__________________________
 
-//______________________________________________MESURE VITESSE__________________________
-// mode timer
-// APB1 à 40MHz
-// prescaler à 256
-// et reload selon #define de dt en haut (float en s) 0 à TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// interruption validée prioté 0
-#ifdef USE_SPEED
+
  void  Init_Timer4()		    
 {
 
@@ -345,7 +199,7 @@ void  Init_Timer3()
 
 	                          // detailed settings used
       TIM4->PSC = __TIM4_PSC;                               // set prescaler
-      TIM4->ARR = DT_VITESSE;                               // set auto-reload
+      TIM4->ARR = __TIM4_ARR;                               // set auto-reload
       TIM4->CCR1  = __TIM4_CCR1;                            //
       TIM4->CCR2  = __TIM4_CCR2;                            //
       TIM4->CCR3  = __TIM4_CCR3;                            //
@@ -363,47 +217,35 @@ void  Init_Timer3()
                            // interrupts used
       TIM4->DIER = __TIM4_DIER;                             // enable interrupt
 	  NVIC->ISER[0] = 0x40000000;  							// enable  nested vector interrupt controler
-	  // priorité dans NVIC->IP[0]   TODO !!! prioritées selon defines
 
      TIM4->CR1 |= __TIMX_CR1_CEN;                              // enable timer
                                 
 }
-
-
-static int old_position ;
-static int new_position =0;
-
- 
-void TIM4_IRQHandler(void)
- {
- 
- 	if((TIM4->SR & 0x0001)) // est-ce un overflow ?(dépassement)
-      {
-	  	TIM4->SR &= ~(0x0001);		 // reset interrupt flag
-		old_position = new_position;
-		new_position=Lire_Position();
- 	  }		 
-  
- }
-
- int Lire_Vitesse()
-{   	
-   return  (int) ((float)(new_position-old_position)/(DT));	 
-}
-
-#endif
 /*-----------------------------------------end config timerx-------------------------------------------------*/
 
 
+/*--------------------------------------config clock system 40Mhz -------------------------------------------------*/
+void Setup_Pll_As_Clock_System()
+{ RCC->CR   =__RCC_CR_RESET ;
+  RCC->CFGR =__RCC_CFGR_RESET;
+  RCC->CIR  =__RCC_CIR_RESET;
+  
+  RCC->CFGR |=__RCC_CFGR_SET1;
+  RCC->CFGR &=__RCC_CFGR_SET0;
+  
+  RCC->CIR  |=__RCC_CIR;
+  RCC->CR |=0x00010000;
+  while(RCC->CR & 0x00020000 ==0);
+  RCC->CR |=0x01000000;
+  while(RCC->CR & 0x02000000 ==0);
+
+  //RCC->CR   |=__RCC_CR_HSE_AND_PLL_ON;
+}
+
+ /*------------------------------------end config clock system 40Mhz ------------------------------------------------*/
+
 
  /*-------------------------------------------config ADC---------------------------------------------------------*/
-#ifdef USE_ADC
-// APB2 40MHz
-// ADC prescaler à 2 : ADC à 20MHz
-// mode continuous mode sur channel 12
-// end of conversion interrupt validée
-// temps de conversion 239.5+12.5 cycles = 252 cycles = 12,5 us (de tête)
-// data alignée à droite
  void Setup_Adc()
 {
  RCC->APB2ENR |=__ENABLE_CLOCK_ADC;
@@ -435,28 +277,11 @@ ADC1->CR2   |= __SWSTART__MASQUE_OR; // set conversion but it's  cleared by hard
         { ADC1->SR &=__RESET_EOC_AND_FLAG_START_CONVERSION;
 //         __COURANT = Get_Courant_Moteur();
 	    }
-
-}
-
-short int Lire_courant()
-{ 
-	short int  conv;
-  	conv =(ADC1->DR)&(0x0000FFF);
- 	return conv; 
-
-}
-#endif 
+} 
 /*---------------------------------------end config ADC----------------------------------------------------*/
  
 /*-------------------------------------------config usart with DMA---------------------------------------------------------*/ 
-#ifdef USE_STAR_USART 
-
-char DATA_EMIS[100];
-char DATA_RECU;
-int ok=1;
-int rok=0;
-short int vitesse;
-
+ 
   void setup_usart()							//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTERNATE FUNCTION
  {
   RCC->AHBENR |=0x00000001;// DMA1 CLOCK ENABLE
@@ -474,16 +299,16 @@ short int vitesse;
   DMA1_Channel2->CCR|=0x00000001;  //ENABLE CHANNEL	 2	 
  
   DMA1_Channel3->CPAR =	(u32)&(USART3->DR); // ADRESSE  USART_DR
-  DMA1_Channel3->CMAR =(u32)&DATA_RECU;   //ADRESSE DATA_RECU
-  DMA1_Channel3->CNDTR=1;	// receiver 1 byte	by default
+  DMA1_Channel3->CMAR =(u32)(&DATA_RECU[0]);   //ADRESSE DATA_RECU
+  DMA1_Channel3->CNDTR=100;	// receiver 100 byte	by default
   DMA1_Channel3->CCR|=0x00000100;	// PRIORITY LEVEL MEDIUM
   DMA1_Channel3->CCR&=0xFFFFFFEF;   //READ FROM PERIPHERAL
   DMA1_Channel3->CCR|=0x00000080;   //	POINTER INCREMENTALE MEMORY 
-  DMA1_Channel3->CCR|=0x00000020;	//CIRCULAR MODE
+  //DMA1_Channel3->CCR|=0x00000020;	//CIRCULAR MODE
   
   DMA1_Channel3->CCR|=0x00000002;   //tc enable interrupt
   DMA1_Channel3->CCR|=0x00000001;  //ENABLE CHANNEL	 3	  and tc enable    
-  NVIC->ISER[0] = 0x00003000;
+  NVIC->ISER[0] = 0x00001000;
   
 
   USART3->CR1 |=0x00002000;	 // UE ENABLE
@@ -496,8 +321,66 @@ short int vitesse;
   //USART3->CR1 |=0x00000080;	// TXE ENABLE INTERRUPT  
   //NVIC->ISER[1] = 0x0000080;
  }
+ 
+/*-------------------------------------------end config usart with DMA---------------------------------------------------------*/ 
+ 
+ 
+ 
+ 
+ 
+ void Pwm1()
+{
+  TIM2->CR1 &=__TIMX_CR1_CDISABLE;
+  TIM2->CCER &=__CC3_OFF;
+  TIM2->CCER |=__CC2_ON;
+  TIM2->CR1  |= __TIMX_CR1_CEN;
+}
 
- struct __FILE 
+
+
+void Pwm2()
+{
+  TIM2->CR1 &=__TIMX_CR1_CDISABLE;
+  TIM2->CCER &=__CC2_OFF;
+  TIM2->CCER |=__CC3_ON; 		                                // output control oc2 signal is output on the corresponding output pin
+  TIM2->CR1 |= __TIMX_CR1_CEN;
+}
+
+
+
+
+void Fixe_Rapport(int duty_cycle)				 // frequency is fixed for 12 bits, so the value of duty cycle is max for 12 bits 4095 
+{
+ if(duty_cycle > 0)
+      { 
+	   if(duty_cycle > 4095)
+	      TIM2->CCR2 =0x0FFF;
+	   else 
+	      TIM2->CCR2 =duty_cycle; 	  	  
+	   Pwm1();
+	  }
+  else if(duty_cycle < 0)
+      {
+	   if(duty_cycle < -4095)
+	     TIM2->CCR3 =0x0FFF;
+	   else 
+	   TIM2->CCR3 = -(duty_cycle); 	   
+	   Pwm2();
+	  }
+	  
+ if(duty_cycle==0)
+   {
+    TIM2->CR1 &=__TIMX_CR1_CDISABLE;	
+	TIM2->CCER &=__CC2_OFF;
+	TIM2->CCER &=__CC3_OFF;
+   }	  
+	  
+}
+
+
+
+
+struct __FILE 
   {
   int handle;                 
   };
@@ -538,192 +421,58 @@ char data[100];
  
  /*--------------------------------------------end fputc---------------------------------------------------------*/
 
-/*---------------------------------------------fgetc---------------------------------------------------------*/
-int fgetc(FILE *f) {
-  int ch;
-        while(!rok)
-	        {
-		    }
-   ch =DATA_RECU;
-   rok=0;
-  return (ch);
-}
-/*------------------------------------------end fgetc---------------------------------------------------------*/ 
+
 
  
+unsigned short int Lire_Position()
+{
+   return (int)	(TIM3->CNT);
+}
+ 
+ unsigned short int Lire_courant()
+{ unsigned short int  __DATA_ADC;
+  __DATA_ADC =(ADC1->DR)&(0x0000FFFF);
+ return __DATA_ADC; 
+
+}
+
+void  Calcule_vitesse()
+{ 
+ static int position =0;
+  int p;
+  p=Lire_Position();
+  vitesse=(p-position)/(0.025);	 // dt =25 ms
+  position =p;
+ }
+
+unsigned short int Lire_Vitesse()
+{
+   return vitesse;
+}
  
  
  
+ void TIM4_IRQHandler(void)
+ {
+ 
+ 	if((TIM4->SR & 0x0001))
+      {TIM4->SR &=0xFFFE;		 // reset interrupt flag
+	 	Calcule_vitesse();
+	  }		 
+  
+ }
  
 void DMAChannel2_IRQHandler (void)
 {	if(DMA1->ISR & 0x00000020)
           {
 		  ok=1;
-	       DMA1->IFCR |=0x0000000F0;
+	       DMA1->IFCR |=0x000000FF0;
 		  }
  
 
 } 
 
-void DMAChannel3_IRQHandler (void)
-{	if(DMA1->ISR & 0x00000200)
-          {
-		  rok=1;
-	       DMA1->IFCR |=0x000000F00;
-		  }
- 
 
-}
-
-
- #endif
-//------------------------------------------------------------------------
-
-//-------------------------------------------------------------------------
- 
-/*-------------------------------------------end config usart with DMA---------------------------------------------------------*/ 
- 
- 
-
-#ifdef USE_DMA_USART
-char DATA_RECU;
-
-
- void setup_usart()							//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTERNATE FUNCTION
- {
-  RCC->AHBENR |=0x00000001;// DMA1 CLOCK ENABLE
-  RCC->APB1ENR|=0x00040000;// USART 3 CLOCK ENABLE
-  DMA1_Channel2->CPAR =(u32)&(USART3->DR); // ADRESSE  USART_DR
-  // DMA1_Channel2->CMAR =(u32)(&DATA_EMIS[0]);  
-  DMA1_Channel2->CNDTR=1;	
-  DMA1_Channel2->CCR|=0x00000100;	// PRIORITY LEVEL MEDIUM
-  DMA1_Channel2->CCR|=0x00000010;   //READ FROM MEMORY
-  DMA1_Channel2->CCR|=0x00000080;   //	POINTER INCREMENTALE MEMORY 
-  
-  //DMA1_Channel2->CCR|=0x00000020;	//CIRCULAR MODE
-
-  DMA1_Channel2->CCR|=0x00000002; // tc enable interrupt
-  DMA1_Channel2->CCR|=0x00000001;  //ENABLE CHANNEL	 2	 
- 
-  DMA1_Channel3->CPAR =	(u32)&(USART3->DR); // ADRESSE  USART_DR
-  DMA1_Channel3->CMAR =(u32)&DATA_RECU;   //ADRESSE DATA_RECU
-  DMA1_Channel3->CNDTR=1;
-  DMA1_Channel3->CCR|=0x00000100;	// PRIORITY LEVEL MEDIUM
-  DMA1_Channel3->CCR&=0xFFFFFFEF;   //READ FROM PERIPHERAL
-  DMA1_Channel3->CCR|=0x00000080;   //	POINTER INCREMENTALE MEMORY 
-  DMA1_Channel3->CCR|=0x00000020;	//CIRCULAR MODE
-  
-  DMA1_Channel3->CCR|=0x00000002;   //tc enable interrupt
-  DMA1_Channel3->CCR|=0x00000001;  //ENABLE CHANNEL	 3	  and tc enable    
-  NVIC->ISER[0] = 0x00003000;
-  
-
-  USART3->CR1 |=0x00002000;	 // UE ENABLE
-  USART3->CR1 &=0xFFFFEFFF;	// M=0 , DATA 8BITS
-  USART3->CR2 &=0xFFFFCFFF;	 // 1 STOP BIT
-  USART3->CR1 |=0x0000000C;	  // ENABLE RECEIVER AND TRANSEIVER TE,RE
-  USART3->CR3 |=0x000000C0;// DMAT AND DMAR ENABLE
-  USART3->BRR  =0x00000823;	// BAUDE RATE 9600 ,DIV_FRA =0x6 ,DIV_MANT=0xEA
-  USART3->CR3 |=0x00000700;	// CTS ENABLE ,RTS ENABLE ,CTSIE
-  //USART3->CR1 |=0x00000080;	// TXE ENABLE INTERRUPT  
-  //NVIC->ISER[1] = 0x0000080;
- }
-
- #define TAILLE 500
- char buff[TAILLE];
- #define END_BUFF  (&(buff[TAILLE-1]))
- 
- char *pointeur=buff;
- char *pdma;
- int buffer_empty=1;
- 
-
-
-int fputc(int ch, FILE *f) 
- { 
-   if (~buffer_empty)
- 	{
-		while (pointeur == (char *) (DMA1_Channel2->CMAR)) ;
- 
- 		*pointeur=ch;
-   
-   		if(pointeur>=END_BUFF)
-      	{
-	  		pointeur=buff;
-	  	}
-	  	else  
-	  		pointeur++;
-   	 }
-	 else
-	 {
-	 	 *pointeur=ch;
-   
- 		// send single char to DMA
-		DMA1_Channel2->CCR &=0xfffffffe;    //disABLE CHANNEL	 2	 
-		DMA1_Channel2->CNDTR=1;
-		DMA1_Channel2->CMAR=(unsigned int) pointeur;
-		DMA1_Channel2->CCR |=0x00000001;  
-	    buffer_empty=0;
-
-   		if(pointeur>=END_BUFF)
-      	{
-	  		pointeur=buff;
-	  	}
-	  	else  
-	  		pointeur++;
-
-	 }
-   
-   return ch;
-  }
-
-
- void DMAChannel2_IRQHandler (void)
-{	
-	char * pDMA ;
-   	  
-
-	if ( (DMA1->ISR & 0x00000020) & ~buffer_empty ) 	  //end of conversion interrupt
-    {
-
-			pDMA = (char *) (DMA1_Channel2->CMAR + DMA1_Channel2->CNDTR );
-   	
-			if(pDMA>END_BUFF)
-    	  	{
-		  		pDMA=buff;
-		  	}
-	
-		   if ( pDMA == pointeur) 
-		   {
-		   	buffer_empty = 1;
-		   }
-		   else
-		   {
-		   		if (pointeur>pDMA)
-				{
-				    // DMA up to pointeur
-					DMA1_Channel2->CCR &=0xfffffffe;    //disABLE CHANNEL	 2	 
-					DMA1_Channel2->CNDTR=(pointeur-pDMA);
-					DMA1_Channel2->CMAR= (unsigned int) pDMA;
-					DMA1_Channel2->CCR |=0x00000001;  
-				}
-				else
-				{	// DMA up to end of buffer
-					DMA1_Channel2->CCR &=0xfffffffe;    //disABLE CHANNEL	 2	 
-					DMA1_Channel2->CNDTR=(END_BUFF-pDMA+1);
-					DMA1_Channel2->CMAR=(unsigned int) pDMA;
-					DMA1_Channel2->CCR |=0x00000001;  
-				
-				}
-			}
-		   		
-		   		
-	}
-	DMA1->IFCR |=0x0000000F0; //reset interrupt flag
-}
- 
-#endif
- 
 
 
 void Init_Periphs()			  
@@ -732,31 +481,12 @@ void Init_Periphs()
  Init_PortA();
  Init_PortB();
  Init_PortC();
-
- #ifdef USE_STAR_USART
  setup_usart();
- #endif
- #ifdef USE_DMA_USART
- setup_usart();
- #endif
-
- #ifdef USE_ADC
-  Setup_Adc();
-  Adc_On();
-  Start_Conversion();
- #endif
-
- #ifdef USE_PWM
+ Setup_Adc();
+ Adc_On();
+ Start_Conversion();
  Init_Timer2();
- #endif
-
- #ifdef USE_POSITION
  Init_Timer3();
- #endif
-
- #ifdef USE_SPEED
  Init_Timer4();
- #endif
-
-
+ 
 }
