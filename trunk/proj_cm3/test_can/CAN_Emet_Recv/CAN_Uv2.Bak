@@ -194,7 +194,7 @@ Options 2,0,0  // Target 'MCBSTM32_Emmeteur'
  ADSLDIF ()
  ADSLDDW ()
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
-  OPTDBG 49150,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
+  OPTDBG 49150,-1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
  FLASH1 { 1,0,0,0,1,0,0,0,4,16,0,0,0,0,0,0,0,0,0,0 }
  FLASH2 (BIN\UL2CM3.DLL)
  FLASH3 ("" ())

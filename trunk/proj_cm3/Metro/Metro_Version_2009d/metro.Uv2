@@ -70,7 +70,7 @@ Options 1,0,0  // Target 'simu'
  RV_STAVEC ()
  ADSCCFLG { 5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSCMISC ()
- ADSCDEFN ()
+ ADSCDEFN (SPEED)
  ADSCUDEF ()
  ADSCINCD ()
  ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }

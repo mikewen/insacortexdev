@@ -56,11 +56,6 @@ OPTFFF 5,32,5,352321536,0,0,0,0,<.\archi_appli.oil><archi_appli.oil>
 OPTFFF 6,33,1,956301312,0,0,0,0,<.\archi_appli\tpl_os_generated_configuration.c><tpl_os_generated_configuration.c> 
 OPTFFF 7,34,1,402653184,0,0,0,0,<.\code_appli.c><code_appli.c> 
 
-ExtF <J:\acco\zipzap\cortex_dev\trampoline-1.1_svn\os\tpl_os_custom_types.h> 47,47,0,{ 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,44,0,0,0,44,0,0,0,95,3,0,0,68,1,0,0 }
-ExtF <J:\acco\zipzap\cortex_dev\projets\trampoline\cortex-trampoline_V1.1\defaultAppWorkstation\tpl_app_custom_types.h> 1,15,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,66,0,0,0,66,0,0,0,121,3,0,0,94,1,0,0 }
-ExtF <J:\acco\zipzap\cortex_dev\trampoline-1.1_svn\machines\cortex_m3\tpl_machine.h> 13,13,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,88,0,0,0,88,0,0,0,143,3,0,0,116,1,0,0 }
-ExtF <J:\acco\zipzap\cortex_dev\trampoline-1.1_svn\os\tpl_os_internal_types.h> 19,31,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,110,0,0,0,110,0,0,0,165,3,0,0,138,1,0,0 }
-ExtF <J:\acco\zipzap\cortex_dev\trampoline-1.1_svn\machines\cortex_m3\tpl_os_std_types.h> 52,52,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,0,0,0,0,0,0,0,0,55,3,0,0,28,1,0,0 }
 
 TARGOPT 1, (simu)
  ADSCLK=8000000

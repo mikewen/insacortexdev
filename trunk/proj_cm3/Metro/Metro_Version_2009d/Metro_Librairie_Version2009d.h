@@ -3,21 +3,45 @@
 					   /*--- commentez les lignes pour désactiver ces fonctionalites----*/
 
 //#define USE_STAR_USART 
-#define USE_DMA_USART  
-#define USE_SPEED
-#define USE_ADC
-#define USE_POSITION
+#define USE_DMA_USART 
+#ifdef USE_DMA_USART
+	#define USARTx USART3 
+	#define IN_BUFF_SIZE 25
+	#define SEND_BUFF_SIZE 16
+
+	extern void flush_serial_input(void);
+#endif
+
+
+//#define USE_ADC
+#ifdef USE_ADC 
+	extern  short int Lire_courant(void);
+#endif
+
+
+//#define USE_POSITION
+#ifdef USE_POSITION
+	extern  int Lire_Position(void);
+#endif
+
+
+//#define USE_SPEED
+#ifdef USE_SPEED
+	#define DT 0.001     // pas de calcul de la vitesse	en s
+	extern  int Lire_Vitesse(void);
+#endif
+
+
 #define USE_PWM 
+	extern void Fixe_Rapport(short int);
+#endif
 				    /*--------------------------------------end---------------------------------*/
 
-#define DT 0.001     // pas de calcul de la vitesse	en s
 
 
 
 extern void Init_Periphs(void);	
-extern void Fixe_Rapport(short int);
-extern  int Lire_Vitesse(void);
-extern  int Lire_Position(void);
-extern  short int Lire_courant(void);
+
+
 
 #endif

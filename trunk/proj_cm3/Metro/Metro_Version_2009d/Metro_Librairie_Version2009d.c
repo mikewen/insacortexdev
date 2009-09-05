@@ -629,19 +629,19 @@ char DATA_RECU;
   //NVIC->ISER[1] = 0x0000080;
  }
 
- #define TAILLE 500
+ #define TAILLE 16
  char buff[TAILLE];
  #define END_BUFF  (&(buff[TAILLE-1]))
  
  char *pointeur=buff;
  char *pdma;
- int buffer_empty=1;
- 
+ char buffer_empty=1;
+ short int dma_size;
 
 
 int fputc(int ch, FILE *f) 
  { 
-   if (~buffer_empty)
+   if (!buffer_empty)
  	{
 		while (pointeur == (char *) (DMA1_Channel2->CMAR)) ;
  
@@ -661,8 +661,8 @@ int fputc(int ch, FILE *f)
  		// send single char to DMA
 		DMA1_Channel2->CCR &=0xfffffffe;    //disABLE CHANNEL	 2	 
 		DMA1_Channel2->CNDTR=1;
+		dma_size=DMA1_Channel2->CNDTR;  //save buff size because CNDTR is cleared on IRQ
 		DMA1_Channel2->CMAR=(unsigned int) pointeur;
-		DMA1_Channel2->CCR |=0x00000001;  
 	    buffer_empty=0;
 
    		if(pointeur>=END_BUFF)
@@ -671,6 +671,9 @@ int fputc(int ch, FILE *f)
 	  	}
 	  	else  
 	  		pointeur++;
+
+		DMA1_Channel2->CCR |=0x00000001;  
+
 
 	 }
    
@@ -683,10 +686,10 @@ int fputc(int ch, FILE *f)
 	char * pDMA ;
    	  
 
-	if ( (DMA1->ISR & 0x00000020) & ~buffer_empty ) 	  //end of conversion interrupt
+	if ( (DMA1->ISR && 0x00000020) & !buffer_empty ) 	  //end of conversion interrupt
     {
 
-			pDMA = (char *) (DMA1_Channel2->CMAR + DMA1_Channel2->CNDTR );
+			pDMA = (char *) (DMA1_Channel2->CMAR + dma_size);
    	
 			if(pDMA>END_BUFF)
     	  	{
@@ -704,6 +707,7 @@ int fputc(int ch, FILE *f)
 				    // DMA up to pointeur
 					DMA1_Channel2->CCR &=0xfffffffe;    //disABLE CHANNEL	 2	 
 					DMA1_Channel2->CNDTR=(pointeur-pDMA);
+					dma_size=DMA1_Channel2->CNDTR;  //save buff size because CNDTR is cleared on IRQ
 					DMA1_Channel2->CMAR= (unsigned int) pDMA;
 					DMA1_Channel2->CCR |=0x00000001;  
 				}
@@ -711,6 +715,7 @@ int fputc(int ch, FILE *f)
 				{	// DMA up to end of buffer
 					DMA1_Channel2->CCR &=0xfffffffe;    //disABLE CHANNEL	 2	 
 					DMA1_Channel2->CNDTR=(END_BUFF-pDMA+1);
+					dma_size=DMA1_Channel2->CNDTR;  //save buff size because CNDTR is cleared on IRQ
 					DMA1_Channel2->CMAR=(unsigned int) pDMA;
 					DMA1_Channel2->CCR |=0x00000001;  
 				

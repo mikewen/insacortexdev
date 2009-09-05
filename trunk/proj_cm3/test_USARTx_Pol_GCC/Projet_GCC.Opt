@@ -23,7 +23,7 @@ OPTFFF 1,3,2,369098752,0,0,0,0,<../../system/Startup_GCC.s><Startup_GCC.s>
 OPTFFF 2,4,1,0,0,0,0,0,<../../lib_cm3/lib_printf.c><lib_printf.c> 
 OPTFFF 2,5,1,0,0,0,0,0,<../../lib_cm3/lib_usartx_pol.c><lib_usartx_pol.c> 
 OPTFFF 2,6,1,0,0,0,0,0,<../../lib_cm3/lib_getc.c><lib_getc.c> 
-OPTFFF 3,7,1,3,0,1,14,0,<.\test_usart.c><test_usart.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,44,0,0,0,46,0,0,0,97,3,0,0,153,1,0,0 }
+OPTFFF 3,7,1,587202563,0,5,14,0,<.\test_usart.c><test_usart.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,44,0,0,0,46,0,0,0,97,3,0,0,153,1,0,0 }
 OPTFFF 4,8,5,0,0,0,0,0,<..\..\system\STM32_Init.h><STM32_Init.h> 
 OPTFFF 4,9,5,0,0,0,0,0,<..\..\system\STM32_Reg.h><STM32_Reg.h> 
 

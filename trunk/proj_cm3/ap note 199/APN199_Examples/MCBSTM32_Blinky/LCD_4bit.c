@@ -12,7 +12,7 @@
  * Copyright (c) 2005-2007 Keil Software. All rights reserved.
  *---------------------------------------------------------------------------*/
 
-#include <stm32f10x_lib.h>              /* STM32F10x Library Definitions      */
+#include <stm32f10x_lib.h>                        // STM32F10x Library Definitions
 
 /*********************** Hardware specific configuration **********************/
 
