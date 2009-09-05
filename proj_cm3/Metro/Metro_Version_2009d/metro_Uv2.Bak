@@ -9,8 +9,8 @@ Group (Librairie)
 Group (Identification)
 
 File 1,2,<.\STM32F10x.s><STM32F10x.s>
-File 2,1,<.\Metro_Librairie_Version2009c.c><Metro_Librairie_Version2009c.c>
 File 2,1,<.\RTX_Conf_CM.c><RTX_Conf_CM.c>
+File 2,1,<.\Metro_Librairie_Version2009d.c><Metro_Librairie_Version2009d.c>
 File 3,1,<.\Identification.c><Identification.c>
 
 

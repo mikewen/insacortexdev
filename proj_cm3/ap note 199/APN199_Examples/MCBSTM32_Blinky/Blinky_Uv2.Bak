@@ -21,6 +21,7 @@ File 5,1,<.\Blinky.c><Blinky.c>
 File 6,5,<.\Abstract.txt><Abstract.txt>
 File 6,5,<.\lst\Blinky.map><Blinky.map>
 File 6,5,<.\lst\startup.lst><startup.lst>
+File 6,5,<.\Cortex_M_light.ld><Cortex_M_light.ld>
 
 
 Options 1,0,0  // Target 'Simulator'
@@ -59,7 +60,7 @@ Options 1,0,0  // Target 'Simulator'
  HexSel=1
  MG32K=0
  TGMORE=0
- RunUsr 0 1 <C:\WinAVR-20081205\bin\avr-size.exe "D:\Keil\ap note 199\APN199_Examples\MCBSTM32_Blinky\obj\Blinky.elf">
+ RunUsr 0 1 <"C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" .\obj\blinky.elf>
  RunUsr 1 0 <>
  BrunUsr 0 0 <>
  BrunUsr 1 0 <>
@@ -79,7 +80,7 @@ Options 1,0,0  // Target 'Simulator'
  ACMISC (-g)
  ACDEFN ()
  ACUDEF ()
- ACINCD ()
+ ACINCD (..\..\..\..\system)
  AASFLG { 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  AAMISC (-g)
  AADEFN ()
@@ -101,7 +102,7 @@ Options 1,0,0  // Target 'Simulator'
  ALDICLB ()
  ALDICDR ()
  ALDMISC ()
- ALDSCAT (.\Cortex_M_light.ld -nostdlib -g)
+ ALDSCAT (.\Cortex_M_light.ld  -g)
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103VB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103VB)
   OPTDBG 48117,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
  FLASH1 { 1,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }

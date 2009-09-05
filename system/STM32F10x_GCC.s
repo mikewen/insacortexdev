@@ -196,7 +196,7 @@ PendSV_Handler:
     .type   SysTick_Handler, %function
 SysTick_Handler:
     B       .
-    .size   SysTick_Handler, . - SysTick_Handler
+   .size   SysTick_Handler, . - SysTick_Handler
 
 
 /* IRQ Handlers */

@@ -125,8 +125,8 @@
 //   <i> Default: 8000000  (8MHz)
 // </e> End of Clock Configuration
 #define __CLOCK_SETUP              1
-#define __RCC_CR_VAL               0x01010082
-#define __RCC_CFGR_VAL             0x001D8402
+#define __RCC_CR_VAL               0x00000003
+#define __RCC_CFGR_VAL             0x00000401
 #define __HSE                      8000000
 
 
@@ -141,7 +141,7 @@
 //       <i> Default: 0x00000000
 //   </e>
 // </e> End of Clock Configuration
-#define __NVIC_SETUP              0
+#define __NVIC_SETUP              1
 #define __NVIC_USED               0x00000000
 #define __NVIC_VTOR_VAL           0x00000000
 
@@ -168,7 +168,7 @@
 //   <o1.1> System Timer interrupt enabled
 // </e>
 #define __SYSTICK_SETUP           1
-#define __SYSTICK_CTRL_VAL        0x00000006
+#define __SYSTICK_CTRL_VAL        0x00000004
 #define __SYSTICK_PERIOD          0x0000000A
 
 
@@ -2178,7 +2178,7 @@
 //     </e>
 //   </e>
 // </e> End of USART Configuration
-#define __USART_SETUP             1                       //  0
+#define __USART_SETUP             0                       //  0
 #define __USART_USED              0x01                    //  1
 #define __USART_DETAILS           0x00                    //  2
 #define __USART_INTERRUPTS        0x06                    //  3
@@ -3905,7 +3905,7 @@
 //     <o1.5> PRFTBS: Prefetch Buffer Status Enable
 //   </h>
 // </e>
-#define __EFI_SETUP               1
+#define __EFI_SETUP               0
 #define __EFI_ACR_Val             0x00000012
 
 

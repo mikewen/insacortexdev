@@ -26,37 +26,21 @@ unsigned int  CAN_RxRdy = 0;                      // CAN HW received a message
   setup CAN interface
  *----------------------------------------------------------------------------*/
 void CAN_setup (void)  {
-
-// CAN can be remapped to 
-/*	Table 30. CAN1 alternate function remapping of reference manual
-Alternate function (1)|  CAN_REMAP[1:0] =“00” |CAN_REMAP[1:0] =“10” (2)|CAN_REMAP[1:0] = "11” (3)
-CAN1_RX or CAN_RX  |			PA11 	      |			PB8 	       |				PD0
-CAN1_TX or CAN_RX  |			PA12 	      |			PB9 	       |				PD1
-Alternate function(1)
-1. CAN1_RX and CAN1_TX in connectivity line devices; CAN_RX and CAN_TX in other devices with a single
-CAN interface.
-2. Remap not available on 36-pin package
-3. This remapping is available only on 100-pin and 144-pin packages, when PD0 and PD1 are not remapped
-on OSC-IN and OSC-OUT.
-*/
   unsigned int brp = stm32_GetPCLK1();
 
   RCC->APB1ENR |= RCC_APB1ENR_CANEN;              // enable clock for CAN
 
-  #ifdef CAN_MAP_PA1x
-                                                  // Note: OLIMEX uses PA11 and PA12 for CAN
+                                                  // Note: MCBSTM32 uses PB8 and PB9 for CAN
   RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;             // enable clock for Alternate Function
-  AFIO->MAPR   &= 0xFFFF9FFF;                     // reset CAN remap
-  AFIO->MAPR   |= 0x00004000;                     //   set CAN remap, use PA11, PA12
-  RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;             // enable clock for GPIO A
-  GPIOA->CRH &= ~(0x0F<<12);
-  GPIOA->CRH |=  (0x08<<12);                       // CAN RX pin PA.11 input push pull 
+  #ifdef NO_CAN_REMAP
+  RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;             // enable clock for GPIO B
+  GPIOA->CRH &= ~(0x0F<<0);
+  GPIOA->CRH |=  (0x08<<0);                       // CAN RX pin PB.8 input push pull 
   
-  GPIOA->CRH &= ~(0x0F<<16);
-  GPIOA->CRH |=  (0x0B<<16);                       // CAN TX pin PA.12 alternate output push pull 
- #else
-                                                  // Note: MCBSTM32 uses PB.8 and PB.9 for CAN
-  RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;             // enable clock for Alternate Function
+  GPIOA->CRH &= ~(0x0F<<4);
+  GPIOA->CRH |=  (0x0B<<4);                       // CAN TX pin PB.9 alternate output push pull 
+  
+  #else
   AFIO->MAPR   &= 0xFFFF9FFF;                     // reset CAN remap
   AFIO->MAPR   |= 0x00004000;                     //   set CAN remap, use PB8, PB9
  											  
@@ -238,7 +222,7 @@ void USB_LP_CAN_RX0_IRQHandler (void) {
 	CAN_rdMsg (&CAN_RxMsg);                       // read the message
 
     CAN_RxRdy = 1;                                // set receive flag
-  }
+  }			   
 }
 
 

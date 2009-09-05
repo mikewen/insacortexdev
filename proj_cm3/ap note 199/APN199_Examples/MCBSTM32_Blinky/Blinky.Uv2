@@ -25,13 +25,13 @@ File 6,5,<.\Cortex_M_light.ld><Cortex_M_light.ld>
 
 
 Options 1,0,0  // Target 'Simulator'
- Device (STM32F103VB)
+ Device (STM32F103RB)
  Vendor (STMicroelectronics)
  Cpu (IRAM(0x20000000-0x20004FFF) IROM(0x8000000-0x801FFFF) CLOCK(8000000) CPUTYPE("Cortex-M3"))
  FlashUt ()
  StupF ("STARTUP\ST\STM32F10x.s" ("STM32 Startup Code"))
  FlashDR (UL2CM3(-O14 -S0 -C0 -N00("ARM Cortex-M3") -D00(1BA00477) -L00(4) -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000))
- DevID (4223)
+ DevID (4231)
  Rgf (stm32f10x_lib.h)
  Mem ()
  C ()
@@ -46,7 +46,7 @@ Options 1,0,0  // Target 'Simulator'
  EnvBin ()
  EnvInc ()
  EnvLib ()
- EnvReg ()
+ EnvReg (ÿST\STM32F10x\)
  OrgReg (ÿST\STM32F10x\)
  TgStat=16
  OutDir (.\obj\)
@@ -80,7 +80,7 @@ Options 1,0,0  // Target 'Simulator'
  ACMISC (-g)
  ACDEFN ()
  ACUDEF ()
- ACINCD ()
+ ACINCD (..\..\..\..\system)
  AASFLG { 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  AAMISC (-g)
  AADEFN ()
@@ -103,11 +103,11 @@ Options 1,0,0  // Target 'Simulator'
  ALDICDR ()
  ALDMISC ()
  ALDSCAT (.\Cortex_M_light.ld  -g)
-  OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103VB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103VB)
+  OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
   OPTDBG 48117,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
  FLASH1 { 1,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
  FLASH2 ()
- FLASH3 ("" ())
+ FLASH3 ()
  FLASH4 ()
 EndOpt
 
