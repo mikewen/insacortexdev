@@ -1,1 +1,0 @@
--c --device DARMSTM -D__RTX -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I "E:\Keil\ARM\INC\ST\STM32F10x" -DSPEED -o "metro_librairie_version2009d.o" --omf_browse "metro_librairie_version2009d.crf" --depend "metro_librairie_version2009d.d" "..\..\lib_cm3\Metro_Librairie_Version2009d.c"
