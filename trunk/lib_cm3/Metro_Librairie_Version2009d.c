@@ -599,6 +599,14 @@ void DMAChannel3_IRQHandler (void)
 	#define RX_DMA_CHANNEL DMA1_Channel5 
 	#define SET_APBxENR RCC->APB2ENR|=(1<<14)
 	//USART 1 has TX/RX on PA9/10 or PB6/7
+	#ifdef  PA_9
+	#warning "PA_9 is already configured : reconfiguring anyway"
+	#endif
+	#ifdef  PA_10
+	#warning "PA_10 is already configured : reconfiguring anyway"
+	#endif
+	#define PA_9
+	#define PA_10
 	#define GPIOx_CRx GPIOA->CRH
 	#define TX_PIN 9
 	#define RX_PIN 10
@@ -615,6 +623,14 @@ void DMAChannel3_IRQHandler (void)
 	#define RX_DMA_CHANNEL DMA1_Channel6 
 	#define SET_APBxENR RCC->APB1ENR|=(1<<17)
 	//USART 2 has TX/RX on PA2/3 or PD5/6
+	#ifdef  PA_2
+	#warning "PA_9 is already configured : reconfiguring anyway"
+	#endif
+	#ifdef  PA_3
+	#warning "PA_10 is already configured : reconfiguring anyway"
+	#endif
+	#define PA_2
+	#define PA_3
 	#define GPIOx_CRx GPIOA->CRL
 	#define TX_PIN 2
 	#define RX_PIN 3
@@ -630,6 +646,14 @@ void DMAChannel3_IRQHandler (void)
 	#define RX_DMA_CHANNEL DMA1_Channel3 
 	#define SET_APBxENR RCC->APB1ENR|=(1<<18)
 	//USART 3 has TX/RX on PB10/11 or PC10/11 or PD8/9
+	#ifdef  PB_10
+	#warning "PA_9 is already configured : reconfiguring anyway"
+	#endif
+	#ifdef  PB_11
+	#warning "PA_10 is already configured : reconfiguring anyway"
+	#endif
+	#define PB_10
+	#define PB_11
 	#define GPIOx_CRx GPIOB->CRH
 	#define TX_PIN 10
 	#define RX_PIN 11
@@ -826,9 +850,9 @@ int fgetc(FILE *f) {
 void Init_Periphs()			  
 {
  Setup_Pll_As_Clock_System();
- Init_PortA();
- Init_PortB();
- Init_PortC();
+ //Init_PortA();
+ //Init_PortB();
+ //Init_PortC();
 
  #ifdef USE_STAR_USART
  setup_usart();
