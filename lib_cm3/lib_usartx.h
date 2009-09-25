@@ -40,10 +40,10 @@
 #ifndef __LIB_USARTx
 #define __LIB_USARTx
 
-#define __USART1_REMAP 0x04
+#define __USART1_REMAP 0x0
 // 0 ->    USART1 TX/RX on PA9/PA10
 // 0x04 -> USART1  TX/RX on PB6/PB7
-#define __USART2_REMAP 0
+#define __USART2_REMAP 0x0
 // 0 ->    USART2 TX/RX on PA2/PA3
 // 0x08 -> USART2 TX/RX on PD5/PD6
 #define __USART3_REMAP 0
@@ -52,9 +52,9 @@
 // others -> USART1 TX/RX on PD8/PD9
 
 // Select the USART to use
-#define USART_NUM	1   // choose to use USART1
+//#define USART_NUM	1   // choose to use USART1
 //#define USART_NUM	2   // choose to use USART2
-//#define USART_NUM	3   // choose to use USART3
+#define USART_NUM	3   // choose to use USART3
 
 //choose baudrate among following values
 #define BAUDRATEx   9600      // OK avec zigbee
@@ -67,7 +67,7 @@
 //#define BAUDRATEx   115200 
 
 //choose USART mode to use and configure it
-#define USART_POL
+//#define USART_POL
 #ifdef USART_POL
 #endif
 
@@ -77,15 +77,15 @@
 		#warning "USART_POL and USART_IRQ mode used in the same time !! choose IRQ one"
 		#undef USART_POL
 	#endif
-	#define RBUF_SIZE 	(16)
-	#define TBUF_SIZE  (16)
+	#define RBUF_SIZE 	(128)
+	#define TBUF_SIZE  (128)
 
 #endif
 
-//#define USART_DMA
+#define USART_DMA
 #ifdef USART_DMA
-	#define RBUF_SIZE 	(16)
-	#define TBUF_SIZE  (16)
+	#define RBUF_SIZE 	(128)
+	#define TBUF_SIZE  (128)
 
 	#ifdef USART_POL
 		#warning "USART_POL and USART_DMA mode used in the same time !! choose DMA one"

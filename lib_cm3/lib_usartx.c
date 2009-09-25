@@ -151,12 +151,11 @@ void USARTx_IRQHandler (void);
 
 //#include <stm32f10x_usart.h>                        // STM32F10x Library Definitions
 
-
-
-
+#ifdef DMA_BUFFER
+char rbuff[RBUF_SIZE];
+#endif
  void setup_usart()							//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTERNATE FUNCTION
  {
-
 #ifdef DMA_BUFFER
  	void buffer_init(void);
 
@@ -190,7 +189,7 @@ void USARTx_IRQHandler (void);
  	
 	RX_DMA_CHANNEL->CPAR =	(u32)&(USARTx->DR); // ADRESSE  USART_DR
   	RX_DMA_CHANNEL->CMAR =(u32)rbuff;   //ADRESSE DATA_RECU
-  	RX_DMA_CHANNEL->CNDTR=Rbuf_SIZE;
+  	RX_DMA_CHANNEL->CNDTR=RBUF_SIZE;
   	RX_DMA_CHANNEL->CCR|=0x00000100;	// PRIORITY LEVEL MEDIUM
   	RX_DMA_CHANNEL->CCR&=0xFFFFFFEF;   //READ FROM PERIPHERAL
   	RX_DMA_CHANNEL->CCR|=0x00000080;   //	POINTER INCREMENTALE MEMORY 
@@ -200,9 +199,9 @@ void USARTx_IRQHandler (void);
   	NVIC->ISER[0] = 1<<DMA1_CHANNELx_IRQ;
 
   	USARTx->CR3 |=0x000000C0;// DMAT AND DMAR ENABLE
-	USARTx->CR3 |=0x00000700;	// CTS ENABLE ,RTS ENABLE ,CTSIE
+	//USARTx->CR3 |=0x00000700;	// CTS ENABLE ,RTS ENABLE ,CTSIE
 
-   	flush_serial_input();
+   	buffer_init();
 
 	TX_DMA_CHANNEL->CCR|=0x00000002; // tc enable interrupt
    	RX_DMA_CHANNEL->CCR|=0x00000001;  //ENABLE CHANNEL	 3	  and tc enable    
@@ -309,12 +308,12 @@ void USARTx_IRQHandler (void);
     } 
 //  } // end USART3 used
 #endif
-#ifdef __USART1                                                    
+/*#ifdef __USART1                                                    
 //if (__AFIO_MAPR & (1 << 2)) {                             // USART1 remap used 
 
     RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;                     // enable clock for Alternate Function
     AFIO->MAPR &= ~(1 << 2);                                // clear used bit
-    AFIO->MAPR |= ((1 << 2) & __AFIO_MAPR);                 // set used bits
+    AFIO->MAPR |= ((1 << 2) & __USART1_REMAP);                 // set used bits
 //  } // end USART1 remap used
 #endif
 #ifdef __USART2                                                    
@@ -322,7 +321,7 @@ void USARTx_IRQHandler (void);
 
     RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;                     // enable clock for Alternate Function
     AFIO->MAPR &= ~(1 << 3);                                // clear used bit
-    AFIO->MAPR |= ((1 << 3) & __AFIO_MAPR);                 // set used bits
+    AFIO->MAPR |= ((1 << 3) & __USART2_REMAP);                 // set used bits
 //  } // end USART2 remap used
 #endif
 #ifdef __USART3                                                    
@@ -330,10 +329,10 @@ void USARTx_IRQHandler (void);
 
     RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;                     // enable clock for Alternate Function
     AFIO->MAPR &= ~(3 << 4);                                // clear used bit
-    AFIO->MAPR |= ((3 << 4) & __AFIO_MAPR);                 // set used bits
+    AFIO->MAPR |= ((3 << 4) & __USART2_REMAP);                 // set used bits
 
 //  } // end USART3 remap used
-#endif
+#endif*/
 
 } // end of stm32_UsartSetup
 
@@ -400,12 +399,12 @@ void _sys_exit(int return_code) {
 label:  goto label;           // endless loop
 }*/
 
-#endif
+#endif /* USART_POL */
 
 #ifdef USART_DMA
 
-char rbuff[RBUF_SIZE];
-#define END_Rbuf  (&(rbuff[RBUF_SIZE-1]))
+
+#define END_RBUF  (&(rbuff[RBUF_SIZE-1]))
 
 char * in_ptr = rbuff;
 
@@ -533,7 +532,7 @@ int fgetc(FILE *f) {
 /*------------------------------------------end fgetc---------------------------------------------------------*/ 
 
 
-#endif
+#endif /* USART_DMA */
 
 #ifdef USART_IRQ
 
@@ -691,7 +690,7 @@ int fgetc(FILE *f) {
     ch = GetKey ();
   }
   while (ch == -1);
-  SendChar(ch);
+  //SendChar(ch);
   return (ch);
 }
 
@@ -718,4 +717,4 @@ label:  goto label;           // endless loop
 }	*/
 
 
-#endif
+#endif /* USART_IRQ */
