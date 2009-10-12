@@ -282,10 +282,12 @@ void Fixe_Rapport( short int duty_cycle)				 // frequency is fixed for 12 bits, 
 //_____________________________________________________CODEURS INCREMENTAUX__________________________
 #ifdef USE_POSITION
 	#define USE_T3
-#endif
+#endif /* USE_POSITION */
+
 #ifdef USE_SPEED
 	#define USE_T3
-#endif
+#endif /* USE_SPEED */
+
 #ifdef USE_T3
 void  Init_Timer3()	  
 // mode encod incremental-3 (compte et décompte)
@@ -321,13 +323,14 @@ void  Init_Timer3()
 	  TIM3->CR1 |= __TIMX_CR1_CEN;                     // enable timer
                                  
 }
-#endif  
+#endif  /* USE_T3 */
+
 #ifdef USE_POSITION
   int Lire_Position()
 {
    return (int)	(TIM3->CNT);
 }
-#endif  
+#endif  /* USE_POSITION */
 //_____________________________________________FIN CODEURS INCREMENTAUX__________________________
 
 //______________________________________________MESURE VITESSE__________________________
@@ -391,7 +394,7 @@ void TIM4_IRQHandler(void)
    return  (int) ((float)(new_position-old_position)/(DT));	 
 }
 
-#endif
+#endif /* USE_SPEED */
 /*-----------------------------------------end config timerx-------------------------------------------------*/
 
 
@@ -445,7 +448,7 @@ short int Lire_courant()
  	return conv; 
 
 }
-#endif 
+#endif /* USE_ADC */
 /*---------------------------------------end config ADC----------------------------------------------------*/
  
 /*-------------------------------------------config usart with DMA---------------------------------------------------------*/ 

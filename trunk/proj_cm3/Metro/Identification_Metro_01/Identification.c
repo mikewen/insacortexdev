@@ -16,34 +16,70 @@ OS_TID tsk_mesure, tsk_consigne;
 //#define BUFF ((2*T_WAIT_MES + T_WAIT+20)/T_SAMP)
 #define BUFF 1000
 
-u16 stock_courant_a[BUFF];
-u16 stock_position_a[BUFF];
-u16 stock_vitesse_a[BUFF];
+s16 stock_courant_a[BUFF];
+s16 stock_position_a[BUFF];
+s16 stock_vitesse_a[BUFF];
 
-u16 stock_courant_f[BUFF];
-u16 stock_position_f[BUFF];
-u16 stock_vitesse_f[BUFF];
+s16 stock_courant_f[BUFF];
+s16 stock_position_f[BUFF];
+s16 stock_vitesse_f[BUFF];
 
 volatile u32 index_tab;
 
 void TIM1_UP_IRQHandler (void)
 {
+s16 temp;
+
 	TIM1->SR = TIM1->SR & ~TIM_FLAG_Update; 
 
 	if (go==1)
 	{			
-		stock_position_a[index_tab]=(u16)Lire_Position();
-    	stock_courant_a[index_tab]=(u16)Lire_courant();
-		stock_vitesse_a[index_tab]=(u16)Lire_Vitesse();
+		stock_position_a[index_tab]=(s16)Lire_Position();
+    	stock_vitesse_a[index_tab]=(s16)Lire_Vitesse();
 		    
+		if (index_tab != 0)
+		{
+			temp = (s16)Lire_courant(); 
+			
+			if ( temp == 0)
+			{
+				stock_courant_a[index_tab]=stock_courant_a[index_tab-1];
+			}
+			else
+			{
+				stock_courant_a[index_tab]=(s16)Lire_courant();	
+			}
+		}
+		else
+		{
+			stock_courant_a[index_tab]=(s16)Lire_courant();
+		}
+
 		index_tab++;
    	}
 	else if (go==2)
 	{
-		stock_position_f[index_tab]=(u16)Lire_Position();
-    	stock_courant_f[index_tab]=(u16)Lire_courant();
-		stock_vitesse_f[index_tab]=(u16)Lire_Vitesse();
-		    
+		stock_position_f[index_tab]=(s16)Lire_Position();
+		stock_vitesse_f[index_tab]=(s16)Lire_Vitesse();
+		
+		if (index_tab != 0)
+		{
+			temp = (s16)Lire_courant(); 
+			
+			if ( temp == 0)
+			{
+				stock_courant_f[index_tab]=stock_courant_f[index_tab-1];
+			}
+			else
+			{
+				stock_courant_f[index_tab]=(s16)Lire_courant();	
+			}
+		}
+		else
+		{
+			stock_courant_f[index_tab]=(s16)Lire_courant();
+		}
+		   
 		index_tab++;
 	}
 
@@ -89,14 +125,14 @@ unsigned char c;
 
 				Fixe_Rapport(TENSION );				
 				
-				//os_dly_wait(T_WAIT_MES);
+				os_dly_wait(T_WAIT_MES);
 
 				index_tab=0;
 				go=2;
 
 				Fixe_Rapport(0);				
 				
-				//os_dly_wait(T_WAIT_MES);
+				os_dly_wait(T_WAIT_MES);
 
 				go=0;
 				printf (" fait\r\n");
@@ -110,14 +146,14 @@ unsigned char c;
 
 				Fixe_Rapport(-TENSION );				
 				
-				//os_dly_wait(T_WAIT_MES);
+				os_dly_wait(T_WAIT_MES);
 
 				index_tab=0;
 				go=2;
 
 				Fixe_Rapport(0);				
 				
-				//os_dly_wait(T_WAIT_MES);
+				os_dly_wait(T_WAIT_MES);
 
 				go=0;
 				printf (" fait\r\n");
@@ -141,8 +177,8 @@ int main(void)
 
 	Fixe_Rapport(0);
 
-	//os_sys_init (consigne); 
- 	consigne();
+	os_sys_init (consigne); 
+ 	//consigne();
 
   	while(1)
   	{

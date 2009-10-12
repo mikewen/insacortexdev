@@ -14,6 +14,7 @@ File 1,5,<.\STM32_Reg.h><STM32_Reg.h>
 File 2,1,<.\Identification.c><Identification.c>
 File 2,1,<.\Metro_Librairie_Version2009d.c><Metro_Librairie_Version2009d.c>
 File 2,5,<.\Metro_Librairie_Version2009d.h><Metro_Librairie_Version2009d.h>
+File 2,1,<.\RTX_Conf_CM.c><RTX_Conf_CM.c>
 
 
 Options 1,0,0  // Target 'Simu'
@@ -153,7 +154,7 @@ Options 2,0,0  // Target 'Reel'
  ADSFLGA { 243,31,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ACPUTYP ("Cortex-M3")
  RVDEV ()
- ADSTFLGA { 0,12,0,2,99,0,0,66,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSTFLGA { 1,12,0,18,99,0,0,66,0,0,0,0,0,0,0,0,0,0,0,0 }
  OCMADSOCM { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  OCMADSIRAM { 0,0,0,0,32,0,80,0,0 }
  OCMADSIROM { 1,0,0,0,8,0,0,2,0 }
