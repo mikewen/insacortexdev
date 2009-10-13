@@ -33,47 +33,7 @@
 #define __TIM2_DIER               0x0001 
 #define __TIMX_CR1_CEN			  0x0001
 
-
-
- 
-#define __RCC_APB1ENR_TIM3EN	  0x00000002
-#define __TIM3_EGR_UG             0x0001                
-#define __TIM3_PSC                0x0000                
-#define __TIM3_ARR                0xFFFF                
-#define __TIM3_CR1                0x0004                   
-#define __TIM3_CR2                0x0000                  
-#define __TIM3_SMCR               0x0003                 
-#define __TIM3_CCMR1              0x0101               
-#define __TIM3_CCMR2              0x0000                     
-#define __TIM3_CCER               0x0011              
-#define __TIM3_CCR1               0x0000                
-#define __TIM3_CCR2               0x0000            
-#define __TIM3_CCR3               0x0000                
-#define __TIM3_CCR4               0x0000               
-#define __TIM3_DIER               0x0000 
-#define __TIMX_CR1_CEN			  0x0001
-
-
-
-#define __RCC_APB1ENR_TIM4EN	                     0x00000004
-#define __TIM4_EGR_UG                                0x0001                
-#define __TIM4_PSC                                   0x00FF                
-//#define __TIM4_ARR                                   0x009c               
-#define __TIM4_CR1                                   0x0004                   
-#define __TIM4_CR2                                   0x0000                  
-#define __TIM4_SMCR                                  0x0000                 
-#define __TIM4_CCMR1                                 0x0000                  
-#define __TIM4_CCMR2                                 0x6800                  
-#define __TIM4_CCER                                  0x1000              
-#define __TIM4_CCR1                                  0x0000                
-#define __TIM4_CCR2                                  0x0000            
-#define __TIM4_CCR3                                  0x0000               
-#define __TIM4_CCR4                                  0x0000               
-#define __TIM4_DIER                                  0x0001 
-
-
-
- 
+															  
 #define __ALTERNATE_OUTPUT_PUSH_PULL_AND_OUTPUT_PUSH_PORTA           0x44300BB0
 #define __ENABLE_DRIVER_BRIDGE 		                 0x00000020
 #define __RCC_APB2ENR_PORTAEN	                     0x00000004
@@ -105,7 +65,7 @@
 #define __ADC_GLOBAL_INTERRUPT 0x00040000 
 #define __RESET_EOC_AND_FLAG_START_CONVERSION  	 0xFFFFFFED
 #define __TEST_END_OF_CONVERSION				 0x00000002
-#define DT_VITESSE  ( DT/0.0000064)
+#define DT_VITESSE  ( DT/0.0000035)
 							   
 
 
@@ -289,6 +249,26 @@ void Fixe_Rapport( short int duty_cycle)				 // frequency is fixed for 12 bits, 
 #endif /* USE_SPEED */
 
 #ifdef USE_T3
+
+#define __RCC_APB1ENR_TIM3EN	  0x00000002
+#define __TIM3_EGR_UG             0x0001                
+#define __TIM3_PSC                0x0000                
+#define __TIM3_ARR                0xFFFF                
+#define __TIM3_CR1                0x0004                   
+#define __TIM3_CR2                0x0000                  
+#define __TIM3_SMCR               0x0003                 
+#define __TIM3_CCMR1              0x0101               
+#define __TIM3_CCMR2              0x0000                     
+#define __TIM3_CCER               0x0011              
+#define __TIM3_CCR1               0x0000                
+#define __TIM3_CCR2               0x0000            
+#define __TIM3_CCR3               0x0000                
+#define __TIM3_CCR4               0x0000               
+#define __TIM3_DIER               0x0002 
+#define __TIMX_CR1_CEN			  0x0001
+
+void Calcul_Vitesse(void);
+
 void  Init_Timer3()	  
 // mode encod incremental-3 (compte et décompte)
 // pas d'interrupt
@@ -317,30 +297,59 @@ void  Init_Timer3()
      
 	 
 	  TIM3->DIER = __TIM3_DIER;                             // enable interrupt
-    //  NVIC->ISER[0] = 0x20000000;							// enable  nested vector interrupt controler
+      NVIC->ISER[0] = 0x20000000;							// enable  nested vector interrupt controler
 
       
 	  TIM3->CR1 |= __TIMX_CR1_CEN;                     // enable timer
                                  
 }
+
+void TIM3_IRQHandler(void)
+{
+ 	if((TIM3->SR & 0x0002)) // est-ce un overflow ?(dépassement)
+    {
+	  	TIM3->SR &= ~(0x0002);		 // reset interrupt flag
+
+		Calcul_Vitesse();
+ 	}		 
+}
 #endif  /* USE_T3 */
 
 #ifdef USE_POSITION
-  int Lire_Position()
+u16 Lire_Position()
 {
-   return (int)	(TIM3->CNT);
+   return (TIM3->CNT);
 }
 #endif  /* USE_POSITION */
 //_____________________________________________FIN CODEURS INCREMENTAUX__________________________
 
 //______________________________________________MESURE VITESSE__________________________
-// mode timer
-// APB1 à 40MHz
-// prescaler à 256
-// et reload selon #define de dt en haut (float en s) 0 à TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// interruption validée prioté 0
+// mode timer free runner
+// APB1 à 72MHz
+// prescaler à 1200 -> Periode min du timer = 0.016 ms, Periode max = environ 1 s
+// et reload à 0 (pleine echelle)
+// sans IT
 #ifdef USE_SPEED
- void  Init_Timer4()		    
+
+#define __RCC_APB1ENR_TIM4EN	                     0x00000004
+#define __TIM4_EGR_UG                                0x0001                
+#define __TIM4_PSC                                   1200                
+#define __TIM4_ARR                                   0xFFFF               
+#define __TIM4_CR1                                   0x0004                   
+#define __TIM4_CR2                                   0x0000                  
+#define __TIM4_SMCR                                  0x0000                 
+#define __TIM4_CCMR1                                 0x0000                  
+#define __TIM4_CCMR2                                 0x6800                  
+#define __TIM4_CCER                                  0x1000              
+#define __TIM4_CCR1                                  0x0000                
+#define __TIM4_CCR2                                  0x0000            
+#define __TIM4_CCR3                                  0x0000               
+#define __TIM4_CCR4                                  0x0000               
+#define __TIM4_DIER                                  0x0001 
+
+#define VITESSE_ARRET								 65535
+
+void  Init_Timer4()		    
 {
 
       RCC->APB1ENR |= __RCC_APB1ENR_TIM4EN;                 // enable clock for TIM4
@@ -348,7 +357,7 @@ void  Init_Timer3()
 
 	                          // detailed settings used
       TIM4->PSC = __TIM4_PSC;                               // set prescaler
-      TIM4->ARR = DT_VITESSE;                               // set auto-reload
+      TIM4->ARR = __TIM4_ARR;                               // set auto-reload
       TIM4->CCR1  = __TIM4_CCR1;                            //
       TIM4->CCR2  = __TIM4_CCR2;                            //
       TIM4->CCR3  = __TIM4_CCR3;                            //
@@ -372,26 +381,55 @@ void  Init_Timer3()
                                 
 }
 
+volatile u16 Ancien_TIM4;
+volatile u16 Nouveau_TIM4 =0;
 
-static int old_position ;
-static int new_position =0;
+u8 TIM4_OV = 0;
+u16 Vitesse;
 
- 
 void TIM4_IRQHandler(void)
- {
+{
  
  	if((TIM4->SR & 0x0001)) // est-ce un overflow ?(dépassement)
-      {
+    {
 	  	TIM4->SR &= ~(0x0001);		 // reset interrupt flag
-		old_position = new_position;
-		new_position=Lire_Position();
- 	  }		 
-  
- }
+		//old_position = new_position;
+		//new_position=Lire_Position();
+		TIM4_OV ++ ;
+ 	}
+	
+	if (TIM4_OV >=2)
+	{
+		Vitesse = VITESSE_ARRET;
+	}		 
+}
 
- int Lire_Vitesse()
+void Calcul_Vitesse(void)
+{
+volatile u16 temp;
+u32 calcul;
+
+	temp = TIM4->CNT;
+	
+	Ancien_TIM4 = Nouveau_TIM4;
+	Nouveau_TIM4 = temp;
+	
+	if (Nouveau_TIM4 < Ancien_TIM4) // Il y a eu overflow
+	{
+		calcul = (u32)Nouveau_TIM4 + 0x10000;
+		calcul = calcul - Ancien_TIM4;
+
+		Vitesse = (u16)calcul;
+	}
+	else
+	{
+		Vitesse = Nouveau_TIM4 - Ancien_TIM4;
+	}	
+}
+
+u16 Lire_Vitesse()
 {   	
-   return  (int) ((float)(new_position-old_position)/(DT));	 
+   return Vitesse;	 
 }
 
 #endif /* USE_SPEED */
@@ -441,9 +479,9 @@ ADC1->CR2   |= __SWSTART__MASQUE_OR; // set conversion but it's  cleared by hard
 
 }
 
-short int Lire_courant()
+u16 Lire_courant()
 { 
-	short int  conv;
+	u16  conv;
   	conv =(ADC1->DR)&(0x0000FFF);
  	return conv; 
 
