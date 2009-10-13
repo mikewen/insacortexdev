@@ -11,35 +11,35 @@ OS_TID tsk_mesure, tsk_consigne;
 
 #define T_SAMP 1 
 #define T_WAIT 5
-#define T_WAIT_MES 150
+#define T_WAIT_MES 300
 #define TENSION 3000  
 //#define BUFF ((2*T_WAIT_MES + T_WAIT+20)/T_SAMP)
 #define BUFF 1000
 
-s16 stock_courant_a[BUFF];
-s16 stock_position_a[BUFF];
-s16 stock_vitesse_a[BUFF];
+u16 stock_courant_a[BUFF];
+u16 stock_position_a[BUFF];
+u16 stock_vitesse_a[BUFF];
 
-s16 stock_courant_f[BUFF];
-s16 stock_position_f[BUFF];
-s16 stock_vitesse_f[BUFF];
+u16 stock_courant_f[BUFF];
+u16 stock_position_f[BUFF];
+u16 stock_vitesse_f[BUFF];
 
 volatile u32 index_tab;
 
 void TIM1_UP_IRQHandler (void)
 {
-s16 temp;
+u16 temp;
 
 	TIM1->SR = TIM1->SR & ~TIM_FLAG_Update; 
 
 	if (go==1)
 	{			
-		stock_position_a[index_tab]=(s16)Lire_Position();
-    	stock_vitesse_a[index_tab]=(s16)Lire_Vitesse();
+		stock_position_a[index_tab]=Lire_Position();
+    	stock_vitesse_a[index_tab]=Lire_Vitesse();
 		    
 		if (index_tab != 0)
 		{
-			temp = (s16)Lire_courant(); 
+			temp = Lire_courant(); 
 			
 			if ( temp == 0)
 			{
@@ -47,24 +47,24 @@ s16 temp;
 			}
 			else
 			{
-				stock_courant_a[index_tab]=(s16)Lire_courant();	
+				stock_courant_a[index_tab]=Lire_courant();	
 			}
 		}
 		else
 		{
-			stock_courant_a[index_tab]=(s16)Lire_courant();
+			stock_courant_a[index_tab]=Lire_courant();
 		}
 
 		index_tab++;
    	}
 	else if (go==2)
 	{
-		stock_position_f[index_tab]=(s16)Lire_Position();
-		stock_vitesse_f[index_tab]=(s16)Lire_Vitesse();
+		stock_position_f[index_tab]=Lire_Position();
+		stock_vitesse_f[index_tab]=Lire_Vitesse();
 		
 		if (index_tab != 0)
 		{
-			temp = (s16)Lire_courant(); 
+			temp = Lire_courant(); 
 			
 			if ( temp == 0)
 			{
@@ -72,12 +72,12 @@ s16 temp;
 			}
 			else
 			{
-				stock_courant_f[index_tab]=(s16)Lire_courant();	
+				stock_courant_f[index_tab]=Lire_courant();	
 			}
 		}
 		else
 		{
-			stock_courant_f[index_tab]=(s16)Lire_courant();
+			stock_courant_f[index_tab]=Lire_courant();
 		}
 		   
 		index_tab++;

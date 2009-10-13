@@ -15,20 +15,20 @@
 
 #define USE_ADC
 #ifdef USE_ADC 
-	extern  short int Lire_courant(void);
+	extern  u16 Lire_courant(void);
 #endif /* USE_ADC */
 
 
 #define USE_POSITION
 #ifdef USE_POSITION
-	extern  int Lire_Position(void);
+	extern  u16 Lire_Position(void);
 #endif /* USE_POSITION */
 
 
 #define USE_SPEED
 #ifdef USE_SPEED
 	#define DT 0.001     // pas de calcul de la vitesse	en s
-	extern  int Lire_Vitesse(void);
+	extern  u16 Lire_Vitesse(void);
 #endif	/* USE_SPEED */
 
 
