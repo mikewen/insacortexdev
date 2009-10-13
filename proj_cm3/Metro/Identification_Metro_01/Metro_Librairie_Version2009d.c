@@ -46,28 +46,7 @@
 #define __CC2_ON									 0x0010
 #define __TIMX_CR1_CDISABLE 						 0xFFFE
 
-
-
-
-#define __AWDEN_MASQUE_OR      0x00800000 // analog watchdog enabled on regular channel
-#define __EOCIE_MASQUE_OR      0x00000020 // interrupt  enable for EOC end of conversion
-#define __AWDCH_MASQUE_OR      0x0000000C // analog watchdog selects bits -channel 12-
-#define __ADON__MASQUE_OR      0x00000001 // A/D converter on /off
-#define __CONT__MASQUE_AND     0xFFFFFFFD // Single conversion mode 
-#define __CAL__MASQUE_OR       0x00000004 // enable calibration 
-#define __SWSTART__MASQUE_OR   0x00400000 // start conversion  of regular  channel
-#define __SMP12                ((1<<8)||(1<<7)||(1<<6)) // sample time 239.5 cycles for channel 12 
-#define __SQR1                 0x00000000  // only conversion 
-#define __SQR3__MASQUE_OR      0x0000000C  // channel 12 in the first conversion in regular sequence 
-#define __EXTSEL__MASQUE_OR	   0x000E0000  //these bits select the external event used  to trigger the start of conversion (SWSTART)of a regular group
-#define __EXTTRIG__MASQUE_OR   0x00100000  // this bit to enable /disable the external  trigger used to start 
-#define __ENABLE_CLOCK_ADC     0x00000200	
-#define __ADC_GLOBAL_INTERRUPT 0x00040000 
-#define __RESET_EOC_AND_FLAG_START_CONVERSION  	 0xFFFFFFED
-#define __TEST_END_OF_CONVERSION				 0x00000002
 #define DT_VITESSE  ( DT/0.0000035)
-							   
-
 
 /*--------------------------------------config clock system 40Mhz -------------------------------------------------*/
 //
@@ -246,6 +225,8 @@ void Fixe_Rapport( short int duty_cycle)				 // frequency is fixed for 12 bits, 
 
 #ifdef USE_SPEED
 	#define USE_T3
+
+	void Calcul_Vitesse(void);
 #endif /* USE_SPEED */
 
 #ifdef USE_T3
@@ -266,8 +247,6 @@ void Fixe_Rapport( short int duty_cycle)				 // frequency is fixed for 12 bits, 
 #define __TIM3_CCR4               0x0000               
 #define __TIM3_DIER               0x0002 
 #define __TIMX_CR1_CEN			  0x0001
-
-void Calcul_Vitesse(void);
 
 void  Init_Timer3()	  
 // mode encod incremental-3 (compte et décompte)
@@ -295,10 +274,10 @@ void  Init_Timer3()
 	  TIM3->SR=0x0000;							            // reset status register
                            // interrupts 
      
-	 
+#ifdef USE_SPEED	 
 	  TIM3->DIER = __TIM3_DIER;                             // enable interrupt
       NVIC->ISER[0] = 0x20000000;							// enable  nested vector interrupt controler
-
+#endif /* USE_SPEED */
       
 	  TIM3->CR1 |= __TIMX_CR1_CEN;                     // enable timer
                                  
@@ -309,8 +288,9 @@ void TIM3_IRQHandler(void)
  	if((TIM3->SR & 0x0002)) // est-ce un overflow ?(dépassement)
     {
 	  	TIM3->SR &= ~(0x0002);		 // reset interrupt flag
-
+#ifdef USE_SPEED
 		Calcul_Vitesse();
+#endif /* USE_SPEED */
  	}		 
 }
 #endif  /* USE_T3 */
@@ -377,7 +357,7 @@ void  Init_Timer4()
 	  NVIC->ISER[0] = 0x40000000;  							// enable  nested vector interrupt controler
 	  // priorité dans NVIC->IP[0]   TODO !!! prioritées selon defines
 
-     TIM4->CR1 |= __TIMX_CR1_CEN;                              // enable timer
+      TIM4->CR1 |= __TIMX_CR1_CEN;                              // enable timer
                                 
 }
 
@@ -414,6 +394,8 @@ u32 calcul;
 	Ancien_TIM4 = Nouveau_TIM4;
 	Nouveau_TIM4 = temp;
 	
+	TIM4_OV = 0;
+
 	if (Nouveau_TIM4 < Ancien_TIM4) // Il y a eu overflow
 	{
 		calcul = (u32)Nouveau_TIM4 + 0x10000;
@@ -439,53 +421,81 @@ u16 Lire_Vitesse()
 
  /*-------------------------------------------config ADC---------------------------------------------------------*/
 #ifdef USE_ADC
-// APB2 40MHz
+// APB2 72MHz
 // ADC prescaler à 2 : ADC à 20MHz
 // mode continuous mode sur channel 12
 // end of conversion interrupt validée
 // temps de conversion 239.5+12.5 cycles = 252 cycles = 12,5 us (de tête)
 // data alignée à droite
- void Setup_Adc()
+
+//#define __AWDEN_MASQUE_OR      0x00800000 // analog watchdog enabled on regular channel
+#define __AWDEN_MASQUE_OR      	0x00000000 // analog watchdog disabled on regular channel
+#define __EOCIE_MASQUE_OR      	0x00000020 // interrupt  enable for EOC end of conversion
+#define __AWDCH_MASQUE_OR      	0x0000000C // analog watchdog selects bits -channel 12-
+#define __ADON__MASQUE_OR      	0x00000001 // A/D converter on /off
+#define __CONT__MASQUE_AND     	0xFFFFFFFD // Single conversion mode 
+#define __CAL__MASQUE_OR       	0x00000004 // enable calibration 
+#define __SWSTART__MASQUE_OR   	0x00400000 // start conversion  of regular  channel
+//#define __SMP12                ((1<<8)||(1<<7)||(1<<6)) // sample time 239.5 cycles for channel 12 
+#define __SMP12					0x000001C0
+#define __SQR1                 	0x00000000  // only conversion 
+#define __SQR3__MASQUE_OR      	0x0000000C  // channel 12 in the first conversion in regular sequence 
+#define __EXTSEL__MASQUE_OR	   	0x000E0000  //these bits select the external event used  to trigger the start of conversion (SWSTART)of a regular group
+#define __EXTTRIG__MASQUE_OR   	0x00100000  // this bit to enable /disable the external  trigger used to start 
+#define __ENABLE_CLOCK_ADC     	0x00000200	
+#define __ADC_GLOBAL_INTERRUPT 	0x00040000 
+#define __RESET_EOC_AND_FLAG_START_CONVERSION  	 0xFFFFFFED
+#define __TEST_END_OF_CONVERSION				 0x00000002
+#define __RESET_EOC				0xFFFFFFFD	
+		
+void Setup_Adc()
 {
- RCC->APB2ENR |=__ENABLE_CLOCK_ADC;
- ADC1->CR1    |=__AWDEN_MASQUE_OR;
- ADC1->CR1    |=__EOCIE_MASQUE_OR;
- ADC1->CR1    |=__AWDCH_MASQUE_OR;
- ADC1->CR2    |=~__CONT__MASQUE_AND;
- ADC1->CR2    |= __EXTSEL__MASQUE_OR;
- ADC1->CR2    |=__EXTTRIG__MASQUE_OR;
- ADC1->SMPR1  =__SMP12;
- ADC1->SQR1   =__SQR1;
- ADC1->SQR3   |=__SQR3__MASQUE_OR;
-// NVIC->ISER[0] |=__ADC_GLOBAL_INTERRUPT;
+	RCC->CFGR	 |= 0x0000C000;
+ 	RCC->APB2ENR |=__ENABLE_CLOCK_ADC;
+ 	ADC1->CR1    |=__AWDEN_MASQUE_OR;
+ 	ADC1->CR1    |=__EOCIE_MASQUE_OR;
+ 	ADC1->CR1    |=__AWDCH_MASQUE_OR;
+// 	ADC1->CR2    |=~__CONT__MASQUE_AND;
+ 	ADC1->CR2    |= __EXTSEL__MASQUE_OR;
+ 	ADC1->CR2    |=__EXTTRIG__MASQUE_OR;
+ 	ADC1->SMPR1  =__SMP12;
+ 	ADC1->SQR1   =__SQR1;
+ 	ADC1->SQR3   |=__SQR3__MASQUE_OR;
+
+	NVIC->ISER[0] |=__ADC_GLOBAL_INTERRUPT;
 }
 
- void Adc_On()
+u16	Valeur_Courant;
+
+void Adc_On()
 {
-ADC1->CR2   |=__ADON__MASQUE_OR;
+	ADC1->CR2   |=__ADON__MASQUE_OR;
 }
 
 void Start_Conversion()
 {
-ADC1->CR2   |= __SWSTART__MASQUE_OR; // set conversion but it's  cleared by hardware 
+	ADC1->CR2   |= __SWSTART__MASQUE_OR; // set conversion but it's  cleared by hardware 
 }
 
- void ADC_IRQHandler(void)						 //THIS BIT IS SET BY HARDWARE AT THE END OF  A GROUP CHANNEL CONVERSION IT4S CLEARED BY SOFTWARE OR BY READING THE ADC_DR
+void ADC_IRQHandler(void)						 //THIS BIT IS SET BY HARDWARE AT THE END OF  A GROUP CHANNEL CONVERSION IT4S CLEARED BY SOFTWARE OR BY READING THE ADC_DR
 {
-   if(ADC1->SR &=__TEST_END_OF_CONVERSION)
-        { ADC1->SR &=__RESET_EOC_AND_FLAG_START_CONVERSION;
+   	//if(ADC1->SR & __TEST_END_OF_CONVERSION)	 // Pas besoin de tester -> une seule source d'IT possible
+   	//{
+		Valeur_Courant = ADC1->DR;
+		//ADC1->SR &=	__RESET_EOC;
+		
+		ADC1->CR2   |= __SWSTART__MASQUE_OR;
 //         __COURANT = Get_Courant_Moteur();
-	    }
-
+	//}
 }
 
 u16 Lire_courant()
 { 
-	u16  conv;
-  	conv =(ADC1->DR)&(0x0000FFF);
- 	return conv; 
-
+/*u16  conv;
+  	conv =(ADC1->DR)&(0x0000FFF); */
+ 	return Valeur_Courant; 
 }
+
 #endif /* USE_ADC */
 /*---------------------------------------end config ADC----------------------------------------------------*/
  
