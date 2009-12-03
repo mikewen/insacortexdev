@@ -28,7 +28,7 @@ volatile u32 index_tab;
 
 void TIM1_UP_IRQHandler (void)
 {
-u16 temp;
+//u16 temp;
 
 	TIM1->SR = TIM1->SR & ~TIM_FLAG_Update; 
 
@@ -37,7 +37,7 @@ u16 temp;
 		stock_position_a[index_tab]=Lire_Position();
     	stock_vitesse_a[index_tab]=Lire_Vitesse();
 		    
-		if (index_tab != 0)
+		/*if (index_tab != 0)
 		{
 			temp = Lire_courant(); 
 			
@@ -53,7 +53,9 @@ u16 temp;
 		else
 		{
 			stock_courant_a[index_tab]=Lire_courant();
-		}
+		} */
+
+		stock_courant_a[index_tab]=Lire_courant();
 
 		index_tab++;
    	}
@@ -62,7 +64,7 @@ u16 temp;
 		stock_position_f[index_tab]=Lire_Position();
 		stock_vitesse_f[index_tab]=Lire_Vitesse();
 		
-		if (index_tab != 0)
+		/*if (index_tab != 0)
 		{
 			temp = Lire_courant(); 
 			
@@ -78,12 +80,12 @@ u16 temp;
 		else
 		{
 			stock_courant_f[index_tab]=Lire_courant();
-		}
+		}*/	 
+
+		stock_courant_f[index_tab]=Lire_courant();
 		   
 		index_tab++;
 	}
-
-
 }
 
 __task void consigne()
