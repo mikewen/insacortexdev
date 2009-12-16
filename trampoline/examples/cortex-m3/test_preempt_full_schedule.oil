@@ -35,7 +35,7 @@ CPU test {
 
    TASK Tache1 {
       PRIORITY = 1;
-      AUTOSTART = TRUE {APPMODE = std;};
+      AUTOSTART = FALSE ;
       ACTIVATION = 1;
       SCHEDULE = FULL;
       STACKSIZE = 256;
@@ -43,7 +43,7 @@ CPU test {
     
     TASK Tache2 {
       PRIORITY = 5;
-      AUTOSTART = TRUE {APPMODE = std;};
+      AUTOSTART = FALSE ;
       ACTIVATION = 1;
       SCHEDULE = FULL;
       STACKSIZE = 256;
@@ -73,7 +73,6 @@ CPU test {
         AUTOSTART = TRUE {
 		ALARMTIME = 1;
 		CYCLETIME = 10;
-//			CYCLETIME = 1;
 		APPMODE=std;
 		};
 	};

@@ -43,7 +43,7 @@
 
 #define configMAX_SYSCALL_INTERRUPT_PRIORITY ( 0x0F0 ) 
 
-#define configCPU_CLOCK_HZ			( ( unsigned portLONG ) 72000000 )	
+#define configCPU_CLOCK_HZ			( ( unsigned portLONG ) 8000000 )	
 #define configTICK_RATE_HZ			( ( portTickType ) 1000 )
 
 /*-----------------------------------------------------------*/	

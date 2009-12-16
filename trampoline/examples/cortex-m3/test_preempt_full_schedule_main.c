@@ -44,7 +44,7 @@ int main (void)
 TASK(Tache1)
 {
 
-	tempo(7);
+	tempo(2);
 
     TerminateTask();
 }
@@ -55,7 +55,7 @@ TASK(Tache2)
 	// corps de la tâche Tache2
 //	Toggle_Led('2');
 	//while (1) 
-	 tempo(2);
+	 tempo(1);
 	 i3++;
 		
 //	i1--;
