@@ -143,7 +143,7 @@ void tpl_switch_context_from_it(tpl_context * old_context, tpl_context * new_con
  	//__asm__ ("pop {r3-r7,lr} ;"); // clean msp stack from previous C calls  
 	//__asm__ ("pop {r3,lr} ;"); 
 	//__asm__ ("pop {r3,lr} ;"); 
-	__asm__ ("pop {r4,lr} ;"); // clean msp stack from previous C calls  
+	//__asm__ ("pop {r4,lr} ;"); // clean msp stack from previous C calls  
 	__asm__ ("pop {r4-r6,lr} ;"); 
 	__asm__ ("pop {r4,lr} ;"); 
 	//Now the task context is back 
