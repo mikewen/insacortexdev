@@ -1,0 +1,87 @@
+### uVision2 Project, (C) Keil Software
+### Do not modify !
+
+ cExt (*.c)
+ aExt (*.s*; *.src; *.a*)
+ oExt (*.obj)
+ lExt (*.lib)
+ tExt (*.txt; *.h; *.inc)
+ pExt (*.plm)
+ CppX (*.cpp)
+ DaveTm { 0,0,0,0,0,0,0,0 }
+
+Target (Simulé), 0x0003 // Tools: 'ARM-GNU'
+Target (Reel), 0x0003 // Tools: 'ARM-GNU'
+GRPOPT 1,(Systeme),0,0,0
+GRPOPT 2,(os),0,0,0
+GRPOPT 3,(os_machine),0,0,0
+GRPOPT 4,(Lib),0,0,0
+GRPOPT 5,(Appli),0,0,0
+GRPOPT 6,(Include),0,0,0
+GRPOPT 7,(templates),0,0,0
+
+OPTFFF 1,1,1,0,0,0,0,0,<.\STM32_Init.c><STM32_Init.c> 
+OPTFFF 1,2,2,0,0,0,0,0,<.\STM32F10x.s><STM32F10x.s> 
+OPTFFF 2,3,1,0,0,0,0,0,<../../os/tpl_os_action.c><tpl_os_action.c> 
+OPTFFF 2,4,1,0,0,0,0,0,<../../os/tpl_os_alarm_kernel.c><tpl_os_alarm_kernel.c> 
+OPTFFF 2,5,1,0,0,0,0,0,<../../os/tpl_os_alarm.c><tpl_os_alarm.c> 
+OPTFFF 2,6,1,0,0,0,0,0,<../../os/tpl_os_error.c><tpl_os_error.c> 
+OPTFFF 2,7,1,0,0,0,0,0,<../../os/tpl_os_event.c><tpl_os_event.c> 
+OPTFFF 2,8,1,0,0,0,0,0,<../../os/tpl_os_it_kernel.c><tpl_os_it_kernel.c> 
+OPTFFF 2,9,1,0,0,0,0,0,<../../os/tpl_os_it.c><tpl_os_it.c> 
+OPTFFF 2,10,1,0,0,0,0,0,<../../os/tpl_os_kernel.c><tpl_os_kernel.c> 
+OPTFFF 2,11,1,0,0,0,0,0,<../../os/tpl_os_rez_kernel.c><tpl_os_rez_kernel.c> 
+OPTFFF 2,12,1,0,0,0,0,0,<../../os/tpl_os_rez.c><tpl_os_rez.c> 
+OPTFFF 2,13,1,0,0,0,0,0,<../../os/tpl_os_task.c><tpl_os_task.c> 
+OPTFFF 2,14,1,0,0,0,0,0,<../../os/tpl_os.c><tpl_os.c> 
+OPTFFF 2,15,1,0,0,0,0,0,<../../os/tpl_os_timeobj_kernel.c><tpl_os_timeobj_kernel.c> 
+OPTFFF 2,16,1,0,0,0,0,0,<../../os/tpl_os_dispatch_table.c><tpl_os_dispatch_table.c> 
+OPTFFF 2,17,1,0,0,0,0,0,<../../os/tpl_os_event_kernel.c><tpl_os_event_kernel.c> 
+OPTFFF 2,18,1,0,0,0,0,0,<../../os/tpl_os_task_kernel.c><tpl_os_task_kernel.c> 
+OPTFFF 3,19,1,0,0,0,0,0,<../../machines/cortex-m3/tpl_machine_cm3.c><tpl_machine_cm3.c> 
+OPTFFF 5,20,1,0,0,0,0,0,<.\test_preempt_full_schedule_main.c><test_preempt_full_schedule_main.c> 
+OPTFFF 5,21,1,0,0,0,0,0,<.\test_preempt_non_schedule/tpl_os_generated_configuration.c><tpl_os_generated_configuration.c> 
+OPTFFF 6,22,5,0,0,0,0,0,<..\..\system\STM32_Init.h><STM32_Init.h> 
+OPTFFF 6,23,5,0,0,0,0,0,<..\..\system\STM32_Reg.h><STM32_Reg.h> 
+OPTFFF 7,24,5,0,0,0,0,0,<.\App\archi_appli.oil><archi_appli.oil> 
+OPTFFF 7,25,5,0,0,0,0,0,<.\templates\c166\isr_specific.tpl><isr_specific.tpl> 
+OPTFFF 7,26,5,0,0,0,0,0,<.\templates\c166\counter_list_specific.tpl><counter_list_specific.tpl> 
+OPTFFF 7,27,5,0,0,0,0,0,<.\templates\c166\counter_specific.tpl><counter_specific.tpl> 
+OPTFFF 7,28,5,0,0,0,0,0,<.\templates\c166\each_isr_specific.tpl><each_isr_specific.tpl> 
+OPTFFF 7,29,5,0,0,0,0,0,<.\templates\c166\each_task_specific.tpl><each_task_specific.tpl> 
+
+
+TARGOPT 1, (Simulé)
+ ARMCLK=8000000
+  OPTTT 0,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 120,65,8,<.\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 0,0,1
+  OPTAX 0
+  OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
+  OPTDBG 48125,0,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
+  OPTDF 0x0
+  OPTLE <>
+  OPTLC <>
+EndOpt
+
+TARGOPT 2, (Reel)
+ ARMCLK=8000000
+  OPTTT 0,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 120,65,8,<.\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 0,0,0
+  OPTAX 0
+  OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
+  OPTDBG 49150,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
+  OPTDF 0x0
+  OPTLE <>
+  OPTLC <>
+EndOpt
+
