@@ -140,9 +140,12 @@ void tpl_switch_context_from_it(tpl_context * old_context, tpl_context * new_con
 	// R0 has a pointer to the old context. It seems to be 0 when no old context has to be saved
 	// R1 has a pointer to the new context.
 
- 	__asm__ ("pop {r3-r7,lr} ;"); // clean msp stack from previous C calls  
-	__asm__ ("pop {r3,lr} ;"); 
-	__asm__ ("pop {r3,lr} ;"); 
+ 	//__asm__ ("pop {r3-r7,lr} ;"); // clean msp stack from previous C calls  
+	//__asm__ ("pop {r3,lr} ;"); 
+	//__asm__ ("pop {r3,lr} ;"); 
+	__asm__ ("pop {r4,lr} ;"); // clean msp stack from previous C calls  
+	__asm__ ("pop {r4-r6,lr} ;"); 
+	__asm__ ("pop {r4,lr} ;"); 
 	//Now the task context is back 
 
 	// CHECK wether a previous context has to be saved 
