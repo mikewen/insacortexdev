@@ -157,11 +157,11 @@ Options 2,0,0  // Target 'Reel'
  OCMXRAM { 0,0,0,0,0,0,0,0,0 }
  OCMIRAM2 { 0,0,0,0,0,0,0,0,0 }
  OCMIROM2 { 0,0,0,0,0,0,0,0,0 }
- ACCFLG { 65,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ACCFLG { 65,0,32,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ACMISC ()
  ACDEFN ()
  ACUDEF ()
- ACINCD ()
+ ACINCD (..\..\system)
  AASFLG { 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  AAMISC ()
  AADEFN ()
@@ -183,7 +183,7 @@ Options 2,0,0  // Target 'Reel'
  ALDICLB ()
  ALDICDR ()
  ALDMISC ()
- ALDSCAT ()
+ ALDSCAT (..\..\system\Linker_Script_GCC.ld)
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
   OPTDBG 49150,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
  FLASH1 { 9,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
