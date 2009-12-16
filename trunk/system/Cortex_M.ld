@@ -16,24 +16,20 @@
  * they apply. */
 
 OUTPUT_FORMAT ("elf32-littlearm", "elf32-bigarm", "elf32-littlearm")
-ENTRY(Startup)
-/*ENTRY(_start)*/
+ENTRY(_start)
 SEARCH_DIR(.)
-/*GROUP(-lgcc -lc -lcs3 -lcs3unhosted -lcs3micro)*/
+GROUP(-lgcc -lc -lcs3 -lcs3unhosted -lcs3micro)
 
-
-/* Definition du mapping memoire */
 MEMORY
 {
-  rom (rx)  : ORIGIN = 0x08000000, LENGTH = 32K
-  ram (rw)  : ORIGIN = 0x20000000, LENGTH = 20K
+  rom (rx)  : ORIGIN = 0x08000000, LENGTH = 64K
+  ram (rwx) : ORIGIN = 0x20000000, LENGTH =  8K
 }
 
 /* These force the linker to search for particular symbols from
  * the start of the link process and thus ensure the user's
  * overrides are picked up
  */
-
 EXTERN(__cs3_reset_cortex_m)
 EXTERN(__cs3_interrupt_vector_cortex_m)
 EXTERN(__cs3_start_c main __cs3_stack __cs3_stack_size __cs3_heap_end)
@@ -43,10 +39,8 @@ PROVIDE(__cs3_stack_size = __cs3_region_start_ram + __cs3_region_size_ram - _end
 PROVIDE(__cs3_heap_start = _end);
 PROVIDE(__cs3_heap_end = __cs3_region_start_ram + __cs3_region_size_ram);
 
-/* Allocation des sections */
 SECTIONS
 {
-	/* Text = code executable */
   .text :
   {
     CREATE_OBJECT_SYMBOLS
@@ -65,16 +59,16 @@ SECTIONS
     ASSERT (. != __cs3_reset, "No reset code");
 
     *(.text .text.* .gnu.linkonce.t.*)
-    /* *(.plt)
+    *(.plt)
     *(.gnu.warning)
-    *(.glue_7t) *(.glue_7) *(.vfp11_veneer)	*/
+    *(.glue_7t) *(.glue_7) *(.vfp11_veneer)
 
     *(.rodata .rodata.* .gnu.linkonce.r.*)
 
-    /* *(.ARM.extab* .gnu.linkonce.armextab.*)
+    *(.ARM.extab* .gnu.linkonce.armextab.*)
     *(.gcc_except_table)
     *(.eh_frame_hdr)
-    *(.eh_frame) */
+    *(.eh_frame)
 
     . = ALIGN(4);
     KEEP(*(.init))
@@ -117,41 +111,38 @@ SECTIONS
     LONG (__cs3_region_start_ram)
     LONG (__cs3_region_init_size_ram)
     LONG (__cs3_region_zero_size_ram)
-  } >rom
+  }
 
   /* .ARM.exidx is sorted, so has to go in its own output section.  */
-  /* __exidx_start = .;
+  __exidx_start = .;
   .ARM.exidx :
   {
     *(.ARM.exidx* .gnu.linkonce.armexidx.*)
   } >rom
-  __exidx_end = .; */
-  /* .text.align :
+  __exidx_end = .;
+  .text.align :
   {
     . = ALIGN(8);
     _etext = .;
-  } >rom	*/
+  } >rom
   __cs3_region_size_rom = LENGTH(rom);
   __cs3_region_num = 1;
 
   .data :
   {
     __cs3_region_start_ram = .;
-	__cs3_region_start_data = .;
     *(.cs3.region-head.ram)
-    /*KEEP(*(.jcr))
+    KEEP(*(.jcr))
     *(.got.plt) *(.got)
-    *(.shdata)*/
+    *(.shdata)
     *(.data .data.* .gnu.linkonce.d.*)
     *(.ram)
     . = ALIGN (8);
     _edata = .;
   } >ram AT>rom
-
   .bss :
   {
-  	__cs3_region_start_bss = .;
-    /* *(.shbss)  */
+    *(.shbss)
     *(.bss .bss.* .gnu.linkonce.b.*)
     *(COMMON)
     *(.ram.b)
@@ -159,30 +150,22 @@ SECTIONS
     _end = .;
     __end = .;
   } >ram AT>rom
-
   .heap :
   {
     *(.heap)
   } >ram
-
   .stack (__cs3_stack - __cs3_stack_size) :
   {
     *(.stack)
   } >ram
-  __cs3_region_init_ram_loadaddr = LOADADDR (.data);
-  __cs3_region_init_ram = __cs3_region_init_ram_loadaddr;
-  __cs3_region_init_ram_size = _edata - __cs3_region_start_ram;
-  __cs3_region_init_size_ram = __cs3_region_init_ram_size;
-  __cs3_region_zero_ram_size = _end - _edata;
-  __cs3_region_zero_size_ram = __cs3_region_zero_ram_size;
+  __cs3_region_init_ram = LOADADDR (.data);
+  __cs3_region_init_size_ram = _edata - __cs3_region_start_ram;
+  __cs3_region_zero_size_ram = _end - _edata;
   __cs3_region_size_ram = LENGTH(ram);
-  __cs3_region_zero_ram_loadaddr = LOADADDR (.bss);
   __cs3_region_num = 1;
 
   .stab 0 (NOLOAD) : { *(.stab) }
-
   .stabstr 0 (NOLOAD) : { *(.stabstr) }
-
   /* DWARF debug sections.
    * Symbols in the DWARF debugging sections are relative to the beginning
    * of the section so we begin them at 0.  */
