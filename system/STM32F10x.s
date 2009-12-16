@@ -1,289 +1,257 @@
-;/*****************************************************************************/
-;/* STM32F10x.s: Startup file for ST STM32F10x device series                  */
-;/*****************************************************************************/
-;/* <<< Use Configuration Wizard in Context Menu >>>                          */
-;/*****************************************************************************/
-;/* This file is part of the uVision/ARM development tools.                   */
-;/* Copyright (c) 2005-2007 Keil Software. All rights reserved.               */
-;/* This software may only be used under the terms of a valid, current,       */
-;/* end user licence from KEIL for a compatible version of KEIL software      */
-;/* development tools. Nothing else gives you the right to use this software. */
-;/*****************************************************************************/
+/*****************************************************************************/
+/* STM32F10x.s: Startup file for ST STM32F10x device series                  */
+/*****************************************************************************/
+/* Version: CodeSourcery Sourcery G++ Lite (with CS3)                        */
+/*****************************************************************************/
 
 
-;// <h> Stack Configuration
-;//   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
-;// </h>
-
-Stack_Size      EQU     0x00000200
-
-                AREA    STACK, NOINIT, READWRITE, ALIGN=3
-Stack_Mem       SPACE   Stack_Size
-__initial_sp
+/* 
+//*** <<< Use Configuration Wizard in Context Menu >>> *** 
+*/
 
 
-;// <h> Heap Configuration
-;//   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
-;// </h>
+/*
+// <h> Stack Configuration
+//   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
+// </h>
+*/
 
-Heap_Size       EQU     0x00000000
-
-                AREA    HEAP, NOINIT, READWRITE, ALIGN=3
-__heap_base
-Heap_Mem        SPACE   Heap_Size
-__heap_limit
-
-
-                PRESERVE8
-                THUMB
-
-
-; Vector Table Mapped to Address 0 at Reset
-
-                AREA    RESET, DATA, READONLY
-                EXPORT  __Vectors
-
-__Vectors       DCD     __initial_sp              ; Top of Stack
-                DCD     Reset_Handler             ; Reset Handler
-                DCD     NMI_Handler               ; NMI Handler
-                DCD     HardFault_Handler         ; Hard Fault Handler
-                DCD     MemManage_Handler         ; MPU Fault Handler
-                DCD     BusFault_Handler          ; Bus Fault Handler
-                DCD     UsageFault_Handler        ; Usage Fault Handler
-                DCD     0                         ; Reserved
-                DCD     0                         ; Reserved
-                DCD     0                         ; Reserved
-                DCD     0                         ; Reserved
-                DCD     SVC_Handler               ; SVCall Handler
-                DCD     DebugMon_Handler          ; Debug Monitor Handler
-                DCD     0                         ; Reserved
-                DCD     PendSV_Handler            ; PendSV Handler
-                DCD     SysTick_Handler           ; SysTick Handler
-
-                ; External Interrupts
-                DCD     WWDG_IRQHandler           ; Window Watchdog
-                DCD     PVD_IRQHandler            ; PVD through EXTI Line detect
-                DCD     TAMPER_IRQHandler         ; Tamper
-                DCD     RTC_IRQHandler            ; RTC
-                DCD     FLASH_IRQHandler          ; Flash
-                DCD     RCC_IRQHandler            ; RCC
-                DCD     EXTI0_IRQHandler          ; EXTI Line 0
-                DCD     EXTI1_IRQHandler          ; EXTI Line 1
-                DCD     EXTI2_IRQHandler          ; EXTI Line 2
-                DCD     EXTI3_IRQHandler          ; EXTI Line 3
-                DCD     EXTI4_IRQHandler          ; EXTI Line 4
-                DCD     DMAChannel1_IRQHandler    ; DMA Channel 1
-                DCD     DMAChannel2_IRQHandler    ; DMA Channel 2
-                DCD     DMAChannel3_IRQHandler    ; DMA Channel 3
-                DCD     DMAChannel4_IRQHandler    ; DMA Channel 4
-                DCD     DMAChannel5_IRQHandler    ; DMA Channel 5
-                DCD     DMAChannel6_IRQHandler    ; DMA Channel 6
-                DCD     DMAChannel7_IRQHandler    ; DMA Channel 7
-                DCD     ADC_IRQHandler            ; ADC
-                DCD     USB_HP_CAN_TX_IRQHandler  ; USB High Priority or CAN TX
-                DCD     USB_LP_CAN_RX0_IRQHandler ; USB Low  Priority or CAN RX0
-                DCD     CAN_RX1_IRQHandler        ; CAN RX1
-                DCD     CAN_SCE_IRQHandler        ; CAN SCE
-                DCD     EXTI9_5_IRQHandler        ; EXTI Line 9..5
-                DCD     TIM1_BRK_IRQHandler       ; TIM1 Break
-                DCD     TIM1_UP_IRQHandler        ; TIM1 Update
-                DCD     TIM1_TRG_COM_IRQHandler   ; TIM1 Trigger and Commutation
-                DCD     TIM1_CC_IRQHandler        ; TIM1 Capture Compare
-                DCD     TIM2_IRQHandler           ; TIM2
-                DCD     TIM3_IRQHandler           ; TIM3
-                DCD     TIM4_IRQHandler           ; TIM4
-                DCD     I2C1_EV_IRQHandler        ; I2C1 Event
-                DCD     I2C1_ER_IRQHandler        ; I2C1 Error
-                DCD     I2C2_EV_IRQHandler        ; I2C2 Event
-                DCD     I2C2_ER_IRQHandler        ; I2C2 Error
-                DCD     SPI1_IRQHandler           ; SPI1
-                DCD     SPI2_IRQHandler           ; SPI2
-                DCD     USART1_IRQHandler         ; USART1
-                DCD     USART2_IRQHandler         ; USART2
-                DCD     USART3_IRQHandler         ; USART3
-                DCD     EXTI15_10_IRQHandler      ; EXTI Line 15..10
-                DCD     RTCAlarm_IRQHandler       ; RTC Alarm through EXTI Line
-                DCD     USBWakeUp_IRQHandler      ; USB Wakeup from suspend
+    .equ    Stack_Size, 0x00000200
+    .section ".stack", "w"
+    .align  3
+    .globl  __cs3_stack_mem
+    .globl  __cs3_stack_size
+__cs3_stack_mem:
+    .if     Stack_Size
+    .space  Stack_Size
+    .endif
+    .size   __cs3_stack_mem,  . - __cs3_stack_mem
+    .set    __cs3_stack_size, . - __cs3_stack_mem
 
 
-                AREA    |.text|, CODE, READONLY
+/*
+// <h> Heap Configuration
+//   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
+// </h>
+*/
+
+    .equ    Heap_Size,  0x00001000
+    
+    .section ".heap", "w"
+    .align  3
+    .globl  __cs3_heap_start
+    .globl  __cs3_heap_end
+__cs3_heap_start:
+    .if     Heap_Size
+    .space  Heap_Size
+    .endif
+__cs3_heap_end:
 
 
-; Reset Handler
+/* Vector Table */
 
-Reset_Handler   PROC
-                EXPORT  Reset_Handler             [WEAK]
-                IMPORT  __main
-                LDR     R0, =__main
-                BX      R0
-                ENDP
+    .section ".cs3.interrupt_vector"
+    .globl  __cs3_interrupt_vector_cortex_m
+    .type   __cs3_interrupt_vector_cortex_m, %object
 
+__cs3_interrupt_vector_cortex_m:
+    .long   __cs3_stack                 /* Top of Stack                 */
+    .long   __cs3_reset                 /* Reset Handler                */
+    .long   NMI_Handler                 /* NMI Handler                  */
+    .long   HardFault_Handler           /* Hard Fault Handler           */
+    .long   MemManage_Handler           /* MPU Fault Handler            */
+    .long   BusFault_Handler            /* Bus Fault Handler            */
+    .long   UsageFault_Handler          /* Usage Fault Handler          */
+    .long   0                           /* Reserved                     */
+    .long   0                           /* Reserved                     */
+    .long   0                           /* Reserved                     */
+    .long   0                           /* Reserved                     */
+    .long   SVC_Handler                 /* SVCall Handler               */
+    .long   DebugMon_Handler            /* Debug Monitor Handler        */
+    .long   0                           /* Reserved                     */
+    .long   PendSV_Handler              /* PendSV Handler               */
+    .long   SysTick_Handler             /* SysTick Handler              */
 
-; Dummy Exception Handlers (infinite loops which can be modified)                
+    /* External Interrupts */
+    .long   WWDG_IRQHandler             /* Window Watchdog              */
+    .long   PVD_IRQHandler              /* PVD through EXTI Line detect */
+    .long   TAMPER_IRQHandler           /* Tamper                       */
+    .long   RTC_IRQHandler              /* RTC                          */
+    .long   FLASH_IRQHandler            /* Flash                        */
+    .long   RCC_IRQHandler              /* RCC                          */
+    .long   EXTI0_IRQHandler            /* EXTI Line 0                  */
+    .long   EXTI1_IRQHandler            /* EXTI Line 1                  */
+    .long   EXTI2_IRQHandler            /* EXTI Line 2                  */
+    .long   EXTI3_IRQHandler            /* EXTI Line 3                  */
+    .long   EXTI4_IRQHandler            /* EXTI Line 4                  */
+    .long   DMAChannel1_IRQHandler      /* DMA Channel 1                */
+    .long   DMAChannel2_IRQHandler      /* DMA Channel 2                */
+    .long   DMAChannel3_IRQHandler      /* DMA Channel 3                */
+    .long   DMAChannel4_IRQHandler      /* DMA Channel 4                */
+    .long   DMAChannel5_IRQHandler      /* DMA Channel 5                */
+    .long   DMAChannel6_IRQHandler      /* DMA Channel 6                */
+    .long   DMAChannel7_IRQHandler      /* DMA Channel 7                */
+    .long   ADC_IRQHandler              /* ADC                          */
+    .long   USB_HP_CAN_TX_IRQHandler    /* USB High Priority or CAN TX  */
+    .long   USB_LP_CAN_RX0_IRQHandler   /* USB Low  Priority or CAN RX0 */ 
+    .long   CAN_RX1_IRQHandler          /* CAN RX1                      */
+    .long   CAN_SCE_IRQHandler          /* CAN SCE                      */
+    .long   EXTI9_5_IRQHandler          /* EXTI Line 9..5               */
+    .long   TIM1_BRK_IRQHandler         /* TIM1 Break                   */
+    .long   TIM1_UP_IRQHandler          /* TIM1 Update                  */
+    .long   TIM1_TRG_COM_IRQHandler     /* TIM1 Trigger and Commutation */
+    .long   TIM1_CC_IRQHandler          /* TIM1 Capture Compare         */
+    .long   TIM2_IRQHandler             /* TIM2                         */
+    .long   TIM3_IRQHandler             /* TIM3                         */
+    .long   TIM4_IRQHandler             /* TIM4                         */
+    .long   I2C1_EV_IRQHandler          /* I2C1 Event                   */
+    .long   I2C1_ER_IRQHandler          /* I2C1 Error                   */
+    .long   I2C2_EV_IRQHandler          /* I2C2 Event                   */
+    .long   I2C2_ER_IRQHandler          /* I2C2 Error                   */
+    .long   SPI1_IRQHandler             /* SPI1                         */
+    .long   SPI2_IRQHandler             /* SPI2                         */
+    .long   USART1_IRQHandler           /* USART1                       */
+    .long   USART2_IRQHandler           /* USART2                       */
+    .long   USART3_IRQHandler           /* USART3                       */
+    .long   EXTI15_10_IRQHandler        /* EXTI Line 15..10             */
+    .long   RTCAlarm_IRQHandler         /* RTC Alarm through EXTI Line  */
+    .long   USBWakeUp_IRQHandler        /* USB Wakeup from suspend      */
 
-NMI_Handler     PROC
-                EXPORT  NMI_Handler               [WEAK]
-                B       .
-                ENDP
-HardFault_Handler\
-                PROC
-                EXPORT  HardFault_Handler         [WEAK]
-                B       .
-                ENDP
-MemManage_Handler\
-                PROC
-                EXPORT  MemManage_Handler         [WEAK]
-                B       .
-                ENDP
-BusFault_Handler\
-                PROC
-                EXPORT  BusFault_Handler          [WEAK]
-                B       .
-                ENDP
-UsageFault_Handler\
-                PROC
-                EXPORT  UsageFault_Handler        [WEAK]
-                B       .
-                ENDP
-SVC_Handler     PROC
-                EXPORT  SVC_Handler               [WEAK]
-                B       .
-                ENDP
-DebugMon_Handler\
-                PROC
-                EXPORT  DebugMon_Handler          [WEAK]
-                B       .
-                ENDP
-PendSV_Handler  PROC
-                EXPORT  PendSV_Handler            [WEAK]
-                B       .
-                ENDP
-SysTick_Handler PROC
-                EXPORT  SysTick_Handler           [WEAK]
-                B       .
-                ENDP
-
-Default_Handler PROC
-
-                EXPORT  WWDG_IRQHandler           [WEAK]
-                EXPORT  PVD_IRQHandler            [WEAK]
-                EXPORT  TAMPER_IRQHandler         [WEAK]
-                EXPORT  RTC_IRQHandler            [WEAK]
-                EXPORT  FLASH_IRQHandler          [WEAK]
-                EXPORT  RCC_IRQHandler            [WEAK]
-                EXPORT  EXTI0_IRQHandler          [WEAK]
-                EXPORT  EXTI1_IRQHandler          [WEAK]
-                EXPORT  EXTI2_IRQHandler          [WEAK]
-                EXPORT  EXTI3_IRQHandler          [WEAK]
-                EXPORT  EXTI4_IRQHandler          [WEAK]
-                EXPORT  DMAChannel1_IRQHandler    [WEAK]
-                EXPORT  DMAChannel2_IRQHandler    [WEAK]
-                EXPORT  DMAChannel3_IRQHandler    [WEAK]
-                EXPORT  DMAChannel4_IRQHandler    [WEAK]
-                EXPORT  DMAChannel5_IRQHandler    [WEAK]
-                EXPORT  DMAChannel6_IRQHandler    [WEAK]
-                EXPORT  DMAChannel7_IRQHandler    [WEAK]
-                EXPORT  ADC_IRQHandler            [WEAK]
-                EXPORT  USB_HP_CAN_TX_IRQHandler  [WEAK]
-                EXPORT  USB_LP_CAN_RX0_IRQHandler [WEAK]
-                EXPORT  CAN_RX1_IRQHandler        [WEAK]
-                EXPORT  CAN_SCE_IRQHandler        [WEAK]
-                EXPORT  EXTI9_5_IRQHandler        [WEAK]
-                EXPORT  TIM1_BRK_IRQHandler       [WEAK]
-                EXPORT  TIM1_UP_IRQHandler        [WEAK]
-                EXPORT  TIM1_TRG_COM_IRQHandler   [WEAK]
-                EXPORT  TIM1_CC_IRQHandler        [WEAK]
-                EXPORT  TIM2_IRQHandler           [WEAK]
-                EXPORT  TIM3_IRQHandler           [WEAK]
-                EXPORT  TIM4_IRQHandler           [WEAK]
-                EXPORT  I2C1_EV_IRQHandler        [WEAK]
-                EXPORT  I2C1_ER_IRQHandler        [WEAK]
-                EXPORT  I2C2_EV_IRQHandler        [WEAK]
-                EXPORT  I2C2_ER_IRQHandler        [WEAK]
-                EXPORT  SPI1_IRQHandler           [WEAK]
-                EXPORT  SPI2_IRQHandler           [WEAK]
-                EXPORT  USART1_IRQHandler         [WEAK]
-                EXPORT  USART2_IRQHandler         [WEAK]
-                EXPORT  USART3_IRQHandler         [WEAK]
-                EXPORT  EXTI15_10_IRQHandler      [WEAK]
-                EXPORT  RTCAlarm_IRQHandler       [WEAK]
-                EXPORT  USBWakeUp_IRQHandler      [WEAK]
-
-WWDG_IRQHandler
-PVD_IRQHandler
-TAMPER_IRQHandler
-RTC_IRQHandler
-FLASH_IRQHandler
-RCC_IRQHandler
-EXTI0_IRQHandler
-EXTI1_IRQHandler
-EXTI2_IRQHandler
-EXTI3_IRQHandler
-EXTI4_IRQHandler
-DMAChannel1_IRQHandler
-DMAChannel2_IRQHandler
-DMAChannel3_IRQHandler
-DMAChannel4_IRQHandler
-DMAChannel5_IRQHandler
-DMAChannel6_IRQHandler
-DMAChannel7_IRQHandler
-ADC_IRQHandler
-USB_HP_CAN_TX_IRQHandler
-USB_LP_CAN_RX0_IRQHandler
-CAN_RX1_IRQHandler
-CAN_SCE_IRQHandler
-EXTI9_5_IRQHandler
-TIM1_BRK_IRQHandler
-TIM1_UP_IRQHandler
-TIM1_TRG_COM_IRQHandler
-TIM1_CC_IRQHandler
-TIM2_IRQHandler
-TIM3_IRQHandler
-TIM4_IRQHandler
-I2C1_EV_IRQHandler
-I2C1_ER_IRQHandler
-I2C2_EV_IRQHandler
-I2C2_ER_IRQHandler
-SPI1_IRQHandler
-SPI2_IRQHandler
-USART1_IRQHandler
-USART2_IRQHandler
-USART3_IRQHandler
-EXTI15_10_IRQHandler
-RTCAlarm_IRQHandler
-USBWakeUp_IRQHandler
-
-                B       .
-
-                ENDP
+    .size   __cs3_interrupt_vector_cortex_m, . - __cs3_interrupt_vector_cortex_m
 
 
-                ALIGN
+    .thumb
 
 
-; User Initial Stack & Heap
+/* Reset Handler */
 
-                IF      :DEF:__MICROLIB
-                
-                EXPORT  __initial_sp
-                EXPORT  __heap_base
-                EXPORT  __heap_limit
-                
-                ELSE
-                
-                IMPORT  __use_two_region_memory
-                EXPORT  __user_initial_stackheap
-__user_initial_stackheap
+    .section .cs3.reset,"x",%progbits
+    .thumb_func
+    .globl  __cs3_reset_cortex_m
+    .type   __cs3_reset_cortex_m, %function
+__cs3_reset_cortex_m:
+    .fnstart
+    LDR     R0,=_start
+    BX      R0
+    .pool
+    .cantunwind
+    .fnend
+    .size   __cs3_reset_cortex_m,.-__cs3_reset_cortex_m
 
-                LDR     R0, =  Heap_Mem
-                LDR     R1, =(Stack_Mem + Stack_Size)
-                LDR     R2, = (Heap_Mem +  Heap_Size)
-                LDR     R3, = Stack_Mem
-                BX      LR
+    .section ".text"
 
-                ALIGN
+/* Exception Handlers */
 
-                ENDIF
+    .weak   NMI_Handler
+    .type   NMI_Handler, %function
+NMI_Handler:
+    B       .
+    .size   NMI_Handler, . - NMI_Handler
+
+    .weak   HardFault_Handler
+    .type   HardFault_Handler, %function
+HardFault_Handler:
+    B       .
+    .size   HardFault_Handler, . - HardFault_Handler
+
+    .weak   MemManage_Handler
+    .type   MemManage_Handler, %function
+MemManage_Handler:
+    B       .
+    .size   MemManage_Handler, . - MemManage_Handler
+
+    .weak   BusFault_Handler
+    .type   BusFault_Handler, %function
+BusFault_Handler:
+    B       .
+    .size   BusFault_Handler, . - BusFault_Handler
+
+    .weak   UsageFault_Handler
+    .type   UsageFault_Handler, %function
+UsageFault_Handler:
+    B       .
+    .size   UsageFault_Handler, . - UsageFault_Handler
+
+    .weak   SVC_Handler
+    .type   SVC_Handler, %function
+SVC_Handler:
+    B       .
+    .size   SVC_Handler, . - SVC_Handler
+
+    .weak   DebugMon_Handler
+    .type   DebugMon_Handler, %function
+DebugMon_Handler:
+    B       .
+    .size   DebugMon_Handler, . - DebugMon_Handler
+
+    .weak   PendSV_Handler
+    .type   PendSV_Handler, %function
+PendSV_Handler:
+    B       .
+    .size   PendSV_Handler, . - PendSV_Handler
+
+    .weak   SysTick_Handler
+    .type   SysTick_Handler, %function
+SysTick_Handler:
+    B       .
+    .size   SysTick_Handler, . - SysTick_Handler
 
 
-                END
+/* IRQ Handlers */
+
+    .globl  Default_Handler
+    .type   Default_Handler, %function
+Default_Handler:
+    B       .
+    .size   Default_Handler, . - Default_Handler
+
+    .macro  IRQ handler
+    .weak   \handler
+    .set    \handler, Default_Handler
+    .endm
+
+    IRQ     WWDG_IRQHandler
+    IRQ     PVD_IRQHandler
+    IRQ     TAMPER_IRQHandler
+    IRQ     RTC_IRQHandler
+    IRQ     FLASH_IRQHandler
+    IRQ     RCC_IRQHandler
+    IRQ     EXTI0_IRQHandler
+    IRQ     EXTI1_IRQHandler
+    IRQ     EXTI2_IRQHandler
+    IRQ     EXTI3_IRQHandler
+    IRQ     EXTI4_IRQHandler
+    IRQ     DMAChannel1_IRQHandler
+    IRQ     DMAChannel2_IRQHandler
+    IRQ     DMAChannel3_IRQHandler
+    IRQ     DMAChannel4_IRQHandler
+    IRQ     DMAChannel5_IRQHandler
+    IRQ     DMAChannel6_IRQHandler
+    IRQ     DMAChannel7_IRQHandler
+    IRQ     ADC_IRQHandler
+    IRQ     USB_HP_CAN_TX_IRQHandler
+    IRQ     USB_LP_CAN_RX0_IRQHandler
+    IRQ     CAN_RX1_IRQHandler
+    IRQ     CAN_SCE_IRQHandler
+    IRQ     EXTI9_5_IRQHandler
+    IRQ     TIM1_BRK_IRQHandler
+    IRQ     TIM1_UP_IRQHandler
+    IRQ     TIM1_TRG_COM_IRQHandler
+    IRQ     TIM1_CC_IRQHandler
+    IRQ     TIM2_IRQHandler
+    IRQ     TIM3_IRQHandler
+    IRQ     TIM4_IRQHandler
+    IRQ     I2C1_EV_IRQHandler
+    IRQ     I2C1_ER_IRQHandler
+    IRQ     I2C2_EV_IRQHandler
+    IRQ     I2C2_ER_IRQHandler
+    IRQ     SPI1_IRQHandler
+    IRQ     SPI2_IRQHandler
+    IRQ     USART1_IRQHandler
+    IRQ     USART2_IRQHandler
+    IRQ     USART3_IRQHandler
+    IRQ     EXTI15_10_IRQHandler
+    IRQ     RTCAlarm_IRQHandler
+    IRQ     USBWakeUp_IRQHandler
+
+    .end

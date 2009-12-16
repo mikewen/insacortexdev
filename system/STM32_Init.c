@@ -125,8 +125,8 @@
 //   <i> Default: 8000000  (8MHz)
 // </e> End of Clock Configuration
 #define __CLOCK_SETUP              1
-#define __RCC_CR_VAL               0x00000003
-#define __RCC_CFGR_VAL             0x00000401
+#define __RCC_CR_VAL               0x01010003
+#define __RCC_CFGR_VAL             0x001C0401
 #define __HSE                      8000000
 
 
