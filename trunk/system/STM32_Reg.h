@@ -19,7 +19,7 @@
 
 /* Define to prevent recursive inclusion ------------------------------------ */
 #ifndef __STM32_REG_H
-#define __STM32_REG_H
+#define __STM32_REg_H
 
 /*----------------------------------------------------------------------------
    SysTick

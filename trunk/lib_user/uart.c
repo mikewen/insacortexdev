@@ -54,7 +54,7 @@ u8 getchar_UART2 (void)
 
 void putchar_UART3(u8 c)
 {
-	while (!(USART1->SR & USART_FLAG_TXE));
+	while (!(USART3->SR & USART_FLAG_TXE));
 
 	USART3->DR = c;
 }

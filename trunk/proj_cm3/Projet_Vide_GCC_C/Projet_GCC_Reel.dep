@@ -1,8 +1,0 @@
-Dependencies for Project 'Projet_GCC', Target 'Reel': (DO NOT MODIFY !)
-F (../../system/STM32F10x_GCC.s)(0x4B28DEE9)(-mcpu=cortex-m3 -mthumb --gdwarf-2 -mthumb-interwork --MD ./STM32F10x_GCC.d -IC:/Keil/ARM/INC/ST/STM32F10x/ -o ./STM32F10x_GCC.o)
-F (..\..\system\Linker_Script_GCC.ld)(0x4B2910DA)()
-F (../../system/STM32_Init.c)(0x4B290AAF)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MD -Wall -O -mapcs-frame -mthumb-interwork -I../../system -IC:/Keil/ARM/INC/ST/STM32F10x/ -o ./stm32_init.o)
-F (../../system/Startup_GCC.s)(0x4B28DEE9)(-mcpu=cortex-m3 -mthumb --gdwarf-2 -mthumb-interwork --MD ./Startup_GCC.d -IC:/Keil/ARM/INC/ST/STM32F10x/ -o ./Startup_GCC.o)
-F (.\main.c)(0x4B28DF5B)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MD -Wall -O -mapcs-frame -mthumb-interwork -I../../system -IC:/Keil/ARM/INC/ST/STM32F10x/ -o main.o)
-F (..\..\system\STM32_Init.h)(0x4B28DEE9)()
-F (..\..\system\STM32_Reg.h)(0x4B28DEE9)()

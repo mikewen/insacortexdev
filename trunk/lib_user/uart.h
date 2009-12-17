@@ -8,7 +8,7 @@
 #define UART_1 1
 #define UART_2 2
 #define UART_3 3
-#define XBEE UART_2
+#define XBEE UART_3
 
 void putchar(u8 channel, u8 c);
 u8 getchar (u8 channel, int delay);

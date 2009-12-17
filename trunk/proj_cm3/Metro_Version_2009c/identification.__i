@@ -1,1 +1,0 @@
--c --device DARMSTM -D__RTX -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I "C:\Keil\ARM\INC\ST\STM32F10x" -o "identification.o" --omf_browse "identification.crf" --depend "identification.d" "Identification.c"

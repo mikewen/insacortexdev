@@ -135,13 +135,13 @@ void Setup_Pll_As_Clock_System()
   RCC->CR |=0x00010000;
  
   // wait for HSE OK
-  while(RCC->CR & 0x00020000 ==0);
+  while((RCC->CR & 0x00020000) ==0);
   
   //active la PLL
   RCC->CR |=0x01000000;
   
   //wait PLL OK
-  while(RCC->CR & 0x02000000 ==0);
+  while((RCC->CR & 0x02000000) ==0);
 
   //RCC->CR   |=__RCC_CR_HSE_AND_PLL_ON;
 }
@@ -849,7 +849,7 @@ int fgetc(FILE *f) {
 
 void Init_Periphs()			  
 {
- Setup_Pll_As_Clock_System();
+ //Setup_Pll_As_Clock_System();
  //Init_PortA();
  //Init_PortB();
  //Init_PortC();
