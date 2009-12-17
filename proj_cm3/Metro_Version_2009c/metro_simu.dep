@@ -1,5 +1,0 @@
-Dependencies for Project 'metro', Target 'simu': (DO NOT MODIFY !)
-F (.\STM32F10x.s)(0x4AA158E8)(--device DARMSTM --pd "__RTX SETA 1" --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1" -I "C:\Keil\ARM\INC\ST\STM32F10x" --list "STM32F10x.lst" --xref -o "STM32F10x.o")
-F (.\Metro_Librairie_Version2009c.c)(0x4AA158E8)(-c --device DARMSTM -D__RTX -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I "C:\Keil\ARM\INC\ST\STM32F10x" -o "metro_librairie_version2009c.o" --omf_browse "metro_librairie_version2009c.crf" --depend "metro_librairie_version2009c.d")
-F (.\RTX_Conf_CM.c)(0x4AA158E8)(-c --device DARMSTM -D__RTX -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I "E:\Keil\ARM\INC\ST\STM32F10x" -o "rtx_conf_cm.o" --omf_browse "rtx_conf_cm.crf" --depend "rtx_conf_cm.d")
-F (.\Identification.c)(0x00000000)(-c --device DARMSTM -D__RTX -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I "E:\Keil\ARM\INC\ST\STM32F10x" -o "identification.o" --omf_browse "identification.crf" --depend "identification.d")

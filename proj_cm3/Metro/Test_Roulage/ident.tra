@@ -13,7 +13,7 @@
 ### ADS-LD Output File: 'ident.axf'
 ### ADS-LD Command File: 'ident.lnp'
 ### Checking for dirty Components...
-### Creating CmdFile 'ident.lnp', Handle=0x00000200
+### Creating CmdFile 'ident.lnp', Handle=0x0000041C
 ### Writing '.lnp' file
 ### ADS-LD Command file 'ident.lnp' is ready.
 ### ADS-LD: About to start ADS-LD Thread.
