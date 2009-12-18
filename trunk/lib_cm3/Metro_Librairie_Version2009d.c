@@ -850,9 +850,9 @@ int fgetc(FILE *f) {
 void Init_Periphs()			  
 {
  //Setup_Pll_As_Clock_System();
- //Init_PortA();
- //Init_PortB();
- //Init_PortC();
+ Init_PortA();
+ Init_PortB();
+ Init_PortC();
 
  #ifdef USE_STAR_USART
  setup_usart();

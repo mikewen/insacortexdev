@@ -236,6 +236,7 @@ void tpl_init_tick_timer()
 
 }
 
+//void tpl_switch_context_from_it(tpl_context * old_context, tpl_context * new_context);
 void tpl_call_counter_tick()
 {
   tpl_status  need_rescheduling = NO_SPECIAL_CODE;
@@ -270,10 +271,10 @@ void SysTick_Handler( void )
 	portENABLE_INTERRUPTS();	
 
 	// return from it using PSP
-	__asm__(
-		" mov lr, #0xfffffffd ;"
-		" bx  lr "
-	)	 ;
+	//__asm__(
+	//	" mov lr, #0xfffffffd ;"
+	//	" bx  lr "
+	//)	 ;
 }
 //_______________End of Counter specific code___________________________
 

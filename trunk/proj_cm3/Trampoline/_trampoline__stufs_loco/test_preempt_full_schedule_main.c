@@ -65,16 +65,18 @@ bool test;
 	{
 		calculConsigneSuivante();
 	}
-*/
+ */
 
 		
-        test = getchar_NB (XBEE,&c);
+       //test = getchar_NB (XBEE,&c);
+	   test=1;
+	   c= '1';
 	    
 		if (test)
 		{
 			switch(c)
 			{
-				case '1':
+				case '1': 
 					printf(XBEE,"Lancement du test ...\r\n");
 					printf(XBEE,"Mesures du Courant;Position;Vitesse\r\n"); 
 					
@@ -95,7 +97,7 @@ bool test;
 			        printf(XBEE,"Vous avez tapé les mauvais choix, boulet! \r\n");
 			        break;
 			}	// Fin switch (c)
-		}		
+		}	
 
     TerminateTask();
 }

@@ -72,10 +72,5 @@ void SysTick_Handler( void )
 
 	portENABLE_INTERRUPTS();	
 
-	// return from it using PSP
-	__asm__(
-		" mov lr, #0xfffffffd ;"
-		" bx  lr "
-	)	 ;
 }
 //_______________End of Counter specific code___________________________
