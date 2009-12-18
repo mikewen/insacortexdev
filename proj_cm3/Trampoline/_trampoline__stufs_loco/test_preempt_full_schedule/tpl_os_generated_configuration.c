@@ -52,6 +52,8 @@
 /*=============================================================================
  * Declaration of Resource IDs
  */
+#define res_id 0
+CONST(ResourceType, AUTOMATIC) res = res_id;
 
 
 /*=============================================================================
@@ -109,10 +111,31 @@ $TRUSTED_IDS$
  * Definition and initialization of Resource related structures
  */
 
+/*
+ * Resource descriptor of resource res
+ *
+ * Tasks which use this resource :
+ * $TASKS$
+ *
+ * ISRs which use this resource :
+ * $ISRS$
+ */
+VAR(tpl_resource, OS_VAR) res_rez_desc = {
+  /* ceiling priority of the resource */  (tpl_priority)1,
+  /* owner previous priority          */  (tpl_priority)0,
+  /* owner of the resource            */  -1,
+#ifdef WITH_OSAPPLICATION
+  /* OS Application id                */  $APP_ID$,
+#endif    
+  /* next resource in the list        */  NULL
+};
+
+
 #define OS_START_SEC_CONST_UNSPECIFIED
 #include "tpl_memmap.h"
 CONSTP2VAR(tpl_resource, AUTOMATIC, OS_APPL_DATA)
   tpl_resource_table[RESOURCE_COUNT] = {
+  &res_rez_desc,
   &res_sched_rez_desc
 };
 #define OS_STOP_SEC_CONST_UNSPECIFIED
@@ -236,7 +259,6 @@ void tpl_init_tick_timer()
 
 }
 
-//void tpl_switch_context_from_it(tpl_context * old_context, tpl_context * new_context);
 void tpl_call_counter_tick()
 {
   tpl_status  need_rescheduling = NO_SPECIAL_CODE;
@@ -270,11 +292,6 @@ void SysTick_Handler( void )
 
 	portENABLE_INTERRUPTS();	
 
-	// return from it using PSP
-	//__asm__(
-	//	" mov lr, #0xfffffffd ;"
-	//	" bx  lr "
-	//)	 ;
 }
 //_______________End of Counter specific code___________________________
 

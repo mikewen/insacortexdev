@@ -14,29 +14,28 @@
 
 void Setup_Pll_As_Clock_System()
 { 
-	  RCC->CR   =__RCC_CR_RESET ;
-	  // AHB sur la clock interne HSI
-	  RCC->CFGR =__RCC_CFGR_RESET;
-	  RCC->CIR  =__RCC_CIR_RESET;
-	  
-	  RCC->CFGR |=__RCC_CFGR_SET1;
-	  RCC->CFGR &=__RCC_CFGR_SET0;
-	  
-	  RCC->CIR  |=__RCC_CIR;
+	RCC->CFGR =__RCC_CFGR_RESET;
+	RCC->CR   =__RCC_CR_RESET ;
+	RCC->CIR  =__RCC_CIR_RESET;
+
+	  RCC->CFGR =__RCC_CFGR_VALUE;
+
+	  RCC->CR   =__RCC_CR_VALUE ;
+	  //RCC->CIR  =__RCC_CIR_VALUE;
 	 
 	  //AHB sur PLL qui est sur HSE
-	  RCC->CR |=0x00010000;
+	  RCC->CR |=  HSEON ; //0x00010000;
 	 
 	  // wait for HSE OK
-	  while((RCC->CR & 0x00020000) ==0);
+	  while((RCC->CR & HSERDY) ==0);
 	  
 	  //active la PLL
-	  RCC->CR |=0x01000000;
+	  RCC->CR |= PLLON;
 	  
 	  //wait PLL OK
-	  while((RCC->CR & 0x02000000) ==0);
+	  while((RCC->CR & PLLRDY) ==0);
 	
-	  //RCC->CR   |=__RCC_CR_HSE_AND_PLL_ON;
+	 
 }
 
  /*------------------------------------end config clock system 40Mhz ------------------------------------------------*/
