@@ -1,0 +1,62 @@
+clear all ;
+close all;
+
+Te=2E-3; % temps d'échantillonnage
+
+%% Valeurs des N modèles
+N=3;
+Kn=485.6529;
+Taun=0.04;
+Kdn=1.919;
+
+sigma_K = Kn/10;
+K=(randn(N,1)*sigma_K)+Kn;
+sigma_Tau = 0.10;
+Tau=((randn(N,1)+1)*sigma_Tau)+Taun;
+%K(3)=K(3)*1;
+
+if (N>1) 
+    M_ecart=[eye(N-1) zeros(N-1,1)]-[zeros(N-1,1) eye(N-1)];
+else
+    M_ecart=0;
+end;
+
+%% Calcul retour
+[Kr,S,E,Kry,Sy,Ey]=calcul_retour(Kn,Taun,Kdn,N,Te,0.01,0.1,0.01,10,1,1,1000);
+dim=3;
+Ki=Kr(:,1:N)*(dim-2)
+Ka=Kr(:,(N+1):2*N)
+Kv=Kr(:,(2*N+1):end)
+
+%% Calcul trajectoire
+dpmax=800
+Tm = 0.2;
+Vmax = dpmax/Kdn;
+Pfin = 2000;
+% (D+Tm)*dpmax=Pfin
+D=Pfin/dpmax-Tm;
+
+
+
+L=5;
+Delta=10;
+sim n_metro;
+Puissance_LQ = sum(commandes_courant.*commandes_courant)/length(commandes_courant)
+Puissance_Tot_LQ = sum(Puissance_LQ)/N
+visu_crash;
+
+
+%plot(temps,ecarts);
+hold on;
+pause;
+close all;
+hold off;
+Ki=Kry(:,1:N)*(dim-2)
+Ka=Kry(:,(N+1):2*N)
+Kv=Kry(:,(2*N+1):end)
+sim n_metro;
+Puissance_LQY = sum(commandes_courant.*commandes_courant)/length(commandes_courant)
+Puissance_Tot_LQY = sum(Puissance_LQY)/N
+
+%plot(temps,ecarts,'--')
+visu_crash
