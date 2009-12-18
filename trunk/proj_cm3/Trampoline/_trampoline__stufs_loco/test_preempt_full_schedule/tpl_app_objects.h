@@ -5,7 +5,7 @@
  * for conditional compiling.
  *
  * This file has been generated automatically by goil
- * on  Thu Dec 17 09:29:06 2009
+ * on  Fri Dec 18 16:10:48 2009
  */
 
 #ifndef OJB_HEADER_H
@@ -65,7 +65,7 @@
 /*
  * Declaration of Resource object count
  */
-#define RESOURCE_COUNT        1
+#define RESOURCE_COUNT        2
 
 /*
  * Declaration of Send Message object count

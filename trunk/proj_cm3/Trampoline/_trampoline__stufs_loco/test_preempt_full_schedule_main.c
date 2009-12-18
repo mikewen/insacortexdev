@@ -29,7 +29,7 @@ int compteur = 0;
 Etat cons;
 
 #define TMP_CNT ((int)(7000.0/4.0/(0.219099-0.00028363)*0.1) )
-#define TENSION 3000 
+#define TENSION 0x0FFF 
 
 void InitApp(void)
 {
@@ -74,6 +74,7 @@ u8 c;
 
 		
        
+
 	   //test=1;
 	   //c= '1';
 	    
@@ -99,7 +100,13 @@ u8 c;
 					cons.Vit = 0;				
 					
 					break;
-						
+			case '3': 
+					
+					/* A fond en avant */
+					cons.Vit = -TENSION;
+	
+					break ;
+								
 				default : 
 			        printf("Vous avez tapé les mauvais choix, boulet! \n");
 			        break;
@@ -114,7 +121,9 @@ TASK(Tache2)
 	/*Etat cons;
 	cons= lireConsigne(); */
 	
+	
 	Fixe_Rapport(cons.Vit);
+
 
     TerminateTask();
 }

@@ -1,14 +1,21 @@
-#include <stm32f10x_type.h>                        // STM32F10x Library Definitions
+//#include <stm32f10x_type.h>                        // STM32F10x Library Definitions
 #include <stm32f10x_nvic.h>                        // STM32F10x Library Definitions
 #include <stm32f10x_usart.h>                        // STM32F10x Library Definitions
 
 #include "STM32_Reg.h"          // missing bit definitions
 #include "lib_usartx.h"     // import configuration NUM_USART and BAUDRATEx
 #include <stdio.h>				// import FILE type
-
+#include "stm_clock.h"
 
 //#pragma import(__use_no_semihosting_swi)  // ACCO !!! pas pigé l'histoire TODO
 
+#define __USART_SETUP             1              
+#define __USART_BAUDRATE         BAUDRATEx		
+#define __USART_DATABITS         0x00000000
+#define __USART_STOPBITS         0x00000000
+#define __USART_PARITY           0x00000000
+#define __USART_FLOWCTRL         0x00000000
+#define __USART_REMAP            0x00000000
 // Je récupère les bouts de STM32_Init utiles à l'USART
 // 
 // USART conf modifiée pour être configurée par lib_usartx_pol.h
@@ -67,13 +74,7 @@ void USARTx_IRQHandler (void);
 #endif
 //#define __USART_USED	(1<<(NUM_USART-1))
 
-#define __USART_SETUP             1              
-#define __USART_BAUDRATE         BAUDRATEx		
-#define __USART_DATABITS         0x00000000
-#define __USART_STOPBITS         0x00000000
-#define __USART_PARITY           0x00000000
-#define __USART_FLOWCTRL         0x00000000
-#define __USART_REMAP            0x00000000
+
 #ifdef USART_IRQ
 	#define __USART_CR1              0x000000A0
 	#define __USART_INTERRUPTS 	(1<<(USART_NUM-1))

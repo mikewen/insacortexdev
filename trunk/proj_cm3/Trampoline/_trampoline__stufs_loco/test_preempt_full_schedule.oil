@@ -39,6 +39,7 @@ CPU test {
       ACTIVATION = 1;
       SCHEDULE = FULL;
       STACKSIZE = 256;
+	  RESOURCE = res;
     };
     
     TASK Tache2 {
@@ -88,5 +89,9 @@ CPU test {
 		APPMODE=std;
 		};
 	};
+
+   RESOURCE res {
+     RESOURCEPROPERTY = STANDARD ;
+   };
 
 };
