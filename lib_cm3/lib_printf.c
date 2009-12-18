@@ -11,6 +11,9 @@
 #include "stdio.h"				// import FILE type
 #include <stdarg.h>
 
+FILE __stdout;
+FILE __stdin;
+
 void printint(int i)
 {
 int digit;
@@ -18,7 +21,7 @@ int digit;
 	digit = i % 10;
 	digit = digit + '0';
 	i = i / 10;
-	fputc(i, NULL);
+	fputc(i, & __stdout);
 }
 
 void printstring(char *s)
@@ -28,7 +31,7 @@ int i;
 	i=0;
 	while (s[i]!= 0x0)
 	{
-		fputc((int)s[i], NULL);
+		fputc((int)s[i], & __stdout);
 		i++;
 	}
 }
@@ -50,7 +53,7 @@ char *s;
 	{
 		if(*p != '%')
 		{
-			fputc((int)*p, NULL);
+			fputc((int)*p,& __stdout);
 			continue;
 		}
 
@@ -58,7 +61,7 @@ char *s;
 		{
 		case 'c':
 			i = va_arg(argp, int);
-			fputc(i, NULL);
+			fputc(i, & __stdout);
 			break;
 
 		case 'd':
@@ -77,7 +80,7 @@ char *s;
 		break;
 
 		case '%':
-			fputc('%', NULL);
+			fputc('%', & __stdout);
 			break;
 		}
 	}

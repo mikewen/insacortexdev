@@ -9,8 +9,11 @@
 
 #include "stdio.h"				// import FILE type
 
+FILE __stdout;
+FILE __stdin;
+
 /* Remarque: le fichier lib_cm3.h fait une redefinition de getchar en lgetchar */
 int getc(FILE *f)
 {
-	return (fgetc(NULL));
+	return (fgetc(__stdin));
 } 

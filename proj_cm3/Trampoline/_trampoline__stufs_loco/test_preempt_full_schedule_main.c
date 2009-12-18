@@ -1,14 +1,18 @@
 #include "../os/tpl_os.h"
-#include "../../lib_user/uart.h"
+//#include "../../lib_user/uart.h"
 #include "../../lib_user/lcd.h"
 #include "../../lib_user/lib_trajectoire_2009a.h"
 #include "tpl_os_generated_configuration.h"
-#include "../../system/STM32_Init.h"
+//#include "../../system/STM32_Init.h"
 #include "../../lib_user/led.h"
 #include "../../lib_cm3/Metro_Librairie_Version2009d.h"
+#include "../../lib_cm3/lib_usartx.h"
+#include <stdio.h>
 
 //#include <stm32f10x_lib.h> 
- 
+#define bool int
+FILE __stdin;
+
 /*Test selon le mail de peh
 
   Un système avec deux tâches, l''une T1 de période 10 ms et de durée 7 ms (à ajuster avec une boucle),
@@ -29,8 +33,10 @@ Etat cons;
 
 void InitApp(void)
 {
-	stm32_Init ();
+	//stm32_Init ();
 	Init_Periphs();
+	 setup_usart();
+
 
 	//lcd_init();
 	initGenerateur(20, 800, 1000);
@@ -43,7 +49,7 @@ int main (void)
 {
 	InitApp();
 	
-	printf (XBEE,"Tapez  1 pour lancer le test de roulage en avant, 2 pour arreter:\r\n");
+	printf ("Tapez  1 pour lancer le test de roulage en avant, 2 pour arreter:\n");
 
 	StartOS(OSDEFAULTAPPMODE);
 
@@ -55,7 +61,6 @@ int main (void)
 TASK(Tache1)
 {
 u8 c;
-bool test;
 
 /*	if (getPhase())
 	{
@@ -68,17 +73,19 @@ bool test;
  */
 
 		
-       //test = getchar_NB (XBEE,&c);
-	   test=1;
-	   c= '1';
+       
+	   //test=1;
+	   //c= '1';
 	    
-		if (test)
+		while (1)
 		{
+			c = fgetc (& __stdin);
+
 			switch(c)
 			{
 				case '1': 
-					printf(XBEE,"Lancement du test ...\r\n");
-					printf(XBEE,"Mesures du Courant;Position;Vitesse\r\n"); 
+					printf("Lancement du test ...\n");
+					printf("Mesures du Courant;Position;Vitesse\n"); 
 					
 					/* A fond en avant */
 					cons.Vit = TENSION;
@@ -86,7 +93,7 @@ bool test;
 					break ;
 				 
 		    	case '2':
-					printf (XBEE,"Arret\r\n");
+					printf ("Arret\r\n");
 	
 					/*Stoppez les machines !*/
 					cons.Vit = 0;				
@@ -94,7 +101,7 @@ bool test;
 					break;
 						
 				default : 
-			        printf(XBEE,"Vous avez tapé les mauvais choix, boulet! \r\n");
+			        printf("Vous avez tapé les mauvais choix, boulet! \n");
 			        break;
 			}	// Fin switch (c)
 		}	
@@ -111,3 +118,4 @@ TASK(Tache2)
 
     TerminateTask();
 }
+
