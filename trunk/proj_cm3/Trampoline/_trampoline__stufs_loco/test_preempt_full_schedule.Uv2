@@ -13,9 +13,9 @@ Group (Lib)
 Group (Appli)
 Group (Include)
 
-File 1,1,<.\STM32_Init.c><STM32_Init.c>
 File 1,2,<.\Startup_GCC.s><Startup_GCC.s>
 File 1,2,<.\STM32F10x_GCC.s><STM32F10x_GCC.s>
+File 1,5,<.\STM32_Reg.h><STM32_Reg.h>
 File 2,1,<../../../trampoline/os/tpl_os.c><tpl_os.c>
 File 2,1,<../../../trampoline/os/tpl_os_action.c><tpl_os_action.c>
 File 2,1,<../../../trampoline/os/tpl_os_alarm.c><tpl_os_alarm.c>
@@ -43,17 +43,19 @@ File 4,1,<../../../trampoline/com/tpl_com_internal_com.c><tpl_com_internal_com.c
 File 4,1,<../../../trampoline/com/tpl_com_message_management.c><tpl_com_message_management.c>
 File 4,1,<../../../trampoline/com/tpl_com_notification.c><tpl_com_notification.c>
 File 5,1,<../../../trampoline/debug/tpl_debug.c><tpl_debug.c>
-File 6,1,<../../../lib_user/uart.c><uart.c>
 File 6,1,<../../../lib_user/LCD_4bit.c><LCD_4bit.c>
 File 6,1,<../../../lib_user/lib_trajectoire_2009a.c><lib_trajectoire_2009a.c>
 File 6,1,<../../../lib_user/led.c><led.c>
 File 6,1,<../../../lib_cm3/Metro_Librairie_Version2009d.c><Metro_Librairie_Version2009d.c>
+File 6,1,<../../../lib_cm3/lib_usartx.c><lib_usartx.c>
+File 6,1,<../../../lib_cm3/lib_printf.c><lib_printf.c>
+File 6,1,<../../../lib_cm3/lib_puts.c><lib_puts.c>
+File 6,1,<../../../lib_cm3/stm_clock.c><stm_clock.c>
 File 7,1,<.\test_preempt_full_schedule/tpl_os_generated_configuration.c><tpl_os_generated_configuration.c>
 File 7,1,<.\test_preempt_full_schedule_main.c><test_preempt_full_schedule_main.c>
 File 8,5,<..\..\..\lib_user\lib_trajectoire_2009a.h><lib_trajectoire_2009a.h>
 File 8,5,<..\..\..\lib_user\lib_autom_2008a.h><lib_autom_2008a.h>
 File 8,5,<..\..\..\lib_user\LCD.h><LCD.h>
-File 8,5,<..\..\..\lib_user\uart.h><uart.h>
 File 8,5,<..\..\..\lib_cm3\Metro_Librairie_Version2009d.h><Metro_Librairie_Version2009d.h>
 
 

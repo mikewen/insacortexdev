@@ -40,6 +40,8 @@
 #ifndef __LIB_USARTx
 #define __LIB_USARTx
 
+#include "stm_clock.h"
+
 #define __USART1_REMAP 0x0
 // 0 ->    USART1 TX/RX on PA9/PA10
 // 0x04 -> USART1  TX/RX on PB6/PB7
@@ -71,7 +73,7 @@
 #ifdef USART_POL
 #endif
 
-//#define USART_IRQ
+#define USART_IRQ
 #ifdef USART_IRQ
 	#ifdef USART_POL
 		#warning "USART_POL and USART_IRQ mode used in the same time !! choose IRQ one"
@@ -82,7 +84,7 @@
 
 #endif
 
-#define USART_DMA
+//#define USART_DMA
 #ifdef USART_DMA
 	#define RBUF_SIZE 	(128)
 	#define TBUF_SIZE  (128)

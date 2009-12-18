@@ -10,10 +10,10 @@ Group (Source)
 Group (Documentation)
 Group (lib)
 
-File 1,2,<..\..\system\STM32F10x.s><STM32F10x.s>
+File 1,2,<.\STM32F10x.s><STM32F10x.s>
 File 3,1,<.\test_usart.c><test_usart.c>
 File 4,5,<.\Abstract.txt><Abstract.txt>
-File 5,1,<..\..\lib_cm3\lib_usartx.c><lib_usartx.c>
+File 5,1,<..\..\..\lib_cm3\lib_usartx.c><lib_usartx.c>
 
 
 Options 1,0,0  // Target 'Simulator'
@@ -74,7 +74,7 @@ Options 1,0,0  // Target 'Simulator'
  ADSCMISC ()
  ADSCDEFN ()
  ADSCUDEF ()
- ADSCINCD (.\)
+ ADSCINCD (.\;..\..\..\lib_cm3)
  ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSAMISC ()
  ADSADEFN ()
@@ -164,7 +164,7 @@ Options 2,0,0  // Target 'MCBSTM32'
  ADSCMISC ()
  ADSCDEFN ()
  ADSCUDEF ()
- ADSCINCD (.\)
+ ADSCINCD (.\;..\..\..\lib_cm3)
  ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSAMISC ()
  ADSADEFN ()

@@ -8,6 +8,7 @@
  *----------------------------------------------------------------------------*/
 
 #include "stdio.h"				// import FILE type
+FILE __stdout ;
 
 int	puts(const char *__str)
 {
@@ -17,7 +18,7 @@ int i;
 	
 	while (__str[i]!=0)
 	{
-		fputc((int)__str[i], NULL);
+		fputc((int)__str[i],& __stdout);
 		i++;
 	}
 	

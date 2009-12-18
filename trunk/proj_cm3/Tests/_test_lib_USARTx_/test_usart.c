@@ -11,8 +11,11 @@
 
 
 #include <stdio.h>
+//#include ""
+int	printf(const char *fmt, ...) ;
+FILE __stdin ;
 
-#include "../../lib_cm3/lib_usartx.h"
+#include "lib_usartx.h"
 
 /*----------------------------------------------------------------------------
   MAIN function
@@ -28,8 +31,35 @@ int main (void) {
     unsigned char c;
 
     printf ("Press a key. ");
-    c = getchar ();
+    c = fgetc(& __stdin);
     printf ("\r\n");
     printf ("You pressed '%c'.\r\n\r\n", c);
   } // end while
 } // end main
+
+/* a supprimer 
+void _sbrk_r (void)
+{
+}
+
+void _write_r (void)
+{
+}
+
+void _close_r (void)
+{
+}
+void _lseek_r (void)
+{
+}
+void _read_r (void)
+{
+	
+}
+void _fstat_r (void)
+{
+}
+void _isatty_r (void)
+{
+}
+*/

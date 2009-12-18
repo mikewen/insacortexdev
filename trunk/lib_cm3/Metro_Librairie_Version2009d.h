@@ -2,16 +2,6 @@
 #define __METRO_LIB
 					   /*--- commentez les lignes pour désactiver ces fonctionalites----*/
 
-//#define USE_STAR_USART 
-#define USE_DMA_USART 
-#ifdef USE_DMA_USART
-	#define USART_NUM 2 
-	#define IN_BUFF_SIZE 25
-	#define SEND_BUFF_SIZE 16
-
-	extern void flush_serial_input(void);
-#endif
-
 
 //#define USE_ADC
 #ifdef USE_ADC 
