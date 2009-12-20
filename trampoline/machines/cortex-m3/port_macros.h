@@ -21,6 +21,8 @@
  *-----------------------------------------------------------
  */
 
+
+
 /* Type definitions.  */
 #define portCHAR		char
 #define portFLOAT		float
@@ -30,8 +32,13 @@
 #define portSTACK_TYPE	unsigned portLONG
 #define portBASE_TYPE	long
 					 
-	typedef unsigned portLONG portTickType;
-	#define portMAX_DELAY ( portTickType ) 0xffffffff
+typedef unsigned portLONG portTickType;
+#define portMAX_DELAY ( portTickType ) 0xffffffff
+
+// TICK configuration
+#define configCPU_CLOCK_HZ			( ( unsigned portLONG ) 72000000 )	
+#define configTICK_RATE_HZ			( ( portTickType ) 1000 )
+
 					 
 /* Architecture specifics. */
 #define portSTACK_GROWTH			( -1 )
@@ -43,8 +50,6 @@
 
 #define configMAX_SYSCALL_INTERRUPT_PRIORITY ( 0x0F0 ) 
 
-#define configCPU_CLOCK_HZ			( ( unsigned portLONG ) 8000000 )	
-#define configTICK_RATE_HZ			( ( portTickType ) 1000 )
 
 /*-----------------------------------------------------------*/	
 

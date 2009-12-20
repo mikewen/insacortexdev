@@ -84,7 +84,7 @@ Options 1,0,0  // Target 'Simulé'
  EnvReg ()
  OrgReg (ST\STM32F10x\)
  TgStat=16
- OutDir (.\)
+ OutDir (.\obj\)
  OutName (test_preempt_full_schedule)
  GenApp=1
  GenLib=0
@@ -115,7 +115,7 @@ Options 1,0,0  // Target 'Simulé'
  ACMISC ()
  ACDEFN ()
  ACUDEF ()
- ACINCD (..\..\..\trampoline\com;..\..\..\trampoline\os;..\..\..\trampoline\debug;..\..\..\trampoline\machines\cortex-m3;..\..\..\lib_user;.\test_preempt_full_schedule)
+ ACINCD (..\..\..\trampoline\com;..\..\..\trampoline\os;..\..\..\trampoline\debug;..\..\..\trampoline\machines\cortex-m3;..\..\..\lib_user;.\test_preempt_full_schedule;.)
  AASFLG { 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  AAMISC ()
  AADEFN ()
