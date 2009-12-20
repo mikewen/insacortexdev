@@ -15,7 +15,7 @@ FILE __stdin;
 
 /*Test selon le mail de peh
 
-  Un système avec deux tâches, l''une T1 de période 10 ms et de durée 7 ms (à ajuster avec une boucle),
+  Un système avec deux tâches, l'une T1 de période 10 ms et de durée 7 ms (à ajuster avec une boucle),
  la seconde T2 de période 2 ms et de durée 1 ms avec démarrage synchrone (même valeur de ALARMTIME).
   Les deux tâches doivent avoir une valeur pour ACTIVATION de 1 (pas de mémorisation des activations). 
   La période de T2 supérieure à T1.
