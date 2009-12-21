@@ -7,73 +7,50 @@
 #define IS_DIRECT 0
 #define IS_DIVIDED_BY_2 1
 
-#define __HSI 8000000UL
-#define __HSE 8000000UL
+#define __HSI 8000000UL	// High Speed Internal RC clock (8MHz) on STM32F103xx
 
 //_________________________________________________________________________________________
 // SYSTEM CLOCK CONFIGURATION
 
+// CONFIGURE crystal frequency of High Speed External clock
+// [4000000UL (4MHz) to 16_000_000UL (16MHz)] crystal frequency in Hz (8MHz on MCBSTM32 boards)
+#define __HSE 8000000UL
+
 // CONFIGURE SYSCLK source : it can be
-//  IS_HSI : for High Speed Internal clock  (the 8MHz local RC clock)
+//  IS_HSI : for High Speed Internal clock  (the approx. 8MHz local RC clock)
 //  IS_HSE : for High Speed External Clock  (the external crystal) 8MHz on MCBSTM32 boards
-//  IS_PLL : when using the Phase Locked Loop circuit to multiply frequency 
+//  IS_PLL : when using the Phase Locked Loop circuit to multiply frequency ( 72MHz max)
 #define _SYSCLK_SOURCE IS_PLL
 
-
-#if (_SYSCLK_SOURCE  == IS_HSI)
-	#error "line 14 : IS_HSI conf not yet implemented"
-
-#elif (_SYSCLK_SOURCE  == IS_HSE)
-	#error "line 14 : IS_HSE conf not yet implemented"
-
-
-#elif (_SYSCLK_SOURCE  == IS_PLL)
-
-
-	// CONFIGURE PLL source ONLY if you set _SYSCLK_SOURCE IS_PLL
-	//  IS_HSI : for High Speed Internal clock  (the 8MHz local RC clock)
-	//  IS_HSE : for High Speed External Clock  (the external crystal) 8MHz on MCBSTM32 boards
-	//  IS_PLL : when using the Phase Locked Loop circuit to multiply frequency 
-	#define _PLL_SOURCE IS_HSE
+// CONFIGURE PLL source ONLY if you set _SYSCLK_SOURCE IS_PLL
+//  IS_HSI : for High Speed Internal clock  prescaled by 2 (the 8MHz local RC clock)
+//  IS_HSE : for High Speed External Clock  (the external crystal) prescaled by 2 or not
+#define _PLL_SOURCE IS_HSE
    	
-	#if  (_PLL_SOURCE  == IS_HSI)
-		
-	#elif  (_PLL_SOURCE  == IS_HSE)
-		//CONFIGURE pll extern prescaler ONLY IF you set _SYSCLK_SOURCE IS_PLL and _PLL_SOURCE IS_HSE
-		// 								   OR IF you will set _USBCLK IS_USED
-		// IS_DIRECT : when PLL input is directly drive by HSE external crystal
-		// IS_DIVIDED_BY_2 : when PLL input is drived by /2 prescaler of HSE external crystal 
-		#define _PLLXTPRE IS_DIVIDED_BY_2
-	#else
-		#error "Line 28 : invalid PLL_SOURCE should be IS_HSI, IS_HSE or IS_PLL"
-	#endif
+//CONFIGURE pll extern prescaler ONLY IF you set _SYSCLK_SOURCE IS_PLL and _PLL_SOURCE IS_HSE
+// 								   OR IF you will set _USBCLK IS_USED
+// IS_DIRECT : when PLL input is directly driven by HSE external crystal
+// IS_DIVIDED_BY_2 : when PLL input is drived by /2 prescaler of HSE external crystal 
+#define _PLLXTPRE IS_DIVIDED_BY_2
 	
-	// CONFIGURE pll multiplication factor  ONLY IF you set _SYSCLK_SOURCE IS_PLL
-	// 								  		 OR IF you will set _USBCLK IS_USED
-	// [2 to 16] choose any multiplication factor in this fork 
-	#define __PLLMULL 5
-
-	#if (__PLLMULL >= 16)
-	#error "Line 52 : __PLLMULL value too high! Should be from 2 to 16"
-	#elif (__PLLMULL <= 2)
-	#error "Line 52 : __PLLMULL value too low! Should be from 2 to 16"
-	#endif
-#else
-#error "Line 14 : invalid HCLK_SOURCE should be IS_HSI, IS_HSE or IS_PLL"
-#endif
+// CONFIGURE pll multiplication factor  ONLY IF you set _SYSCLK_SOURCE IS_PLL
+// 								  		 OR IF you will set _USBCLK IS_USED
+// [2 to 16] choose any multiplication factor in this fork 
+#define __PLLMULL 5
 
 // end of system clock cnfiguration
 //_________________________________________________________________________________________
 
+
+
 //_________________________________________________________________________________________
 // AUXILIARY PERIPHERALS CLOCK configuration
-
 
 // CONFIGURE AHB prescaler (presacler that gives clock to APB1,APB2,
 //                          SDIO,FSMC,AHB,Cortex system timer and FCLK
 // {1,2,4,8,16,64,128,256,512} choose any division factor in this list
 //                              (32 is not on the list!)
-#define _HPRE	16 
+#define _HPRE	1 
 
 // CONFIGURE PPRE1 APB low-speed prescaler (presacler that gives clock to 
 // {1,2,4,8,16} choose any division factor in this list
@@ -86,6 +63,32 @@
 // CONFIGURE ADCPRE ADC prescaler 
 // {1,2,4,6,8} choose any division factor in this list
 #define _ADCPRE	1 
+
+// end of auxiliary peripherals clock configuration
+//_________________________________________________________________________________________
+
+
+#if (__HSE<4000000L)
+#error "Line 17 : __HSE crystal freq. too slow ! should be more than 4000000UL. Forgot a zero buddy ?"
+#endif
+#if (__HSE>16000000L)
+#error "Line 17 : __HSE crystal freq. too high ! should be less than 16000000UL. Too much zeros buddy ?"
+#endif
+
+#if ((_SYSCLK_SOURCE!=IS_HSI)&&(_SYSCLK_SOURCE!=IS_HSE)&&(_SYSCLK_SOURCE!=IS_PLL))
+#error "Line 14 : invalid _SYSCLK_SOURCE should be IS_HSI, IS_HSE or IS_PLL"
+#endif
+
+#if ((_PLL_SOURCE!=IS_HSI)&&(_PLL_SOURCE!=IS_HSE))
+		#error "Line 28 : invalid _PLL_SOURCE should be IS_HSI or IS_HSE"
+#endif
+#if (__PLLMULL >= 16)
+	#error "Line 52 : __PLLMULL value too high! Should be from 2 to 16"
+#elif (__PLLMULL <= 2)
+	#error "Line 52 : __PLLMULL value too low! Should be from 2 to 16"
+#endif
+
+
 
 #if ((_HPRE!=1)&&(_HPRE!=2)&&(_HPRE != 4)&&(_HPRE!=8)&&(_HPRE!=16)&&(_HPRE!=64)&&(_HPRE!=128)&&(_HPRE!=256)&&(_HPRE!=512) )
 #error "Line 75 : _HPRE value should be 1,2,4,8,16,64,128,256 or 512 (32 is not on the list!)"
@@ -103,17 +106,10 @@
 #error "Line 88 : _ADCPRE value should be 1,2,4,6 or 8"
 #endif
 
-// end of auxiliary peripherals clock configuration
-//_________________________________________________________________________________________
-
-
-
-
 		// LA SUITE DOIT ETRE ENLEVEE ET MODIFIEE
 
 
-#define __HSI 8000000UL
-#define __HSE 8000000UL
+
 #define __SYSCLK 40000000UL
 #define __HCLK	(__SYSCLK / 1)
 #define __PCLK1 (__HCLK / 2)
