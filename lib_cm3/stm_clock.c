@@ -31,8 +31,6 @@
 #define MCO		(1<<24)
 #define USBPRE	(1<<22)
 #define PLLMUL	(1<<18)		 // PLL multiplication factor from 2 to 16
-							 // caution max frequency output pll at 72MHz
-							//TODO warning automaique de > 72MHz
 #define PLLMUL_VAL(mult) (((mult-2) & 0xF )<<18)
 #define PLLXTPRE (1<<17)
 #define PLLSRC	(1<<16)	     // PLL entry clock source
@@ -53,7 +51,17 @@
 #define PPRE1_DIV_8 (6<<8)
 #define PPRE1_DIV_16 (7<<8)
 #define PPRE1_VAL(pre) ((pre==1) ? 0 : ((pre/2)-(pre/8)-2*(pre/16)+3)<<8)
-#define HPRE	(1<<4)
+#define HPRE	(1<<4)		 //AHB prescaler just before APB1 and APB2 prescaler
+#define HPRE_NOT_DIVIDED (0<<4)
+#define HPRE_DIV_2 	(8<<4)
+#define HPRE_DIV_4 	(9<<4)
+#define HPRE_DIV_8 	(10<<4)
+#define HPRE_DIV_16 (11<<4)
+#define HPRE_DIV_64 (12<<4)
+#define HPRE_DIV_128 (13<<4)
+#define HPRE_DIV_256 (14<<4)
+#define HPRE_DIV_512 (15<<4)
+#define HPRE_VAL(pre) ( (7+(pre>256)+(pre>128)+(pre>64)+(pre>16)+(pre>8)+(pre>4)+(pre>2)+(pre>1))<<4 )
 #define SWS		(1<<2)
 #define SW		(1<<0)	//System clock switch
 #define SW_HSI  (0)	    // 8MHz  internal RC 
@@ -66,7 +74,7 @@
 
 #if ( (_SYSCLK_SOURCE  == IS_PLL) && (_PLL_SOURCE  == IS_HSE) )
 //	#define __RCC_CR_VALUE	  	(HSEON|PLLON)
-	#define __RCC_CFGR_VALUE 	(PLLMUL_VAL(__PLLMULL)|(_PLLXTPRE*PLLXTPRE)|PLLSRC_HSE|ADCPRE_VAL(_ADCPRE)|SW_PLL|PPRE1_VAL(_PPRE1) |PPRE2_VAL(_PPRE2) )
+	#define __RCC_CFGR_VALUE 	(PLLMUL_VAL(__PLLMULL)|(_PLLXTPRE*PLLXTPRE)|PLLSRC_HSE|ADCPRE_VAL(_ADCPRE)|SW_PLL|PPRE1_VAL(_PPRE1)|PPRE2_VAL(_PPRE2)|HPRE_VAL(_HPRE) )
 	#define HSE_IS_USED
 	#define PLL_IS_USED
 #elif ( (_SYSCLK_SOURCE  == IS_PLL) && (_PLL_SOURCE  == IS_HSI) )
