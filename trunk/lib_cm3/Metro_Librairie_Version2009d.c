@@ -408,7 +408,7 @@ short int Lire_courant()
 
 void Init_Periphs()			  
 {
- Setup_Pll_As_Clock_System();
+ Setup_Clock_System();
  Init_PortA();
  Init_PortB();
  Init_PortC();
