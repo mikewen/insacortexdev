@@ -1,0 +1,3 @@
+--device DARMSTM "stm32f10x.o" "stm32_init.o" "identification.o" "metro_librairie_version2009d.o" "rtx_conf_cm.o" "C:\Keil\ARM\RV31\LIB\RTX_CM3.LIB" --library_type=microlib --ro-base 0x08000000 --entry 0x08000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\ident.map" -o "ident.axf"
