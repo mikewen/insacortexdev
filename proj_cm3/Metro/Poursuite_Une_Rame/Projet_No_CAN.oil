@@ -1,0 +1,72 @@
+OIL_VERSION = "2.5" : "test" ;
+
+IMPLEMENTATION trampoline {
+};
+
+CPU test {
+
+	    //usefull for makefiles with linux
+	    OS config {
+        STATUS = STANDARD;
+        TRAMPOLINE_BASE_PATH = "../../../trampoline";
+        APP_NAME = "projet_no_CAN";
+        APP_SRC = "./poursuite_no_can.c";
+        CFLAGS  = "-Wall -Os -g -I. -mcpu=cortex-m3 -mthumb"; 
+        LDFLAGS = "-Wall -Os -g -I. -mcpu=cortex-m3 -mthumb";
+        LDFLAGS = "-T ../../../system/Linker_Script_GCC.ld";
+        ASFLAGS = "-Wall -Os -g -I. -mcpu=cortex-m3 -mthumb -c";
+        COMPILER  = "/usr/local/armCortex/bin/arm-eabi-gcc";
+        LINKER    = "/usr/local/armCortex/bin/arm-eabi-gcc";
+        ASSEMBLER = "/usr/local/armCortex/bin/arm-eabi-gcc";
+    	} ;
+
+
+    APPMODE std {
+    };
+    
+    TASK Clignoter_Led {
+      PRIORITY = 10;
+      AUTOSTART = FALSE;
+      ACTIVATION = 1;
+      SCHEDULE = NON;
+	  STACKSIZE = 256;
+    };
+    
+    TASK Generer_Trajectoire {
+      PRIORITY = 5;
+      AUTOSTART = FALSE;
+      ACTIVATION = 1;
+      SCHEDULE = NON;
+	  STACKSIZE = 256;
+    };
+
+    COUNTER General_counter {
+        TICKSPERBASE = 1;
+        MAXALLOWEDVALUE = 65535;
+        MINCYCLE =1;
+    };
+
+    ALARM Active_Clignoter_Led {
+        COUNTER = General_counter;
+        ACTION = ACTIVATETASK {
+            TASK = Clignoter_Led;
+        };
+        AUTOSTART = TRUE {
+		ALARMTIME = 1;
+		CYCLETIME = 1;
+		APPMODE=std;
+		};
+	};
+
+    ALARM Active_Generer_Trajectoire {
+        COUNTER = General_counter;
+        ACTION = ACTIVATETASK {
+            TASK = Generer_Trajectoire;
+        };
+        AUTOSTART = TRUE {
+		ALARMTIME = 1;
+		CYCLETIME = 10;
+		APPMODE=std;
+		};
+	};
+};
