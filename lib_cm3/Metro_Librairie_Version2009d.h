@@ -9,9 +9,10 @@
 #endif
 
 
-//#define USE_POSITION
+#define USE_POSITION
 #ifdef USE_POSITION
 	extern  int Lire_Position(void);
+	extern void Set_Position(int);
 #endif
 
 
@@ -25,6 +26,9 @@
 
 #define USE_PWM 
 #ifdef USE_PWM
+	#define RAPPORT_MAX (0x0FFF)
+	#define RAPPORT_MIN (-0x0FFF)
+	#define RAPPORT_ARRET (0)
 	extern void Fixe_Rapport(short int);
 #endif
 				    /*--------------------------------------end---------------------------------*/

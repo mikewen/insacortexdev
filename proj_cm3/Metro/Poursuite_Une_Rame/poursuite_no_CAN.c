@@ -62,21 +62,26 @@ void InitApp(void)
 		lcd_init();
 	#endif
 
-	initGenerateur(10, 6000, RAPPORT_MAX);
-	//             Périod(ms) , Rising time (ms) , Vitmax
+	initGenerateur(10, 2000, 2000);
+	//             Périod(ms) , Rising time (ms) , Vitmax (pas/s)
 }
 
-
+ int cpt=0;
 TASK(Generer_Trajectoire)
 { 
+	cpt++;
 	if (getPhase())
 	{
-		printf("Cons = %d Pos = %d\r\n",cons.Pos,(unsigned int) Pos);
 		Set_Position(0);
-		initTrajectoire(100000);
+		initTrajectoire(26000);
 	}
 	else
 	{
+		if (cpt>4)
+		{
+			printf("%d %d\n",cons.Pos,(unsigned int) Pos);
+			cpt=0;
+		}
 		calculConsigneSuivante();
 	}
 
@@ -86,7 +91,7 @@ TASK(Generer_Trajectoire)
 TASK(Clignoter_Led)
 {
 
-	Kp=RAPPORT_MAX/40;
+	Kp=RAPPORT_MAX/40.0;
 /*	Toggle_Led(1);
 	
 	cons= lireConsigne();
@@ -102,9 +107,10 @@ TASK(Clignoter_Led)
 
 	cons= lireConsigne();
 	Pos= (float) Lire_Position();
-	Ep = ((float)cons.Vit)-Pos;
+	Ep = ((float)cons.Pos)-Pos;
 	Com = Kp * Ep ;// + Ki * Ip;
-	Fixe_Rapport((unsigned short int) Com);
+	Fixe_Rapport((short int) Com);
+
 	TerminateTask();
 
 }

@@ -9,7 +9,7 @@
 */
 
 #include "lib_trajectoire_2009a.h"
-#include "driveurs_2008a.h"
+//#include "driveurs_2008a.h"
 
 /**
    Constante du générateur
@@ -72,12 +72,14 @@ void initTrajectoire(unsigned int distanceStation)
 	indexFinal = (unsigned int)(((long unsigned int)(distanceDuParcours)*1000L)/(long unsigned int)(vitesseMaximale*periodeGenerateur));
 
 	indexFinMontee = ((unsigned int)(tempsMontee/periodeGenerateur));
-	
+
+//	indexFinal = (unsigned int)(((long unsigned int)(distanceDuParcours-(indexFinMontee*periodeGenerateur*vitesseMaximale))*1000L)/(long unsigned int)(vitesseMaximale*periodeGenerateur));
+
 	indexDebutFreinage = indexFinal - indexFinMontee ;	
 
 	indexFinTrajectoire = indexFinal ;
 	
-	incrementVitesse = (vitesseMaximale*periodeGenerateur)/tempsMontee;  //incrément de vitesse par période du générateur pour la rampe
+	incrementVitesse = vitesseMaximale/indexFinMontee;  //incrément de vitesse par période du générateur pour la rampe
 	vitesseCourante=0;
 	positionCourante=0.0;
 

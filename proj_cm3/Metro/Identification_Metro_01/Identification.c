@@ -12,7 +12,7 @@ OS_TID tsk_mesure, tsk_consigne;
 #define T_SAMP 1 
 #define T_WAIT 5
 #define T_WAIT_MES 300
-#define TENSION 3000  
+#define TENSION 0x0FFF
 //#define BUFF ((2*T_WAIT_MES + T_WAIT+20)/T_SAMP)
 #define BUFF 1000
 
@@ -106,17 +106,12 @@ unsigned char c;
 		switch(c)
 		{
 			case '1':
-				printf("Mesures en acceleration\r\nCourant;Position;Vitesse\r\n");   
+				printf("Mesures en accel/decel\r\nAcc_I;Acc_Pos;Acc_Vit;Dec_I;Dec_Pos;Dec_Vit\r\n");   
 		    	for(i=0;i<BUFF;i++)
 				{
-		        	printf("%d;%d;%d\r\n",stock_courant_a[i] ,stock_position_a[i],stock_vitesse_a[i]);
+		        	printf("%d;%d;%d;%d;%d;%d\r\n",stock_courant_a[i] ,stock_position_a[i],stock_vitesse_a[i],stock_courant_f[i] ,stock_position_f[i],stock_vitesse_f[i]);
 				}
-
-				printf("\r\n\r\nMesures en deceleration\r\nCourant;Position;Vitesse\r\n");   
-		    	for(i=0;i<BUFF;i++)
-				{
-		        	printf("%d;%d;%d\r\n",stock_courant_f[i] ,stock_position_f[i],stock_vitesse_f[i]);
-				}
+			
 				break ;
 			 
 	    	case '2':
@@ -128,7 +123,8 @@ unsigned char c;
 				Fixe_Rapport(TENSION );				
 				
 				os_dly_wait(T_WAIT_MES);
-
+				
+		
 				index_tab=0;
 				go=2;
 

@@ -278,21 +278,44 @@ void  Init_Timer3()
 }
 #endif  
 #ifdef USE_POSITION
-  int Lire_Position()
+  signed int Lire_Position()
 {
-   return (int)	(TIM3->CNT);
+   return (signed int)	(TIM3->CNT);
+}
+  void Set_Position(int pos)
+{
+   TIM3->CNT = (unsigned int) pos;
 }
 #endif  
 //_____________________________________________FIN CODEURS INCREMENTAUX__________________________
 
 //______________________________________________MESURE VITESSE__________________________
-// mode timer
-// APB1 à 40MHz
-// prescaler à 256
-// et reload selon #define de dt en haut (float en s) 0 à TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// interruption validée prioté 0
+// mode timer free runner
+// APB1 à 72MHz
+// prescaler à 1200 -> Periode min du timer = 0.016 ms, Periode max = environ 1 s
+// et reload à 0 (pleine echelle)
+// sans IT
 #ifdef USE_SPEED
- void  Init_Timer4()		    
+
+#define __RCC_APB1ENR_TIM4EN	                     0x00000004
+#define __TIM4_EGR_UG                                0x0001                
+#define __TIM4_PSC                                   40//1200  = 1040 pas              
+#define __TIM4_ARR                                   0xFFFF               
+#define __TIM4_CR1                                   0x0004                   
+#define __TIM4_CR2                                   0x0000                  
+#define __TIM4_SMCR                                  0x0000                 
+#define __TIM4_CCMR1                                 0x0000                  
+#define __TIM4_CCMR2                                 0x6800                  
+#define __TIM4_CCER                                  0x1000              
+#define __TIM4_CCR1                                  0x0000                
+#define __TIM4_CCR2                                  0x0000            
+#define __TIM4_CCR3                                  0x0000               
+#define __TIM4_CCR4                                  0x0000               
+#define __TIM4_DIER                                  0x0001 
+
+#define VITESSE_ARRET								 65535
+
+void  Init_Timer4()		    
 {
 
       RCC->APB1ENR |= __RCC_APB1ENR_TIM4EN;                 // enable clock for TIM4
@@ -300,7 +323,7 @@ void  Init_Timer3()
 
 	                          // detailed settings used
       TIM4->PSC = __TIM4_PSC;                               // set prescaler
-      TIM4->ARR = DT_VITESSE;                               // set auto-reload
+      TIM4->ARR = __TIM4_ARR;                               // set auto-reload
       TIM4->CCR1  = __TIM4_CCR1;                            //
       TIM4->CCR2  = __TIM4_CCR2;                            //
       TIM4->CCR3  = __TIM4_CCR3;                            //
@@ -320,33 +343,67 @@ void  Init_Timer3()
 	  NVIC->ISER[0] = 0x40000000;  							// enable  nested vector interrupt controler
 	  // priorité dans NVIC->IP[0]   TODO !!! prioritées selon defines
 
-     TIM4->CR1 |= __TIMX_CR1_CEN;                              // enable timer
+      TIM4->CR1 |= __TIMX_CR1_CEN;                              // enable timer
                                 
 }
 
+volatile u16 Ancien_TIM4 = 0;
+volatile u16 Nouveau_TIM4;
 
-static int old_position ;
-static int new_position =0;
-
- 
+u8 TIM4_OV = 0;
+u16 Vitesse;
+#define TIM4_MAX_OV	 2
 void TIM4_IRQHandler(void)
- {
+{
  
  	if((TIM4->SR & 0x0001)) // est-ce un overflow ?(dépassement)
-      {
+    {
 	  	TIM4->SR &= ~(0x0001);		 // reset interrupt flag
-		old_position = new_position;
-		new_position=Lire_Position();
- 	  }		 
-  
- }
+		//old_position = new_position;
+		//new_position=Lire_Position();
+		TIM4_OV ++ ;
+		if (TIM4_OV >=TIM4_MAX_OV)
+		{
+			Vitesse = VITESSE_ARRET;
+			Ancien_TIM4 = 0;
+			TIM4_OV = TIM4_MAX_OV;
+		}
 
- int Lire_Vitesse()
-{   	
-   return  (int) ((float)(new_position-old_position)/(DT));	 
+ 	}
+	
+
 }
 
-#endif
+void Calcul_Vitesse(void)
+{
+	u16 temp,CTIM4_OV;
+
+	u32 Calcul;
+
+
+	temp = TIM4->CNT;
+	CTIM4_OV = 	TIM4_OV;
+	TIM4_OV = 0;	
+	
+	Nouveau_TIM4 = temp;
+	if (CTIM4_OV<TIM4_MAX_OV) 
+	{// on n'est pas au premier front après un arrêt
+		Calcul = (u32) (((s32)CTIM4_OV * 0x10000)+ (s32)((s32) Nouveau_TIM4  -  (s32)Ancien_TIM4));
+		if (Calcul>VITESSE_ARRET)
+			Vitesse = VITESSE_ARRET;
+		else
+			Vitesse = (u16) Calcul;	 
+	}
+	Ancien_TIM4 = Nouveau_TIM4;
+
+}
+
+u16 Lire_Vitesse()
+{   	
+   return Vitesse;	 
+}
+
+#endif /* USE_SPEED */
 /*-----------------------------------------end config timerx-------------------------------------------------*/
 
 
