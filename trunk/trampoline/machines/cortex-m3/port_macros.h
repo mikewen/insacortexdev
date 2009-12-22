@@ -36,7 +36,7 @@ typedef unsigned portLONG portTickType;
 #define portMAX_DELAY ( portTickType ) 0xffffffff
 
 // TICK configuration
-#define configCPU_CLOCK_HZ			( ( unsigned portLONG ) 72000000 )	
+#define configCPU_CLOCK_HZ			( ( unsigned portLONG ) 40000000 )	
 #define configTICK_RATE_HZ			( ( portTickType ) 1000 )
 
 					 

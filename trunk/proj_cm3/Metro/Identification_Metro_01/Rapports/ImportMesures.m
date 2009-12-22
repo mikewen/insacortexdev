@@ -1,4 +1,7 @@
-function ImportMesures()
+%function ImportMesures(file,prefix)
+% file = 'nom du fichier'
+
+function ImportMesures(file,prefix)
 %IMPORTFILE(FILETOREAD1)
 %  Imports data from the specified file
 %  FILETOREAD1:  file to read
@@ -8,107 +11,16 @@ function ImportMesures()
 display ('Import des fichiers CSV ...');
 % Import les données du train 1
 % Données liées à l'accelaration avant
-newData1 = importdata('acceleration_avant_01.csv');
+newData = importdata(file);
 
 % Affect les données.
-assignin ('base', 'Courant_AV_A_01', newData1.data(:, 1));
-assignin ('base', 'Position_AV_A_01', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AV_A_01', newData1.data(:, 3));
+for i=1:6
+    varname = [prefix newData.colheaders{i}];
+    disp(['create ' varname]);
+    if (varname(end)==' ') varname=varname(1:(end-1));end
+    assignin ('base',varname , newData.data(:, i));
+end
 
-% Données liées au freinage avant
-newData1 = importdata('freinage_avant_01.csv');
-
-% Affect les données.
-assignin ('base', 'Courant_AV_F_01', newData1.data(:, 1));
-assignin ('base', 'Position_AV_F_01', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AV_F_01', newData1.data(:, 3));
-
-% Données liées à l'accelaration arriere
-newData1 = importdata('acceleration_arriere_01.csv');
-
-% Affect les données.
-assignin ('base', 'Courant_AR_A_01', newData1.data(:, 1));
-assignin ('base', 'Position_AR_A_01', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AR_A_01', newData1.data(:, 3));
-
-% Données liées au freinage arriere
-newData1 = importdata('freinage_arriere_01.csv');
-
-% Affect les données.
-assignin ('base', 'Courant_AR_F_01', newData1.data(:, 1));
-assignin ('base', 'Position_AR_F_01', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AR_F_01', newData1.data(:, 3));
-
-
-% Import les données du train 2
-% Données liées à l'accelaration avant
-newData1 = importdata('acceleration_avant_02.csv');
-
-% Affect les données.
-assignin ('base', 'Courant_AV_A_02', newData1.data(:, 1));
-assignin ('base', 'Position_AV_A_02', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AV_A_02', newData1.data(:, 3));
-
-% Données liées au freinage avant
-newData1 = importdata('freinage_avant_02.csv');
-
-% Affect les données.
-assignin ('base', 'Courant_AV_F_02', newData1.data(:, 1));
-assignin ('base', 'Position_AV_F_02', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AV_F_02', newData1.data(:, 3));
-
-% Données liées à l'accelaration arriere
-newData1 = importdata('acceleration_arriere_02.csv');
-
-% Affect les données.
-assignin ('base', 'Courant_AR_A_02', newData1.data(:, 1));
-assignin ('base', 'Position_AR_A_02', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AR_A_02', newData1.data(:, 3));
-
-% Données liées au freinage arriere
-newData1 = importdata('freinage_arriere_02.csv');
-
-% Affect les données.
-assignin ('base', 'Courant_AR_F_02', newData1.data(:, 1));
-assignin ('base', 'Position_AR_F_02', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AR_F_02', newData1.data(:, 3));
-
-
-% Import les données du train 3
-% Données liées à l'accelaration avant
-newData1 = importdata('acceleration_avant_03.csv');
-
-% Affect les données.
-assignin ('base', 'Courant_AV_A_03', newData1.data(:, 1));
-assignin ('base', 'Position_AV_A_03', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AV_A_03', newData1.data(:, 3));
-
-% Données liées au freinage avant
-newData1 = importdata('freinage_avant_03.csv');
-
-% Affect les données.
-assignin ('base', 'Courant_AV_F_03', newData1.data(:, 1));
-assignin ('base', 'Position_AV_F_03', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AV_F_03', newData1.data(:, 3));
-
-% Données liées à l'accelaration arriere
-newData1 = importdata('acceleration_arriere_03.csv');
-
-% Affect les données.
-assignin ('base', 'Courant_AR_A_03', newData1.data(:, 1));
-assignin ('base', 'Position_AR_A_03', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AR_A_03', newData1.data(:, 3));
-
-% Données liées au freinage arriere
-newData1 = importdata('freinage_arriere_03.csv');
-
-% Affect les données.
-assignin ('base', 'Courant_AR_F_03', newData1.data(:, 1));
-assignin ('base', 'Position_AR_F_03', newData1.data(:, 2));
-assignin ('base', 'Vitesse_AR_F_03', newData1.data(:, 3));
-
-Ecrete();
-packTrain();
 
 
 

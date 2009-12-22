@@ -313,7 +313,7 @@ u16 Lire_Position()
 
 #define __RCC_APB1ENR_TIM4EN	                     0x00000004
 #define __TIM4_EGR_UG                                0x0001                
-#define __TIM4_PSC                                   1200                
+#define __TIM4_PSC                                   40//1200  = 1040 pas              
 #define __TIM4_ARR                                   0xFFFF               
 #define __TIM4_CR1                                   0x0004                   
 #define __TIM4_CR2                                   0x0000                  
@@ -361,12 +361,12 @@ void  Init_Timer4()
                                 
 }
 
-volatile u16 Ancien_TIM4;
-volatile u16 Nouveau_TIM4 =0;
+volatile u16 Ancien_TIM4 = 0;
+volatile u16 Nouveau_TIM4;
 
 u8 TIM4_OV = 0;
 u16 Vitesse;
-
+#define TIM4_MAX_OV	 2
 void TIM4_IRQHandler(void)
 {
  
@@ -376,37 +376,40 @@ void TIM4_IRQHandler(void)
 		//old_position = new_position;
 		//new_position=Lire_Position();
 		TIM4_OV ++ ;
+		if (TIM4_OV >=TIM4_MAX_OV)
+		{
+			Vitesse = VITESSE_ARRET;
+			Ancien_TIM4 = 0;
+			TIM4_OV = TIM4_MAX_OV;
+		}
+
  	}
 	
-	if (TIM4_OV >=2)
-	{
-		Vitesse = VITESSE_ARRET;
-	}		 
+
 }
 
 void Calcul_Vitesse(void)
 {
-volatile u16 temp;
-u32 calcul;
+	u16 temp,CTIM4_OV;
+
+	u32 Calcul;
+
 
 	temp = TIM4->CNT;
+	CTIM4_OV = 	TIM4_OV;
+	TIM4_OV = 0;	
 	
-	Ancien_TIM4 = Nouveau_TIM4;
 	Nouveau_TIM4 = temp;
-	
-	TIM4_OV = 0;
-
-	if (Nouveau_TIM4 < Ancien_TIM4) // Il y a eu overflow
-	{
-		calcul = (u32)Nouveau_TIM4 + 0x10000;
-		calcul = calcul - Ancien_TIM4;
-
-		Vitesse = (u16)calcul;
+	if (CTIM4_OV<TIM4_MAX_OV) 
+	{// on n'est pas au premier front après un arrêt
+		Calcul = (u32) (((s32)CTIM4_OV * 0x10000)+ (s32)((s32) Nouveau_TIM4  -  (s32)Ancien_TIM4));
+		if (Calcul>VITESSE_ARRET)
+			Vitesse = VITESSE_ARRET;
+		else
+			Vitesse = (u16) Calcul;	 
 	}
-	else
-	{
-		Vitesse = Nouveau_TIM4 - Ancien_TIM4;
-	}	
+	Ancien_TIM4 = Nouveau_TIM4;
+
 }
 
 u16 Lire_Vitesse()
