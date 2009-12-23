@@ -1,18 +1,48 @@
-#include "tpl_os_kernel.h"          /* tpl_schedule */
-#include "tpl_os_timeobj_kernel.h"  /* tpl_counter_tick */
-#include "tpl_machine_interface.h"  /* tpl_switch_context_from_it */
+//_____________________________________________
+// counter_specific for AVR32_A
+// widely inspired from free rtos portmacro.h
+//_____________________________________________
 
-#define OS_START_SEC_CODE
-#include "tpl_memmap.h"
+void tpl_switch_context_from_it(tpl_context * old_context, tpl_context * new_context);
 
-//gcc uses ISR as a keyword to define an interrupt handler.
-//Osek uses ISR to define an ISR2 :-/
-#ifdef ISR
-	#undef ISR
+/* For backward compatibility, ensure configKERNEL_INTERRUPT_PRIORITY is
+defined.  The value should also ensure backward compatibility.
+FreeRTOS.org versions prior to V4.4.0 did not include this definition. */
+#ifndef configKERNEL_INTERRUPT_PRIORITY
+	#define configKERNEL_INTERRUPT_PRIORITY 255
 #endif
-#include <avr/interrupt.h>
 
-ISR($IT_SOURCE$)
+/* Constants required to manipulate the NVIC. */
+#define portNVIC_SYSTICK_CTRL		( ( volatile unsigned portLONG *) 0xe000e010 )
+#define portNVIC_SYSTICK_LOAD		( ( volatile unsigned portLONG *) 0xe000e014 )
+#define portNVIC_INT_CTRL			( ( volatile unsigned portLONG *) 0xe000ed04 )
+#define portNVIC_SYSPRI2			( ( volatile unsigned portLONG *) 0xe000ed20 )
+#define portNVIC_SYSTICK_CLK		0x00000004
+#define portNVIC_SYSTICK_INT		0x00000002
+#define portNVIC_SYSTICK_ENABLE		0x00000001
+#define portNVIC_PENDSVSET			0x10000000
+#define portNVIC_PENDSV_PRI			( ( ( unsigned portLONG ) configKERNEL_INTERRUPT_PRIORITY ) << 16 )
+#define portNVIC_SYSTICK_PRI		( ( ( unsigned portLONG ) configKERNEL_INTERRUPT_PRIORITY ) << 24 )
+
+
+/* The priority used by the kernel is assigned to a variable to make access
+from inline assembler easier. */
+const unsigned portLONG ulKernelPriority = configKERNEL_INTERRUPT_PRIORITY;
+
+/*
+ * Exception handler.
+ */
+void SysTick_Handler( void );
+
+void tpl_init_tick_timer()
+{
+	/* Configure SysTick to interrupt at the requested rate. */
+	*(portNVIC_SYSTICK_LOAD) = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
+	*(portNVIC_SYSTICK_CTRL) = portNVIC_SYSTICK_CLK | portNVIC_SYSTICK_INT | portNVIC_SYSTICK_ENABLE;
+
+}
+
+void tpl_call_counter_tick()
 {
   tpl_status  need_rescheduling = NO_SPECIAL_CODE;
 $COUNTER_LIST$
@@ -28,11 +58,20 @@ $COUNTER_LIST$
       );
     }
 #endif
-  }
+ }
 }
-#ifdef WITH_IT_TABLE  
-	#undef WITH_IT_TABLE
-#endif
-#define WITH_IT_TABLE  NO
-#define OS_STOP_SEC_CODE
-#include "tpl_memmap.h"
+
+// Timer system tick
+//___________________
+
+void SysTick_Handler( void )
+{
+
+	portDISABLE_INTERRUPTS();	
+
+	tpl_call_counter_tick();
+
+	portENABLE_INTERRUPTS();	
+
+}
+//_______________End of Counter specific code___________________________
