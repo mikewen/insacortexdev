@@ -62,7 +62,7 @@ void InitApp(void)
 		lcd_init();
 	#endif
 
-	initGenerateur(10, 2000, 2000);
+	initGenerateur(10, 1000, 2000);
 	//             Périod(ms) , Rising time (ms) , Vitmax (pas/s)
 }
 
@@ -73,13 +73,13 @@ TASK(Generer_Trajectoire)
 	if (getPhase())
 	{
 		Set_Position(0);
-		initTrajectoire(26000);
+		initTrajectoire(16000);
 	}
 	else
 	{
 		if (cpt>4)
 		{
-			printf("%d %d\n",cons.Pos,(unsigned int) Pos);
+			printf("%d %d\n",(unsigned int) cons.Pos,(unsigned int) Pos);
 			cpt=0;
 		}
 		calculConsigneSuivante();
