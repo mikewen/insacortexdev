@@ -100,7 +100,7 @@ Options 1,0,0  // Target 'Simulateur'
  ACMISC ()
  ACDEFN ()
  ACUDEF ()
- ACINCD (..\..\..\trampoline\os;..\..\..\trampoline\machines\cortex-m3;..\..\..\trampoline\debug;..\..\..\trampoline\com;.\Projet_No_CAN;..\Poursuite_Une_Rame)
+ ACINCD (..\..\..\trampoline\os;..\..\..\trampoline\machines\cortex-m3;..\..\..\trampoline\debug;..\..\..\trampoline\com;.\Projet_No_CAN;..\Poursuite_Une_Rame;..\..\..\lib_cm3)
  AASFLG { 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  AAMISC ()
  AADEFN ()

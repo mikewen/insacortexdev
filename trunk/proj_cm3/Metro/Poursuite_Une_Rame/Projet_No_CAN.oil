@@ -8,9 +8,12 @@ CPU test {
 	    //usefull for makefiles with linux
 	    OS config {
         STATUS = STANDARD;
-        TRAMPOLINE_BASE_PATH = "../../../trampoline";
-        APP_NAME = "projet_no_CAN";
-        APP_SRC = "./poursuite_no_can.c";
+        TRAMPOLINE_BASE_PATH = "../../../trampoline/";
+        APP_NAME = "projet_no_CAN_bin";
+        APP_SRC = "./poursuite_no_CAN.c";
+        APP_SRC = "./Startup_GCC.s";
+        APP_SRC = "./STM32F10x_GCC.s";
+		APP_SRC = "../../../lib_cm3/stm_clock.c";
         CFLAGS  = "-Wall -Os -g -I. -mcpu=cortex-m3 -mthumb"; 
         LDFLAGS = "-Wall -Os -g -I. -mcpu=cortex-m3 -mthumb";
         LDFLAGS = "-T ../../../system/Linker_Script_GCC.ld";
