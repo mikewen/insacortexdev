@@ -61,8 +61,7 @@ typedef unsigned portLONG portTickType;
 	__asm volatile										\
 	(													\
 		"	mov r0, sr								\n" \
-		"   "
-		"	msr basepri, r0							\n" \
+		"											\n" \
 		::"i"(configMAX_SYSCALL_INTERRUPT_PRIORITY):"r0"	\
 	)
 	
@@ -74,7 +73,7 @@ typedef unsigned portLONG portTickType;
 	__asm volatile							\
 	(										\
 		"	mov r0, #0					\n"	\
-		"	msr basepri, r0				\n"	\
+		"								\n"	\
 		:::"r0"								\
 	)
 

@@ -40,7 +40,7 @@ OPTFFF 2,16,1,0,0,0,0,0,<../../../trampoline/os/tpl_os_rez_kernel.c><tpl_os_rez_
 OPTFFF 2,17,1,0,0,0,0,0,<../../../trampoline/os/tpl_os_task.c><tpl_os_task.c> 
 OPTFFF 2,18,1,0,0,0,0,0,<../../../trampoline/os/tpl_os_task_kernel.c><tpl_os_task_kernel.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,22,0,0,0,22,0,0,0,67,3,0,0,138,1,0,0 }
 OPTFFF 2,19,1,0,0,0,0,0,<../../../trampoline/os/tpl_os_timeobj_kernel.c><tpl_os_timeobj_kernel.c> 
-OPTFFF 3,20,1,0,0,215,215,0,<../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c><tpl_machine_cm3.c> 
+OPTFFF 3,20,1,0,0,0,0,0,<../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c><tpl_machine_cm3.c> 
 OPTFFF 4,21,1,0,0,0,0,0,<../../../trampoline/com/tpl_com_queue.c><tpl_com_queue.c> 
 OPTFFF 4,22,1,0,0,0,0,0,<../../../trampoline/com/tpl_com_app_copy.c><tpl_com_app_copy.c> 
 OPTFFF 4,23,1,0,0,0,0,0,<../../../trampoline/com/tpl_com_errorhook.c><tpl_com_errorhook.c> 
@@ -54,25 +54,18 @@ OPTFFF 5,30,1,0,0,0,0,0,<../../../trampoline/debug/tpl_debug.c><tpl_debug.c>
 OPTFFF 6,31,1,0,0,0,0,0,<../../../lib_user/LCD_4bit.c><LCD_4bit.c> 
 OPTFFF 6,32,1,0,0,0,0,0,<../../../lib_user/lib_trajectoire_2009a.c><lib_trajectoire_2009a.c> 
 OPTFFF 6,33,1,0,0,0,0,0,<../../../lib_user/led.c><led.c> 
-OPTFFF 6,34,1,503316480,0,1,9,0,<../../../lib_cm3/Metro_Librairie_Version2009d.c><Metro_Librairie_Version2009d.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,176,0,0,0,176,0,0,0,221,3,0,0,42,2,0,0 }
-OPTFFF 6,35,1,1,0,103,110,0,<../../../lib_cm3/lib_usartx.c><lib_usartx.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,44,0,0,0,44,0,0,0,89,3,0,0,160,1,0,0 }
+OPTFFF 6,34,1,503316480,0,0,0,0,<../../../lib_cm3/Metro_Librairie_Version2009d.c><Metro_Librairie_Version2009d.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,176,0,0,0,176,0,0,0,221,3,0,0,42,2,0,0 }
+OPTFFF 6,35,1,1,0,0,0,0,<../../../lib_cm3/lib_usartx.c><lib_usartx.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,44,0,0,0,44,0,0,0,89,3,0,0,160,1,0,0 }
 OPTFFF 6,36,1,0,0,0,0,0,<../../../lib_cm3/lib_printf.c><lib_printf.c> 
 OPTFFF 6,37,1,0,0,0,0,0,<../../../lib_cm3/lib_puts.c><lib_puts.c> 
 OPTFFF 6,38,1,369098753,0,0,0,0,<../../../lib_cm3/stm_clock.c><stm_clock.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,132,0,0,0,132,0,0,0,177,3,0,0,248,1,0,0 }
-OPTFFF 7,39,1,788529152,0,259,259,0,<.\test_preempt_full_schedule/tpl_os_generated_configuration.c><tpl_os_generated_configuration.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,0,0,0,0,0,0,0,0,106,3,0,0,224,0,0,0 }
-OPTFFF 7,40,1,1,0,47,49,0,<.\test_preempt_full_schedule_main.c><test_preempt_full_schedule_main.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,0,0,0,0,0,0,0,0,178,2,0,0,43,1,0,0 }
+OPTFFF 7,39,1,788529152,0,0,0,0,<.\test_preempt_full_schedule/tpl_os_generated_configuration.c><tpl_os_generated_configuration.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,0,0,0,0,0,0,0,0,106,3,0,0,224,0,0,0 }
+OPTFFF 7,40,1,1,0,0,0,0,<.\test_preempt_full_schedule_main.c><test_preempt_full_schedule_main.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,0,0,0,0,0,0,0,0,178,2,0,0,43,1,0,0 }
 OPTFFF 8,41,5,0,0,0,0,0,<..\..\..\lib_user\lib_trajectoire_2009a.h><lib_trajectoire_2009a.h> 
 OPTFFF 8,42,5,0,0,0,0,0,<..\..\..\lib_user\lib_autom_2008a.h><lib_autom_2008a.h> 
 OPTFFF 8,43,5,0,0,0,0,0,<..\..\..\lib_user\LCD.h><LCD.h> 
-OPTFFF 8,44,5,50331648,0,17,30,0,<..\..\..\lib_cm3\Metro_Librairie_Version2009d.h><Metro_Librairie_Version2009d.h> 
+OPTFFF 8,44,5,50331648,0,0,0,0,<..\..\..\lib_cm3\Metro_Librairie_Version2009d.h><Metro_Librairie_Version2009d.h> 
 
-ExtF <H:\DOCUMENTS\CM3_DEVEL\SVN_INSACORTEXDEV\TRAMPOLINE\MACHINES\CORTEX-M3\PORT_MACROS.H> 31,40,0,{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
-ExtF <H:\Documents\cm3_devel\svn_insacortexdev\system\STM32_Init.c> 1,1,0,{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
-ExtF <C:\KEIL\ARM\INC\ST\STM32F10X\STM32F10X_MAP.H> 424,424,0,{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
-ExtF <H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\Trampoline\trampoline_stufs_loco\stm_clock.h> 103,112,0,{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
-ExtF <H:\Documents\cm3_devel\svn_insacortexdev\LIB_CM3\LIB_USARTX.H> 54,54,0,{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
-ExtF <C:\KEIL\ARM\INC\ST\STM32F10X\STM32F10X_LIB.H> 11,11,0,{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
-ExtF <H:\Documents\cm3_devel\svn_insacortexdev\lib_cm3\stm_clock_TEMPLATE.h> 63,67,0,{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
 
 TARGOPT 1, (Simulé)
  ARMCLK=8000000
