@@ -8,7 +8,7 @@
  *----------------------------------------------------------------------------*/
 
 #include "stdio.h"				// import FILE type
-
+#include <stdarg.h>
 FILE __stdout;
 FILE __stdin;
 

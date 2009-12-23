@@ -1,4 +1,4 @@
-// Configuration file for STM32F103xx  clock system
+			  // Configuration file for STM32F103xx  clock system
 // GPL licensed code (S. Di Mercurio and P. Acco)
 //_________________
 //USAGE 
@@ -190,7 +190,7 @@
 #define __ADCCLK ((__PCLK2)/(_ADCPRE))
 #if ((__ADCCLK)>14000000UL)
 	#error "ADC prescaler output frequency should not exceed 14 MHz ! Increase _ADCPRE or _HPRE prescaler ratio"
-#endif 
-	
-#endif	
-			
+#endif  	
+#endif 		
+
+

@@ -126,7 +126,7 @@
 // </e> End of Clock Configuration
 #define __CLOCK_SETUP              1
 #define __RCC_CR_VAL               0x01010082
-#define __RCC_CFGR_VAL             0x001D8402
+#define __RCC_CFGR_VAL             0x000D0402
 #define __HSE                      8000000
 
 
@@ -2572,7 +2572,7 @@
 //        <1=>         Remap (PD0/OSCIN, PD1/OSC_OUT)
 
 // </e> End of Alternate Function remap Configuration
-#define __AFREMAP_SETUP           0                       //  0
+#define __AFREMAP_SETUP           1                       //  0
 #define __AFIO_MAPR               0x00000000              //  1
 
 

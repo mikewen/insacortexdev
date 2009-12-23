@@ -4,7 +4,7 @@
 #include "stm_clock_config.h"
 
 
-void Setup_Clock_System() ;
+void Setup_Clock_System(void) ;
 
 //________________________________
 // Clock registers descriptions

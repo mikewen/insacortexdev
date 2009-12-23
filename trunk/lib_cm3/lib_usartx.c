@@ -4,8 +4,10 @@
 
 #include "STM32_Reg.h"          // missing bit definitions
 #include "lib_usartx.h"     // import configuration NUM_USART and BAUDRATEx
-#include <stdio.h>				// import FILE type
 #include "stm_clock.h"
+
+FILE __stdout;
+FILE __stdin;
 
 //#pragma import(__use_no_semihosting_swi)  // ACCO !!! pas pigé l'histoire TODO
 
@@ -292,15 +294,6 @@ char rbuff[RBUF_SIZE];
 //________________________________________________________________________
 
 
-/*----------------------------------------------------------------------------
-  external functions
- *----------------------------------------------------------------------------*/
-
-struct __FILE {
-  int handle;                 // Add whatever you need here 
-};
-FILE __stdout;
-FILE __stdin;
 
 
 /*----------------------------------------------------------------------------
@@ -608,15 +601,7 @@ int GetKey (void) {
 //________________________________________________________________________________
 
 
-/*----------------------------------------------------------------------------
-  external functions
- *----------------------------------------------------------------------------*/
 
-struct __FILE {
-  int handle;                 // Add whatever you need here 
-};
-FILE __stdout;
-FILE __stdin;
 
 
 /*----------------------------------------------------------------------------

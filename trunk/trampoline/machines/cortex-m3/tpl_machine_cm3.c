@@ -83,6 +83,8 @@ void tpl_switch_context(tpl_context *old_context, tpl_context *new_context)
 
 	__asm__ ("pop {r4-r6,lr} ;"); // clean msp stack from previous C calls  
 	__asm__ ("pop {r4,lr} ;"); 
+	//__asm__ ("pop {r7,lr} ;"); 
+
 				// now context is back and lr is the return address
 
 				// CHECK if there is previous context to save or not 
