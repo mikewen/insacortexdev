@@ -24,7 +24,7 @@ Fichier squelette pour le TP d'introduction
 
 //PERIPH includes
 #include "../../lib_cm3/stm_clock.h"
-#include "../../lib_cm3/Metro_Librairie_Version2009d.h"
+#include "../../lib_cm3/stm_metro_v1.h"
 #include "../../lib_user/led.h"
 
 #if (DEBUG == ON_USART)
@@ -62,7 +62,7 @@ void InitApp(void)
 		lcd_init();
 	#endif
 
-	initGenerateur(10, 1000, 2000);
+	initGenerateur(10, 1000, 2500);
 	//             Périod(ms) , Rising time (ms) , Vitmax (pas/s)
 }
 
@@ -73,7 +73,7 @@ TASK(Generer_Trajectoire)
 	if (getPhase())
 	{
 		Set_Position(0);
-		initTrajectoire(16000);
+		initTrajectoire(32000);
 	}
 	else
 	{
@@ -109,7 +109,7 @@ TASK(Clignoter_Led)
 	Pos= (float) Lire_Position();
 	Ep = ((float)cons.Pos)-Pos;
 	Com = Kp * Ep ;// + Ki * Ip;
-	Fixe_Rapport((short int) Com);
+	Fixe_Rapport((u16) Com);
 
 	TerminateTask();
 

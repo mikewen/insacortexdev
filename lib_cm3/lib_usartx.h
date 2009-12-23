@@ -39,7 +39,18 @@
  */
 #ifndef __LIB_USARTx
 #define __LIB_USARTx
+#include <stdio.h>
+/*----------------------------------------------------------------------------
+  external functions
+ *----------------------------------------------------------------------------*/
 
+struct __FILE {
+  int handle;                 // Add whatever you need here 
+};
+
+
+int fputc(int ch, FILE *f);
+int fgetc(FILE *f);
 #include "stm_clock.h"
 
 #define __USART1_REMAP 0x0
@@ -69,11 +80,10 @@
 //#define BAUDRATEx   115200 
 
 //choose USART mode to use and configure it
-//#define USART_POL
+#define USART_POL
 #ifdef USART_POL
 #endif
 
-#define USART_IRQ
 #ifdef USART_IRQ
 	#ifdef USART_POL
 		#warning "USART_POL and USART_IRQ mode used in the same time !! choose IRQ one"
@@ -86,8 +96,8 @@
 
 //#define USART_DMA
 #ifdef USART_DMA
-	#define RBUF_SIZE 	(128)
-	#define TBUF_SIZE  (128)
+	#define RBUF_SIZE 	(5)
+	#define TBUF_SIZE  (500)
 
 	#ifdef USART_POL
 		#warning "USART_POL and USART_DMA mode used in the same time !! choose DMA one"

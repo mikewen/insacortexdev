@@ -36,12 +36,10 @@ File 4,1,<../../../lib_cm3/lib_getc.c><lib_getc.c>
 File 4,1,<../../../lib_cm3/lib_printf.c><lib_printf.c>
 File 4,1,<../../../lib_cm3/lib_puts.c><lib_puts.c>
 File 4,1,<../../../lib_cm3/lib_usartx.c><lib_usartx.c>
-File 4,1,<../../../lib_user/led.c><led.c>
-File 4,1,<../../../lib_user/lib_trajectoire_2009a.c><lib_trajectoire_2009a.c>
 File 4,1,<../../../lib_cm3/stm_metro_v1.c><stm_metro_v1.c>
-File 5,5,<.\Projet_No_CAN.oil><Projet_No_CAN.oil>
-File 5,1,<.\poursuite_no_CAN.c><poursuite_no_CAN.c>
-File 5,1,<.\Projet_No_CAN/tpl_os_generated_configuration.c><tpl_os_generated_configuration.c>
+File 5,5,<.\Identif_Trampoline.oil><Identif_Trampoline.oil>
+File 5,1,<.\Identif_Trampoline/tpl_os_generated_configuration.c><tpl_os_generated_configuration.c>
+File 5,1,<.\Identification_Trampo.c><Identification_Trampo.c>
 
 
 Options 1,0,0  // Target 'Simulateur'
@@ -97,10 +95,10 @@ Options 1,0,0  // Target 'Simulateur'
  OCMIRAM2 { 0,0,0,0,0,0,0,0,0 }
  OCMIROM2 { 0,0,0,0,0,0,0,0,0 }
  ACCFLG { 65,0,32,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- ACMISC ()
+ ACMISC (-fno-builtin)
  ACDEFN ()
  ACUDEF ()
- ACINCD (..\..\..\trampoline\os;..\..\..\trampoline\machines\cortex-m3;..\..\..\trampoline\debug;..\..\..\trampoline\com;.\Projet_No_CAN;..\Poursuite_Une_Rame;..\..\..\lib_cm3)
+ ACINCD (..\..\..\trampoline\os;..\..\..\trampoline\machines\cortex-m3;..\..\..\trampoline\debug;..\..\..\trampoline\com;..\..\..\lib_cm3;.\Identif_Trampoline;..\Identification_Metro_01)
  AASFLG { 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  AAMISC ()
  AADEFN ()
@@ -115,19 +113,19 @@ Options 1,0,0  // Target 'Simulateur'
  StopCode=3
  CustArgs ()
  LibMods ()
- ALDFLAG { 7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ALDFLAG { 15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ALDTADR ()
  ALDDADR ()
  ALDBSSR ()
  ALDICLB ()
  ALDICDR ()
- ALDMISC ()
+ ALDMISC (-fno-builtin)
  ALDSCAT (..\..\..\system\Linker_Script_GCC.ld)
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
-  OPTDBG 48126,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
- FLASH1 { 9,0,0,0,1,0,0,0,1,16,0,0,0,0,0,0,0,0,0,0 }
- FLASH2 (BIN\UL2CM3.DLL)
- FLASH3 ("" ())
+  OPTDBG 48125,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
+ FLASH1 { 1,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
+ FLASH2 ()
+ FLASH3 ()
  FLASH4 ()
 EndOpt
 
@@ -183,11 +181,11 @@ Options 2,0,0  // Target 'Locolymex'
  OCMXRAM { 0,0,0,0,0,0,0,0,0 }
  OCMIRAM2 { 0,0,0,0,0,0,0,0,0 }
  OCMIROM2 { 0,0,0,0,0,0,0,0,0 }
- ACCFLG { 65,16,32,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- ACMISC ()
+ ACCFLG { 65,0,32,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ACMISC (-fno-builtin)
  ACDEFN ()
  ACUDEF ()
- ACINCD (..\..\..\trampoline\os;..\..\..\trampoline\machines\cortex-m3;..\..\..\trampoline\debug;..\..\..\trampoline\com;.\Projet_No_CAN;..\Poursuite_Une_Rame;..\..\..\lib_cm3)
+ ACINCD (..\..\..\trampoline\os;..\..\..\trampoline\machines\cortex-m3;..\..\..\trampoline\debug;..\..\..\trampoline\com;.\Identif_Trampoline;..\Identification_Metro_01;..\..\..\lib_cm3)
  AASFLG { 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  AAMISC ()
  AADEFN ()
@@ -208,7 +206,7 @@ Options 2,0,0  // Target 'Locolymex'
  ALDBSSR ()
  ALDICLB ()
  ALDICDR ()
- ALDMISC ()
+ ALDMISC (-fno-builtin)
  ALDSCAT (..\..\..\system\Linker_Script_GCC.ld)
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
   OPTDBG 48126,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()

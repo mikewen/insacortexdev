@@ -12,9 +12,10 @@ File 1,1,<.\STM32_Init.c><STM32_Init.c>
 File 1,5,<.\STM32_Init.h><STM32_Init.h>
 File 1,5,<.\STM32_Reg.h><STM32_Reg.h>
 File 2,1,<.\Identification.c><Identification.c>
-File 2,1,<.\Metro_Librairie_Version2009d.c><Metro_Librairie_Version2009d.c>
 File 2,5,<.\Metro_Librairie_Version2009d.h><Metro_Librairie_Version2009d.h>
 File 2,1,<.\RTX_Conf_CM.c><RTX_Conf_CM.c>
+File 2,1,<..\..\..\lib_cm3\stm_metro_v1.c><stm_metro_v1.c>
+File 2,1,<..\..\..\lib_cm3\stm_clock.c><stm_clock.c>
 
 
 Options 1,0,0  // Target 'Simu'
@@ -75,7 +76,7 @@ Options 1,0,0  // Target 'Simu'
  ADSCMISC ()
  ADSCDEFN ()
  ADSCUDEF ()
- ADSCINCD ()
+ ADSCINCD (..\..\..\lib_cm3;..\Identification_Metro_01)
  ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSAMISC ()
  ADSADEFN ()
@@ -165,7 +166,7 @@ Options 2,0,0  // Target 'Reel'
  ADSCMISC ()
  ADSCDEFN ()
  ADSCUDEF ()
- ADSCINCD ()
+ ADSCINCD (..\Identification_Metro_01;..\..\..\lib_cm3)
  ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSAMISC ()
  ADSADEFN ()
