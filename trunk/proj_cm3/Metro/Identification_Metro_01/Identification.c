@@ -12,8 +12,8 @@ OS_TID tsk_mesure, tsk_consigne;
 
 #define T_SAMP 1 
 #define T_WAIT 5
-#define T_WAIT_MES 30
-#define TENSION 0x0FFF
+#define T_WAIT_MES 50
+#define TENSION (0x0FFF)
 //#define BUFF ((2*T_WAIT_MES + T_WAIT+20)/T_SAMP)
 #define BUFF 1000
 
@@ -209,4 +209,3 @@ int fgetc(FILE *f)
 
   	return (USART3->DR);
 }
- 

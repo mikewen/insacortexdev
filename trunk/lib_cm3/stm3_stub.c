@@ -209,7 +209,9 @@ int _stat(char *file, struct stat *st)
  * _times
  * Timing information for current process. Minimal implementation:
  */
-int _times(struct tms *buf) 
+ typedef struct tms  Tms;
+
+int _times(Tms *buf) 
 {
 	return -1;
 }

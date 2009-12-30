@@ -89,8 +89,8 @@ int fgetc(FILE *f);
 		#warning "USART_POL and USART_IRQ mode used in the same time !! choose IRQ one"
 		#undef USART_POL
 	#endif
-	#define RBUF_SIZE 	(128)
-	#define TBUF_SIZE  (128)
+	#define RBUF_SIZE 	(16)
+	#define TBUF_SIZE  (16)
 
 #endif
 
