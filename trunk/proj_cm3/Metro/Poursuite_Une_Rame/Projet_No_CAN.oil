@@ -56,7 +56,7 @@ CPU test {
         };
         AUTOSTART = TRUE {
 		ALARMTIME = 1;
-		CYCLETIME = 1;
+		CYCLETIME = 2;
 		APPMODE=std;
 		};
 	};
@@ -68,7 +68,7 @@ CPU test {
         };
         AUTOSTART = TRUE {
 		ALARMTIME = 1;
-		CYCLETIME = 10;
+		CYCLETIME = 20;
 		APPMODE=std;
 		};
 	};

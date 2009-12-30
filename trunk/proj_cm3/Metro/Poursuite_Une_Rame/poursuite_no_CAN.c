@@ -11,7 +11,7 @@ Fichier squelette pour le TP d'introduction
 #define ON_LCD (0x1CD)
 #define ON_USART (1)
 // wich output to print out debug infos
-#define DEBUG ON_USART
+//#define DEBUG ON_USART
 
 // how to control start stop of trajectories ?
 #define WITH_USART	(1)
@@ -49,7 +49,7 @@ Fichier squelette pour le TP d'introduction
 
 // GLOBALS for appli
 Etat cons;
- float Com,Pos,Ep,Kp;
+ float Com,VCom,Pos,CPos,Ep,Kp;
 
 void InitApp(void)
 {
@@ -62,7 +62,7 @@ void InitApp(void)
 		lcd_init();
 	#endif
 
-	initGenerateur(10, 1000, 2500);
+	initGenerateur(10, 1000, 2000);
 	//             Périod(ms) , Rising time (ms) , Vitmax (pas/s)
 }
 
@@ -79,7 +79,7 @@ TASK(Generer_Trajectoire)
 	{
 		if (cpt>4)
 		{
-			printf("%d %d\n",(unsigned int) cons.Pos,(unsigned int) Pos);
+		//	printf("%d %d\n",(unsigned int) cons.Pos,(unsigned int) Pos);
 			cpt=0;
 		}
 		calculConsigneSuivante();
@@ -106,9 +106,14 @@ TASK(Clignoter_Led)
 	*/
 
 	cons= lireConsigne();
-	Pos= (float) Lire_Position();
-	Ep = ((float)cons.Pos)-Pos;
+	Pos= (float)(Lire_Position());
+	CPos = (float)(cons.Pos);
+	Ep = CPos-Pos;
 	Com = Kp * Ep ;// + Ki * Ip;
+	#define VCOMMAX 10
+	if ((Com-VCom)>VCOMMAX) Com = VCom + VCOMMAX;
+	if ((Com-VCom)<-VCOMMAX) Com = VCom - VCOMMAX;
+	VCom = Com;
 	Fixe_Rapport((u16) Com);
 
 	TerminateTask();

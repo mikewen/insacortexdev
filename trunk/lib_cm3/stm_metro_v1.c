@@ -337,26 +337,35 @@ void  Init_Timer4()
 
 volatile u16 Ancien_TIM4 = 0;
 volatile u16 Nouveau_TIM4;
+#define NORMAL		-1
+#define OVERFLOW	0
+#define ARRETE 		1
+#define EST_NORMAL (Etat_Vit<0)
+#define EST_OVERFLOW (Etat_Vit==0)
+#define EST_ARRETE (Etat_Vit>0)
+ 
+volatile s8 Etat_Vit = ARRETE; 
+// Une arrêt ne doit pas durer plus de 0xFFFFFFFFF * 0xFFFF * T4Tic secondes
 
-u8 TIM4_OV = 0;
-u16 Vitesse;
-#define TIM4_MAX_OV	 2
+u16 Vitesse = VITESSE_ARRET;
 void TIM4_IRQHandler(void)
 {
  
  	if((TIM4->SR & 0x0001)) // est-ce un overflow ?(dépassement)
     {
 	  	TIM4->SR &= ~(0x0001);		 // reset interrupt flag
-		//old_position = new_position;
-		//new_position=Lire_Position();
-		TIM4_OV ++ ;
-		if (TIM4_OV >=TIM4_MAX_OV)
+		if (EST_NORMAL)
 		{
-			Vitesse = VITESSE_ARRET;
-			Ancien_TIM4 = 0;
-			TIM4_OV = TIM4_MAX_OV;
+			Etat_Vit =  OVERFLOW;
 		}
-
+		else
+		{
+		 	if (EST_OVERFLOW)
+				{
+					Vitesse = VITESSE_ARRET;			
+					Etat_Vit = ARRETE;
+				}
+		}
  	}
 	
 
@@ -364,24 +373,27 @@ void TIM4_IRQHandler(void)
 
 void Calcul_Vitesse(void)
 {
-	u16 temp,CTIM4_OV;
 
-	u32 Calcul;
-
-
-	temp = TIM4->CNT;
-	CTIM4_OV = 	TIM4_OV;
-	TIM4_OV = 0;	
+	Nouveau_TIM4 = TIM4->CNT;
 	
-	Nouveau_TIM4 = temp;
-	if (CTIM4_OV<TIM4_MAX_OV) 
-	{// on n'est pas au premier front après un arrêt
-		Calcul = (u32) (((s32)CTIM4_OV * 0x10000)+ (s32)((s32) Nouveau_TIM4  -  (s32)Ancien_TIM4));
-		if (Calcul>VITESSE_ARRET)
-			Vitesse = VITESSE_ARRET;
-		else
-			Vitesse = (u16) Calcul;	 
+	if (EST_NORMAL)
+	{
+		Vitesse = (Nouveau_TIM4 -  Ancien_TIM4);	
 	}
+	else if (EST_OVERFLOW)
+	{
+			if (Nouveau_TIM4 < Ancien_TIM4)
+				Vitesse = Nouveau_TIM4 - Ancien_TIM4;
+			else
+				Vitesse = VITESSE_ARRET;
+
+			Etat_Vit = NORMAL;
+	}
+	else // EST_ARRETE
+	{
+			Etat_Vit = NORMAL;
+	}
+	
 	Ancien_TIM4 = Nouveau_TIM4;
 
 }
@@ -477,7 +489,7 @@ u16 Lire_courant()
  
 
 
- //#define BLINK_ON_START
+#define BLINK_ON_START
 
 void Init_Periphs()			  
 {

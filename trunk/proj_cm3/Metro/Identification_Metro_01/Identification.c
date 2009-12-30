@@ -10,12 +10,13 @@
 unsigned char go = 0;
 OS_TID tsk_mesure, tsk_consigne;
 
-#define T_SAMP 1 
-#define T_WAIT 5
-#define T_WAIT_MES 50
+#define T_SAMP 2 // ms échantillonage mesure
+#define T_ORDO 10 //ms échnatillonage consigne os_wait etc. 
+#define T_WAIT 100
 #define TENSION (0x0FFF)
 //#define BUFF ((2*T_WAIT_MES + T_WAIT+20)/T_SAMP)
 #define BUFF 1000
+#define T_WAIT_MES (BUFF*T_SAMP/T_ORDO)
 
 u16 stock_courant_a[BUFF];
 u16 stock_position_a[BUFF];
@@ -124,11 +125,13 @@ unsigned char c;
 				Fixe_Rapport(TENSION );				
 				
 				os_dly_wait(T_WAIT_MES);
-				
-		
-				index_tab=0;
-				go=2;
 
+				go=0;
+
+				index_tab=0;
+				os_dly_wait(T_WAIT);
+
+				go=2;	
 				Fixe_Rapport(0);				
 				
 				os_dly_wait(T_WAIT_MES);
