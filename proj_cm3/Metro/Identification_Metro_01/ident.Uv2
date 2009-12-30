@@ -12,7 +12,6 @@ File 1,1,<.\STM32_Init.c><STM32_Init.c>
 File 1,5,<.\STM32_Init.h><STM32_Init.h>
 File 1,5,<.\STM32_Reg.h><STM32_Reg.h>
 File 2,1,<.\Identification.c><Identification.c>
-File 2,5,<.\Metro_Librairie_Version2009d.h><Metro_Librairie_Version2009d.h>
 File 2,1,<.\RTX_Conf_CM.c><RTX_Conf_CM.c>
 File 2,1,<..\..\..\lib_cm3\stm_metro_v1.c><stm_metro_v1.c>
 File 2,1,<..\..\..\lib_cm3\stm_clock.c><stm_clock.c>
@@ -43,7 +42,7 @@ Options 1,0,0  // Target 'Simu'
  EnvReg (ST\STM32F10x\)
  OrgReg (ST\STM32F10x\)
  TgStat=16
- OutDir (.\)
+ OutDir (.\objs\)
  OutName (ident)
  GenApp=1
  GenLib=0
@@ -101,7 +100,7 @@ Options 1,0,0  // Target 'Simu'
  ADSLDIF ()
  ADSLDDW ()
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
-  OPTDBG 48125,1,()()()()()()()()()() ()()()()
+  OPTDBG 48125,1,()()()()(.\metro_rame_V1.ini)()()()()() (BIN\AGDIRDI.DLL)()()()
  FLASH1 { 9,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
  FLASH2 (BIN\UL2CM3.DLL)
  FLASH3 ()
@@ -191,7 +190,7 @@ Options 2,0,0  // Target 'Reel'
  ADSLDIF ()
  ADSLDDW ()
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
-  OPTDBG 49150,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
+  OPTDBG 49150,1,()()()()(..\..\sim\metro_rame_V1.ini)()()()()() (BIN\UL2CM3.DLL)()()()
  FLASH1 { 9,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
  FLASH2 (BIN\UL2CM3.DLL)
  FLASH3 ("" ())

@@ -14,22 +14,23 @@
 /**
    Constante du générateur
 **/
-int periodeGenerateur ;  // en ms :  période d'échantillonnage du générateur de trajectoire
-int tempsMontee ; // en ms : temps de montée/descente à vitesseMaximale
-int vitesseMaximale ;  // Vitesse de croisière en pas/s
+int tic ;  // en ms :  période d'échantillonnage du générateur de trajectoire
+int tM ; // en ms : temps de montée/descente à vMax
+int vMax ;  // Vitesse de croisière en pas/s
 
 /**
    Variables de calcul du générateur
 **/
-unsigned int phase = 1;
-unsigned int indexPas ; // nombre de pas de calcul fait par le générateur
-unsigned int distanceDuParcours; // en pas : distance du parcours à effectuer
-unsigned int indexFinMontee ; // index à partir duquel la montée est terminée
-unsigned int indexDebutFreinage; // index à partir duquel il faut commencer à freiner
-unsigned int indexFinTrajectoire; // index auquel le generateur doit terminer sa trajectoire
-unsigned int incrementVitesse; // Incrément/décrément de vitesse dans les phases de montée et descente
+u8 phase = 1;
+u16 indexPas ; // nombre de pas de calcul fait par le générateur
+u16 Dist; // en pas : distance du parcours à effectuer
+u16 iFM ; // index à partir duquel la montée est terminée
+u16 iDF; // index à partir duquel il faut commencer à freiner
+u16 iFin; // index auquel le generateur doit terminer sa trajectoire
+u16 dV; // Incrément/décrément de vitesse dans les phases de montée et descente
 float  positionCourante; // Consigne de position
-unsigned int vitesseCourante; // Consigne de vitesse
+float dP ; // coef d'intégration de la position
+u16 vitesseCourante; // Consigne de vitesse
 
 /**
    Retourne la consigne en position et en vitesse calculée par le générateur
@@ -38,48 +39,44 @@ Etat lireConsigne(void)
 {	
 	Etat consigne;
 	consigne.I_Pos = 999;
- 	consigne.Pos = (unsigned int) positionCourante;
- 	//consigne.Vit = (unsigned int) ((float)vitesseCourante*KD);
-	consigne.Vit = (unsigned int) (vitesseCourante);
+ 	consigne.Pos = (u16) positionCourante;
+	consigne.Vit = (u16) (vitesseCourante);
 	return consigne;
 }
 
 /**
    Initialisation des paramètres du générateur
 **/
-void initGenerateur(int periodeGenerateurParam,
-					 int tempsMonteeParam,
-					 int vitesseMaxParam) {
+void initGenerateur( u16 ticParam,
+					 u16 tMParam,
+					 u16 vitesseMaxParam) {
 
-	periodeGenerateur = periodeGenerateurParam ; // en ms
-	tempsMontee = tempsMonteeParam ; // en ms
-	vitesseMaximale  = vitesseMaxParam ; // Vitesse de croisière en pas/s
+	tic = ticParam ; // en ms
+	tM = tMParam ; // en ms
+	vMax  = vitesseMaxParam ; // Vitesse de croisière en pas/s
 }
 
 /**
  	Initialisation des paramètres pour une trajectoire
 **/
-void initTrajectoire(unsigned int distanceStation)
+void initTrajectoire(u16 distanceStation)
 {
 	
-	int indexFinal;
-
 	indexPas = 0;
 
-	distanceDuParcours = distanceStation;
+	Dist = distanceStation;
 
 	// Le nombre de pas de calcul en dépend pas des temps de montée !
-	indexFinal = (unsigned int)(((long unsigned int)(distanceDuParcours)*1000L)/(long unsigned int)(vitesseMaximale*periodeGenerateur));
+//	indexFinal = (unsigned int)(((long unsigned int)(Dist)*1000L)/(long unsigned int)(vMax*tic));
 
-	indexFinMontee = ((unsigned int)(tempsMontee/periodeGenerateur));
+	iFM = (u16)(tM/tic);
+	dV = vMax/iFM;  //incrément de vitesse par période du générateur pour la rampe
 
-//	indexFinal = (unsigned int)(((long unsigned int)(distanceDuParcours-(indexFinMontee*periodeGenerateur*vitesseMaximale))*1000L)/(long unsigned int)(vitesseMaximale*periodeGenerateur));
+	iDF = (u16) ( ((u32)Dist * (u32)1000UL) / ((u32)vMax*(u32)tic) );
 
-	indexDebutFreinage = indexFinal - indexFinMontee ;	
-
-	indexFinTrajectoire = indexFinal ;
+	iFin = iDF + iFM ;
+	dP=((float)tic) / 2000.0;
 	
-	incrementVitesse = vitesseMaximale/indexFinMontee;  //incrément de vitesse par période du générateur pour la rampe
 	vitesseCourante=0;
 	positionCourante=0.0;
 
@@ -89,7 +86,7 @@ void initTrajectoire(unsigned int distanceStation)
  /**
    Retourne le numéro du pas de calcul de la trajectoire
 **/
-unsigned int GetCompteurTrajectoire (void)
+u16 GetCompteurTrajectoire (void)
 {
    return indexPas;
 }
@@ -99,7 +96,7 @@ unsigned int GetCompteurTrajectoire (void)
    		1 : générateur en attente
 		0 : générateur en cours de calcul de trajectoire
 **/
-unsigned int getPhase (void)
+u8 getPhase (void)
 {
    return phase;
 }
@@ -109,37 +106,36 @@ unsigned int getPhase (void)
 **/
 unsigned char calculConsigneSuivante(void)
 {
-	unsigned int Vitesse_Precedente=vitesseCourante;
+	u16 Vitesse_Precedente=vitesseCourante;
 	phase = 0;
 
 	indexPas++;
 		
-	if (indexPas < indexFinMontee)
+	if (indexPas <= iFM)
 	{
-		vitesseCourante = vitesseCourante + incrementVitesse;
+		vitesseCourante = vitesseCourante + dV;
 	}
-	else if (indexPas <= indexDebutFreinage)
+	else if (indexPas <= iDF)
 	{		
-		vitesseCourante = vitesseMaximale;
+		vitesseCourante = vMax;
 	}
-	else if (indexPas <= indexFinTrajectoire)
+	else if (indexPas <= iFin)
 	{		
-		vitesseCourante = vitesseCourante - incrementVitesse;
+		vitesseCourante = vitesseCourante - dV;
 	}
 	else
 	{
 		vitesseCourante = 0;
 		phase = 1;
-	
 	}
 	
 	if (phase == 0) 
 	{
-		positionCourante = positionCourante + (float)((vitesseCourante+Vitesse_Precedente)*periodeGenerateur)/2000.0;
+		positionCourante = positionCourante + (float)(vitesseCourante+Vitesse_Precedente)*dP;
 	}
 	else 
 	{
-		positionCourante = distanceDuParcours;
+		positionCourante = Dist;
 	}
 
 	return phase;			

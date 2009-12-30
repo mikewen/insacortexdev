@@ -9,8 +9,8 @@
 #endif
 
 #ifdef USE_POSITION
-	extern  u16 Lire_Position(void);
-	extern void Set_Position(u16 pos) ;
+	extern  s16 Lire_Position(void);
+	extern void Set_Position(s16 pos) ;
 #endif
 
 #ifdef USE_SPEED
@@ -23,7 +23,7 @@
 	#define RAPPORT_MAX (0x0FFF)
 	#define RAPPORT_MIN (-0x0FFF)
 	#define RAPPORT_ARRET (0)
-	extern void Fixe_Rapport(u16);
+	extern void Fixe_Rapport(s16);
 #endif
 				    /*--------------------------------------end---------------------------------*/
 

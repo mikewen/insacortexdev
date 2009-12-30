@@ -23,12 +23,12 @@ Vitesse
 #ifndef _LIB_AUTOM_
 #define _LIB_AUTOM_
 
-
+#include "standard_types.h"
 
 typedef struct {
-	signed int Pos ;
-	signed int Vit ;
-	signed int I_Pos ;
+	s32 Pos ;
+	s32 Vit ;
+	s32 I_Pos ;
 } Etat;
 
 /**
@@ -37,18 +37,18 @@ typedef struct {
    	- temps de montée en ms
 	- vitesse max en pas/s
 **/
-void initGenerateur(int periodeGenerateurParam, int tempsMonteeParam, int vitesseMaxParam);
+void initGenerateur(u16 periodeGenerateurParam, u16 tempsMonteeParam, u16 vitesseMaxParam);
 
 /**
  	Initialisation des paramètres pour une trajectoire
 		- distance à parcourir en nombre de pas
 **/
-void initTrajectoire(unsigned int distanceAParcourir);
+void initTrajectoire(u16 distanceAParcourir);
 
 /**
    Calcul la consigne suivante de la trajectoire
 **/
-unsigned char calculConsigneSuivante(void);
+u8 calculConsigneSuivante(void);
 
 /**
 	Retourne la consigne calculée sous forme d'un état
@@ -58,13 +58,13 @@ Etat lireConsigne(void);
 /**
    Retourne le numéro du pas de calcul de la trajectoire
 **/
-unsigned int GetCompteurTrajectoire (void);
+u16 GetCompteurTrajectoire (void);
 
  /**
    Retourne l'état du générateur
    		1 : générateur en attente
 		0 : générateur en cours de calcul de trajectoire
 **/
-unsigned int getPhase (void);
+u8 getPhase (void);
 
 #endif

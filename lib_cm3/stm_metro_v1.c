@@ -9,13 +9,15 @@
 #define __RCC_APB2ENR_PORTCEN	                     0x00000010
 #define __ALTERNATE_OUTPUT_PUSH_PULL_PORTB           0x00008BB0	  
 #define __RCC_APB2ENR_PORTBEN	                     0x00000008 
-#define __CC3_ON									 0x0100
+#define __CC3_ON									 (1<<8) //0x0100
 #define __CC3_OFF									 0xFEFF
 #define __CC2_OFF									 0xFFEF
-#define __CC2_ON									 0x0010
+#define __CC2_ON									 (1<<4) //0x0010
 #define __TIMX_CR1_CDISABLE 						 0xFFFE
 
-							   
+#define LED_AVANCE (1<<8)     //Led d'avance sur le PortC.7 (arrière de la loco)							   
+#define LED_RECULE (1<<9)	//Led de recul surle PortC.9 (avant de la loco)	
+						   
  void Init_PortA()
 {
 RCC->APB2ENR |=__RCC_APB2ENR_PORTAEN;	        	 				  // enable clock for port A
@@ -37,7 +39,7 @@ RCC->APB2ENR |=__RCC_APB2ENR_PORTCEN;	        	 				  // enable clock for port C
 GPIOC->CRL   =0x34444044;                   //port pc7 config as output
 GPIOC->CRH   =0x44444434;					 //port pc9 config as output
 
-GPIOC->ODR	 |=0x00000280;                   //two leds off 
+GPIOC->ODR	 |=(LED_AVANCE|LED_RECULE);                   //two leds off 
 }
 
  /*-----------------------------------------config timerx-------------------------------------------------*/
@@ -69,6 +71,9 @@ GPIOC->ODR	 |=0x00000280;                   //two leds off
 // reload sur 12 bits => 17,5KHz environ, 
 // mode  PWM mode-1
 // pas d'interruption
+// Output sur TIM_CH2 (sens direct) PA.1  LED AVANCE allumée
+// Output sur TIM_CH3 (sens inverse) PA.2  LED RECULE allumée
+
 void  Init_Timer2()	  
 {
 
@@ -97,7 +102,7 @@ void  Init_Timer2()
 }
  
  
- void Pwm1()	//ça roule en arriére
+ void Pwm_Recule()	//ça roule en arriére
 {
   
   // bloque TIMER 2 pour changer de canal PWM actif
@@ -110,23 +115,28 @@ void  Init_Timer2()
   // channel 2 actif on réactive le timer
   TIM2->CR1  |= __TIMX_CR1_CEN;
  
-  GPIOC->ODR &=0xFFFFFDFF;			  //LED ARRIERE ON
-  GPIOC->ODR  |=0x00000080; 		  //LED AVANCE OFF
+  GPIOC->ODR &=~(LED_RECULE); //0xFFFFFDFF;			  //LED ARRIERE ON
+  GPIOC->ODR  |=(LED_AVANCE);   //0x00000080; 		  //LED AVANCE OFF
 }
 
 
 
-void Pwm2()		//ça roule en avance 
+void Pwm_Avance()		//ça roule en avance 
 {
+  // bloque TIMER 2 pour changer de canal PWM actif
+  // évite les impulsions parasites
   TIM2->CR1 &=__TIMX_CR1_CDISABLE;
+ 
   TIM2->CCER &=__CC2_OFF;
   TIM2->CCER |=__CC3_ON; 		                                // output control oc2 signal is output on the corresponding output pin
+ 
+  // channel 3 actif on réactive le timer
   TIM2->CR1 |= __TIMX_CR1_CEN;
-  GPIOC->ODR &=0xFFFFFF7F;	       //LED AVANCE ON
-  GPIOC->ODR |=0x00000200; 		   //LED ARRIERE OFF
+  GPIOC->ODR &=~(LED_AVANCE);  //0xFFFFFF7F;	       //LED AVANCE ON
+  GPIOC->ODR |=(LED_RECULE); // 0x00000200; 		   //LED ARRIERE OFF
 }
 
-void Fixe_Rapport( u16 duty_cycle)				 // frequency is fixed for 12 bits, so the value of duty cycle is max for 12 bits 4095 
+void Fixe_Rapport( s16 duty_cycle)				 // frequency is fixed for 12 bits, so the value of duty cycle is max for 12 bits 4095 
 {
  if(duty_cycle > 0)
       { 
@@ -134,8 +144,9 @@ void Fixe_Rapport( u16 duty_cycle)				 // frequency is fixed for 12 bits, so the
 	       TIM2->CCR3 =__TIM2_ARR;
 	   else 
 		  TIM2->CCR3 = (duty_cycle); 	  	  
-	  
-	   Pwm2();    
+	  	
+		if ( ~(TIM2->CCER & __CC3_ON) )
+	   		Pwm_Avance();    
 	  }
   else if(duty_cycle < 0)
       {
@@ -144,7 +155,8 @@ void Fixe_Rapport( u16 duty_cycle)				 // frequency is fixed for 12 bits, so the
 	   else
 	     TIM2->CCR2 =-duty_cycle;	   
 	    
-		Pwm1();
+		if ( ~(TIM2->CCER & __CC2_ON) )
+			Pwm_Recule();
 	 
 	  }
 	  
@@ -153,8 +165,11 @@ void Fixe_Rapport( u16 duty_cycle)				 // frequency is fixed for 12 bits, so the
     TIM2->CR1 &=__TIMX_CR1_CDISABLE;	
 	TIM2->CCER &=__CC2_OFF;
 	TIM2->CCER &=__CC3_OFF;
-	GPIOC->ODR |=0x00000200;    // LED ARRIERE OFF
-	GPIOC->ODR  |=0x00000080;	//LED AVANCE OFF
+	GPIOC->ODR |=(LED_AVANCE);    // LED ARRIERE OFF
+	GPIOC->ODR  |=(LED_RECULE);		//LED AVANCE OFF
+	TIM2->CCR2=0;
+	TIM2->CCR3=0;
+
    }	  
 	  
 }
@@ -187,7 +202,7 @@ void Fixe_Rapport( u16 duty_cycle)				 // frequency is fixed for 12 bits, so the
 #define __TIM3_CCR2               0x0000            
 #define __TIM3_CCR3               0x0000                
 #define __TIM3_CCR4               0x0000               
-#define __TIM3_DIER               0x0000 
+#define __TIM3_DIER               0x0002 
 #define __TIMX_CR1_CEN			  0x0001
 
 
@@ -238,13 +253,13 @@ void TIM3_IRQHandler(void)
 #endif  /* USE_T3*/
 
 #ifdef USE_POSITION
-u16 Lire_Position(void)
+s16 Lire_Position(void)
 {
-   return (TIM3->CNT);
+   return (s16) (TIM3->CNT);
 }
-void Set_Position(u16 pos)
+void Set_Position(s16 pos)
 {
-   TIM3->CNT = pos;
+   TIM3->CNT = (u16) pos;
 }
 
 #endif  /* USE_POSITION */
@@ -462,17 +477,18 @@ u16 Lire_courant()
  
 
 
+ //#define BLINK_ON_START
 
 void Init_Periphs()			  
 {
+#ifdef BLINK_ON_START
 	volatile unsigned int i,j;
 	volatile int k;
-
+#endif
  Setup_Clock_System();
  Init_PortA();
  Init_PortB();
  Init_PortC();
- #define BLINK_ON_START
  #ifdef BLINK_ON_START
  for(j=20;j>0;j--)
  { 

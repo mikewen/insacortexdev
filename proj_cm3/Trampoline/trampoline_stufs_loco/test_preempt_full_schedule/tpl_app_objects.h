@@ -5,7 +5,7 @@
  * for conditional compiling.
  *
  * This file has been generated automatically by goil
- * on  Fri Dec 18 16:10:48 2009
+ * on  Mon Dec 21 20:09:33 2009
  */
 
 #ifndef OJB_HEADER_H
@@ -20,7 +20,7 @@
 #define    WITH_MEMORY_PROTECTION    NO
 #define    WITH_MEMMAP    NO
 #define    WITH_COMPILER_SETTINGS    NO
-#define    TRAMPOLINE_BASE_PATH "../.."
+#define    TRAMPOLINE_BASE_PATH "../../../Trampoline"
 #define    WITH_TRACE             NO
 #define    WITH_IT_TABLE    NO
 

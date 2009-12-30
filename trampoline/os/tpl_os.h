@@ -19,8 +19,8 @@
  *
  * @section infos File informations
  *
- * $Date: 2009-11-16 18:01:52 +0100 (Lun, 16 nov 2009) $
- * $Rev: 968 $
+ * $Date: 2009-12-18 17:43:30 +0100 (Ven 18 déc 2009) $
+ * $Rev: 1020 $
  * $Author: jlb $
  * $URL: https://trampoline.rts-software.org/svn/trunk/os/tpl_os.h $
  */
@@ -61,7 +61,7 @@
  */
 #include "tpl_os_error.h"
 
-#ifdef WITH_COM
+#if WITH_COM == YES
 /*
  * Inclusion of the header for communication related API services
  */

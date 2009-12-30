@@ -10,7 +10,7 @@ void Setup_Clock_System(void) ;
 // Clock registers descriptions
 
 // RCC_CR  Control Register definitions
-#define RCC_CR  *((unsigned int *)0x40021000)
+#define RCC_CR  *((volatile unsigned int *)0x40021000)
 #define PLLRDY 	(1<<25)
 #define PLLON 	(1<<24)
 #define CSSON 	(1<<19)
@@ -25,7 +25,7 @@ void Setup_Clock_System(void) ;
 
 
 //RCC_CFGR Clock ConFiG Register  definition
-#define RCC_CFGR  *((unsigned int *)0x40021004)
+#define RCC_CFGR  *((volatile unsigned int *)0x40021004)
 #define MCO		(1<<24)
 #define USBPRE	(1<<22)
 #define PLLMUL	(1<<18)		 // PLL multiplication factor from 2 to 16
@@ -72,7 +72,7 @@ void Setup_Clock_System(void) ;
 
 
 //RCC_CIR Clock Interrupt Register
-#define RCC_CIR  *((unsigned int *)0x40021008)
+#define RCC_CIR  *((volatile unsigned int *)0x40021008)
 #define CSSC    (1<<23) // clock security system interrupt clear
 #define PLLRDYC (1<<20) //                                               interrupt clear
 #define HSERDYC (1<<19)
@@ -95,4 +95,3 @@ void Setup_Clock_System(void) ;
 
 
 #endif
-			

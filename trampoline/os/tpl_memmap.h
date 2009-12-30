@@ -16,16 +16,20 @@
  *
  * @section infos File informations
  *
- * $Date: 2009-11-10 17:06:10 +0100 (Mar, 10 nov 2009) $
- * $Rev: 959 $
+ * $Date: 2009-12-18 17:43:30 +0100 (Ven 18 déc 2009) $
+ * $Rev: 1020 $
  * $Author: jlb $
  * $URL: https://trampoline.rts-software.org/svn/trunk/os/tpl_memmap.h $
  */
 
-#include "tpl_config_def.h"
+#include "tpl_app_objects.h"
+
+#if WITH_MEMMAP != YES && WITH_MEMMAP != NO
+  #error "Wrong configuration of the OS, WITH_MEMMAP should be YES or NO"
+#endif
 
 #if WITH_MEMMAP == YES
-#include "MemMap.h"
+  #include "MemMap.h"
 #endif
 
 /* End of file tpl_memmap.h */
