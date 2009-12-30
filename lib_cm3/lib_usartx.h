@@ -81,6 +81,8 @@ int fgetc(FILE *f);
 
 //choose USART mode to use and configure it
 #define USART_POL
+//#define USART_DMA
+
 #ifdef USART_POL
 #endif
 
@@ -94,7 +96,6 @@ int fgetc(FILE *f);
 
 #endif
 
-//#define USART_DMA
 #ifdef USART_DMA
 	#define RBUF_SIZE 	(5)
 	#define TBUF_SIZE  (500)
