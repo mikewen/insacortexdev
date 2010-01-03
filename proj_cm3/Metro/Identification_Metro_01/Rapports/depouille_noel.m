@@ -30,7 +30,7 @@ Acc_M(2)=0;
 
 vit = [0 ; (Acc_Pos(2:end)-Acc_Pos(1:(end-1)))/Te]; % pas/s
 Vmax = mean(vit(end-50:end)) ; % pas/s
-Vitmax = 1./mean (Acc_Vit(end-50:end));
+Vitmax = mean (Acc_Vit(end-50:end));
 Kvit = Vmax/Vitmax 
 TicT4 = 1/(40e6/200)
 Kvitth=(4/TicT4)
@@ -38,7 +38,7 @@ Kvit=Kvitth;
 K = Vmax/4096
 
 id=1;
-while (1./Acc_Vit(id)<(Vitmax*0.62))
+while (Acc_Vit(id)<(Vitmax*0.62))
     id= id+1;
 end
 Tau = t(id)
@@ -52,10 +52,10 @@ vmod=lsim(sysv,Acc_M,t);
 
 
 pmod=lsim(sysp,Acc_M,t);
-pmes=lsim(tf(1,[1 0]),1./Acc_Vit*Kvit,t);
+pmes=lsim(tf(1,[1 0]),Acc_Vit,t);
 
 plot(t,vit,'r'); hold on;
-plot(t,1./Acc_Vit * Kvit,'g')
+plot(t,Acc_Vit,'g')
 plot(t,vmod,'k');
 
 figure

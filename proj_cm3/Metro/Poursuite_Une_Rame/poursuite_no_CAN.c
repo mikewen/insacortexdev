@@ -46,14 +46,17 @@ Fichier squelette pour le TP d'introduction
 
 //APPLI includes
 #include "../../lib_user/lib_trajectoire_2009a.h"
-
+#include "../../lib_user/lib_autom_2009a.h"
 // GLOBALS for appli
 Etat cons;
- float Com,VCom,Pos,CPos,Ep,Kp;
+
+float Com,VCom,Pos,CPos,Ep,Kp;
+#define DISTANCE 32000
 
 void InitApp(void)
 {
 	Init_Periphs();
+
 	#if ((CONTROL==WITH_USART)||(DEBUG==ON_USART) )
 		setup_usart();
 	#endif
@@ -64,57 +67,47 @@ void InitApp(void)
 
 	initGenerateur(10, 1000, 2000);
 	//             Périod(ms) , Rising time (ms) , Vitmax (pas/s)
+
+	Set_Position(DISTANCE); //comme si on terminait un cycle 
+		
 }
 
- int cpt=0;
 TASK(Generer_Trajectoire)
 { 
-	cpt++;
 	if (getPhase())
 	{
-		Set_Position(0);
-		initTrajectoire(32000);
+		reinitEtat(DISTANCE);
+		initTrajectoire(DISTANCE);
 	}
 	else
 	{
-		if (cpt>4)
-		{
-		//	printf("%d %d\n",(unsigned int) cons.Pos,(unsigned int) Pos);
-			cpt=0;
-		}
 		calculConsigneSuivante();
 	}
 
 	TerminateTask();
 }
 
-TASK(Clignoter_Led)
+
+Etat etatRame;
+Une_Consigne Cons;
+float com;
+float gainsCommande[3] = {0.0548 , 0.4713 , 0.0421} ;
+TASK(Controler_Rame)
 {
 
-	Kp=RAPPORT_MAX/40.0;
-/*	Toggle_Led(1);
-	
-	cons= lireConsigne();
-	if ((cons.Vit & 0x0001) == 1)
-	{
-		 Toggle_Led(2);
-	}
-	if ((cons.Pos & 0x0001) == 1)
-	{
-		Toggle_Led(3);
-	}
-	*/
 
-	cons= lireConsigne();
-	Pos= (float)(Lire_Position());
-	CPos = (float)(cons.Pos);
-	Ep = CPos-Pos;
-	Com = Kp * Ep ;// + Ki * Ip;
-	#define VCOMMAX 10
-	if ((Com-VCom)>VCOMMAX) Com = VCom + VCOMMAX;
-	if ((Com-VCom)<-VCOMMAX) Com = VCom - VCOMMAX;
-	VCom = Com;
-	Fixe_Rapport((u16) Com);
+	Cons= lireConsigne();
+	etatRame = calculerEtatRelatif(Cons.Pos,Cons.Vit);
+	
+	com=calculerCommande(etatRame,gainsCommande) ;
+	Fixe_Rapport((u16) com);
+
+	TerminateTask();
+
+}
+
+TASK(Afficher)
+{
 
 	TerminateTask();
 

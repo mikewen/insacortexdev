@@ -15,7 +15,7 @@
 
 #ifdef USE_SPEED
 	extern  u16 Lire_Vitesse(void);
-//	float Gain_Vitesse = (float) SPEED_TIC_FREQ ;
+	#define COEFF_VITESSE (4*SPEED_TIC_FREQ)
 //	#define Lire_Vitesse_En_Float (Gain_Vitesse/((float)Lire_Vitesse()))
 #endif
 

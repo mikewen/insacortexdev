@@ -522,6 +522,11 @@
               <FileType>1</FileType>
               <FilePath>../../../lib_cm3/stm_metro_v1.c</FilePath>
             </File>
+            <File>
+              <FileName>lib_autom_2009a.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/lib_autom_2009a.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1205,6 +1210,11 @@
               <FileName>stm_metro_v1.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../lib_cm3/stm_metro_v1.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_autom_2009a.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/lib_autom_2009a.c</FilePath>
             </File>
           </Files>
         </Group>

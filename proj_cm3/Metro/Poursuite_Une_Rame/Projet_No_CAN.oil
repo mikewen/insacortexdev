@@ -27,20 +27,30 @@ CPU test {
     APPMODE std {
     };
     
-    TASK Clignoter_Led {
+    TASK Controler_Rame {
       PRIORITY = 10;
       AUTOSTART = FALSE;
       ACTIVATION = 1;
-      SCHEDULE = NON;
-	  STACKSIZE = 512;
+      SCHEDULE = FULL;
+	  STACKSIZE = 256;
     };
     
     TASK Generer_Trajectoire {
       PRIORITY = 5;
       AUTOSTART = FALSE;
       ACTIVATION = 1;
-      SCHEDULE = NON;
-	  STACKSIZE = 512;
+      SCHEDULE = FULL;
+	  STACKSIZE = 256;
+    };
+
+    TASK Afficher {
+      PRIORITY = 1;
+      AUTOSTART = TRUE{
+			APPMODE=std;
+		};
+      ACTIVATION = 1;
+      SCHEDULE = FULL;
+	  STACKSIZE = 256;
     };
 
     COUNTER General_counter {
@@ -49,10 +59,10 @@ CPU test {
         MINCYCLE =1;
     };
 
-    ALARM Active_Clignoter_Led {
+    ALARM Active_Controler_Rame {
         COUNTER = General_counter;
         ACTION = ACTIVATETASK {
-            TASK = Clignoter_Led;
+            TASK = Controler_Rame;
         };
         AUTOSTART = TRUE {
 		ALARMTIME = 1;
@@ -66,7 +76,7 @@ CPU test {
         ACTION = ACTIVATETASK {
             TASK = Generer_Trajectoire;
         };
-        AUTOSTART = TRUE {
+        AUTOSTART = TRUE { 
 		ALARMTIME = 1;
 		CYCLETIME = 20;
 		APPMODE=std;
