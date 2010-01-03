@@ -1,15 +1,16 @@
 #ifndef _LIB_AUTOM_
 #define _LIB_AUTOM_
-
-#define TE (0.002) // période d'échantillonage du calcul d'intégrale
-#define I_Max (1.0)
-#define I_Min (-1.0)
+#include "standard_types.h"	 
 
 typedef struct {
-	signed int Pos ;
-	signed int Vit ;
-	signed int I_Pos ;
+	s32 I_Pos ;
+	s32 Pos ;
+	s32 Vit ;
 } Un_Etat;
+
+
+#define TE (0.002) // période d'échantillonage du calcul d'intégrale
+
 
 // Lis l'état des périphs
 Un_Etat Lire_Etat_Absolu(void);

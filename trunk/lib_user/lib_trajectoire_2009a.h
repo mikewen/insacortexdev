@@ -20,16 +20,16 @@ Vitesse
 
 */
 
-#ifndef _LIB_AUTOM_
-#define _LIB_AUTOM_
+#ifndef _LIB_TRAJ_
+#define _LIB_TRAJ_
 
-#include "standard_types.h"
+#include "standard_types.h"	  
+
 
 typedef struct {
-	s32 Pos ;
-	s32 Vit ;
-	s32 I_Pos ;
-} Etat;
+	u16 Pos ;
+	u16 Vit ;
+} Une_Consigne;
 
 /**
    Initialisation des paramètres du générateur
@@ -53,12 +53,12 @@ u8 calculConsigneSuivante(void);
 /**
 	Retourne la consigne calculée sous forme d'un état
 **/
-Etat lireConsigne(void);
+Une_Consigne lireConsigne(void);
 
 /**
    Retourne le numéro du pas de calcul de la trajectoire
 **/
-u16 GetCompteurTrajectoire (void);
+u16 getCompteurTrajectoire (void);
 
  /**
    Retourne l'état du générateur
@@ -66,5 +66,8 @@ u16 GetCompteurTrajectoire (void);
 		0 : générateur en cours de calcul de trajectoire
 **/
 u8 getPhase (void);
+
+
+
 
 #endif

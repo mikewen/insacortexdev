@@ -1,5 +1,4 @@
 #include <stm32f10x_lib.h>
-#include <string.h>
 #include "stm_metro_v1.h"
 
 
@@ -397,12 +396,16 @@ void Calcul_Vitesse(void)
 	Ancien_TIM4 = Nouveau_TIM4;
 
 }
-
+/*
 u16 Lire_Vitesse()
 {   	
    return Vitesse;	 
 }
-
+*/
+u16 Lire_Vitesse()
+{   	
+   return (u16) ((float)(COEFF_VITESSE)/(float)(Vitesse));	 
+}
 #endif /* USE_SPEED */
 /*-----------------------------------------end config timerx-------------------------------------------------*/
 
@@ -474,7 +477,7 @@ void ADC_IRQHandler(void)						 //THIS BIT IS SET BY HARDWARE AT THE END OF  A G
 		//ADC1->SR &=	__RESET_EOC;
 		
 		ADC1->CR2   |= __SWSTART__MASQUE_OR;
-//         __COURANT = Get_Courant_Moteur();
+//         __COURANT ADC1IN= Get_Courant_Moteur();
 	//}
 }
 

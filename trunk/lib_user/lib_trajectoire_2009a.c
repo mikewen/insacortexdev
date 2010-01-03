@@ -6,17 +6,16 @@
 		- PEH 7/12/09 suppression des méthodes qui ne font pas partie
 	du générateur de trajectoire 
 		- PEH 7/12/09 Suppression de la méthode d'approche
+		_ PAC 3/1/10  Passage à des types standards u16 u32 etc...
 */
 
 #include "lib_trajectoire_2009a.h"
-//#include "driveurs_2008a.h"
-
 /**
    Constante du générateur
 **/
-int tic ;  // en ms :  période d'échantillonnage du générateur de trajectoire
-int tM ; // en ms : temps de montée/descente à vMax
-int vMax ;  // Vitesse de croisière en pas/s
+u16 tic ;  // en ms :  période d'échantillonnage du générateur de trajectoire
+u16 tM ; // en ms : temps de montée/descente à vMax
+u16 vMax ;  // Vitesse de croisière en pas/s
 
 /**
    Variables de calcul du générateur
@@ -35,12 +34,11 @@ u16 vitesseCourante; // Consigne de vitesse
 /**
    Retourne la consigne en position et en vitesse calculée par le générateur
 **/
-Etat lireConsigne(void)
+Une_Consigne lireConsigne(void)
 {	
-	Etat consigne;
-	consigne.I_Pos = 999;
+	Une_Consigne consigne;
  	consigne.Pos = (u16) positionCourante;
-	consigne.Vit = (u16) (vitesseCourante);
+	consigne.Vit =  vitesseCourante;
 	return consigne;
 }
 
@@ -86,7 +84,7 @@ void initTrajectoire(u16 distanceStation)
  /**
    Retourne le numéro du pas de calcul de la trajectoire
 **/
-u16 GetCompteurTrajectoire (void)
+u16 getCompteurTrajectoire (void)
 {
    return indexPas;
 }
@@ -140,6 +138,5 @@ unsigned char calculConsigneSuivante(void)
 
 	return phase;			
 }
-
 
 
