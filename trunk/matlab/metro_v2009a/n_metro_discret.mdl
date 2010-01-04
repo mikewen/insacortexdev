@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.63"
+    ComputedModelVersion    "1.73"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -24,9 +24,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "acco"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Jan  2 16:35:39 2010"
+  LastModifiedDate	  "Mon Jan  4 11:39:23 2010"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:63>"
+  ModelVersionFormat	  "1.%<AutoIncrement:73>"
   ConfigurationManager	  "None"
   SampleTimeColors	  on
   SampleTimeAnnotations	  off
@@ -655,6 +655,36 @@ Model {
       InitialOutput	      "[]"
     }
     Block {
+      BlockType		      Quantizer
+      QuantizationInterval    "0.5"
+      LinearizeAsGain	      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      RandomNumber
+      Mean		      "0"
+      Variance		      "1"
+      Seed		      "0"
+      SampleTime	      "-1"
+      VectorParams1D	      on
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+    }
+    Block {
       BlockType		      Step
       Time		      "1"
       Before		      "0"
@@ -725,7 +755,7 @@ Model {
   }
   System {
     Name		    "n_metro_discret"
-    Location		    [373, 316, 1174, 958]
+    Location		    [548, 226, 1349, 868]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -755,14 +785,12 @@ Model {
       SampleTime	      "Te"
     }
     Block {
-      BlockType		      Step
-      Name		      "Consigne vitesse"
-      Position		      [755, 80, 785, 110]
-      Orientation	      "left"
-      NamePlacement	      "alternate"
-      Time		      "L/2"
-      Before		      "ones(N,1)*0"
-      After		      "ones(N,1)"
+      BlockType		      RandomNumber
+      Name		      "Random\nNumber"
+      Position		      [340, 15, 370, 45]
+      Mean		      "zeros(N,1)"
+      Variance		      "ones(N,1)*50"
+      Seed		      "rand(N,1)"
       SampleTime	      "Te"
     }
     Block {
@@ -772,6 +800,21 @@ Model {
       Time		      "L*0.1"
       Before		      "ones(N,1)*0"
       After		      "-ones(N,1)*0"
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum1"
+      Ports		      [2, 1]
+      Position		      [385, 60, 405, 80]
+      NamePlacement	      "alternate"
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "++|"
+      InputSameDT	      off
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
     }
     Block {
       BlockType		      SubSystem
@@ -787,7 +830,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Système réel1"
-	Location		[116, 264, 845, 624]
+	Location		[116, 286, 845, 646]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -906,6 +949,7 @@ Model {
 	  Name			  "Sum1"
 	  Ports			  [2, 1]
 	  Position		  [100, 90, 120, 110]
+	  NamePlacement		  "alternate"
 	  ShowName		  off
 	  IconShape		  "round"
 	  Inputs		  "++|"
@@ -1090,8 +1134,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"commande"
-	Location		[330, 335, 970, 812]
-	Open			off
+	Location		[322, 326, 1119, 922]
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1115,7 +1159,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Vitesse consigne"
-	  Position		  [535, 53, 565, 67]
+	  Position		  [695, 53, 725, 67]
 	  Orientation		  "left"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -1125,7 +1169,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Angle mesure"
-	  Position		  [135, 90, 165, 110]
+	  Position		  [165, 90, 195, 110]
 	  NamePlacement		  "alternate"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -1135,7 +1179,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Angle consigne"
-	  Position		  [470, 92, 500, 108]
+	  Position		  [630, 92, 660, 108]
 	  Orientation		  "left"
 	  Port			  "4"
 	  IconDisplay		  "Port number"
@@ -1145,7 +1189,7 @@ Model {
 	Block {
 	  BlockType		  Gain
 	  Name			  "Correcteur d'angle"
-	  Position		  [165, 182, 220, 238]
+	  Position		  [325, 182, 380, 238]
 	  Orientation		  "left"
 	  Gain			  "Ka"
 	  Multiplication	  "Matrix(K*u)"
@@ -1157,7 +1201,7 @@ Model {
 	Block {
 	  BlockType		  Gain
 	  Name			  "Correction intégrale"
-	  Position		  [160, 297, 215, 353]
+	  Position		  [320, 297, 375, 353]
 	  Orientation		  "left"
 	  Gain			  "Ki"
 	  Multiplication	  "Matrix(K*u)"
@@ -1170,22 +1214,60 @@ Model {
 	  BlockType		  DiscreteIntegrator
 	  Name			  "Intégrale"
 	  Ports			  [1, 1]
-	  Position		  [309, 240, 341, 275]
+	  Position		  [469, 240, 501, 275]
 	  Orientation		  "down"
 	  NamePlacement		  "alternate"
-	  IntegratorMethod	  "Integration: Forward Euler"
+	  IntegratorMethod	  "Accumulation: Backward Euler"
+	  gainval		  "1.0*ones(N,1)"
 	  ExternalReset		  "none"
 	  InitialConditionSource  "internal"
 	  InitialCondition	  "zeros(N,1)"
 	  SampleTime		  "Te"
+	  LimitOutput		  on
+	  UpperSaturationLimit	  "4095/max(max(Ki))*ones(N,1)"
+	  LowerSaturationLimit	  "-4095/max(max(Ki))*ones(N,1)"
 	  ICPrevOutput		  "DiscIntNeverNeededParam"
 	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
+	}
+	Block {
+	  BlockType		  Quantizer
+	  Name			  "Quantizer"
+	  Position		  [320, 45, 350, 75]
+	  ShowName		  off
+	  QuantizationInterval	  "1"
+	}
+	Block {
+	  BlockType		  Quantizer
+	  Name			  "Quantizer1"
+	  Position		  [320, 85, 350, 115]
+	  ShowName		  off
+	  QuantizationInterval	  "1"
+	}
+	Block {
+	  BlockType		  Quantizer
+	  Name			  "Quantizer2"
+	  Position		  [175, 310, 205, 340]
+	  Orientation		  "left"
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  QuantizationInterval	  "1"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation"
+	  Position		  [125, 310, 155, 340]
+	  Orientation		  "left"
+	  NamePlacement		  "alternate"
+	  UpperLimit		  "4095"
+	  LowerLimit		  "-4095"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
 	}
 	Block {
 	  BlockType		  Sum
 	  Name			  "Sum1"
 	  Ports			  [3, 1]
-	  Position		  [80, 310, 110, 340]
+	  Position		  [240, 310, 270, 340]
 	  Orientation		  "left"
 	  NamePlacement		  "alternate"
 	  ShowName		  off
@@ -1201,7 +1283,7 @@ Model {
 	  BlockType		  Sum
 	  Name			  "Sum2"
 	  Ports			  [2, 1]
-	  Position		  [315, 90, 335, 110]
+	  Position		  [475, 90, 495, 110]
 	  Orientation		  "down"
 	  NamePlacement		  "alternate"
 	  ShowName		  off
@@ -1217,7 +1299,7 @@ Model {
 	  BlockType		  Sum
 	  Name			  "Sum3"
 	  Ports			  [2, 1]
-	  Position		  [340, 50, 360, 70]
+	  Position		  [500, 50, 520, 70]
 	  Orientation		  "down"
 	  NamePlacement		  "alternate"
 	  ShowName		  off
@@ -1232,19 +1314,19 @@ Model {
 	Block {
 	  BlockType		  ZeroOrderHold
 	  Name			  "Zero-Order\nHold"
-	  Position		  [255, 41, 290, 79]
+	  Position		  [225, 41, 260, 79]
 	  SampleTime		  "Te"
 	}
 	Block {
 	  BlockType		  ZeroOrderHold
 	  Name			  "Zero-Order\nHold1"
-	  Position		  [200, 81, 235, 119]
+	  Position		  [220, 81, 255, 119]
 	  SampleTime		  "Te"
 	}
 	Block {
 	  BlockType		  Gain
 	  Name			  "correction vitesse (dérivée)"
-	  Position		  [165, 387, 220, 443]
+	  Position		  [325, 387, 380, 443]
 	  Orientation		  "left"
 	  Gain			  "Kv"
 	  Multiplication	  "Matrix(K*u)"
@@ -1256,7 +1338,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Commande"
-	  Position		  [25, 318, 55, 332]
+	  Position		  [55, 318, 85, 332]
 	  Orientation		  "left"
 	  IconDisplay		  "Port number"
 	}
@@ -1334,19 +1416,43 @@ Model {
 	Line {
 	  SrcBlock		  "Sum1"
 	  SrcPort		  1
-	  DstBlock		  "Commande"
+	  DstBlock		  "Quantizer2"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Zero-Order\nHold"
 	  SrcPort		  1
-	  DstBlock		  "Sum3"
+	  DstBlock		  "Quantizer"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Zero-Order\nHold1"
 	  SrcPort		  1
+	  DstBlock		  "Quantizer1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Saturation"
+	  SrcPort		  1
+	  DstBlock		  "Commande"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Quantizer"
+	  SrcPort		  1
+	  DstBlock		  "Sum3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Quantizer1"
+	  SrcPort		  1
 	  DstBlock		  "Sum2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Quantizer2"
+	  SrcPort		  1
+	  DstBlock		  "Saturation"
 	  DstPort		  1
 	}
       }
@@ -1354,7 +1460,7 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "générateur de consigne"
-      Ports		      [1, 1]
+      Ports		      [0, 2]
       Position		      [560, 64, 680, 126]
       Orientation	      "left"
       MinAlgLoopOccurrences   off
@@ -1366,8 +1472,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"générateur de consigne"
-	Location		[582, 159, 863, 356]
-	Open			off
+	Location		[592, 446, 1163, 791]
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1380,18 +1486,9 @@ Model {
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
 	Block {
-	  BlockType		  Inport
-	  Name			  "vitesse potard"
-	  Position		  [210, 38, 240, 52]
-	  Orientation		  "left"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
 	  BlockType		  ToWorkspace
 	  Name			  "\n\n"
-	  Position		  [90, 89, 200, 121]
+	  Position		  [100, 154, 210, 186]
 	  VariableName		  "angles_consignes"
 	  MaxDataPoints		  "inf"
 	  SampleTime		  "Te"
@@ -1399,9 +1496,9 @@ Model {
 	}
 	Block {
 	  BlockType		  DiscreteIntegrator
-	  Name			  "Integrator"
+	  Name			  "Pos"
 	  Ports			  [1, 1]
-	  Position		  [145, 30, 175, 60]
+	  Position		  [190, 95, 220, 125]
 	  Orientation		  "left"
 	  NamePlacement		  "alternate"
 	  IntegratorMethod	  "Integration: Forward Euler"
@@ -1413,30 +1510,186 @@ Model {
 	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
 	}
 	Block {
+	  BlockType		  Quantizer
+	  Name			  "Quantizer1"
+	  Position		  [105, 95, 135, 125]
+	  Orientation		  "left"
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  QuantizationInterval	  "1"
+	}
+	Block {
+	  BlockType		  Quantizer
+	  Name			  "Quantizer2"
+	  Position		  [105, 30, 135, 60]
+	  Orientation		  "left"
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  QuantizationInterval	  "1"
+	}
+	Block {
+	  BlockType		  Step
+	  Name			  "Start accel"
+	  Position		  [490, 20, 520, 50]
+	  Orientation		  "left"
+	  NamePlacement		  "alternate"
+	  Time			  "tda"
+	  Before		  "ones(N,1)*0"
+	  After			  "ones(N,1)*Amax"
+	  SampleTime		  "Te"
+	}
+	Block {
+	  BlockType		  Step
+	  Name			  "Start decel"
+	  Position		  [490, 125, 520, 155]
+	  Orientation		  "left"
+	  NamePlacement		  "alternate"
+	  Time			  "tdd"
+	  Before		  "ones(N,1)*0"
+	  After			  "-ones(N,1)*Amax"
+	  SampleTime		  "Te"
+	}
+	Block {
+	  BlockType		  Step
+	  Name			  "Stop accel"
+	  Position		  [490, 70, 520, 100]
+	  Orientation		  "left"
+	  NamePlacement		  "alternate"
+	  Time			  "tda+tpsm"
+	  Before		  "ones(N,1)*0"
+	  After			  "-ones(N,1)*Amax"
+	  SampleTime		  "Te"
+	}
+	Block {
+	  BlockType		  Step
+	  Name			  "Stop decel"
+	  Position		  [490, 185, 520, 215]
+	  Orientation		  "left"
+	  NamePlacement		  "alternate"
+	  Time			  "tdd+tpsm"
+	  Before		  "ones(N,1)*0"
+	  After			  "ones(N,1)*Amax"
+	  SampleTime		  "Te"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum1"
+	  Ports			  [4, 1]
+	  Position		  [410, 100, 430, 120]
+	  Orientation		  "left"
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "++++"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	}
+	Block {
+	  BlockType		  DiscreteIntegrator
+	  Name			  "Vit"
+	  Ports			  [1, 1]
+	  Position		  [340, 95, 370, 125]
+	  Orientation		  "left"
+	  NamePlacement		  "alternate"
+	  IntegratorMethod	  "Integration: Forward Euler"
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  InitialCondition	  "ones(N,1)*0"
+	  SampleTime		  "Te"
+	  ICPrevOutput		  "DiscIntNeverNeededParam"
+	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
+	}
+	Block {
 	  BlockType		  Outport
-	  Name			  "Angle"
-	  Position		  [25, 38, 55, 52]
+	  Name			  "ConsPos"
+	  Position		  [25, 103, 55, 117]
 	  Orientation		  "left"
 	  IconDisplay		  "Port number"
 	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ConsVit"
+	  Position		  [25, 38, 55, 52]
+	  Orientation		  "left"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
 	Line {
-	  SrcBlock		  "Integrator"
+	  SrcBlock		  "Vit"
 	  SrcPort		  1
-	  Points		  [0, 0; -65, 0]
+	  Points		  [-65, 0]
 	  Branch {
+	    DstBlock		    "Pos"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -65]
+	    DstBlock		    "Quantizer2"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Pos"
+	  SrcPort		  1
+	  DstBlock		  "Quantizer1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Start accel"
+	  SrcPort		  1
+	  Points		  [-65, 0]
+	  DstBlock		  "Sum1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Stop accel"
+	  SrcPort		  1
+	  Points		  [-44, 0]
+	  DstBlock		  "Sum1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Start decel"
+	  SrcPort		  1
+	  Points		  [-20, 0; 0, 2; -24, 0]
+	  DstBlock		  "Sum1"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Stop decel"
+	  SrcPort		  1
+	  Points		  [-65, 0]
+	  DstBlock		  "Sum1"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Sum1"
+	  SrcPort		  1
+	  DstBlock		  "Vit"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Quantizer2"
+	  SrcPort		  1
+	  DstBlock		  "ConsVit"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Quantizer1"
+	  SrcPort		  1
+	  Points		  [-25, 0]
+	  Branch {
+	    Points		    [0, 60]
 	    DstBlock		    "\n\n"
 	    DstPort		    1
 	  }
 	  Branch {
-	    DstBlock		    "Angle"
+	    DstBlock		    "ConsPos"
 	    DstPort		    1
 	  }
-	}
-	Line {
-	  SrcBlock		  "vitesse potard"
-	  SrcPort		  1
-	  DstBlock		  "Integrator"
-	  DstPort		  1
 	}
       }
     }
@@ -1445,20 +1698,6 @@ Model {
       SrcPort		      1
       DstBlock		      "Transport\nDelay"
       DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Consigne vitesse"
-      SrcPort		      1
-      Points		      [-35, 0]
-      Branch {
-	Points			[0, 150]
-	DstBlock		"commande"
-	DstPort			2
-      }
-      Branch {
-	DstBlock		"générateur de consigne"
-	DstPort			1
-      }
     }
     Line {
       SrcBlock		      "Système réel1"
@@ -1481,16 +1720,9 @@ Model {
       DstPort		      2
     }
     Line {
-      SrcBlock		      "Système réel1"
-      SrcPort		      1
-      Points		      [140, 0; 0, 160]
-      DstBlock		      "commande"
-      DstPort		      1
-    }
-    Line {
       SrcBlock		      "générateur de consigne"
       SrcPort		      1
-      Points		      [-115, 0; 0, 180]
+      Points		      [-60, 0; 0, 195]
       DstBlock		      "commande"
       DstPort		      4
     }
@@ -1498,6 +1730,33 @@ Model {
       SrcBlock		      "Transport\nDelay"
       SrcPort		      1
       DstBlock		      "Système réel1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "générateur de consigne"
+      SrcPort		      2
+      Points		      [-45, 0; 0, 135]
+      DstBlock		      "commande"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Système réel1"
+      SrcPort		      1
+      DstBlock		      "Sum1"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Sum1"
+      SrcPort		      1
+      Points		      [20, 0; 0, 160]
+      DstBlock		      "commande"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Random\nNumber"
+      SrcPort		      1
+      Points		      [20, 0]
+      DstBlock		      "Sum1"
       DstPort		      1
     }
   }

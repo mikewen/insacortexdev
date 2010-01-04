@@ -1,23 +1,35 @@
 clear all ;
 close all;
 
-Te=1E-3; % temps d'échantillonnage
+Te=2E-3; % temps d'échantillonnage
 
-%% Valeurs des N modèles
-N=1;
-Knom = 0.5; %% Gain trottinette
-sigma_K = Knom/10;
-K=(randn(N,1)*sigma_K)+Knom;
-K(end)=K(end)*0.4;
 
+Delta=10;
+Dist=32000;
+tda=0.5;
+tpsm=2;
+Vmax=1000;
+tdd=Dist/Vmax;
+Amax = Vmax/tpsm;
+L=tdd+tpsm+2;
 
 Vitmax = 1200 %% pas/s
+
+
+%% Valeurs des N modèles
+N=3;
+Knom = 0.4979; %% Gain trottinette
+sigma_K = Knom/100;
+K=(randn(N,1)*sigma_K)+Knom;
+K(end)=K(end)*1;
+
+
 Taunom=3E-2; %% 
 %% Vit(p) = K /(1+Tm p )
 
-sigma_Tau=Taunom/10;
+sigma_Tau=Taunom/100;
 Tau=(randn(N,1)*sigma_Tau)+Taunom;
-Tau(end) = 5*Tau(end);
+Tau(end) = 1*Tau(end);
 
 if (N>1) 
     M_ecart=[eye(N-1) zeros(N-1,1)]-[zeros(N-1,1) eye(N-1)];
@@ -33,15 +45,14 @@ Ka=Kr(:,dim-1:dim:dim*N)
 Kv=Kr(:,dim:dim:dim*N)
 
 
-L=20;
-Delta=10;
+
 sim n_metro_discret;
 Puissance_LQ = sum(commandes_courant.*commandes_courant)/length(commandes_courant)
 Puissance_Tot_LQ = sum(Puissance_LQ)/N
 visu_crash;
 
 
-%plot(temps,ecarts);
+plot(temps,ecarts);
 hold on;
 pause;
 close all;
@@ -54,4 +65,4 @@ Puissance_LQY = sum(commandes_courant.*commandes_courant)/length(commandes_coura
 Puissance_Tot_LQY = sum(Puissance_LQY)/N
 
 %plot(temps,ecarts,'--')
-visu_crash
+ visu_crash

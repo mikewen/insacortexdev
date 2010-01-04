@@ -9,5 +9,6 @@
 #define USE_PWM 
 #define USE_USART
 
+//#define BLINK_ON_START
 
 #endif

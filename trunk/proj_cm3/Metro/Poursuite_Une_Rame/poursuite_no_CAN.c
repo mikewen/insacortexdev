@@ -51,7 +51,7 @@ Fichier squelette pour le TP d'introduction
 Etat cons;
 
 float Com,VCom,Pos,CPos,Ep,Kp;
-#define DISTANCE 32000
+#define DISTANCE 3000
 
 void InitApp(void)
 {
@@ -65,7 +65,7 @@ void InitApp(void)
 		lcd_init();
 	#endif
 
-	initGenerateur(10, 1000, 2000);
+	initGenerateur(10, 2000, 1000);
 	//             Périod(ms) , Rising time (ms) , Vitmax (pas/s)
 
 	Set_Position(DISTANCE); //comme si on terminait un cycle 
@@ -91,7 +91,7 @@ TASK(Generer_Trajectoire)
 Etat etatRame;
 Une_Consigne Cons;
 float com;
-float gainsCommande[3] = {0.0548 , 0.4713 , 0.0421} ;
+float gainsCommande[3] = {100.0 , 46.0 , 8.4} ;
 TASK(Controler_Rame)
 {
 
