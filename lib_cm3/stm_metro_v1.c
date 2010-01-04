@@ -492,7 +492,7 @@ u16 Lire_courant()
  
 
 
-#define BLINK_ON_START
+
 
 void Init_Periphs()			  
 {

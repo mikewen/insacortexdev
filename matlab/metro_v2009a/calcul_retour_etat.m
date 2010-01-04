@@ -38,28 +38,30 @@ end
 % 1 à N-1 => Sortie en écarts
 C(1:(N-1),(dim-1):dim:dim*(N-1))=eye(N-1);
 C(1:(N-1),(2*dim-1):dim:dim*(N)) = C(1:(N-1),(2*dim-1):dim:dim*(N)) - eye(N-1) ;
-Q=eye(2*N)*100;
+Q=eye(2*N)*10;
 
 % N+1 à 2*N-1 => Sortie intégrale des écarts
 C(N+1:(2*N-1),1:N*dim-1)=C(1:(N-1),2:N*dim);
-Q(N+1:(2*N-1),N+1:(2*N-1))=Q(N+1:(2*N-1),N+1:(2*N-1))*50;
+Q(N+1:(2*N-1),N+1:(2*N-1))=Q(N+1:(2*N-1),N+1:(2*N-1))*100;
 
 % N => Position de la première trottinette
 C(N,:)=[ 0 1 0 zeros(1,dim*(N-1))];
-Q(N,N)=1.5;
+Q(N,N)=10;
 
 % 2*N => Intégrale de la position
 C(2*N,:)=[ 1 0 0 zeros(1,dim*(N-1))];
-Q(2*N,2*N)=3;
+Q(2*N,2*N)=100;
 
 
 
-R=eye(N)*100;
+R=eye(N)*0.1;
 ntrot=ss(A,B,C,zeros(2*N,N));
 [Ky,Sy,Ey]=lqry(ntrot,Q,R);
 
-Q=eye(dim*N)*1;
-Q((2*N+1):(3*N))=Q((2*N+1):(3*N))*1;
+Q=eye(dim*N)*100;
+Q(1:N)=Q(1:N)*100;
+Q((N+1):(2*N))=Q((N+1):(2*N))*10;
+Q((2*N+1):(3*N))=Q((2*N+1):(3*N))*10;
 R=eye(N)*1;
 [K,S,E]=lqr(A,B,Q,R);
 

@@ -9,8 +9,8 @@
 
 
 #define TE (0.002) // période d'échantillonage du calcul d'intégrale
-#define I_Max (100.0)
-#define I_Min (-100.0)
+#define I_Max (4095.0/100.0)
+#define I_Min (-4095.0/100.0)
 
 typedef struct {
 	s32 Pos ;

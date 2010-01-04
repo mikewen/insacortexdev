@@ -169,22 +169,17 @@
         <Wi>
           <IntNumber>0</IntNumber>
           <FirstString>TIM3_CNT</FirstString>
-          <SecondString>FF0000000000000000000000000000000000D040000000006400000000E40B540200000054494D335F434E540000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000001C1F0008</SecondString>
+          <SecondString>FF0000000000000000000000000000000088B340000000006400000000E876481700000054494D335F434E540000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000001C1F0008</SecondString>
         </Wi>
         <Wi>
           <IntNumber>1</IntNumber>
           <FirstString>TIM2_CCR3</FirstString>
-          <SecondString>008000000000000000000000000000000088B340000000006400000000E40B540200000054494D325F4343523300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000001C1F0008</SecondString>
+          <SecondString>008000000000000000000000000000000088B340000000006400000000E876481700000054494D325F4343523300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000001C1F0008</SecondString>
         </Wi>
         <Wi>
           <IntNumber>2</IntNumber>
           <FirstString>vitesse</FirstString>
-          <SecondString>000080000000000000000000000000000000B040000000006400000000E40B540200000076697465737365000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000001C1F0008</SecondString>
-        </Wi>
-        <Wi>
-          <IntNumber>3</IntNumber>
-          <FirstString>ADC1_IN12</FirstString>
-          <SecondString>000000000000000000000000000000000000F03F000000006400000000E40B5402000000414443315F494E313200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000001C1F0008</SecondString>
+          <SecondString>000080000000000000000000000000000000D040000000006400000000E876481700000076697465737365000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000001C1F0008</SecondString>
         </Wi>
       </LogicAnalyzers>
     </TargetOption>
@@ -610,10 +605,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>43</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>49</TopLine>
-      <CurrentLine>56</CurrentLine>
+      <CurrentLine>65</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c</PathWithFileName>
       <FilenameWithoutPath>tpl_machine_cm3.c</FilenameWithoutPath>
@@ -731,8 +726,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>507</TopLine>
-      <CurrentLine>514</CurrentLine>
+      <TopLine>472</TopLine>
+      <CurrentLine>479</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../lib_cm3/stm_metro_v1.c</PathWithFileName>
       <FilenameWithoutPath>stm_metro_v1.c</FilenameWithoutPath>
@@ -741,7 +736,7 @@
       <GroupNumber>4</GroupNumber>
       <FileNumber>29</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -767,7 +762,7 @@
       <ColumnNumber>43</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>22</TopLine>
-      <CurrentLine>47</CurrentLine>
+      <CurrentLine>22</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Projet_No_CAN.oil</PathWithFileName>
       <FilenameWithoutPath>Projet_No_CAN.oil</FilenameWithoutPath>
@@ -776,7 +771,7 @@
       <GroupNumber>5</GroupNumber>
       <FileNumber>31</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -805,7 +800,7 @@
   <AlienFiles>
     <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\Metro\Poursuite_Une_Rame\stm_metro_v1_config.h</PathWithFilename>
     <TopLine>1</TopLine>
-    <CurrentLine>8</CurrentLine>
+    <CurrentLine>12</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -856,8 +851,8 @@
 
   <AlienFiles>
     <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\LIB_USER\LIB_AUTOM_2009A.H</PathWithFilename>
-    <TopLine>1</TopLine>
-    <CurrentLine>1</CurrentLine>
+    <TopLine>2</TopLine>
+    <CurrentLine>23</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -883,7 +878,7 @@
   <AlienFiles>
     <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\LIB_CM3\STM_METRO_V1.H</PathWithFilename>
     <TopLine>1</TopLine>
-    <CurrentLine>13</CurrentLine>
+    <CurrentLine>20</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -2273,13 +2268,13 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>4</ActiveTab>
+      <ActiveTab>0</ActiveTab>
       <Documents>
         <Doc>
           <Name>../../../lib_cm3/stm_metro_v1.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>507</TopLine>
-          <CurrentLine>514</CurrentLine>
+          <TopLine>472</TopLine>
+          <CurrentLine>479</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\poursuite_no_CAN.c</Name>
@@ -2288,16 +2283,34 @@
           <CurrentLine>117</CurrentLine>
         </Doc>
         <Doc>
+          <Name>H:\Documents\cm3_devel\svn_insacortexdev\LIB_USER\LIB_AUTOM_2009A.H</Name>
+          <ColumnNumber>33</ColumnNumber>
+          <TopLine>2</TopLine>
+          <CurrentLine>23</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c</Name>
+          <ColumnNumber>43</ColumnNumber>
+          <TopLine>49</TopLine>
+          <CurrentLine>65</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\Metro\Poursuite_Une_Rame\stm_metro_v1_config.h</Name>
+          <ColumnNumber>2</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>12</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>H:\Documents\cm3_devel\svn_insacortexdev\LIB_CM3\STM_METRO_V1.H</Name>
+          <ColumnNumber>34</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>20</CurrentLine>
+        </Doc>
+        <Doc>
           <Name>H:\Documents\cm3_devel\svn_insacortexdev\LIB_CM3\STANDARD_TYPES.H</Name>
           <ColumnNumber>31</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>1</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>49</TopLine>
-          <CurrentLine>56</CurrentLine>
         </Doc>
         <Doc>
           <Name>../../../lib_user/lib_autom_2009a.c</Name>
@@ -2306,22 +2319,10 @@
           <CurrentLine>1</CurrentLine>
         </Doc>
         <Doc>
-          <Name>H:\Documents\cm3_devel\svn_insacortexdev\LIB_CM3\STM_METRO_V1.H</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>13</CurrentLine>
-        </Doc>
-        <Doc>
           <Name>.\Projet_No_CAN.oil</Name>
           <ColumnNumber>43</ColumnNumber>
           <TopLine>22</TopLine>
           <CurrentLine>22</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>H:\Documents\cm3_devel\svn_insacortexdev\LIB_USER\LIB_AUTOM_2009A.H</Name>
-          <ColumnNumber>51</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>1</CurrentLine>
         </Doc>
         <Doc>
           <Name>H:\Documents\cm3_devel\svn_insacortexdev\LIB_USER\LIB_AUTOM_2008A.H</Name>
@@ -2340,12 +2341,6 @@
           <ColumnNumber>0</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>1</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\Metro\Poursuite_Une_Rame\stm_metro_v1_config.h</Name>
-          <ColumnNumber>22</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>8</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>
