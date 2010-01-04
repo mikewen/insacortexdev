@@ -27,7 +27,7 @@
     <TargetOption>
       <CLKARM>8000000</CLKARM>
       <OPTTT>
-        <gFlags>0</gFlags>
+        <gFlags>1</gFlags>
         <BeepAtEnd>1</BeepAtEnd>
         <RunSim>1</RunSim>
         <RunTarget>0</RunTarget>
@@ -75,7 +75,14 @@
         <tvExpOptDlg>0</tvExpOptDlg>
         <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
-      <CpuCode>0</CpuCode>
+      <CpuCode>255</CpuCode>
+      <Books>
+        <Book>
+          <Number>0</Number>
+          <Title>Reference Manual</Title>
+          <Path>DATASHTS\ST\STM32F10xxx.PDF</Path>
+        </Book>
+      </Books>
       <DllOpt>
         <SimDllName>SARMCM3.DLL</SimDllName>
         <SimDllArguments></SimDllArguments>
@@ -122,7 +129,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGDARM</Key>
-          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(234=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=105,134,282,396,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=15,36,651,696,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=101,377,512,791,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=268,286,852,1024,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(234=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -130,6 +137,72 @@
           <Name>-T0</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>1</Type>
+          <LineNumber>0</LineNumber>
+          <EnabledFlag>0</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename></Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>(TIM2_CCR3!=0x0FFF)</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>2</Type>
+          <LineNumber>0</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1073741888</Address>
+          <ByteObject>1</ByteObject>
+          <ManyObjects>1</ManyObjects>
+          <SizeOfObject>4</SizeOfObject>
+          <BreakByAccess>2</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename></Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>TIM2_CCR4 &amp; 0xFFFF</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>80</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134226144</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>poursuite_no_CAN.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
+      <WatchWindow1>
+        <Ww>
+          <count>0</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cons</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>indexPas,0x0A</ItemText>
+        </Ww>
+      </WatchWindow1>
+      <MemoryWindow1>
+        <Mm>
+          <WinNumber>1</WinNumber>
+          <SubType>8</SubType>
+          <ItemText>&amp;buff</ItemText>
+        </Mm>
+      </MemoryWindow1>
       <ToolboxButtons>
         <Wi>
           <IntNumber>0</IntNumber>
@@ -138,8 +211,8 @@
         </Wi>
       </ToolboxButtons>
       <DebugFlag>
-        <trace>0</trace>
-        <periodic>0</periodic>
+        <trace>1</trace>
+        <periodic>1</periodic>
         <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
@@ -148,7 +221,7 @@
         <viewmode>1</viewmode>
         <vrSel>0</vrSel>
         <aSym>0</aSym>
-        <aTbox>1</aTbox>
+        <aTbox>0</aTbox>
         <AscS1>0</AscS1>
         <AscS2>0</AscS2>
         <AscS3>0</AscS3>
@@ -169,17 +242,17 @@
         <Wi>
           <IntNumber>0</IntNumber>
           <FirstString>TIM3_CNT</FirstString>
-          <SecondString>FF0000000000000000000000000000000088B340000000006400000000E876481700000054494D335F434E540000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000001C1F0008</SecondString>
+          <SecondString>FF0000000000000000000000000000000000F040000000006400000000D0ED902E00000054494D335F434E540000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000003A0F0008</SecondString>
         </Wi>
         <Wi>
           <IntNumber>1</IntNumber>
-          <FirstString>TIM2_CCR3</FirstString>
-          <SecondString>008000000000000000000000000000000088B340000000006400000000E876481700000054494D325F4343523300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000001C1F0008</SecondString>
+          <FirstString>com</FirstString>
+          <SecondString>000080000000000080841EC10000000080841E41000000006400000000D0ED902E000000636F6D000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007000000000000000000000000000000000000000000000000000000000000000000000078150008</SecondString>
         </Wi>
         <Wi>
           <IntNumber>2</IntNumber>
-          <FirstString>vitesse</FirstString>
-          <SecondString>000080000000000000000000000000000000D040000000006400000000E876481700000076697465737365000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000001C1F0008</SecondString>
+          <FirstString>Cons.Vit</FirstString>
+          <SecondString>008000000000000000000000000000000000B040000000006400000000D0ED902E000000436F6E732E566974000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000EC220008</SecondString>
         </Wi>
       </LogicAnalyzers>
     </TargetOption>
@@ -192,7 +265,7 @@
     <TargetOption>
       <CLKARM>8000000</CLKARM>
       <OPTTT>
-        <gFlags>0</gFlags>
+        <gFlags>1</gFlags>
         <BeepAtEnd>1</BeepAtEnd>
         <RunSim>1</RunSim>
         <RunTarget>0</RunTarget>
@@ -236,11 +309,18 @@
         <LExpSel>0</LExpSel>
       </OPTXL>
       <OPTFL>
-        <tvExp>0</tvExp>
+        <tvExp>1</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
         <IsCurrentTarget>0</IsCurrentTarget>
       </OPTFL>
-      <CpuCode>0</CpuCode>
+      <CpuCode>255</CpuCode>
+      <Books>
+        <Book>
+          <Number>0</Number>
+          <Title>Reference Manual</Title>
+          <Path>DATASHTS\ST\STM32F10xxx.PDF</Path>
+        </Book>
+      </Books>
       <DllOpt>
         <SimDllName>SARMCM3.DLL</SimDllName>
         <SimDllArguments></SimDllArguments>
@@ -283,24 +363,154 @@
         <tIfile></tIfile>
         <pMon>BIN\UL2CM3.DLL</pMon>
       </DebugOpt>
+      <TargetDriverDllRegistry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGTARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=870,686,1047,948,0)(1008=-1,-1,-1,-1,0)(1009=758,175,992,710,1)(100=439,23,1075,683,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=60,85,584,433,0)(180=107,676,392,960,0)(120=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=665,125,877,323,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=150,183,734,864,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGUARM</Key>
+          <Name>(105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>UL2CM3</Key>
+          <Name>-UM0399DAE -O14 -S0 -C0 -N00("ARM CoreSight JTAG-DP") -D00(3BA00477) -L00(4) -N01("ST TMC") -D01(16410041) -L01(5) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGDARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=105,134,282,396,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=15,36,651,696,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=101,377,512,791,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(234=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ARMDBGFLAGS</Key>
+          <Name>-T0</Name>
+        </SetRegEntry>
+      </TargetDriverDllRegistry>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>150</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134217972</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>STM32F10x_GCC.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>156</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134217974</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>STM32F10x_GCC.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>162</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134217976</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>STM32F10x_GCC.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>56</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134224594</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>poursuite_no_CAN.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
+      <WatchWindow1>
+        <Ww>
+          <count>0</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cons</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>indexPas,0x0A</ItemText>
+        </Ww>
+      </WatchWindow1>
+      <MemoryWindow1>
+        <Mm>
+          <WinNumber>1</WinNumber>
+          <SubType>1</SubType>
+          <ItemText>0x20004fB8</ItemText>
+        </Mm>
+      </MemoryWindow1>
+      <ToolboxButtons>
+        <Wi>
+          <IntNumber>0</IntNumber>
+          <FirstString>Lance Rame</FirstString>
+          <SecondString>Ma_Rame()</SecondString>
+        </Wi>
+        <Wi>
+          <IntNumber>1</IntNumber>
+          <FirstString>vit</FirstString>
+          <SecondString>DEBUGvitesse</SecondString>
+        </Wi>
+        <Wi>
+          <IntNumber>2</IntNumber>
+          <FirstString>pos</FirstString>
+          <SecondString>radix=10;TIM3_CNT</SecondString>
+        </Wi>
+        <Wi>
+          <IntNumber>3</IntNumber>
+          <FirstString>LA Optos</FirstString>
+          <SecondString>LA PORTA &amp; (1&lt;&lt;6) ; LA PORTA &amp; (1&lt;&lt;7)</SecondString>
+        </Wi>
+      </ToolboxButtons>
       <DebugFlag>
         <trace>0</trace>
-        <periodic>0</periodic>
-        <aLwin>0</aLwin>
+        <periodic>1</periodic>
+        <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
         <aPa>0</aPa>
-        <viewmode>0</viewmode>
+        <viewmode>1</viewmode>
         <vrSel>0</vrSel>
         <aSym>0</aSym>
         <aTbox>0</aTbox>
         <AscS1>0</AscS1>
         <AscS2>0</AscS2>
         <AscS3>0</AscS3>
-        <aSer3>0</aSer3>
+        <aSer3>1</aSer3>
         <eProf>0</eProf>
-        <aLa>0</aLa>
+        <aLa>1</aLa>
         <aPa1>0</aPa1>
         <AscS4>0</AscS4>
         <aSer4>0</aSer4>
@@ -316,7 +526,7 @@
 
   <Group>
     <GroupName>sys</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -325,13 +535,32 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>48</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>161</TopLine>
+      <CurrentLine>163</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../system/STM32F10x_GCC.s</PathWithFileName>
       <FilenameWithoutPath>STM32F10x_GCC.s</FilenameWithoutPath>
+      <WindowPosition>
+        <length>44</length>
+        <flags>2</flags>
+        <showCmd>3</showCmd>
+        <MinPosition>
+          <xPos>-1</xPos>
+          <yPos>-1</yPos>
+        </MinPosition>
+        <MaxPosition>
+          <xPos>-4</xPos>
+          <yPos>-24</yPos>
+        </MaxPosition>
+        <NormalPosition>
+          <Top>184</Top>
+          <Left>176</Left>
+          <Right>887</Right>
+          <Bottom>593</Bottom>
+        </NormalPosition>
+      </WindowPosition>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -339,10 +568,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>48</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>42</TopLine>
+      <CurrentLine>59</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../system/Startup_GCC.s</PathWithFileName>
       <FilenameWithoutPath>Startup_GCC.s</FilenameWithoutPath>
@@ -351,7 +580,7 @@
 
   <Group>
     <GroupName>os</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -362,8 +591,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>45</TopLine>
+      <CurrentLine>47</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os.c</FilenameWithoutPath>
@@ -376,8 +605,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>80</TopLine>
+      <CurrentLine>80</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_action.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_action.c</FilenameWithoutPath>
@@ -390,8 +619,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>99</TopLine>
+      <CurrentLine>105</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_alarm.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_alarm.c</FilenameWithoutPath>
@@ -404,8 +633,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>349</TopLine>
+      <CurrentLine>355</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_alarm_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_alarm_kernel.c</FilenameWithoutPath>
@@ -446,8 +675,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>39</TopLine>
+      <CurrentLine>45</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_event.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_event.c</FilenameWithoutPath>
@@ -460,8 +689,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>47</TopLine>
+      <CurrentLine>56</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_event_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_event_kernel.c</FilenameWithoutPath>
@@ -486,10 +715,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>11</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>58</TopLine>
+      <CurrentLine>71</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_it_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_it_kernel.c</FilenameWithoutPath>
@@ -502,8 +731,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>953</TopLine>
+      <CurrentLine>959</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_kernel.c</FilenameWithoutPath>
@@ -544,8 +773,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>45</TopLine>
+      <CurrentLine>52</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_task.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_task.c</FilenameWithoutPath>
@@ -558,8 +787,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>116</TopLine>
+      <CurrentLine>131</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_task_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_task_kernel.c</FilenameWithoutPath>
@@ -570,10 +799,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>20</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>142</TopLine>
+      <CurrentLine>165</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_timeobj_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_timeobj_kernel.c</FilenameWithoutPath>
@@ -603,15 +832,34 @@
       <GroupNumber>3</GroupNumber>
       <FileNumber>20</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>43</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>49</TopLine>
-      <CurrentLine>65</CurrentLine>
+      <TopLine>53</TopLine>
+      <CurrentLine>56</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c</PathWithFileName>
       <FilenameWithoutPath>tpl_machine_cm3.c</FilenameWithoutPath>
+      <WindowPosition>
+        <length>44</length>
+        <flags>0</flags>
+        <showCmd>1</showCmd>
+        <MinPosition>
+          <xPos>-1</xPos>
+          <yPos>-1</yPos>
+        </MinPosition>
+        <MaxPosition>
+          <xPos>-4</xPos>
+          <yPos>-24</yPos>
+        </MaxPosition>
+        <NormalPosition>
+          <Top>161</Top>
+          <Left>154</Left>
+          <Right>861</Right>
+          <Bottom>566</Bottom>
+        </NormalPosition>
+      </WindowPosition>
     </File>
   </Group>
 
@@ -636,56 +884,14 @@
     </File>
     <File>
       <GroupNumber>4</GroupNumber>
-      <FileNumber>22</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../lib_cm3/lib_getc.c</PathWithFileName>
-      <FilenameWithoutPath>lib_getc.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>4</GroupNumber>
-      <FileNumber>23</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../lib_cm3/lib_printf.c</PathWithFileName>
-      <FilenameWithoutPath>lib_printf.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>4</GroupNumber>
-      <FileNumber>24</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../lib_cm3/lib_puts.c</PathWithFileName>
-      <FilenameWithoutPath>lib_puts.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>4</GroupNumber>
       <FileNumber>25</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>15</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>469</TopLine>
+      <CurrentLine>469</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../lib_cm3/lib_usartx.c</PathWithFileName>
       <FilenameWithoutPath>lib_usartx.c</FilenameWithoutPath>
@@ -698,8 +904,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../lib_user/led.c</PathWithFileName>
       <FilenameWithoutPath>led.c</FilenameWithoutPath>
@@ -708,12 +914,12 @@
       <GroupNumber>4</GroupNumber>
       <FileNumber>27</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>13</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>77</TopLine>
-      <CurrentLine>77</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../lib_user/lib_trajectoire_2009a.c</PathWithFileName>
       <FilenameWithoutPath>lib_trajectoire_2009a.c</FilenameWithoutPath>
@@ -722,12 +928,12 @@
       <GroupNumber>4</GroupNumber>
       <FileNumber>28</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>472</TopLine>
-      <CurrentLine>479</CurrentLine>
+      <TopLine>467</TopLine>
+      <CurrentLine>473</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../lib_cm3/stm_metro_v1.c</PathWithFileName>
       <FilenameWithoutPath>stm_metro_v1.c</FilenameWithoutPath>
@@ -736,21 +942,49 @@
       <GroupNumber>4</GroupNumber>
       <FileNumber>29</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>../../../lib_user/lib_autom_2009a.c</PathWithFileName>
+      <FilenameWithoutPath>lib_autom_2009a.c</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>4</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>1</TopLine>
       <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>../../../lib_user/lib_autom_2009a.c</PathWithFileName>
-      <FilenameWithoutPath>lib_autom_2009a.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\..\lib_cm3\lib_puts.c</PathWithFileName>
+      <FilenameWithoutPath>lib_puts.c</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>4</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>28</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>14</TopLine>
+      <CurrentLine>30</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\lib_cm3\lib_printf.c</PathWithFileName>
+      <FilenameWithoutPath>lib_printf.c</FilenameWithoutPath>
     </File>
   </Group>
 
   <Group>
     <GroupName>appli</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -759,10 +993,10 @@
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>43</ColumnNumber>
+      <ColumnNumber>3</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>22</TopLine>
-      <CurrentLine>22</CurrentLine>
+      <TopLine>37</TopLine>
+      <CurrentLine>44</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Projet_No_CAN.oil</PathWithFileName>
       <FilenameWithoutPath>Projet_No_CAN.oil</FilenameWithoutPath>
@@ -775,8 +1009,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>110</TopLine>
-      <CurrentLine>117</CurrentLine>
+      <TopLine>74</TopLine>
+      <CurrentLine>80</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\poursuite_no_CAN.c</PathWithFileName>
       <FilenameWithoutPath>poursuite_no_CAN.c</FilenameWithoutPath>
@@ -785,12 +1019,12 @@
       <GroupNumber>5</GroupNumber>
       <FileNumber>32</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>30</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>1</CurrentLine>
+      <TopLine>146</TopLine>
+      <CurrentLine>146</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Projet_No_CAN/tpl_os_generated_configuration.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_generated_configuration.c</FilenameWithoutPath>
@@ -798,7 +1032,137 @@
   </Group>
 
   <AlienFiles>
-    <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\Metro\Poursuite_Une_Rame\stm_metro_v1_config.h</PathWithFilename>
+    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\LIB_USER\LIB_TRAJECTOIRE_2009A.H</PathWithFilename>
+    <TopLine>19</TopLine>
+    <CurrentLine>26</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\LIB_CM3\LIB_USARTX.H</PathWithFilename>
+    <TopLine>73</TopLine>
+    <CurrentLine>83</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\TRAMPOLINE\OS\TPL_OS.H</PathWithFilename>
+    <TopLine>1</TopLine>
+    <CurrentLine>1</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\proj_cm3\Metro\Poursuite_Une_Rame\stm_metro_v1_config.h</PathWithFilename>
+    <TopLine>1</TopLine>
+    <CurrentLine>1</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\TRAMPOLINE\OS\TPL_OS_EVENT.H</PathWithFilename>
+    <TopLine>87</TopLine>
+    <CurrentLine>87</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\proj_cm3\Metro\Poursuite_Une_Rame\PROJET_NO_CAN\TPL_OS_GENERATED_CONFIGURATION.H</PathWithFilename>
     <TopLine>1</TopLine>
     <CurrentLine>12</CurrentLine>
     <Constant>0</Constant>
@@ -824,9 +1188,35 @@
   </AlienFiles>
 
   <AlienFiles>
-    <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\LIB_USER\LIB_AUTOM_2008A.H</PathWithFilename>
+    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\proj_cm3\Metro\Poursuite_Une_Rame\PROJET_NO_CAN\TPL_APP_OBJECTS.H</PathWithFilename>
+    <TopLine>11</TopLine>
+    <CurrentLine>28</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>U:\WINDOWS\BUREAU\SVN_INSACORTEXDEVTER\TRAMPOLINE\OS\TPL_OS_APPLICATION_DEF.H</PathWithFilename>
     <TopLine>1</TopLine>
-    <CurrentLine>3</CurrentLine>
+    <CurrentLine>31</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -850,35 +1240,9 @@
   </AlienFiles>
 
   <AlienFiles>
-    <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\LIB_USER\LIB_AUTOM_2009A.H</PathWithFilename>
-    <TopLine>2</TopLine>
-    <CurrentLine>23</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\LIB_CM3\STM_METRO_V1.H</PathWithFilename>
+    <PathWithFilename>U:\WINDOWS\BUREAU\SVN_INSACORTEXDEVTER\TRAMPOLINE\OS\TPL_CONFIG_CHECK.H</PathWithFilename>
     <TopLine>1</TopLine>
-    <CurrentLine>20</CurrentLine>
+    <CurrentLine>1</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -902,7 +1266,59 @@
   </AlienFiles>
 
   <AlienFiles>
-    <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\LIB_CM3\STANDARD_TYPES.H</PathWithFilename>
+    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\TRAMPOLINE\OS\TPL_CONFIG_DEF.H</PathWithFilename>
+    <TopLine>30</TopLine>
+    <CurrentLine>30</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\TRAMPOLINE\OS\TPL_OS_EVENT_KERNEL.H</PathWithFilename>
+    <TopLine>1</TopLine>
+    <CurrentLine>1</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\trampoline\goil\templates\code\all_targets\event.tpl</PathWithFilename>
     <TopLine>1</TopLine>
     <CurrentLine>1</CurrentLine>
     <Constant>0</Constant>
@@ -1022,9 +1438,9 @@
         <DockType>2</DockType>
         <DockLocation>4</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1047,16 +1463,16 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -1072,9 +1488,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1097,9 +1513,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1122,9 +1538,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1147,9 +1563,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1172,16 +1588,16 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
+        <ActiveTab>1</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -1197,9 +1613,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1222,16 +1638,16 @@
         <DockType>2</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>50</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -1247,9 +1663,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1272,9 +1688,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1282,7 +1698,7 @@
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>50</ContainerPercent>
         <ActiveTab>0</ActiveTab>
-        <Visible>1</Visible>
+        <Visible>0</Visible>
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
@@ -1297,16 +1713,16 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>50</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
+        <ActiveTab>1</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -1322,9 +1738,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1347,9 +1763,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1372,9 +1788,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1397,9 +1813,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1422,9 +1838,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1447,9 +1863,9 @@
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
-        <DockedRect_top>683</DockedRect_top>
+        <DockedRect_top>745</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>893</DockedRect_bottom>
+        <DockedRect_bottom>955</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1474,14 +1890,14 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
-        <DockedRect_right>210</DockedRect_right>
+        <DockedRect_bottom>741</DockedRect_bottom>
+        <DockedRect_right>380</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
+        <ActiveTab>1</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -1499,8 +1915,8 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
-        <DockedRect_right>210</DockedRect_right>
+        <DockedRect_bottom>741</DockedRect_bottom>
+        <DockedRect_right>380</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
@@ -1524,8 +1940,8 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
-        <DockedRect_right>210</DockedRect_right>
+        <DockedRect_bottom>741</DockedRect_bottom>
+        <DockedRect_right>380</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
@@ -1549,8 +1965,8 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
-        <DockedRect_right>210</DockedRect_right>
+        <DockedRect_bottom>741</DockedRect_bottom>
+        <DockedRect_right>380</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
@@ -1574,14 +1990,14 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
-        <DockedRect_right>210</DockedRect_right>
+        <DockedRect_bottom>741</DockedRect_bottom>
+        <DockedRect_right>380</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -1599,7 +2015,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1624,7 +2040,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1649,7 +2065,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1674,7 +2090,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1699,7 +2115,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1724,7 +2140,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1749,7 +2165,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1774,7 +2190,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1799,7 +2215,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1824,7 +2240,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1849,7 +2265,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1874,7 +2290,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1899,7 +2315,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1924,7 +2340,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1949,7 +2365,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1974,7 +2390,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -1999,7 +2415,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -2024,7 +2440,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -2049,7 +2465,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -2074,7 +2490,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -2099,7 +2515,7 @@
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>1070</DockedRect_left>
-        <DockedRect_bottom>679</DockedRect_bottom>
+        <DockedRect_bottom>741</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -2123,8 +2539,8 @@
         <DockLocation>3</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
-        <DockedRect_left>214</DockedRect_left>
-        <DockedRect_bottom>286</DockedRect_bottom>
+        <DockedRect_left>384</DockedRect_left>
+        <DockedRect_bottom>394</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -2148,8 +2564,8 @@
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
-        <DockedRect_left>214</DockedRect_left>
-        <DockedRect_bottom>286</DockedRect_bottom>
+        <DockedRect_left>384</DockedRect_left>
+        <DockedRect_bottom>394</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -2157,7 +2573,7 @@
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
         <ActiveTab>0</ActiveTab>
-        <Visible>0</Visible>
+        <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
@@ -2173,8 +2589,8 @@
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
-        <DockedRect_left>214</DockedRect_left>
-        <DockedRect_bottom>286</DockedRect_bottom>
+        <DockedRect_left>384</DockedRect_left>
+        <DockedRect_bottom>394</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -2198,8 +2614,8 @@
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
-        <DockedRect_left>214</DockedRect_left>
-        <DockedRect_bottom>286</DockedRect_bottom>
+        <DockedRect_left>384</DockedRect_left>
+        <DockedRect_bottom>394</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -2223,8 +2639,8 @@
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
-        <DockedRect_left>214</DockedRect_left>
-        <DockedRect_bottom>286</DockedRect_bottom>
+        <DockedRect_left>384</DockedRect_left>
+        <DockedRect_bottom>394</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
@@ -2268,76 +2684,214 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>0</ActiveTab>
+      <ActiveTab>4</ActiveTab>
       <Documents>
         <Doc>
-          <Name>../../../lib_cm3/stm_metro_v1.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>472</TopLine>
-          <CurrentLine>479</CurrentLine>
+          <Name>.\Projet_No_CAN.oil</Name>
+          <ColumnNumber>17</ColumnNumber>
+          <TopLine>19</TopLine>
+          <CurrentLine>54</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\poursuite_no_CAN.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>110</TopLine>
-          <CurrentLine>117</CurrentLine>
+          <TopLine>74</TopLine>
+          <CurrentLine>80</CurrentLine>
         </Doc>
         <Doc>
-          <Name>H:\Documents\cm3_devel\svn_insacortexdev\LIB_USER\LIB_AUTOM_2009A.H</Name>
-          <ColumnNumber>33</ColumnNumber>
-          <TopLine>2</TopLine>
-          <CurrentLine>23</CurrentLine>
+          <Name>../../../lib_cm3/stm_metro_v1.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>467</TopLine>
+          <CurrentLine>473</CurrentLine>
         </Doc>
         <Doc>
           <Name>../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c</Name>
-          <ColumnNumber>43</ColumnNumber>
-          <TopLine>49</TopLine>
-          <CurrentLine>65</CurrentLine>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>53</TopLine>
+          <CurrentLine>56</CurrentLine>
         </Doc>
         <Doc>
-          <Name>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\Metro\Poursuite_Une_Rame\stm_metro_v1_config.h</Name>
-          <ColumnNumber>2</ColumnNumber>
+          <Name>../../../system/STM32F10x_GCC.s</Name>
+          <ColumnNumber>48</ColumnNumber>
+          <TopLine>161</TopLine>
+          <CurrentLine>163</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\Projet_No_CAN/tpl_os_generated_configuration.c</Name>
+          <ColumnNumber>30</ColumnNumber>
+          <TopLine>146</TopLine>
+          <CurrentLine>146</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_timeobj_kernel.c</Name>
+          <ColumnNumber>20</ColumnNumber>
+          <TopLine>142</TopLine>
+          <CurrentLine>165</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_event_kernel.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>47</TopLine>
+          <CurrentLine>56</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>U:\Windows\Bureau\svn_insacortexdevter\proj_cm3\Metro\Poursuite_Une_Rame\PROJET_NO_CAN\TPL_OS_GENERATED_CONFIGURATION.H</Name>
+          <ColumnNumber>0</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>12</CurrentLine>
         </Doc>
         <Doc>
-          <Name>H:\Documents\cm3_devel\svn_insacortexdev\LIB_CM3\STM_METRO_V1.H</Name>
-          <ColumnNumber>34</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>20</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>H:\Documents\cm3_devel\svn_insacortexdev\LIB_CM3\STANDARD_TYPES.H</Name>
-          <ColumnNumber>31</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>1</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../lib_user/lib_autom_2009a.c</Name>
+          <Name>U:\Windows\Bureau\svn_insacortexdevter\trampoline\goil\templates\code\all_targets\event.tpl</Name>
           <ColumnNumber>0</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>1</CurrentLine>
         </Doc>
         <Doc>
-          <Name>.\Projet_No_CAN.oil</Name>
-          <ColumnNumber>43</ColumnNumber>
-          <TopLine>22</TopLine>
-          <CurrentLine>22</CurrentLine>
+          <Name>U:\Windows\Bureau\svn_insacortexdevter\TRAMPOLINE\OS\TPL_OS_EVENT_KERNEL.H</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
         </Doc>
         <Doc>
-          <Name>H:\Documents\cm3_devel\svn_insacortexdev\LIB_USER\LIB_AUTOM_2008A.H</Name>
+          <Name>../../../trampoline/os/tpl_os_alarm.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>99</TopLine>
+          <CurrentLine>105</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_alarm_kernel.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>349</TopLine>
+          <CurrentLine>355</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_it_kernel.c</Name>
+          <ColumnNumber>11</ColumnNumber>
+          <TopLine>58</TopLine>
+          <CurrentLine>71</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_event.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>39</TopLine>
+          <CurrentLine>45</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>U:\WINDOWS\BUREAU\SVN_INSACORTEXDEVTER\TRAMPOLINE\OS\TPL_OS_EVENT.H</Name>
+          <ColumnNumber>32</ColumnNumber>
+          <TopLine>87</TopLine>
+          <CurrentLine>87</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>U:\Windows\Bureau\svn_insacortexdevter\proj_cm3\Metro\Poursuite_Une_Rame\PROJET_NO_CAN\TPL_APP_OBJECTS.H</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>11</TopLine>
+          <CurrentLine>28</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>U:\Windows\Bureau\svn_insacortexdevter\TRAMPOLINE\OS\TPL_CONFIG_DEF.H</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>30</TopLine>
+          <CurrentLine>30</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>U:\WINDOWS\BUREAU\SVN_INSACORTEXDEVTER\TRAMPOLINE\OS\TPL_CONFIG_CHECK.H</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>U:\WINDOWS\BUREAU\SVN_INSACORTEXDEVTER\TRAMPOLINE\OS\TPL_OS_APPLICATION_DEF.H</Name>
           <ColumnNumber>30</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>3</CurrentLine>
+          <CurrentLine>31</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_task_kernel.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>116</TopLine>
+          <CurrentLine>131</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_task.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>45</TopLine>
+          <CurrentLine>52</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>U:\Windows\Bureau\svn_insacortexdevter\proj_cm3\Metro\Poursuite_Une_Rame\stm_metro_v1_config.h</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_kernel.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>953</TopLine>
+          <CurrentLine>959</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../system/Startup_GCC.s</Name>
+          <ColumnNumber>48</ColumnNumber>
+          <TopLine>42</TopLine>
+          <CurrentLine>59</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_action.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>80</TopLine>
+          <CurrentLine>80</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>45</TopLine>
+          <CurrentLine>47</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>U:\Windows\Bureau\svn_insacortexdevter\TRAMPOLINE\OS\TPL_OS.H</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../lib_user/led.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>U:\Windows\Bureau\svn_insacortexdevter\LIB_CM3\LIB_USARTX.H</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>73</TopLine>
+          <CurrentLine>83</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../lib_cm3/lib_usartx.c</Name>
+          <ColumnNumber>15</ColumnNumber>
+          <TopLine>469</TopLine>
+          <CurrentLine>469</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\..\..\lib_cm3\lib_printf.c</Name>
+          <ColumnNumber>28</ColumnNumber>
+          <TopLine>14</TopLine>
+          <CurrentLine>30</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\..\..\lib_cm3\lib_puts.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>U:\Windows\Bureau\svn_insacortexdevter\LIB_USER\LIB_TRAJECTOIRE_2009A.H</Name>
+          <ColumnNumber>22</ColumnNumber>
+          <TopLine>19</TopLine>
+          <CurrentLine>26</CurrentLine>
         </Doc>
         <Doc>
           <Name>../../../lib_user/lib_trajectoire_2009a.c</Name>
-          <ColumnNumber>13</ColumnNumber>
-          <TopLine>77</TopLine>
-          <CurrentLine>77</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\Projet_No_CAN/tpl_os_generated_configuration.c</Name>
           <ColumnNumber>0</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>1</CurrentLine>

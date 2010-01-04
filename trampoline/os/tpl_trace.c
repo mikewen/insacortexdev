@@ -31,7 +31,7 @@
 #include "tpl_os_alarm_kernel.h"
 #include "tpl_os_timeobj_kernel.h"
 #include "tpl_trace.h"
-
+#include "tpl_os_event.h"
 #define OS_START_SEC_CODE
 #include "tpl_memmap.h"
 
