@@ -32,7 +32,7 @@ CPU test {
       AUTOSTART = FALSE;
       ACTIVATION = 1;
       SCHEDULE = FULL;
-	  STACKSIZE = 256;
+	  STACKSIZE = 128;
     };
     
     TASK Generer_Trajectoire {
@@ -40,7 +40,8 @@ CPU test {
       AUTOSTART = FALSE;
       ACTIVATION = 1;
       SCHEDULE = FULL;
-	  STACKSIZE = 256;
+	  STACKSIZE = 512;
+	  EVENT = Evt_arrivee;
     };
 
     TASK Afficher {
@@ -50,7 +51,8 @@ CPU test {
 		};
       ACTIVATION = 1;
       SCHEDULE = FULL;
-	  STACKSIZE = 256;
+	  STACKSIZE = 24;
+	  EVENT = Evt_arrivee;
     };
 
     COUNTER General_counter {
@@ -82,4 +84,10 @@ CPU test {
 		APPMODE=std;
 		};
 	};
+
+	EVENT Evt_arrivee
+	{
+		MASK = AUTO ;
+	};
+
 };

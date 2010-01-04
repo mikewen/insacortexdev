@@ -11,7 +11,7 @@ Fichier squelette pour le TP d'introduction
 #define ON_LCD (0x1CD)
 #define ON_USART (1)
 // wich output to print out debug infos
-//#define DEBUG ON_USART
+#define DEBUG ON_USART
 
 // how to control start stop of trajectories ?
 #define WITH_USART	(1)
@@ -21,7 +21,7 @@ Fichier squelette pour le TP d'introduction
 //OSEK includes
 #include "tpl_os.h"
 #include "tpl_os_generated_configuration.h"
-
+#define Evt_arrivee	1
 //PERIPH includes
 #include "../../lib_cm3/stm_clock.h"
 #include "../../lib_cm3/stm_metro_v1.h"
@@ -51,7 +51,8 @@ Fichier squelette pour le TP d'introduction
 Etat cons;
 
 float Com,VCom,Pos,CPos,Ep,Kp;
-#define DISTANCE 3000
+//#define DISTANCE 27792			
+#define DISTANCE 277
 
 void InitApp(void)
 {
@@ -59,25 +60,30 @@ void InitApp(void)
 
 	#if ((CONTROL==WITH_USART)||(DEBUG==ON_USART) )
 		setup_usart();
+		printf("Usart OK\n");
 	#endif
 
 	#if (DEBUG==ON_LCD)
 		lcd_init();
 	#endif
 
-	initGenerateur(10, 2000, 1000);
+	initGenerateur(10, 2000, 1800);
 	//             Périod(ms) , Rising time (ms) , Vitmax (pas/s)
 
 	Set_Position(DISTANCE); //comme si on terminait un cycle 
 		
 }
-
 TASK(Generer_Trajectoire)
 { 
 	if (getPhase())
 	{
+		SetEvent ( 2, Evt_arrivee);
+		CancelAlarm(1);
+		SetRelAlarm (1, 1000, 10) ;
+		printf("%d",(int) Lire_Position());
 		reinitEtat(DISTANCE);
 		initTrajectoire(DISTANCE);
+
 	}
 	else
 	{
@@ -108,7 +114,13 @@ TASK(Controler_Rame)
 
 TASK(Afficher)
 {
+	while (1) {
+	 	WaitEvent(Evt_arrivee);
+		ClearEvent(Evt_arrivee);
 
+		//printf("ab");
+
+	}
 	TerminateTask();
 
 }
