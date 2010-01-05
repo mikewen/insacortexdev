@@ -5,7 +5,7 @@
 
 
 void Setup_Clock_System(void) ;
-
+extern unsigned int stm32_GetPCLK1 (void);
 //________________________________
 // Clock registers descriptions
 

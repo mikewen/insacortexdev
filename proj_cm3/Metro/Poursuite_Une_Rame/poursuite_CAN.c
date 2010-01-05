@@ -5,6 +5,8 @@ Fichier squelette pour le TP d'introduction
 à OSEK  du porjet système embarqué distribué
 ***********************************************************/
 
+#include "standard_types.h"
+
 //COMPILATION KEYS
 //#define CONTROL_WITH_USART
 
@@ -26,13 +28,52 @@ Fichier squelette pour le TP d'introduction
 #include "../../lib_cm3/stm_clock.h"
 #include "../../lib_cm3/stm_metro_v1.h"
 
+//CAN stufs
+#include <stm32f10x_lib.h>                        // STM32F10x Library Definitions
+#include "STM32_Reg.h"                            // STM32 register and bit Definitions
+#include "STM32_Init.h"                           // STM32 Initialization
+                        						  // STM32 Initialization
+#include "../../lib_cm3/CAN.h"                    // STM32 CAN adaption layer
+
+/*----------------------------------------------------------------------------
+  initialize CAN interface
+ *----------------------------------------------------------------------------*/
+void can_Init (void) {
+  int i;
+
+  CAN_setup ();                                   // setup CAN interface
+ 
+  CAN_wrFilter (33, STANDARD_FORMAT);             // Enable reception of messages
+ 
+  /* COMMENT THE LINE BELOW TO ENABLE DEVICE TO PARTICIPATE IN CAN NETWORK   */
+  //CAN_testmode(CAN_BTR_LBKM);      // Loopback, Silent Mode (self-test)
+
+  CAN_start ();                                   // leave init mode
+
+  CAN_waitReady ();                               // wait til mbx is empty
+
+  CAN_TxMsg.id = 33;                              // initialise message to send
+  for (i = 0; i < 8; i++) CAN_TxMsg.data[i] = 0xAB;
+  CAN_TxMsg.len = 1;
+  CAN_TxMsg.format = STANDARD_FORMAT;
+  CAN_TxMsg.type = DATA_FRAME;
+
+}
+
 
 #ifdef USER_HARDWARE_FAULT_HANDLER
 void Arret_Urgence(void)
 {
-	Fixe_Rapport(2000);
+
+	Fixe_Rapport(0);
+//	CAN_waitReady ();
+	CAN_wrMsg (&CAN_TxMsg);                     // transmit message
+   
 	while (1)
 	{
+//		CAN_waitReady ();
+		CAN_wrMsg (&CAN_TxMsg);                     // transmit message
+  		Fixe_Rapport(0);
     	Blink_Leds(10,DUREE_RAPIDE);
     	Blink_Leds(4,DUREE_LENTE);
 	};
@@ -71,7 +112,7 @@ Une_Consigne Cons;
 float Com,VCom,Pos,CPos,Ep,Kp;
 #define DISTANCE 27792			
 //#define DISTANCE 277
-
+int Pannic;
 void InitApp(void)
 {
 	Init_Periphs();
@@ -89,10 +130,23 @@ void InitApp(void)
 	//             Périod(ms) , Rising time (ms) , Vitmax (pas/s)
 
 	Set_Position(DISTANCE); //comme si on terminait un cycle 
-		
+	
+	can_Init ();                                    // initialise CAN interface	
+	Pannic=0;
 }
 TASK(Generer_Trajectoire)
 { 
+   if (CAN_RxRdy) {
+      CAN_RxRdy = 1;
+
+      Pannic = CAN_RxMsg.data[0];
+    }
+  	if (Pannic)
+	{
+		CancelAlarm(0);
+		CancelAlarm(1);
+		Arret_Urgence();
+	}
 	if (getPhase())
 	{
 		SetEvent ( 2, Evt_arrivee);
@@ -103,6 +157,9 @@ TASK(Generer_Trajectoire)
 		#endif
 		reinitEtat(DISTANCE);
 		initTrajectoire(DISTANCE);
+	   	//while (~CAN_TxRdy);
+		//CAN_waitReady ();
+		//CAN_wrMsg (&CAN_TxMsg);                     // transmit message
 
 	}
 	else
@@ -110,6 +167,12 @@ TASK(Generer_Trajectoire)
 		calculConsigneSuivante();
 	}
 	Cons= lireConsigne();
+/*	if (CAN_TxRdy) {
+      CAN_TxRdy = 0;
+	  CAN_wrMsg (&CAN_TxMsg);                     // transmit message
+   
+    }
+*/
 	TerminateTask();
 }
 

@@ -8,15 +8,10 @@
 // On vérifie si trampoline à déjà défini 
 //  les standards dans
 //   tpl_os_std_types.h
-
 #ifndef TPL_OS_STD_TYPES_H
-#define TPL_OS_STD_TYPES_H
+#ifndef __STM32F10x_TYPE_H
 
-// On vérifie si stl32f10x lib  à déjà défini 
-//  les standards dans
-//   stm32f10x_type.h
-#ifndef	__STM32F10x_TYPE_H
-#define __STM32F10x_TYPE_H
+#define TPL_OS_STD_TYPES_H
 
 /**
  * @typedef u8
@@ -75,6 +70,15 @@ typedef unsigned long   u64;
 typedef signed long     s64;
 
 #endif /* trampoline */
+#endif
+
+// On vérifie si stl32f10x lib  à déjà défini 
+//  les standards dans
+//   stm32f10x_type.h
+#ifndef	__STM32F10x_TYPE_H
+#define	__STM32F10x_TYPE_H
+/* Includes ------------------------------------------------------------------*/
+/* Exported types ------------------------------------------------------------*/
 
 typedef signed long  const sc32;  /* Read Only */
 typedef signed short const sc16;  /* Read Only */
@@ -87,6 +91,10 @@ typedef volatile signed char  vs8;
 typedef volatile signed long  const vsc32;  /* Read Only */
 typedef volatile signed short const vsc16;  /* Read Only */
 typedef volatile signed char  const vsc8;   /* Read Only */
+
+typedef unsigned long  const uc32;  /* Read Only */
+typedef unsigned short const uc16;  /* Read Only */
+typedef unsigned char  const uc8;   /* Read Only */
 
 typedef volatile unsigned long  vu32;
 typedef volatile unsigned short vu16;
@@ -115,5 +123,10 @@ typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 #define S32_MAX    ((s32)2147483647)
 #define S32_MIN    ((s32)-2147483648)
 
+/* Exported constants --------------------------------------------------------*/
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions ------------------------------------------------------- */
 
 #endif /* stm */
+
+

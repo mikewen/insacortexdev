@@ -100,7 +100,7 @@ void can_Init (void) {
   CAN_wrFilter (33, STANDARD_FORMAT);             // Enable reception of messages
  
   /* COMMENT THE LINE BELOW TO ENABLE DEVICE TO PARTICIPATE IN CAN NETWORK   */
-  CAN_testmode(CAN_BTR_LBKM);      // Loopback, Silent Mode (self-test)
+  //CAN_testmode(CAN_BTR_LBKM);      // Loopback, Silent Mode (self-test)
 
   CAN_start ();                                   // leave init mode
 
@@ -121,12 +121,12 @@ int main (void)  {
   #ifndef NO_LCD
   lcd_init  ();                                   // initialise LCD
   lcd_clear ();
-  #ifdef EMMETEUR                                   // Loop forever
- lcd_print ("TEST CAN EMET");                 // Display string on LCD display
-  #endif
-  #ifdef RECEPTEUR                                   // Loop forever
- lcd_print ("TEST CAN RECEIV");                 // Display string on LCD display
-  #endif
+   #ifndef EMMETEUR                                   // Loop forever
+ 	lcd_print ("TEST CAN RECEIV");                 // Display string on LCD display
+  	#endif
+ 	#ifdef EMMETEUR                                   // Loop forever
+ 	lcd_print ("TEST CAN EMET");                 // Display string on LCD display
+  	#endif
   set_cursor (0, 1);                              // Set cursor position on LCD display
   lcd_print ("  www.acco.com  ");
   #ifndef SIMU
@@ -157,7 +157,7 @@ int main (void)  {
 
   #ifdef RECEPTEUR
     if (CAN_RxRdy) {
-      CAN_RxRdy = 0;
+      CAN_RxRdy = 1;
 
       val_Rx = CAN_RxMsg.data[0];
     }
