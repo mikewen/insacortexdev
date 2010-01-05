@@ -25,7 +25,19 @@ Fichier squelette pour le TP d'introduction
 //PERIPH includes
 #include "../../lib_cm3/stm_clock.h"
 #include "../../lib_cm3/stm_metro_v1.h"
-#include "../../lib_user/led.h"
+
+
+#ifdef USER_HARDWARE_FAULT_HANDLER
+void Arret_Urgence(void)
+{
+	Fixe_Rapport(0);
+	while (1)
+	{
+    	Blink_Leds(100,DUREE_RAPIDE);
+    	Blink_Leds(4,DUREE_LENTE);
+	};
+}
+#endif
 
 #if (DEBUG == ON_USART)
 
@@ -47,6 +59,12 @@ Fichier squelette pour le TP d'introduction
 //APPLI includes
 #include "../../lib_user/lib_trajectoire_2009a.h"
 #include "../../lib_user/lib_autom_2009a.h"
+
+
+
+
+
+
 // GLOBALS for appli
 Etat cons;
 
@@ -80,7 +98,9 @@ TASK(Generer_Trajectoire)
 		SetEvent ( 2, Evt_arrivee);
 		CancelAlarm(1);
 		SetRelAlarm (1, 1000, 10) ;
-		printf("%d",(int) Lire_Position());
+		#if (DEBUG == ON_USART)
+			printf("%d",(int) Lire_Position());
+		#endif
 		reinitEtat(DISTANCE);
 		initTrajectoire(DISTANCE);
 

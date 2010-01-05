@@ -457,11 +457,6 @@
               <FilePath>../../../lib_cm3/lib_usartx.c</FilePath>
             </File>
             <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../lib_user/led.c</FilePath>
-            </File>
-            <File>
               <FileName>lib_trajectoire_2009a.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../lib_user/lib_trajectoire_2009a.c</FilePath>
@@ -477,14 +472,14 @@
               <FilePath>../../../lib_user/lib_autom_2009a.c</FilePath>
             </File>
             <File>
-              <FileName>lib_puts.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\lib_cm3\lib_puts.c</FilePath>
-            </File>
-            <File>
               <FileName>lib_printf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\lib_cm3\lib_printf.c</FilePath>
+              <FilePath>../../../lib_cm3/lib_printf.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_puts.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_cm3/lib_puts.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -997,47 +992,6 @@
               </FileOption>
             </File>
             <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../lib_user/led.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                </CommonProperty>
-                <FileArm>
-                  <Carm>
-                    <arpcs>2</arpcs>
-                    <stkchk>2</stkchk>
-                    <reentr>2</reentr>
-                    <interw>2</interw>
-                    <bigend>2</bigend>
-                    <Strict>0</Strict>
-                    <Optim>0</Optim>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Carm>
-                </FileArm>
-              </FileOption>
-            </File>
-            <File>
               <FileName>lib_trajectoire_2009a.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../lib_user/lib_trajectoire_2009a.c</FilePath>
@@ -1053,14 +1007,14 @@
               <FilePath>../../../lib_user/lib_autom_2009a.c</FilePath>
             </File>
             <File>
-              <FileName>lib_puts.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\lib_cm3\lib_puts.c</FilePath>
-            </File>
-            <File>
               <FileName>lib_printf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\lib_cm3\lib_printf.c</FilePath>
+              <FilePath>../../../lib_cm3/lib_printf.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_puts.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_cm3/lib_puts.c</FilePath>
             </File>
           </Files>
         </Group>

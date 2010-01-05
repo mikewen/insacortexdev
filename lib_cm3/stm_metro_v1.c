@@ -47,7 +47,24 @@ GPIOC->ODR	 |=(LED_AVANCE|LED_RECULE);                   //two leds off
 
 #define __RCC_APB1ENR_TIM2EN	  0x00000001
 #define __TIM2_EGR_UG             0x0001                
-#define __TIM2_PSC                0x0000  //TODO set PWM freq              
+
+#ifndef PWM_FREQ
+	#error "You should set PWM_FREQ in a local copy stm_metro_vx_conf.h"
+#endif
+#ifndef __TIMXCLK
+	#error "You should have __TIMXCLK defined in your local copy of stm_clock_conf.h"
+#endif
+#if ((__TIMXCLK) == ((PWM_FREQ)*(0x1000UL)))
+	#define __TIM2_PSC  0
+#elif ((__TIMXCLK) < ((PWM_FREQ)*(0x1000UL)))	
+	#define __TIM2_PSC  0
+  	#warning "__TIMXCLK is too slow to get PWM_FREQ with (12 bit precision): reduce PWM_FREQ or increase __TIMXCLK"
+#else
+	#define __TIM2_PSC    (__TIMXCLK / ((PWM_FREQ)*(0x1000UL)))			//TODO  setup Clock            
+	#if ( ((__TIMXCLK)/((__TIM2_PSC)*(0x1000UL))) != PWM_FREQ)
+		#warning "PWM_FREQ should divide __TIMXCLK * 0x1000 : PWM freq. may be different"
+	#endif                            
+#endif
 #define __TIM2_ARR                0x0FFF                
 #define __TIM2_CR1                0x0004                   
 #define __TIM2_CR2                0x0000                  
@@ -188,8 +205,8 @@ void Fixe_Rapport( s16 duty_cycle)				 // frequency is fixed for 12 bits, so the
 #ifdef USE_T3
 
 #define __RCC_APB1ENR_TIM3EN	  0x00000002
-#define __TIM3_EGR_UG             0x0001                
-#define __TIM3_PSC                0x0000                
+#define __TIM3_EGR_UG             0x0001
+#define __TIM3_PSC				  0x0000
 #define __TIM3_ARR                0xFFFF                
 #define __TIM3_CR1                0x0004                   
 #define __TIM3_CR2                0x0000                  
@@ -272,6 +289,9 @@ void Set_Position(s16 pos)
 // sans IT
 #ifdef USE_SPEED
 
+
+
+
 #define __RCC_APB1ENR_TIM4EN	                     0x00000004
 #define __TIM4_EGR_UG                                0x0001                
 
@@ -301,6 +321,7 @@ void Set_Position(s16 pos)
 #define __TIM4_DIER                                  0x0001 
 
 #define VITESSE_ARRET								 65535
+#define COEFF_VITESSE (4*SPEED_TIC_FREQ)
 
 void  Init_Timer4()		    
 {
@@ -489,37 +510,128 @@ u16 Lire_courant()
 }
 #endif 
 /*---------------------------------------end config ADC----------------------------------------------------*/
+
+/*--------------------------Blink leds function --------------------*/
+
+#ifdef USE_BLINK_LEDS
+
+
+void Blink_Leds(int repet, int duree)
+{
+	volatile unsigned int i,j;
+	volatile int dummy;
+
+	for(j=repet;j>0;j--)
+ 	{ 
+	   	GPIOC->ODR &=~(LED_AVANCE);	       //LED AVANCE ON
+	  	GPIOC->ODR &=~(LED_RECULE);			  //LED ARRIERE ON
+
+	  	for (i=duree;i>0;i--)
+	 	{
+			dummy++;
+		}
+
+	  	GPIOC->ODR |= (LED_AVANCE); 		   //LED ARRIERE OFF
+	  	GPIOC->ODR |= (LED_RECULE); 		  //LED AVANCE OFF	 
+
+	  	for (i=duree;i>0;i--)
+	 	{
+			dummy--;
+		}
+ 	}
+}
+#endif 
+
+/*---------------------- Hardware Fault Handle ------------------*/
+
+ #ifdef HANDLE_HARDWARE_FAULT
+
+ void HardFault_Handler(void)
+ {
+ 	#ifdef USER_HARDWARE_FAULT_HANDLER
+		 HARDWARE_FAULT_FUNCTION ;		
+	#else
+		Fixe_Rapport(0);
+		while(1)
+		{
+	    	Blink_Leds(100,DUREE_RAPIDE);
+    		Blink_Leds(4,DUREE_LENTE);
+
+		}
+	#endif 
+ } 
+ #endif
+
+ /*---------------------- Memmanage Fault Handle ------------------*/
+
+ #ifdef HANDLE_MEMMANAGE_FAULT
+
+ void MemManage_Handler(void)
+ {
+ 	#ifdef USER_MEMMANAGE_FAULT_HANDLER
+		 MEMMANAGE_FAULT_FUNCTION ;		
+	#else
+		Fixe_Rapport(0);
+		while(1)
+		{
+	    	Blink_Leds(100,DUREE_RAPIDE);
+    		Blink_Leds(3,DUREE_LENTE);
+
+		}
+	#endif 
+ } 
+ #endif
+
+ /*---------------------- Usage Fault Handle ------------------*/
+
+ #ifdef HANDLE_USAGE_FAULT
+
+ void UsageFault_Handler(void)
+ {
+ 	#ifdef USER_USAGE_FAULT_HANDLER
+		 USAGE_FAULT_FUNCTION ;		
+	#else
+		Fixe_Rapport(0);
+		while(1)
+		{
+	    	Blink_Leds(100,DUREE_RAPIDE);
+    		Blink_Leds(2,DUREE_LENTE);
+
+		}
+	#endif 
+ } 
+ #endif
+
  
+ /*---------------------- BUS Fault Handle ------------------*/
 
+ #ifdef HANDLE_BUS_FAULT
 
+ void BusFault_Handler(void)
+ {
+ 	#ifdef USER_BUS_FAULT_HANDLER
+		 BUS_FAULT_FUNCTION ;		
+	#else
+		Fixe_Rapport(0);
+		while(1)
+		{
+	    	Blink_Leds(100,DUREE_RAPIDE);
+    		Blink_Leds(1,DUREE_LENTE);
 
+		}
+	#endif 
+ } 
+ #endif
 
 void Init_Periphs()			  
 {
-#ifdef BLINK_ON_START
-	volatile unsigned int i,j;
-	volatile int k;
-#endif
+
  Setup_Clock_System();
  Init_PortA();
  Init_PortB();
  Init_PortC();
  #ifdef BLINK_ON_START
- for(j=20;j>0;j--)
- { 
-  	GPIOC->ODR &=0xFFFFFF7F;	       //LED AVANCE ON
-  	GPIOC->ODR &=0xFFFFFDFF;			  //LED ARRIERE ON
-  	for (i=0xFFFF;i>0;i--)
- 	{
-		k++;
-	}
-  	GPIOC->ODR |=0x00000200; 		   //LED ARRIERE OFF
-  	GPIOC->ODR  |=0x00000080; 		  //LED AVANCE OFF	 
-  	for (i=0xFFFF;i>0;i--)
- 	{
-		k--;
-	}
- }
+ 	Blink_Leds(4,DUREE_LENTE);
  #endif
 
  #ifdef USE_ADC
