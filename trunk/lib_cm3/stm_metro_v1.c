@@ -14,7 +14,7 @@
 #define __CC2_ON									 (1<<4) //0x0010
 #define __TIMX_CR1_CDISABLE 						 0xFFFE
 
-#define LED_AVANCE (1<<8)     //Led d'avance sur le PortC.7 (arrière de la loco)							   
+#define LED_AVANCE (1<<7)     //Led d'avance sur le PortC.7 (arrière de la loco)							   
 #define LED_RECULE (1<<9)	//Led de recul surle PortC.9 (avant de la loco)	
 						   
  void Init_PortA()
@@ -554,7 +554,7 @@ void Blink_Leds(int repet, int duree)
 		Fixe_Rapport(0);
 		while(1)
 		{
-	    	Blink_Leds(100,DUREE_RAPIDE);
+	    	Blink_Leds(10,DUREE_RAPIDE);
     		Blink_Leds(4,DUREE_LENTE);
 
 		}
@@ -574,7 +574,7 @@ void Blink_Leds(int repet, int duree)
 		Fixe_Rapport(0);
 		while(1)
 		{
-	    	Blink_Leds(100,DUREE_RAPIDE);
+	    	Blink_Leds(10,DUREE_RAPIDE);
     		Blink_Leds(3,DUREE_LENTE);
 
 		}
@@ -594,7 +594,7 @@ void Blink_Leds(int repet, int duree)
 		Fixe_Rapport(0);
 		while(1)
 		{
-	    	Blink_Leds(100,DUREE_RAPIDE);
+	    	Blink_Leds(10,DUREE_RAPIDE);
     		Blink_Leds(2,DUREE_LENTE);
 
 		}
@@ -615,7 +615,7 @@ void Blink_Leds(int repet, int duree)
 		Fixe_Rapport(0);
 		while(1)
 		{
-	    	Blink_Leds(100,DUREE_RAPIDE);
+	    	Blink_Leds(10,DUREE_RAPIDE);
     		Blink_Leds(1,DUREE_LENTE);
 
 		}
@@ -631,7 +631,7 @@ void Init_Periphs()
  Init_PortB();
  Init_PortC();
  #ifdef BLINK_ON_START
- 	Blink_Leds(4,DUREE_LENTE);
+ 	Blink_Leds(BLINK_NBR,DUREE_LENTE);
  #endif
 
  #ifdef USE_ADC

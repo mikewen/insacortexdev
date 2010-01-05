@@ -38,7 +38,7 @@ extern void Init_Periphs(void);
 
 #ifdef USE_BLINK_LEDS
 	extern void Blink_Leds(int repet, int duree) ;
-	#define DUREE_RAPIDE (0x1FFF*90)
+	#define DUREE_RAPIDE (0x1FFF*20)
 	#define DUREE_LENTE (0x1FFF*150)
 #endif
 

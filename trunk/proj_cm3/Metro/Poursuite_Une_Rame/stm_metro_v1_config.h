@@ -22,6 +22,7 @@
 //#define BLINK_ON_START
 #ifdef BLINK_ON_START
 	#define USE_BLINK_LEDS
+	#define BLINK_NBR (2)
 #endif
 
 //__________________________________________________
@@ -53,7 +54,7 @@
 #endif
 
 //COMMENT line below to disable this Fault Handling
-#define HANDLE_MEMMANAGE_FAULT
+//#define HANDLE_MEMMANAGE_FAULT
 #ifdef 	HANDLE_MEMMANAGE_FAULT
 
 	//COMMENT line below to use your own Fault Function
@@ -69,7 +70,7 @@
 #endif
 
 //COMMENT line below to disable this Fault Handling
-#define HANDLE_USAGE_FAULT
+//#define HANDLE_USAGE_FAULT
 #ifdef 	HANDLE_USAGE_FAULT
 
 	//COMMENT line below to use your own Fault Function
@@ -86,7 +87,7 @@
 
 
 //COMMENT line below to disable this Fault Handling
-#define HANDLE_BUS_FAULT
+//#define HANDLE_BUS_FAULT
 #ifdef 	HANDLE_BUS_FAULT
 
 	//COMMENT line below to use your own Fault Function

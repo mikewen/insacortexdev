@@ -52,3 +52,8 @@ void Setup_Clock_System()
 	#endif  
 	 	 
 }
+
+unsigned int stm32_GetPCLK1 (void)
+{
+	return (unsigned int) (__PCLK1) ;
+}

@@ -126,7 +126,7 @@
 // </e> End of Clock Configuration
 #define __CLOCK_SETUP              1
 #define __RCC_CR_VAL               0x01010082
-#define __RCC_CFGR_VAL             0x001D8402
+#define __RCC_CFGR_VAL             0x000D8402
 #define __HSE                      8000000
 
 

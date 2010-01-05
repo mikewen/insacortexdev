@@ -146,9 +146,9 @@ __task void emmit (void) {
 	int i;
 
 #ifdef OLIMEX
-	 CAN_TxMsg.id = 32;                              // initialise message to send
+	 CAN_TxMsg.id = 12;                              // initialise message to send
 #else
-	 CAN_TxMsg.id = 33;                              // initialise message to send
+	 CAN_TxMsg.id = 12;                              // initialise message to send
 #endif
   	for (i = 0; i < 8; i++) CAN_TxMsg.data[i] = 0;
   	CAN_TxMsg.len = 1;
@@ -185,7 +185,7 @@ __task void receiv (void)
 #ifdef OLIMEX
 	 CAN_TxMsg.id = 33;                              // initialise message to send
 #else
-	 CAN_TxMsg.id = 32;                              // initialise message to send
+	 CAN_TxMsg.id = 33;                              // initialise message to send
 #endif
 //    CAN_TxMsg.id = 32;                              // initialise message to send
   for (i = 0; i < 8; i++) CAN_TxMsg.data[i] = 0;
