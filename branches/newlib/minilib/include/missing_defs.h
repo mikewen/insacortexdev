@@ -1,5 +1,6 @@
 /*
- * Todo: faire un commentaire d'introduction
+ * Missing definition for minilib C library
+ * GPL licensed code (S. Di Mercurio and P. Acco)
  */
 
 #ifndef __MISSING_DEFS__
@@ -10,7 +11,5 @@ struct __FILE
 {
 	int _file; // only field required for our lib C */
 };
-
-
 
 #endif /* __MISSING_DEFS__ */

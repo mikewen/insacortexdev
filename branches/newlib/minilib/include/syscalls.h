@@ -1,5 +1,6 @@
 /*
- * Todo: faire un commentaire d'introduction
+ * System call prototype for minilib C library
+ * GPL licensed code (S. Di Mercurio and P. Acco)
  */
 
 #ifndef __SYSCALLS_H__
