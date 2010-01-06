@@ -31,7 +31,6 @@ QUICKREF
 	strlen ansi pure
 */
 
-#include <_ansi.h>
 #include <string.h>
 #include <limits.h>
 
@@ -53,13 +52,11 @@ QUICKREF
 #error long int is not a 32bit or 64bit byte
 #endif
 
-size_t
-_DEFUN (strlen, (str),
-	_CONST char *str)
+size_t strlen(const char *str)
 {
-  _CONST char *start = str;
+  const char *start = str;
 
-#if !defined(PREFER_SIZE_OVER_SPEED) && !defined(__OPTIMIZE_SIZE__)
+#if !defined(PREFER_SIZE_OVER_SPEED)
   unsigned long *aligned_addr;
 
   /* Align the pointer, so we can search a word at a time.  */

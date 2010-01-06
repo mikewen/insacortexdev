@@ -37,14 +37,6 @@ No supporting OS subroutines are required.
 #undef isalpha
 int isalpha(int c)
 {
-int status=0;
-
-	if ((c >='a' && c <='z') ||
-	    (c >='A' && c <='Z'))
-	{
-		status = 1;
-	}
-
-	return(status);
+	return((c >='a' && c <='z') || (c >='A' && c <='Z'));
 }
 

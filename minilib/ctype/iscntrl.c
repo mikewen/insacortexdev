@@ -33,16 +33,12 @@ PORTABILITY
 No supporting OS subroutines are required.
 */
 
-#include <_ansi.h>
 #include <ctype.h>
 
-
-
 #undef iscntrl
-int
-_DEFUN(iscntrl,(c),int c)
+int iscntrl(int c)
 {
-	return(__ctype_ptr__[c+1] & _C);
+	return((c==0x7F) || (c>=0 && c<=0x1F));
 }
 
 

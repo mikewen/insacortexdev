@@ -73,7 +73,7 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 int putchar(int c)
 {
 #ifdef __GNUC__
-	return fputc (c, &stdout);
+	return fputc (c, stdout);
 #else
 	return fputc (c, &__stdout);
 #endif /*__GNUC__ */

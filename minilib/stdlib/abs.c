@@ -36,11 +36,11 @@ No supporting OS subroutines are required.
 
 #include <stdlib.h>
 
-#ifdef __GCC__
+#ifdef __GNUC__
 int abs(int i)
 #else
 int abs(int i) __pure
-#endif /* __GCC__*/
+#endif /* __GNUC_*/
 {
 	return (i < 0) ? -i : i;
 }

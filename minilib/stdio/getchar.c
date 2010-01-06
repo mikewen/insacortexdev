@@ -76,7 +76,7 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 int getchar(void)
 {
 #ifdef __GNUC__
-	return fgetc (&stdin);
+	return fgetc (stdin);
 #else
 	return fgetc (&__stdin);
 #endif /*__GNUC__ */

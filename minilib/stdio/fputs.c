@@ -76,6 +76,8 @@ int status;
 char *ptr;
 
 	ptr= (char*) s;
+	status = 0;
+
 	while (*ptr)
 	{
 		status = _write(fp->_file, ptr, 1);

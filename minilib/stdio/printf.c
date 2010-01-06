@@ -748,7 +748,7 @@ int printf(const char *format, ...)
         
         va_start( args, format );
 #ifdef __GNUC__
-        return print(stdout._file, 0, format, args );
+        return print(stdout->_file, 0, format, args );
 #else
 		return print(__stdout._file, 0, format, args );
 #endif /* __GNUC__*/

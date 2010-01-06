@@ -39,12 +39,6 @@ QUICKREF
 
 #include <string.h>
 
-#if !defined(PREFER_SIZE_OVER_SPEED) && !defined(__OPTIMIZE_SIZE__)
-# define RETURN_TYPE void *
-# define AVAILABLE(h, h_l, j, n_l) ((j) <= (h_l) - (n_l))
-# include "str-two-way.h"
-#endif
-
 void *
 _DEFUN (memmem, (haystack_start, haystack_len, needle_start, needle_len),
 	const void *haystack_start _AND

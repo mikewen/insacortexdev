@@ -5,12 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <time.h>
 #include "missing_defs.h"
 
 #ifdef __GNUC__
 	#include <sys/stat.h>
 	#include <sys/types.h>
+	#include <reent.h>
+
+	struct _reent *_impure_ptr __ATTRIBUTE_IMPURE_PTR__;
 #else
 	#define ENOMEM -2
 	#define EAGAIN -3

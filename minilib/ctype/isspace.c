@@ -37,16 +37,5 @@ No supporting OS subroutines are required.
 #undef isspace
 int isspace(int c)
 {
-int status = 0;
-
-	if (c==0x0D || //CR
-		c==0x0C || //FF
- 		c==0x09	|| //HT or TAB 
-		c==0x0A	|| //NL or LF 
-		c==0x0B)   //VT  
-	{
-		status = 1;
-	}
-
-	return status;
+	return ((c>=0x09 && c<=0x0D) || (c==0x20));
 }

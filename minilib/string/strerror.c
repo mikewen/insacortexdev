@@ -1,10 +1,3 @@
-/***
-**** CAUTION!!! KEEP DOC CONSISTENT---if you change text of a message
-****            here, change two places:
-****            1) the leading doc section (alphabetized by macro)
-****            2) the real text inside switch(errnum)
-***/
-
 /*
 FUNCTION
 	<<strerror>>---convert error number to string
