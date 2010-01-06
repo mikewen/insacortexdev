@@ -1,3 +1,30 @@
+/*
+________________________________________________________________________________________
+	STM32 peripherals lib for use with INSA subway project
+	stm_metro_v1.h
+________________________________________________________________________________________
+USAGE
+	??? is the name of the library i.e. stm_metro_v1
+	RELPATH is the relative path from your projetc directory to lib_cm3 directory	
+	
+   	include RELPATH/lib_cm3/???.c file in your makefile
+	copy    RELPATH/lib_cm3/???_config_TEMPLATE.h in your project directory	(noted ./)
+	rename  ./???_config_TEMPLATE.h as ./???_config.h in your project directory
+	edit    ./???_config.h file for your project (lines with //CONF tags)  
+	ensure that ./ path is visible in CC compiler options 
+	add "#include "RELPATH/lib_cm3/???.h" in app. code 
+	add a call to "Init_???();" at initialisation step of your APP
+________________________________________________________________________________________
+REVS
+	[Acco 06/01/2010] finalisation et commentaires de la première version
+_______________________________________________________________________________________
+TODO
+	+ Mesure courant ADC avec DMA 
+	+ config fréaquence mesure de courant
+	Améliorer la fréquence de mesure de la vitesse pour les basse vitesses
+______________________________________________________________________________________
+*/
+
 #include <stm32f10x_lib.h>
 #include "stm_metro_v1.h"
 
@@ -14,8 +41,7 @@
 #define __CC2_ON									 (1<<4) //0x0010
 #define __TIMX_CR1_CDISABLE 						 0xFFFE
 
-#define LED_AVANCE (1<<7)     //Led d'avance sur le PortC.7 (arrière de la loco)							   
-#define LED_RECULE (1<<9)	//Led de recul surle PortC.9 (avant de la loco)	
+
 						   
  void Init_PortA()
 {
@@ -78,6 +104,8 @@ GPIOC->ODR	 |=(LED_AVANCE|LED_RECULE);                   //two leds off
 #define __TIM2_CCR4               0x0000               
 #define __TIM2_DIER               0x0001 
 #define __TIMX_CR1_CEN			  0x0001
+
+
 
 //_________________________________________PWM_________________________________________________
 //
@@ -320,7 +348,7 @@ void Set_Position(s16 pos)
 #define __TIM4_CCR4                                  0x0000               
 #define __TIM4_DIER                                  0x0001 
 
-#define VITESSE_ARRET								 65535
+#define DUREE_ARRET								 65535
 #define COEFF_VITESSE (4*SPEED_TIC_FREQ)
 
 void  Init_Timer4()		    
@@ -367,7 +395,7 @@ volatile u16 Nouveau_TIM4;
 volatile s8 Etat_Vit = ARRETE; 
 // Une arrêt ne doit pas durer plus de 0xFFFFFFFFF * 0xFFFF * T4Tic secondes
 
-u16 Vitesse = VITESSE_ARRET;
+u16 Duree = DUREE_ARRET;
 void TIM4_IRQHandler(void)
 {
  
@@ -382,7 +410,7 @@ void TIM4_IRQHandler(void)
 		{
 		 	if (EST_OVERFLOW)
 				{
-					Vitesse = VITESSE_ARRET;			
+					Duree = DUREE_ARRET;			
 					Etat_Vit = ARRETE;
 				}
 		}
@@ -398,14 +426,14 @@ void Calcul_Vitesse(void)
 	
 	if (EST_NORMAL)
 	{
-		Vitesse = (Nouveau_TIM4 -  Ancien_TIM4);	
+		Duree = (Nouveau_TIM4 -  Ancien_TIM4);	
 	}
 	else if (EST_OVERFLOW)
 	{
 			if (Nouveau_TIM4 < Ancien_TIM4)
-				Vitesse = Nouveau_TIM4 - Ancien_TIM4;
+				Duree = Nouveau_TIM4 - Ancien_TIM4;
 			else
-				Vitesse = VITESSE_ARRET;
+				Duree = DUREE_ARRET;
 
 			Etat_Vit = NORMAL;
 	}
@@ -424,8 +452,11 @@ u16 Lire_Vitesse()
 }
 */
 u16 Lire_Vitesse()
-{   	
-   return (u16) ((float)(COEFF_VITESSE)/(float)(Vitesse));	 
+{ 
+   if (Duree >= DUREE_ARRET)
+   		return 0;
+   else	  	
+   		return (u16) ((float)(COEFF_VITESSE)/(float)(Duree));	 
 }
 #endif /* USE_SPEED */
 /*-----------------------------------------end config timerx-------------------------------------------------*/
@@ -511,117 +542,6 @@ u16 Lire_courant()
 #endif 
 /*---------------------------------------end config ADC----------------------------------------------------*/
 
-/*--------------------------Blink leds function --------------------*/
-
-#ifdef USE_BLINK_LEDS
-
-
-void Blink_Leds(int repet, int duree)
-{
-	volatile unsigned int i,j;
-	volatile int dummy;
-
-	for(j=repet;j>0;j--)
- 	{ 
-	   	GPIOC->ODR &=~(LED_AVANCE);	       //LED AVANCE ON
-	  	GPIOC->ODR &=~(LED_RECULE);			  //LED ARRIERE ON
-
-	  	for (i=duree;i>0;i--)
-	 	{
-			dummy++;
-		}
-
-	  	GPIOC->ODR |= (LED_AVANCE); 		   //LED ARRIERE OFF
-	  	GPIOC->ODR |= (LED_RECULE); 		  //LED AVANCE OFF	 
-
-	  	for (i=duree;i>0;i--)
-	 	{
-			dummy--;
-		}
- 	}
-}
-#endif 
-
-/*---------------------- Hardware Fault Handle ------------------*/
-
- #ifdef HANDLE_HARDWARE_FAULT
-
- void HardFault_Handler(void)
- {
- 	#ifdef USER_HARDWARE_FAULT_HANDLER
-		 HARDWARE_FAULT_FUNCTION ;		
-	#else
-		Fixe_Rapport(0);
-		while(1)
-		{
-	    	Blink_Leds(10,DUREE_RAPIDE);
-    		Blink_Leds(4,DUREE_LENTE);
-
-		}
-	#endif 
- } 
- #endif
-
- /*---------------------- Memmanage Fault Handle ------------------*/
-
- #ifdef HANDLE_MEMMANAGE_FAULT
-
- void MemManage_Handler(void)
- {
- 	#ifdef USER_MEMMANAGE_FAULT_HANDLER
-		 MEMMANAGE_FAULT_FUNCTION ;		
-	#else
-		Fixe_Rapport(0);
-		while(1)
-		{
-	    	Blink_Leds(10,DUREE_RAPIDE);
-    		Blink_Leds(3,DUREE_LENTE);
-
-		}
-	#endif 
- } 
- #endif
-
- /*---------------------- Usage Fault Handle ------------------*/
-
- #ifdef HANDLE_USAGE_FAULT
-
- void UsageFault_Handler(void)
- {
- 	#ifdef USER_USAGE_FAULT_HANDLER
-		 USAGE_FAULT_FUNCTION ;		
-	#else
-		Fixe_Rapport(0);
-		while(1)
-		{
-	    	Blink_Leds(10,DUREE_RAPIDE);
-    		Blink_Leds(2,DUREE_LENTE);
-
-		}
-	#endif 
- } 
- #endif
-
- 
- /*---------------------- BUS Fault Handle ------------------*/
-
- #ifdef HANDLE_BUS_FAULT
-
- void BusFault_Handler(void)
- {
- 	#ifdef USER_BUS_FAULT_HANDLER
-		 BUS_FAULT_FUNCTION ;		
-	#else
-		Fixe_Rapport(0);
-		while(1)
-		{
-	    	Blink_Leds(10,DUREE_RAPIDE);
-    		Blink_Leds(1,DUREE_LENTE);
-
-		}
-	#endif 
- } 
- #endif
 
 void Init_Periphs()			  
 {

@@ -14,7 +14,6 @@
 #include <stm32f10x_lib.h>                        // STM32F10x Library Definitions
 #include "STM32_Reg.h"                            // STM32 register and bit Definitions
 #include "STM32_Init.h"                           // STM32 Initialization
-#include "../../lib_cm3/stm_clock.h"
 #include "CAN.h"                                  // STM32 CAN adaption layer
 
 CAN_msg       CAN_TxMsg;                          // CAN messge for sending

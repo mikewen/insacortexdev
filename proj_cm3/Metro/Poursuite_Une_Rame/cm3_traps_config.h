@@ -1,10 +1,11 @@
 /*
 ________________________________________________________________________________________
-	STM32 peripherals lib for use with INSA subway project
-	stm_metro_v1.h
+	Cortex M3 Fault Handling
+	cm3_traps_config[_TEMMPLATE].h
+    GPL licensed code (S. Di Mercurio and P. Acco)
 ________________________________________________________________________________________
 USAGE
-	??? is the name of the library i.e. stm_metro_v1
+	??? is the name of the library i.e. cm3_traps
 	RELPATH is the relative path from your projetc directory to lib_cm3 directory	
 	
    	include RELPATH/lib_cm3/???.c file in your makefile
@@ -19,73 +20,56 @@ REVS
 	[Acco 06/01/2010] finalisation et commentaires de la première version
 _______________________________________________________________________________________
 TODO
-	+ Mesure courant ADC avec DMA 
-	+ config fréaquence mesure de courant
-	Améliorer la fréquence de mesure de la vitesse pour les basse vitesses
-______________________________________________________________________________________
+	declare proper OLYMEX MASK
+	check LED_PORT conf with warnings
+	add Init_Traps to ensure Exception is enable 
+	And GPIO LED clock is enabled
+________________________________________________________________________________________
 */
 
-#ifndef __STM_METRO_CONF
-#define __STM_METRO_CONF
-#include "stm_clock.h"
+#ifndef _CM3_TRAPS_CONFIG
+#define _CM3_TRAPS_CONFIG
 
-//COMMENT line below to remove ADC code and current measure functions
-//#define USE_ADC
+//COMMENT line below to disable LED blink function
+#define USE_BLINK_LEDS
+#ifdef USE_BLINK_LEDS
 
-//COMMENT line below to remove T3 code and position measure functions
-#define USE_POSITION
+	#define LOCO_PORT GPIOC
+	#define LOCO_MASK ((1<<7)|(1<<9))
 
-//COMMENT line below to remove T2 code and speeed measure functions
-#define USE_SPEED
-#define SPEED_TIC_FREQ  (2000UL*100UL)//(2000UL*100UL)
+	#define MCB_STM32_PORT GPIOB
+	#define MCB_STM32_MASK (0xFF00) 
 
-//COMMENT line below to remove PWM code and functions
-#define USE_PWM 
-#ifdef USE_PWM 
-	//DO NOT EDIT LED_ARRIERE and LED_AVANT
-	#define LED_ARRIERE (1<<7)  //Led sur le PortC.7 (arrière de la loco)							   
-	#define LED_AVANT (1<<9)	//Led sur le PortC.9 (avant de la loco)	
+	#define OLYMEX_PORT GPIOB //TODO
+	#define OLYMEX_MASK (0) //TODO
 
-	//CONFIGURE  PWM Frequency should divide HXCLK to be precise
-	#define PWM_FREQ (9765UL)//(4882UL)
-
-	//CONFIGURE  which Led to light while going forward or backward
-	#define LED_AVANCE (LED_ARRIERE) //Led allumée pendant l'avance							   
-	#define LED_RECULE (LED_AVANT)	 //Led allumée pendant une marche arrière
+	//CONFIGURE leds port (GPIOA,GPIOB,GPIOC or predifned)
+	#define LED_PORT (LOCO_PORT)
+	//CONFIGURE leds mask to select which leds of the port to blink
+	#define LED_MASK (LOCO_MASK)	
 #endif
 
-//COMMENT line below to disable Leds Binking after periph are initialized
-//#define BLINK_ON_START
-#ifdef BLINK_ON_START
-	#define USE_BLINK_LEDS
-	#define BLINK_NBR (2)
-#endif
 
 //__________________________________________________
 // FAULT handler
-// Select if 
-//error is handled by this lib :
-//  stop PWM
-//  then alternate fast blink on LEDS
+// Select IF error is handled by this lib :
+//  alternate fast blink on LEDS with
 //  4 slow blinks for Hardware Fault
 //  3 slow blinks for Memmanage Fault
 //  2 slow blinks for Usage Fault
 //  1 slow blink for Bus Fault
-//error is hooked to your custom function
-//error is not handled
+// OR IF error is hooked to your custom function
+// OR IF error is not handled
   
 //COMMENT line below to disable this Fault Handling
 #define HANDLE_HARDWARE_FAULT
 #ifdef 	HANDLE_HARDWARE_FAULT
 
+	//COMMENT line below to use your own Fault Function
 	#define USER_HARDWARE_FAULT_HANDLER
 	#ifdef USER_HARDWARE_FAULT_HANDLER
-		extern void Arret_Urgence();
+		extern void Arret_Urgence(); 					//example of an hook function
 		#define HARDWARE_FAULT_FUNCTION Arret_Urgence();
-	#endif
-
-	#ifndef USE_BLINK_LEDS
-		#define USE_BLINK_LEDS
 	#endif
 #endif
 
@@ -99,10 +83,6 @@ ________________________________________________________________________________
 		extern void Arret_Urgence();
 		#define MEMMANAGE_FAULT_FUNCTION Arret_Urgence();
 	#endif
-
-	#ifndef USE_BLINK_LEDS
-		#define USE_BLINK_LEDS
-	#endif
 #endif
 
 //COMMENT line below to disable this Fault Handling
@@ -114,10 +94,6 @@ ________________________________________________________________________________
 	#ifdef USER_USAGE_FAULT_HANDLER
 		extern void Arret_Urgence();
 		#define USAGE_FAULT_FUNCTION Arret_Urgence();
-	#endif
-
-	#ifndef USE_BLINK_LEDS
-		#define USE_BLINK_LEDS
 	#endif
 #endif
 
@@ -132,10 +108,6 @@ ________________________________________________________________________________
 		extern void Arret_Urgence();
 		#define BUS_FAULT_FUNCTION Arret_Urgence();
 	#endif
-
-	#ifndef USE_BLINK_LEDS
-		#define USE_BLINK_LEDS
-	#endif
 #endif
 
-#endif //STM_METRO_CONF
+#endif
