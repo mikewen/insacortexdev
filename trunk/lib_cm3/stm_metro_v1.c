@@ -626,7 +626,7 @@ void Blink_Leds(int repet, int duree)
 void Init_Periphs()			  
 {
 
- Setup_Clock_System();
+ Init_Clock_System();
  Init_PortA();
  Init_PortB();
  Init_PortC();
