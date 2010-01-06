@@ -59,11 +59,11 @@ void __assert_func (const char *file, int line, const char *func, const char *fa
   /* NOTREACHED */
 }
 
-#ifdef __GCC__
-int __assert(const char *file, int line, const char *failedexpr)
+#ifdef __GNUC__
+void __assert(const char *file, int line, const char *failedexpr)
 #else
 int __assert(const char *file, int line, const char *failedexpr) __pure
-#endif /* __GCC__*/
+#endif /* __GNUC__*/
 {
    __assert_func (file, line, NULL, failedexpr);
   /* NOTREACHED */

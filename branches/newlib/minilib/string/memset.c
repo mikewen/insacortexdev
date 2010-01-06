@@ -39,15 +39,11 @@ QUICKREF
 #define UNALIGNED(X)   ((long)X & (LBLOCKSIZE - 1))
 #define TOO_SMALL(LEN) ((LEN) < LBLOCKSIZE)
 
-_PTR
-_DEFUN (memset, (m, c, n),
-	_PTR m _AND
-	int c _AND
-	size_t n)
+void *memset (void *m, int c, size_t n)
 {
   char *s = (char *) m;
 
-#if !defined(PREFER_SIZE_OVER_SPEED) && !defined(__OPTIMIZE_SIZE__)
+#if !defined(PREFER_SIZE_OVER_SPEED)
   int i;
   unsigned long buffer;
   unsigned long *aligned_addr;
@@ -92,7 +88,6 @@ _DEFUN (memset, (m, c, n),
       /* Pick up the remainder with a bytewise loop.  */
       s = (char*)aligned_addr;
     }
-
 #endif /* not PREFER_SIZE_OVER_SPEED */
 
   while (n--)

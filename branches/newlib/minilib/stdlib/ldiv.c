@@ -85,11 +85,11 @@ No supporting OS subroutines are required.
 
 #include <stdlib.h>		/* ldiv_t */
 
-#ifdef __GCC__
+#ifdef __GNUC__
 ldiv_t ldiv (long num, long denom)
 #else
 ldiv_t ldiv (long num, long denom) __pure
-#endif /* __GCC__*/
+#endif /* __GNUC__*/
 {
 	ldiv_t r;
 

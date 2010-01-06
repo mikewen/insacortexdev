@@ -31,8 +31,6 @@ No supporting OS subroutines are required.
 */
 #include <ctype.h>
 
-
-
 #undef isascii
 
 int isascii(int c)

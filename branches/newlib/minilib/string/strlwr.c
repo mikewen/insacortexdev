@@ -33,9 +33,7 @@ QUICKREF
 #include <string.h>
 #include <ctype.h>
 
-char *
-_DEFUN (strlwr, (s),
-	char *s)
+char *strlwr(char *s)
 {
   unsigned char *ucs = (unsigned char *) s;
   for ( ; *ucs != '\0'; ucs++)

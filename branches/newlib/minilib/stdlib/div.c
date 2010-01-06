@@ -84,11 +84,11 @@ No supporting OS subroutines are required.
 
 #include <stdlib.h>		/* div_t */
 
-#ifdef __GCC__
+#ifdef __GNUC__
 div_t div (int num, int denom)
 #else
 div_t div (int num, int denom) __pure
-#endif /* __GCC__*/
+#endif /* __GNUC__*/
 {
 	div_t r;
 

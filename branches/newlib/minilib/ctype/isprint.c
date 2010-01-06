@@ -40,21 +40,18 @@ PORTABILITY
 No supporting OS subroutines are required.
 */
 
-#include <_ansi.h>
 #include <ctype.h>
 
 #undef isgraph
-int
-_DEFUN(isgraph,(c),int c)
+int isgraph(int c)
 {
-	return(__ctype_ptr__[c+1] & (_P|_U|_L|_N));
+	return(c>0x20 && c<=0x7E);
 }
 
 
 #undef isprint
-int
-_DEFUN(isprint,(c),int c)
+int isprint(int c)
 {
-	return(__ctype_ptr__[c+1] & (_P|_U|_L|_N|_B));
+	return(c>=0x20 && c<=0x7E);
 }
 
