@@ -1,8 +1,34 @@
-// Définition de types standards
-// u32 u16 u8 
-// s32 s16 s8
-// Si ce n'est pas déjà fait par d'autres .h
+/*
+________________________________________________________________________________________
+				Standard Types for cortex M3 core
+	standard_types.h
 
+Ensure standard types definition compatible with 
+  trampoline OSEK kernel        tpl_os_std_types.h
+  stm32f10x lib                 stm32f10x_type.h
+
+ _______________________________________________________________
+// Définition de types standards
+// u32 u16 u8   		unsigned 32,16,8 bits
+// s32 s16 s8   		signed 32,16,8 bits
+// vu32 vu16 vu8   		volatile unsigned 32,16,8 bits
+// vs32 vs16 vs8   		volatile signed 32,16,8 bits
+// uc32 uc16 uc8   		unsigned constant 32,16,8 bits
+// sc32 sc16 sc8   		signed constant 32,16,8 bits
+// vuc32 vuc16 vuc8  	volatile unsigned constant 32,16,8 bits
+// vsc32 vsc16 vsc8	 	volatile signed constant 32,16,8 bits
+ _______________________________________________________________________________________
+USAGE
+	RELPATH is the relative path from your projetc directory to lib_users directory	
+   	add include "RELPATH/lib_users/standard_types.h"
+	BEFORE any include about trampoline OS and stm32f10x includes
+________________________________________________________________________________________
+REVS
+	[Acco 06/01/2010] finalisation et commentaires de la première version
+_______________________________________________________________________________________
+TODO
+________________________________________________________________________________________
+*/
 
 
 // On vérifie si trampoline à déjà défini 

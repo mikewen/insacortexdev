@@ -58,7 +58,7 @@ void tpl_sleep(void)
 	 // we need a loop to ensure sleep		 
 	while(1)
 	{    	
-		//__asm__ ("   wfi ;"); 	// go to sleep until NMI/HARD FAULT/RESET
+		__asm__ ("   wfi ;"); 	// go to sleep until NMI/HARD FAULT/RESET
 	} 
 }
 

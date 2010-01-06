@@ -1,7 +1,39 @@
+/*
+________________________________________________________________________________________
+	Cortex M3 Fault Handling
+	cm3_traps.h
+    GPL licensed code (S. Di Mercurio and P. Acco)
+________________________________________________________________________________________
+USAGE
+	??? is the name of the library i.e. cm3_traps
+	RELPATH is the relative path from your projetc directory to lib_cm3 directory	
+	
+   	include RELPATH/lib_cm3/???.c file in your makefile
+	copy    RELPATH/lib_cm3/???_config_TEMPLATE.h in your project directory	(noted ./)
+	rename  ./???_config_TEMPLATE.h as ./???_config.h in your project directory
+	edit    ./???_config.h file for your project (lines with //CONF tags)  
+	ensure that ./ path is visible in CC compiler options 
+	add "#include "RELPATH/lib_cm3/???.h" in app. code 
+	add a call to "Init_???();" at initialisation step of your APP
+________________________________________________________________________________________
+REVS
+	[Acco 06/01/2010] finalisation et commentaires de la première version
+_______________________________________________________________________________________
+TODO
+	declare proper OLYMEX MASK
+	check LED_PORT conf with warnings
+	add Init_Traps to ensure Exception is enable 
+	And GPIO LED clock is enabled
+________________________________________________________________________________________
+*/
+
+#include <stm32f10x_lib.h>
+#include "cm3_traps.h"
+
+
 /*--------------------------Blink leds function --------------------*/
 
 #ifdef USE_BLINK_LEDS
-
 
 void Blink_Leds(int repet, int duree)
 {
@@ -10,16 +42,14 @@ void Blink_Leds(int repet, int duree)
 
 	for(j=repet;j>0;j--)
  	{ 
-	   	GPIOC->ODR &=~(LED_AVANCE);	       //LED AVANCE ON
-	  	GPIOC->ODR &=~(LED_RECULE);			  //LED ARRIERE ON
+	   	LED_PORT->ODR &=~(LED_MASK);	  //LED ON
 
 	  	for (i=duree;i>0;i--)
 	 	{
 			dummy++;
 		}
 
-	  	GPIOC->ODR |= (LED_AVANCE); 		   //LED ARRIERE OFF
-	  	GPIOC->ODR |= (LED_RECULE); 		  //LED AVANCE OFF	 
+	  	LED_PORT->ODR |= (LED_MASK); 		   //LED  OFF
 
 	  	for (i=duree;i>0;i--)
 	 	{
@@ -38,7 +68,6 @@ void Blink_Leds(int repet, int duree)
  	#ifdef USER_HARDWARE_FAULT_HANDLER
 		 HARDWARE_FAULT_FUNCTION ;		
 	#else
-		Fixe_Rapport(0);
 		while(1)
 		{
 	    	Blink_Leds(10,DUREE_RAPIDE);
@@ -58,7 +87,6 @@ void Blink_Leds(int repet, int duree)
  	#ifdef USER_MEMMANAGE_FAULT_HANDLER
 		 MEMMANAGE_FAULT_FUNCTION ;		
 	#else
-		Fixe_Rapport(0);
 		while(1)
 		{
 	    	Blink_Leds(10,DUREE_RAPIDE);
@@ -78,7 +106,6 @@ void Blink_Leds(int repet, int duree)
  	#ifdef USER_USAGE_FAULT_HANDLER
 		 USAGE_FAULT_FUNCTION ;		
 	#else
-		Fixe_Rapport(0);
 		while(1)
 		{
 	    	Blink_Leds(10,DUREE_RAPIDE);
@@ -99,7 +126,6 @@ void Blink_Leds(int repet, int duree)
  	#ifdef USER_BUS_FAULT_HANDLER
 		 BUS_FAULT_FUNCTION ;		
 	#else
-		Fixe_Rapport(0);
 		while(1)
 		{
 	    	Blink_Leds(10,DUREE_RAPIDE);

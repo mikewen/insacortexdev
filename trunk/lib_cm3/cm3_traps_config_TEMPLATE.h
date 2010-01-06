@@ -20,8 +20,35 @@ REVS
 	[Acco 06/01/2010] finalisation et commentaires de la première version
 _______________________________________________________________________________________
 TODO
+	declare proper OLYMEX MASK
+	check LED_PORT conf with warnings
+	add Init_Traps to ensure Exception is enable 
+	And GPIO LED clock is enabled
 ________________________________________________________________________________________
 */
+
+#ifndef _CM3_TRAPS_CONFIG
+#define _CM3_TRAPS_CONFIG
+
+//COMMENT line below to disable LED blink function
+#define USE_BLINK_LEDS
+#ifdef USE_BLINK_LEDS
+
+	#define LOCO_PORT GPIOC
+	#define LOCO_MASK ((1<<7)|(1<<9))
+
+	#define MCB_STM32_PORT GPIOB
+	#define MCB_STM32_MASK (0xFF00) 
+
+	#define OLYMEX_PORT GPIOB //TODO
+	#define OLYMEX_MASK (0) //TODO
+
+	//CONFIGURE leds port (GPIOA,GPIOB,GPIOC or predifned)
+	#define LED_PORT (LOCO_PORT)
+	//CONFIGURE leds mask to select which leds of the port to blink
+	#define LED_MASK (LOCO_MASK)	
+#endif
+
 
 //__________________________________________________
 // FAULT handler
@@ -38,14 +65,11 @@ ________________________________________________________________________________
 #define HANDLE_HARDWARE_FAULT
 #ifdef 	HANDLE_HARDWARE_FAULT
 
+	//COMMENT line below to use your own Fault Function
 	#define USER_HARDWARE_FAULT_HANDLER
 	#ifdef USER_HARDWARE_FAULT_HANDLER
-		extern void Arret_Urgence();
+		extern void Arret_Urgence(); 					//example of an hook function
 		#define HARDWARE_FAULT_FUNCTION Arret_Urgence();
-	#endif
-
-	#ifndef USE_BLINK_LEDS
-		#define USE_BLINK_LEDS
 	#endif
 #endif
 
@@ -59,10 +83,6 @@ ________________________________________________________________________________
 		extern void Arret_Urgence();
 		#define MEMMANAGE_FAULT_FUNCTION Arret_Urgence();
 	#endif
-
-	#ifndef USE_BLINK_LEDS
-		#define USE_BLINK_LEDS
-	#endif
 #endif
 
 //COMMENT line below to disable this Fault Handling
@@ -74,10 +94,6 @@ ________________________________________________________________________________
 	#ifdef USER_USAGE_FAULT_HANDLER
 		extern void Arret_Urgence();
 		#define USAGE_FAULT_FUNCTION Arret_Urgence();
-	#endif
-
-	#ifndef USE_BLINK_LEDS
-		#define USE_BLINK_LEDS
 	#endif
 #endif
 
@@ -92,8 +108,6 @@ ________________________________________________________________________________
 		extern void Arret_Urgence();
 		#define BUS_FAULT_FUNCTION Arret_Urgence();
 	#endif
+#endif
 
-	#ifndef USE_BLINK_LEDS
-		#define USE_BLINK_LEDS
-	#endif
 #endif

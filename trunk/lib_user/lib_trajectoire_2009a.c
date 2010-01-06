@@ -1,12 +1,43 @@
 /*
-	Auteur : Pascal Acco
-	Date : 15/01/2009
-	Description : Librairire de generation d'une trajectoire en rampe
-	Modifications : 
-		- PEH 7/12/09 suppression des méthodes qui ne font pas partie
+________________________________________________________________________________________
+	Generation de trajectoire pour le BE Métro
+	lib_trajectoire_2009a.c
+    GPL licensed code (P.E. Hladik and P. Acco)
+________________________________________________________________________________________
+USAGE
+	inlude lib_trajectoire_2009a.h in your application
+________________________________________________________________________________________
+REVS
+	[PEH 7/12/09] suppression des méthodes qui ne font pas partie
 	du générateur de trajectoire 
-		- PEH 7/12/09 Suppression de la méthode d'approche
-		_ PAC 3/1/10  Passage à des types standards u16 u32 etc...
+	[PEH 7/12/09 ]Suppression de la méthode d'approche
+	[PAC 3/1/10 ] Passage à des types standards u16 u32 etc...
+	[Acco 06/01/2010] finalisation et commentaires de la première version
+		Testée en réel et simulé
+________________________________________________________________________________________
+TODO 
+	version simplifiée en float
+	version en s32
+___________________________________________________________________________________
+  Génère des consignes de position et de vitesse cohérentes selon le profil 
+  de vitesse suivant
+
+Vitesse
+  /\         Vmax ----> _______________________________
+   |                  / I                             I\
+   |                 /  I							  I \
+   |                /	I						 	  I  \
+   |			   /	I							  I   \
+   |		  	  /	    I 							  I	   \
+   |   __________/	    I							  I     \____________
+   |_____________I______I_____________________________I___________________\ temps
+                 |       |_                            |<---->|_           /
+                 |		   \_						   |		\_
+				 |           \_ 					   |		  \_
+				 |<----------->|					   |<---------->|
+				 |  tempsMontee   						  |      tempsMontee 
+
+La position en fin de trajectoire est celle spécifiée
 */
 
 #include "lib_trajectoire_2009a.h"
