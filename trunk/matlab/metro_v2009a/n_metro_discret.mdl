@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.73"
+    ComputedModelVersion    "1.78"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -24,9 +24,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "acco"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Jan  4 11:39:23 2010"
+  LastModifiedDate	  "Wed Jan  6 23:13:17 2010"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:73>"
+  ModelVersionFormat	  "1.%<AutoIncrement:78>"
   ConfigurationManager	  "None"
   SampleTimeColors	  on
   SampleTimeAnnotations	  off
@@ -755,7 +755,7 @@ Model {
   }
   System {
     Name		    "n_metro_discret"
-    Location		    [548, 226, 1349, 868]
+    Location		    [548, 270, 1349, 912]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -785,6 +785,249 @@ Model {
       SampleTime	      "Te"
     }
     Block {
+      BlockType		      SubSystem
+      Name		      "Process"
+      Ports		      [2, 2]
+      Position		      [145, 57, 325, 148]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"Process"
+	Location		[116, 330, 845, 690]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[1.270000, 1.270000, 1.270000, 1.270000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Couples perturbateurs"
+	  Position		  [155, 25, 185, 35]
+	  Orientation		  "down"
+	  NamePlacement		  "alternate"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Commande"
+	  Position		  [100, 128, 130, 142]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  ToWorkspace
+	  Name			  "\n"
+	  Position		  [440, 15, 500, 45]
+	  VariableName		  "vitesses"
+	  MaxDataPoints		  "inf"
+	  SampleTime		  "Te"
+	  SaveFormat		  "Array"
+	}
+	Block {
+	  BlockType		  ToWorkspace
+	  Name			  "\n\n"
+	  Position		  [535, 165, 595, 195]
+	  VariableName		  "positions"
+	  MaxDataPoints		  "inf"
+	  SampleTime		  "Te"
+	  SaveFormat		  "Array"
+	}
+	Block {
+	  BlockType		  ToWorkspace
+	  Name			  "   1"
+	  Position		  [165, 220, 280, 250]
+	  ShowName		  off
+	  VariableName		  "commandes"
+	  MaxDataPoints		  "inf"
+	  SampleTime		  "Te"
+	  SaveFormat		  "Array"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain magnetique"
+	  Position		  [200, 120, 230, 150]
+	  Gain			  "K"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Inertie"
+	  Position		  [295, 111, 345, 159]
+	  ShowName		  off
+	  Gain			  "1./Tau"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [255, 125, 275, 145]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum1"
+	  Ports			  [2, 1]
+	  Position		  [160, 125, 180, 145]
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "++|"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "couple->vitesse"
+	  Ports			  [1, 1]
+	  Position		  [365, 120, 395, 150]
+	  InitialCondition	  "zeros(N,1)"
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "vit-> angle"
+	  Ports			  [1, 1]
+	  Position		  [460, 120, 490, 150]
+	  InitialCondition	  "(0:N-1)*Delta"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Vitesses"
+	  Position		  [445, 53, 475, 67]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Positions"
+	  Position		  [550, 125, 580, 145]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "vit-> angle"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    Points		    [0, 45]
+	    DstBlock		    "\n\n"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Positions"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Commande"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [0, 100]
+	    DstBlock		    "   1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Sum1"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Inertie"
+	  SrcPort		  1
+	  DstBlock		  "couple->vitesse"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain magnetique"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "Inertie"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "couple->vitesse"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  Branch {
+	    Points		    [0, 0]
+	    Branch {
+	      DstBlock		      "vit-> angle"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -75]
+	      Branch {
+		DstBlock		"Vitesses"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"\n"
+		DstPort			1
+	      }
+	    }
+	  }
+	  Branch {
+	    Points		    [0, 65; -160, 0]
+	    DstBlock		    "Sum"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Sum1"
+	  SrcPort		  1
+	  DstBlock		  "Gain magnetique"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Couples perturbateurs"
+	  SrcPort		  1
+	  DstBlock		  "Sum1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
       BlockType		      RandomNumber
       Name		      "Random\nNumber"
       Position		      [340, 15, 370, 45]
@@ -805,7 +1048,7 @@ Model {
       BlockType		      Sum
       Name		      "Sum1"
       Ports		      [2, 1]
-      Position		      [385, 60, 405, 80]
+      Position		      [385, 70, 405, 90]
       NamePlacement	      "alternate"
       ShowName		      off
       IconShape		      "round"
@@ -815,300 +1058,6 @@ Model {
       OutDataType	      "sfix(16)"
       OutScaling	      "2^0"
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
-    }
-    Block {
-      BlockType		      SubSystem
-      Name		      "Système réel1"
-      Ports		      [2, 3]
-      Position		      [145, 55, 325, 145]
-      MinAlgLoopOccurrences   off
-      PropExecContextOutsideSubsystem off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      Opaque		      off
-      RequestExecContextInheritance off
-      MaskHideContents	      off
-      System {
-	Name			"Système réel1"
-	Location		[116, 286, 845, 646]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"A4"
-	PaperUnits		"centimeters"
-	TiledPaperMargins	[1.270000, 1.270000, 1.270000, 1.270000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "Couples perturbateurs"
-	  Position		  [105, 15, 135, 25]
-	  Orientation		  "down"
-	  NamePlacement		  "alternate"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "Commande"
-	  Position		  [40, 93, 70, 107]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  ToWorkspace
-	  Name			  "\n"
-	  Position		  [385, 15, 445, 45]
-	  VariableName		  "vitesses"
-	  MaxDataPoints		  "inf"
-	  SampleTime		  "Te"
-	  SaveFormat		  "Array"
-	}
-	Block {
-	  BlockType		  ToWorkspace
-	  Name			  "\n\n"
-	  Position		  [475, 15, 535, 45]
-	  VariableName		  "angles"
-	  MaxDataPoints		  "inf"
-	  SampleTime		  "Te"
-	  SaveFormat		  "Array"
-	}
-	Block {
-	  BlockType		  ToWorkspace
-	  Name			  "\n\n\n"
-	  Position		  [615, 15, 675, 45]
-	  VariableName		  "ecarts"
-	  MaxDataPoints		  "inf"
-	  SampleTime		  "Te"
-	  SaveFormat		  "Array"
-	}
-	Block {
-	  BlockType		  ToWorkspace
-	  Name			  "   1"
-	  Position		  [105, 185, 220, 215]
-	  VariableName		  "commandes_courant"
-	  MaxDataPoints		  "inf"
-	  SampleTime		  "Te"
-	  SaveFormat		  "Array"
-	}
-	Block {
-	  BlockType		  Gain
-	  Name			  "Couplage \nen Ecarts"
-	  Position		  [515, 74, 570, 126]
-	  Gain			  "M_ecart"
-	  Multiplication	  "Matrix(K*u)"
-	  ParameterDataType	  "sfix(16)"
-	  ParameterScaling	  "2^0"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Gain
-	  Name			  "Gain magnetique"
-	  Position		  [140, 85, 170, 115]
-	  Gain			  "K"
-	  ParameterDataType	  "sfix(16)"
-	  ParameterScaling	  "2^0"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Gain
-	  Name			  "Inertie"
-	  Position		  [235, 76, 285, 124]
-	  ShowName		  off
-	  Gain			  "1./Tau"
-	  ParameterDataType	  "sfix(16)"
-	  ParameterScaling	  "2^0"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Sum
-	  Name			  "Sum"
-	  Ports			  [2, 1]
-	  Position		  [195, 90, 215, 110]
-	  ShowName		  off
-	  IconShape		  "round"
-	  Inputs		  "|+-"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-	}
-	Block {
-	  BlockType		  Sum
-	  Name			  "Sum1"
-	  Ports			  [2, 1]
-	  Position		  [100, 90, 120, 110]
-	  NamePlacement		  "alternate"
-	  ShowName		  off
-	  IconShape		  "round"
-	  Inputs		  "++|"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-	}
-	Block {
-	  BlockType		  Integrator
-	  Name			  "couple->vitesse1"
-	  Ports			  [1, 1]
-	  Position		  [315, 85, 345, 115]
-	  InitialCondition	  "zeros(N,1)"
-	}
-	Block {
-	  BlockType		  Integrator
-	  Name			  "vit-> angle"
-	  Ports			  [1, 1]
-	  Position		  [385, 85, 415, 115]
-	  InitialCondition	  "(0:N-1)*Delta"
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Vitesses"
-	  Position		  [390, 148, 420, 162]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Angles"
-	  Position		  [475, 150, 505, 170]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Ecarts"
-	  Position		  [620, 155, 650, 175]
-	  Port			  "3"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Line {
-	  SrcBlock		  "vit-> angle"
-	  SrcPort		  1
-	  Points		  [35, 0]
-	  Branch {
-	    Points		    [0, -70]
-	    DstBlock		    "\n\n"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, 0]
-	    Branch {
-	      Points		      [0, 60]
-	      DstBlock		      "Angles"
-	      DstPort		      1
-	    }
-	    Branch {
-	      DstBlock		      "Couplage \nen Ecarts"
-	      DstPort		      1
-	    }
-	  }
-	}
-	Line {
-	  SrcBlock		  "Commande"
-	  SrcPort		  1
-	  Points		  [10, 0]
-	  Branch {
-	    Points		    [0, 100]
-	    DstBlock		    "   1"
-	    DstPort		    1
-	  }
-	  Branch {
-	    DstBlock		    "Sum1"
-	    DstPort		    2
-	  }
-	}
-	Line {
-	  SrcBlock		  "Couplage \nen Ecarts"
-	  SrcPort		  1
-	  Points		  [15, 0]
-	  Branch {
-	    Points		    [0, -70]
-	    DstBlock		    "\n\n\n"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, 65]
-	    DstBlock		    "Ecarts"
-	    DstPort		    1
-	  }
-	}
-	Line {
-	  SrcBlock		  "Inertie"
-	  SrcPort		  1
-	  DstBlock		  "couple->vitesse1"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Gain magnetique"
-	  SrcPort		  1
-	  DstBlock		  "Sum"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Sum"
-	  SrcPort		  1
-	  DstBlock		  "Inertie"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "couple->vitesse1"
-	  SrcPort		  1
-	  Points		  [5, 0]
-	  Branch {
-	    Points		    [10, 0]
-	    Branch {
-	      DstBlock		      "vit-> angle"
-	      DstPort		      1
-	    }
-	    Branch {
-	      Points		      [0, 55]
-	      DstBlock		      "Vitesses"
-	      DstPort		      1
-	    }
-	    Branch {
-	      Points		      [0, -70]
-	      DstBlock		      "\n"
-	      DstPort		      1
-	    }
-	  }
-	  Branch {
-	    Points		    [0, 65; -150, 0]
-	    DstBlock		    "Sum"
-	    DstPort		    2
-	  }
-	}
-	Line {
-	  SrcBlock		  "Sum1"
-	  SrcPort		  1
-	  DstBlock		  "Gain magnetique"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Couples perturbateurs"
-	  SrcPort		  1
-	  Points		  [0, 20; -10, 0]
-	  DstBlock		  "Sum1"
-	  DstPort		  1
-	}
-      }
     }
     Block {
       BlockType		      TransportDelay
@@ -1134,7 +1083,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"commande"
-	Location		[322, 326, 1119, 922]
+	Location		[323, 371, 1120, 967]
 	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1150,7 +1099,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Vitesse mesure"
-	  Position		  [170, 50, 200, 70]
+	  Position		  [170, 25, 200, 45]
 	  NamePlacement		  "alternate"
 	  IconDisplay		  "Port number"
 	  OutDataType		  "sfix(16)"
@@ -1159,7 +1108,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Vitesse consigne"
-	  Position		  [695, 53, 725, 67]
+	  Position		  [695, 28, 725, 42]
 	  Orientation		  "left"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -1232,7 +1181,7 @@ Model {
 	Block {
 	  BlockType		  Quantizer
 	  Name			  "Quantizer"
-	  Position		  [320, 45, 350, 75]
+	  Position		  [320, 20, 350, 50]
 	  ShowName		  off
 	  QuantizationInterval	  "1"
 	}
@@ -1299,7 +1248,7 @@ Model {
 	  BlockType		  Sum
 	  Name			  "Sum3"
 	  Ports			  [2, 1]
-	  Position		  [500, 50, 520, 70]
+	  Position		  [500, 25, 520, 45]
 	  Orientation		  "down"
 	  NamePlacement		  "alternate"
 	  ShowName		  off
@@ -1314,13 +1263,15 @@ Model {
 	Block {
 	  BlockType		  ZeroOrderHold
 	  Name			  "Zero-Order\nHold"
-	  Position		  [225, 41, 260, 79]
+	  Position		  [225, 16, 260, 54]
+	  ShowName		  off
 	  SampleTime		  "Te"
 	}
 	Block {
 	  BlockType		  ZeroOrderHold
 	  Name			  "Zero-Order\nHold1"
 	  Position		  [220, 81, 255, 119]
+	  ShowName		  off
 	  SampleTime		  "Te"
 	}
 	Block {
@@ -1365,7 +1316,7 @@ Model {
 	Line {
 	  SrcBlock		  "Sum3"
 	  SrcPort		  1
-	  Points		  [0, 340]
+	  Points		  [0, 365]
 	  DstBlock		  "correction vitesse (dérivée)"
 	  DstPort		  1
 	}
@@ -1472,8 +1423,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"générateur de consigne"
-	Location		[592, 446, 1163, 791]
-	Open			on
+	Location		[592, 490, 1163, 835]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1489,7 +1440,16 @@ Model {
 	  BlockType		  ToWorkspace
 	  Name			  "\n\n"
 	  Position		  [100, 154, 210, 186]
-	  VariableName		  "angles_consignes"
+	  VariableName		  "positions_consignes"
+	  MaxDataPoints		  "inf"
+	  SampleTime		  "Te"
+	  SaveFormat		  "Array"
+	}
+	Block {
+	  BlockType		  ToWorkspace
+	  Name			  "\n\n1"
+	  Position		  [275, 154, 385, 186]
+	  VariableName		  "vitesses_consignes"
 	  MaxDataPoints		  "inf"
 	  SampleTime		  "Te"
 	  SaveFormat		  "Array"
@@ -1541,7 +1501,7 @@ Model {
 	Block {
 	  BlockType		  Step
 	  Name			  "Start decel"
-	  Position		  [490, 125, 520, 155]
+	  Position		  [490, 130, 520, 160]
 	  Orientation		  "left"
 	  NamePlacement		  "alternate"
 	  Time			  "tdd"
@@ -1622,13 +1582,20 @@ Model {
 	  SrcPort		  1
 	  Points		  [-65, 0]
 	  Branch {
-	    DstBlock		    "Pos"
-	    DstPort		    1
-	  }
-	  Branch {
 	    Points		    [0, -65]
 	    DstBlock		    "Quantizer2"
 	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [-10, 0]
+	    Branch {
+	      DstBlock		      "Pos"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "\n\n1"
+	      DstPort		      1
+	    }
 	  }
 	}
 	Line {
@@ -1654,7 +1621,7 @@ Model {
 	Line {
 	  SrcBlock		  "Start decel"
 	  SrcPort		  1
-	  Points		  [-20, 0; 0, 2; -24, 0]
+	  Points		  [-20, 0; 0, -3; -24, 0]
 	  DstBlock		  "Sum1"
 	  DstPort		  3
 	}
@@ -1700,9 +1667,9 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Système réel1"
+      SrcBlock		      "Process"
       SrcPort		      2
-      Points		      [80, 0; 0, 160]
+      Points		      [80, 0; 0, 135]
       DstBlock		      "commande"
       DstPort		      3
     }
@@ -1716,7 +1683,7 @@ Model {
       SrcBlock		      "commande"
       SrcPort		      1
       Points		      [-90, 0; 0, -130]
-      DstBlock		      "Système réel1"
+      DstBlock		      "Process"
       DstPort		      2
     }
     Line {
@@ -1729,7 +1696,7 @@ Model {
     Line {
       SrcBlock		      "Transport\nDelay"
       SrcPort		      1
-      DstBlock		      "Système réel1"
+      DstBlock		      "Process"
       DstPort		      1
     }
     Line {
@@ -1740,7 +1707,7 @@ Model {
       DstPort		      2
     }
     Line {
-      SrcBlock		      "Système réel1"
+      SrcBlock		      "Process"
       SrcPort		      1
       DstBlock		      "Sum1"
       DstPort		      2
@@ -1748,7 +1715,7 @@ Model {
     Line {
       SrcBlock		      "Sum1"
       SrcPort		      1
-      Points		      [20, 0; 0, 160]
+      Points		      [20, 0; 0, 150]
       DstBlock		      "commande"
       DstPort		      1
     }
