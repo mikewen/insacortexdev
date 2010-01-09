@@ -1,0 +1,128 @@
+\section{Informatique}
+\label{SecInfo}
+\label{PartInfo}
+
+Le logiciel sera spécifié et conçu en langage
+UML\footnote{UML est une méthode de conception utilisant le
+  paradigme objet. L'application ne sera pas implantée avec
+  ce paradigme. Nous verrons cependant comment implanter les
+  concepts objets de base (encapsulation des données par
+  exemple) en langage C.}. La méthode vous est donnée par
+l'exemple concret de la spécification du générateur de
+trajectoires de l'annexe \ref{PartSpecification} et de la
+section~\ref{SSecConception}.
+    
+Bien que conçu en langage UML, le code sera développé en
+langage C (environement \emph{Keil}). Le noyau \emph{RTX
+  Tiny} sera utilisé pour faciliter l'implantation des
+tâches. Cependant ce noyau est rudimentaire et ne fourni pas
+les mécanismes de préemption, de rendez--vous etc.
+
+La figure \ref{FigClasses} fournit le diagramme de classe
+global de l'application à réaliser.
+
+
+\subsection{Processus de développement}
+
+Le processus mis en place pour ce bureau d'étude est le
+processus en V. Vous réaliserez donc les parties
+spécification, conception et codage. La validation de la
+spécification et de la conception UML sera uniquement
+réalisée par revues \og{}manuelles\fg{}.
+
+
+Dans un processus en V, on opère souvent à des itérations
+préliminaires qui permettent de~:
+  \begin{itemize}
+  \item tester des technologies nouvelles ou franchir des
+    points techniques nouveaux pour l'équipe --- ici tester
+    un noyau temps réel nouveau pouvant cibler le C167),
+  \item de vérifier le travail délivré par une tierce équipe
+    comme un sous--traitant par exemple~; --- ici tester le bon
+    fonctionnement de la librairie de périphériques~;
+  \item détecter des problèmes de compatibilité entre
+    différentes fonctions ou environnements --- ici tester la
+    compatibilité du CAN avec la librairie de périphériques
+    et la présence d'un hacheur de puissance~;
+  \item mesurer quelques grandeurs pouvant influencer les
+    choix de conception comme des constantes de temps, des
+    temps d'exécution, et autres --- ici tester la constante
+    de temps du système mécanique.
+  \end{itemize}
+
+L'itération préliminaire est composée des 3 phases de test
+suivantes~:
+\begin{description}
+\item [Phase 1 : Prise en main du noyau temps réel
+  tiny] faire deux tâches qui font clignoter les LED 1 et 2
+de la carte MCB167-NET avec des périodes respectives de 0,5s et 1,5s.
+\item[Phase 2 : Asservissement de vitesse d'une voiture]  Faire
+  un asservissement de vitesse d'une voiture avec un simple
+  gain proportionnel.
+\item[Phase 3 : CAN--Intégration] Mise en place du CAN
+  réalisée dans la partie \ref{PartCan}. Pour cela vous
+  réaliserez un banc d'identification des métrottinettes~:
+  un $\mu C$ génère le signal de consigne et l'émet sur le
+  bus CAN, un ou plusieurs $\mu C$ appliquent la consigne à
+  leur métrottinette respective et envoient les mesures sur
+  le CAN. Un $\mu C$ sniffe le CAN, stocke consigne et
+  mesures dans sa mémoire et transmet les vecteurs de points
+  à Matlab en fin de test. Les courbes relevées permettrons
+  de vérifier/améliorer le modèle donné en
+  annexe~\ref{PartModeleAutom}.
+\end{description}
+ 
+ Vous trouverez sur le wiki \footnote{faire ``acco my
+    wiki'' sur Google, prendre le premier lien (my wiki).
+    Vous êtes sur le wiki et cliquez sur le lien
+    Métrottinettes} deux projet Keil démarrés avec des
+  explications et les sources des librairies.
+
+  Vous finirez ensuite le codage en une ou deux itérations
+  supplémentaires.
+
+
+
+\subsection{Délivrables}
+
+\subsubsection{Spécification}
+
+En vous inspirant de la spécification du gestionnaire de
+trajectoires de l'annexe~\ref{PartSpecification} vous
+livrerez une vue structurelle (comme la
+fig.~\ref{FigClasses}) et une vue fonctionnelle
+(fig.~\ref{FigFoncControleur}) de la classe de gestion de la
+rame.
+
+L'annexe \ref{Base} fournit la sémantique (le sens) des
+différentes constructions d'UML utilisées dans ce genre de
+diagramme.
+
+\subsubsection{Conception}
+Justifiez le découpage en tâches de vos fonctions.
+Après la conception détaillée des fonctions, vous livrerez une vue
+graphique de la conception des tâches (diagramme d'activité
+tel que celui de l'annexe \ref{AnnexeActivité}
+figure~\ref{FigGenererConsigne}). 
+
+
+Vous présenterez ces documents à l'enseignant afin
+d'effectuer une revue manuelle de la conception.
+
+\subsubsection{Codage}
+
+Vous livrerez un projet réalisant l'étape
+\og{}CAN-Integration\fg{} intégrant les étapes préliminaires
+que vous présenterez à l'enseignant.
+
+Comme il n'existe qu'un seul exemplaire de rame de
+métrottinettes vous effectuerez un maximum de test en
+simulation avant l'intégration finale réelle.
+
+
+Vous livrerez le projet final après avoir fait une
+démonstration à l'enseignant lors du test final.
+
+
+
+

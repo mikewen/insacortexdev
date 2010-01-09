@@ -1,0 +1,327 @@
+\chapter{Diagramme d'activité}
+\label{AnnexeActivité}
+
+
+Le but de cette annexe est de présenter le sens des
+constructions de base des diagrammes d'activité (cf. section
+\ref{Base}) et de présenter comment exprimer les concepts
+temps réel au moyen de ces diagrammes (cf. section
+\ref{TRActivite}).
+
+\hyphenation{dia-gram-mes}
+\section{Constructions de base des diagrammes d'activités}
+\label{Base}
+
+Les diagrammes d'activités d'UML se sont inspirés de la
+sémantique à jeton des réseaux de Petri (bien que les jetons
+ne soient jamais représentés). Les diagrammes d'activité
+permettent de représenter le séquencement des différentes
+actions. Une action peut correspondre à quelque chose de
+très simple comme l'affection d'un attribut, d'un peu plus
+abstrait comme l'envoie d'un signal ou de complexe en
+invoquant une activité.
+
+{\bf Séquencement d'action} 
+
+Comme dans les réseaux de Petri,
+la séquence entre deux actions est décrite de manière
+séquentielle (cf. figure \ref{FigSeq}).
+
+   % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure}[h!t]
+      \begin{center}
+        \centering \resizebox{6cm}{!}{\includegraphics{./figures/sequence}}
+      \end{center}
+      \caption{Séquencement d'actions}
+      \label{FigSeq}
+    \end{figure} 
+    % -----------------------------------------------------------------------
+  
+    {\bf Activité} 
+
+    Une activité est un ensemble d'actions.
+    Chaque activité peut ou non avoir des paramètres
+    d'entrées et de sorties (cf. figure~\ref{FigAct1}
+    page~\pageref{FigAct1} tirée de la norme d'UML).
+
+   % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[htbp]
+      \begin{center}
+        \centering \resizebox{0.8\linewidth}{!}{\includegraphics{./figures/activity}}
+      \end{center}
+      \caption{Représentation d'activités}
+      \label{FigAct1}
+    \end{figure*} 
+    % -----------------------------------------------------------------------
+   % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!tb]
+      \begin{center}
+        \centering \resizebox{0.8\linewidth}{!}{\includegraphics{./figures/syncDonnee}}
+      \end{center}
+      \caption{Synchronisation sur donnée}
+      \label{FigSynDonnee}
+    \end{figure*} 
+    % -----------------------------------------------------------------------
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{0.7\linewidth}{!}{\includegraphics{./figures/lectureP}}
+      \end{center}
+      \caption{Consommation périodique}
+      \label{FigConsoP}
+    \end{figure*} 
+    % -----------------------------------------------------------------------
+
+
+ {\bf N\oe uds de contrôle}
+
+
+ UML introduit différents n\oe uds de contrôles permettant
+ de maîtriser le flot de jetons. La figure
+ \ref{FigControlNodes} en donne une représentation
+ graphique.
+
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure}[h!t]
+      \begin{center}
+        \centering \resizebox{\linewidth}{!}{\includegraphics{./figures/controlNode}}
+      \end{center}
+      \caption{N\oe uds de contrôles}
+      \label{FigControlNodes}
+    \end{figure} 
+    % -----------------------------------------------------------------------
+
+    La figure \ref{FigControlNodes2} donne un exemple d'utilisation.
+    La barre modélise 
+    une duplication de jetons ({\it fork} ) ou une synchronisation de jetons ({\it join}) (selon le sens 
+    d'utilisation), le losange exprime un choix dans la distribution des jetons ({\it decision})
+    ou le rassemblement de deux chemins sans synchronisation ({\it Merge}).
+    Ainsi, sur la figure \ref{FigControlNodes2} si \texttt{Condition=true} les actions 
+    \texttt{B} et \texttt{C} seront accomplies, et les actions \texttt{A} et \texttt{C}
+    sinon.
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure}[h!t]
+      \begin{center}
+        \centering \resizebox{\linewidth}{!}{\includegraphics{./figures/noeudControle2}}
+      \end{center}
+      \caption{Exemple d'utilisation des n\oe uds de contrôles}
+      \label{FigControlNodes2}
+    \end{figure} 
+    % -----------------------------------------------------------------------
+
+
+    {\bf N\oe uds objets et flot de données} 
+
+    Nous avons vu que les arcs permettaient de représenter
+    un flot de contrôle. Ce flot de contrôle peut être
+    associé à un flot de données, par exemple pour
+    représenter qu'une action produit une donnée qui sera
+    ensuite utilisée par une autre action (cf. figure
+    \ref{FigObjectNodes2}). Il est possible de représenter
+    le type de la donnée, le nombre maximum de jetons qu'un
+    n\oe ud objet contient, l'état dans lequel doit se
+    trouver la donnée.
+ 
+     % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure}[h!t]
+      \begin{center}
+        \centering \resizebox{0.4\linewidth}{!}{\includegraphics{./figures/objetNode}}
+      \end{center}
+      \caption{N\oe ud objet et flot de données}
+      \label{FigObjectNodes2}
+    \end{figure} 
+    % -----------------------------------------------------------------------
+
+
+\section{Expression des concepts temps réel}
+\label{TRActivite}
+
+Le but de cette section est de fournir des solutions
+permettant de représenter les concepts temps-réel dont vous
+aurez besoin. Notons que nous ne nous sommes pas restreint
+aux concepts utilisés dans ce bureau d'étude. On parle de
+\og{}patrons de conception\fg{} ({\it Design pattern} en
+anglais). Ces patrons de conception permettent de fournir
+une solution générique à des problèmes identifiés afin de
+faciliter le tâche du concepteur d'application.\sautLigne
+
+{\bf Représentation des tâches}
+
+Une action ou une activité qui possède son propre
+\emph{thread} d'exécution est notée avec le mot clé
+\og{}active\fg{}. Nous nous servirons de cette notation pour
+représenter les tâches de notre application.
+
+{\bf Synchronisation de tâches sur données}
+
+La figure \ref{FigSynDonnee} modélise une tâche périodique
+qui produit des données et une tâche qui est exécutée
+lorsque la donnée est produite.
+  
+  
+  
+  {\bf Événement temporel, tâches périodiques et attente (delay)}
+
+   La réception d'un événement temporel périodique est représenté au moyen
+   d'un sablier sur lequel est spécifié la période de l'événement (cf. 
+   figure \ref{FigEvTemp}i)).
+
+   La sous-figure ii) représente ainsi l'exécution d'une tâche
+   périodique et la sous figure iii) l'attente d'un temps donnée entre 
+   deux actions.
+
+   % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure}[h!tb]
+      \begin{center}
+        \centering \resizebox{0.7\linewidth}{!}{\includegraphics{./figures/sablier}}
+      \end{center}
+      \caption{Événement temporel}
+      \label{FigEvTemp}
+    \end{figure} 
+    % -----------------------------------------------------------------------
+
+   % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!tb]
+      \begin{center}
+        \centering \resizebox{0.9\linewidth}{!}{\includegraphics{./figures/evenementAsynchrone}}
+      \end{center}
+      \caption{Prise en compte d'événement asynchrone}
+      \label{FigEvtAsynchrone}
+    \end{figure*} 
+    % -----------------------------------------------------------------------
+
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{0.85\linewidth}{!}{\includegraphics{./figures/variablePartagee}}
+      \end{center}
+      \caption{Variable partagée lue à chaque itération de la tâche}
+      \label{FigVarPargtagee}
+    \end{figure*} 
+    % -----------------------------------------------------------------------
+
+
+{\bf Consommation périodique}
+
+   La figure \ref{FigConsoP} 
+   modélise une communication inter-tâche par file de messages.
+   La tâche productrice place les données dans un 
+   n\oe ud objet dont la taille maximale est spécifiée (100).
+   Ce n\oe ud objet peut par exemple modéliser la présence d'une file ou 
+   d'un tableau.
+   Une tâche de période supérieure (100ms) lit l'ensemble des
+   messages contenu dans la file. Le fait que l'ensemble des données est 
+   lu en une fois est spécifié par \texttt{\{weight=all\}}.
+
+    {\bf Prise en compte de signaux asynchrone} 
+
+    Dans de nombreux cas des systèmes temps réel, il est
+    indispensable de prendre en compte des signaux
+    asynchrone, c'est à dire qui peuvent intervenir à tout
+    moment. C'est souvent le cas des signaux issus de
+    l'environnement.
+
+    Prenons l'exemple d'un compteur kilométrique d'une
+    voiture. Pour évaluer la distance parcourue par la
+    voiture celui-ci compte le nombre de tour de roue et met
+    à jour une variable entière. L'arrivée d'un tour de roue
+    est un événement asynchrone. La prise en compte d'un tel
+    événement, et la modélisation de la tâche chargée de
+    gérer cet événement sont présentés par la figure
+    \ref{FigEvtAsynchrone}. Cette figure modélise également
+    l'initialisation à \texttt{O} de la variable\footnote{Il
+      est également possible d'exprimer l'envoie de signaux
+      en différentes tâches.}.
+
+
+    {\bf Tâche périodiques avec données d'entrées - variable partagée}
+
+    Dans de nombreux cas de systèmes temps réel, les tâches
+    communiquent au moyen de variables partagées~; ceci est
+    utilisé lorsque seule la dernière valeur produite est
+    intéressante.
+
+    Nous reprenons l'exemple précédent et y ajoutons la
+    tâche \texttt{CalculerVitesse} chargée de calculer la
+    vitesse de la voiture à partir de la variable
+    \texttt{Position}. L'état de la variable
+    \texttt{Position} n'a pas d'influence sur le contrôle
+    (l'exécution) de la tâche \texttt{CalculerVitesse}. Or,
+    les n\oe uds objets contiennent des jetons qui ont une
+    valeur mais qui contrôle également l'exécution des flots
+    descendants. Le modèle de la figure
+    \ref{FigVarPargtagee} fournit une manière de modéliser
+    une telle relation entre tâche. La tâche
+    \texttt{CalculerVitesse} lit la variable position et
+    replace le jeton dans le n\oe ud objet
+    \texttt{Position}. Ainsi, dans le cas où aucune position
+    n'est produite entre deux lectures, la dernière valeur de
+    la position est encore disponible (cas où la vitesse est
+    égale à 0). Cette représentation fait également
+    ressortir que \texttt{CalculerVitesse} qui utilise la
+    variable ne la modifie pas car aucun arc qui a comme
+    source \texttt{CalculerVitesse} et comme cible
+    \texttt{Position} n'est présent.
+
+    
+%     % -----------------------------------------------------------------------
+%     % \resizebox{!}
+%     \begin{figure*}[h!t]
+%       \begin{center}
+%         \centering \resizebox{\linewidth}{!}{\includegraphics{./figures/variablePartagee2}}
+%       \end{center}
+%       \caption{Variable partagée lue à chaque itération de la tâche}
+%       \label{FigVarPargtagee2}
+%     \end{figure*} 
+%    % -----------------------------------------------------------------------
+    
+{\bf Envoie et réception multiple}
+
+Les mots clés \emph{multisend} et \emph{multireceive}
+permettent de définir des envoie et des réceptions
+multiples. C'est notamment utile dans le cadre de
+d'applications client-serveur (cf. figure
+\ref{FigEnvoieReceptionMultiple}).
+
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{0.8\linewidth}{!}{\includegraphics{./figures/EnvoirReceptMultiple}}
+      \end{center}
+      \caption{Envoie et réception multiples}
+      \label{FigEnvoieReceptionMultiple}
+    \end{figure*} 
+    % -----------------------------------------------------------------------
+
+
+    {\bf Tâche périodique suspendue sur condition} 
+
+    La figure~\ref{FigPeriodeCondition} montre comment
+    utiliser un n\oe ud de décision pour suspendre
+    l'exécution d'une tâche périodique en scrutant l'état
+    d'une variable.
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure}[h!t]
+      \begin{center}
+        \centering \resizebox{0.8\linewidth}{!}{\includegraphics{./figures/tperiodiqueTqCond}}
+      \end{center}
+      \caption{Exécution d'une tâche et suspension de la tâche sur condition}
+      \label{FigPeriodeCondition}
+    \end{figure} 
+    % -----------------------------------------------------------------------
+
+
+
+

@@ -1,0 +1,152 @@
+\section{Automatique}
+\label{SecAutom}
+\label{PartAutom}
+
+La modélisation du système vous est donnée dans
+l'annexe~\ref{PartModeleAutom}. La section
+\ref{PartTraject} défini la trajectoire à poursuivre.
+
+
+L'objectif prioritaire de la commande est d'éviter les
+collisions entre voitures~; il faudra cependant veiller à
+poursuivre la trajectoire correctement.
+
+
+La loi de commande des voitures doit donc permettre à la
+rame entière de~:
+\begin{itemize}
+\item poursuivre le profil d'accélération, de vitesse et de
+  position avec le minimum d'erreur, notamment sur la
+  position finale de la rame lors d'un arrêt dans une
+  station~;
+\item maîtriser l'écart entre les voitures de manière à
+  éviter les collisions mais aussi les arrachements du bus
+  CAN (filaire) lorsque deux voitures s'éloignent.
+\end{itemize}
+
+\important{Pour chacune des rames, doit--on considérer un
+  asservissement d'accélération, de vitesse ou de position~?
+  Indiquez quel est le type de système bouclé désiré~:
+  avec/sans erreur statique, avec/sans erreur de traînage~?}
+
+\subsection{Stratégie de supervision}
+\label{PartSupervision}
+Bien que multivariable, la rame de métro est un système
+non--couplé car il suffit d'agir sur la commande $u_i$ de la
+i\up{ème} voiture pour en commander la vitesse et la
+position sans influencer les autres voitures. On peut donc
+embarquer sur chaque voiture un régulateur de position $x_i$
+qui poursuivra une trajectoire de consigne notée
+$\vec{x_i}(t)$.
+
+Il s'agit alors de générer des trajectoires de consigne
+$\vec{x_i}$ qui respectent le profil de trajectoire et de
+manière à éviter les collisions. Voici deux méthodes qui
+peuvent venir à l'esprit.
+
+\subsubsection{Supervision en boucle ouverte}
+La stratégie de supervision en boucle ouverte consiste alors
+à générer des trajectoires de même profil de vitesse mais
+décalées en position d'une distance de sécurité $D$. Il
+suffit alors de générer la trajectoire de référence
+$\vec{x_0}(t)$ et d'en déduire les autres trajectoires par
+simple décalage $\vec{x_i}(t)=\vec{x_0}(t) + i.D$. Chaque voiture
+tente alors de poursuivre sa trajectoire avec le minimum
+d'erreur de position.
+
+Cependant si une voiture est trop rapide/lente (du fait des
+écarts d'inertie) et se rapproche/s'éloigne
+dangereusement (collision/arrachement de la connexion CAN
+filaire) le système ne réagira pas car la mesure des écarts
+entre voitures est laissée en boucle ouverte.
+
+\subsubsection{Supervision par couplage en cascade}
+Pour maîtriser les écarts entre voitures, on peut décider de
+modifier les consignes de position en fonction des mesures
+effectives. Une méthode simple consiste à piloter la voiture
+de tête de rame sur le profil de consigne $\vec{x_0}$ et
+d'asservir chaque voiture à une distance $D$ de la
+précédente~: $\vec{x_{i+1}}(t)=x_i(t)+D$
+
+Cette méthode offre un couplage de la tête vers la
+queue de rame car si une voiture amont est trop lente/rapide
+alors la voiture aval va réagir en ralentissant/accélérant
+dans la mesure de son possible. Il y a donc une influence de
+l'avant de la rame sur l'arrière.
+
+Par contre une voiture ne peut pas influencer celles qui la
+précède~: si une voiture est très chargée et donc très lente
+celle--ci peut ne pas suivre la dynamique des voitures qui la
+précède et donc arracher le bus CAN.
+
+
+\subsubsection{Supervision par couplage total}
+
+Ce dernier exemple montre l'intérêt de coupler dans les deux
+sens la rame de manière à ce qu'elle suive la dynamique de
+la voiture la plus lente. Ainsi dans le cas de cet exemple
+les voitures amonts et avals ralentiraient pour permettre à
+la voiture la plus chargée de suivre.
+
+On vous propose de réaliser une telle commande en
+travaillant dans l'espace d'état avec le modèle de
+l'équation~\ref{eq:etat} (voir
+l'annexe~\ref{PartModeleAutom} pour le modèle). La
+difficulté essentielle de ce problème réside dans son aspect
+multi--variable (plusieurs commandes et mesures) et
+multi--objectif (poursuivre une trajectoire et garder en
+priorité une distance d'écart $D$ entre voitures). Une
+commande optimale de type LQR ou LQRy\footnote{La commande
+  de type LQR est un retour d'état u=-K.X minimisant le
+  critère $\int_0^\infty X^T.Q.X+u^T.R.u\quad dt$. La
+  commande LQRy est une variante avec un critère de type
+  $\int_0^\infty y^T.Q.y+u^T.R.u \quad dt$. Une
+  documentation est obtenue en tapant \texttt{help lqry}
+  sous Matlab.} peut permettre de gérer l'aspect
+multi--objectif et prioritaire en jouant sur les
+pondérations des critères.
+
+\subsection{Délivrables}
+
+Donnez la forme littérale de la représentation d'état
+(A,B,C,D) en fonction des gains donnés dans les
+schémas~\ref{FigAutom} et \ref{FigMECA}. Vérifiez bien que
+l'entrée et les sorties correspondent à celles vues au
+niveau logiciel par le C167~: ainsi votre correcteur sera
+donné directement dans les bonnes unités pour son écriture
+en langage C.
+
+Proposez et vérifiez par simulation l'intérêt d'une commande
+totalement couplée. On pourra s'orienter vers une commande
+optimale de type LQR ou LQRY en choisissant un critère
+d'optimisation adéquat.
+
+Vous livrerez donc une simulation \emph{simulink} de la rame
+entière comprenant~:
+\begin{itemize}
+\item le modèle à temps continu des $n$ voitures~;
+\item le modèle à temps discret de la commande~;
+\item le modèle à temps discret du générateur de trajectoire
+  de la partie \ref{PartTraject}.
+\end{itemize}
+
+\important{
+Vous présenterez la simulation et les résultats de votre loi
+de commande lors d'une \emph{conception revue} présentée en
+anglais (transparents à l'appuis).}
+
+Chaque voiture possédant son propre micro--contrôleur, il
+est préférable de distribuer les calculs de la loi de
+commande sur chaque processeur pour en réduire la charge.
+
+À partir de votre loi de commande (\textit{a priori} un
+retour de l'état $X$ (et non $X_i$) avec un simple gain $K$
+dans le cas d'une commande LQ/LQY), indiquez lors de la
+\emph{conception revue} comment distribuer ce calcul sur
+chaque processeur et quels sont les échanges d'informations
+nécessaires sur le bus CAN.
+
+\important{La loi de commande par retour d'état ne permet
+  pas de garantir l'abscence de collision. Réfléchissez à
+  une solution que vous exposerez lors de la présentation
+  finale de vos travaux en anglais}

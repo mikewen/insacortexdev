@@ -1,0 +1,135 @@
+\chapter{Présentation du BE}
+
+On veut concevoir une rame de métro révolutionnaire puisque
+les voitures ne seraient pas liées mécaniquement
+entre--elles~! Les avantages sont multiples : la réduction
+du coût de fabrication, la flexibilité d'utilisation lors de
+l'ajout de voitures à la rame.
+
+On envisage que chaque voiture possède son propre
+calculateur relié aux autres par un bus CAN (passant par les
+rails) permettant d'échanger les informations entre voitures
+afin d'éviter toute collision.
+
+Il s'agit alors de commander le moteur de chaque voiture
+de manière à éviter les collisions et à poursuivre une
+trajectoire permettant de relier les différentes stations
+dans les temps impartis. 
+
+Votre BE consiste à réaliser les logiciels embarqués sur un
+prototype miniature de la future rame. Dans ce prototype les
+voitures sont matérialisées par des modèle réduits sur-équipés par nos soins. 
+Le bus CAN est filaire et les calculateurs
+sont de redoutables STM32F103RB (coeur Cortex-M3).
+
+
+La fig.~\ref{FigUseCase} représente le diagramme
+d'utilisation des différentes entités logicielles.
+\begin{figure}[h!tbp]
+  \begin{center}
+    \resizebox{0.9\linewidth}{!}{\includegraphics{useCase}}
+  \end{center}
+  \caption{Cas d'utilisation}
+  \label{FigUseCase}
+\end{figure}
+
+
+
+La fig. \ref{FigArchi} représente l'architecture du
+prototype montrant l'emplacement des différents calculateurs
+sur les voitures. Chaque voiture possède sont calculateur
+C167 (carte MCB167NET) qui est relié aux autres par un bus
+CAN commun (câbles série sur les connecteur CAN des cartes
+MCB167NET). Une calculateur supplémentaire est reliée au bus
+CAN afin d'accueillir le générateur de trajectoires et le
+point d'accès de débogage.
+
+\begin{figure*}[bthp]
+  \begin{center}
+    \resizebox{0.85\linewidth}{!}{\inputxfig{./figures/archi2}}
+  \end{center}
+  \caption{Architecture du projet}
+  \label{FigArchi}
+\end{figure*}
+
+
+
+
+Plusieurs projets ont déjà été menés à terme~:
+\begin{itemize}
+\item la conception mécanique des prototypes~;
+\item la chaîne d'acquisition de position et de vitesse
+  ainsi que la commande de puissance du moteur~;
+\item les \emph{driveurs} logiciels du moteur et des
+  capteurs~;
+\item la modélisation et l'identification du système d'une
+  voiture~;
+\item un outil de transfert de données entre le C167 et
+  Matlab pour le débugage.
+\end{itemize}
+
+\label{SSecVusSys}
+
+Le schéma technique de la figure~\ref{FigRameEtMicro}
+concerne uniquement une voiture de la rame. 
+
+\begin{figure*}[h!t]
+  \begin{center}
+    \resizebox{0.7\linewidth}{!}{\inputxfig{./figures/schema_technique}}
+    \caption{Schéma technique de la maquette (trottinette)
+      d'une voiture de la rame}
+    \label{FigRameEtMicro}
+  \end{center}
+\end{figure*}
+
+
+\section{Actionneur} 
+De manière très similaire à une véritable voiture de métro,
+le moteur est commandé par une première boucle de régulation de
+courant (permettant de le limiter). Le C167 en fonction de
+ses mesures envoie la consigne de courant de manière à
+asservir la position ou la vitesse de la voiture.
+
+Le C167 envoie une consigne de courant au format PWM à la
+carte de régulation de courant~:
+\begin{itemize}
+\item un rapport cyclique de 0\% correspond à un courant
+  négatif maximal (-10A)~;
+\item un rapport cyclique de 100\% correspond à un courant
+  maximal de 10A~;
+\item un rapport cyclique de 50\% commande un courant nul.
+\end{itemize}
+
+\section{Capteurs}
+    
+\begin{description}
+\item [Vitesse] -- une génératrice tachymétrique permet de
+  mesurer la vitesse de rotation du moteur et donc la
+  vitesse de la voiture. La tension de la génératrice varie
+  entre +10V et -10V lorsque la vitesse varie entre +3,33
+  m/s et -3,33 m/s. La carte d'interface permet de ramener
+  cette gamme de tension entre 0 et 5 Volts pour être
+  convertie par un ADC du C167.
+\item[Position] -- la position est mesurée à l'aide de
+  codeurs incrémentaux. Il s'agit de deux capteurs optiques
+  fixes détectant la présence de bandes blanches ou noires
+  (stries) fixées sur la roue. Ses deux capteurs fournissent
+  deux signaux binaires, nommés canal A et canal B, de forme
+  carrée lorsque la roue tourne à vitesse constante. En
+  décalant la bande de stries du canal A par rapport au
+  canal B on peut détecter le sens de rotation de la roue et
+  donc compter ou décompter le nombre d'impulsions reçues
+  sur les canaux. On obtient ainsi une mesure de la position
+  de la roue relative à la position initiale.
+
+  Les canaux A et B sont connectés à l'unitée CAPCOM du C167
+  de manière à générer des interruptions à chaque changement
+  d'état d'un canal.
+\item [Consignes] -- la consigne de position/vitesse est
+  reçue sur le C167 par la liaison du bus CAN. Le bus CAN
+  permet aussi d'accéder aux mesures de position et vitesse
+  des autres voitures de manière à éviter les collisions.
+\end{description}
+
+
+

@@ -1,0 +1,50 @@
+\section{Guides pour le découpage en tâches}
+
+\important{Remercier M. Gilles Motet pour ces guides fabuleux.}
+\label{AnGuides}
+
+{\bf Guide 0 :} On définit les tâches selon les choix
+architecturaux.
+
+{\bf Guide 1 :} 2 événements sont pris en compte par 1 même
+tâche s'il existe une relation séquentielle stricte entre
+les 2 prises en compte.
+
+{\bf Guide 2 :} Deux actions sont émises par 1 même tâche
+s'il existe une relation séquentielle stricte entre les 2
+émissions d'action.
+
+{\bf Guide 3 :} Un couple (Evti, Actj) est traité par une
+même tâche s'il existe une relation séquentielle stricte
+entre la prise en compte de l'événement et l'émission.
+
+{\bf Guide 4 :} Pour chaque tâche définir son rôle : à quoi
+sert--elle dans le système.
+
+{\bf Guide 5 :} Définir les flots de données entre tâches :
+sens, type des données. À appliquer pour tous les couples de
+tâches.
+
+{\bf Guide 6 :} Spécification du type de communication : 
+\begin{itemize}
+\item Synchrone si : toute valeur produite est consommée~; la
+  valeur suivante ne peut etre communiquée qu'après
+  traitement de la précédente~;
+	
+\item Asynchrone par variable partagée si~: La consommation
+  ne doit pas ralentir la production. Toute valeur produite
+  n'est pas forcément utilisée, seule la dernière donnée est
+  essentielle~;
+
+\item Asynchrone par file si: La consommation ne doit pas
+  ralentir la production. Toute valeur produite doit être
+  utilisée, le consommateur doit pouvoir rattraper son
+  retard.
+\end{itemize}
+
+{\bf Guide 7:} Étudier les relations de précédence entre les
+différentes tâches et exprimer le type de synchronisation.
+
+{\bf Guide 8 :} Mettre en valeur les ressources partagées
+(entre tâches) et les actions à faire en exclusion mutuelle.
+

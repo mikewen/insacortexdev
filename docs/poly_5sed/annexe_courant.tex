@@ -1,0 +1,82 @@
+\section{Modèle de la boucle de courant}
+\label{AnnexeCourant}
+
+
+  La figure~\ref{FigAutom} donne le modèle linéaire de la
+  boucle de courant à partir du schéma technique de la
+  figure~\ref{FigRameEtMicro}
+
+\begin{figure*}[h!]
+  \centering
+  \resizebox{0.7\linewidth}{!}{\inputxfig{./figures/bloc_autom}}
+  \caption{Modèle de la boucle de courant}
+  \label{FigAutom}
+\end{figure*}
+
+
+  Le C167 commande le courant de consigne $V_{Ic}$ de la
+  carte courant en agissant sur le rapport cyclique $\alpha$
+  d'une sortie PWM. Pour cela la commande {\tt Fixe\_Rapport(float)} prend un argument de type {\tt float},
+  noté $\sigma \in \left[ -1, +1 \right]$. Lorsque $\sigma$
+  varie entre -1 et 1, le rapport cylique $\alpha$ varie
+  entre 0 et 1 et la tension $V_{ic}$ entre +5V et -5V. On
+  obtient donc directement le gain
+  $K_{PWM}=\frac{V_Ic{}}{\sigma}=5$.
+
+  La consigne de courant est comparée à la mesure du courant
+  d'induit donnée par le capteur à effet Hall avec une
+  sensibilité $S_I$ de $0,550\,\, (V/A)$. La tension de consigne
+  étant bornée à $\pm{}K_{PWM} (V)$ on limite ainsi le
+  courant d'induit dans la gamme
+  $\pm{}\frac{K_{PWM}}{S_I}\approx\pm{}10\,\, (A)$.
+
+  Le correcteur d'erreur est un proportionnel intégral de la
+  forme $C(p)=K_{PI}\frac{1+\tau_1\,p}{\tau_2\,p}$ qui
+  permet donc d'annuler l'erreur statique. Sa sortie est une
+  tension ($\pm8V$) qui pilote le rapport cyclique $\alpha$
+  de la commande $In+$ du pont en H entre $\frac{1}{2} -
+  \frac{1}{2}$ et $\frac{1}{2} + \frac{1}{2}$. Une variation
+  du rapport cyclique de 1 est donc provoquée par une
+  variation de la sortie de 11V, cela donne un gain
+  $K_{MLI}=\frac{1}{11}$ ($In-$ est toujours en opposition
+  de $In+$).
+
+
+
+  Le pont en H commandé par $In\pm$ permet d'imposer une
+  tension de $\pm{}24V$ aux bornes du moteur. La moyenne
+  $\bar{U}$ de cette tension varie entre -24V et +24V lors
+  que $\alpha$ varie entre $-\frac{1}{2}$ et $\frac{1}{2}$
+  autour de $\frac{1}{2}$. Le gain apporté par le pont en H
+  est donc $K_H=\frac{24}{0,5}=48$.
+
+
+  La fonction de transfert de l'induit du moteur
+  $G_{elec}(p)$ est de la forme~:
+
+\begin{eqnarray}
+  G_{\mathit{elec}}(p)= &\frac{\bar{I}(p)}{\bar{U}(p)}=\frac{\frac{1}{R}}{1+\frac{L}{R}p}=\frac{K_{\mathit{elec}}}{1+\tau
+    _{\mathit{elec}}.p}\\
+  \mbox{avec} & K_{elec}=0,89 (A.V^{-1})\nonumber\\
+  \mbox{et} &\tau_{elec}=2 (ms) \nonumber  
+  \label{eq:Gelec}
+\end{eqnarray}
+
+On simplifie le pôle $\tau_{elec}$ avec le zéro $\tau_1$ du
+correcteur PI. On obtient ainsi une fonction de transfert en
+boucle ouverte de forme intégrale pure. La boucle fermée est
+donc un premier ordre $BF_{elec}=\frac{K_I}{1+\tau_I\,p}$
+dont le gain statique dépend uniquement de la sensibilité du
+capteur $K_I=\frac{1}{S_I}$. La constante de temps $\tau_I$
+est fixée directement par le gain du correcteur à 300 Hz
+afin de bien atténuer les oscillations du courant provoquée
+par la PWM du hacheur (30 KHz).
+
+Cette constante de temps étant très rapide devant la
+dynamique mécanique d'une voiture de métro, on négligera son
+influence.
+
+\important{On peut ainsi modéliser la boucle de courant
+par le simple gain
+$\frac{\bar{I}(p)}{\sigma(p)}=\frac{K_{PWM}}{S_I}\approx 10$,
+lorsque la bande passante de $\sigma(p)$ n'excède pas 300Hz }    

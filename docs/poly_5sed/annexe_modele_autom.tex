@@ -1,0 +1,115 @@
+
+\cleardoublepage
+\chapter {Modèle d'une voiture}
+\label{PartModeleAutom}
+La commande de puissance du moteur est réalisée par une
+structure en cascade à double boucle~:
+\begin{itemize}
+\item une première boucle actionne le hacheur de manière à
+  asservir le courant dans l'induit du moteur, sa dynamique
+  est rapide puisque liée aux constantes de temps
+  électriques du moteur~;
+\hyphenation{con-si-gne}
+\item une deuxième boucle commande le courant de consigne de
+  la première de manière à asservir la trajectoire de la
+  voiture, sa dynamique est plus lente car liée aux
+  constantes de temps mécanique de la voiture. 
+\end{itemize}
+
+La boucle de courant est déjà assurée par un régulateur PI
+analogique (carte courant). La dernière boucle est à
+concevoir par vos soins et sera implantée de manière
+numérique dans le C167.
+
+Cette structure de boucle en cascade est très utilisée en
+commande de puissance puisqu'elle permet de limiter le
+courant d'induit en limitant l'amplitude de la consigne de
+courant. Dans notre cas le courant est limité à $\pm 10A$.  
+
+Nous cherchons à modéliser le système \og vu par le
+micro--contrôleur \fg{} comme représenté dans la
+fig.~\ref{FigMECA}.
+
+\begin{figure*}[htbp]
+  \centering
+  \inputxfig{./figures/bloc_meca}
+  \caption{Modèle d'une voiture dans la bande 0--300Hz
+    ($K_{PWM}=5V$, $S_I\approx 0,55\,\,\,A/V$,
+    $\frac{K_\Phi}{J_v}\approx 22\,\,\, m/A/s^{2}$,
+    $K_{tach}=\frac{2,5}{3,33}\,\,\, V.s/m$, $\Delta=
+    4,254\,\,\, mm$)}
+  \label{FigMECA}
+\end{figure*}
+
+\section{Identification}
+
+Une série d'échelon de commande de courant a été envoyée et les mesures de vitesse (avec \textit{signed int lire\_vitesse()}) et de position (avec \textit{int lire\_position()}) ont été enregistrée sur le C167 puis renvoyées vers Matlab.
+
+Une première identification donne la fonction de transfert en vitesse entre la commande de rapport cyclique $\sigma \in [-1 \quad 1]$ et la vitesse mesurée $v \in [-512 \quad 511]$ suivante :
+\begin{eqnarray}
+	G(p) = \frac{v(p)}{\sigma(p)}= \frac{K}{1 + \tau p}\\
+	K = 485 \mbox{ à } 10\% \nonumber \\
+	\tau = 40 \mbox{ à } 100 \mbox{ ms} \nonumber
+\end{eqnarray}
+
+Le gain et la constante de temps peuvent varier à cause de l'incertitude due à la charge d'inetrie : rame vide ou rame pleine d'usager.
+
+Une deuxième identification permet d'obtenir le gain d'intégration entre la vitesse mesurée $v$ et la position mesurée $x$~:
+\begin{eqnarray}
+\frac{x(p)}{v(p)}=\frac{K_D}{p}\\
+K_D = 1.919 \nonumber
+\end{eqnarray}
+Cette valeur est très précise car elle dépend uniquement de la sensibilité des capteurs.
+
+\section{Modèle d'état}
+
+Dans la suite nous allons modéliser l'ensemble des voitures
+d'une rame. De manière à traiter ce problème de commande
+multivariable il faut écrire le modèle dans l'espace d'état.
+
+On peut ainsi représenter le système de la i\up{ème} voiture
+d'une rame par l'équation d'état~:
+\begin{equation}
+  \label{eq:etat}
+  \left\{
+    \begin{array}[l]{l}
+      \dot{X_i} = A_i\,X_i + B_i\,u_i + G_i\,w_i\\
+      Y_i = C_i\, X_i
+    \end{array}
+  \right.
+\end{equation}
+
+Dans ce cas l'entrée $u_i$ du système est la commande de
+courant $\sigma$, l'entrée de perturbation $w_i$ est le
+courant $I_{per}$ équivalent à la perturbation
+$\Gamma_{per}$. Le vecteur d'état sera
+$X_i(t)=\left[v(t)\quad x(t)\right]^T$, et la sortie sera
+$Y=\left[vitesse(t) \quad position(t)\right]^T$
+
+
+Ainsi on peut facilement représenter le modèle d'une rame de
+métro composée de N voitures en concaténant les modèles avec
+une représentation d'état \og augmentée\fg{}~:
+\begin{equation}
+  \label{eq:etat}
+  \left\{
+    \begin{array}[l]{llll}
+      &\,\matNM{2N}{2N}\quad |_{_{2N}} 
+      & \matNM{2N}{N} |_{_{N}}  & \matNM{2N}{N} |_{_{N}}\\
+      \dot{X} &= A\qquad X  &+ B\qquad U &+ G\qquad W\\
+      &\,\matNM{2N}{2N}\quad |_{_{2N}} & &\\
+      Y &= C\qquad X & &\\
+    \end{array}
+  \right.
+\end{equation}
+
+Le vecteur d'état est augmenté et devient $X=\left[ X_1
+  \ldots X_N\right]^T$, le vecteur des entrées devient
+$U=\left[ u_1 \ldots u_N \right]^T$, celui des perturbations
+$W=\left[ w_1 \ldots w_N \right]^T$ et le vecteur des
+sorties sera $Y=\left[Y_1 \ldots Y_N \right]^T$.
+
+Il est alors possible d'appliquer des méthodes de conception
+dans l'espaces d'état à ce système multivariable (retour
+d'état, observateurs, commande optimale).
+

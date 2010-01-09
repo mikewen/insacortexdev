@@ -1,0 +1,726 @@
+
+ \documentclass[11pt]{article}
+
+
+
+ %******************* les packages ***************************************
+ \usepackage[dvips]{graphicx}
+ \usepackage{amssymb}
+
+ %RAJOUTE
+ %\usepackage{french}
+ \usepackage[french]{babel}
+    \selectlanguage{french}
+ %\usepackage{frbib}
+
+ %-------- utilisation des caractères accentues--------
+    \usepackage[latin1]{inputenc}
+    \usepackage[T1]{fontenc}
+    %\usepackage{roundedbox}
+    \usepackage{fancybox}
+
+
+    % pour un affichage propre à l'écran et pour la résolution de pb d'impression
+    \usepackage{ae}
+    \usepackage{aecompl}
+    \usepackage[cyr]{aeguill}
+
+    \usepackage[dvips]{graphicx}
+    \usepackage{color}
+
+
+ \usepackage{caption}
+ \usepackage{float}
+ 
+ % pour les tableaux
+
+   \usepackage{multicol}
+   \usepackage{multirow}
+
+
+% pour les liens dans le fichier pdf généré
+\usepackage[dvipdfm]{hyperref}
+
+
+%\twocolumn
+ %******************* la mise en page ************************************
+
+%  \pagestyle{myheadings}
+  \setlength{\oddsidemargin}{0cm}    %  {0.2cm}
+  \setlength{\topmargin}{0cm}  
+  \setlength{\textwidth}{15.5cm}
+  \setlength{\textheight}{23cm}
+%  \setlength{\headsep}{1.cm}
+%  \setlength{\footskip}{1.5cm}
+%  \setlength{\footnotesep}{0.cm}
+%  \setlength{\evensidemargin}{-0.7cm}  %  {0.2cm}
+%  \setlength{\marginparwidth}{0.cm}
+%  \setlength{\headheight}{1.cm}
+%  \setlength{\leftmargini}{0.5cm}
+
+
+   %----------- Taille des marges -------------------------
+
+%    \addtolength{\voffset}{-0cm} \addtolength{\hoffset}{-0.75cm}
+
+ %\renewcommand{\thepage}{ }
+ %\bibliographystyle{frplain}
+
+
+
+ \linespread{1}
+ \sloppy
+ %******************* les nouvelles commandes **************************
+
+   %indentation multiple
+   \newcommand{\dindent}{\indent \indent }
+   \newcommand{\tindent}{\indent \indent \indent}
+   \newcommand{\qindent}{\dindent \dindent }
+   \newcommand{\cindent}{\dindent \dindent \indent}
+
+   \newcommand{\sautLigne}{\vspace{0.7cm}}
+   \newcommand{\petitSaut}{\vspace{0.2cm}}
+\begin{document}
+
+\title{Bureau d'étude : métro de trottinettes}
+
+
+ \maketitle
+
+\thispagestyle{empty}
+
+
+\section{Présentation du bureau d'étude}
+
+   \subsection{Objectifs}
+
+   Au cours de ce bureau d'étude vous devrez concevoir et implanter sur microcontroleur
+   C167 une loi de commande distribuée. Vous aborderez successivement les aspects 
+   relatifs à l'automatique et à l'informatique temps-réel.
+   \sautLigne
+  
+   ...(blabla sur autom)
+   \sautLigne
+
+
+   Concernant la partie informatique les objectifs sont multiples~:
+   \begin{itemize}
+     \item spécifier et concevoir une application temps-réel distribuée~; 
+       pour cela nous utiliserons le langage UML car celui-ci a fortement 
+       pénétré le milieu industriel~;
+     \item estimer le pire temps d'exécution des tâches et apporter des garanties
+       sur l'ordonancement en appliquant les résultats théoriques vus en 
+       cours d'ordonnancement~;
+     \item utilisation d'un noyau temps-réel simple, qui est intermédiaire
+       entre la programmation avec interruption vue en cours de périphérique l'année dernière
+       et entre l'utilisation d'un noyau temps-réel extrêmement complet comme VxWorks
+       vue au cours du bureau d'étude réalisé à SupAéro.
+   \end{itemize}
+   \sautLigne
+
+   Ce bureau d'étude abouti à la commande d'un système physique réel. Il sera donc 
+   l'occasion de vous sensibiliser à certaines caractéristiques physiques difficiles
+   à prendre en compte d'une manière théorique. Nous n'énumérons pas ces difficultés maintenant
+   afin de ne pas en gâcher la surprise ;-) .
+   \sautLigne
+
+   Dans la suite de ce document, le travail qui vous est demandé sera encadré, par exemple~:
+
+   \petitSaut \begin{tabular}{|p{14cm}|}
+     \hline
+     Lisez ce document avec attention dans son intégralité (hormis les annexes).\\
+     \hline
+   \end{tabular} \petitSaut
+
+   \subsection{Description générale}
+   \label{SSecDescrGene}
+
+   Les métropolitains actuels sont commandés automatiquement et chaque rame 
+   est motrice. Pour des raisons pratiques il faut donc que le moteur de chaque rame 
+   fournisse une énergie comparable à celle de ses voisinent.
+   \sautLigne
+
+   {\bf Architecture physique}
+   Au cours de ce bureau d'étude, vous réaliserez un métropolitain réel au détail insignifiant
+   près que les rames seront remplacées par des trottinettes.
+   Chacune de ces trottinettes (nommé plus loin rames) seront 
+   commandées par une microlcontrôleur C167 reliées par un 
+   bus CAN de manière à ce qu'ils  puissent s'échanger des informations.
+   Un gestionnaire de consigne implanté sur un C167 sera également relié à ce bus CAN.
+
+   Au cours de ce bureau d'étude, le métropolitain sera composé de trois rames.
+   Vous devrez cependant prendre en compte le fait que ce nombre
+   pourra être modifié. La figure \ref{FigArchi} présente l'architecture matérielle du projet.
+
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{12cm}{!}{\includegraphics{./DFIG-figures/archi2.eps}}
+      \end{center}
+      \caption{Architecture du projet}
+      \label{FigArchi}
+    \end{figure*} 
+    % -----------------------------------------------------------------------
+
+ 
+   {\bf Vue d'ensemble du travail demandé}
+
+   Le rôle du gestionnaire de consigne sera de 
+   commander le métro pour qu'il aille de station en station.
+   Afin de simplifier l'application nous supposerons que le gestionnaire de consigne
+   connaît la station de métropolitain courante et la position de la station suivante.
+   Aucun acteur extérieur à l'application ne commandera donc le système global.
+   Les consignes seront envoyées sur le bus CAN. 
+
+   À chaque station de métro,
+   les rames resteront à l'arrêt pendant un temps fixe.    
+   Le temps d'arrêt entre deux stations est fixé à 3 secondes.
+   Une fois le temps écoulé, les rames devront aller à la station suivante ce qui revient
+   à asservir les rames en position.
+
+   Le démarrage et l'arrêt du métro devra être réalisé \og{}en douceur\fg{}.
+   Ainsi, la temps d'accélération au démarrage et de décélération à l'arrêt
+   est fixé à 2 secondes. Pendant ces deux secondes, l'accélération devra être constante.
+
+
+   La loi de commande devra prendre en compte le fait que les rames peuvent avoir
+   des réponses différentes, en fonction du chargement de la rame, de l'usure du moteur, etc.
+   et éviter les collisions entre rames.
+
+   La figure \ref{FigUseCase} montre les différentes fonctionnalités (cas d'utilisation)
+   que devra réaliser votre application.
+
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{15cm}{!}{\includegraphics{./DFIG-figures/useCase.eps}}
+      \end{center}
+      \caption{Cas d'utilisation}
+      \label{FigUseCase}
+    \end{figure*} 
+    % -----------------------------------------------------------------------
+    \sautLigne
+
+
+    L'électronique chargée de commander et observer l'état du moteur est 
+    décrite en section \ref{SecElectronique}.
+    Vous allez maintenant réaliser la partie automatique (cf. section \ref{SecAutom})
+    et la partie informatique (cf. section \ref{SecInfo})
+
+    
+    \section{Description de l'électronique}
+    \label{SecElectronique}
+
+    La partie \ref{SSecVusSys} donne une vue d'ensemble du système rame + microcontroleur.
+    La partie \ref{SSecGestionnairePeriph} décrit brièvement la bibliothèque 
+    qui vous est fournie afin de gérer les périphériques.
+
+    \subsection{Vue système}
+    \label{SSecVusSys}
+
+    Le but de cette partie est de montrer les différents actionneurs et capteurs utilisés
+    pour asservir la rame.
+    La figure \ref{FigRameEtMicro} montre une vue générale de la 
+    commande de la rame par le microcontroleur.
+
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{6cm}{!}{\includegraphics{./DFIG-figures/trameEtMicrp.eps}}
+      \end{center}
+      \caption{Vue d'ensemble des actionneurs et des capteurs}
+      \label{FigRameEtMicro}
+    \end{figure*}
+    % -----------------------------------------------------------------------
+
+    {\bf \large Actionneurs : }
+    La commande en \texttt{PWM (Pulse Width Modulation)} permet de fixer le couple d'entrée
+    au moteur. Un PWM 50/50 (haut/bas) 
+    fournit un couple nul (arrêt), 100/0 fournit la couple maximum
+    vers l'avant et 0/100 fournit le couple maximum vers l'arrière.
+
+    {\bf \large Capteurs :}
+    
+    Une génératrice tachymétrique permet de mesurer la {\bf vitesse} courante du moteur.
+    L'acquisition de la vitesse est réalisée au moyen du convertisseur Analogique/Numérique
+    de C167.
+
+    La mesure de la {\bf position} est légèrement plus complexe.
+    Deux capteurs optiques sont observent les codeurs présents sur la roues (bandes blanches 
+    et noires). Des interruptions sont envoyées à l'unité de Capture/Compare du C167 sur chaque 
+    changement de couleur.
+
+    \subsection{Gestion des périphériques}
+    \label{SSecGestionnairePeriph}
+
+    Le but de ce bureau d'étude n'est pas le programmation des périphériques du C167 dont vous
+    êtes déjà des experts renommés grâce à vos 
+    qualités intellectuelles hors normes et aux fabuleux enseignants de cette matière.
+    Nous vous fournissons donc une librairie qui permet de gérer ces périphériques.\sautLigne
+
+    \subsubsection{Acquisition de la position}   
+    Seul l'unité chargée de calculer la position fonctionne sur interruptions. 
+    Il faudra donc que vous programmiez le niveau de l'interruption.\\
+    {\bf Fonctions associées : }
+   \begin{itemize}
+      \item \texttt{void Config\_Capture(void);} : fonction d'initialisation~ de l'unité de 
+        capture~;
+      \item \texttt{void Init\_Position(float Position\_Initiale);} : fonction d'initialisation
+        de la position~;
+      \item \texttt{float Lire\_Position(void);} : donne la position en mètres.
+    \end{itemize}    
+
+    \subsubsection{Acquisition de la vitesse}
+    L'unité chargée d'acquérir la vitesse consiste à lancer la conversion analogique numérique 
+    lorsque la valeur est requise par la tâche d'asservissement.\\
+    {\bf Fonctions associées : }
+    \begin{itemize}
+      \item \texttt{void Config\_ADConverter(void);} : fonction d'initialisation~;
+      \item \texttt{float Lire\_Vitesse();} revoie un flottant entre -3.3 et +3.3 qui 
+        représente la vitesse en m.s\up{-1}.
+    \end{itemize}
+       
+    \subsubsection{Commande de couple}
+    Le couple envoyé au moteur est commandé par un signal PWM.
+    \begin{itemize}
+      \item \texttt{void Config\_PWM(void);} : fonction d'initialisation~;
+      \item \texttt{void Fixe\_vitesse(float commande\_couple);}
+        cette fonction fixe le couple envoyé au moteur~; la variable \texttt{commande\_couple}
+        est un flottant $\in [-3.3;+3.3]$~; par exemple l'arrêt de la rame peut être effectué
+        par l'appel de la fonction  \texttt{Fixe\_vitesse(0);}
+        \footnote{La nom de cette fonction est trompeur. Il ne faut pas en tenir compte. 
+        Nous pensions initialement vous fournir une carte qui régule la vitesse de la 
+        rame d'où la nom peu adapté.}.
+    \end{itemize}
+    
+    \footnote{Merci à Thierry Rocachet pour ces bibliothèques de périphériques.}
+
+    
+    \section{Automatique}
+    \label{SecAutom}
+
+    \section{Informatique}
+    \label{SecInfo}
+
+    {\bf Outils et langages utilisés}
+
+    Les activités de spécification et de conception tiennent une place de 
+    plus en plus importante dans les logiciels  notamment dans le développement
+    de logiciels critiques.
+    Le formalisme UML est un formalisme de plus en plus utilisé en industrie
+    (développement de la future rame de métro Parisien ligne 13, logiciel de 
+    vol par Thales Avionics de l'A400M, etc.).
+    Afin de spécifier et concevoir notre application  nous adopterons donc ce
+    formalisme.
+    \footnote{UML est une méthode de conception utilisant le paradigme objet.
+      L'application ne sera pas implantée avec ce paradigme.
+      Nous verrons cependant comment implanter les concepts objets de base 
+      (encapsulation des données par exemple) en langage C.}
+    Vu le nombre restreint de TP à notre disposition, nous fournissons une 
+    grande partie des différents diagrammes.    
+    Les activités de spécification et de conception sont présentées aux 
+    parties \ref{SSecSpecifications} et \ref{SSecConception}.
+    
+    L'implantation du logiciel est réalisée en langage C. 
+    L'environnement de développement est le logiciel Keil $\mu$-vision 3 que vous avez déjà 
+    utilisé durant les travaux pratiques de périphériques.
+    Les aspects temps-réel sont gérés avec le noyau RTX-tiny. 
+    C'est un OS extrêmement simple et     
+    la documentation disponible dans l'environnement de développement suffit donc à 
+    sa prise en main.
+    Cette partie ainsi que le travail à réaliser sont décrits en section 
+    \ref{SSecImplantation}.
+    \sautLigne
+
+    {\bf Processus}
+
+    Le processus mis en place pour ce bureau d'étude est le processus en V.
+    Vous réaliserez donc les parties spécification, conception et codage.
+    La validation de la spécification et de la conception UML
+    sera uniquement réalisés par revues \og{}manuelles\fg{}.
+    Notez toutefois que des outils de modélisation UML modernes permettent
+    de simuler les modèles dans un but de validation.
+    Ces derniers sont issus du monde industriel (Tau de Télélogic, Rapshody
+    de I-Logix) ou du monde universitaire (IFx du laboratoire Verimag, Turtle du LAAS, etc.).
+    
+    
+    Concernant l'implantation du système, nous vous proposons une stratégie 
+    d'intégration top-down. Celle-ci consiste à coder l'application 
+    de manière itérative et à intégrer les différents résultats.
+    Chaque itération traite un problème 
+    spécifique de manière à montrer à moindre frais la faisabilité des différentes 
+    composantes du projet (traitement de l'aspect communication par le bus CAN 
+    par exemple).
+     Chacune de ces itérations donnera lieu à la réalisation d'un prototype livrable.
+    \sautLigne
+
+    {\bf Prise en compte des contraintes temps-réel}
+    Vous devrez apporter des garanties sur la faisabilité de l'ordonnancement
+    des différentes tâches afin de montrer que ces dernières respectent bien 
+    leurs échéances ({\it deadline} en anglais).
+
+    Ce bureau d'étude sera ainsi l'occasion~:
+    \begin{itemize}
+      \item de vous sensibiliser à l'estimation du pire temps d'exécution~;
+      \item d'appliquer des résultats théoriques vus en cours d'ordonnancement.
+    \end{itemize}
+
+    \subsection{Spécification et conception préliminaire}
+    \label{SSecSpecifications}
+
+    L'activité de spécification est une activité primordiale dans le développement des 
+    logiciels. Celle-ci tient une place de plus en plus importante et est indispensable 
+    sur les projets de grande envergure.
+    Vu le nombre restreint de TP à notre disposition, nous 
+    laisserons de coté un certain nombre d'activité de spécification (comme 
+    la description textuelle des cas d'utilisation et la description sous forme 
+    de diagramme de séquence de ces cas d'utilisation par exemple).
+
+    La spécification consistera ici à fournir la structure de l'application (cf.
+    \ref{SSSecSpecifStruct}) et à expliciter les différentes fonctionnalités de l'application
+    (cf. \ref{SSSecVueFonctionnelle}).
+    
+
+    \subsubsection{Vue structurelle}
+    \label{SSSecSpecifStruct}
+
+    La figure \ref{FigClasses} fournit le diagramme de classe global de l'application.
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{16cm}{!}{\includegraphics{./DFIG-figures/diagClasses2.eps}}
+      \end{center}
+      \caption{Diagramme de classes de l'application}
+      \label{FigClasses}
+    \end{figure*} 
+    % -----------------------------------------------------------------------
+    
+    {\bf Description des classes}
+
+    $\bullet$ 
+    La classe \texttt{GestionaireConsigne} contient quatre caractéristiques structurelles~:
+    \begin{itemize}
+      \item \texttt{listePosAAtteindre} est la liste des différentes positions auxquelles
+        le métropolitain devra s'arrêter~; ces positions correspondent en fait aux positions
+        des différentes stations~;
+      \item \texttt{posAAteindreCourante} est la position de la prochaine station à atteindre~;
+      \item \texttt{consigneCourrante} est la consigne à envoyer aux différentes rames~;
+        chacune des consignes contient la vitesse et la position du métropolitain voulu.
+    \end{itemize}
+
+    La classe \texttt{gestionaireConsigne} contient trois caractéristiques comportementales
+    (opérations)~:
+    \begin{itemize}
+      \item \texttt{calculerParametreRampe()} permet de déterminer les différents paramètre de
+        la rampe de vitesse appliquée au métro entre deux 
+        stations\footnote{Ceux-ci seront explicités plus loin.}~;
+      \item \texttt{genererConsigne()} doit envoyer les consignes aux rames, ces consignes
+        dépendront des paramètres de la rampe calculés au préalable~;
+      \item \texttt{rechercherPositionAAteindre()} doit mettre à jour l'attribut  
+        \texttt{posAAteindre}.
+    \end{itemize}
+    
+
+    L'action \texttt{genererConsigne} est spécifiée par le \og{}timing diagram\fg{}
+    de la figure \ref{FigRampe}. Le principe est le suivant.
+    Afin de maîtriser l'accélération et la décélération lors du démarrage et de l'arrêt,
+    il est spécifié que la vitesse maximale et que l'arrêt doivent 
+    être atteints en deux secondes. Vous devrez donc calculer 
+    l'accélération \texttt{a}, les temps \texttt{TpsMontee} et \texttt{TpsDescente}
+    en nombre de période d'envoie de la consigne fixée à 10ms.
+    La consigne de position est calculée en intégrant la vitesse.
+    Les différents paramètres devront être tels que la position atteinte
+    à la fin de la rampe soit égale à la position à atteindre.
+
+    %-----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{14cm}{!}{\includegraphics{./DFIG-figures/rampe.eps}}
+      \end{center}
+      \caption{Spécification de la rampe de position}
+      \label{FigRampe}
+    \end{figure*} 
+    %-----------------------------------------------------------------------    
+
+    $\bullet$ 
+    La classe \texttt{EtatRame} permet de représenter l'état d'une rame à un moment 
+    donné. Cet état est déterminé par la vitesse et la position de la rame.
+
+    $\bullet$
+    La classe \texttt{Rame} a pour but de gérer une rame.
+    Elle contient deux caractéristiques structurelles~:
+    \begin{itemize}
+      \item \texttt{etatCourrant} qui contient l'état courant de la rame~;
+      \item \texttt{etatsPrecedents} qui contient un sous-ensemble des états précédents
+        de la rame~; ces états précédents sont utilisés pour l'asservissement de 
+        la rame, le nombre des états précédents à mémoriser dépend de la loi de
+        commande.
+    \end{itemize}
+
+    Voici la description des caractéristiques comportementales de cette classe~:
+    \begin{itemize}
+      \item \texttt{initPosition(float Metres)} initialise la position de la rame à une valeur donnée~;
+      \item \texttt{lireVitesse(float * Vitesse)} lit la valeur courante de la vitesse de la rame (valeur fournie par la génératrice tachymétrique)~;
+      \item \texttt{lirePosition(float * Metre)} lit la valeur courante de la position~;
+      \item \texttt{fixerCourrant(float Courant)} fixe le valeur du courant fournie au moteur 
+        au moyen de l'unité de gestion du PWM~; avec \texttt{Courant} $\in$ [-3,3;+3,3]~;
+      \item \texttt{lireConsigne(float * Position)} permet de lire la consigne de position
+        qu'il faut atteindre~;
+      \item \texttt{asservirEnPosition()} permet d'asservir en position la rame.
+    \end{itemize}
+
+
+    \subsubsection{Vue fonctionnelle}
+    \label{SSSecVueFonctionnelle}
+    Le diagramme d'activités de la figure 
+    \ref{FigFoncControleur} illustre le séquencement des différentes
+    fonctionnalités effectuées par \texttt{GestionnaireConsigne}. 
+    \footnote{Attention, il est fréquent et 
+      faux de mélanger fonctionnalités et tâches d'un système temps-réel. 
+      En effet, une tâche pourra réaliser plusieurs fonctionnalités (par exemple la tâche
+      chargée de l'initialisation du système accomplira sûrement l'initialisation
+      de tous les capteurs et actionneurs) et des fonctionnalités
+      complexes peuvent être implantées en plusieurs tâches (par exemple la fonctionnalité 
+      aller à la station suivante).}
+
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{4cm}{!}{\includegraphics{./DFIG-figures/fonctionnalitesControleur.eps}}
+      \end{center}
+      \caption{Fonctionnalités du contrôleur}
+      \label{FigFoncControleur}
+    \end{figure*} 
+    % -----------------------------------------------------------------------    
+    Cette figure spécifie que le consigne est envoyée au trame au moyen d'un signal.
+    L'action d'envoie de signal est modélisé au moyen de la flèche.
+
+    \petitSaut \begin{tabular}{|p{14cm}|}
+      \hline
+      En vous inspirant de cette représentation, spécifiez les fonctionnalités
+      et leur séquencement
+      de la classe de gestion de la rame.
+      L'annexe \ref{Base} fournit la sémantique (le sens) des différentes
+      constructions d'UML utilisées dans ce diagramme.\\
+      \hline
+    \end{tabular} \petitSaut
+
+
+    \subsection{Conception}
+    \label{SSecConception}
+
+    La conception est réalisée en deux étapes présentée aux section 
+    \ref{SSSecConceptionGenerale} et \ref{SSSecConceptionDétaillée}.
+
+    \subsubsection{Conception Générale}
+    \label{SSSecConceptionGenerale}
+
+
+      La première partie de la conception consiste à assigner les différentes fonctionnalités 
+      sur les unités de traitement (tâches).
+      Pour cela vous utiliserez les guides de conception présentés à l'annexe \ref{AnGuides}.
+       Ces guides sont extrèmement utiles pour identifier et justifier la répartition
+      des fonctionnalités sur les tâches.
+      Pour chacun des tâches vous indiquerez, les données d'entrées, les données de sortie,
+      les fonctionnalités réalisées et les différentes synchronisation et contraintes 
+      temporelles.\\
+
+    \petitSaut \begin{tabular}{|p{14cm}|}
+      \hline
+      Réalisez un document qui fait la description des différentes tâches comme spécifié 
+      précédemment.\\
+      \hline
+    \end{tabular} \petitSaut
+
+    ~
+
+    La deuxième étape de la conception générale est de représenter les différentes tâches de 
+    manière graphique.
+    Le but d'un tel diagramme est de spécifier de manière graphique les différentes tâches,
+    leurs interactions, les variables partagées (produites et consommées), les
+    sémaphores utilisés, les différentes périodes.
+    Ce diagramme fait abstraction 
+    de la manière dont est réalisée la tâche (l'algorithme interne n'est pas décrit~: 
+    chaque tâche est vu comme une boîte noire).
+    Par exemple la figure \ref{FigConsoP} de la partie
+    \ref{TRActivite} est un exemple où le système contient deux tâches.
+
+    \petitSaut \begin{tabular}{|p{14cm}|}
+      \hline
+      Représentez les différents tâches identifiées au moyen d'un diagramme d'activité.
+      Pour cela inspirez vous de l'annexe \ref{AnnexeActivité}.\\
+     \hline
+    \end{tabular} \petitSaut
+
+
+    \subsubsection{Conception détaillée}
+    \label{SSSecConceptionDétaillée}
+
+    Au cours de la conception détaillée nous nous proposons de concevoir
+    le fonctionnement interne des différentes tâches.
+    Encore une fois nous utiliserons le diagramme d'activité.
+
+    Afin de préciser en quoi consiste cette étape nous vous présentons un exemple.
+    Supposons qu'au cours de l'étape de conception générale 
+    nous ayons décidé de regrouper les différentes fonctionnalités de
+    \texttt{GestionnaireConsigne} au sein d'une même tâche.
+    Les figures \ref{FigGenererConsigne} et \ref{FigAttente} décrivent la conception de la 
+    tâche \texttt{GénérerConsigne}.
+    
+    
+    % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{12cm}{!}{\includegraphics{./DFIG-figures/specifTacheGenererConsigne3.eps}}
+      \end{center}
+      \caption{Conception de la tache GénérerConsigne}
+      \label{FigGenererConsigne}
+    \end{figure*}
+    % -----------------------------------------------------------------------
+
+   % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{6cm}{!}{\includegraphics{./DFIG-figures/attenteStation.eps}}
+      \end{center}
+      \caption{Conception de l'activité AttenteStation}
+      \label{FigAttente}
+    \end{figure*} 
+    % -----------------------------------------------------------------------
+
+
+
+    \petitSaut \begin{tabular}{|p{14cm}|}
+      \hline
+      En vous inspirant de cette représentation, concevez les différentes 
+      tâches à effectuer sur chacune des rames.
+      L'annexe \ref{AnnexeActivité} fournit la sémantique (le sens) des différentes
+      constructions d'UML utilisées dans ce diagramme.\\
+      \hline
+    \end{tabular} \petitSaut
+
+    \subsection{Implantation}
+    \label{SSecImplantation}
+
+    La partie d'implantation est découpée en 4 phases.
+    Chaque phase sera validée en simulation puis implantée sur le matériel
+    (hormis phases 3 et 5). Chacune des phase donnera lieu à une livraison.
+    Afin d'augmenter votre productivité vous pouvez réaliser plusieurs phases en 
+    parallèle tout en respectant le séquencement de la figure \ref{FigGestionPhases}.
+
+   % -----------------------------------------------------------------------
+    % \resizebox{!}
+    \begin{figure*}[h!t]
+      \begin{center}
+        \centering \resizebox{5cm}{!}{\includegraphics{./DFIG-figures/ordoPhase.eps}}
+      \end{center}
+      \caption{Je gère les phases dans mon groupe pour pouvoir finir le TP}
+      \label{FigGestionPhases}
+    \end{figure*} 
+    % -----------------------------------------------------------------------
+
+    \subsubsection{Phase 1 : Prise en main du noyau temps réel tiny}
+
+    {\bf Fonctionnalités~:} faire deux tâches qui font clignoter les LED 1 et 2
+    de la carte MCB167-NET avec des périodes respectives de 0,5s et 1,5s.
+
+    {\bf Fichier fournis~:}
+    Fichiers qui permettent de modifier l'état des LED 1 et 2.
+
+    \subsubsection{Phase 2 : Asservissement en position d'une rame}
+
+    {\bf  Fonctionnalités~:} Faire une tâche d'asservissement en position d'une 
+    rame.
+
+    {\bf Fichiers fournis~:}
+    Librairie de gestion des périphériques utilisés pour commander le moteur de 
+    la rame (PWM) et pour acquérir l'état de la rame (position par unité Capcom, et vitesse
+    par lecture de la génératrice tachymétrique).
+
+    Un fichier qui simule le fonctionnement d'une rame (.ini) et qui permet donc de valider la
+    commande en simulation.
+
+    \subsubsection{Phase 3 : CAN}
+
+    L'année prochaine le bureau d'étude sera couplé avec les TPs concernant le bus CAN.
+    Aussi cette année, nous ne vous demandons pas de réaliser la conception associée 
+    à l'ordonnancement des messages et à l'implantation de la gestion du CAN.
+
+    Description des messages :
+
+    \begin{tabular}{|p{5cm}|c|c|c|}
+      \hline
+      Message & Émmetteur & Récepteur &  Identificateur \\
+      \hline
+      Consigne  : 2 flottants qui codent pour la position et la vitesse voulue
+      & Gestionnaire Consigne & Toutes les rames & 10\\
+      \hline
+      État rame 1 :  2 flottants qui codent pour la position et la vitesse réelle& 
+      Rame1 & Rame 2 et 3 & 20\\
+      \hline
+      État rame 2 :  2 flottants qui codent pour la position et la vitesse réelle& 
+      Rame 2 & Rame 1 et 3 & 30\\
+      \hline
+      État rame 3 :  2 flottants qui codent pour la position et la vitesse réelle& 
+      Rame 3 & Rame 1 et 2 & 40\\
+      \hline      
+    \end{tabular}
+
+    Connaissant le débit du CAN, et les périodes d'envoie des différents messages
+    vérifiez que l'ordonnancement des messages sur le CAN est toujours possible.
+
+    {\bf Fonctionnalités :} 
+
+    \begin{itemize}
+    \item initialise les CAN des 
+      différentes stations, qui envoie les messages réels.
+    \item lancer une tâche de période 2 secondes sur les 4 C167 qui~:
+      \begin{enumerate}
+        \item envoie son message sur le réseau, et incrémente les différents flottants~;
+        \item lit les messages reçus~;
+        \item affiche ces messages (avec un print).
+      \end{enumerate}
+    \end{itemize}
+
+    {\bf Fichiers Fournis :}
+
+    Les fichiers d'initialisation et d'utilisation du CAN.
+
+    {\bf Note : }
+    Les identificateurs des messages ne sont pas consécutifs afin de permettre
+    l'ajout de nouveaux messages de priorité intermédiaire.
+
+    Les fichiers qui vous sont fournis permettent notamment la manipulation d'un 
+    message de priorité forte afin par exemple d'implanter un arrêt d'urgence.
+
+    \subsubsection{Phase 4 : intégration}
+    
+
+    {\bf Fonctionnalités :} 
+    Intégrer les résultats des phases 3 et 4 afin réaliser l'application finale.
+    
+    {\bf Fichiers Fournis :} RAS
+
+
+    
+
+\begin{appendix} 
+\clearpage
+\renewcommand{\chaptername}{Annexe}
+        \input{annexeGuide.tex}
+        \input{annexeA.tex}
+\end{appendix}
+\clearpage
+\end{document}
+
+
+% LocalWords:  méta-modèle identificateurs identificateur instantier méta-faits
+% LocalWords:  méta-fait interprétable

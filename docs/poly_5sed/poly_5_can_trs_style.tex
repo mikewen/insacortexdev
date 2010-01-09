@@ -1,0 +1,78 @@
+%%______Style du poly________________________________
+%
+\newfont{\scaledfont}{cmr12 scaled 4000}
+\renewcommand{\thechapter}{\arabic{chapter}}
+\makeatletter
+\def\@makechapterhead#1{
+  {\parindent \z@ \raggedright \normalfont
+    \interlinepenalty\@M
+    \parbox{0.70\textwidth}{\Huge \bfseries #1}\ %
+    \hfill\scaledfont{\thechapter}\par\normalsize%
+    \rule{\textwidth}{1pt}%  <--- the rule
+    \nobreak
+    \vskip 40\p@
+  }%
+}
+\makeatother
+
+
+%%________renomme les chapitres _________
+\addto\captionsfrench{%
+\renewcommand{\chaptername}{Chapitre}
+%\renewcommand{\chaptermark}[1]{\markboth{\chaptername~\thechapter~:#1}{}} %
+}
+
+
+%%______entête et pieds de page géniaux________
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+
+\addtolength{\headheight}{0.2\baselineskip} % Pour éviter le overfull \vbox .... has occured while ouput  is active voir doc fancyhdr
+
+\addtolength{\parskip}{0.4\baselineskip}
+
+%%%%%%%%%%%%%%%%%
+%% PAGES DE GAUCHE (PAGES PAIRES) Cas de deux faces
+%%%%%%%%%%%%%%
+\fancyhead[LE]{\thepage}                                        % Indications en haut à gauche
+\fancyhead[CE]{}                                                % Indications en haut au centre
+\fancyhead[RE]{\leftmark}                                       % Indications en haut à droite
+\fancyfoot[LE]{\tiny \piedbasgauche{}}     % Indications en bas à gauche
+\fancyfoot[CE]{}                                                % Indications en bas au centre
+\fancyfoot[RE]{}                                                % Indications en bas à doite
+%%%%%%%%%%%%%%%%%
+%% PAGES DE DROITE (PAGES IMPAIRES) Cas de deux faces
+%%%%%%%%%%%%%%
+\fancyhead[LO]{\rightmark}                                      % Indications en haut à gauche
+\fancyhead[CO]{}                                                % Indications en haut au centre
+\fancyhead[RO]{\thepage}                                        % Indications en haut à droite
+\fancyfoot[LO]{}                                                % Indications en bas à gauche
+\fancyfoot[CO]{}                                                % Indications en bas au centre
+\fancyfoot[RO]{\tiny \piedbasdroit{}}     % Indications en bas à doite
+
+
+%%%%%%%%%%%%%%%%%
+%% PAGES DE GAUCHE (PAGES PAIRES) Cas de une face
+%%%%%%%%%%%%%%
+%\fancyhead[LE]{}    % Indications en haut à gauche
+%\fancyhead[CE]{}   % Indications en haut au centre
+%\fancyhead[RE]{}    % Indications en haut à droite
+%\fancyfoot[LE]{}     % Indications en bas à gauche
+%\fancyfoot[CE]{}    % Indications en bas au centre
+%\fancyfoot[RE]{}      % Indications en bas à doite
+%%%%%%%%%%%%%%%%%
+%% PAGES DE DROITE (PAGES IMPAIRES) Cas de une face
+%%%%%%%%%%%%%%
+%\fancyhead[LO]{\rightmark}    % Indications en haut à gauche
+%\fancyhead[CO]{}   % Indications en haut au centre
+%\fancyhead[RO]{\thepage}    % Indications en haut à droite
+%\fancyfoot[LO]{\leftmark}     % Indications en bas à gauche
+%\fancyfoot[CO]{}    % Indications en bas au centre
+%\fancyfoot[RO]{\tiny Sébastien \textsc{Bosch} - LAAS-RIA -
+%\today}
+
+
+\renewcommand{\headrulewidth}{0.4pt}
+%\renewcommand{\footrulewidth}{0.4pt}

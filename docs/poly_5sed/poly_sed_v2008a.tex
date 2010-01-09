@@ -1,0 +1,125 @@
+ \documentclass[a4paper,twoside,10pt]{report}
+%% ___Entête pour mouline.sh________________________
+% Usage : ./mouline.sh dvi moncul  (pour moncul.tex)
+%         ./mouline.sh pdf moncul
+%    reverse search en dvi avec CTRL+click
+
+\pdfoutput=1
+
+\usepackage{graphicx}
+
+\ifnum\pdfoutput<1 \DeclareGraphicsExtensions{.eps}
+\newcommand{\inputxfig}[1]{\includegraphics{#1.eps}}
+\usepackage[hypertex]{hyperref} 
+\else
+\DeclareGraphicsExtensions{.pdf}
+\newcommand{\inputxfig}[1]{\input{#1.pdftex_t}}
+\usepackage[pdftex,hypertexnames=false]{hyperref} \fi
+%% ____Chemin pour les figures pour mouline.sh_______
+
+\graphicspath{{figures/}}
+%% __________________________________________________
+
+
+%% ________________extensions________________________
+\usepackage[T1]{fontenc} 
+\usepackage[latin1]{inputenc}
+\usepackage{latexsym} 
+\usepackage{ae} 
+\usepackage{aecompl}
+\usepackage[cyr]{aeguill}
+
+\usepackage[french]{babel}             % distribution french 
+\usepackage[french]{varioref}
+
+\usepackage{caption}
+\usepackage{float}
+\usepackage{color}%\usepackage{lscape}
+%\usepackage{longtable}
+%\usepackage{amsthm,amssymb,amsmath,amsfonts}
+
+% pour les tableaux
+\usepackage{multicol}
+\usepackage{multirow}
+
+
+%%_______________environnements maison______________
+
+\def\stackunder#1#2{
+  \mathrel{\mathop{#2}\limits_{#1}}
+}
+\newtheorem{theo}{Théorème}
+\newcommand{\normalsubformula}[1]{#1}
+\newcommand{\vectD}[2]{
+  \begin{array}[l]{l}
+    #1\\
+    #2
+  \end{array}
+}
+\newcommand{\matNM}[2]{
+  \begin{array}[l]{l}
+    {}_{_{\underline{{#2}}}}\\
+    \Box|_{_{#1}}
+  \end{array}  
+}
+
+% *************** les nouvelles commandes ***************
+
+\definecolor{gris}{gray}{0.50}
+\newcommand{\important}[1]{
+  \petitSaut \begin{tabular}{|p{0.9\linewidth}|}
+    \hline 
+    #1\\
+    \hline
+  \end{tabular} \petitSaut
+}
+
+% indentation multiple
+\newcommand{\dindent}{\indent \indent }
+\newcommand{\tindent}{\indent \indent \indent}
+\newcommand{\qindent}{\dindent \dindent }
+\newcommand{\cindent}{\dindent \dindent \indent}
+
+\newcommand{\sautLigne}{\vspace{0.7cm}}
+\newcommand{\petitSaut}{\vspace{0.2cm}}
+
+
+
+\hyphenation{nom-bre} 
+
+
+
+
+%%___________________MISE EN PAGE____________________
+%\setlength{\hoffset}{1cm}
+%\setlength{\textwidth}{16cm}
+\addtolength{\textwidth}{6cm}
+%\setlength{\oddsidemargin}{0cm}
+%\setlength{\evensidemargin}{0cm}
+\setlength\oddsidemargin{-0.5cm}
+\setlength\evensidemargin{-1.5cm}
+%\addtolength\marginparwidth{0.5cm}
+\addtolength\topmargin{-1.5cm}
+\addtolength\textheight{3cm}
+\addtolength\columnsep{0.5cm}
+
+%%___Style et pieds de pages___________________
+\newcommand{\piedbasgauche}{BE métro (Autom \& CAN \& TR)}
+\newcommand{\piedbasdroit}{5 TRS}
+
+\input{poly_5_can_trs_style}
+
+
+\begin{document}
+
+\input{poly_5_can_trs_garde}
+
+\cleardoublepage
+
+\input{presentation}
+\input{annexe_periphs.tex}
+\input{cahier_des_charges}
+\input{annexe_modele_autom.tex}
+
+\end{document}
+

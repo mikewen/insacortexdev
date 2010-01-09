@@ -1,0 +1,53 @@
+\section{Librairie de périphériques}
+\label{SSecGestionnairePeriph}
+\label{PartPeriphs}
+
+
+Une librairie vous est livrée \og clef en main \fg{}
+\texttt{driveurs\_2008a.c} et \texttt{driveurs\_2008a.h} qui permet de
+gérer ces périphériques\footnote{Merci à Thierry Rocacher
+  pour ces bibliothèques de périphériques}. Le fichier
+d'entête contient toutes les informations quand à
+l'utilisation de cette librairie dont voici les fonctions
+principales.
+
+\subsection{Acquisition de la position -- TIMER 3 --}
+Le timer 3 en mode \textit{incremental interface mode} permet de mesurer la position angulaire relative d'une roues.
+
+Les fonctions associées sont~:
+\begin{description}
+\item[void Init\_Position(int Position)] initialise la
+  position relative mesurée en nombre de pas (largeur d'un
+  strie du codeur incrémental de 4,254 mm environ ;-)~;
+\item[int Lire\_Position(void)] donne la position
+  relative en nombre de pas.
+\end{description}
+
+\subsection{Acquisition de la vitesse -- ADC --}
+L'unité chargée d'acquérir la vitesse consiste à lancer la
+conversion analogique numérique lorsque une demande de
+mesure est effectuée
+
+Les fonctions associées sont~:
+\begin{description}
+\item[signed int Lire\_Vitesse()] renvoie un entier signé
+  entre -512 et +511 proportionnel à la vitesse.
+\item[float Lire\_Vitesse\_float()] renvoie un flottant
+  entre -3.3 et +3.3 qui représente la vitesse en
+  m.s\up{-1}.
+\end{description}
+       
+\subsection{Commande du courant -- PWM --}
+La consigne de courant envoyée au régulateur de courant est
+un signal PWM.
+
+Les fonctions associées sont~:
+\begin{description}
+\item[void Fixe\_Rapport(float Commande\_Courant)] fixe le
+  rapport cyclique de l'unité PWM à la valeur\\
+  \texttt{Commande\_Courant} au format flottant $\in
+  [-1.0;+1.0]$~; l'annulation du courant peut être effectuée
+  par l'appel de la fonction \texttt{Fixe\_Rapport(0.0)}.
+\end{description}
+
+

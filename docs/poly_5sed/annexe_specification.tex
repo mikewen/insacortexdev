@@ -1,0 +1,213 @@
+\cleardoublepage
+\chapter{Spécification et conception}
+\label{SSecSpecifications}
+\label{PartSpecification}
+
+Par manque de temps nous laisserons de coté un certain
+nombre d'activité de spécification (comme la description
+textuelle des cas d'utilisation et la description sous forme
+de diagramme de séquence de ces cas d'utilisation par
+exemple).
+
+\section{Spécification}
+La spécification consistera simplement à fournir la structure de
+l'application (cf. \ref{SSSecSpecifStruct}) et à expliciter
+les différentes fonctionnalités de l'application (cf.
+\ref{SSSecVueFonctionnelle}).
+    
+
+\subsection{Vue structurelle}
+\label{SSSecSpecifStruct}
+
+La figure \ref{FigClasses} fournit le diagramme de classe
+global de l'application.
+% -----------------------------------------------------------------------
+% \resizebox{!}
+\begin{figure*}[h!t]
+  \begin{center}
+    \centering
+    \resizebox{\linewidth}{!}{\includegraphics{diagClasses2}}
+  \end{center}
+  \caption{Diagramme de classes de l'application}
+  \label{FigClasses}
+\end{figure*}
+% -----------------------------------------------------------------------
+    
+{\bf Description des classes}
+
+$\bullet$ La classe \texttt{Generateur\_Trajectoires} contient
+quatre caractéristiques structurelles~:
+\begin{itemize}
+\item \texttt{Liste\_Pos\_A\_Atteindre} est la liste des
+  différentes positions auxquelles la rame devra s'arrêter~;
+  ces positions correspondent en fait aux positions des
+  différentes stations~;
+\item \texttt{Pos\_A\_Atteindre\_Courante} est la position de la
+  prochaine station à atteindre~;
+\item \texttt{Consigne\_Courante} est la consigne à envoyer
+  aux différentes rames~; chacune des consignes contient la
+  vitesse et la position désirée de la rame.
+\end{itemize}
+
+$\bullet$ La classe \texttt{Generateur\_Trajectoires} contient trois
+caractéristiques comportementales (opérations)~:
+\begin{itemize}
+\item \texttt{Calculer\_Parametre\_Rampe()} permet de déterminer
+  les différents paramètres du profil de trajectoire à
+  générer entre deux stations (cf~\ref{PartTraject})~;
+\item \texttt{Generer\_Consigne()} doit envoyer les consignes
+  aux rames, ces consignes dépendront des paramètres du
+  profil calculés au préalable~;
+\item \texttt{Rechercher\_Position\_A\_Atteindre()} doit mettre à
+  jour l'attribut \texttt{Pos\_A\_Atteindre}.
+\end{itemize}
+    
+
+L'action \texttt{Generer\_Consigne} est spécifiée par le
+\emph{timing diagram} de la figure \ref{FigRampe}. La
+période des différentes consignes est de 10ms. Il faut donc
+discrétiser dans le temps le profil de trajectoire présenté
+dans la section~\ref{PartTraject} comme indiqué sur la
+figure~\ref{FigRampe}. Vous devrez donc calculer, en nombre
+de périodes, le pas d'accélération $a$, les temps $T_a$,
+$T_d$, $tp_2$, etc.
+
+$\bullet$ La classe \texttt{Etat\_Rame} permet de représenter
+l'état d'une rame à un moment donné. Cet état est déterminé
+par la vitesse et la position de la rame.
+
+$\bullet$ La classe \texttt{Rame} a pour but de gérer une
+rame. Elle contient deux caractéristiques structurelles~:
+\begin{itemize}
+\item \texttt{Etat\_Courrant} qui contient l'état courant de
+  la rame~;
+\item \texttt{Etats\_Precedents} qui contient un sous-ensemble
+  des états précédents de la rame~; ces états précédents
+  sont utilisés pour l'asservissement de la rame, le nombre
+  des états précédents à mémoriser dépend de la loi de
+  commande.
+\end{itemize}
+
+Certaines des caractéristiques comportementales de cette
+classe sont directement fournies par la librairie de gestion
+des périphériques~:
+\begin{itemize}
+\item \texttt{Init\_Position(int Pas)} initialise la
+  position de la rame à une valeur donnée~;
+\item \texttt{Lire\_Vitesse(float * Vitesse)} lit la valeur
+  courante de la vitesse de la rame (valeur fournie par la
+  génératrice tachymétrique)~;
+\item \texttt{Lire\_Position(int * Pas)} lit la valeur
+  courante de la position~;
+\item \texttt{Fixer\_Rapport(float Courant)} fixe le valeur du
+  courant fournie au moteur au moyen de l'unité PWM~;
+\item \texttt{Lire\_Consigne(float * Position)} permet de lire
+  la consigne de position qu'il faut atteindre~;
+\item \texttt{Asservir\_En\_Position()} permet d'asservir en
+  position la rame.
+\end{itemize}
+
+
+\subsection{Vue fonctionnelle}
+\label{SSSecVueFonctionnelle}
+Le diagramme d'activités de la figure
+\ref{FigFoncControleur} illustre le séquencement des
+différentes fonctionnalités effectuées par
+\texttt{Generateur\_Trajectoires}. \footnote{Attention, il est
+  fréquent et faux de mélanger fonctionnalités et tâches
+  d'un système temps-réel. En effet, une tâche pourra
+  réaliser plusieurs fonctionnalités (par exemple la tâche
+  chargée de l'initialisation du système accomplira sûrement
+  l'initialisation de tous les capteurs et actionneurs) et
+  des fonctionnalités complexes peuvent être implantées en
+  plusieurs tâches (par exemple la fonctionnalité aller à la
+  station suivante).}
+
+% -----------------------------------------------------------------------
+% \resizebox{!}
+\begin{figure}[h!t]
+  \begin{center}
+    \centering
+    \resizebox{0.35\linewidth}{!}{\includegraphics{fonctionnalitesControleur}}
+  \end{center}
+  \caption{Fonctionnalités du contrôleur}
+  \label{FigFoncControleur}
+\end{figure}
+% -----------------------------------------------------------------------
+Cette figure spécifie que la consigne est envoyée aux rames
+au moyen d'un signal. L'action d'envoie de signal est
+modélisée au moyen de la flèche.
+
+\section{Conception}
+\label{SSecConception}
+
+La conception est réalisée en deux étapes présentée aux
+section \ref{SSSecConceptionGenerale} et
+\ref{SSSecConceptionDétaillée}.
+
+\subsection{Conception Générale}
+\label{SSSecConceptionGenerale}
+
+% -----------------------------------------------------------------------
+% \resizebox{!}
+\begin{figure*}[h!t]
+  \begin{center}
+    \centering
+    \resizebox{0.8\linewidth}{!}{\includegraphics{specifTacheGenererConsigne3}}
+  \end{center}
+  \caption{Conception de la tache GénérerConsigne}
+  \label{FigGenererConsigne}
+\end{figure*}
+% -----------------------------------------------------------------------
+
+La première partie de la conception consiste à assigner les
+différentes fonctionnalités sur les unités de traitement
+(tâches). Pour cela vous utiliserez les guides de conception
+présentés à l'annexe \ref{AnGuides}. Ces guides sont
+extrêmement utiles pour identifier et justifier la
+répartition des fonctionnalités sur les tâches. Pour chacune
+des tâches vous indiquerez les données d'entrée et de
+sortie, les fonctionnalités réalisées et les différentes
+synchronisation et contraintes temporelles.
+
+ 
+La deuxième étape de la conception générale est de
+représenter les différentes tâches de manière graphique. Le
+but d'un tel diagramme est de spécifier de manière graphique
+les différentes tâches, leurs interactions, les variables
+partagées (produites et consommées), les sémaphores
+utilisés, les différentes périodes. Ce diagramme fait
+abstraction de la manière dont est réalisée la tâche
+(l'algorithme interne n'est pas décrit~: chaque tâche est vu
+comme une boîte noire). Par exemple la figure
+\ref{FigConsoP} de la partie \ref{TRActivite} est un exemple
+où le système contient deux tâches.
+
+\subsection{Conception détaillée}
+\label{SSSecConceptionDétaillée}
+
+La conception détaillée décrit le fonctionnement interne des
+différentes tâches. Encore une fois nous utiliserons le
+diagramme d'activité.
+
+Afin de préciser en quoi consiste cette étape nous vous
+présentons un exemple. Supposons qu'au cours de l'étape de
+conception générale nous ayons décidé de regrouper les
+différentes fonctionnalités de \texttt{Generateur\_Trajectoires}
+au sein d'une même tâche. Les figures
+\ref{FigGenererConsigne} et \ref{FigAttente} décrivent la
+conception de la tâche \texttt{GénérerConsigne}.
+    
+    
+
+% -----------------------------------------------------------------------
+% \resizebox{!}
+\begin{figure}[h!t]
+  \begin{center}
+    \centering
+    \resizebox{6cm}{!}{\includegraphics{attenteStation}}
+  \end{center}
+  \caption{Conception de l'activité AttenteStation}
+  \label{FigAttente}
+\end{figure}
+% -----------------------------------------------------------------------

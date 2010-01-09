@@ -1,0 +1,107 @@
+\chapter{Cahier des charges}
+
+Vos travaux concerneront uniquement le prototype miniature
+de la rame de métro dénommé dans la suite
+\emph{métrottinette}.
+Vous vous engagez à~:
+\begin{itemize}
+\item \S \ref{PartCan} -- développer la librairie de communication sur le bus
+  CAN~;
+\item \S \ref{PartTraject} -- déterminer les paramètres de la trajectoire du métro
+  entre deux stations~;
+\item \S \ref{PartAutom} -- développer un simulateur
+  (Matlab/Simulink) de la rame complète et déterminer un retour
+  d'état global permettant de suivre une trajectoire donnée
+  sans collision~;
+\item \S \ref{PartInfo} -- spécifier/développer/tester le
+  logiciel générique embarqué sur chaque voiture, ainsi que
+  le logiciel spécifique au générateur de trajectoires
+  incluant une liaison de déboguage avec matlab.
+\end{itemize}
+
+
+\section{Architecture logicielle}
+Au cours de ce bureau d'étude, la rame sera composée de
+trois voitures. Vous devrez cependant prendre en compte le
+fait que ce nombre pourra être modifié. Pour cela la clef
+\texttt{NB\_VOITURES = n} doit être définie pour indiquer le
+nombre \emph{n} de voitures dans la rame.
+
+Le logiciel final sera un projet Keil incluant les fichiers
+et les librairies. Ce projet permettra de compiler et
+d'exécuter n'importe quelle cible en définissant uniquement
+la valeur de la clef de compilation qui lui correspond~:
+\begin{itemize}
+\item \texttt{ID\_VOITURE = x} indique qu'il faut générer le
+  logiciel embarqué sur la voiture numéro $x \in 1..n$~;
+\item \texttt{CONTROLEUR} indique qu'il faut générer le code
+  du générateur de trajectoire/débogueur. 
+\end{itemize}
+
+Les clefs de compilation seront définies dans la partie
+\emph{define} de l'onglet \textbf{C166} de configuration du
+compilateur.
+
+
+
+\section{Profil de trajectoire}
+\label{PartTraject}
+Le générateur de trajectoires donne les consignes de vitesse
+$v_c(t)$ et de position $x_c(t)$, évidemment l'une est la
+dérivée de l'autre $v(t)=\dot{x}(t)$.
+
+La trajectoire débutant à l'instant $t_0$ et se terminant à
+l'instant $t_F$ doit respecter les contraintes suivante~:
+\begin{itemize}
+\item la position finale $x(t_F)$ doit se trouver à une
+  distance $L$ de la position initiale $x(t_0)$
+  correspondant à la distance entre chaque station de métro~;
+\item la vitesse de la rame doit être limitée à
+  $V_{max}=3.33 \,\, m/s$~;
+\item l'accélération de la rame ne doit jamais dépasser en
+  valeur absolue l'accélération maximale
+  $\left|\dot{v}(t)\right|<\gamma_{max}$
+\end{itemize}
+
+\begin{figure*}[h!tb]
+  \centering
+  \resizebox{0.72\linewidth}{!}{\inputxfig{./figures/profil}}
+  \caption{Profil d'une trajectoire de consigne}
+  \label{FigProfil}
+\end{figure*}
+
+La figure~\ref{FigProfil} montre le profil d'accélération,
+le profil de vitesse et de position qui en découlent. La
+trajectoire est générée à partir d'un profil d'accélération
+en trois phases~: accélération de durée $T_a=2s$, vitesse
+constante de croisière, décélération de durée $T_d=Ta=2s$.
+
+Pour chaque voyage vers une station de métro située à une
+distance $L$, le générateur de trajectoire doit planifier le
+profil de trajectoire adapté et envoyer périodiquement les
+consignes (toutes les 20 ms).
+
+\subsection{Délivrables}
+Calculez les expressions analytiques des paramètres du
+profil de trajectoire de la figure~\ref{FigProfil}
+connaissant la distance $L$ à parcourir, la vitesse de
+croisière $V_{max}$, et les temps
+d'accélération/décélération $T_a=T_d$
+% -----------------------------------------------------------------------
+% \resizebox{!}
+\begin{figure*}[h!t]
+  \begin{center}
+    \centering \resizebox{0.8\linewidth}{!}{\inputxfig{./figures/rampe}}
+  \end{center}
+  \caption{Le profil de trajectoire discrétisé}
+  \label{FigRampe}
+\end{figure*}
+% -----------------------------------------------------------------------
+
+Ce calcul devra être réalisé en temps discret (période de
+$T_c = 20ms$) par le calculateur comme l'indique la
+fig.~\ref{FigRampe}.
+\important{ Vous devrez fournir un fichier
+\emph{simulink} modélisant le calcul en temps discret du
+profil de trajectoire.
+}
