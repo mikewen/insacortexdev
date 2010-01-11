@@ -35,6 +35,7 @@ ________________________________________________________________________________
 //  les standards dans
 //   tpl_os_std_types.h
 #ifndef TPL_OS_STD_TYPES_H
+
 #ifndef __STM32F10x_TYPE_H
 
 #define TPL_OS_STD_TYPES_H
@@ -96,7 +97,7 @@ typedef unsigned long   u64;
 typedef signed long     s64;
 
 #endif /* trampoline */
-#endif
+#endif //STM32lib
 
 // On vérifie si stl32f10x lib  à déjà défini 
 //  les standards dans

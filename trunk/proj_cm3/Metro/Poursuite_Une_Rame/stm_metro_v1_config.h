@@ -37,7 +37,7 @@ ________________________________________________________________________________
 
 //COMMENT line below to remove T2 code and speeed measure functions
 #define USE_SPEED
-#define SPEED_TIC_FREQ  (2000UL*100UL)//(2000UL*100UL)
+#define SPEED_TIC_FREQ  (2000UL*100UL)//
 
 //COMMENT line below to remove PWM code and functions
 #define USE_PWM 
@@ -55,10 +55,11 @@ ________________________________________________________________________________
 #endif
 
 //COMMENT line below to disable Leds Binking after periph are initialized
-//#define BLINK_ON_START
+#define BLINK_ON_START
 #ifdef BLINK_ON_START
 	#define USE_BLINK_LEDS
 	#define BLINK_NBR (2)
+	
 #endif
 
 

@@ -643,7 +643,7 @@
 
   <Group>
     <GroupName>lib</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -720,7 +720,7 @@
       <GroupNumber>4</GroupNumber>
       <FileNumber>26</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>28</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -862,9 +862,9 @@
   </AlienFiles>
 
   <AlienFiles>
-    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\LIB_CM3\STM_CLOCK.H</PathWithFilename>
-    <TopLine>1</TopLine>
-    <CurrentLine>6</CurrentLine>
+    <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\LIB_CM3\CM3_TRAPS.H</PathWithFilename>
+    <TopLine>29</TopLine>
+    <CurrentLine>29</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -2411,6 +2411,18 @@
           <CurrentLine>24</CurrentLine>
         </Doc>
         <Doc>
+          <Name>H:\Documents\cm3_devel\svn_insacortexdev\LIB_CM3\STM_METRO_V1.H</Name>
+          <ColumnNumber>9</ColumnNumber>
+          <TopLine>92</TopLine>
+          <CurrentLine>128</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\Metro\Poursuite_Une_Rame\stm_metro_v1_config.h</Name>
+          <ColumnNumber>21</ColumnNumber>
+          <TopLine>30</TopLine>
+          <CurrentLine>59</CurrentLine>
+        </Doc>
+        <Doc>
           <Name>../../../lib_user/lib_autom_2009a.c</Name>
           <ColumnNumber>14</ColumnNumber>
           <TopLine>6</TopLine>
@@ -2423,22 +2435,10 @@
           <CurrentLine>157</CurrentLine>
         </Doc>
         <Doc>
-          <Name>U:\Windows\Bureau\svn_insacortexdevter\LIB_USER\LIB_TRAJECTOIRE_2009A.H</Name>
-          <ColumnNumber>36</ColumnNumber>
-          <TopLine>41</TopLine>
-          <CurrentLine>41</CurrentLine>
-        </Doc>
-        <Doc>
           <Name>../../../lib_user/lib_trajectoire_2009a.c</Name>
           <ColumnNumber>28</ColumnNumber>
           <TopLine>25</TopLine>
           <CurrentLine>44</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>U:\Windows\Bureau\svn_insacortexdevter\proj_cm3\Metro\Poursuite_Une_Rame\stm_metro_v1_config.h</Name>
-          <ColumnNumber>56</ColumnNumber>
-          <TopLine>54</TopLine>
-          <CurrentLine>72</CurrentLine>
         </Doc>
         <Doc>
           <Name>../../../lib_cm3/stm_metro_v1.c</Name>
