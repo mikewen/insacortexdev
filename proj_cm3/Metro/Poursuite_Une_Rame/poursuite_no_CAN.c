@@ -1,16 +1,52 @@
-// Pierre-Emmanuel Hladik et Pascal Acco
-// 12/12/2009
-/**********************************************************
-Fichier squelette pour le TP d'introduction 
-à OSEK  du porjet système embarqué distribué
-***********************************************************/
+/*
+________________________________________________________________________________________
+ Application d'exemple pour le BE Système Embarqué Distribué des 5TRS
+ poursuite_no_CAN.c
+________________________________________________________________________________________
+USAGE
+	exécutez le script got_goiled.bat et choisissez Projet_no_can.oil
+		=> génération de fichier pour le noyau temps réel OSEK/trampoline
+	compilez et testez Simulateur ou LocoLymex
+________________________________________________________________________________________
+REVS
+	[Acco PEH DiMERCURIO 06/01/2010] finalisation et commentaires de la première version
+		Testée en réel et simulé
+________________________________________________________________________________________
+TODO 
+	Corriger le BOGUE qui arrive dès fois en réel
+	Faire le BE :-)
 
-//COMPILATION KEYS
-//#define CONTROL_WITH_USART
+__________________________________________________________________________________
+  
+  	Tache à 10 ms : Générateur de trajectoire pour faire un tour de piste 
+	avec la locomotive.
+					
+	
+	Tache à 2ms : Régulation PID de la voiture sur la consigne générée
+
+	Tache éternelle : fait rien
+
+________________
+               /  Hardware Fault apparaît uniquement en réel ??!!!
+			  /
+			 /______________\   Hardware fault récupérée par la fonction
+			 				/       Arret_Urgence
+
+	 Arret_Urgence() :
+		La fonction stoppe la commande 
+		et fait clignotter les leds avant et arrière
+		La fonction ne termine jamais
+
+*/
+
+#include "standard_types.h"
+
+// DEBUG avec printf sur USART ou LCD
+// pour le moment ça déconne !
 
 #define ON_LCD (0x1CD)
 #define ON_USART (1)
-// wich output to print out debug infos
+// COMMENBT this line to remove printf debug
 //#define DEBUG ON_USART
 
 // how to control start stop of trajectories ?
@@ -18,29 +54,7 @@ Fichier squelette pour le TP d'introduction
 #define EN_BOUCLE  (0x100F)
 #define CONTROL EN_BOUCLE 
 
-//OSEK includes
-#include "tpl_os.h"
-#include "tpl_os_generated_configuration.h"
-#define Evt_arrivee	1
-//PERIPH includes
-#include "../../lib_cm3/stm_clock.h"
-#include "../../lib_cm3/stm_metro_v1.h"
-
-
-#ifdef USER_HARDWARE_FAULT_HANDLER
-void Arret_Urgence(void)
-{
-	Fixe_Rapport(2000);
-	while (1)
-	{
-    	Blink_Leds(10,DUREE_RAPIDE);
-    	Blink_Leds(4,DUREE_LENTE);
-	};
-}
-#endif
-
 #if (DEBUG == ON_USART)
-
 	#include "../../lib_cm3/lib_usartx.h"
 	#include <stdio.h>
 	#ifdef CONTROL_WITH_USART
@@ -55,10 +69,45 @@ void Arret_Urgence(void)
 
 #endif 
 
+//OSEK includes
+#include "tpl_os.h"
+#include "tpl_os_generated_configuration.h"
+#define Evt_arrivee	1	   //TODO débuguer trampoline
+
+//PERIPH includes
+#include "../../lib_cm3/stm_clock.h"
+#include "../../lib_cm3/cm3_traps.h"
+#include "../../lib_cm3/stm_metro_v1.h"
+
+
+
+//____________________________________________________________
+//    Arret_Urgence en cas de Hardware fault provoqué par cette
+//         voiture
+//    OU en cas de réception du message de panique sur le bus CAN
+//____________________________________________________________
+
+#ifdef USER_HARDWARE_FAULT_HANDLER
+void Arret_Urgence(void)
+{
+
+	Fixe_Rapport(0); //stopee la machine
+   
+	while (1)
+	{
+		//fait clignotter les leds avant et arriere
+    	Blink_Leds(10,DUREE_RAPIDE);
+    	Blink_Leds(4,DUREE_LENTE);
+	};
+}
+#endif
+
+
+
 
 //APPLI includes
 #include "../../lib_user/lib_trajectoire_2009a.h"
-#include "../../lib_user/lib_autom_2009a.h"
+#include "./lib_autom_2009a.h"
 
 
 
@@ -69,8 +118,7 @@ void Arret_Urgence(void)
 Une_Consigne Cons; 
 
 float Com,VCom,Pos,CPos,Ep,Kp;
-#define DISTANCE 27792			
-//#define DISTANCE 277
+		
 
 void InitApp(void)
 {
@@ -88,12 +136,12 @@ void InitApp(void)
 	initGenerateur(10, 2000, 1800);
 	//             Périod(ms) , Rising time (ms) , Vitmax (pas/s)
 
-	Set_Position(DISTANCE); //comme si on terminait un cycle 
-		
+	Set_Position(NB_PAS_BOUCLE); //comme si on terminait un cycle 
+	
 }
 TASK(Generer_Trajectoire)
 { 
-	if (getPhase())
+	if (TRAJECTOIRE_TERMINEE)
 	{
 		SetEvent ( 2, Evt_arrivee);
 		CancelAlarm(1);
@@ -101,8 +149,8 @@ TASK(Generer_Trajectoire)
 		#if (DEBUG == ON_USART)
 			printf("%d",(int) Lire_Position());
 		#endif
-		reinitEtat(DISTANCE);
-		initTrajectoire(DISTANCE);
+		reinitEtat(NB_PAS_BOUCLE);
+		initTrajectoire(NB_PAS_BOUCLE);
 
 	}
 	else
@@ -110,6 +158,7 @@ TASK(Generer_Trajectoire)
 		calculConsigneSuivante();
 	}
 	Cons= lireConsigne();
+
 	TerminateTask();
 }
 

@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.80"
+    ComputedModelVersion    "1.82"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -24,9 +24,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "acco"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Jan 11 23:20:49 2010"
+  LastModifiedDate	  "Mon Jan 11 23:47:36 2010"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:80>"
+  ModelVersionFormat	  "1.%<AutoIncrement:82>"
   ConfigurationManager	  "None"
   SampleTimeColors	  on
   SampleTimeAnnotations	  off
@@ -740,22 +740,13 @@ Model {
       FixptAsFi		      off
     }
     Block {
-      BlockType		      TransportDelay
-      DelayTime		      "1"
-      InitialOutput	      "0"
-      BufferSize	      "1024"
-      FixedBuffer	      off
-      TransDelayFeedthrough   off
-      PadeOrder		      "0"
-    }
-    Block {
       BlockType		      ZeroOrderHold
       SampleTime	      "1"
     }
   }
   System {
     Name		    "n_metro_discret"
-    Location		    [548, 292, 1349, 934]
+    Location		    [548, 314, 1349, 956]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1041,7 +1032,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Sensors"
-	Location		[329, 354, 1442, 772]
+	Location		[155, 210, 1268, 628]
 	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1193,12 +1184,6 @@ Model {
       After		      "-ones(N,1)*0"
     }
     Block {
-      BlockType		      TransportDelay
-      Name		      "Transport\nDelay"
-      Position		      [80, 65, 110, 95]
-      DelayTime		      "N-(1:N)"
-    }
-    Block {
       BlockType		      SubSystem
       Name		      "commande"
       Ports		      [4, 1]
@@ -1216,7 +1201,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"commande"
-	Location		[324, 416, 1121, 1012]
+	Location		[324, 482, 1121, 1078]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1273,7 +1258,7 @@ Model {
 	  Name			  "Correcteur d'angle"
 	  Position		  [325, 182, 380, 238]
 	  Orientation		  "left"
-	  Gain			  "Ka"
+	  Gain			  "Kp"
 	  Multiplication	  "Matrix(K*u)"
 	  ParameterDataType	  "sfix(16)"
 	  ParameterScaling	  "2^0"
@@ -1556,7 +1541,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"générateur de consigne"
-	Location		[592, 534, 1163, 879]
+	Location		[592, 556, 1163, 901]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1796,7 +1781,7 @@ Model {
     Line {
       SrcBlock		      "Step"
       SrcPort		      1
-      DstBlock		      "Transport\nDelay"
+      DstBlock		      "N Process"
       DstPort		      1
     }
     Line {
@@ -1817,12 +1802,6 @@ Model {
       SrcPort		      2
       DstBlock		      "commande"
       DstPort		      4
-    }
-    Line {
-      SrcBlock		      "Transport\nDelay"
-      SrcPort		      1
-      DstBlock		      "N Process"
-      DstPort		      1
     }
     Line {
       SrcBlock		      "générateur de consigne"

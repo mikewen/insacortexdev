@@ -121,4 +121,8 @@ extern void Init_Periphs(void);
 	//__________________________________________________________
 #endif
 
+#ifdef USE_BLINK_LEDS
+	#include "cm3_traps.h"
+#endif
+
 #endif
