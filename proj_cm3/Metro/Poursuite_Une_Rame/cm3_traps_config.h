@@ -78,7 +78,7 @@ ________________________________________________________________________________
 #ifdef 	HANDLE_MEMMANAGE_FAULT
 
 	//COMMENT line below to use your own Fault Function
-	#define USER_MEMMANAGE_FAULT_HANDLER
+	//#define USER_MEMMANAGE_FAULT_HANDLER
 	#ifdef USER_MEMMANAGE_FAULT_HANDLER
 		extern void Arret_Urgence();
 		#define MEMMANAGE_FAULT_FUNCTION Arret_Urgence();
@@ -90,7 +90,7 @@ ________________________________________________________________________________
 #ifdef 	HANDLE_USAGE_FAULT
 
 	//COMMENT line below to use your own Fault Function
-	#define USER_USAGE_FAULT_HANDLER
+	//#define USER_USAGE_FAULT_HANDLER
 	#ifdef USER_USAGE_FAULT_HANDLER
 		extern void Arret_Urgence();
 		#define USAGE_FAULT_FUNCTION Arret_Urgence();
@@ -103,7 +103,7 @@ ________________________________________________________________________________
 #ifdef 	HANDLE_BUS_FAULT
 
 	//COMMENT line below to use your own Fault Function
-	#define USER_BUS_FAULT_HANDLER
+	//#define USER_BUS_FAULT_HANDLER
 	#ifdef USER_BUS_FAULT_HANDLER
 		extern void Arret_Urgence();
 		#define BUS_FAULT_FUNCTION Arret_Urgence();

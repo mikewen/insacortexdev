@@ -14,6 +14,11 @@
 #include <errno.h>
 #include "missing_defs.h"
 
+//TODO blabla
+char minilib_read(int);
+char minilib_write(int, char);
+
+
 #ifdef __GNUC__
 #if !defined (__AVR__)
 	#include <sys/stat.h>
@@ -98,7 +103,7 @@ char *loc_ptr=ptr;
 
 	while (loc_ptr-ptr < len) 
 	{
-  		// insert your code here / call appropriate functions
+		*loc_ptr = minilib_read(file);
 		loc_ptr++;
 	}	
 	
@@ -118,7 +123,7 @@ char *loc_ptr=ptr;
 
 	while (loc_ptr-ptr < len) 
 	{
-  		// insert your code here / call appropriate functions
+		minilib_write(file,*loc_ptr);
 		loc_ptr++;
 	}	
 	

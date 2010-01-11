@@ -1,16 +1,11 @@
 clear all;
 close all;
 
-ImportMesures('mesures_simule.txt','');
+ImportMesures('mesures_trampoline.txt','');
 
 Te=2e-3;
 id=50;
 L = 26000;
-
-while (Acc_Pos(id)~=0)
-    id=id+1;
-end
-iend = id-10;
 
 plot([Acc_Pos ; Dec_Pos])
 figure
@@ -18,6 +13,12 @@ plot([Acc_Vit ; Dec_Vit])
 figure
 plot([Acc_I ; Dec_I])
 figure
+
+while ((Acc_Pos(id)~=0) & id < length(Acc_Pos))
+    id=id+1;
+end
+iend = id-10;
+
 
 Acc_Pos= Acc_Pos(1:iend)-Acc_Pos(1);
 Acc_Vit= Acc_Vit(1:iend);
@@ -27,6 +28,7 @@ Acc_M=(t'>-1)*4095;
 Acc_M(1)=0;
 Acc_M(2)=0;
 
+%%Acc_Vit = 1./Acc_Vit * 800000;
 
 vit = [0 ; (Acc_Pos(2:end)-Acc_Pos(1:(end-1)))/Te]; % pas/s
 Vmax = mean(vit(end-50:end)) ; % pas/s

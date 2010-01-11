@@ -49,7 +49,7 @@ ________________
 #define ON_LCD (0x1CD)
 #define ON_USART (1)
 // COMMENBT this line to remove printf debug
-//#define DEBUG ON_USART
+#define DEBUG ON_USART
 
 // how to control start stop of trajectories ?
 #define WITH_USART	(1)
@@ -57,7 +57,7 @@ ________________
 #define CONTROL EN_BOUCLE 
 
 #if (DEBUG == ON_USART)
-	#include "../../lib_cm3/lib_usartx.h"
+	#include "../../lib_cm3/stm_usartx.h"
 	#include <stdio.h>
 	#ifdef CONTROL_WITH_USART
 	
@@ -168,7 +168,7 @@ void InitApp(void)
 
 	#if ((CONTROL==WITH_USART)||(DEBUG==ON_USART) )
 		setup_usart();
-		printf("Usart OK\n");
+		printf("Usart OK\n ");
 	#endif
 
 	#if (DEBUG==ON_LCD)
@@ -202,7 +202,8 @@ TASK(Generer_Trajectoire)
 		CancelAlarm(1);
 		SetRelAlarm (1, 1000, 10) ;
 		#if (DEBUG == ON_USART)
-			printf("%d",(int) Lire_Position());
+		printf("%i\n ",(int) Lire_Position());
+		//printf("Stop\n ");
 		#endif
 		reinitEtat(NB_PAS_BOUCLE);
 		initTrajectoire(NB_PAS_BOUCLE);
@@ -250,7 +251,7 @@ TASK(Afficher)
 	 	WaitEvent(Evt_arrivee);
 		ClearEvent(Evt_arrivee);
 
-		//printf("ab");
+		//printf("Position = %d",(int) etatRame.Pos);
 
 	}
 	TerminateTask();

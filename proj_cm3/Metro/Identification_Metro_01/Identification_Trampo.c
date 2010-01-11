@@ -4,21 +4,23 @@
 
 //PERIPH includes
 #include "../../lib_cm3/stm_clock.h"
+#include "../../lib_cm3/cm3_traps.h"
 #include "../../lib_cm3/stm_metro_v1.h"
 
-#include "../../lib_cm3/lib_usartx.h"
+#include "../../lib_cm3/stm_usartx.h"
 #include <stdio.h>
 
 
 
 unsigned char go = 0;
 
-#define T_SAMP 10 
-#define T_WAIT 50
-#define T_WAIT_MES 100
-#define TENSION 0x0FFF
-//#define BUFF ((2*T_WAIT_MES + T_WAIT+20)/T_SAMP)
+#define T_SAMP 2 // ms échantillonage mesure
+#define T_ORDO 10 //ms échnatillonage consigne os_wait etc. 
+#define T_WAIT 100
+#define TENSION (0x0FFF)
 #define BUFF 1000
+#define T_WAIT_MES (BUFF*T_SAMP)
+
 
 u16 stock_courant_a[BUFF];
 u16 stock_position_a[BUFF];
@@ -29,22 +31,17 @@ u16 stock_position_f[BUFF];
 u16 stock_vitesse_f[BUFF];
 
 volatile u32 index_tab;
-#define TMP_CNT ((int)(7000.0/4.0/(0.219099-0.00028363)*0.1*100.0/23.0) )
+
 void tempo(int ms)
 {
-	int nms,i;
-	volatile int j;
-
-	for(nms=0; nms < ms; nms++)
-	{
-		for(i=0;i<TMP_CNT;i++) j++;
-	}
+		CancelAlarm(0);
+		SetRelAlarm (0, ms, T_ORDO) ;
 }
 TASK(Mesurer)
 {
 
 	if (go==1)
-	{			
+	{//mesure accélération			
 		stock_position_a[index_tab]=Lire_Position();
     	stock_vitesse_a[index_tab]=Lire_Vitesse();
 		stock_courant_a[index_tab]=Lire_courant();
@@ -52,7 +49,7 @@ TASK(Mesurer)
 		index_tab++;
    	}
 	else if (go==2)
-	{
+	{ //mesure décélération
 		stock_position_f[index_tab]=Lire_Position();
 		stock_vitesse_f[index_tab]=Lire_Vitesse();
 		stock_courant_f[index_tab]=Lire_courant();
@@ -62,29 +59,25 @@ TASK(Mesurer)
 
 	TerminateTask();
 }
-FILE __stdin;
+//FILE __stdin;
 TASK(Consigner)
 {
 int i;
 unsigned char c;
 	
-	//tsk_mesure = os_tsk_create (mesure, 1);
-	
- 	Fixe_Rapport(0);
-
-//	while(1)
+	if (go==0)	
 	{
-		//printf ("Tapez  1 pour afficher les mesures, 2 la position actuelle , 3 pour avancer:\r\n*");
-		printf ("Tapez  1 pour afficher les mesures, 2 pour acquisition avant, 3 pour acquisition arriere:\r\n");
-    //    c = getchar ();
-		c =  fgetc(&__stdin);    
+ 		Fixe_Rapport(0);
+
+		printf ("Tapez  1 pour afficher les mesures, 2 pour acquisition avant, 3 pour acquisition arriere\n ");
+        c = fgetc(stdin);
 		switch(c)
 		{
 			case '1':
-				printf("Mesures en accel/decel\r\nAcc_I;Acc_Pos;Acc_Vit;Dec_I;Dec_Pos;Dec_Vit\r\n");   
+				printf("Mesures en accel/decel\r\nAcc_I;Acc_Pos;Acc_Vit;Dec_I;Dec_Pos;Dec_Vit\n ");   
 		    	for(i=0;i<BUFF;i++)
 				{
-		        	printf("%d;%d;%d;%d;%d;%d\r\n",stock_courant_a[i] ,stock_position_a[i],stock_vitesse_a[i],stock_courant_f[i] ,stock_position_f[i],stock_vitesse_f[i]);
+		        	printf("%d;%d;%d;%d;%d;%d\r\n ",stock_courant_a[i] ,stock_position_a[i],stock_vitesse_a[i],stock_courant_f[i] ,stock_position_f[i],stock_vitesse_f[i]);
 				}
 			
 				break ;
@@ -100,15 +93,6 @@ unsigned char c;
 				tempo(T_WAIT_MES);
 				
 		
-				index_tab=0;
-				go=2;
-
-				Fixe_Rapport(0);				
-				
-				tempo(T_WAIT_MES);
-
-				go=0;
-				printf (" fait\r\n");
 				break;
 						
 			case '3':
@@ -121,21 +105,28 @@ unsigned char c;
 				
 				tempo(T_WAIT_MES);
 
+				break;
+					
+			default : 
+		        printf("Vous avez tapé les mauvais choix, boulet!\n ");
+		        break;
+		}
+	}
+	else if (go==1)
+	{
 				index_tab=0;
 				go=2;
 
 				Fixe_Rapport(0);				
 				
 				tempo(T_WAIT_MES);
-
+	}
+	else
+	{
 				go=0;
-				printf (" fait\r\n");
-				break;
-					
-			default : 
-		        printf("Vous avez tapé les mauvais choix, boulet! \r\n");
-		        break;
-		}
+				printf (" fait\n ");
+				
+	
 	}
 	TerminateTask();
 }

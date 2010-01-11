@@ -32,7 +32,7 @@ CPU test {
       AUTOSTART = FALSE;
       ACTIVATION = 1;
       SCHEDULE = FULL;
-	  STACKSIZE = 128;
+	  STACKSIZE = 256;
     };
     
     TASK Generer_Trajectoire {
@@ -51,7 +51,7 @@ CPU test {
 		};
       ACTIVATION = 1;
       SCHEDULE = FULL;
-	  STACKSIZE = 24;
+	  STACKSIZE = 256;
 	  EVENT = Evt_arrivee;
     };
 
