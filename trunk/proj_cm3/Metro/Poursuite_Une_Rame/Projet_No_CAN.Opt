@@ -39,11 +39,11 @@ OPTFFF 2,17,1,0,0,0,0,0,<../../../trampoline/os/tpl_os_task_kernel.c><tpl_os_tas
 OPTFFF 2,18,1,0,0,0,0,0,<../../../trampoline/os/tpl_os_timeobj_kernel.c><tpl_os_timeobj_kernel.c> 
 OPTFFF 2,19,1,0,0,0,0,0,<../../../trampoline/os/tpl_trace.c><tpl_trace.c> 
 OPTFFF 3,20,1,1,0,1,1,0,<../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c><tpl_machine_cm3.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,154,0,0,0,161,0,0,0,93,3,0,0,54,2,0,0 }
-OPTFFF 4,21,1,0,0,1,1,0,<../../../lib_cm3/Metro_Librairie_Version2009d.c><Metro_Librairie_Version2009d.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,0,0,0,0,0,0,0,0,199,2,0,0,153,1,0,0 }
+OPTFFF 4,21,1,0,0,0,0,0,<../../../lib_cm3/Metro_Librairie_Version2009d.c><Metro_Librairie_Version2009d.c> 
 OPTFFF 4,22,1,0,0,0,0,0,<../../../lib_cm3/stm_clock.c><stm_clock.c> 
 OPTFFF 4,23,1,0,0,0,0,0,<../../../lib_cm3/lib_getc.c><lib_getc.c> 
-OPTFFF 4,24,1,0,0,1,1,0,<../../../lib_cm3/lib_printf.c><lib_printf.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,22,0,0,0,23,0,0,0,17,3,0,0,116,1,0,0 }
-OPTFFF 4,25,1,0,0,1,1,0,<../../../lib_cm3/lib_puts.c><lib_puts.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,44,0,0,0,46,0,0,0,39,3,0,0,139,1,0,0 }
+OPTFFF 4,24,1,0,0,0,0,0,<../../../lib_cm3/lib_printf.c><lib_printf.c> 
+OPTFFF 4,25,1,0,0,0,0,0,<../../../lib_cm3/lib_puts.c><lib_puts.c> 
 OPTFFF 4,26,1,0,0,0,0,0,<../../../lib_cm3/lib_usartx.c><lib_usartx.c> 
 OPTFFF 4,27,1,0,0,0,0,0,<../../../lib_user/led.c><led.c> 
 OPTFFF 4,28,1,0,0,1,1,0,<../../../lib_user/lib_trajectoire_2009a.c><lib_trajectoire_2009a.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,110,0,0,0,115,0,0,0,105,3,0,0,208,1,0,0 }

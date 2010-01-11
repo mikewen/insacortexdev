@@ -451,6 +451,7 @@ u16 Lire_Vitesse()
    return Vitesse;	 
 }
 */
+
 u16 Lire_Vitesse()
 { 
    if (Duree >= DUREE_ARRET)

@@ -47,7 +47,11 @@
  */
 #ifndef __LIB_USARTx
 #define __LIB_USARTx
-#include <stdio.h>
+
+#include "stm_clock.h"
+#include "stm_usartx_config.h"
+
+//#include <stdio.h>
 /*----------------------------------------------------------------------------
   external functions
  *----------------------------------------------------------------------------*/
@@ -67,8 +71,6 @@
 	int usart_read(void);
 #endif /* !defined __MINILIB__ */
 
-#include "stm_clock.h"
-#include "stm_usartx_config.h"
 
 #ifdef USART_POL
 #endif

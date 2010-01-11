@@ -1,21 +1,35 @@
-			  // Configuration file for STM32F103xx  clock system
-// GPL licensed code (S. Di Mercurio and P. Acco)
-//_________________
-//USAGE 
-//  copy this lb_cm3/stm_clock_config_TEMPLATE.H in the project dir as stm_clock_config.h
-// 	add lib_cm3/stm_clock.c to makefile
-//  include lib_cm3/stm_clock.h in main and call setup_clock_system();
-//  edit configuration #defines of this file
-//  compile and check error messages
-//  use __SYSCLK, __HCLK, __PCLK1, __PCLK2, __ADCCLK	defines to program peripherals
-//__________________
-// TODO : what is the clock used by CM3 systick ? 
-// TODO	: add Peripheral clock enable  functions
-// TODO : add USBCLK, MCO, CSS fonctionalities
-// TODO : test _SYSCLK_SOURCE IS_HSI and IS_HSE
-// TODO : add RTCCLK IWDGCLK functionalities
-// TODO : add TIM1 and TIM2  
-
+/*
+________________________________________________________________________________________
+	Clock configuration files for stm32f103
+	stm_clock_config[_TEMMPLATE].h
+    GPL licensed code (S. Di Mercurio and P. Acco)
+________________________________________________________________________________________
+USAGE
+	??? is the name of the library i.e. stm_clock
+	RELPATH is the relative path from your projetc directory to lib_cm3 directory	
+	
+   	include RELPATH/lib_cm3/???.c file in your makefile
+	copy    RELPATH/lib_cm3/???_config_TEMPLATE.h in your project directory	(noted ./)
+	rename  ./???_config_TEMPLATE.h as ./???_config.h in your project directory
+	edit    ./???_config.h file for your project (lines with //CONF tags)  
+	ensure that ./ path is visible in CC compiler options 
+	add "#include "RELPATH/lib_cm3/???.h" in app. code 
+	add a call to "Init_???();" at initialisation step of your APP
+________________________________________________________________________________________
+REVS
+	[Acco 06/01/2010] finalisation et commentaires de la première version
+		Testée en réel et simulé (utilisation de PWM et USART et CAN)		
+________________________________________________________________________________________
+TODO
+	test _SYSCLK_SOURCE IS_HSI and IS_HSE
+	+ Peripheral clock enable  functions
+	+ USBCLK, MCO, CSS fonctionalities
+	+ RTCCLK IWDGCLK functionalities
+	+ TIM1 and TIM2  
+ 	+ stm32_GetPCLK2() et autres fonctions pour assurer 
+	  la compatibilité avec stm32f10x lib
+________________________________________________________________________________________
+*/
 
 #ifndef __STM_CLOCK_CONFIG
 #define __STM_CLOCK_CONFIG
@@ -27,6 +41,10 @@
 #define IS_DIVIDED_BY_2 (1<<17)	    //DO NOT MODIFIY THIS CONSTANT
 #define __HSI 8000000UL	  // High Speed Internal RC clock (8MHz) on STM32F103xx
 
+
+/*_________________________________________________________________________________________
+// edit CONFIGURE tags below this line
+//________________________________________________________________________________________*/
 
 //_________________________________________________________________________________________
 // SYSTEM CLOCK CONFIGURATION
@@ -87,8 +105,12 @@
 //_________________________________________________________________________________________
 
 
+/*______________________________________________________________________________________
+//              DO NOT EDIT BELOW THIS LINE !!!!!!
+//____________________________________________________________________________________*/
+
 //______________________________________________________________________________________
-// Control of inputs             DO NOT EDIT BELOW THIS LINE !!!!!!
+// Control of inputs  
 // Evaluation and control of frequencies (generates error message)
 // defines __SYSCLK, __HCLK, __PCLK1, __PCLK2, __ADCCLK	 __TIMXCLK __TIMxCLK
 #if (__HSE<4000000UL)
@@ -190,7 +212,7 @@
 #define __ADCCLK ((__PCLK2)/(_ADCPRE))
 #if ((__ADCCLK)>14000000UL)
 	#error "ADC prescaler output frequency should not exceed 14 MHz ! Increase _ADCPRE or _HPRE prescaler ratio"
-#endif  	
-#endif 		
-
-
+#endif 
+	
+#endif	
+			
