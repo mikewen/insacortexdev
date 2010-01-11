@@ -76,6 +76,7 @@ int fgetc(FILE *fp)
 int val;
 
 	_read(fp->_file, (char*) &val, 1);
+
 	return val;
 }
 

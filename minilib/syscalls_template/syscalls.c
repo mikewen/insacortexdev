@@ -15,11 +15,22 @@
 #include "missing_defs.h"
 
 #ifdef __GNUC__
+#if !defined (__AVR__)
 	#include <sys/stat.h>
 	#include <sys/types.h>
 	#include <reent.h>
 
 	struct _reent *_impure_ptr __ATTRIBUTE_IMPURE_PTR__;
+#else
+	//#include <sys/types.h>
+	#define ENOMEM -2
+	#define EAGAIN -3
+	#define EINVAL -4
+	#define EMLINK -5
+	#define ENOENT -6
+	#define ECHILD -7
+
+#endif /* !defined __AVR__ */
 #else
 	#define ENOMEM -2
 	#define EAGAIN -3
@@ -76,18 +87,18 @@ int _open(const char *name, int flags, int mode)
 
 /*
  * _read
- * Read from a file. Minimal implementation:
+ * Read from a file. 
+ * 	file : file identifier (indicate on which channel/peripheral read data)
+ * 	ptr : pointer to an array of char (provided by caller) in which store data
+ *	len : amount of data to read
  */
 int _read(int file, char *ptr, int len) 
 {
-int todo;
-char *loc_ptr;
+char *loc_ptr=ptr;
 
-	loc_ptr = ptr;
-
-	for (todo = 0; todo < len; todo++) 
+	while (loc_ptr-ptr < len) 
 	{
-  		//*loc_ptr = fgetc (&__stdout);
+  		// insert your code here / call appropriate functions
 		loc_ptr++;
 	}	
 	
@@ -96,17 +107,21 @@ char *loc_ptr;
 
 /*
  *	_write
- *  Write to a file. libc subroutines will use this system routine for output to all files, including stdout—so if you need to generate any output, for example to a serial port for debugging, you should make your minimal write capable of doing this. The following minimal implementation is an incomplete example; it relies on a outbyte subroutine (not shown; typically, you must write this in assembler from examples provided by your hardware manufacturer) to actually perform the output.
+ *  Write to a file. 
+ * 	file : file identifier (indicate in which channel/peripheral write data)
+ * 	ptr : pointer to an array of char (provided by caller) on which take data to write
+ *	len : amount of data to write
  */
 int _write(int file, char *ptr, int len) 
 {
-volatile int todo;
+char *loc_ptr=ptr;
 
-	for (todo = 0; todo < len; todo++) 
+	while (loc_ptr-ptr < len) 
 	{
-  		//fputc (*ptr++, &__stdout);
-	}
-
+  		// insert your code here / call appropriate functions
+		loc_ptr++;
+	}	
+	
 	return len;
 }
 

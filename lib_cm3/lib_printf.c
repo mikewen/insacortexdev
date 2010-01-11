@@ -30,6 +30,10 @@
 FILE __stdout;
 FILE __stdin;
 
+#if defined __MINILIB__
+#error this file is obsolete: use minilib instead
+#endif /* __MINILIB__ */
+
 #define outbyte(c) fputc(c,&__stdout)
 
 static void printchar(char **str, int c)

@@ -55,6 +55,10 @@ QUICKREF
 #error long int is not a 32bit or 64bit byte
 #endif
 
+#ifdef __AVR__
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
+#endif /* __AVR__ */
+
 char *strcat(char *s1, const char *s2)
 {
 #if defined(PREFER_SIZE_OVER_SPEED)

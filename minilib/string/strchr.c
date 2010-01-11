@@ -57,6 +57,10 @@ QUICKREF
    to fill (long)MASK. */
 #define DETECTCHAR(X,MASK) (DETECTNULL(X ^ MASK))
 
+#ifdef __AVR__
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
+#endif /* __AVR__ */
+
 char *strchr(const char *s1, int i)
 {
   const unsigned char *s = (const unsigned char *)s1;

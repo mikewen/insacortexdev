@@ -60,6 +60,9 @@ PORTABILITY
 #endif
 #endif
 
+#ifdef __AVR__
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
+#endif /* __AVR__ */
 
 void *memccpy (void *dst0, const void *src0, int endchar0, size_t len0)
 {

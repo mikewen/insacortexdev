@@ -77,6 +77,6 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 
 int fputc (int c, FILE *fp)
 {
-	return _write(fp->_file, (char*) &c, 1);
+	return _write(fp->_file, (char*) &c, 1);	
 }
 

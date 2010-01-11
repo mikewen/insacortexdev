@@ -2,6 +2,10 @@
 #include "stdarg.h"
 #include "stdlib.h"
 
+#if defined __MINILIB__
+#error this file is obsolete: use minilib instead
+#endif /* __MINILIB__ */
+
 int sscanf(char *s, const char *fmt, ...)
 {
 	char *s0;

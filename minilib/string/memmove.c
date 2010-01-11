@@ -52,6 +52,10 @@ QUICKREF
 /* Threshhold for punting to the byte copier.  */
 #define TOO_SMALL(LEN)  ((LEN) < BIGBLOCKSIZE)
 
+#ifdef __AVR__
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
+#endif /* __AVR__ */
+
 void *memmove(void *dst_void, const void *src_void, size_t length)
 {
 #if defined(PREFER_SIZE_OVER_SPEED)

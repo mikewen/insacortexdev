@@ -6,8 +6,10 @@
 #include "lib_usartx.h"     // import configuration NUM_USART and BAUDRATEx
 #include "stm_clock.h"
 
+#if !defined __MINILIB__
 FILE __stdout;
 FILE __stdin;
+#endif /* MINILIB */
 
 //#pragma import(__use_no_semihosting_swi)  // ACCO !!! pas pigé l'histoire TODO
 
@@ -102,8 +104,8 @@ void USARTx_IRQHandler (void);
 #ifdef DMA_BUFFER
 char rbuff[RBUF_SIZE];
 #endif
- void setup_usart()							//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTERNATE FUNCTION
- {
+void setup_usart()			//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTERNATE FUNCTION
+{
 #ifdef DMA_BUFFER
  	void buffer_init(void);
 
@@ -290,7 +292,8 @@ char rbuff[RBUF_SIZE];
 #ifdef USART_POL
 
 //_______________________________________________________________________
-//  Redéfinition de fputc et fgetc pour stdio.h
+//  Redéfinition de fputc et fgetc pour stdio.h (si __MINILIB__ n'est pas defini
+// Sinon, definition de usart_write et usart_read
 //________________________________________________________________________
 
 
@@ -299,7 +302,11 @@ char rbuff[RBUF_SIZE];
 /*----------------------------------------------------------------------------
   fputc
  *----------------------------------------------------------------------------*/
+#if !defined __MINILIB__
 int fputc(int ch, FILE *f) {
+#else
+int usart_write(int ch) {
+#endif
   while (!(USARTx->SR & USART_FLAG_TXE));
   USARTx->DR = (ch & 0x1FF);
 
@@ -310,7 +317,11 @@ int fputc(int ch, FILE *f) {
 /*----------------------------------------------------------------------------
   fgetc
  *----------------------------------------------------------------------------*/
+#if !defined __MINILIB__
 int fgetc(FILE *f) {
+#else
+int usart_read(void) {
+#endif
   while (!(USARTx->SR & USART_FLAG_RXNE));
 
   return ((int)(USARTx->DR & 0x1FF));
@@ -362,8 +373,11 @@ void buffer_init(void)
  char tbuffer_empty=1;
  short int dma_size;
 
-
+#if !defined __MINILIB__
 int fputc(int ch, FILE *f) 
+#else
+int usart_write(int ch)
+#endif
  { 
    if (!tbuffer_empty)
  	{
@@ -454,7 +468,11 @@ int fputc(int ch, FILE *f)
 
 
 /*---------------------------------------------fgetc---------------------------------------------------------*/
+#if !defined __MINILIB__
 int fgetc(FILE *f) {
+#else
+int usart_read(void) {
+#endif
   int ch;
   
   while(*in_ptr == 0) ;
@@ -607,14 +625,22 @@ int GetKey (void) {
 /*----------------------------------------------------------------------------
   fputc
  *----------------------------------------------------------------------------*/
+#if !defined __MINILIB__
 int fputc(int ch, FILE *f) {
+#else
+int usart_write(int ch) {
+#endif
   return (SendChar(ch));
 }
 
 /*----------------------------------------------------------------------------
   fgetc
  *----------------------------------------------------------------------------*/
+#if !defined __MINILIB__
 int fgetc(FILE *f) {
+#else
+int usart_read(void) {
+#endif
   int ch;
 
   do {

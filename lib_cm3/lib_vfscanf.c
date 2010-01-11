@@ -41,6 +41,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#if defined __MINILIB__
+#error this file is obsolete: use minilib instead
+#endif /* __MINILIB__ */
+
 //#include "stdio_private.h"
 #define SCANF_LEVEL SCANF_MIN
 
