@@ -10,6 +10,10 @@
 #include "stdio.h"				// import FILE type
 FILE __stdout ;
 
+#if defined __MINILIB__
+#error this file is obsolete: use minilib instead
+#endif /* __MINILIB__ */
+
 int	puts(const char *__str)
 {
 int i;

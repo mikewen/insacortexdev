@@ -47,6 +47,7 @@ Supporting OS subroutines required (only if enabled): <<close>>, <<fstat>>,
 #include <stdlib.h>
 #include <stdio.h>
 
+#ifndef __AVR__
 /* func can be NULL, in which case no function information is given.  */
 void __assert_func (const char *file, int line, const char *func, const char *failedexpr)
 {
@@ -68,3 +69,17 @@ int __assert(const char *file, int line, const char *failedexpr) __pure
    __assert_func (file, line, NULL, failedexpr);
   /* NOTREACHED */
 }
+#else
+
+void __assert(const char *__func, const char *__file, int __lineno, const char *__sexp)
+{
+   fprintf(stderr,
+	   	  "assertion \"%s\" failed: file \"%s\", line %d%s%s\n",
+	      __sexp, __file, __lineno,
+	      __func ? ", function: " : "", __func ? __func : "");
+  
+  for (;;);
+
+  /* NOTREACHED */
+}
+#endif /* __AVR__ */

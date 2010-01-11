@@ -61,6 +61,10 @@ QUICKREF
 
 #define TOO_SMALL(LEN) ((LEN) < sizeof (long))
 
+#ifdef __AVR__
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
+#endif /* __AVR__ */
+
 char *strncpy(char *dst0, const char *src0, size_t count)
 {
 #if defined(PREFER_SIZE_OVER_SPEED)

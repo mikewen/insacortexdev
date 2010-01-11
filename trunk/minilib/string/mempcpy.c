@@ -47,6 +47,10 @@ PORTABILITY
 /* Threshhold for punting to the byte copier.  */
 #define TOO_SMALL(LEN)  ((LEN) < BIGBLOCKSIZE)
 
+#ifdef __AVR__
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
+#endif /* __AVR__ */
+
 void *mempcpy(void *dst0, const void *src0, size_t len0)
 {
 #if defined(PREFER_SIZE_OVER_SPEED)

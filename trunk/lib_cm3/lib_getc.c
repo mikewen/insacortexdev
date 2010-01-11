@@ -12,6 +12,10 @@
 FILE __stdout;
 FILE __stdin;
 
+#if defined __MINILIB__
+#error this file is obsolete: use minilib instead
+#endif /* __MINILIB__ */
+
 /* Remarque: le fichier lib_cm3.h fait une redefinition de getchar en lgetchar */
 int getc(FILE *f)
 {

@@ -64,24 +64,23 @@ on two different systems.
 <<rand>> requires no supporting OS subroutines.
 */
 
-
 #include <stdlib.h>
+
+// This algorithm is extracted for ISO/IEC 9899:TC2 
+// It is portable but not so pseudo random
+// TODO: look for another algorithm or maybe, offer a syscall entry
+// Some MCU chip embed special peripheral for random number generation
+
+static unsigned long int next = 1;
+int rand(void) // RAND_MAX assumed to be 32767
+{
+	next = next * 1103515245 + 12345;
+	return (unsigned int)(next/65536) % 32768;
+}
 
 void srand(unsigned int seed)
 {
-//  _REENT_CHECK_RAND48(_REENT);
-//  _REENT_RAND_NEXT(_REENT) = seed;
+	next = seed;
 }
 
-int rand(void)
-{
-  /* This multiplier was obtained from Knuth, D.E., "The Art of
-     Computer Programming," Vol 2, Seminumerical Algorithms, Third
-     Edition, Addison-Wesley, 1998, p. 106 (line 26) & p. 108 */
-//  _REENT_CHECK_RAND48(_REENT);
-//  _REENT_RAND_NEXT(_REENT) = 
-//     _REENT_RAND_NEXT(_REENT) * __extension__ 6364136223846793005LL + 1;
-//  return (int)((_REENT_RAND_NEXT(_REENT) >> 32) & RAND_MAX);
-	return 0;
-}
 
