@@ -1,12 +1,12 @@
 Model {
   Name			  "n_metro_discret"
-  Version		  7.2
+  Version		  7.3
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.82"
+    ComputedModelVersion    "1.85"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -24,9 +24,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "acco"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Jan 11 23:47:36 2010"
+  LastModifiedDate	  "Tue Jan 12 07:32:31 2010"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:82>"
+  ModelVersionFormat	  "1.%<AutoIncrement:85>"
   ConfigurationManager	  "None"
   SampleTimeColors	  on
   SampleTimeAnnotations	  off
@@ -70,6 +70,7 @@ Model {
   CovCumulativeReport	  off
   CovReportOnPause	  on
   CovModelRefEnable	  "Off"
+  CovExternalEMLEnable	  off
   ExtModeBatchMode	  off
   ExtModeEnableFloating	  on
   ExtModeTrigType	  "manual"
@@ -99,13 +100,13 @@ Model {
     Dimension		    1
     Simulink.ConfigSet {
       $ObjectID		      1
-      Version		      "1.5.1"
+      Version		      "1.6.0"
       Array {
 	Type			"Handle"
 	Dimension		8
 	Simulink.SolverCC {
 	  $ObjectID		  2
-	  Version		  "1.5.1"
+	  Version		  "1.6.0"
 	  StartTime		  "0.0"
 	  StopTime		  "L"
 	  AbsTol		  "auto"
@@ -138,7 +139,7 @@ Model {
 	}
 	Simulink.DataIOCC {
 	  $ObjectID		  3
-	  Version		  "1.5.1"
+	  Version		  "1.6.0"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
 	  FinalStateName	  "xFinal"
@@ -148,6 +149,7 @@ Model {
 	  LoadExternalInput	  off
 	  LoadInitialState	  off
 	  SaveFinalState	  off
+	  SaveCompleteFinalSimState off
 	  SaveFormat		  "Array"
 	  SaveOutput		  on
 	  SaveState		  off
@@ -164,7 +166,7 @@ Model {
 	}
 	Simulink.OptimizationCC {
 	  $ObjectID		  4
-	  Version		  "1.5.1"
+	  Version		  "1.6.0"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    4
@@ -182,10 +184,12 @@ Model {
 	  OptimizeBlockIOStorage  on
 	  BufferReuse		  on
 	  EnhancedBackFolding	  off
+	  StrengthReduction	  off
 	  EnforceIntegerDowncast  on
 	  ExpressionFolding	  on
 	  EnableMemcpy		  on
 	  MemcpyThreshold	  64
+	  PassReuseOutputArgsAs	  "Structure reference"
 	  ExpressionDepthLimit	  2147483647
 	  FoldNonRolledExpr	  on
 	  LocalBlockOutputs	  on
@@ -208,7 +212,7 @@ Model {
 	}
 	Simulink.DebuggingCC {
 	  $ObjectID		  5
-	  Version		  "1.5.1"
+	  Version		  "1.6.0"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
 	  ArrayBoundsChecking	  "none"
@@ -278,7 +282,7 @@ Model {
 	}
 	Simulink.HardwareCC {
 	  $ObjectID		  6
-	  Version		  "1.5.1"
+	  Version		  "1.6.0"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
 	  ProdBitPerInt		  32
@@ -305,7 +309,7 @@ Model {
 	}
 	Simulink.ModelReferenceCC {
 	  $ObjectID		  7
-	  Version		  "1.5.1"
+	  Version		  "1.6.0"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
 	  CheckModelReferenceTargetMessage "error"
 	  ModelReferenceNumInstancesAllowed "Multi"
@@ -314,17 +318,18 @@ Model {
 	}
 	Simulink.SFSimCC {
 	  $ObjectID		  8
-	  Version		  "1.5.1"
+	  Version		  "1.6.0"
 	  SFSimEnableDebug	  on
 	  SFSimOverflowDetection  on
 	  SFSimEcho		  on
+	  SimBlas		  on
 	  SimUseLocalCustomCode	  off
 	  SimBuildMode		  "sf_incremental_build"
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
 	  $ObjectID		  9
-	  Version		  "1.5.1"
+	  Version		  "1.6.0"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    6
@@ -366,12 +371,13 @@ Model {
 	  GenerateTraceReportEml  off
 	  GenerateCodeInfo	  off
 	  RTWCompilerOptimization "Off"
+	  CheckMdlBeforeBuild	  "Off"
 	  Array {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
 	      $ObjectID		      10
-	      Version		      "1.5.1"
+	      Version		      "1.6.0"
 	      Array {
 		Type			"Cell"
 		Dimension		17
@@ -428,7 +434,7 @@ Model {
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
 	      $ObjectID		      11
-	      Version		      "1.5.1"
+	      Version		      "1.6.0"
 	      Array {
 		Type			"Cell"
 		Dimension		16
@@ -463,6 +469,7 @@ Model {
 	      GenerateTestInterfaces  off
 	      IsPILTarget	      off
 	      ModelReferenceCompliant on
+	      ParMdlRefBuildCompliant on
 	      CompOptLevelCompliant   on
 	      IncludeMdlTerminateFcn  on
 	      CombineOutputUpdateFcns off
@@ -514,7 +521,6 @@ Model {
     $ObjectID		    1
   }
   BlockDefaults {
-    Orientation		    "right"
     ForegroundColor	    "black"
     BackgroundColor	    "white"
     DropShadow		    off
@@ -524,6 +530,8 @@ Model {
     FontWeight		    "normal"
     FontAngle		    "normal"
     ShowName		    on
+    BlockRotation	    0
+    BlockMirror		    off
   }
   AnnotationDefaults {
     HorizontalAlignment	    "center"
@@ -617,6 +625,7 @@ Model {
       LatchByDelayingOutsideSignal off
       LatchByCopyingInsideSignal off
       Interpolate	      on
+      DimensionsMode	      "auto"
     }
     Block {
       BlockType		      Integrator
@@ -653,6 +662,7 @@ Model {
       SourceOfInitialOutputValue "Dialog"
       OutputWhenDisabled      "held"
       InitialOutput	      "[]"
+      DimensionsMode	      "auto"
     }
     Block {
       BlockType		      Quantizer
@@ -746,7 +756,7 @@ Model {
   }
   System {
     Name		    "n_metro_discret"
-    Location		    [548, 314, 1349, 956]
+    Location		    [228, 200, 1029, 842]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -806,7 +816,8 @@ Model {
 	  BlockType		  Inport
 	  Name			  "Couples perturbateurs"
 	  Position		  [155, 25, 185, 35]
-	  Orientation		  "down"
+	  BlockRotation		  270
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  IconDisplay		  "Port number"
 	  OutDataType		  "sfix(16)"
@@ -1076,11 +1087,12 @@ Model {
 	  BlockType		  RandomNumber
 	  Name			  "Random\nNumber"
 	  Position		  [550, 20, 580, 50]
-	  Orientation		  "down"
+	  BlockRotation		  270
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  Mean			  "zeros(N,1)"
 	  Variance		  "ones(N,1)*50"
-	  Seed			  "rand(N,1)"
+	  Seed			  "round(rand(N,1)*1000)"
 	  SampleTime		  "Te"
 	}
 	Block {
@@ -1182,13 +1194,14 @@ Model {
       Time		      "L*0.1"
       Before		      "ones(N,1)*0"
       After		      "-ones(N,1)*0"
+      SampleTime	      "0"
     }
     Block {
       BlockType		      SubSystem
       Name		      "commande"
       Ports		      [4, 1]
       Position		      [205, 218, 360, 287]
-      Orientation	      "left"
+      BlockMirror	      on
       TreatAsAtomicUnit	      on
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
@@ -1227,7 +1240,7 @@ Model {
 	  BlockType		  Inport
 	  Name			  "Vitesse consigne"
 	  Position		  [695, 28, 725, 42]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	  OutDataType		  "sfix(16)"
@@ -1247,7 +1260,7 @@ Model {
 	  BlockType		  Inport
 	  Name			  "Pos consigne"
 	  Position		  [630, 92, 660, 108]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  Port			  "4"
 	  IconDisplay		  "Port number"
 	  OutDataType		  "sfix(16)"
@@ -1257,7 +1270,7 @@ Model {
 	  BlockType		  Gain
 	  Name			  "Correcteur d'angle"
 	  Position		  [325, 182, 380, 238]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  Gain			  "Kp"
 	  Multiplication	  "Matrix(K*u)"
 	  ParameterDataType	  "sfix(16)"
@@ -1269,7 +1282,7 @@ Model {
 	  BlockType		  Gain
 	  Name			  "Correction intégrale"
 	  Position		  [320, 297, 375, 353]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  Gain			  "Ki"
 	  Multiplication	  "Matrix(K*u)"
 	  ParameterDataType	  "sfix(16)"
@@ -1282,7 +1295,8 @@ Model {
 	  Name			  "Intégrale"
 	  Ports			  [1, 1]
 	  Position		  [469, 240, 501, 275]
-	  Orientation		  "down"
+	  BlockRotation		  270
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  IntegratorMethod	  "Accumulation: Backward Euler"
 	  gainval		  "1.0*ones(N,1)"
@@ -1314,7 +1328,7 @@ Model {
 	  BlockType		  Quantizer
 	  Name			  "Quantizer2"
 	  Position		  [175, 310, 205, 340]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  ShowName		  off
 	  QuantizationInterval	  "1"
@@ -1323,7 +1337,7 @@ Model {
 	  BlockType		  Saturate
 	  Name			  "Saturation"
 	  Position		  [125, 310, 155, 340]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  UpperLimit		  "4095"
 	  LowerLimit		  "-4095"
@@ -1335,7 +1349,7 @@ Model {
 	  Name			  "Sum1"
 	  Ports			  [3, 1]
 	  Position		  [240, 310, 270, 340]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  ShowName		  off
 	  IconShape		  "round"
@@ -1351,7 +1365,8 @@ Model {
 	  Name			  "Sum2"
 	  Ports			  [2, 1]
 	  Position		  [475, 90, 495, 110]
-	  Orientation		  "down"
+	  BlockRotation		  270
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  ShowName		  off
 	  IconShape		  "round"
@@ -1367,7 +1382,8 @@ Model {
 	  Name			  "Sum3"
 	  Ports			  [2, 1]
 	  Position		  [500, 25, 520, 45]
-	  Orientation		  "down"
+	  BlockRotation		  270
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  ShowName		  off
 	  IconShape		  "round"
@@ -1396,7 +1412,7 @@ Model {
 	  BlockType		  Gain
 	  Name			  "correction vitesse (dérivée)"
 	  Position		  [325, 387, 380, 443]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  Gain			  "Kv"
 	  Multiplication	  "Matrix(K*u)"
 	  ParameterDataType	  "sfix(16)"
@@ -1408,7 +1424,7 @@ Model {
 	  BlockType		  Outport
 	  Name			  "Commande"
 	  Position		  [55, 318, 85, 332]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  IconDisplay		  "Port number"
 	}
 	Line {
@@ -1531,7 +1547,7 @@ Model {
       Name		      "générateur de consigne"
       Ports		      [0, 2]
       Position		      [555, 229, 675, 291]
-      Orientation	      "left"
+      BlockMirror	      on
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
@@ -1542,7 +1558,7 @@ Model {
       System {
 	Name			"générateur de consigne"
 	Location		[592, 556, 1163, 901]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1577,13 +1593,13 @@ Model {
 	  Name			  "Pos"
 	  Ports			  [1, 1]
 	  Position		  [190, 95, 220, 125]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  IntegratorMethod	  "Integration: Forward Euler"
 	  ExternalReset		  "none"
 	  InitialConditionSource  "internal"
 	  InitialCondition	  "[0:N-1]'*Delta"
-	  SampleTime		  "Te"
+	  SampleTime		  "Tc"
 	  ICPrevOutput		  "DiscIntNeverNeededParam"
 	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
 	}
@@ -1591,7 +1607,7 @@ Model {
 	  BlockType		  Quantizer
 	  Name			  "Quantizer1"
 	  Position		  [105, 95, 135, 125]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  ShowName		  off
 	  QuantizationInterval	  "1"
@@ -1600,7 +1616,7 @@ Model {
 	  BlockType		  Quantizer
 	  Name			  "Quantizer2"
 	  Position		  [105, 30, 135, 60]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  ShowName		  off
 	  QuantizationInterval	  "1"
@@ -1609,52 +1625,52 @@ Model {
 	  BlockType		  Step
 	  Name			  "Start accel"
 	  Position		  [490, 20, 520, 50]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  Time			  "tda"
 	  Before		  "ones(N,1)*0"
 	  After			  "ones(N,1)*Amax"
-	  SampleTime		  "Te"
+	  SampleTime		  "Tc"
 	}
 	Block {
 	  BlockType		  Step
 	  Name			  "Start decel"
 	  Position		  [490, 130, 520, 160]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  Time			  "tdd"
 	  Before		  "ones(N,1)*0"
 	  After			  "-ones(N,1)*Amax"
-	  SampleTime		  "Te"
+	  SampleTime		  "Tc"
 	}
 	Block {
 	  BlockType		  Step
 	  Name			  "Stop accel"
 	  Position		  [490, 70, 520, 100]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  Time			  "tda+tpsm"
 	  Before		  "ones(N,1)*0"
 	  After			  "-ones(N,1)*Amax"
-	  SampleTime		  "Te"
+	  SampleTime		  "Tc"
 	}
 	Block {
 	  BlockType		  Step
 	  Name			  "Stop decel"
 	  Position		  [490, 185, 520, 215]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  Time			  "tdd+tpsm"
 	  Before		  "ones(N,1)*0"
 	  After			  "ones(N,1)*Amax"
-	  SampleTime		  "Te"
+	  SampleTime		  "Tc"
 	}
 	Block {
 	  BlockType		  Sum
 	  Name			  "Sum1"
 	  Ports			  [4, 1]
 	  Position		  [410, 100, 430, 120]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  ShowName		  off
 	  IconShape		  "round"
@@ -1670,13 +1686,13 @@ Model {
 	  Name			  "Vit"
 	  Ports			  [1, 1]
 	  Position		  [340, 95, 370, 125]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  NamePlacement		  "alternate"
 	  IntegratorMethod	  "Integration: Forward Euler"
 	  ExternalReset		  "none"
 	  InitialConditionSource  "internal"
 	  InitialCondition	  "ones(N,1)*0"
-	  SampleTime		  "Te"
+	  SampleTime		  "Tc"
 	  ICPrevOutput		  "DiscIntNeverNeededParam"
 	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
 	}
@@ -1684,14 +1700,14 @@ Model {
 	  BlockType		  Outport
 	  Name			  "ConsVit"
 	  Position		  [25, 38, 55, 52]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Outport
 	  Name			  "ConsPos"
 	  Position		  [25, 103, 55, 117]
-	  Orientation		  "left"
+	  BlockMirror		  on
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	}
