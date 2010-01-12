@@ -95,11 +95,12 @@ void tpl_switch_context(tpl_context *old_context, tpl_context *new_context)
 				//______________________________________________________
 				// >>>> task stack / LR / PSR / return @ / R12 / R3-R0
 				//_______________________________________________________
-	__asm__ ("push {lr}  ;");  //lr is also the return address 
+	__asm__ ("push {lr}  ;");  //will be PSR later 
+	__asm__ ("push {lr}  ;");  // return @ <=lr is also the return address 
+	__asm__ ("push {lr}  ;");  //lr 
 	__asm__ ("mrs  r14 , psr;"); //cannot push directly psr use r14=lr
-	__asm__ ("push {r14} ;");          // make a copy of the return address
-	__asm__ ("ldr r14, [sp , #4] ;");  // onto the stack itself
-	__asm__ ("push {r14} ;");
+	__asm__ ("orr  r14 , r14, #(1<<24)"); //PSR T bit should be 1 !! (see PM0056 manual p18 Table6)
+	__asm__ ("str r14, [sp , #8] ;");  // put psr on top of stack frame
 	__asm__ ("push {r12} ;");
 	__asm__ ("push {r3} ;");
 	__asm__ ("push {r2} ;");
@@ -120,7 +121,7 @@ void tpl_switch_context(tpl_context *old_context, tpl_context *new_context)
 }
 
 				// SET NEW CONTEXT from R1 using SVC call
-void SVC_Handler ( void)
+void SVC_Handler ( void)	 //TODO __attribute__ ((naked))
 {  // processor is now in Handler mode
 	__asm__ ("ldr r1, [r1] ; "); // r1 pointer to new task cm3_context
 	__asm__ ("ldmia r1 ! , {r4-r11} ;"); // backup gpr not in stack frame from new context
