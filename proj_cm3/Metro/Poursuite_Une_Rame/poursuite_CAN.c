@@ -13,8 +13,10 @@ REVS
 		Testée en réel et simulé
 ________________________________________________________________________________________
 TODO 
-	Corriger le BOGUE qui arrive dès fois en réel
-	Faire le BE :-)
+	- Il y a une petite impulsion de commande à l'init ! Le controler démarre
+	   avant le générateur de trajectoire... à débugguer
+	- L'événement ne fonctionne pas . Problème de trampoline ?
+	- Faire le BE :-)
 
 __________________________________________________________________________________
   
