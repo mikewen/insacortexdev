@@ -3,7 +3,7 @@
 #include <stm32f10x_usart.h>                        // STM32F10x Library Definitions
 
 #include "STM32_Reg.h"          // missing bit definitions
-#include "lib_usartx.h"     // import configuration NUM_USART and BAUDRATEx
+#include "stm_usartx.h"     // import configuration NUM_USART and BAUDRATEx
 #include "stm_clock.h"
 
 #if !defined __MINILIB__

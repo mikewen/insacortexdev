@@ -62,9 +62,10 @@ ________________
 	#include "../../lib_cm3/stm_usartx.h"
 	#include <stdio.h>
 	
-#elif (DEBUG == ON_LCD)
+#endif
+#if (DEBUG == ON_LCD)
 
-	#include "../../lib_user/lcd.h"
+	#include "../../lib_cm3/lcd.h"
 
 #endif 
 
