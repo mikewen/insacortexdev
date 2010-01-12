@@ -21,11 +21,11 @@
   </DaveTm>
 
   <Target>
-    <TargetName>Simulateur</TargetName>
-    <ToolsetNumber>0x3</ToolsetNumber>
-    <ToolsetName>ARM-GNU</ToolsetName>
+    <TargetName>Simulator_Emetteru</TargetName>
+    <ToolsetNumber>0x4</ToolsetNumber>
+    <ToolsetName>ARM-ADS</ToolsetName>
     <TargetOption>
-      <CLKARM>8000000</CLKARM>
+      <CLKADS>8000000</CLKADS>
       <OPTTT>
         <gFlags>1</gFlags>
         <BeepAtEnd>1</BeepAtEnd>
@@ -40,10 +40,10 @@
         <HexOffset>0</HexOffset>
       </OPTHX>
       <OPTLEX>
-        <PageWidth>120</PageWidth>
-        <PageLength>65</PageLength>
+        <PageWidth>79</PageWidth>
+        <PageLength>66</PageLength>
         <TabStop>8</TabStop>
-        <ListingPath>.\</ListingPath>
+        <ListingPath>.\Lst\</ListingPath>
       </OPTLEX>
       <ListingPage>
         <CreateCListing>1</CreateCListing>
@@ -75,7 +75,7 @@
         <tvExpOptDlg>0</tvExpOptDlg>
         <IsCurrentTarget>0</IsCurrentTarget>
       </OPTFL>
-      <CpuCode>0</CpuCode>
+      <CpuCode>255</CpuCode>
       <DllOpt>
         <SimDllName>SARMCM3.DLL</SimDllName>
         <SimDllArguments></SimDllArguments>
@@ -97,7 +97,7 @@
         <sRfunc>1</sRfunc>
         <sRbox>1</sRbox>
         <tLdApp>1</tLdApp>
-        <tGomain>0</tGomain>
+        <tGomain>1</tGomain>
         <tRbreak>1</tRbreak>
         <tRwatch>1</tRwatch>
         <tRmem>1</tRmem>
@@ -105,12 +105,12 @@
         <tRbox>1</tRbox>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
-        <nTsel>0</nTsel>
+        <nTsel>5</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
         <sDlgPa></sDlgPa>
-        <sIfile>..\metro_rame_V2.ini</sIfile>
+        <sIfile>.\CAN_Simulate.ini</sIfile>
         <tDll></tDll>
         <tDllPa></tDllPa>
         <tDlgDll></tDlgDll>
@@ -121,85 +121,53 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGARARM</Key>
+          <Name>(6000=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGTARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>DLGDARM</Key>
-          <Name>(1010=687,480,1053,1024,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=644,364,1280,1024,0)(110=999,224,1203,677,0)(111=321,571,525,1024,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=852,542,1263,956,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=150,183,734,921,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=940,342,1258,813,0)(234=-1,-1,-1,-1,0)(231=733,684,1173,1024,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=914,218,1280,768,0)(1007=1103,140,1280,408,0)(1008=914,90,1280,319,0)(1009=-1,-1,-1,-1,0)(100=644,102,1280,768,0)(110=1076,309,1280,768,0)(111=1076,19,1280,478,0)(1011=756,90,1280,444,0)(180=995,173,1280,463,0)(120=869,90,1280,510,0)(121=869,62,1280,482,0)(122=869,348,1280,768,0)(123=869,348,1280,768,0)(140=602,199,1280,532,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=1005,95,1280,384,0)(130=696,24,1280,768,0)(131=696,24,1280,768,0)(132=696,24,1280,768,0)(133=696,24,1280,768,0)(160=842,91,1280,498,0)(161=842,88,1280,495,0)(162=842,89,1280,496,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=962,291,1280,761,1)(234=436,395,942,734,1)(231=840,422,1280,768,0)(232=712,365,1152,768,0)(233=-1,-1,-1,-1,0)(150=687,24,1280,768,0)(151=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
           <Key>ARMDBGFLAGS</Key>
           <Name>-T0</Name>
         </SetRegEntry>
-      </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
+        <SetRegEntry>
           <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>98</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134221682</Address>
-          <ByteObject>0</ByteObject>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>tpl_machine_cm3.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>67</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134222132</Address>
-          <ByteObject>0</ByteObject>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>cm3_traps.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-      </Breakpoint>
-      <MemoryWindow1>
+          <Key>UL2CM3</Key>
+          <Name>-UV08008NE -O14 -S0 -C0 -N00("ARM CoreSight JTAG-DP") -D00(3BA00477) -L00(4) -N01("Unknown JTAG device") -D01(06410041) -L01(5) -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000</Name>
+        </SetRegEntry>
+      </TargetDriverDllRegistry>
+      <MemoryWindow2>
         <Mm>
-          <WinNumber>1</WinNumber>
-          <SubType>1</SubType>
-          <ItemText>0x200007F8</ItemText>
+          <WinNumber>2</WinNumber>
+          <SubType>8</SubType>
+          <ItemText>0x10000000</ItemText>
         </Mm>
-      </MemoryWindow1>
+      </MemoryWindow2>
       <ToolboxButtons>
         <Wi>
           <IntNumber>0</IntNumber>
-          <FirstString>Lance Metro</FirstString>
-          <SecondString>Metro_Avec_Optos()</SecondString>
+          <FirstString>Analog sweep 0 .. 3.3V</FirstString>
+          <SecondString>analog1 (3.3)</SecondString>
         </Wi>
         <Wi>
           <IntNumber>1</IntNumber>
-          <FirstString>print pos</FirstString>
-          <SecondString>radix=10;TIM3_CNT</SecondString>
-        </Wi>
-        <Wi>
-          <IntNumber>2</IntNumber>
-          <FirstString>LA Optos</FirstString>
-          <SecondString>LA PORTA &amp; (1&lt;&lt;6) ; LA PORTA &amp; (1&lt;&lt;7)</SecondString>
-        </Wi>
-        <Wi>
-          <IntNumber>3</IntNumber>
-          <FirstString>LA Pos</FirstString>
-          <SecondString>LA TIM3_CNT</SecondString>
-        </Wi>
-        <Wi>
-          <IntNumber>4</IntNumber>
-          <FirstString>LA Com+</FirstString>
-          <SecondString>LA TIM2_CCR3</SecondString>
+          <FirstString>Analog sweep STOP</FirstString>
+          <SecondString>signal kill analog1</SecondString>
         </Wi>
       </ToolboxButtons>
       <DebugFlag>
         <trace>0</trace>
-        <periodic>0</periodic>
-        <aLwin>1</aLwin>
+        <periodic>1</periodic>
+        <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
@@ -211,9 +179,9 @@
         <AscS1>0</AscS1>
         <AscS2>0</AscS2>
         <AscS3>0</AscS3>
-        <aSer3>1</aSer3>
+        <aSer3>0</aSer3>
         <eProf>0</eProf>
-        <aLa>1</aLa>
+        <aLa>0</aLa>
         <aPa1>0</aPa1>
         <AscS4>0</AscS4>
         <aSer4>0</aSer4>
@@ -224,37 +192,15 @@
       </DebugFlag>
       <LintExecutable></LintExecutable>
       <LintConfigFile></LintConfigFile>
-      <LogicAnalyzers>
-        <Wi>
-          <IntNumber>0</IntNumber>
-          <FirstString>TIM3_CNT</FirstString>
-          <SecondString>000080000000000000000000000000000058DB40000000006400000000C817A80400000054494D335F434E54000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000070000000000000000000000000000000000000000000000000000000000000000000000F4210008</SecondString>
-        </Wi>
-        <Wi>
-          <IntNumber>1</IntNumber>
-          <FirstString>TIM2_CCR3</FirstString>
-          <SecondString>0000000000000000000069C0000000000000B04000000000AD00000000C817A80400000054494D325F434352330000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000070000000000000000000000000000000000000000000000000000000000000000000000F4210008</SecondString>
-        </Wi>
-        <Wi>
-          <IntNumber>2</IntNumber>
-          <FirstString>(PORTA &amp; 0x40) &gt;&gt; 0</FirstString>
-          <SecondString>FF000000000000000000000000000000E0FFEF40010000004400000000C817A804000000504F525441000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000F4210008</SecondString>
-        </Wi>
-        <Wi>
-          <IntNumber>3</IntNumber>
-          <FirstString>(PORTA &amp; 0x80) &gt;&gt; 0</FirstString>
-          <SecondString>00800000000000000000000000000000E0FFEF40010000003B00000000C817A804000000504F525441000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000F4210008</SecondString>
-        </Wi>
-      </LogicAnalyzers>
     </TargetOption>
   </Target>
 
   <Target>
-    <TargetName>Loco_Olymex</TargetName>
-    <ToolsetNumber>0x3</ToolsetNumber>
-    <ToolsetName>ARM-GNU</ToolsetName>
+    <TargetName>MCBSTM32_Emmeteur</TargetName>
+    <ToolsetNumber>0x4</ToolsetNumber>
+    <ToolsetName>ARM-ADS</ToolsetName>
     <TargetOption>
-      <CLKARM>8000000</CLKARM>
+      <CLKADS>8000000</CLKADS>
       <OPTTT>
         <gFlags>1</gFlags>
         <BeepAtEnd>1</BeepAtEnd>
@@ -269,10 +215,10 @@
         <HexOffset>0</HexOffset>
       </OPTHX>
       <OPTLEX>
-        <PageWidth>120</PageWidth>
-        <PageLength>65</PageLength>
+        <PageWidth>79</PageWidth>
+        <PageLength>66</PageLength>
         <TabStop>8</TabStop>
-        <ListingPath>.\</ListingPath>
+        <ListingPath>.\Lst\</ListingPath>
       </OPTLEX>
       <ListingPage>
         <CreateCListing>1</CreateCListing>
@@ -304,7 +250,7 @@
         <tvExpOptDlg>0</tvExpOptDlg>
         <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
-      <CpuCode>0</CpuCode>
+      <CpuCode>255</CpuCode>
       <DllOpt>
         <SimDllName>SARMCM3.DLL</SimDllName>
         <SimDllArguments></SimDllArguments>
@@ -316,8 +262,8 @@
         <TargetDlgDllArguments>-pSTM32F103RB</TargetDlgDllArguments>
       </DllOpt>
       <DebugOpt>
-        <uSim>1</uSim>
-        <uTrg>0</uTrg>
+        <uSim>0</uSim>
+        <uTrg>1</uTrg>
         <sLdApp>1</sLdApp>
         <sGomain>1</sGomain>
         <sRbreak>1</sRbreak>
@@ -326,7 +272,7 @@
         <sRfunc>1</sRfunc>
         <sRbox>1</sRbox>
         <tLdApp>1</tLdApp>
-        <tGomain>0</tGomain>
+        <tGomain>1</tGomain>
         <tRbreak>1</tRbreak>
         <tRwatch>1</tRwatch>
         <tRmem>1</tRmem>
@@ -334,12 +280,12 @@
         <tRbox>1</tRbox>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
-        <nTsel>0</nTsel>
+        <nTsel>1</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
         <sDlgPa></sDlgPa>
-        <sIfile>..\Identification_Metro_01\metro_rame_V1.ini</sIfile>
+        <sIfile></sIfile>
         <tDll></tDll>
         <tDllPa></tDllPa>
         <tDlgDll></tDlgDll>
@@ -350,32 +296,52 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>DLGTARM</Key>
-          <Name>(1010=75,101,441,645,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=20,439,254,974,1)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=919,476,1237,947,0)(231=723,580,1163,920,0)(232=643,697,1083,1024,0)(233=26,186,392,599,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
-        </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
-          <Key>ARMDBGFLAGS</Key>
-          <Name></Name>
-        </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
           <Key>DLGUARM</Key>
           <Name>(105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGARARM</Key>
+          <Name>(6000=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGDARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=75,107,486,527,0)(121=75,107,486,527,1)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=165,205,603,612,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(234=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGTARM</Key>
+          <Name>(1010=914,189,1280,739,0)(1007=1103,140,1280,408,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=644,88,1280,754,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=756,91,1280,445,0)(180=995,89,1280,379,0)(120=488,6,899,398,0)(121=617,129,1028,521,0)(122=869,88,1280,486,0)(123=-1,-1,-1,-1,0)(140=31,405,709,738,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=1005,479,1280,768,0)(130=696,81,1280,768,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=696,81,1280,768,0)(160=842,88,1280,495,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=868,251,1186,722,0)(231=369,513,809,853,0)(232=773,428,1213,755,0)(233=15,356,381,769,0)(150=687,88,1280,715,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ARMDBGFLAGS</Key>
+          <Name>-T0</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>UL2CM3</Key>
-          <Name>-UM0332NAE -O14 -S0 -C0 -N00("ARM CoreSight JTAG-DP") -D00(3BA00477) -L00(4) -N01("ST TMC") -D01(16410041) -L01(5) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_16 -FS08000000 -FL04000</Name>
+          <Name>-UM0025DAE -O142 -S0 -C0 -N00("ARM CoreSight JTAG-DP") -D00(3BA00477) -L00(4) -N01("Unknown JTAG device") -D01(16410041) -L01(5) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP7 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <MemoryWindow1>
-        <Mm>
-          <WinNumber>1</WinNumber>
-          <SubType>1</SubType>
-          <ItemText>r13</ItemText>
-        </Mm>
-      </MemoryWindow1>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>130</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134220642</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>CanDemo.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
       <MemoryWindow2>
         <Mm>
           <WinNumber>2</WinNumber>
@@ -385,7 +351,7 @@
       </MemoryWindow2>
       <DebugFlag>
         <trace>0</trace>
-        <periodic>0</periodic>
+        <periodic>1</periodic>
         <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
@@ -414,9 +380,734 @@
     </TargetOption>
   </Target>
 
+  <Target>
+    <TargetName>Simulator_Recpteur</TargetName>
+    <ToolsetNumber>0x4</ToolsetNumber>
+    <ToolsetName>ARM-ADS</ToolsetName>
+    <TargetOption>
+      <CLKADS>8000000</CLKADS>
+      <OPTTT>
+        <gFlags>1</gFlags>
+        <BeepAtEnd>1</BeepAtEnd>
+        <RunSim>1</RunSim>
+        <RunTarget>0</RunTarget>
+      </OPTTT>
+      <OPTHX>
+        <HexSelection>1</HexSelection>
+        <FlashByte>65535</FlashByte>
+        <HexRangeLowAddress>0</HexRangeLowAddress>
+        <HexRangeHighAddress>0</HexRangeHighAddress>
+        <HexOffset>0</HexOffset>
+      </OPTHX>
+      <OPTLEX>
+        <PageWidth>79</PageWidth>
+        <PageLength>66</PageLength>
+        <TabStop>8</TabStop>
+        <ListingPath>.\Lst\</ListingPath>
+      </OPTLEX>
+      <ListingPage>
+        <CreateCListing>1</CreateCListing>
+        <CreateAListing>1</CreateAListing>
+        <CreateLListing>1</CreateLListing>
+        <CreateIListing>0</CreateIListing>
+        <AsmCond>1</AsmCond>
+        <AsmSymb>1</AsmSymb>
+        <AsmXref>0</AsmXref>
+        <CCond>1</CCond>
+        <CCode>0</CCode>
+        <CListInc>0</CListInc>
+        <CSymb>0</CSymb>
+        <LinkerCodeListing>0</LinkerCodeListing>
+      </ListingPage>
+      <OPTXL>
+        <LMap>1</LMap>
+        <LComments>1</LComments>
+        <LGenerateSymbols>1</LGenerateSymbols>
+        <LLibSym>1</LLibSym>
+        <LLines>1</LLines>
+        <LLocSym>1</LLocSym>
+        <LPubSym>1</LPubSym>
+        <LXref>0</LXref>
+        <LExpSel>0</LExpSel>
+      </OPTXL>
+      <OPTFL>
+        <tvExp>1</tvExp>
+        <tvExpOptDlg>0</tvExpOptDlg>
+        <IsCurrentTarget>0</IsCurrentTarget>
+      </OPTFL>
+      <CpuCode>255</CpuCode>
+      <DllOpt>
+        <SimDllName>SARMCM3.DLL</SimDllName>
+        <SimDllArguments></SimDllArguments>
+        <SimDlgDllName>DARMSTM.DLL</SimDlgDllName>
+        <SimDlgDllArguments>-pSTM32F103RB</SimDlgDllArguments>
+        <TargetDllName>SARMCM3.DLL</TargetDllName>
+        <TargetDllArguments></TargetDllArguments>
+        <TargetDlgDllName>TARMSTM.DLL</TargetDlgDllName>
+        <TargetDlgDllArguments>-pSTM32F103RB</TargetDlgDllArguments>
+      </DllOpt>
+      <DebugOpt>
+        <uSim>1</uSim>
+        <uTrg>0</uTrg>
+        <sLdApp>1</sLdApp>
+        <sGomain>1</sGomain>
+        <sRbreak>1</sRbreak>
+        <sRwatch>1</sRwatch>
+        <sRmem>1</sRmem>
+        <sRfunc>1</sRfunc>
+        <sRbox>1</sRbox>
+        <tLdApp>1</tLdApp>
+        <tGomain>1</tGomain>
+        <tRbreak>1</tRbreak>
+        <tRwatch>1</tRwatch>
+        <tRmem>1</tRmem>
+        <tRfunc>0</tRfunc>
+        <tRbox>1</tRbox>
+        <sRunDeb>0</sRunDeb>
+        <sLrtime>0</sLrtime>
+        <nTsel>1</nTsel>
+        <sDll></sDll>
+        <sDllPa></sDllPa>
+        <sDlgDll></sDlgDll>
+        <sDlgPa></sDlgPa>
+        <sIfile>.\CAN_Simulate.ini</sIfile>
+        <tDll></tDll>
+        <tDllPa></tDllPa>
+        <tDlgDll></tDlgDll>
+        <tDlgPa></tDlgPa>
+        <tIfile></tIfile>
+        <pMon>BIN\UL2CM3.DLL</pMon>
+      </DebugOpt>
+      <TargetDriverDllRegistry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGARARM</Key>
+          <Name>(6000=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGTARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGDARM</Key>
+          <Name>(1010=914,218,1280,768,0)(1007=1103,140,1280,408,0)(1008=914,90,1280,319,0)(1009=-1,-1,-1,-1,0)(100=644,102,1280,768,0)(110=1076,309,1280,768,0)(111=1076,19,1280,478,0)(1011=756,90,1280,444,0)(180=995,173,1280,463,0)(120=869,90,1280,510,0)(121=869,62,1280,482,0)(122=869,348,1280,768,0)(123=869,348,1280,768,0)(140=602,199,1280,532,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=1005,95,1280,384,0)(130=696,24,1280,768,0)(131=696,24,1280,768,0)(132=696,24,1280,768,0)(133=696,24,1280,768,0)(160=842,91,1280,498,0)(161=842,88,1280,495,0)(162=842,89,1280,496,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=840,122,1158,592,1)(234=369,551,875,890,1)(231=840,422,1280,768,0)(232=412,195,852,591,1)(233=-1,-1,-1,-1,0)(150=687,24,1280,768,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ARMDBGFLAGS</Key>
+          <Name>-T0</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>UL2CM3</Key>
+          <Name>-UV08008NE -O14 -S0 -C0 -N00("ARM CoreSight JTAG-DP") -D00(3BA00477) -L00(4) -N01("Unknown JTAG device") -D01(06410041) -L01(5) -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000</Name>
+        </SetRegEntry>
+      </TargetDriverDllRegistry>
+      <MemoryWindow2>
+        <Mm>
+          <WinNumber>2</WinNumber>
+          <SubType>8</SubType>
+          <ItemText>0x10000000</ItemText>
+        </Mm>
+      </MemoryWindow2>
+      <ToolboxButtons>
+        <Wi>
+          <IntNumber>0</IntNumber>
+          <FirstString>Analog sweep 0 .. 3.3V</FirstString>
+          <SecondString>analog1 (3.3)</SecondString>
+        </Wi>
+        <Wi>
+          <IntNumber>1</IntNumber>
+          <FirstString>Analog sweep STOP</FirstString>
+          <SecondString>signal kill analog1</SecondString>
+        </Wi>
+      </ToolboxButtons>
+      <DebugFlag>
+        <trace>0</trace>
+        <periodic>1</periodic>
+        <aLwin>0</aLwin>
+        <aCover>0</aCover>
+        <aSer1>0</aSer1>
+        <aSer2>0</aSer2>
+        <aPa>0</aPa>
+        <viewmode>1</viewmode>
+        <vrSel>0</vrSel>
+        <aSym>0</aSym>
+        <aTbox>1</aTbox>
+        <AscS1>0</AscS1>
+        <AscS2>0</AscS2>
+        <AscS3>0</AscS3>
+        <aSer3>0</aSer3>
+        <eProf>0</eProf>
+        <aLa>0</aLa>
+        <aPa1>0</aPa1>
+        <AscS4>0</AscS4>
+        <aSer4>0</aSer4>
+        <StkLoc>0</StkLoc>
+        <TrcWin>0</TrcWin>
+        <newCpu>0</newCpu>
+        <uProt>0</uProt>
+      </DebugFlag>
+      <LintExecutable></LintExecutable>
+      <LintConfigFile></LintConfigFile>
+    </TargetOption>
+  </Target>
+
+  <Target>
+    <TargetName>MCBSTM32_Recepteur</TargetName>
+    <ToolsetNumber>0x4</ToolsetNumber>
+    <ToolsetName>ARM-ADS</ToolsetName>
+    <TargetOption>
+      <CLKADS>8000000</CLKADS>
+      <OPTTT>
+        <gFlags>1</gFlags>
+        <BeepAtEnd>1</BeepAtEnd>
+        <RunSim>1</RunSim>
+        <RunTarget>0</RunTarget>
+      </OPTTT>
+      <OPTHX>
+        <HexSelection>1</HexSelection>
+        <FlashByte>65535</FlashByte>
+        <HexRangeLowAddress>0</HexRangeLowAddress>
+        <HexRangeHighAddress>0</HexRangeHighAddress>
+        <HexOffset>0</HexOffset>
+      </OPTHX>
+      <OPTLEX>
+        <PageWidth>79</PageWidth>
+        <PageLength>66</PageLength>
+        <TabStop>8</TabStop>
+        <ListingPath>.\Lst\</ListingPath>
+      </OPTLEX>
+      <ListingPage>
+        <CreateCListing>1</CreateCListing>
+        <CreateAListing>1</CreateAListing>
+        <CreateLListing>1</CreateLListing>
+        <CreateIListing>0</CreateIListing>
+        <AsmCond>1</AsmCond>
+        <AsmSymb>1</AsmSymb>
+        <AsmXref>0</AsmXref>
+        <CCond>1</CCond>
+        <CCode>0</CCode>
+        <CListInc>0</CListInc>
+        <CSymb>0</CSymb>
+        <LinkerCodeListing>0</LinkerCodeListing>
+      </ListingPage>
+      <OPTXL>
+        <LMap>1</LMap>
+        <LComments>1</LComments>
+        <LGenerateSymbols>1</LGenerateSymbols>
+        <LLibSym>1</LLibSym>
+        <LLines>1</LLines>
+        <LLocSym>1</LLocSym>
+        <LPubSym>1</LPubSym>
+        <LXref>0</LXref>
+        <LExpSel>0</LExpSel>
+      </OPTXL>
+      <OPTFL>
+        <tvExp>1</tvExp>
+        <tvExpOptDlg>0</tvExpOptDlg>
+        <IsCurrentTarget>0</IsCurrentTarget>
+      </OPTFL>
+      <CpuCode>255</CpuCode>
+      <DllOpt>
+        <SimDllName>SARMCM3.DLL</SimDllName>
+        <SimDllArguments></SimDllArguments>
+        <SimDlgDllName>DARMSTM.DLL</SimDlgDllName>
+        <SimDlgDllArguments>-pSTM32F103RB</SimDlgDllArguments>
+        <TargetDllName>SARMCM3.DLL</TargetDllName>
+        <TargetDllArguments></TargetDllArguments>
+        <TargetDlgDllName>TARMSTM.DLL</TargetDlgDllName>
+        <TargetDlgDllArguments>-pSTM32F103RB</TargetDlgDllArguments>
+      </DllOpt>
+      <DebugOpt>
+        <uSim>0</uSim>
+        <uTrg>1</uTrg>
+        <sLdApp>1</sLdApp>
+        <sGomain>1</sGomain>
+        <sRbreak>1</sRbreak>
+        <sRwatch>1</sRwatch>
+        <sRmem>1</sRmem>
+        <sRfunc>1</sRfunc>
+        <sRbox>1</sRbox>
+        <tLdApp>1</tLdApp>
+        <tGomain>1</tGomain>
+        <tRbreak>1</tRbreak>
+        <tRwatch>1</tRwatch>
+        <tRmem>1</tRmem>
+        <tRfunc>0</tRfunc>
+        <tRbox>1</tRbox>
+        <sRunDeb>0</sRunDeb>
+        <sLrtime>0</sLrtime>
+        <nTsel>1</nTsel>
+        <sDll></sDll>
+        <sDllPa></sDllPa>
+        <sDlgDll></sDlgDll>
+        <sDlgPa></sDlgPa>
+        <sIfile>.\CAN_Simulate.ini</sIfile>
+        <tDll></tDll>
+        <tDllPa></tDllPa>
+        <tDlgDll></tDlgDll>
+        <tDlgPa></tDlgPa>
+        <tIfile></tIfile>
+        <pMon>BIN\UL2CM3.DLL</pMon>
+      </DebugOpt>
+      <TargetDriverDllRegistry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGUARM</Key>
+          <Name>(105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGARARM</Key>
+          <Name>(6000=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGTARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=855,409,1173,880,1)(231=-1,-1,-1,-1,0)(232=831,63,1271,390,1)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGDARM</Key>
+          <Name>(1010=914,218,1280,768,0)(1007=1103,140,1280,408,0)(1008=914,90,1280,319,0)(1009=-1,-1,-1,-1,0)(100=644,102,1280,768,0)(110=1076,309,1280,768,0)(111=1076,19,1280,478,0)(1011=756,90,1280,444,0)(180=995,173,1280,463,0)(120=869,90,1280,510,0)(121=869,62,1280,482,0)(122=869,348,1280,768,0)(123=869,348,1280,768,0)(140=602,199,1280,532,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=1005,95,1280,384,0)(130=696,24,1280,768,0)(131=696,24,1280,768,0)(132=696,24,1280,768,0)(133=696,24,1280,768,0)(160=842,91,1280,498,0)(161=842,88,1280,495,0)(162=842,89,1280,496,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=962,291,1280,761,1)(234=436,395,942,734,1)(231=840,422,1280,768,0)(232=712,365,1152,768,0)(233=-1,-1,-1,-1,0)(150=687,24,1280,768,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ARMDBGFLAGS</Key>
+          <Name>-T0</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>UL2CM3</Key>
+          <Name>-UM0332NAE -O14 -S0 -C0 -N00("ARM CoreSight JTAG-DP") -D00(3BA00477) -L00(4) -N01("ST TMC") -D01(16410041) -L01(5) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000</Name>
+        </SetRegEntry>
+      </TargetDriverDllRegistry>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>219</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134220296</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>CAN.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
+      <MemoryWindow2>
+        <Mm>
+          <WinNumber>2</WinNumber>
+          <SubType>8</SubType>
+          <ItemText>0x10000000</ItemText>
+        </Mm>
+      </MemoryWindow2>
+      <ToolboxButtons>
+        <Wi>
+          <IntNumber>0</IntNumber>
+          <FirstString>Analog sweep 0 .. 3.3V</FirstString>
+          <SecondString>analog1 (3.3)</SecondString>
+        </Wi>
+        <Wi>
+          <IntNumber>1</IntNumber>
+          <FirstString>Analog sweep STOP</FirstString>
+          <SecondString>signal kill analog1</SecondString>
+        </Wi>
+      </ToolboxButtons>
+      <DebugFlag>
+        <trace>0</trace>
+        <periodic>1</periodic>
+        <aLwin>1</aLwin>
+        <aCover>0</aCover>
+        <aSer1>0</aSer1>
+        <aSer2>0</aSer2>
+        <aPa>0</aPa>
+        <viewmode>1</viewmode>
+        <vrSel>0</vrSel>
+        <aSym>0</aSym>
+        <aTbox>0</aTbox>
+        <AscS1>0</AscS1>
+        <AscS2>0</AscS2>
+        <AscS3>0</AscS3>
+        <aSer3>0</aSer3>
+        <eProf>0</eProf>
+        <aLa>0</aLa>
+        <aPa1>0</aPa1>
+        <AscS4>0</AscS4>
+        <aSer4>0</aSer4>
+        <StkLoc>0</StkLoc>
+        <TrcWin>0</TrcWin>
+        <newCpu>0</newCpu>
+        <uProt>0</uProt>
+      </DebugFlag>
+      <LintExecutable></LintExecutable>
+      <LintConfigFile></LintConfigFile>
+    </TargetOption>
+  </Target>
+
+  <Target>
+    <TargetName>OLIMEX Emmeteur</TargetName>
+    <ToolsetNumber>0x4</ToolsetNumber>
+    <ToolsetName>ARM-ADS</ToolsetName>
+    <TargetOption>
+      <CLKADS>8000000</CLKADS>
+      <OPTTT>
+        <gFlags>1</gFlags>
+        <BeepAtEnd>1</BeepAtEnd>
+        <RunSim>1</RunSim>
+        <RunTarget>0</RunTarget>
+      </OPTTT>
+      <OPTHX>
+        <HexSelection>1</HexSelection>
+        <FlashByte>65535</FlashByte>
+        <HexRangeLowAddress>0</HexRangeLowAddress>
+        <HexRangeHighAddress>0</HexRangeHighAddress>
+        <HexOffset>0</HexOffset>
+      </OPTHX>
+      <OPTLEX>
+        <PageWidth>79</PageWidth>
+        <PageLength>66</PageLength>
+        <TabStop>8</TabStop>
+        <ListingPath>.\Lst\</ListingPath>
+      </OPTLEX>
+      <ListingPage>
+        <CreateCListing>1</CreateCListing>
+        <CreateAListing>1</CreateAListing>
+        <CreateLListing>1</CreateLListing>
+        <CreateIListing>0</CreateIListing>
+        <AsmCond>1</AsmCond>
+        <AsmSymb>1</AsmSymb>
+        <AsmXref>0</AsmXref>
+        <CCond>1</CCond>
+        <CCode>0</CCode>
+        <CListInc>0</CListInc>
+        <CSymb>0</CSymb>
+        <LinkerCodeListing>0</LinkerCodeListing>
+      </ListingPage>
+      <OPTXL>
+        <LMap>1</LMap>
+        <LComments>1</LComments>
+        <LGenerateSymbols>1</LGenerateSymbols>
+        <LLibSym>1</LLibSym>
+        <LLines>1</LLines>
+        <LLocSym>1</LLocSym>
+        <LPubSym>1</LPubSym>
+        <LXref>0</LXref>
+        <LExpSel>0</LExpSel>
+      </OPTXL>
+      <OPTFL>
+        <tvExp>1</tvExp>
+        <tvExpOptDlg>0</tvExpOptDlg>
+        <IsCurrentTarget>0</IsCurrentTarget>
+      </OPTFL>
+      <CpuCode>255</CpuCode>
+      <DllOpt>
+        <SimDllName>SARMCM3.DLL</SimDllName>
+        <SimDllArguments></SimDllArguments>
+        <SimDlgDllName>DARMSTM.DLL</SimDlgDllName>
+        <SimDlgDllArguments>-pSTM32F103RB</SimDlgDllArguments>
+        <TargetDllName>SARMCM3.DLL</TargetDllName>
+        <TargetDllArguments></TargetDllArguments>
+        <TargetDlgDllName>TARMSTM.DLL</TargetDlgDllName>
+        <TargetDlgDllArguments>-pSTM32F103RB</TargetDlgDllArguments>
+      </DllOpt>
+      <DebugOpt>
+        <uSim>0</uSim>
+        <uTrg>1</uTrg>
+        <sLdApp>1</sLdApp>
+        <sGomain>1</sGomain>
+        <sRbreak>1</sRbreak>
+        <sRwatch>1</sRwatch>
+        <sRmem>1</sRmem>
+        <sRfunc>1</sRfunc>
+        <sRbox>1</sRbox>
+        <tLdApp>1</tLdApp>
+        <tGomain>1</tGomain>
+        <tRbreak>1</tRbreak>
+        <tRwatch>1</tRwatch>
+        <tRmem>1</tRmem>
+        <tRfunc>0</tRfunc>
+        <tRbox>1</tRbox>
+        <sRunDeb>0</sRunDeb>
+        <sLrtime>0</sLrtime>
+        <nTsel>1</nTsel>
+        <sDll></sDll>
+        <sDllPa></sDllPa>
+        <sDlgDll></sDlgDll>
+        <sDlgPa></sDlgPa>
+        <sIfile></sIfile>
+        <tDll></tDll>
+        <tDllPa></tDllPa>
+        <tDlgDll></tDlgDll>
+        <tDlgPa></tDlgPa>
+        <tIfile></tIfile>
+        <pMon>BIN\UL2CM3.DLL</pMon>
+      </DebugOpt>
+      <TargetDriverDllRegistry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>JLTAgdi</Key>
+          <Name></Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGUARM</Key>
+          <Name>(105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGARARM</Key>
+          <Name>(6000=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGDARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=75,107,486,527,0)(121=75,107,486,527,1)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=165,205,603,612,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(234=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGTARM</Key>
+          <Name>(1010=914,189,1280,739,0)(1007=1103,140,1280,408,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=313,22,949,681,0)(110=60,84,264,536,0)(111=-1,-1,-1,-1,0)(1011=756,91,1280,445,0)(180=670,134,955,417,0)(120=326,376,737,768,0)(121=608,237,1019,629,0)(122=869,88,1280,486,0)(123=-1,-1,-1,-1,0)(140=31,405,709,738,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=84,95,359,377,0)(130=696,81,1280,768,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=696,81,1280,768,0)(160=842,88,1280,495,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=889,553,1207,1024,1)(231=365,192,805,532,0)(232=363,442,803,769,0)(233=15,356,381,768,0)(150=687,88,1280,715,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ARMDBGFLAGS</Key>
+          <Name>-T0</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>UL2CM3</Key>
+          <Name>-UM0025DAE -O206 -S0 -C0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP7 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000</Name>
+        </SetRegEntry>
+      </TargetDriverDllRegistry>
+      <MemoryWindow1>
+        <Mm>
+          <WinNumber>1</WinNumber>
+          <SubType>1</SubType>
+          <ItemText>0x20004fB8</ItemText>
+        </Mm>
+      </MemoryWindow1>
+      <MemoryWindow2>
+        <Mm>
+          <WinNumber>2</WinNumber>
+          <SubType>8</SubType>
+          <ItemText>0x10000000</ItemText>
+        </Mm>
+      </MemoryWindow2>
+      <DebugFlag>
+        <trace>0</trace>
+        <periodic>1</periodic>
+        <aLwin>1</aLwin>
+        <aCover>0</aCover>
+        <aSer1>0</aSer1>
+        <aSer2>0</aSer2>
+        <aPa>0</aPa>
+        <viewmode>1</viewmode>
+        <vrSel>0</vrSel>
+        <aSym>0</aSym>
+        <aTbox>0</aTbox>
+        <AscS1>0</AscS1>
+        <AscS2>0</AscS2>
+        <AscS3>0</AscS3>
+        <aSer3>0</aSer3>
+        <eProf>0</eProf>
+        <aLa>0</aLa>
+        <aPa1>0</aPa1>
+        <AscS4>0</AscS4>
+        <aSer4>0</aSer4>
+        <StkLoc>0</StkLoc>
+        <TrcWin>0</TrcWin>
+        <newCpu>0</newCpu>
+        <uProt>0</uProt>
+      </DebugFlag>
+      <LintExecutable></LintExecutable>
+      <LintConfigFile></LintConfigFile>
+    </TargetOption>
+  </Target>
+
+  <Target>
+    <TargetName>OLIMEX_Emmeteur_simu</TargetName>
+    <ToolsetNumber>0x4</ToolsetNumber>
+    <ToolsetName>ARM-ADS</ToolsetName>
+    <TargetOption>
+      <CLKADS>8000000</CLKADS>
+      <OPTTT>
+        <gFlags>1</gFlags>
+        <BeepAtEnd>1</BeepAtEnd>
+        <RunSim>1</RunSim>
+        <RunTarget>0</RunTarget>
+      </OPTTT>
+      <OPTHX>
+        <HexSelection>1</HexSelection>
+        <FlashByte>65535</FlashByte>
+        <HexRangeLowAddress>0</HexRangeLowAddress>
+        <HexRangeHighAddress>0</HexRangeHighAddress>
+        <HexOffset>0</HexOffset>
+      </OPTHX>
+      <OPTLEX>
+        <PageWidth>79</PageWidth>
+        <PageLength>66</PageLength>
+        <TabStop>8</TabStop>
+        <ListingPath>.\Lst\</ListingPath>
+      </OPTLEX>
+      <ListingPage>
+        <CreateCListing>1</CreateCListing>
+        <CreateAListing>1</CreateAListing>
+        <CreateLListing>1</CreateLListing>
+        <CreateIListing>0</CreateIListing>
+        <AsmCond>1</AsmCond>
+        <AsmSymb>1</AsmSymb>
+        <AsmXref>0</AsmXref>
+        <CCond>1</CCond>
+        <CCode>0</CCode>
+        <CListInc>0</CListInc>
+        <CSymb>0</CSymb>
+        <LinkerCodeListing>0</LinkerCodeListing>
+      </ListingPage>
+      <OPTXL>
+        <LMap>1</LMap>
+        <LComments>1</LComments>
+        <LGenerateSymbols>1</LGenerateSymbols>
+        <LLibSym>1</LLibSym>
+        <LLines>1</LLines>
+        <LLocSym>1</LLocSym>
+        <LPubSym>1</LPubSym>
+        <LXref>0</LXref>
+        <LExpSel>0</LExpSel>
+      </OPTXL>
+      <OPTFL>
+        <tvExp>1</tvExp>
+        <tvExpOptDlg>0</tvExpOptDlg>
+        <IsCurrentTarget>0</IsCurrentTarget>
+      </OPTFL>
+      <CpuCode>255</CpuCode>
+      <DllOpt>
+        <SimDllName>SARMCM3.DLL</SimDllName>
+        <SimDllArguments></SimDllArguments>
+        <SimDlgDllName>DARMSTM.DLL</SimDlgDllName>
+        <SimDlgDllArguments>-pSTM32F103RB</SimDlgDllArguments>
+        <TargetDllName>SARMCM3.DLL</TargetDllName>
+        <TargetDllArguments></TargetDllArguments>
+        <TargetDlgDllName>TARMSTM.DLL</TargetDlgDllName>
+        <TargetDlgDllArguments>-pSTM32F103RB</TargetDlgDllArguments>
+      </DllOpt>
+      <DebugOpt>
+        <uSim>1</uSim>
+        <uTrg>0</uTrg>
+        <sLdApp>1</sLdApp>
+        <sGomain>1</sGomain>
+        <sRbreak>1</sRbreak>
+        <sRwatch>1</sRwatch>
+        <sRmem>1</sRmem>
+        <sRfunc>1</sRfunc>
+        <sRbox>1</sRbox>
+        <tLdApp>1</tLdApp>
+        <tGomain>1</tGomain>
+        <tRbreak>1</tRbreak>
+        <tRwatch>1</tRwatch>
+        <tRmem>1</tRmem>
+        <tRfunc>0</tRfunc>
+        <tRbox>1</tRbox>
+        <sRunDeb>0</sRunDeb>
+        <sLrtime>0</sLrtime>
+        <nTsel>1</nTsel>
+        <sDll></sDll>
+        <sDllPa></sDllPa>
+        <sDlgDll></sDlgDll>
+        <sDlgPa></sDlgPa>
+        <sIfile></sIfile>
+        <tDll></tDll>
+        <tDllPa></tDllPa>
+        <tDlgDll></tDlgDll>
+        <tDlgPa></tDlgPa>
+        <tIfile></tIfile>
+        <pMon>BIN\UL2CM3.DLL</pMon>
+      </DebugOpt>
+      <TargetDriverDllRegistry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>JLTAgdi</Key>
+          <Name></Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGUARM</Key>
+          <Name>(105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGARARM</Key>
+          <Name>(6000=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGDARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=414,110,825,524,1)(121=845,610,1256,1024,1)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=165,205,603,612,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=954,127,1272,598,1)(234=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGTARM</Key>
+          <Name>(1010=914,189,1280,739,0)(1007=1103,140,1280,408,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=313,22,949,681,0)(110=60,84,264,536,0)(111=-1,-1,-1,-1,0)(1011=756,91,1280,445,0)(180=670,134,955,417,0)(120=488,6,899,404,0)(121=298,4,709,402,0)(122=869,88,1280,486,0)(123=-1,-1,-1,-1,0)(140=31,405,709,738,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=84,95,359,377,0)(130=696,81,1280,768,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=696,81,1280,768,0)(160=842,88,1280,495,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=923,165,1241,636,1)(231=699,660,1139,1000,1)(232=363,442,803,769,0)(233=15,356,381,768,0)(150=687,88,1280,715,0)(151=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ARMDBGFLAGS</Key>
+          <Name>-T0</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>UL2CM3</Key>
+          <Name>-UM0025DAE -O206 -S0 -C0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP7 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000</Name>
+        </SetRegEntry>
+      </TargetDriverDllRegistry>
+      <MemoryWindow2>
+        <Mm>
+          <WinNumber>2</WinNumber>
+          <SubType>8</SubType>
+          <ItemText>0x10000000</ItemText>
+        </Mm>
+      </MemoryWindow2>
+      <DebugFlag>
+        <trace>0</trace>
+        <periodic>1</periodic>
+        <aLwin>0</aLwin>
+        <aCover>0</aCover>
+        <aSer1>0</aSer1>
+        <aSer2>0</aSer2>
+        <aPa>0</aPa>
+        <viewmode>1</viewmode>
+        <vrSel>0</vrSel>
+        <aSym>0</aSym>
+        <aTbox>0</aTbox>
+        <AscS1>0</AscS1>
+        <AscS2>0</AscS2>
+        <AscS3>0</AscS3>
+        <aSer3>0</aSer3>
+        <eProf>0</eProf>
+        <aLa>0</aLa>
+        <aPa1>0</aPa1>
+        <AscS4>0</AscS4>
+        <aSer4>0</aSer4>
+        <StkLoc>0</StkLoc>
+        <TrcWin>0</TrcWin>
+        <newCpu>0</newCpu>
+        <uProt>0</uProt>
+      </DebugFlag>
+      <LintExecutable></LintExecutable>
+      <LintConfigFile></LintConfigFile>
+    </TargetOption>
+  </Target>
+
   <Group>
-    <GroupName>sys</GroupName>
-    <tvExp>0</tvExp>
+    <GroupName>Startup Code</GroupName>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -430,510 +1121,215 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>../../../system/STM32F10x_GCC.s</PathWithFileName>
-      <FilenameWithoutPath>STM32F10x_GCC.s</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>2</FileNumber>
-      <FileType>2</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../system/Startup_GCC.s</PathWithFileName>
-      <FilenameWithoutPath>Startup_GCC.s</FilenameWithoutPath>
+      <PathWithFileName>.\STM32F10x.s</PathWithFileName>
+      <FilenameWithoutPath>STM32F10x.s</FilenameWithoutPath>
+      <WindowPosition>
+        <length>44</length>
+        <flags>0</flags>
+        <showCmd>1</showCmd>
+        <MinPosition>
+          <xPos>-1</xPos>
+          <yPos>-1</yPos>
+        </MinPosition>
+        <MaxPosition>
+          <xPos>-4</xPos>
+          <yPos>-24</yPos>
+        </MaxPosition>
+        <NormalPosition>
+          <Top>88</Top>
+          <Left>88</Left>
+          <Right>933</Right>
+          <Bottom>350</Bottom>
+        </NormalPosition>
+      </WindowPosition>
     </File>
   </Group>
 
   <Group>
-    <GroupName>os</GroupName>
-    <tvExp>0</tvExp>
+    <GroupName>Initialisation</GroupName>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
       <GroupNumber>2</GroupNumber>
+      <FileNumber>2</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>1</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>26</TopLine>
+      <CurrentLine>37</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\STM32_Init.c</PathWithFileName>
+      <FilenameWithoutPath>STM32_Init.c</FilenameWithoutPath>
+      <WindowPosition>
+        <length>44</length>
+        <flags>0</flags>
+        <showCmd>1</showCmd>
+        <MinPosition>
+          <xPos>-1</xPos>
+          <yPos>-1</yPos>
+        </MinPosition>
+        <MaxPosition>
+          <xPos>-4</xPos>
+          <yPos>-23</yPos>
+        </MaxPosition>
+        <NormalPosition>
+          <Top>110</Top>
+          <Left>110</Left>
+          <Right>955</Right>
+          <Bottom>372</Bottom>
+        </NormalPosition>
+      </WindowPosition>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>Source</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <File>
+      <GroupNumber>3</GroupNumber>
       <FileNumber>3</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>61</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os.c</FilenameWithoutPath>
+      <PathWithFileName>.\LCD_4bit.c</PathWithFileName>
+      <FilenameWithoutPath>LCD_4bit.c</FilenameWithoutPath>
+      <WindowPosition>
+        <length>44</length>
+        <flags>0</flags>
+        <showCmd>1</showCmd>
+        <MinPosition>
+          <xPos>-1</xPos>
+          <yPos>-1</yPos>
+        </MinPosition>
+        <MaxPosition>
+          <xPos>-4</xPos>
+          <yPos>-24</yPos>
+        </MaxPosition>
+        <NormalPosition>
+          <Top>88</Top>
+          <Left>88</Left>
+          <Right>933</Right>
+          <Bottom>350</Bottom>
+        </NormalPosition>
+      </WindowPosition>
     </File>
     <File>
-      <GroupNumber>2</GroupNumber>
+      <GroupNumber>3</GroupNumber>
       <FileNumber>4</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>75</TopLine>
+      <CurrentLine>77</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_action.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_action.c</FilenameWithoutPath>
+      <PathWithFileName>.\CAN.c</PathWithFileName>
+      <FilenameWithoutPath>CAN.c</FilenameWithoutPath>
+      <WindowPosition>
+        <length>44</length>
+        <flags>2</flags>
+        <showCmd>3</showCmd>
+        <MinPosition>
+          <xPos>-1</xPos>
+          <yPos>-1</yPos>
+        </MinPosition>
+        <MaxPosition>
+          <xPos>-4</xPos>
+          <yPos>-24</yPos>
+        </MaxPosition>
+        <NormalPosition>
+          <Top>44</Top>
+          <Left>44</Left>
+          <Right>889</Right>
+          <Bottom>306</Bottom>
+        </NormalPosition>
+      </WindowPosition>
     </File>
     <File>
-      <GroupNumber>2</GroupNumber>
+      <GroupNumber>3</GroupNumber>
       <FileNumber>5</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>137</TopLine>
+      <CurrentLine>145</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_alarm.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_alarm.c</FilenameWithoutPath>
+      <PathWithFileName>.\CanDemo.c</PathWithFileName>
+      <FilenameWithoutPath>CanDemo.c</FilenameWithoutPath>
+      <WindowPosition>
+        <length>44</length>
+        <flags>0</flags>
+        <showCmd>1</showCmd>
+        <MinPosition>
+          <xPos>-1</xPos>
+          <yPos>-1</yPos>
+        </MinPosition>
+        <MaxPosition>
+          <xPos>-4</xPos>
+          <yPos>-24</yPos>
+        </MaxPosition>
+        <NormalPosition>
+          <Top>66</Top>
+          <Left>66</Left>
+          <Right>911</Right>
+          <Bottom>328</Bottom>
+        </NormalPosition>
+      </WindowPosition>
     </File>
+  </Group>
+
+  <Group>
+    <GroupName>Documentation</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
     <File>
-      <GroupNumber>2</GroupNumber>
+      <GroupNumber>4</GroupNumber>
       <FileNumber>6</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>226</TopLine>
-      <CurrentLine>226</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_alarm_kernel.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_alarm_kernel.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>7</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_dispatch_table.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_dispatch_table.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>8</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_error.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_error.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>9</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>67</TopLine>
-      <CurrentLine>75</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_event.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_event.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>10</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_event_kernel.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_event_kernel.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>11</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_it.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_it.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>12</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_it_kernel.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_it_kernel.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>13</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_kernel.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_kernel.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>14</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_rez.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_rez.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>15</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_rez_kernel.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_rez_kernel.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>16</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>43</TopLine>
-      <CurrentLine>52</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_task.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_task.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>17</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>114</TopLine>
-      <CurrentLine>131</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_task_kernel.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_task_kernel.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>18</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_os_timeobj_kernel.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_timeobj_kernel.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>19</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/os/tpl_trace.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_trace.c</FilenameWithoutPath>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>os_machine</GroupName>
-    <tvExp>1</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <File>
-      <GroupNumber>3</GroupNumber>
-      <FileNumber>20</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>22</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>66</TopLine>
-      <CurrentLine>73</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_machine_cm3.c</FilenameWithoutPath>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>lib</GroupName>
-    <tvExp>1</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <File>
-      <GroupNumber>4</GroupNumber>
-      <FileNumber>21</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>6</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>50</TopLine>
-      <CurrentLine>67</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../lib_cm3/cm3_traps.c</PathWithFileName>
-      <FilenameWithoutPath>cm3_traps.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>4</GroupNumber>
-      <FileNumber>22</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>167</TopLine>
-      <CurrentLine>173</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../lib_cm3/stm_clock.c</PathWithFileName>
-      <FilenameWithoutPath>stm_clock.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>4</GroupNumber>
-      <FileNumber>23</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>574</TopLine>
-      <CurrentLine>578</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../lib_cm3/stm_metro_v1.c</PathWithFileName>
-      <FilenameWithoutPath>stm_metro_v1.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>4</GroupNumber>
-      <FileNumber>24</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>315</TopLine>
-      <CurrentLine>328</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../lib_cm3/stm_usartx.c</PathWithFileName>
-      <FilenameWithoutPath>stm_usartx.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>4</GroupNumber>
-      <FileNumber>25</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>99</TopLine>
-      <CurrentLine>109</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../minilib/syscalls_template/syscalls.c</PathWithFileName>
-      <FilenameWithoutPath>syscalls.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>4</GroupNumber>
-      <FileNumber>26</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>54</TopLine>
-      <CurrentLine>68</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../lib_cm3/CAN.c</PathWithFileName>
-      <FilenameWithoutPath>CAN.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>4</GroupNumber>
-      <FileNumber>27</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>157</TopLine>
-      <CurrentLine>171</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../lib_user/lib_trajectoire_2009a.c</PathWithFileName>
-      <FilenameWithoutPath>lib_trajectoire_2009a.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>4</GroupNumber>
-      <FileNumber>28</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>38</TopLine>
-      <CurrentLine>42</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../lib_user/lib_autom_2009a.c</PathWithFileName>
-      <FilenameWithoutPath>lib_autom_2009a.c</FilenameWithoutPath>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>appli</GroupName>
-    <tvExp>1</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>29</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>1</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>28</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>195</TopLine>
-      <CurrentLine>198</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\poursuite_CAN.c</PathWithFileName>
-      <FilenameWithoutPath>poursuite_CAN.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>30</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\Projet_Poursuite_CAN/tpl_os_generated_configuration.c</PathWithFileName>
-      <FilenameWithoutPath>tpl_os_generated_configuration.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>31</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>36</ColumnNumber>
+      <ColumnNumber>62</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>21</TopLine>
-      <CurrentLine>21</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Projet_Poursuite_CAN.oil</PathWithFileName>
-      <FilenameWithoutPath>Projet_Poursuite_CAN.oil</FilenameWithoutPath>
+      <PathWithFileName>.\Abstract.txt</PathWithFileName>
+      <FilenameWithoutPath>Abstract.txt</FilenameWithoutPath>
+      <WindowPosition>
+        <length>44</length>
+        <flags>0</flags>
+        <showCmd>1</showCmd>
+        <MinPosition>
+          <xPos>-1</xPos>
+          <yPos>-1</yPos>
+        </MinPosition>
+        <MaxPosition>
+          <xPos>-4</xPos>
+          <yPos>-23</yPos>
+        </MaxPosition>
+        <NormalPosition>
+          <Top>0</Top>
+          <Left>0</Left>
+          <Right>629</Right>
+          <Bottom>577</Bottom>
+        </NormalPosition>
+      </WindowPosition>
     </File>
   </Group>
-
-  <AlienFiles>
-    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\LIB_CM3\LCD.H</PathWithFilename>
-    <TopLine>1</TopLine>
-    <CurrentLine>1</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>U:\Windows\Bureau\svn_insacortexdevter\proj_cm3\Metro\metro_rame_V2.ini</PathWithFilename>
-    <TopLine>95</TopLine>
-    <CurrentLine>125</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
 
   <WinLayout>
     <sActiveDebugView>Default</sActiveDebugView>
@@ -944,8 +1340,33 @@
       <ViewName>Default</ViewName>
       <ViewType>1</ViewType>
       <Window>
-        <WinId>59392</WinId>
+        <WinId>35824</WinId>
         <ItemNo>1</ItemNo>
+        <Name>Logic Analyzer</Name>
+        <AnchorWinID>0</AnchorWinID>
+        <AnchorWinName></AnchorWinName>
+        <OtherWinID>0</OtherWinID>
+        <OtherWinName></OtherWinName>
+        <WinType>1</WinType>
+        <DockType>6</DockType>
+        <DockLocation>0</DockLocation>
+        <Pinned>0</Pinned>
+        <DockedRect_top>0</DockedRect_top>
+        <DockedRect_left>0</DockedRect_left>
+        <DockedRect_bottom>210</DockedRect_bottom>
+        <DockedRect_right>600</DockedRect_right>
+        <FloatingRect_top>0</FloatingRect_top>
+        <FloatingRect_left>0</FloatingRect_left>
+        <FloatingRect_bottom>250</FloatingRect_bottom>
+        <FloatingRect_right>600</FloatingRect_right>
+        <ContainerPercent>1</ContainerPercent>
+        <ActiveTab>0</ActiveTab>
+        <Visible>0</Visible>
+        <Dynamic>0</Dynamic>
+      </Window>
+      <Window>
+        <WinId>59392</WinId>
+        <ItemNo>2</ItemNo>
         <Name>File</Name>
         <AnchorWinID>0</AnchorWinID>
         <AnchorWinName></AnchorWinName>
@@ -970,7 +1391,7 @@
       </Window>
       <Window>
         <WinId>59398</WinId>
-        <ItemNo>2</ItemNo>
+        <ItemNo>3</ItemNo>
         <Name>Build</Name>
         <AnchorWinID>0</AnchorWinID>
         <AnchorWinName></AnchorWinName>
@@ -995,7 +1416,7 @@
       </Window>
       <Window>
         <WinId>59399</WinId>
-        <ItemNo>3</ItemNo>
+        <ItemNo>4</ItemNo>
         <Name>Debug</Name>
         <AnchorWinID>0</AnchorWinID>
         <AnchorWinName></AnchorWinName>
@@ -1006,9 +1427,9 @@
         <DockLocation>3</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>50</DockedRect_top>
-        <DockedRect_left>2</DockedRect_left>
+        <DockedRect_left>0</DockedRect_left>
         <DockedRect_bottom>76</DockedRect_bottom>
-        <DockedRect_right>628</DockedRect_right>
+        <DockedRect_right>626</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>0</FloatingRect_bottom>
@@ -1020,7 +1441,7 @@
       </Window>
       <Window>
         <WinId>197</WinId>
-        <ItemNo>4</ItemNo>
+        <ItemNo>5</ItemNo>
         <Name>Build Output</Name>
         <AnchorWinID>0</AnchorWinID>
         <AnchorWinName></AnchorWinName>
@@ -1045,10 +1466,10 @@
       </Window>
       <Window>
         <WinId>198</WinId>
-        <ItemNo>5</ItemNo>
+        <ItemNo>6</ItemNo>
         <Name>Command</Name>
         <AnchorWinID>197</AnchorWinID>
-        <AnchorWinName>Build Output</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1064,16 +1485,16 @@
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
+        <ActiveTab>1</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
         <WinId>199</WinId>
-        <ItemNo>6</ItemNo>
+        <ItemNo>7</ItemNo>
         <Name>Find in Files</Name>
         <AnchorWinID>198</AnchorWinID>
-        <AnchorWinName>Command</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1095,10 +1516,10 @@
       </Window>
       <Window>
         <WinId>38007</WinId>
-        <ItemNo>7</ItemNo>
+        <ItemNo>8</ItemNo>
         <Name>Browse</Name>
         <AnchorWinID>199</AnchorWinID>
-        <AnchorWinName>Find in Files</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1120,10 +1541,10 @@
       </Window>
       <Window>
         <WinId>1939</WinId>
-        <ItemNo>8</ItemNo>
+        <ItemNo>9</ItemNo>
         <Name>UART #1</Name>
         <AnchorWinID>38007</AnchorWinID>
-        <AnchorWinName>Browser</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1145,10 +1566,10 @@
       </Window>
       <Window>
         <WinId>1940</WinId>
-        <ItemNo>9</ItemNo>
+        <ItemNo>10</ItemNo>
         <Name>UART #2</Name>
         <AnchorWinID>1939</AnchorWinID>
-        <AnchorWinName>UART #1</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1170,10 +1591,10 @@
       </Window>
       <Window>
         <WinId>1941</WinId>
-        <ItemNo>10</ItemNo>
+        <ItemNo>11</ItemNo>
         <Name>UART #3</Name>
         <AnchorWinID>1940</AnchorWinID>
-        <AnchorWinName>UART #2</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1189,16 +1610,16 @@
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
-        <Visible>1</Visible>
+        <ActiveTab>0</ActiveTab>
+        <Visible>0</Visible>
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
         <WinId>1942</WinId>
-        <ItemNo>11</ItemNo>
+        <ItemNo>12</ItemNo>
         <Name>UART #4</Name>
         <AnchorWinID>1941</AnchorWinID>
-        <AnchorWinName>UART #3</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1220,39 +1641,14 @@
       </Window>
       <Window>
         <WinId>1944</WinId>
-        <ItemNo>12</ItemNo>
-        <Name>Call Stack</Name>
-        <AnchorWinID>197</AnchorWinID>
-        <AnchorWinName>Build Output</AnchorWinName>
-        <OtherWinID>197</OtherWinID>
-        <OtherWinName>Build Output</OtherWinName>
-        <WinType>1</WinType>
-        <DockType>2</DockType>
-        <DockLocation>2</DockLocation>
-        <Pinned>0</Pinned>
-        <DockedRect_top>745</DockedRect_top>
-        <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>955</DockedRect_bottom>
-        <DockedRect_right>1280</DockedRect_right>
-        <FloatingRect_top>0</FloatingRect_top>
-        <FloatingRect_left>0</FloatingRect_left>
-        <FloatingRect_bottom>600</FloatingRect_bottom>
-        <FloatingRect_right>250</FloatingRect_right>
-        <ContainerPercent>50</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
-        <Visible>1</Visible>
-        <Dynamic>0</Dynamic>
-      </Window>
-      <Window>
-        <WinId>1507</WinId>
         <ItemNo>13</ItemNo>
         <Name>Call Stack</Name>
-        <AnchorWinID>1944</AnchorWinID>
-        <AnchorWinName>Call Stack</AnchorWinName>
+        <AnchorWinID>197</AnchorWinID>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>197</OtherWinID>
-        <OtherWinName>Build Output</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
-        <DockType>4</DockType>
+        <DockType>2</DockType>
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>745</DockedRect_top>
@@ -1269,13 +1665,38 @@
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
-        <WinId>1935</WinId>
+        <WinId>1507</WinId>
         <ItemNo>14</ItemNo>
+        <Name>Call Stack</Name>
+        <AnchorWinID>1944</AnchorWinID>
+        <AnchorWinName></AnchorWinName>
+        <OtherWinID>197</OtherWinID>
+        <OtherWinName></OtherWinName>
+        <WinType>1</WinType>
+        <DockType>4</DockType>
+        <DockLocation>2</DockLocation>
+        <Pinned>0</Pinned>
+        <DockedRect_top>745</DockedRect_top>
+        <DockedRect_left>0</DockedRect_left>
+        <DockedRect_bottom>955</DockedRect_bottom>
+        <DockedRect_right>1280</DockedRect_right>
+        <FloatingRect_top>0</FloatingRect_top>
+        <FloatingRect_left>0</FloatingRect_left>
+        <FloatingRect_bottom>600</FloatingRect_bottom>
+        <FloatingRect_right>250</FloatingRect_right>
+        <ContainerPercent>50</ContainerPercent>
+        <ActiveTab>1</ActiveTab>
+        <Visible>1</Visible>
+        <Dynamic>0</Dynamic>
+      </Window>
+      <Window>
+        <WinId>1935</WinId>
+        <ItemNo>15</ItemNo>
         <Name>Locals</Name>
         <AnchorWinID>1507</AnchorWinID>
-        <AnchorWinName>Call Stack</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>197</OtherWinID>
-        <OtherWinName>Build Output</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1295,12 +1716,12 @@
       </Window>
       <Window>
         <WinId>1936</WinId>
-        <ItemNo>15</ItemNo>
+        <ItemNo>16</ItemNo>
         <Name>Watch 1</Name>
         <AnchorWinID>1935</AnchorWinID>
-        <AnchorWinName>Locals</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>197</OtherWinID>
-        <OtherWinName>Build Output</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1320,12 +1741,12 @@
       </Window>
       <Window>
         <WinId>1937</WinId>
-        <ItemNo>16</ItemNo>
+        <ItemNo>17</ItemNo>
         <Name>Watch 2</Name>
         <AnchorWinID>1936</AnchorWinID>
-        <AnchorWinName>Watch 1</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>197</OtherWinID>
-        <OtherWinName>Build Output</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1345,12 +1766,12 @@
       </Window>
       <Window>
         <WinId>1465</WinId>
-        <ItemNo>17</ItemNo>
+        <ItemNo>18</ItemNo>
         <Name>Memory 1</Name>
         <AnchorWinID>1937</AnchorWinID>
-        <AnchorWinName>Watch 2</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>197</OtherWinID>
-        <OtherWinName>Build Output</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1364,18 +1785,18 @@
         <FloatingRect_bottom>600</FloatingRect_bottom>
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>50</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
         <WinId>1466</WinId>
-        <ItemNo>18</ItemNo>
+        <ItemNo>19</ItemNo>
         <Name>Memory 2</Name>
         <AnchorWinID>1465</AnchorWinID>
-        <AnchorWinName>Memory 1</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>197</OtherWinID>
-        <OtherWinName>Build Output</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1395,12 +1816,12 @@
       </Window>
       <Window>
         <WinId>1467</WinId>
-        <ItemNo>19</ItemNo>
+        <ItemNo>20</ItemNo>
         <Name>Memory 3</Name>
         <AnchorWinID>1466</AnchorWinID>
-        <AnchorWinName>Memory 2</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>197</OtherWinID>
-        <OtherWinName>Build Output</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1420,12 +1841,12 @@
       </Window>
       <Window>
         <WinId>1468</WinId>
-        <ItemNo>20</ItemNo>
+        <ItemNo>21</ItemNo>
         <Name>Memory 4</Name>
         <AnchorWinID>1467</AnchorWinID>
-        <AnchorWinName>Memory 3</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>197</OtherWinID>
-        <OtherWinName>Build Output</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1445,12 +1866,12 @@
       </Window>
       <Window>
         <WinId>1506</WinId>
-        <ItemNo>21</ItemNo>
+        <ItemNo>22</ItemNo>
         <Name>Symbols</Name>
         <AnchorWinID>1468</AnchorWinID>
-        <AnchorWinName>Memory 4</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>197</OtherWinID>
-        <OtherWinName>Build Output</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1470,7 +1891,7 @@
       </Window>
       <Window>
         <WinId>1005</WinId>
-        <ItemNo>22</ItemNo>
+        <ItemNo>23</ItemNo>
         <Name>Project</Name>
         <AnchorWinID>0</AnchorWinID>
         <AnchorWinName></AnchorWinName>
@@ -1483,7 +1904,7 @@
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
         <DockedRect_bottom>741</DockedRect_bottom>
-        <DockedRect_right>407</DockedRect_right>
+        <DockedRect_right>210</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
@@ -1495,10 +1916,10 @@
       </Window>
       <Window>
         <WinId>109</WinId>
-        <ItemNo>23</ItemNo>
+        <ItemNo>24</ItemNo>
         <Name>Books</Name>
         <AnchorWinID>1005</AnchorWinID>
-        <AnchorWinName>Project</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1508,7 +1929,7 @@
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
         <DockedRect_bottom>741</DockedRect_bottom>
-        <DockedRect_right>407</DockedRect_right>
+        <DockedRect_right>210</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
@@ -1520,10 +1941,10 @@
       </Window>
       <Window>
         <WinId>195</WinId>
-        <ItemNo>24</ItemNo>
+        <ItemNo>25</ItemNo>
         <Name>Functions</Name>
         <AnchorWinID>109</AnchorWinID>
-        <AnchorWinName>Books</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1533,7 +1954,7 @@
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
         <DockedRect_bottom>741</DockedRect_bottom>
-        <DockedRect_right>407</DockedRect_right>
+        <DockedRect_right>210</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
@@ -1545,10 +1966,10 @@
       </Window>
       <Window>
         <WinId>196</WinId>
-        <ItemNo>25</ItemNo>
+        <ItemNo>26</ItemNo>
         <Name>Templates</Name>
         <AnchorWinID>195</AnchorWinID>
-        <AnchorWinName>Functions</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1558,7 +1979,7 @@
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
         <DockedRect_bottom>741</DockedRect_bottom>
-        <DockedRect_right>407</DockedRect_right>
+        <DockedRect_right>210</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
@@ -1570,10 +1991,10 @@
       </Window>
       <Window>
         <WinId>38003</WinId>
-        <ItemNo>26</ItemNo>
+        <ItemNo>27</ItemNo>
         <Name>Registers</Name>
         <AnchorWinID>196</AnchorWinID>
-        <AnchorWinName>Templates</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1583,7 +2004,7 @@
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>0</DockedRect_left>
         <DockedRect_bottom>741</DockedRect_bottom>
-        <DockedRect_right>407</DockedRect_right>
+        <DockedRect_right>210</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>600</FloatingRect_bottom>
@@ -1595,7 +2016,7 @@
       </Window>
       <Window>
         <WinId>35885</WinId>
-        <ItemNo>27</ItemNo>
+        <ItemNo>28</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>0</AnchorWinID>
         <AnchorWinName></AnchorWinName>
@@ -1620,10 +2041,10 @@
       </Window>
       <Window>
         <WinId>35886</WinId>
-        <ItemNo>28</ItemNo>
+        <ItemNo>29</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35885</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1645,10 +2066,10 @@
       </Window>
       <Window>
         <WinId>35887</WinId>
-        <ItemNo>29</ItemNo>
+        <ItemNo>30</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35886</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1670,10 +2091,10 @@
       </Window>
       <Window>
         <WinId>35888</WinId>
-        <ItemNo>30</ItemNo>
+        <ItemNo>31</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35887</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1695,10 +2116,10 @@
       </Window>
       <Window>
         <WinId>35889</WinId>
-        <ItemNo>31</ItemNo>
+        <ItemNo>32</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35888</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1720,10 +2141,10 @@
       </Window>
       <Window>
         <WinId>35890</WinId>
-        <ItemNo>32</ItemNo>
+        <ItemNo>33</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35889</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1745,10 +2166,10 @@
       </Window>
       <Window>
         <WinId>35891</WinId>
-        <ItemNo>33</ItemNo>
+        <ItemNo>34</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35890</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1770,10 +2191,10 @@
       </Window>
       <Window>
         <WinId>35892</WinId>
-        <ItemNo>34</ItemNo>
+        <ItemNo>35</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35891</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1795,10 +2216,10 @@
       </Window>
       <Window>
         <WinId>35893</WinId>
-        <ItemNo>35</ItemNo>
+        <ItemNo>36</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35892</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1820,10 +2241,10 @@
       </Window>
       <Window>
         <WinId>35894</WinId>
-        <ItemNo>36</ItemNo>
+        <ItemNo>37</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35893</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1845,10 +2266,10 @@
       </Window>
       <Window>
         <WinId>35895</WinId>
-        <ItemNo>37</ItemNo>
+        <ItemNo>38</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35894</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1870,10 +2291,10 @@
       </Window>
       <Window>
         <WinId>35896</WinId>
-        <ItemNo>38</ItemNo>
+        <ItemNo>39</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35895</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1895,10 +2316,10 @@
       </Window>
       <Window>
         <WinId>35897</WinId>
-        <ItemNo>39</ItemNo>
+        <ItemNo>40</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35896</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1920,10 +2341,10 @@
       </Window>
       <Window>
         <WinId>35898</WinId>
-        <ItemNo>40</ItemNo>
+        <ItemNo>41</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35897</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1945,10 +2366,10 @@
       </Window>
       <Window>
         <WinId>35899</WinId>
-        <ItemNo>41</ItemNo>
+        <ItemNo>42</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35898</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1970,10 +2391,10 @@
       </Window>
       <Window>
         <WinId>35900</WinId>
-        <ItemNo>42</ItemNo>
+        <ItemNo>43</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35899</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1995,10 +2416,10 @@
       </Window>
       <Window>
         <WinId>35901</WinId>
-        <ItemNo>43</ItemNo>
+        <ItemNo>44</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35900</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2020,10 +2441,10 @@
       </Window>
       <Window>
         <WinId>35902</WinId>
-        <ItemNo>44</ItemNo>
+        <ItemNo>45</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35901</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2045,10 +2466,10 @@
       </Window>
       <Window>
         <WinId>35903</WinId>
-        <ItemNo>45</ItemNo>
+        <ItemNo>46</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35902</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2070,10 +2491,10 @@
       </Window>
       <Window>
         <WinId>35904</WinId>
-        <ItemNo>46</ItemNo>
+        <ItemNo>47</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35903</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2095,10 +2516,10 @@
       </Window>
       <Window>
         <WinId>35905</WinId>
-        <ItemNo>47</ItemNo>
+        <ItemNo>48</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35904</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2120,7 +2541,7 @@
       </Window>
       <Window>
         <WinId>203</WinId>
-        <ItemNo>48</ItemNo>
+        <ItemNo>49</ItemNo>
         <Name>Disassembly</Name>
         <AnchorWinID>0</AnchorWinID>
         <AnchorWinName></AnchorWinName>
@@ -2131,7 +2552,7 @@
         <DockLocation>3</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
-        <DockedRect_left>411</DockedRect_left>
+        <DockedRect_left>214</DockedRect_left>
         <DockedRect_bottom>286</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
@@ -2145,10 +2566,10 @@
       </Window>
       <Window>
         <WinId>1913</WinId>
-        <ItemNo>49</ItemNo>
+        <ItemNo>50</ItemNo>
         <Name>Instruction Trace</Name>
         <AnchorWinID>203</AnchorWinID>
-        <AnchorWinName>Disassembly</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2156,7 +2577,7 @@
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
-        <DockedRect_left>411</DockedRect_left>
+        <DockedRect_left>214</DockedRect_left>
         <DockedRect_bottom>286</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
@@ -2170,10 +2591,10 @@
       </Window>
       <Window>
         <WinId>343</WinId>
-        <ItemNo>50</ItemNo>
+        <ItemNo>51</ItemNo>
         <Name>Performance Analyzer</Name>
         <AnchorWinID>1913</AnchorWinID>
-        <AnchorWinName>Instruction Trace</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2181,7 +2602,7 @@
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
-        <DockedRect_left>411</DockedRect_left>
+        <DockedRect_left>214</DockedRect_left>
         <DockedRect_bottom>286</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
@@ -2195,10 +2616,10 @@
       </Window>
       <Window>
         <WinId>204</WinId>
-        <ItemNo>51</ItemNo>
+        <ItemNo>52</ItemNo>
         <Name>Performance Analyzer</Name>
         <AnchorWinID>343</AnchorWinID>
-        <AnchorWinName>Performance Analyzer</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2206,7 +2627,7 @@
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
-        <DockedRect_left>411</DockedRect_left>
+        <DockedRect_left>214</DockedRect_left>
         <DockedRect_bottom>286</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
@@ -2220,10 +2641,10 @@
       </Window>
       <Window>
         <WinId>346</WinId>
-        <ItemNo>52</ItemNo>
+        <ItemNo>53</ItemNo>
         <Name>Code Coverage</Name>
         <AnchorWinID>204</AnchorWinID>
-        <AnchorWinName>Performance Analyzer</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2231,7 +2652,7 @@
         <DockLocation>2</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>76</DockedRect_top>
-        <DockedRect_left>411</DockedRect_left>
+        <DockedRect_left>214</DockedRect_left>
         <DockedRect_bottom>286</DockedRect_bottom>
         <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
@@ -2241,31 +2662,6 @@
         <ContainerPercent>100</ContainerPercent>
         <ActiveTab>0</ActiveTab>
         <Visible>0</Visible>
-        <Dynamic>0</Dynamic>
-      </Window>
-      <Window>
-        <WinId>35824</WinId>
-        <ItemNo>53</ItemNo>
-        <Name>Logic Analyzer</Name>
-        <AnchorWinID>0</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
-        <OtherWinID>0</OtherWinID>
-        <OtherWinName></OtherWinName>
-        <WinType>1</WinType>
-        <DockType>6</DockType>
-        <DockLocation>0</DockLocation>
-        <Pinned>0</Pinned>
-        <DockedRect_top>0</DockedRect_top>
-        <DockedRect_left>0</DockedRect_left>
-        <DockedRect_bottom>0</DockedRect_bottom>
-        <DockedRect_right>0</DockedRect_right>
-        <FloatingRect_top>0</FloatingRect_top>
-        <FloatingRect_left>0</FloatingRect_left>
-        <FloatingRect_bottom>250</FloatingRect_bottom>
-        <FloatingRect_right>600</FloatingRect_right>
-        <ContainerPercent>1</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
-        <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
     </View>
@@ -2279,106 +2675,22 @@
       <ActiveTab>1</ActiveTab>
       <Documents>
         <Doc>
-          <Name>.\poursuite_CAN.c</Name>
-          <ColumnNumber>28</ColumnNumber>
-          <TopLine>195</TopLine>
-          <CurrentLine>198</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\Projet_Poursuite_CAN.oil</Name>
-          <ColumnNumber>56</ColumnNumber>
-          <TopLine>21</TopLine>
-          <CurrentLine>32</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../lib_cm3/cm3_traps.c</Name>
-          <ColumnNumber>6</ColumnNumber>
-          <TopLine>50</TopLine>
-          <CurrentLine>67</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c</Name>
-          <ColumnNumber>22</ColumnNumber>
-          <TopLine>66</TopLine>
-          <CurrentLine>73</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../trampoline/os/tpl_os_task_kernel.c</Name>
+          <Name>.\CAN.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>114</TopLine>
-          <CurrentLine>131</CurrentLine>
+          <TopLine>75</TopLine>
+          <CurrentLine>77</CurrentLine>
         </Doc>
         <Doc>
-          <Name>../../../trampoline/os/tpl_os_task.c</Name>
+          <Name>.\CanDemo.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>43</TopLine>
-          <CurrentLine>52</CurrentLine>
+          <TopLine>137</TopLine>
+          <CurrentLine>145</CurrentLine>
         </Doc>
         <Doc>
-          <Name>../../../lib_user/lib_autom_2009a.c</Name>
+          <Name>.\STM32_Init.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>38</TopLine>
-          <CurrentLine>42</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../lib_user/lib_trajectoire_2009a.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>157</TopLine>
-          <CurrentLine>171</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../lib_cm3/CAN.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>54</TopLine>
-          <CurrentLine>68</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../minilib/syscalls_template/syscalls.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>99</TopLine>
-          <CurrentLine>109</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../lib_cm3/stm_usartx.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>315</TopLine>
-          <CurrentLine>328</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../lib_cm3/stm_metro_v1.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>574</TopLine>
-          <CurrentLine>578</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../lib_cm3/stm_clock.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>167</TopLine>
-          <CurrentLine>173</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../trampoline/os/tpl_os_alarm_kernel.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>226</TopLine>
-          <CurrentLine>226</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../../trampoline/os/tpl_os_event.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>67</TopLine>
-          <CurrentLine>75</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>U:\Windows\Bureau\svn_insacortexdevter\proj_cm3\Metro\metro_rame_V2.ini</Name>
-          <ColumnNumber>56</ColumnNumber>
-          <TopLine>95</TopLine>
-          <CurrentLine>125</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>U:\Windows\Bureau\svn_insacortexdevter\LIB_CM3\LCD.H</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>1</CurrentLine>
+          <TopLine>26</TopLine>
+          <CurrentLine>37</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

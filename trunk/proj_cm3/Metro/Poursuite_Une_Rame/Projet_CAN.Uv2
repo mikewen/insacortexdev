@@ -79,7 +79,7 @@ Options 1,0,0  // Target 'Simulateur'
  HexSel=1
  MG32K=0
  TGMORE=0
- RunUsr 0 1 <"C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs>
+ RunUsr 0 1 <"C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.ELF>
  RunUsr 1 0 <>
  BrunUsr 0 0 <>
  BrunUsr 1 0 <>

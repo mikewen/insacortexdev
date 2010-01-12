@@ -72,7 +72,12 @@ ________________
 //OSEK includes
 #include "tpl_os.h"
 #include "tpl_os_generated_configuration.h"
-#define EVENT_ARRIVEE	2	   //TODO débuguer trampoline
+DeclareEvent(Evt_arrivee) ;
+DeclareTask(Afficher) ;
+DeclareTask(Controler_Rame) ;
+DeclareTask(Generer_Trajectoire) ;
+DeclareAlarm(Active_Generer_Trajectoire);
+DeclareAlarm(Active_Controler_Rame) ;
 
 //PERIPH includes
 #include "../../lib_cm3/stm_clock.h" 
@@ -146,7 +151,7 @@ Une_Consigne Cons;
 Etat etatRame;
 float com;
 float gainsCommande[3] = {100.0 , 46.0 , 8.4} ;
-
+int Position_Finale;
 int Pannic;
 
 //_________________________________________________________________________
@@ -188,8 +193,8 @@ TASK(Generer_Trajectoire)
 	// Tire l'alarme si panique
   	if (Pannic)
 	{
-		CancelAlarm(0);
-		CancelAlarm(1);
+		CancelAlarm(Active_Generer_Trajectoire);
+		CancelAlarm(Active_Controler_Rame);
 		Arret_Urgence(); 
 		//fonction bloquante
 	}
@@ -197,17 +202,14 @@ TASK(Generer_Trajectoire)
 	// Gére la trajectoire
 	if (TRAJECTOIRE_TERMINEE)  // voir lib_trajectoire_2009.h
 	{
-		SetEvent (2, EVENT_ARRIVEE); //déclenche la tâche d'affichage
+		Position_Finale = (int) Lire_Position();
+		SetEvent (Afficher, Evt_arrivee); //déclenche la tâche d'affichage
 		
 		// On bloque le générateur pour 1 seconde (attente en station)
-		CancelAlarm(1);
-		SetRelAlarm (1, 1000, 10) ;
+		CancelAlarm(Active_Generer_Trajectoire);
+		SetRelAlarm (Active_Generer_Trajectoire, 1000, 10) ;
 
-		//affiche la position en fin de station
-		#if (DEBUG == ON_USART)
-		printf("Pos %i\n ",(int) Lire_Position());
-		#endif
-
+	
 		// recale le compteur de position en relatif
 		// pour éviter les overflow 
 		reinitEtat(NB_PAS_BOUCLE);
@@ -232,15 +234,16 @@ TASK(Afficher)
 {
 	while (1) 
 	{
-	 	WaitEvent(EVENT_ARRIVEE);
-		ClearEvent(EVENT_ARRIVEE);
+	 	WaitEvent(Evt_arrivee);
+		ClearEvent(Evt_arrivee);
 		
 		//affiche la position en fin de station
 		#if (DEBUG == ON_USART)
-		printf("Position = %i\n ",(int) Lire_Position());
+		printf("Position Finale = %i\n ",Position_Finale);
 		#endif
 
 	}
+
 	TerminateTask();
 
 }

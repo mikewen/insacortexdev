@@ -37,7 +37,7 @@ OPTFFF 2,16,1,0,0,0,0,0,<../../../trampoline/os/tpl_os_task.c><tpl_os_task.c>
 OPTFFF 2,17,1,0,0,0,0,0,<../../../trampoline/os/tpl_os_task_kernel.c><tpl_os_task_kernel.c> 
 OPTFFF 2,18,1,0,0,0,0,0,<../../../trampoline/os/tpl_os_timeobj_kernel.c><tpl_os_timeobj_kernel.c> 
 OPTFFF 2,19,1,0,0,0,0,0,<../../../trampoline/os/tpl_trace.c><tpl_trace.c> 
-OPTFFF 3,20,1,2,0,49,56,0,<../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c><tpl_machine_cm3.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,88,0,0,0,92,0,0,0,31,3,0,0,245,1,0,0 }
+OPTFFF 3,20,1,0,0,49,56,0,<../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c><tpl_machine_cm3.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,88,0,0,0,92,0,0,0,31,3,0,0,245,1,0,0 }
 OPTFFF 4,21,1,486539264,0,0,0,0,<../../../lib_cm3/cm3_traps.c><cm3_traps.c> 
 OPTFFF 4,22,1,218103808,0,0,0,0,<../../../lib_cm3/stm_clock.c><stm_clock.c> 
 OPTFFF 4,23,1,0,0,0,0,0,<../../../lib_cm3/stm_metro_v1.c><stm_metro_v1.c> 
@@ -51,7 +51,7 @@ OPTFFF 5,30,1,0,0,0,0,0,<.\Projet_Poursuite_CAN/tpl_os_generated_configuration.c
 OPTFFF 5,31,5,0,0,0,0,0,<.\Projet_Poursuite_CAN.oil><Projet_Poursuite_CAN.oil> 
 
 ExtF <U:\Windows\Bureau\svn_insacortexdevter\LIB_CM3\LCD.H> 1,1,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,109,0,0,0,28,0,0,0 }
-ExtF <U:\Windows\Bureau\svn_insacortexdevter\proj_cm3\Metro\metro_rame_V2.ini> 120,125,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,109,0,0,0,28,0,0,0 }
+ExtF <U:\Windows\Bureau\svn_insacortexdevter\proj_cm3\Metro\metro_rame_V2.ini> 120,122,0,{ 44,0,0,0,2,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,252,255,255,255,232,255,255,255,0,0,0,0,0,0,0,0,109,0,0,0,28,0,0,0 }
 
 TARGOPT 1, (Simulateur)
  ARMCLK=8000000
