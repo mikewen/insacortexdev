@@ -4,7 +4,7 @@ clc;
 
 
 Te=2E-3; % période d'échantillonnage de la commande
-
+Tc=10e-3; % période d'échantillonnage de génération de consigne
 
 Delta=10; %% écart initial entre les loco au démarrage
 
@@ -40,25 +40,24 @@ tdd=tda+Dist/Vmax; % temps début de descente
 Amax = Vmax/tpsm;  % accélération maximale (pas/s/s)
 L=tdd+tpsm+2;   % horizon de simulation
 
-Vitmax = 1200 %% pas/s
-
 
 %% Valeurs des N modèles de locomotive
 % Vit(p)          K
 % _______  =  ____________
 %  Com(p)      1 + Tau . p
 
+Knom = 0.4979;          % Gain nominal
+Taunom=3E-2; % constante de temps d'une loco 
+
 N=3; % nombre de loco simulées
 
 %% initialise N gains K autour de la valeur nominale
-Knom = 0.4979;          % Gain nominal
 sigma_K = Knom*5/100;     % 1% devariance de K sur l'univers probabiliste des différentes locos
 K=(randn(N,1)*sigma_K)+Knom; % Vecteur des N gains K de chaque loco simulée
 K(end)=K(end)*1;   
 
 
 %% initialise N constante Tu autour de la valeur nominale
-Taunom=3E-2; % constante de temps d'une loco 
 sigma_Tau=Taunom*10/100; % forte variance de 10% car il peut y avoir
                      % beaucoup de monde dans une voiture de métro
 Tau=(randn(N,1)*sigma_Tau)+Taunom; % Vecteur des N constante de temps Tau des locos
@@ -74,16 +73,10 @@ Ai = [0 1 0 ; 0 0 1; 0 0 -1/Taunom];
 Bi = [0; 0;  Knom/Taunom] ;
 Ci = eye(3,3);
 
+%gain d'un PID calculé par LQD pour 1 voiture
+%         Ki        Kp          Kv  
+KLQ= [   0.8794    9.6552    7.0277 ];
 
-
-R=eye(1)*1;
-Q=eye(3,3)*1;
-Q(1,1)=10
-Q(2,2)=100
-Q(3,3)=100;
-
-nvoit=ss(Ai,Bi,Ci,0);
-[KLQ,S,E]=lqrd(Ai,Bi,Q,R,Te);
 
 Ki=KLQ(1)*eye(3,3);
 Kp=KLQ(2)*eye(3,3);
