@@ -447,34 +447,19 @@
           <GroupName>lib</GroupName>
           <Files>
             <File>
+              <FileName>cm3_traps.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_cm3/cm3_traps.c</FilePath>
+            </File>
+            <File>
               <FileName>stm_clock.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../lib_cm3/stm_clock.c</FilePath>
             </File>
             <File>
-              <FileName>lib_trajectoire_2009a.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../lib_user/lib_trajectoire_2009a.c</FilePath>
-            </File>
-            <File>
               <FileName>stm_metro_v1.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../lib_cm3/stm_metro_v1.c</FilePath>
-            </File>
-            <File>
-              <FileName>lib_autom_2009a.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../lib_user/lib_autom_2009a.c</FilePath>
-            </File>
-            <File>
-              <FileName>CAN.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../lib_cm3/CAN.c</FilePath>
-            </File>
-            <File>
-              <FileName>cm3_traps.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../lib_cm3/cm3_traps.c</FilePath>
             </File>
             <File>
               <FileName>stm_usartx.c</FileName>
@@ -485,6 +470,21 @@
               <FileName>syscalls.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../minilib/syscalls_template/syscalls.c</FilePath>
+            </File>
+            <File>
+              <FileName>CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_cm3/CAN.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_trajectoire_2009a.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/lib_trajectoire_2009a.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_autom_2009a.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/lib_autom_2009a.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -783,7 +783,7 @@
             <umfTarg>1</umfTarg>
             <enaGarb>0</enaGarb>
             <noStart>1</noStart>
-            <noStLib>1</noStLib>
+            <noStLib>0</noStLib>
             <uMathLib>0</uMathLib>
             <TextAddressRange></TextAddressRange>
             <DataAddressRange></DataAddressRange>
@@ -791,7 +791,7 @@
             <IncludeLibs>mini</IncludeLibs>
             <IncludeDir>..\..\..\minilib\lib\arm-cm3\GCC</IncludeDir>
             <Misc></Misc>
-            <ScatterFile>..\..\..\system\Linker_Script_GCC.ld -Wl, --gc-sections</ScatterFile>
+            <ScatterFile>..\..\..\system\Linker_Script_GCC.ld -Wl,--gc-sections</ScatterFile>
           </LDarm>
         </TargetArm>
       </TargetOption>
@@ -951,34 +951,19 @@
           <GroupName>lib</GroupName>
           <Files>
             <File>
+              <FileName>cm3_traps.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_cm3/cm3_traps.c</FilePath>
+            </File>
+            <File>
               <FileName>stm_clock.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../lib_cm3/stm_clock.c</FilePath>
             </File>
             <File>
-              <FileName>lib_trajectoire_2009a.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../lib_user/lib_trajectoire_2009a.c</FilePath>
-            </File>
-            <File>
               <FileName>stm_metro_v1.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../lib_cm3/stm_metro_v1.c</FilePath>
-            </File>
-            <File>
-              <FileName>lib_autom_2009a.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../lib_user/lib_autom_2009a.c</FilePath>
-            </File>
-            <File>
-              <FileName>CAN.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../lib_cm3/CAN.c</FilePath>
-            </File>
-            <File>
-              <FileName>cm3_traps.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../lib_cm3/cm3_traps.c</FilePath>
             </File>
             <File>
               <FileName>stm_usartx.c</FileName>
@@ -989,6 +974,21 @@
               <FileName>syscalls.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../minilib/syscalls_template/syscalls.c</FilePath>
+            </File>
+            <File>
+              <FileName>CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_cm3/CAN.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_trajectoire_2009a.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/lib_trajectoire_2009a.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_autom_2009a.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/lib_autom_2009a.c</FilePath>
             </File>
           </Files>
         </Group>
