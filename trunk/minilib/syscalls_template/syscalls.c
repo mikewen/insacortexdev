@@ -23,9 +23,7 @@ char minilib_write(int, char);
 #if !defined (__AVR__)
 	#include <sys/stat.h>
 	#include <sys/types.h>
-	#include <reent.h>
 
-	struct _reent *_impure_ptr __ATTRIBUTE_IMPURE_PTR__;
 #else
 	//#include <sys/types.h>
 	#define ENOMEM -2
@@ -147,3 +145,57 @@ void _free(void *aptr)
 {
 }
 
+/*****************************************************************************************************
+ * Functions used when GCC use builtin functions, that you need to link with libc and that minilib has not yet redefined the function
+ *****************************************************************************************************/
+/*caddr_t _sbrk(int incr) 
+{
+	extern char _end; 
+	static char *heap_end;
+	char *prev_heap_end;
+	static char *stack_ptr;
+	
+	if (heap_end == 0) 
+	{
+		heap_end = &_end;
+	}
+
+	prev_heap_end = heap_end;
+
+	if (heap_end + incr > stack_ptr) 
+	{
+		_write (1, "Heap and stack collision\n", 25);
+		//abort ();
+	}
+
+	heap_end += incr;
+	return (caddr_t) prev_heap_end;
+}
+
+int _close(int file) 
+{
+	return -1;
+}
+
+#include <sys/stat.h>
+int _fstat(int file, struct stat *st) 
+{
+	st->st_mode = S_IFCHR;
+	return 0;
+}
+
+int _isatty(int file) 
+{
+	return 1;
+}
+
+int _lseek(int file, int ptr, int dir) 
+{
+	return 0;
+}
+
+int _getpid(void) 
+{
+	return 1;
+}
+*/

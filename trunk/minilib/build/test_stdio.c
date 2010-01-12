@@ -33,21 +33,23 @@
 volatile int res;
 char *buffer[10];
 char *ptr;
+int i;
 
 int test_stdio (void)
 {
 /* standard ISO C 99 */
 
 	res = fgetc(stdin);
-	ptr = fgets(buffer, 1, stdin);
+	ptr = fgets((char *)buffer, 1, stdin);
 	res = fputc ('c', stdout);
-	res = fputs (buffer, stdout);
+	res = fputs ((char *)buffer, stdout);
 	res = getchar();
-	res = printf ("Hello world !");
+	res = printf ("Hello world !\n");
+	res = printf ("t=%i\n",i);
 	res = putchar ('c');
-	res = sscanf ("", "");
+	res = sscanf ("Toto", "%d", &i);
+
 /* minilib specific */
-	
 	
 	return res;
 }

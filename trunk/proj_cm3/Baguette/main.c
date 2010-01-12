@@ -88,7 +88,7 @@ u8 pattern;
 	case 0:
 		/* rien a faire */
 		//GPIOB->ODR = 0x0;
-		led_SetValue(0xFFFF);
+		led_SetValue(0xFF);
 		break;
 	case 1:
 		/* Sens direct */
