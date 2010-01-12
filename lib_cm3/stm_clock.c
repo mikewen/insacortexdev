@@ -167,7 +167,9 @@ void Init_Clock_System()
 }
 
 //__________________________________________
-unsigned int stm32_GetPCLK1 (void)
+//ensure compatibility with STM32f10x lib
+unsigned int stm32_GetPCLK1 (void) __attribute__ ((weak));
+unsigned int stm32_GetPCLK1 (void) 
 {
 	return (unsigned int) (__PCLK1) ;
 }

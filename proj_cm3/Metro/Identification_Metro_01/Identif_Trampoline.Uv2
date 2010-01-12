@@ -3,7 +3,6 @@
 
 Target (Simulateur), 0x0003 // Tools: 'ARM-GNU'
 Target (Locolymex), 0x0003 // Tools: 'ARM-GNU'
-Target (MCBSTM32), 0x0003 // Tools: 'ARM-GNU'
 
 Group (sys)
 Group (os)
@@ -32,9 +31,10 @@ File 2,1,<../../../trampoline/os/tpl_os_timeobj_kernel.c><tpl_os_timeobj_kernel.
 File 2,1,<../../../trampoline/os/tpl_trace.c><tpl_trace.c>
 File 3,1,<../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c><tpl_machine_cm3.c>
 File 4,1,<../../../lib_cm3/stm_clock.c><stm_clock.c>
-File 4,1,<../../../lib_cm3/lib_usartx.c><lib_usartx.c>
 File 4,1,<../../../lib_cm3/stm_metro_v1.c><stm_metro_v1.c>
-File 4,1,<../../../lib_cm3/stm3_stub.c><stm3_stub.c>
+File 4,1,<../../../minilib/syscalls_template/syscalls.c><syscalls.c>
+File 4,1,<../../../lib_cm3/cm3_traps.c><cm3_traps.c>
+File 4,1,<../../../lib_cm3/stm_usartx.c><stm_usartx.c>
 File 5,5,<.\Identif_Trampoline.oil><Identif_Trampoline.oil>
 File 5,1,<.\Identif_Trampoline/tpl_os_generated_configuration.c><tpl_os_generated_configuration.c>
 File 5,1,<.\Identification_Trampo.c><Identification_Trampo.c>
@@ -76,8 +76,8 @@ Options 1,0,0  // Target 'Simulateur'
  HexSel=1
  MG32K=0
  TGMORE=0
- RunUsr 0 0 <>
- RunUsr 1 0 <>
+ RunUsr 0 1 <"C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs/*.ELF>
+ RunUsr 1 0 <"C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-nm.exe" objs/*.ELF>
  BrunUsr 0 0 <>
  BrunUsr 1 0 <>
  CrunUsr 0 0 <>
@@ -96,7 +96,7 @@ Options 1,0,0  // Target 'Simulateur'
  ACMISC ()
  ACDEFN ()
  ACUDEF ()
- ACINCD (..\..\..\trampoline\os;..\..\..\trampoline\machines\cortex-m3;..\..\..\trampoline\debug;..\..\..\trampoline\com;..\..\..\lib_cm3;.\Identif_Trampoline;..\Identification_Metro_01)
+ ACINCD (..\..\..\trampoline\os;..\..\..\trampoline\machines\cortex-m3;..\..\..\trampoline\debug;..\..\..\trampoline\com;..\..\..\lib_cm3;.\Identif_Trampoline;..\Identification_Metro_01;..\..\..\minilib\include)
  AASFLG { 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  AAMISC ()
  AADEFN ()
@@ -111,16 +111,16 @@ Options 1,0,0  // Target 'Simulateur'
  StopCode=3
  CustArgs ()
  LibMods ()
- ALDFLAG { 7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ALDFLAG { 5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ALDTADR ()
  ALDDADR ()
  ALDBSSR ()
- ALDICLB ()
- ALDICDR ()
+ ALDICLB (mini)
+ ALDICDR (..\..\..\minilib\lib\arm-cm3\GCC)
  ALDMISC ()
- ALDSCAT (..\..\..\system\Linker_Script_GCC.ld)
+ ALDSCAT (..\..\..\system\Linker_Script_GCC.ld -Wl,--gc-sections)
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
-  OPTDBG 48125,0,()()()()(.\metro_rame_V1.ini)()()()()() (BIN\UL2CM3.DLL)()()()
+  OPTDBG 48125,0,()()()()(..\metro_rame_V2.ini)()()()()() (BIN\UL2CM3.DLL)()()()
  FLASH1 { 1,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
  FLASH2 ()
  FLASH3 ()
@@ -163,95 +163,8 @@ Options 2,0,0  // Target 'Locolymex'
  HexSel=1
  MG32K=0
  TGMORE=0
- RunUsr 0 0 <>
- RunUsr 1 0 <>
- BrunUsr 0 0 <>
- BrunUsr 1 0 <>
- CrunUsr 0 0 <>
- CrunUsr 1 0 <>
- SVCSID <>
- GLFLAGS=1790
- GCPUTYP ("Cortex-M3")
- TFlagsA { 0,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- OCMARM { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- OCMARAM { 0,0,0,0,32,0,80,0,0 }
- OCMAROM { 1,0,0,0,8,0,0,2,0 }
- OCMXRAM { 0,0,0,0,0,0,0,0,0 }
- OCMIRAM2 { 0,0,0,0,0,0,0,0,0 }
- OCMIROM2 { 0,0,0,0,0,0,0,0,0 }
- ACCFLG { 65,0,32,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- ACMISC (-fno-builtin)
- ACDEFN ()
- ACUDEF ()
- ACINCD (..\..\..\trampoline\os;..\..\..\trampoline\machines\cortex-m3;..\..\..\trampoline\debug;..\..\..\trampoline\com;.\Identif_Trampoline;..\Identification_Metro_01;..\..\..\lib_cm3)
- AASFLG { 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- AAMISC ()
- AADEFN ()
- AAUDEF ()
- AAINCD ()
- PropFld { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- IncBld=1
- AlwaysBuild=0
- GenAsm=0
- AsmAsm=0
- PublicsOnly=0
- StopCode=3
- CustArgs ()
- LibMods ()
- ALDFLAG { 7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- ALDTADR ()
- ALDDADR ()
- ALDBSSR ()
- ALDICLB ()
- ALDICDR ()
- ALDMISC (-fno-builtin)
- ALDSCAT (..\..\..\system\Linker_Script_GCC.ld)
-  OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
-  OPTDBG 48126,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
- FLASH1 { 9,0,0,0,1,0,0,0,1,16,0,0,0,0,0,0,0,0,0,0 }
- FLASH2 (BIN\UL2CM3.DLL)
- FLASH3 ("" ())
- FLASH4 ()
-EndOpt
-
-Options 3,0,0  // Target 'MCBSTM32'
- Device (STM32F103RB)
- Vendor (STMicroelectronics)
- Cpu (IRAM(0x20000000-0x20004FFF) IROM(0x8000000-0x801FFFF) CLOCK(8000000) CPUTYPE("Cortex-M3"))
- FlashUt ()
- StupF ("STARTUP\ST\STM32F10x.s" ("STM32 Startup Code"))
- FlashDR (UL2CM3(-O14 -S0 -C0 -N00("ARM Cortex-M3") -D00(1BA00477) -L00(4) -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000))
- DevID (4231)
- Rgf (stm32f10x_lib.h)
- Mem ()
- C ()
- A ()
- RL ()
- OH ()
- DBC_IFX ()
- DBC_CMS ()
- DBC_AMS ()
- DBC_LMS ()
- UseEnv=0
- EnvBin ()
- EnvInc ()
- EnvLib ()
- EnvReg ()
- OrgReg (ST\STM32F10x\)
- TgStat=16
- OutDir (.\objs\)
- OutName (Projet_No_CAN)
- GenApp=1
- GenLib=0
- GenHex=0
- Debug=1
- Browse=0
- LstDir (.\)
- HexSel=1
- MG32K=0
- TGMORE=0
- RunUsr 0 0 <>
- RunUsr 1 0 <>
+ RunUsr 0 1 <"C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs/*.ELF>
+ RunUsr 1 0 <"C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-nm.exe" objs/*.ELF>
  BrunUsr 0 0 <>
  BrunUsr 1 0 <>
  CrunUsr 0 0 <>
@@ -270,7 +183,7 @@ Options 3,0,0  // Target 'MCBSTM32'
  ACMISC ()
  ACDEFN ()
  ACUDEF ()
- ACINCD (..\..\..\trampoline\os;..\..\..\trampoline\machines\cortex-m3;..\..\..\trampoline\debug;..\..\..\trampoline\com;.\Projet_No_CAN;..\Poursuite_Une_Rame)
+ ACINCD (..\..\..\trampoline\os;..\..\..\trampoline\machines\cortex-m3;..\..\..\trampoline\debug;..\..\..\trampoline\com;.\Identif_Trampoline;..\Identification_Metro_01;..\..\..\lib_cm3;..\..\..\minilib\include)
  AASFLG { 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  AAMISC ()
  AADEFN ()
@@ -285,54 +198,20 @@ Options 3,0,0  // Target 'MCBSTM32'
  StopCode=3
  CustArgs ()
  LibMods ()
- ALDFLAG { 7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ALDFLAG { 5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ALDTADR ()
  ALDDADR ()
  ALDBSSR ()
- ALDICLB ()
- ALDICDR ()
+ ALDICLB (mini)
+ ALDICDR (..\..\..\minilib\lib\arm-cm3\GCC)
  ALDMISC ()
- ALDSCAT (..\..\..\system\Linker_Script_GCC.ld)
+ ALDSCAT (..\..\..\system\Linker_Script_GCC.ld -Wl,--gc-sections)
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
   OPTDBG 48126,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
  FLASH1 { 9,0,0,0,1,0,0,0,1,16,0,0,0,0,0,0,0,0,0,0 }
  FLASH2 (BIN\UL2CM3.DLL)
  FLASH3 ("" ())
  FLASH4 ()
-EndOpt
-
-Options 1,2,9  // File 'tpl_os_event.c'
- PropFld { 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- IncBld=0
- AlwaysBuild=2
- GenAsm=2
- AsmAsm=2
- PublicsOnly=2
- StopCode=11
- CustArgs ()
- LibMods ()
- ACCFLG { 170,2,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- ACMISC ()
- ACDEFN ()
- ACUDEF ()
- ACINCD ()
-EndOpt
-
-Options 1,2,10  // File 'tpl_os_event_kernel.c'
- PropFld { 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- IncBld=0
- AlwaysBuild=2
- GenAsm=2
- AsmAsm=2
- PublicsOnly=2
- StopCode=11
- CustArgs ()
- LibMods ()
- ACCFLG { 170,2,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- ACMISC ()
- ACDEFN ()
- ACUDEF ()
- ACINCD ()
 EndOpt
 
 Options 1,2,19  // File 'tpl_trace.c'
@@ -353,23 +232,6 @@ Options 1,2,19  // File 'tpl_trace.c'
 EndOpt
 
 Options 2,2,19  // File 'tpl_trace.c'
- PropFld { 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- IncBld=0
- AlwaysBuild=2
- GenAsm=2
- AsmAsm=2
- PublicsOnly=2
- StopCode=11
- CustArgs ()
- LibMods ()
- ACCFLG { 170,2,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
- ACMISC ()
- ACDEFN ()
- ACUDEF ()
- ACINCD ()
-EndOpt
-
-Options 3,2,19  // File 'tpl_trace.c'
  PropFld { 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  IncBld=0
  AlwaysBuild=2
