@@ -3880,12 +3880,12 @@
 // </e> End of General purpose I/O Configuration
 #define __GPIO_SETUP              1
 #define __GPIO_USED               0x07
-#define __GPIOA_CRL               0x00000000
+#define __GPIOA_CRL               0x00000004
 #define __GPIOA_CRH               0x00000000
 #define __GPIOB_CRL               0x00000000
 #define __GPIOB_CRH               0x33333333
 #define __GPIOC_CRL               0x00000000
-#define __GPIOC_CRH               0x00000000
+#define __GPIOC_CRH               0x00400000
 #define __GPIOD_CRL               0x00000000
 #define __GPIOD_CRH               0x00000000
 #define __GPIOE_CRL               0x00000000

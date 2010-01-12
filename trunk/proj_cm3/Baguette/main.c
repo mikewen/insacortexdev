@@ -2,6 +2,7 @@
 #include "STM32_Init.h"                           // STM32 Initialization
 #include "lcd.h"
 #include "led.h"
+#include "ihm.h"
 #include <stdio.h>
 
 extern unsigned char font8data[];
@@ -12,8 +13,12 @@ volatile u8 sens;
 volatile u8 index_tab;
 volatile u8 index_font;
 
-char tableau[]={'I','N','S','A'};
 char text[50];
+
+u32 ADC_Array[3];
+
+int compteur_ihm;
+int Current_ADC;
 
 int ADC_min, ADC_max;
 
@@ -24,52 +29,61 @@ volatile u8 tick;
 #define MIN_max	300
 #define MIN_min	150
 
-void adc_Init (void) {
+#define COMPTEUR_IHM_MAX 100
 
-//  GPIOA->CRL &= ~0x0000000F;                    // set PIN1 as analog input (see stm32_Init.c)
+#define ADC_X 1
+#define ADC_Y 2
 
-  //RCC->AHBENR |= (1<<0);                          // enable periperal clock for DMA
-
-  //DMA1_Channel1->CMAR  = (u32)&ADC_ConvertedValue;// set channel1 memory address
-  //DMA1_Channel1->CPAR  = (u32)&(ADC1->DR);        // set channel1 peripheral address
-  //DMA1_Channel1->CNDTR = 1;                       // transmit 1 word
-  //DMA1_Channel1->CCR   = 0x00002520;              // configure DMA channel
-  //DMA1_Channel1->CCR  |= (1 << 0);                // DMA Channel 1 enable
-
+void adc_Init (void) 
+{
+  Current_ADC = 0;
 
   RCC->APB2ENR |= (1<<9);                         // enable periperal clock for ADC1
 
   ADC1->SQR1  = 0x00000000;                       // only one conversion
   ADC1->SMPR2 = 0x00000028;                       // set sample time channel1 (55,5 cycles)
-  //ADC1->SQR3  = 0x00000001;                       // set channel1 as 1st conversion
+  ADC1->SQR3  = 0x00000001;                       // set channel1 as 1st conversion
 
-  ADC1->CR1   = 0x00000100;                       // use independant mode, SCAN mode
-  ADC1->CR2   = 0x000E0003;                       // use data align right,continuous conversion
+  ADC1->CR1   = 0x00000020;                       // use independant mode, EOCIE mode
+  ADC1->CR2   = 0x000E0001;                       // use data align right,continuous conversion
                                                   // EXTSEL = SWSTART 
                                                   // enable ADC, no external Trigger
-  //ADC1->CR2  |=  0x00500000;					  // start SW conversion
+  ADC1->CR2  |=  0x00500000;					  // start SW conversion
+
+  /* Activation de l'IT EOC */
+  NVIC->ISER[0] = (0x01<<18);
 }
 
-u32 adc_Convert(u8 Channel)
+void ADC_IRQHandler	(void)
 {
-u32 tmp;
+	ADC_Array[Current_ADC] = ADC1->DR;
+
+	Current_ADC++;
+	if (Current_ADC>=3) Current_ADC =0;
+	
+	if (Current_ADC == 0) ADC1->SQR3  = 1;                       // set Channel as 1st conversion
+	else if (Current_ADC == 1) ADC1->SQR3  = 14;                       // set Channel as 1st conversion
+	else ADC1->SQR3  = 15; 
+
+	ADC1->CR2  |=  0x00500000;					  // start SW conversion
+}
+
+u32 adc_Convert(u8 channel)
+{
+volatile register u32 tmp;
 
 	do
 	{
-		ADC1->SQR3  = Channel;                       // set Channel as 1st conversion
-		ADC1->CR2  |=  0x00500000;					  // start SW conversion
+		tmp = ADC_Array[channel];
+	} while ((channel !=0) && ((tmp<=5) || (tmp >=0xFF0)));
 
-		while ((ADC1->SR & 0x00000002)!= 0x00000002)
-		{
-		}
+	if (channel !=0)
+	{
+		if ((ADC_min > tmp) && ((tmp>>4) >0)) ADC_min = tmp;
+		if (ADC_max < tmp) ADC_max = tmp;
+	}
 
-		tmp = ADC1->DR;
-	} while ((tmp<=5) || (tmp >=0xFF0));
-
-	if ((ADC_min > tmp) && ((tmp>>4) >0)) ADC_min = tmp;
-	if (ADC_max < tmp) ADC_max = tmp;
-
-	return ADC1->DR;
+	return tmp;
 }
 
 /*------------------------------------------------------------------------------
@@ -83,6 +97,15 @@ u8 pattern;
 
 	tick = 1;
 
+	compteur_ihm++;
+
+	if (compteur_ihm >= COMPTEUR_IHM_MAX)
+	{
+		compteur_ihm = 0;
+
+		ihm_Animate();	
+	}
+
   	switch (sens)
 	{
 	case 0:
@@ -92,7 +115,7 @@ u8 pattern;
 		break;
 	case 1:
 		/* Sens direct */
-		caractere = tableau[index_tab];
+		caractere = texte_baguette[index_tab];
 		pattern = font8data[(caractere*8) + index_font];
 		//GPIOB->ODR = (pattern<<8);
 		led_SetValue(~pattern);
@@ -112,7 +135,7 @@ u8 pattern;
 		break;
 	case 2:
 		/* Sens indirect */
-		caractere = tableau[index_tab];
+		caractere = texte_baguette[index_tab];
 		pattern = font8data[(caractere*8) + index_font];
 		//GPIOB->ODR = (pattern<<8);
 		led_SetValue(~pattern);
@@ -171,7 +194,7 @@ int main (void)
 	stm32_Init();
 	adc_Init();
     led_Init();
-	lcd_init();
+	ihm_Init();
 
 	tmp = 0;
 	sens = 0; /* si sens = 0 -> ne rien faire
@@ -189,6 +212,7 @@ int main (void)
 	ADC_min = 0xFFFF;
 	ADC_max = 0;
 
+	compteur_ihm = 0;
 	/* Fonction de test */
 	//test();
 
@@ -197,7 +221,7 @@ int main (void)
 		/* Dessus MAX max */
 		while (tmp <MAX_max)
 		{
-			 tmp = adc_Convert(14);
+			 tmp = adc_Convert(ADC_X);
 		}
 
 		//GPIOB->ODR = 0x0;
@@ -206,7 +230,7 @@ int main (void)
 	   	/* Dessous MAX min */
 		while (tmp >MAX_min)
 		{
-			 tmp = adc_Convert(14);
+			 tmp = adc_Convert(ADC_X);
 		}
 
 		//GPIOB->ODR = 0x00008000;
@@ -217,7 +241,7 @@ int main (void)
 		/* Dessous MIN min */
 		while (tmp >MIN_min)
 		{
-			 tmp = adc_Convert(14);
+			 tmp = adc_Convert(ADC_X);
 		}
 
 		//GPIOB->ODR = 0x0;
@@ -226,7 +250,7 @@ int main (void)
 		/* Dessus MIN max */
 		while (tmp <MIN_max)
 		{
-			 tmp = adc_Convert(14);
+			 tmp = adc_Convert(ADC_X);
 		}
 
 		//GPIOB->ODR = 0x00000100;
