@@ -44,11 +44,11 @@ ________________
 #include "standard_types.h"
 
 // DEBUG avec printf sur USART ou LCD
-// pour le moment ça déconne !
+
 
 #define ON_LCD (0x1CD)
 #define ON_USART (1)
-// COMMENBT this line to remove printf debug
+// COMMENT this line to remove printf debug
 #define DEBUG ON_USART
 
 // how to control start stop of trajectories ?
@@ -59,12 +59,7 @@ ________________
 #if (DEBUG == ON_USART)
 	#include "../../lib_cm3/stm_usartx.h"
 	#include <stdio.h>
-	#ifdef CONTROL_WITH_USART
 	
-		#define bool int
-		FILE __stdin;
-	#endif
-
 #elif (DEBUG == ON_LCD)
 
 	#include "../../lib_user/lcd.h"
@@ -74,20 +69,15 @@ ________________
 //OSEK includes
 #include "tpl_os.h"
 #include "tpl_os_generated_configuration.h"
-#define Evt_arrivee	1	   //TODO débuguer trampoline
+#define EVENT_ARRIVEE	2	   //TODO débuguer trampoline
 
 //PERIPH includes
-#include "../../lib_cm3/stm_clock.h"
+#include "../../lib_cm3/stm_clock.h" 
 #include "../../lib_cm3/cm3_traps.h"
 #include "../../lib_cm3/stm_metro_v1.h"
 
 //CAN stufs
 #include "../../lib_cm3/CAN.h"                    // STM32 CAN adaption layer
-
-
-
-
-
 
 
 /*----------------------------------------------------------------------------
@@ -124,12 +114,12 @@ void can_Init (void) {
 //    OU en cas de réception du message de panique sur le bus CAN
 //____________________________________________________________
 
-#ifdef USER_HARDWARE_FAULT_HANDLER
+#ifdef USER_HARDWARE_FAULT_HANDLER   //voir ../.../lib_cm3/cm3_traps.h et ./cm3_traps_config.h
 void Arret_Urgence(void)
 {
 
 	Fixe_Rapport(0); //stopee la machine
-	CAN_wrMsg (&CAN_TxMsg); // transmit message	Pannic 66= 0xBA
+	CAN_wrMsg (&CAN_TxMsg); // send message	Pannic 66= 0xBA
    
 	while (1)
 	{
@@ -143,25 +133,116 @@ void Arret_Urgence(void)
 #endif
 
 
-
-
 //APPLI includes
 #include "../../lib_user/lib_trajectoire_2009a.h"
 #include "./lib_autom_2009a.h"
 
 
-
-
-
-
 // GLOBALS for appli
 Une_Consigne Cons; 
+Etat etatRame;
+float com;
+float gainsCommande[3] = {100.0 , 46.0 , 8.4} ;
 
-float Com,VCom,Pos,CPos,Ep,Kp;
-		
-//#define NB_PAS_BOUCLE 277
 int Pannic;
 
+//_________________________________________________________________________
+TASK(Controler_Rame)
+// Tâche 0
+// Alarm 0 (2ms)
+//_________________________________________________________________________
+{
+
+	// Consigne mise à jour par "Generer_Trajectoire"
+	etatRame = calculerEtatRelatif(Cons.Pos,Cons.Vit);
+
+  	if (TRAJECTOIRE_TERMINEE)  // voir lib_trajectoire_2009.h
+	{   //Arrêt en station
+		Fixe_Rapport(0); 
+	}
+	else
+	{
+		com=calculerCommande(etatRame,gainsCommande) ;
+		Fixe_Rapport((u16) com);
+	}
+	TerminateTask();
+
+}
+
+//_________________________________________________________________________
+TASK(Generer_Trajectoire)
+// Tâche 1
+// Alarm 1 (10ms)
+//_________________________________________________________________________
+{ 
+	// Vérifie si un message passe sur le CAN
+   if (CAN_RxRdy) 
+   {
+       CAN_RxRdy = 1;
+	   Pannic = CAN_RxMsg.data[0];
+    }
+
+	// Tire l'alarme si panique
+  	if (Pannic)
+	{
+		CancelAlarm(0);
+		CancelAlarm(1);
+		Arret_Urgence(); 
+		//fonction bloquante
+	}
+
+	// Gére la trajectoire
+	if (TRAJECTOIRE_TERMINEE)  // voir lib_trajectoire_2009.h
+	{
+		SetEvent (2, EVENT_ARRIVEE); //déclenche la tâche d'affichage
+		
+		// On bloque le générateur pour 1 seconde (attente en station)
+		CancelAlarm(1);
+		SetRelAlarm (1, 1000, 10) ;
+
+		//affiche la position en fin de station
+		#if (DEBUG == ON_USART)
+		printf("Pos %i\n ",(int) Lire_Position());
+		#endif
+
+		// recale le compteur de position en relatif
+		// pour éviter les overflow 
+		reinitEtat(NB_PAS_BOUCLE);
+		initTrajectoire(NB_PAS_BOUCLE);
+
+	}
+	else // Trajectoire en cours de réalisation
+	{
+		calculConsigneSuivante();
+	}
+
+	//Mets à jour la consigneutilisée par "Controler_Rame"
+	Cons= lireConsigne();
+
+	TerminateTask();
+}
+
+//_________________________________________________________________________
+TASK(Afficher)
+// Tache 2
+//	sans alarme
+{
+	while (1) 
+	{
+	 	WaitEvent(EVENT_ARRIVEE);
+		ClearEvent(EVENT_ARRIVEE);
+		
+		//affiche la position en fin de station
+		#if (DEBUG == ON_USART)
+		printf("Position = %i\n ",(int) Lire_Position());
+		#endif
+
+	}
+	TerminateTask();
+
+}
+
+//_________________________________________________________________________
 void InitApp(void)
 {
 	Init_Periphs();
@@ -175,93 +256,19 @@ void InitApp(void)
 		lcd_init();
 	#endif
 
+	// COnfigure le profil de trajectoire
 	initGenerateur(10, 2000, 1800);
-	//             Périod(ms) , Rising time (ms) , Vitmax (pas/s)
+	//      Périod(ms) , Rising time (ms) , Vitmax (pas/s)
 
 	Set_Position(NB_PAS_BOUCLE); //comme si on terminait un cycle 
 	
 	can_Init ();                                    // initialise CAN interface	
 	Pannic=0;
 }
-TASK(Generer_Trajectoire)
-{ 
-   if (CAN_RxRdy) {
-      CAN_RxRdy = 1;
-
-      Pannic = CAN_RxMsg.data[0];
-    }
-  	if (Pannic)
-	{
-		CancelAlarm(0);
-		CancelAlarm(1);
-		Arret_Urgence();
-	}
-	if (TRAJECTOIRE_TERMINEE)
-	{
-		SetEvent ( 2, Evt_arrivee);
-		CancelAlarm(1);
-		SetRelAlarm (1, 1000, 10) ;
-		#if (DEBUG == ON_USART)
-		printf("%i\n ",(int) Lire_Position());
-		//printf("Stop\n ");
-		#endif
-		reinitEtat(NB_PAS_BOUCLE);
-		initTrajectoire(NB_PAS_BOUCLE);
-	   	//while (~CAN_TxRdy);
-		//CAN_waitReady ();
-		//CAN_wrMsg (&CAN_TxMsg);                     // transmit message
-
-	}
-	else
-	{
-		calculConsigneSuivante();
-	}
-	Cons= lireConsigne();
-/*	if (CAN_TxRdy) {
-      CAN_TxRdy = 0;
-	  CAN_wrMsg (&CAN_TxMsg);                     // transmit message
-   
-    }
-*/
-	TerminateTask();
-}
-
-
-Etat etatRame;
-
-float com;
-float gainsCommande[3] = {100.0 , 46.0 , 8.4} ;
-TASK(Controler_Rame)
-{
-
-	// Cons mise à jour par generer
-
-	etatRame = calculerEtatRelatif(Cons.Pos,Cons.Vit);
-	
-	com=calculerCommande(etatRame,gainsCommande) ;
-	Fixe_Rapport((u16) com);
-
-	TerminateTask();
-
-}
-
-TASK(Afficher)
-{
-	while (1) {
-	 	WaitEvent(Evt_arrivee);
-		ClearEvent(Evt_arrivee);
-
-		//printf("Position = %d",(int) etatRame.Pos);
-
-	}
-	TerminateTask();
-
-}
 
 int main (void)
 {
 	InitApp();
-//	printf("Salut les musclés\n");
 	StartOS(OSDEFAULTAPPMODE);
 	return 0;	
 }
