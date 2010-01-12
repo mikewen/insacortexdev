@@ -51,7 +51,7 @@ int test_stdlib (void)
 	ptr = (char*)malloc(100);
 	srand (10);
 	res = rand ();
-	resl = strtol("100", ptr, 10);
+	resl = strtol("100", &ptr, 10);
 
 	exit(1);
 	return res;

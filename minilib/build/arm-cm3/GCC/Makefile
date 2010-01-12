@@ -24,8 +24,15 @@ COMMON = -mcpu=$(CPU) -mthumb
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2 -std=gnu99 -Os -mapcs-frame -mthumb-interwork -D__CORTEX_M3__ -ffunction-sections  -fdata-sections -fno-strict-aliasing 
+CFLAGS += -Wall -gdwarf-2 -std=gnu99 -Os -mapcs-frame -mthumb-interwork -ffunction-sections -fdata-sections -fno-strict-aliasing -fno-builtin
+CFLAGS += -D__MINILIB_TEST__ -D__CORTEX_M3__ -D__MINILIB__ 
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
+
+## Compile options common for all C compilation units.
+CTESTFLAGS = $(COMMON)
+CTESTFLAGS += -Wall -gdwarf-2 -std=gnu99 -Os -mapcs-frame -mthumb-interwork -fno-strict-aliasing
+CTESTFLAGS += -D__MINILIB_TEST__ -D__CORTEX_M3__ -D__MINILIB__ 
+CTESTFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
 ASMFLAGS = $(COMMON)
@@ -34,46 +41,50 @@ ASMFLAGS += -x assembler-with-cpp -Wa,-gdwarf2
 
 ## Linker flags
 LDFLAGS = $(COMMON)
-LDFLAGS +=  -Wl,-Map=mini.map -Wl,--gc-sections -T Linker_Script_GCC.ld
+LDFLAGS +=  -Wl,-Map=mini.map -Wl,--gc-sections -nostartfiles -T Linker_Script_GCC.ld
 
 ## Include Directories
 INCLUDES = -I$(COMMON_PATH)/include 
 
 ## Objects that must be built in order to link
-LIB_OBJECTS = ctype_.o toupper.o isalnum.o isalpha.o isascii.o isblank.o iscntrl.o isdigit.o islower.o isprint.o ispunct.o isspace.o isupper.o isxdigit.o toascii.o tolower.o scanf.o fgetc.o fgets.o fputc.o fputs.o getchar.o printf.o putchar.o strtol.o abs.o assert.o atoi.o atol.o calloc.o div.o exit.o ldiv.o malloc.o rand.o strupr.o bcmp.o bcopy.o bzero.o index.o memccpy.o memchr.o memcmp.o memcpy.o memmove.o mempcpy.o memset.o rindex.o strcat.o strchr.o strcmp.o strcoll.o strcpy.o strcspn.o strlcat.o strlcpy.o strlen.o strlwr.o strncat.o strncmp.o strncpy.o strnlen.o strrchr.o strspn.o strstr.o 
+LIB_OBJECTS = ctype_.o toupper.o isalnum.o isalpha.o isascii.o isblank.o iscntrl.o isdigit.o islower.o isprint.o ispunct.o isspace.o isupper.o isxdigit.o toascii.o tolower.o scanf.o fgetc.o fgets.o fputc.o fputs.o getchar.o puts.o putc.o gets.o getc.o rget.o wbuf.o printf.o putchar.o strtol.o abs.o assert.o atoi.o atol.o calloc.o div.o exit.o ldiv.o malloc.o rand.o strupr.o bcmp.o bcopy.o bzero.o index.o memccpy.o memchr.o memcmp.o memcpy.o memmove.o mempcpy.o memset.o rindex.o strcat.o strchr.o strcmp.o strcoll.o strcpy.o strcspn.o strlcat.o strlcpy.o strlen.o strlwr.o strncat.o strncmp.o strncpy.o strnlen.o strrchr.o strspn.o strstr.o impure.o
 
-OBJECTS = $(LIB_OBJECTS) test.o syscalls.o Startup_GCC.o STM32F10x_GCC.o
+APP_OBJECTS = test.o syscalls.o test_ctype.o test_stdio.o test_stdlib.o test_string.o Startup_GCC.o STM32F10x_GCC.o
+
+OBJECTS = $(LIB_OBJECTS) $(APP_OBJECTS) 
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
+LIBDIRS = -L$(LIB_PATH)
+LIBS = -lmini
 
 ## Build
-all: $(TARGET) $(LIB_TARGET) size
+all:  $(LIB_TARGET) $(TARGET) size
 
 ## Compile
 Startup_GCC.o: Startup_GCC.s
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	$(CC) $(INCLUDES) $(CTESTFLAGS) -c  $<
 
 STM32F10x_GCC.o: STM32F10x_GCC.s
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	$(CC) $(INCLUDES) $(CTESTFLAGS) -c  $<
 	
 test.o: ../../test.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	$(CC) $(INCLUDES) $(CTESTFLAGS) -c  $<
 
 test_ctype.o: ../../test_ctype.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	$(CC) $(INCLUDES) $(CTESTFLAGS) -c  $<
 	
 test_stdio.o: ../../test_stdio.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	$(CC) $(INCLUDES) $(CTESTFLAGS) -c  $<
 	
 test_stdlib.o: ../../test_stdlib.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	$(CC) $(INCLUDES) $(CTESTFLAGS) -c  $<
 
 test_string.o: ../../test_string.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	$(CC) $(INCLUDES) $(CTESTFLAGS) -c  $<
 	
 syscalls.o: $(COMMON_PATH)/syscalls_template/syscalls.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	$(CC) $(INCLUDES) $(CTESTFLAGS) -c  $<
 
 ctype_.o: $(COMMON_PATH)/ctype/ctype_.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
@@ -126,6 +137,24 @@ tolower.o: $(COMMON_PATH)/ctype/tolower.c
 scanf.o: $(COMMON_PATH)/stdio/scanf.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
+getc.o: $(COMMON_PATH)/stdio/getc.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	
+gets.o: $(COMMON_PATH)/stdio/gets.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	
+putc.o: $(COMMON_PATH)/stdio/putc.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	
+puts.o: $(COMMON_PATH)/stdio/puts.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	
+rget.o: $(COMMON_PATH)/stdio/rget.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	
+wbuf.o: $(COMMON_PATH)/stdio/wbuf.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	
 fgetc.o: $(COMMON_PATH)/stdio/fgetc.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
@@ -270,9 +299,12 @@ strspn.o: $(COMMON_PATH)/string/strspn.c
 strstr.o: $(COMMON_PATH)/string/strstr.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
+impure.o: $(COMMON_PATH)/sys/impure.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	
 ##Link
-$(TARGET): $(OBJECTS)
-	 $(CC) $(LDFLAGS) $(OBJECTS) $(LINKONLYOBJECTS) $(LIBDIRS) $(LIBS) -o $(TARGET)
+$(TARGET): $(APP_OBJECTS) $(LIB_TARGET)
+	 $(CC) $(LDFLAGS) $(APP_OBJECTS) $(LINKONLYOBJECTS) $(LIBDIRS) $(LIBS) -o $(TARGET)
 
 $(LIB_TARGET): $(LIB_OBJECTS)
 	 $(AR) rcs $(LIB_TARGET) $(LIB_OBJECTS) 
