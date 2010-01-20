@@ -1,0 +1,145 @@
+#ifndef __STM_NVIC_H__
+#define __STM_NVIC_H__
+
+#include <stm32f10x_lib.h>
+
+/* Registers definition */
+/* NVIC and SCB registers are already defined by stm32f10x_lib.h */
+/* Other NVIC registers are defined here. 
+   Pages are ones of ARM CORTEX Reference Manual (r2p0) (ARM DDI 0337G)*/
+
+#define NVIC_ICTR 	((u32 *)((u32)0xE000E004))  /* Interrupt Controller Type Register, P8-7 */
+#define NVIC_ACR 	((u32 *)((u32)0xE000E008))  /* Auxiliary Control Register */
+
+/* Reglage des priorités */
+
+#define WWDG_VECT_INDEX 			0
+#define PVD_VECT_INDEX 				0
+#define TAMPER_VECT_INDEX 			0
+#define RTC_VECT_INDEX 				0
+#define FLASH_VECT_INDEX 			1
+#define RCC_VECT_INDEX 				1
+#define EXTI0_VECT_INDEX 			1
+#define EXTI1_VECT_INDEX 			1
+#define EXTI2_VECT_INDEX 			2
+#define EXTI3_VECT_INDEX 			2
+#define EXTI4_VECT_INDEX 			2
+#define DMA1_CHANNEL1_VECT_INDEX 	2
+#define DMA1_CHANNEL2_VECT_INDEX 	3
+#define DMA1_CHANNEL3_VECT_INDEX 	3
+#define DMA1_CHANNEL4_VECT_INDEX 	3
+#define DMA1_CHANNEL5_VECT_INDEX 	3
+#define DMA1_CHANNEL6_VECT_INDEX 	4
+#define DMA1_CHANNEL7_VECT_INDEX 	4
+#define ADC1_2_VECT_INDEX 			4
+#define USB_HP_CAN_TX_VECT_INDEX 	4
+#define USB_LP_CAN_RX0_VECT_INDEX 	5
+#define CAN_RX1_VECT_INDEX 			5
+#define CAN_SCE_VECT_INDEX 			5
+#define EXTI9_5_VECT_INDEX 			5
+#define TIM1_BRK_VECT_INDEX 		6
+#define TIM1_UP_VECT_INDEX 			6
+#define TIM1_TRG_COM_VECT_INDEX 	6
+#define TIM1_CC_VECT_INDEX 			6
+#define TIM2_VECT_INDEX 			7
+#define TIM3_VECT_INDEX 			7
+#define TIM4_VECT_INDEX 			7
+#define I2C1_EV_VECT_INDEX 			7
+#define I2C1_ER_VECT_INDEX 			8
+#define I2C2_EV_VECT_INDEX 			8
+#define I2C2_ER_VECT_INDEX 			8
+#define SPI1_VECT_INDEX 			8
+#define SPI2_VECT_INDEX 			9
+#define USART1_VECT_INDEX 			9
+#define USART2_VECT_INDEX 			9
+#define USART3_VECT_INDEX 			9
+#define EXTI15_10_VECT_INDEX 		10
+#define RTCALARM_VECT_INDEX 		10
+#define USBWAKEUP_VECT_INDEX 		10
+#define TIM8_BRK_VECT_INDEX 		10
+#define TIM8_UP_VECT_INDEX 			11
+#define TIM8_TRG_COM_VECT_INDEX 	11
+#define TIM8_CC_VECT_INDEX 			11
+#define ADC3_VECT_INDEX 			11
+#define FSMC_VECT_INDEX 			12
+#define SDIO_VECT_INDEX 			12
+#define TIM5_VECT_INDEX 			12
+#define SPI3_VECT_INDEX 			12
+#define UART4_VECT_INDEX 			13
+#define UART5_VECT_INDEX 			13
+#define TIM6_VECT_INDEX 			13
+#define TIM7_VECT_INDEX 			13
+#define DMA2_CHANNEL1_VECT_INDEX 	14
+#define DMA2_CHANNEL2_VECT_INDEX 	14
+#define DMA2_CHANNEL3_VECT_INDEX 	14
+#define DMA2_CHANNEL4_5_VECT_INDEX 	14
+
+#define WWDG_VECT_SHIFT 			4
+#define PVD_VECT_SHIFT 				12
+#define TAMPER_VECT_SHIFT 			20
+#define RTC_VECT_SHIFT 				28
+#define FLASH_VECT_SHIFT 			4
+#define RCC_VECT_SHIFT 				12
+#define EXTI0_VECT_SHIFT 			20
+#define EXTI1_VECT_SHIFT 			28
+#define EXTI2_VECT_SHIFT 			4
+#define EXTI3_VECT_SHIFT 			12
+#define EXTI4_VECT_SHIFT 			20
+#define DMA1_CHANNEL1_VECT_SHIFT 	28
+#define DMA1_CHANNEL2_VECT_SHIFT 	4
+#define DMA1_CHANNEL3_VECT_SHIFT 	12
+#define DMA1_CHANNEL4_VECT_SHIFT 	20
+#define DMA1_CHANNEL5_VECT_SHIFT 	28
+#define DMA1_CHANNEL6_VECT_SHIFT 	4
+#define DMA1_CHANNEL7_VECT_SHIFT 	12
+#define ADC1_2_VECT_SHIFT 			20
+#define USB_HP_CAN_TX_VECT_SHIFT 	28
+#define USB_LP_CAN_RX0_VECT_SHIFT 	4
+#define CAN_RX1_VECT_SHIFT 			12
+#define CAN_SCE_VECT_SHIFT 			20
+#define EXTI9_5_VECT_SHIFT 			28
+#define TIM1_BRK_VECT_SHIFT 		4
+#define TIM1_UP_VECT_SHIFT 			12
+#define TIM1_TRG_COM_VECT_SHIFT 	20
+#define TIM1_CC_VECT_SHIFT 			28
+#define TIM2_VECT_SHIFT 			4
+#define TIM3_VECT_SHIFT 			12
+#define TIM4_VECT_SHIFT 			20
+#define I2C1_EV_VECT_SHIFT 			28
+#define I2C1_ER_VECT_SHIFT 			4
+#define I2C2_EV_VECT_SHIFT 			12
+#define I2C2_ER_VECT_SHIFT 			20
+#define SPI1_VECT_SHIFT 			28
+#define SPI2_VECT_SHIFT 			4
+#define USART1_VECT_SHIFT 			12
+#define USART2_VECT_SHIFT 			20
+#define USART3_VECT_SHIFT 			28
+#define EXTI15_10_VECT_SHIFT 		4
+#define RTCALARM_VECT_SHIFT 		12
+#define USBWAKEUP_VECT_SHIFT 		20
+#define TIM8_BRK_VECT_SHIFT 		28
+#define TIM8_UP_VECT_SHIFT 			4
+#define TIM8_TRG_COM_VECT_SHIFT 	12
+#define TIM8_CC_VECT_SHIFT 			20
+#define ADC3_VECT_SHIFT 			28
+#define FSMC_VECT_SHIFT 			4
+#define SDIO_VECT_SHIFT 			12
+#define TIM5_VECT_SHIFT 			20
+#define SPI3_VECT_SHIFT 			28
+#define UART4_VECT_SHIFT 			4
+#define UART5_VECT_SHIFT 			12
+#define TIM6_VECT_SHIFT 			20
+#define TIM7_VECT_SHIFT 			28
+#define DMA2_CHANNEL1_VECT_SHIFT 	4
+#define DMA2_CHANNEL2_VECT_SHIFT 	12
+#define DMA2_CHANNEL3_VECT_SHIFT 	20
+#define DMA2_CHANNEL4_5_VECT_SHIFT 	28
+
+#define NVIC_SET_PRIO(vector,prio) NVIC->IPR[vector##_VECT_INDEX] = NVIC->IPR[vector##_VECT_INDEX] & ~((u32)(0xF << vector##_VECT_SHIFT));\
+								   NVIC->IPR[vector##_VECT_INDEX] = NVIC->IPR[vector##_VECT_INDEX] | (prio << vector##_VECT_SHIFT)
+
+
+
+void NVIC_INIT(void);
+
+#endif /*  __STM_NVIC_H__ */
