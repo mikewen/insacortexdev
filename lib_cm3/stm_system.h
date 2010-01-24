@@ -1,5 +1,5 @@
-#ifndef __STM_NVIC_H__
-#define __STM_NVIC_H__
+#ifndef __STM_SYSTEM_H__
+#define __STM_SYSTEM_H__
 
 #include <stm32f10x_lib.h>
 
@@ -166,8 +166,8 @@
 #define PENDSV_VECT_SHIFT			20
 #define SYSTICK_VECT_SHIFT			28
 
-#define NVIC_SET_PRIO_SYSTEM(vector,prio) NVIC->SHPR[vector##_VECT_INDEX] = NVIC->SHPR[vector##_VECT_INDEX] & ~((u32)(0xF << vector##_VECT_SHIFT));\
-								          NVIC->SHPR[vector##_VECT_INDEX] = NVIC->SHPR[vector##_VECT_INDEX] | (prio << vector##_VECT_SHIFT)
+#define NVIC_SET_PRIO_SYSTEM(vector,prio) SCB->SHPR[vector##_VECT_INDEX] = SCB->SHPR[vector##_VECT_INDEX] & ~((u32)(0xF << vector##_VECT_SHIFT));\
+								          SCB->SHPR[vector##_VECT_INDEX] = SCB->SHPR[vector##_VECT_INDEX] | (prio << vector##_VECT_SHIFT)
 
 /* Peripherals interrupts enable/disable/clear and set pending */
 #define WWDG_BIT_INDEX 				0
@@ -302,9 +302,151 @@
 #define NVIC_IS_PENDING_PERIPH_IT(vector) (NVIC->ICPR[vector##_BIT_INDEX] & ((u32)(1 << vector##_BIT_SHIFT)))
 #define NVIC_IS_ENABLED_PERIPH_IT(vector) (NVIC->ICER[vector##_BIT_INDEX] & ((u32)(1 << vector##_BIT_SHIFT)))
 
+/* System interrupts enable/disable/clear and set pending */
+#define MEM_FAULT_EN_BIT_SHIFT			16
+#define BUS_FAULT_EN_BIT_SHIFT			17
+#define USAGE_FAULT_EN_BIT_SHIFT		18
+
+#define MEM_FAULT_PENDED_BIT_SHIFT		13
+#define BUS_FAULT_PENDED_BIT_SHIFT		14
+#define USAGE_FAULT_PENDED_BIT_SHIFT	12
+#define SVCALL_PENDED_BIT_SHIFT			15
+
+#define MEM_FAULT_ACT_BIT_SHIFT			0
+#define BUS_FAULT_ACT_BIT_SHIFT			1
+#define USAGE_FAULT_ACT_BIT_SHIFT		3
+#define SYSTICK_ACT_BIT_SHIFT			11
+#define SVCALL_ACT_BIT_SHIFT			7
+#define DEBUG_ACT_BIT_SHIFT				8
+#define PENDSV_ACT_BIT_SHIFT			10
+
+#define NVIC_ENABLE_SYSTEM_IT(vector) (SCB->SHCSR = SCB->SHCSR | ((u32)(1 << vector##_EN_BIT_SHIFT))) 
+#define NVIC_DISABLE_SYSTEM_IT(vector) (SCB->SHCSR = SCB->SHCSR & ~((u32)(1 << vector##_EN_BIT_SHIFT)))
+#define NVIC_SET_PENDING_SYSTEM_IT(vector) SCB->SHCSR = SCB->SHCSR | ((u32)(1 << vector##_PENDED_BIT_SHIFT))
+#define NVIC_CLEAR_PENDING_SYSTEM_IT(vector) SCB->SHCSR = SCB->SHCSR | ((u32)(1 << vector##_PENDED_BIT_SHIFT))
+#define NVIC_SET_ACTIVE_SYSTEM_IT(vector) SCB->SHCSR = SCB->SHCSR | ((u32)(1 << vector##_ACT_BIT_SHIFT))
+#define NVIC_CLEAR_ACTIVE_SYSTEM_IT(vector) SCB->SHCSR = SCB->SHCSR | ((u32)(1 << vector##_ACT_BIT_SHIFT))
+
+#define NVIC_IS_PENDING_SYSTEM_IT(vector) (SCB->SHCSR & ((u32)(1 << vector##_PENDED_BIT_SHIFT)))
+#define NVIC_IS_ACTIVE_SYSTEM_IT(vector) (SCB->SHCSR & ((u32)(1 << vector##_ACT_BIT_SHIFT)))
+
 /* Generate SW interrupt */
-#define NVIC_RAISE_SW_INTERRUPT(interrupt) (NVIC_STIR=interrupt)
+#define SYS_RAISE_SW_INTERRUPT(interrupt) (NVIC_STIR=interrupt)
 
-void NVIC_INIT(void);
+/* Enable/disable global interrupts */
+#define SYS_ENABLE_GLOBAL_INTERRUPTS() asm("CPSIE i") 
+#define SYS_DISABLE_GLOBAL_INTERRUPTS() asm("CPSID i")
+#define SYS_ENABLE_FAULT_INTERRUPTS() asm("CPSIE f")
+#define SYS_DISABLE_FAULT_INTERRUPTS() asm("CPSID f")
 
-#endif /*  __STM_NVIC_H__ */
+/* Set base priority mask register */
+#define SYS_SET_BASE_PRIORITY_MASK(prio)				\
+	asm volatile										\
+	(													\
+		"	mov r0, %0								\n"	\
+		"	msr basepri, r0							\n" \
+		::"i"(prio):"r0"								\
+	)
+
+/* Set active stack pointer and thread mode privilege level */
+#define SYS_USE_PSP_STACK()								\
+	asm volatile										\
+	(													\
+		"   eor r1,r1								\n" \
+		"   movw r1, #2								\n" \
+		"	mrs r0,control							\n"	\
+		"   orr r0, r1								\n" \
+		"	msr basepri, r0							\n" \
+		"   isb										\n" \
+		:::"r0"										\
+	)
+
+#define SYS_USE_MSP_STACK()								\
+	asm volatile										\
+	(													\
+		"   eor r1,r1								\n" \
+		"   movw r1, #2								\n" \
+		"	mrs r0,control							\n"	\
+		"   bic r0, r1								\n" \
+		"	msr basepri, r0							\n" \
+		"   isb										\n" \
+		:::"r0"										\
+	)
+
+#define SYS_TPL_MODE_UNPRIVILEGED()						\
+	asm volatile										\
+	(													\
+		"   eor r1,r1								\n" \
+		"   movw r1, #1								\n" \
+		"	mrs r0,control							\n"	\
+		"   orr r0, r1								\n" \
+		"	msr basepri, r0							\n" \
+		"   isb										\n" \
+		:::"r0"										\
+	)
+
+#define SYS_TPL_MODE_PRIVILEGED()								\
+	asm volatile										\
+	(													\
+		"   eor r1,r1								\n" \
+		"   movw r1, #1								\n" \
+		"	mrs r0,control							\n"	\
+		"   bic r0, r1								\n" \
+		"	msr basepri, r0							\n" \
+		"   isb										\n" \
+		:::"r0"										\
+	)
+
+/* Manage sleep mode */
+#define SCB_SEVONPEND_BIT 4
+#define SCB_SLEEPDEEP_BIT 2
+#define SCB_SLEEPONEXIT_BIT	1
+
+#define SCB_WAKEUP_ON_ALL_IT() (SCB_SCR = SCB_SCR | ((u32)(1<<SCB_SEVONPEND_BIT)))
+#define SCB_WAKEUP_ON_ENABLED_IT() (SCB_SCR = SCB_SCR & ~((u32)(1<<SCB_SEVONPEND_BIT)))
+#define SCB_SET_DEEP_SLEEP() (SCB_SCR = SCB_SCR | ((u32)(1<<SCB_SLEEPDEEP_BIT)))
+#define SCB_SET_NORMAL_SLEEP() (SCB_SCR = SCB_SCR & ~((u32)(1<<SCB_SLEEPDEEP_BIT)))
+#define SCB_ENABLE_SLEEP_ON_EXIT() (SCB_SCR = SCB_SCR | ((u32)(1<<SCB_SLEEPONEXIT_BIT)))
+#define SCB_DISABLE_SLEEP_ON_EXIT() (SCB_SCR = SCB_SCR & ~((u32)(1<<SCB_SLEEPONEXIT_BIT)))
+
+#ifndef _WFE_
+	#define _WFE_ (asm("wfe"))
+	#define _WFI_ (asm("wfi"))
+#endif /* _WFE_ */
+
+/* CPU ID management */
+typedef struct _CPUID_STR 
+{
+    int implementer;
+    int variant;
+    int partno;
+	int revision;
+} cpuid_st;
+
+void SCB_Get_CPUID(cpuid_st *id);
+
+/* Vector table offset management*/
+#define NVIC_TABLE_IN_SRAM ((u32)(1<<29))
+#define NVIC_TABLE_IN_FLASH ((u32)(0))
+#define NVIC_TABLE_OFFSET_SHIFT 7
+
+#define NVIC_SET_VECTOR_TABLE(place, offset) (SCB->VTOR = ((u32)(place + (u32)(offset<<NVIC_TABLE_OFFSET_SHIFT))))
+
+/* Miscellaneous actions */
+#define SYS_RESET() (SCB->AIRCR = (SCB->AIRCR & 0x0000FFFF) + 0x05FA0000 + (1<<2))
+
+/* Systick management */
+/* Systick Control */
+#define SYSTICK_EN_BIT					1
+#define SYSTICK_CLOCK_BIT				2
+#define SYSTICK_OVERFLOW_BIT			16				
+
+#define SYSTICK_ENABLE_IT() (SysTick->CTRL = SysTick->CTRL | ((u32)(1 << SYSTICK_EN_BIT)))
+#define SYSTICK_DISABLE_IT() (SysTick->CTRL = SysTick->CTRL & ~((u32)(1 << SYSTICK_EN_BIT)))
+#define SYSTICK_CLOCK_AHB() (SysTick->CTRL = SysTick->CTRL | ((u32)(1 << SYSTICK_CLOCK_BIT))) 
+#define SYSTICK_CLOCK_AHB_8() (SysTick->CTRL = SysTick->CTRL & ~((u32)(1 << SYSTICK_CLOCK_BIT)))
+#define SYSTICK_ENABLE_COUNTER() (SysTick->CTRL = SysTick->CTRL | ((u32)(1))) 
+#define SYSTICK_DISABLE_COUNTER() (SysTick->CTRL = SysTick->CTRL & ~((u32)(1)))
+#define SYSTICK_IS_OVERFLOW() (SysTick->CTRL & ((u32)(1<<SYSTICK_OVERFLOW_BIT))) 
+
+#endif /*  __STM_SYSTEM_H__ */
