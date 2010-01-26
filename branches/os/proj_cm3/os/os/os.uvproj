@@ -255,7 +255,7 @@
             <interw>1</interw>
             <bigend>0</bigend>
             <Strict>0</Strict>
-            <Optim>0</Optim>
+            <Optim>4</Optim>
             <wLevel>2</wLevel>
             <uThumb>1</uThumb>
             <VariousControls>
@@ -269,7 +269,7 @@
             <bBE>0</bBE>
             <interw>1</interw>
             <VariousControls>
-              <MiscControls>-g</MiscControls>
+              <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
@@ -354,29 +354,119 @@
               <FilePath>../../../os/os.c</FilePath>
             </File>
             <File>
-              <FileName>os_entries.S</FileName>
-              <FileType>2</FileType>
-              <FilePath>../../../os/os_entries.S</FilePath>
-            </File>
-            <File>
               <FileName>os.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\os\os.h</FilePath>
             </File>
             <File>
-              <FileName>os_call.h</FileName>
+              <FileName>alarm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\alarm.c</FilePath>
+            </File>
+            <File>
+              <FileName>events.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\events.c</FilePath>
+            </File>
+            <File>
+              <FileName>internals.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\internals.c</FilePath>
+            </File>
+            <File>
+              <FileName>interrupts.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\interrupts.c</FilePath>
+            </File>
+            <File>
+              <FileName>kernel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>resource.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\resource.c</FilePath>
+            </File>
+            <File>
+              <FileName>scheduler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\scheduler.c</FilePath>
+            </File>
+            <File>
+              <FileName>task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\task.c</FilePath>
+            </File>
+            <File>
+              <FileName>task.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\os\os_call.h</FilePath>
+              <FilePath>..\..\..\os\task.h</FilePath>
+            </File>
+            <File>
+              <FileName>alarm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\alarm.h</FilePath>
+            </File>
+            <File>
+              <FileName>config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\config.h</FilePath>
+            </File>
+            <File>
+              <FileName>events.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\events.h</FilePath>
+            </File>
+            <File>
+              <FileName>internals.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\internals.h</FilePath>
+            </File>
+            <File>
+              <FileName>interrupts.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\interrupts.h</FilePath>
+            </File>
+            <File>
+              <FileName>kernel.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\kernel.h</FilePath>
+            </File>
+            <File>
+              <FileName>resource.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\resource.h</FilePath>
+            </File>
+            <File>
+              <FileName>scheduler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\scheduler.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>toto</GroupName>
+          <GroupName>OS_Port</GroupName>
           <Files>
             <File>
-              <FileName>toto.S</FileName>
+              <FileName>os_entries.S</FileName>
               <FileType>2</FileType>
-              <FilePath>.\toto.S</FilePath>
+              <FilePath>../../../os/ports/cortex-m3/os_entries.S</FilePath>
+            </File>
+            <File>
+              <FileName>os_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\os_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>os_lib.S</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\os_lib.S</FilePath>
+            </File>
+            <File>
+              <FileName>os_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\os_lib.c</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -394,16 +484,23 @@
                   <IncludeLibraryModules></IncludeLibraryModules>
                 </CommonProperty>
                 <FileArm>
-                  <Aarm>
-                    <bBE>2</bBE>
+                  <Carm>
+                    <arpcs>2</arpcs>
+                    <stkchk>2</stkchk>
+                    <reentr>2</reentr>
                     <interw>2</interw>
+                    <bigend>2</bigend>
+                    <Strict>0</Strict>
+                    <Optim>0</Optim>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
                     <VariousControls>
                       <MiscControls></MiscControls>
                       <Define></Define>
                       <Undefine></Undefine>
                       <IncludePath></IncludePath>
                     </VariousControls>
-                  </Aarm>
+                  </Carm>
                 </FileArm>
               </FileOption>
             </File>
@@ -759,29 +856,119 @@
               <FilePath>../../../os/os.c</FilePath>
             </File>
             <File>
-              <FileName>os_entries.S</FileName>
-              <FileType>2</FileType>
-              <FilePath>../../../os/os_entries.S</FilePath>
-            </File>
-            <File>
               <FileName>os.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\os\os.h</FilePath>
             </File>
             <File>
-              <FileName>os_call.h</FileName>
+              <FileName>alarm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\alarm.c</FilePath>
+            </File>
+            <File>
+              <FileName>events.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\events.c</FilePath>
+            </File>
+            <File>
+              <FileName>internals.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\internals.c</FilePath>
+            </File>
+            <File>
+              <FileName>interrupts.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\interrupts.c</FilePath>
+            </File>
+            <File>
+              <FileName>kernel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>resource.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\resource.c</FilePath>
+            </File>
+            <File>
+              <FileName>scheduler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\scheduler.c</FilePath>
+            </File>
+            <File>
+              <FileName>task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\os\task.c</FilePath>
+            </File>
+            <File>
+              <FileName>task.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\os\os_call.h</FilePath>
+              <FilePath>..\..\..\os\task.h</FilePath>
+            </File>
+            <File>
+              <FileName>alarm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\alarm.h</FilePath>
+            </File>
+            <File>
+              <FileName>config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\config.h</FilePath>
+            </File>
+            <File>
+              <FileName>events.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\events.h</FilePath>
+            </File>
+            <File>
+              <FileName>internals.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\internals.h</FilePath>
+            </File>
+            <File>
+              <FileName>interrupts.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\interrupts.h</FilePath>
+            </File>
+            <File>
+              <FileName>kernel.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\kernel.h</FilePath>
+            </File>
+            <File>
+              <FileName>resource.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\resource.h</FilePath>
+            </File>
+            <File>
+              <FileName>scheduler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\scheduler.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>toto</GroupName>
+          <GroupName>OS_Port</GroupName>
           <Files>
             <File>
-              <FileName>toto.S</FileName>
+              <FileName>os_entries.S</FileName>
               <FileType>2</FileType>
-              <FilePath>.\toto.S</FilePath>
+              <FilePath>../../../os/ports/cortex-m3/os_entries.S</FilePath>
+            </File>
+            <File>
+              <FileName>os_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\os_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>os_lib.S</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\os_lib.S</FilePath>
+            </File>
+            <File>
+              <FileName>os_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\os_lib.c</FilePath>
             </File>
           </Files>
         </Group>

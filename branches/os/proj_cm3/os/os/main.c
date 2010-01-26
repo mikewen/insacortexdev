@@ -12,18 +12,22 @@
  *----------------------------------------------------------------------------*/
 
 #include "STM32_Init.h"                           // STM32 Initialization
+#include "os_lib.h"
+
+volatile int x;
 
 void func1(void);
 /*----------------------------------------------------------------------------
   MAIN function
  *----------------------------------------------------------------------------*/
-int main (void) {
+int main (void)
+{
 
 	stm32_Init ();                                  // STM32 setup
  
 	/* Code du projet a rajouter ici */
 	
-	func1();
+	x=OS_Func_1 (0x1, 0xDEAD, 0xBEEF, 0xABBA);
 
 	while(1); /* Boucle infinie : un main ne doit jamais rendre la main */
 
