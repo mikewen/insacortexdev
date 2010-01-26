@@ -61,7 +61,7 @@ SVC_OS_Call:		LDR		R4, =OS_Jump_Table	/* Retrieved function @ in jump table */
 					LSL		R0,	#2				/* Compute correct offset from start of table */
 					LDR		R4, [R4, R0]		/* And load R4 with @ of requested function */
 					PUSH	{LR}
-					BL		R4 	 			/* Call requested function of OS	*/
+					BLX		R4 	 			/* Call requested function of OS	*/
 					POP		{LR}
 
 					LDR		R4, =OS_Task_Switch_Request /* Get task switching info: */

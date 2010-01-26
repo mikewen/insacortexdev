@@ -19,7 +19,7 @@
 #define E_OS_INVALID_TASK	MAX_TASK_NBR
 
 /* Type definition */
-typedef u8 				TaskType;
+typedef u32 			TaskType;
 typedef u8 				*TaskRefType;
 typedef char 			TaskStateType;
 typedef char			*TaskStateRefType;
@@ -29,7 +29,8 @@ typedef struct
 {
 	char *taskname;
 	void (*entrypoint)(void);
-	u8	priority;
+	u32	priority;
+	u32 current_stack_ptr;
 	u32 stack[STACK_SIZE];
 } st_TaskInfo;
 
