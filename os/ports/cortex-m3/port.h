@@ -41,7 +41,7 @@
 
 extern const u32 StartupStack[];
 
-#define STARTUP_STACK_SIZE			17 // Exprimé en mots de 32 bits */
+#define STARTUP_STACK_SIZE			18 // Exprimé en mots de 32 bits */
 #define SET_ENTRY_POINT(tid,ep)		Task_List[tid].taskinfo->stack[STACK_SIZE-2] = ep	
 
 void FastCopy (u32 *dest, u32 *src, u32 len);

@@ -70,9 +70,14 @@ OS_Jump_Table_End:
 OS_Switch_Tasks:	
 					PUSH	{R0}
 					LDR		R0, =TaskStackPointer	/* R0 pointe au debut de la table TaskStackPointer */
+
+					CMP		R6, #E_OS_INVALID_TASK	/* if Previous_task was invalid (first call), do not store SP nor R0 */
+					BEQ		OS_Switch_L0			/* instead, jump directly to newtask (R7) context recovery */
+
 					LSL		R6, #2					/* R6 = offset from start of table TaskStackPointer (previous task index) */
 					STR		SP, [R0, R6]			/* Store SP in TaskStackPointer table */
-					LSL		R7, #2					/* R7 = offset from start of table TaskStackPointer (new task index) */
+
+OS_Switch_L0:		LSL		R7, #2					/* R7 = offset from start of table TaskStackPointer (new task index) */
 					LDR		SP, [R0, R7]			/* Get back SP for the new task */
 					POP		{R0}					/* Get back return code for this task */
 

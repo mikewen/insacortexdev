@@ -25,7 +25,6 @@
 #define __OS_CONFIG_H__
 
 #define STACK_SIZE			32	/* Exprimé en u32 */
-#define OS_STACK_SIZE 		32	/* Exprimé en u32 */
 
 #define MAX_TASK_NBR		16
 #define MAX_ALARM_NBR		8
