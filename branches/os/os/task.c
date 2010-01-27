@@ -31,7 +31,7 @@
 #include "port.h"
 
 struct st_Task Task_List[MAX_TASK_NBR];
-u32 TaskStackPointer[MAX_TASK_NBR+1]; 	// Stock les SP en cours des taches non actives 
+u32 TaskStackPointer[MAX_TASK_NBR]; 	// Stock les SP en cours des taches non actives 
 
 /* Declaration de la background task */
 void BackgroundTask(void);
@@ -62,11 +62,14 @@ TaskType TaskID;
 			Task_List[TaskID].state=		READY;
 
 			/* On lui recopie la stack initiale */
-			FastCopy(Task_List[TaskID].taskinfo->stack + (STACK_SIZE*4) - (STARTUP_STACK_SIZE*4), 
+			FastCopy(Task_List[TaskID].taskinfo->stack + STACK_SIZE - STARTUP_STACK_SIZE, 
 		     	    (u32*)StartupStack, STARTUP_STACK_SIZE);
 
-			/* on met a jour le point d'entrée */
+			/* On met a jour le point d'entrée */
 			SET_ENTRY_POINT(TaskID,(u32)(Task_List[TaskID].taskinfo->entrypoint));
+
+			/* On enregistre le pointeur de pile dans TaskStackPointer */
+			TaskStackPointer[TaskID] = (u32)(Task_List[TaskID].taskinfo->stack + STACK_SIZE - STARTUP_STACK_SIZE); 
 		}
 	}
 	

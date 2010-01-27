@@ -22,6 +22,7 @@
  */
 
 		.equ 	E_INVALID_FCT,				-1	  		/* Invalid function */
+		.equ 	E_OS_INVALID_TASK,			16
 
 /* Function ID definition */
 

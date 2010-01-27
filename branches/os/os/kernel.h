@@ -73,8 +73,6 @@ typedef struct
 #define READY		'r'
 #define SUSPENDED	'S'
 
-#define INVALID_TASK	0
-
 /* Task Macro Definition */
 #define TASK(name) void name(void)
 

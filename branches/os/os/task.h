@@ -43,7 +43,7 @@ struct st_Task
 };
 
 extern struct st_Task Task_List[MAX_TASK_NBR];
-extern u32 TaskStackPointer[MAX_TASK_NBR+1];
+extern u32 TaskStackPointer[MAX_TASK_NBR];
 void Task_Init(void);
 
 #endif /* __TASK_H__ */

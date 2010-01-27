@@ -59,6 +59,8 @@ u8 End;
 					{
 						Task_List[CurrentTask].state = READY;
 					}
+
+					CurrentTask = NextTask;
 				}
 			}
 		}
