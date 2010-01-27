@@ -14,6 +14,14 @@
 #include "STM32_Init.h"                           // STM32 Initialization
 #include "kernel.h"
 
+TaskType Tache_1_ID;
+
+st_TaskInfo Tache_1_info;
+const char Tache_1_nom[] = "Tache_1";
+
+/* Prototype des taches */
+TASK(Tache_1);
+
 /*----------------------------------------------------------------------------
   MAIN function
  *----------------------------------------------------------------------------*/
@@ -24,16 +32,23 @@ int main (void)
 	/* Code du projet a rajouter ici */
 	InitOS();
 
-	StartOS(OSDEFAULTAPPMODE);
+	Tache_1_info.taskname = (char*)Tache_1_nom;
+	Tache_1_info.entrypoint = Tache_1;
+	Tache_1_info.priority = 1;
+	Tache_1_info.type = 0;
 
-	ActivateTask(1);
+	Tache_1_ID = DeclareTask(&Tache_1_info);
+
+	StartOS(OSDEFAULTAPPMODE);
 
 	while(1); /* Boucle infinie : un main ne doit jamais rendre la main */
 
 	return 0; 
 }
 
-void func1(void)
+TASK(Tache_1)
 {
-	asm ("SVC 0");
+volatile int i;
+
+	for (i=1; i<5; i++);
 }

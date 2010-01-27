@@ -28,16 +28,8 @@
 #include "os_config.h"
 #include "kernel.h"
 
-extern u32 Registers[17];
-extern u32 Saved_LR;
-extern u32 Params[4];
-
-extern u32 OS_Stack[OS_STACK_SIZE];
-
 extern TaskType CurrentTask;
 extern TaskType NextTask;
-extern u8 InterruptPending;
-extern u32 LR_Return;
 
 void Common_Init(void);
 

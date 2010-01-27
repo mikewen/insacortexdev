@@ -28,8 +28,16 @@
 #include "scheduler.h"
 #include "common.h"
 
+#include "port.h"
+
 struct st_Task Task_List[MAX_TASK_NBR];
-u32 TaskStackPointer[MAX_TASK_NBR+1];
+u32 TaskStackPointer[MAX_TASK_NBR+1]; 	// Stock les SP en cours des taches non actives 
+
+/* Declaration de la background task */
+void BackgroundTask(void);
+TaskType BackgroundTask_ID;
+st_TaskInfo BackgroundTask_info;
+const char BackgroundTask_nom[] = "Background Task";
 
 TaskType DeclareTask(st_TaskInfo *TaskInfo)
 {
@@ -49,8 +57,16 @@ TaskType TaskID;
 		}
 		else
 		{
-			Task_List[TaskID].taskinfo= TaskInfo;
-			Task_List[TaskID].locksource=LOCK_SOURCE_NONE;
+			Task_List[TaskID].taskinfo= 	TaskInfo;
+			Task_List[TaskID].locksource=	LOCK_SOURCE_NONE;
+			Task_List[TaskID].state=		READY;
+
+			/* On lui recopie la stack initiale */
+			FastCopy(Task_List[TaskID].taskinfo->stack + (STACK_SIZE*4) - (STARTUP_STACK_SIZE*4), 
+		     	    (u32*)StartupStack, STARTUP_STACK_SIZE);
+
+			/* on met a jour le point d'entrée */
+			SET_ENTRY_POINT(TaskID,(u32)(Task_List[TaskID].taskinfo->entrypoint));
 		}
 	}
 	
@@ -66,6 +82,11 @@ StatusType GetTaskID(TaskType *TaskID)
 
 StatusType	GetTaskState(TaskType TaskID, TaskStateType *State)
 {
+	if (TaskID >= MAX_TASK_NBR)
+	{
+		return E_OS_INVALID_TASK;
+	} 
+	
 	*State = Task_List[TaskID].state;
 
 	return E_OK;
@@ -75,19 +96,25 @@ StatusType	ActivateTask_Int(TaskType TaskID)
 {
 u8 Status;
 
+	if (TaskID >= MAX_TASK_NBR)
+	{
+		return E_OS_INVALID_TASK;
+	} 
+
 	Status = E_OK;
 
 	if (Task_List[TaskID].state == SUSPENDED)
 	{
-		/* Elle passe a READY */
-		Task_List[TaskID].state = READY;
-		Task_List[TaskID].locksource = LOCK_SOURCE_NONE;
-		
-		/*Task_List[TaskID].registers[SP_Reg] = (u32)((&Task_List[TaskID].taskinfo->stack)+ STACK_SIZE - (8*4));
-		Task_List[TaskID].registers[LR_Reg] = 0;
-		Task_List[TaskID].registers[PC_Reg] = (u32)(&Task_List[TaskID].taskinfo->entrypoint);
-		Task_List[TaskID].registers[PSR_Reg] = 0;
-		Task_List[TaskID].LR = 0;	*/
+		/* Elle passe a READY et rentre dans le pool des taches activables*/
+		Task_List[TaskID].state = 		READY;
+		Task_List[TaskID].locksource=	LOCK_SOURCE_NONE;
+
+		/* On lui recopie la stack initiale */
+		FastCopy(Task_List[TaskID].taskinfo->stack + (STACK_SIZE*4) - (STARTUP_STACK_SIZE*4), 
+		         (u32*)StartupStack, STARTUP_STACK_SIZE);
+
+		/* on met a jour le point d'entrée */
+		SET_ENTRY_POINT(TaskID,(u32)(Task_List[TaskID].taskinfo->entrypoint));
 		
 		Reschedule();	
 	}
@@ -108,7 +135,7 @@ u8 Status;
 	{
 		/* Elle passe a SUSPENDED */
 		Task_List[CurrentTask].state = SUSPENDED;
-		Task_List[CurrentTask].taskinfo = 0x0;
+//		Task_List[CurrentTask].taskinfo = 0x0;
 
 		Reschedule();	
 	}
@@ -140,4 +167,17 @@ u8 i;
 		Task_List[i].taskinfo = 0x0;
 		Task_List[i].state = SUSPENDED;
 	}
+
+	/* Ajout de la background task */
+	BackgroundTask_info.taskname = (char*)BackgroundTask_nom;
+	BackgroundTask_info.entrypoint = BackgroundTask;
+	BackgroundTask_info.priority = 0;  	// plus faible priorité
+	BackgroundTask_info.type = 0;
+
+	BackgroundTask_ID = DeclareTask(&BackgroundTask_info);
+}
+
+void BackgroundTask(void)
+{
+	while (1);
 }

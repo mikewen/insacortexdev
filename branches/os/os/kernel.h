@@ -26,6 +26,7 @@
 
 #include "stm32f10x_type.h"
 #include "os_config.h"
+#include "port.h"
 
 /************* General **************/
 /* Invalid function call */
@@ -35,11 +36,6 @@ u32 OSCallWrapper_0(u32 Function_Id);
 u32 OSCallWrapper_1(u32 Function_Id, u32 Param_1);
 u32 OSCallWrapper_2(u32 Function_Id, u32 Param_1, u32 Param_2);
 u32 OSCallWrapper_3(u32 Function_Id, u32 Param_1, u32 Param_2, u32 Param_3);
-
-#define	ActivateTask_Fct_Id		1
-#define TerminateTask_Fct_Id	2
-#define ChaineTask_Fct_Id		3
-#define Schedule_Fct_Id			4
 
 /********** Task handling ***********/
 /* StatusType definition */
@@ -57,17 +53,17 @@ u32 OSCallWrapper_3(u32 Function_Id, u32 Param_1, u32 Param_2, u32 Param_3);
 
 /* Type definition */
 typedef u32 			TaskType;
-typedef u8 				*TaskRefType;
+typedef u32				*TaskRefType;
 typedef char 			TaskStateType;
 typedef char			*TaskStateRefType;
-typedef u8				StatusType;
+typedef u32				StatusType;
 
 typedef struct 
 {
 	char *taskname;
 	void (*entrypoint)(void);
 	u32	priority;
-	u32 current_stack_ptr;
+	u32 type;
 	u32 stack[STACK_SIZE];
 } st_TaskInfo;
 
@@ -113,7 +109,7 @@ void SuspendOSInterrupts(void);
 
 /*********** Resource management *********/
 /* Type definition */
-typedef u8 ResourceType;
+typedef u32 ResourceType;
 
 typedef struct 
 {
@@ -123,8 +119,12 @@ typedef struct
 
 /* Services declaration */
 ResourceType	DeclareResource(st_ResourceInfo *ResourceInfo);
-StatusType		GetResource(ResourceType ResID);
-StatusType		ReleaseResource(ResourceType ResID);
+
+// StatusType		GetResource(ResourceType ResID);
+	#define	GetResource(ResId)		OSCallWrapper_1(GetResource_Fct_Id, (u32)ResId)
+
+// StatusType		ReleaseResource(ResourceType ResID);
+	#define	ReleaseResource(ResId)	OSCallWrapper_1(ReleaseResource_Fct_Id, (u32)ResId)
 
 /* Constants declaration */
 #define RES_SCHEDULER		0xFF
@@ -145,7 +145,7 @@ typedef struct
 	TickType tickperbase;
 	TickType mincycle;
 } AlarmBaseType, *AlarmBaseRefType;
-typedef u8 AlarmType;
+typedef u32 AlarmType;
 
 typedef struct 
 {
@@ -161,9 +161,17 @@ typedef struct
 AlarmType	DeclareAlarm(st_AlarmInfo *AlarmInfo);
 StatusType	GetAlarmBase(AlarmType AlarmID, AlarmBaseRefType Info);
 StatusType	GetAlarm(AlarmType AlarmID, TickRefType Tick);
-StatusType	SetRelAlarm(AlarmType AlarmID, TickType Increment, TickType Cycle);
-StatusType	SetAbsAlarm(AlarmType AlarmID, TickType Start, TickType Cycle);
-StatusType	CancelAlarm(AlarmType AlarmID);
+
+// StatusType	SetRelAlarm(AlarmType AlarmID, TickType Increment, TickType Cycle);
+	#define SetRelAlarm(AlarmID, Increment, Cycle) 	\
+	        OSCallWrapper_3(SetRelAlarm_Fct_Id, (u32)AlarmID, (u32)Increment, (u32)Cycle)
+	
+// StatusType	SetAbsAlarm(AlarmType AlarmID, TickType Start, TickType Cycle);
+	#define SetAbsAlarm(AlarmID, Increment, Cycle) 	\
+	        OSCallWrapper_3(SetAbsAlarm_Fct_Id, (u32)AlarmID, (u32)Increment, (u32)Cycle)
+
+// StatusType	CancelAlarm(AlarmType AlarmID);
+	#define CancelAlarm(AlarmID) 	OSCallWrapper_1(CancelAlarm_Fct_Id, (u32)AlarmID)
 
 /* Constants declaration */
 #define OSMAXALLOWEDVALUE	100000000
@@ -176,8 +184,8 @@ StatusType	CancelAlarm(AlarmType AlarmID);
 #ifdef __WITH_EVENTS__
 /*********** Event management *********/
 /* Type definition */
-typedef u8 	EventMaskType;
-typedef u8  *EventMaskRefType;
+typedef u32	EventMaskType;
+typedef u32 *EventMaskRefType;
 
 typedef struct 
 {
@@ -186,10 +194,16 @@ typedef struct
 
 /* Services declaration */
 EventMaskType	DeclareEvent(st_EventInfo *EventInfo);
-StatusType		SetEvent(TaskType TaskID, EventMaskType Mask);
-StatusType		ClearEvent(EventMaskType Mask);
 StatusType		GetEvent(TaskType TaskID, EventMaskType Mask);
-StatusType		WaitEvent(EventMaskType Mask);
+
+// StatusType		SetEvent(TaskType TaskID, EventMaskType Mask);
+	#define SetEvent(TaskID, Mask) 	OSCallWrapper_2(SetEvent_Fct_Id, (u32)TaskID, (u32)Mask)
+		
+// StatusType		ClearEvent(EventMaskType Mask);
+	#define ClearEvent(Mask) 		OSCallWrapper_1(ClearEvent_Fct_Id, (u32)Mask)
+
+// StatusType		WaitEvent(EventMaskType Mask);
+	#define WaitEvent(Mask) 		OSCallWrapper_1(WaitEvent_Fct_Id, (u32)Mask)
 
 #define INVALID_EVENT	MAX_EVENT_NBR
 
@@ -197,7 +211,7 @@ StatusType		WaitEvent(EventMaskType Mask);
 
 /*********** OS management *********/
 /* Type definition */
-typedef u8 AppModeType;
+typedef u32 AppModeType;
 	
 /* Services declaration */
 AppModeType	GetActiveApplicationMode(void);

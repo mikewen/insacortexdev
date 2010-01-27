@@ -41,17 +41,42 @@ OS_Jump_Table:		.long	AlarmTimerTick
 					.long	TerminateTask_Int
 					.long	ChaineTask_Int
 					.long	Schedule_Int
+					.long	GetResource_Int		
+					.long	ReleaseResource_Int	
+					.long	SetRelAlarm_Int		
+					.long	SetAbsAlarm_Int	
+					.long	CancelAlarm_Int
+.ifdef __WITH_EVENTS__		
+					.long	SetEvent_Int			
+					.long	ClearEvent_Int		
+					.long	WaitEvent_Int
+.endif	
 OS_Jump_Table_End:
 
 /*					
- * Switch routine
+ * Switch routine:
+ *
+ * Enter: 	R0 = return code of OS fucntion
+ *			R6 = Active Task before OS call
+ *			R7 = Active task after OS call
+ *
+ * Exit:	R0 and SP stored in previous task infos
+ *			R0 and SP restored from newly activated task infos
  */
 					.global	OS_Switch_Tasks
 					.thumb
 					.thumb_func
 					.type	OS_Switch_Tasks, %function
-OS_Switch_Tasks:
-                	B       . 				/* TODO: Write the switching function  */
+OS_Switch_Tasks:	
+					PUSH	{R0}
+					LDR		R0, =TaskStackPointer	/* R0 pointe au debut de la table TaskStackPointer */
+					LSL		R6, #2					/* R6 = offset from start of table TaskStackPointer (previous task index) */
+					STR		SP, [R0, R6]			/* Store SP in TaskStackPointer table */
+					LSL		R7, #2					/* R7 = offset from start of table TaskStackPointer (new task index) */
+					LDR		SP, [R0, R7]			/* Get back SP for the new task */
+					POP		{R0}					/* Get back return code for this task */
+
+                	BX      LR 						/* End of function */
 
 
 /* 
@@ -69,29 +94,31 @@ OS_Switch_Tasks:
 					.thumb
 					.thumb_func	
 					.type	SVC_Handler, %function
-SVC_Handler:        PUSH 	{R4-R11} 		/* Save remaining registers onto system stack -> All registers are saved */
+SVC_Handler:        
+					PUSH 	{R4-R11} 		/* Save remaining registers onto system stack -> All registers are saved */
 
 					LDR		R6, =CurrentTask
 					LDR		R6, [R6]		/* Store in R6 the task id when entering system call */
 											/* R6 = TaskId before system call */
 
 					CMP		R0, #((OS_Jump_Table_End - OS_Jump_Table)/4) /* Check if R0 is greater than jump table size */
-					BCC		SVC_OS_Call	   	/* If R0 is inside jump table, continue to the call of requested function */
+					BCC		SVC_OS_Call	   		/* If R0 is inside jump table, continue to the call of requested function */
 
 SVC_Invalid_Fct:	MOV		R0, #E_INVALID_FCT	/* Otherwise load R0 with E_INVALID_FCT */
-					B		SVC_Exit		/* And exit	 							 */
+					B		SVC_Exit			/* And exit	 							 */
 
 SVC_OS_Call:		LDR		R4, =OS_Jump_Table	/* Retrieved function @ in jump table */
 					LSL		R0,	#2				/* Compute correct offset from start of table */
 					LDR		R4, [R4, R0]		/* And load R4 with @ of requested function */
+					
 					PUSH	{LR}
-					BLX		R4 	 			/* Call requested function of OS	*/
+					BLX		R4 	 				/* Call requested function of OS	*/
 					POP		{LR}
 
 					LDR		R7, =CurrentTask
 					LDR		R7, [R7]	   	/* Store in R7 the task id after system call */
 											/* R7 = TaskId after system call */
-					EOR		R6, R7			/* R6 = R6 XOR R7 => If Task id before and after system call are different (R6 != 0), task switch is needed */
+					CMP		R6, R7			/* If Task id before and after system call are different, task switch is needed */
 					CBZ		R6, SVC_Exit 	/* If zero, no switch needed, pop the stack and exit */
 
 					PUSH 	{LR}
