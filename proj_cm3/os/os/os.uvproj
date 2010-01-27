@@ -272,7 +272,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..\..\..\os\ports\cortex-m3;..\..\..\os;..\os;.\Appli</IncludePath>
             </VariousControls>
           </Aarm>
           <LDarm>
@@ -349,54 +349,39 @@
           <GroupName>OS</GroupName>
           <Files>
             <File>
-              <FileName>os.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../os/os.c</FilePath>
-            </File>
-            <File>
-              <FileName>os.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\os\os.h</FilePath>
-            </File>
-            <File>
               <FileName>alarm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\alarm.c</FilePath>
+              <FilePath>../../../os/alarm.c</FilePath>
             </File>
             <File>
               <FileName>events.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\events.c</FilePath>
-            </File>
-            <File>
-              <FileName>internals.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\os\internals.c</FilePath>
+              <FilePath>../../../os/events.c</FilePath>
             </File>
             <File>
               <FileName>interrupts.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\interrupts.c</FilePath>
+              <FilePath>../../../os/interrupts.c</FilePath>
             </File>
             <File>
               <FileName>kernel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\kernel.c</FilePath>
+              <FilePath>../../../os/kernel.c</FilePath>
             </File>
             <File>
               <FileName>resource.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\resource.c</FilePath>
+              <FilePath>../../../os/resource.c</FilePath>
             </File>
             <File>
               <FileName>scheduler.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\scheduler.c</FilePath>
+              <FilePath>../../../os/scheduler.c</FilePath>
             </File>
             <File>
               <FileName>task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\task.c</FilePath>
+              <FilePath>../../../os/task.c</FilePath>
             </File>
             <File>
               <FileName>task.h</FileName>
@@ -409,19 +394,9 @@
               <FilePath>..\..\..\os\alarm.h</FilePath>
             </File>
             <File>
-              <FileName>config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\os\config.h</FilePath>
-            </File>
-            <File>
               <FileName>events.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\os\events.h</FilePath>
-            </File>
-            <File>
-              <FileName>internals.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\os\internals.h</FilePath>
             </File>
             <File>
               <FileName>interrupts.h</FileName>
@@ -443,6 +418,21 @@
               <FileType>5</FileType>
               <FilePath>..\..\..\os\scheduler.h</FilePath>
             </File>
+            <File>
+              <FileName>common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../os/common.c</FilePath>
+            </File>
+            <File>
+              <FileName>common.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\common.h</FilePath>
+            </File>
+            <File>
+              <FileName>os_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\os_config.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -454,55 +444,19 @@
               <FilePath>../../../os/ports/cortex-m3/os_entries.S</FilePath>
             </File>
             <File>
-              <FileName>os_lib.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\os_lib.h</FilePath>
-            </File>
-            <File>
-              <FileName>os_lib.S</FileName>
+              <FileName>call_wrapper.S</FileName>
               <FileType>2</FileType>
-              <FilePath>.\os_lib.S</FilePath>
+              <FilePath>../../../os/ports/cortex-m3/call_wrapper.S</FilePath>
             </File>
             <File>
-              <FileName>os_lib.c</FileName>
+              <FileName>port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\os_lib.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                </CommonProperty>
-                <FileArm>
-                  <Carm>
-                    <arpcs>2</arpcs>
-                    <stkchk>2</stkchk>
-                    <reentr>2</reentr>
-                    <interw>2</interw>
-                    <bigend>2</bigend>
-                    <Strict>0</Strict>
-                    <Optim>0</Optim>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Carm>
-                </FileArm>
-              </FileOption>
+              <FilePath>../../../os/ports/cortex-m3/port.c</FilePath>
+            </File>
+            <File>
+              <FileName>definitions.inc</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\ports\cortex-m3\definitions.inc</FilePath>
             </File>
           </Files>
         </Group>
@@ -851,54 +805,39 @@
           <GroupName>OS</GroupName>
           <Files>
             <File>
-              <FileName>os.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../os/os.c</FilePath>
-            </File>
-            <File>
-              <FileName>os.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\os\os.h</FilePath>
-            </File>
-            <File>
               <FileName>alarm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\alarm.c</FilePath>
+              <FilePath>../../../os/alarm.c</FilePath>
             </File>
             <File>
               <FileName>events.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\events.c</FilePath>
-            </File>
-            <File>
-              <FileName>internals.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\os\internals.c</FilePath>
+              <FilePath>../../../os/events.c</FilePath>
             </File>
             <File>
               <FileName>interrupts.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\interrupts.c</FilePath>
+              <FilePath>../../../os/interrupts.c</FilePath>
             </File>
             <File>
               <FileName>kernel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\kernel.c</FilePath>
+              <FilePath>../../../os/kernel.c</FilePath>
             </File>
             <File>
               <FileName>resource.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\resource.c</FilePath>
+              <FilePath>../../../os/resource.c</FilePath>
             </File>
             <File>
               <FileName>scheduler.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\scheduler.c</FilePath>
+              <FilePath>../../../os/scheduler.c</FilePath>
             </File>
             <File>
               <FileName>task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\os\task.c</FilePath>
+              <FilePath>../../../os/task.c</FilePath>
             </File>
             <File>
               <FileName>task.h</FileName>
@@ -911,19 +850,9 @@
               <FilePath>..\..\..\os\alarm.h</FilePath>
             </File>
             <File>
-              <FileName>config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\os\config.h</FilePath>
-            </File>
-            <File>
               <FileName>events.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\os\events.h</FilePath>
-            </File>
-            <File>
-              <FileName>internals.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\os\internals.h</FilePath>
             </File>
             <File>
               <FileName>interrupts.h</FileName>
@@ -945,6 +874,21 @@
               <FileType>5</FileType>
               <FilePath>..\..\..\os\scheduler.h</FilePath>
             </File>
+            <File>
+              <FileName>common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../os/common.c</FilePath>
+            </File>
+            <File>
+              <FileName>common.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\common.h</FilePath>
+            </File>
+            <File>
+              <FileName>os_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\os_config.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -956,19 +900,19 @@
               <FilePath>../../../os/ports/cortex-m3/os_entries.S</FilePath>
             </File>
             <File>
-              <FileName>os_lib.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\os_lib.h</FilePath>
-            </File>
-            <File>
-              <FileName>os_lib.S</FileName>
+              <FileName>call_wrapper.S</FileName>
               <FileType>2</FileType>
-              <FilePath>.\os_lib.S</FilePath>
+              <FilePath>../../../os/ports/cortex-m3/call_wrapper.S</FilePath>
             </File>
             <File>
-              <FileName>os_lib.c</FileName>
+              <FileName>port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\os_lib.c</FilePath>
+              <FilePath>../../../os/ports/cortex-m3/port.c</FilePath>
+            </File>
+            <File>
+              <FileName>definitions.inc</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\ports\cortex-m3\definitions.inc</FilePath>
             </File>
           </Files>
         </Group>

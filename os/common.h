@@ -20,61 +20,27 @@
  * write to the Free Software Foundation, Inc., 51 Franklin Street,
  * Fifth Floor, Boston, MA 02110-1301, USA.
  */
- 
+
+#ifndef __COMMON_H__
+#define __COMMON_H__
+
 #include "stm32f10x_type.h"
 #include "os_config.h"
 #include "kernel.h"
-#include "alarm.h"
 
-struct st_Alarm
-{
-	st_AlarmInfo *alarminfo;
-	u32 counter;
-} Alarm_List[MAX_ALARM_NBR];
+extern u32 Registers[17];
+extern u32 Saved_LR;
+extern u32 Params[4];
 
-/* Alarm services declaration */
-AlarmType	DeclareAlarm(st_AlarmInfo *AlarmInfo)
-{
-	return 0;
-}
+extern u32 OS_Stack[OS_STACK_SIZE];
 
-StatusType	GetAlarmBase(AlarmType AlarmID, AlarmBaseRefType Info)
-{
-	return E_OK;
-}
+extern TaskType CurrentTask;
+extern TaskType NextTask;
+extern u8 InterruptPending;
+extern u32 LR_Return;
 
-StatusType	GetAlarm(AlarmType AlarmID, TickRefType Tick)
-{
-	return E_OK;
-}
+void Common_Init(void);
 
-StatusType	SetRelAlarm_Int(AlarmType AlarmID, TickType Increment, TickType Cycle)
-{
-	return E_OK;
-}
+#endif /* __COMMON_H__ */
 
-StatusType	SetAbsAlarm_Int(AlarmType AlarmID, TickType Start, TickType Cycle)
-{
-	return E_OK;
-}
-
-StatusType	CancelAlarm_Int(AlarmType AlarmID)
-{
-	return E_OK;
-}
-
-void Alarm_Init(void)
-{
-u8 i;
-
-	for(i=0; i<	MAX_ALARM_NBR; i++)
-	{
-		Alarm_List[i].alarminfo = 0x0;
-	}
-}
-
-/* It systeme du timer  */
-void AlarmTimerTick(register int func_index)
-{
-}
 
