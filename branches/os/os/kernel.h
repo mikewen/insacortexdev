@@ -1,8 +1,45 @@
+/*
+ * Copyright (C) INSA Toulouse
+ * Author: Sebastien DI MERCURIO
+ *
+ * This file is part of INSA OS.
+ *
+ * INSA OS is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation;
+ * either version 2, or (at your option) any later version.
+ *
+ * INSA OS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ * PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with INSA OS; see the file COPYING.  If not,
+ * write to the Free Software Foundation, Inc., 51 Franklin Street,
+ * Fifth Floor, Boston, MA 02110-1301, USA.
+ */
+ 
 #ifndef __KERNEL_H__
 #define __KERNEL_H__
 
 #include "stm32f10x_type.h"
-#include "config.h"
+#include "os_config.h"
+
+/************* General **************/
+/* Invalid function call */
+#define E_INVALID_FCT	-1
+
+u32 OSCallWrapper_0(u32 Function_Id);
+u32 OSCallWrapper_1(u32 Function_Id, u32 Param_1);
+u32 OSCallWrapper_2(u32 Function_Id, u32 Param_1, u32 Param_2);
+u32 OSCallWrapper_3(u32 Function_Id, u32 Param_1, u32 Param_2, u32 Param_3);
+
+#define	ActivateTask_Fct_Id		1
+#define TerminateTask_Fct_Id	2
+#define ChaineTask_Fct_Id		3
+#define Schedule_Fct_Id			4
 
 /********** Task handling ***********/
 /* StatusType definition */
@@ -47,12 +84,20 @@ typedef struct
 
 /* Services declaration */
 TaskType	DeclareTask(st_TaskInfo *TaskInfo);
-StatusType	__svc(0) ActivateTask(TaskType TaskID);
-StatusType	__svc(1) TerminateTask(void);
-StatusType	__svc(2) ChaineTask(TaskType TaskID);
-StatusType	__svc(3) Schedule(void);
 StatusType	GetTaskID(TaskType *TaskID);
 StatusType	GetTaskState(TaskType TaskID,  TaskStateType *State);
+
+// StatusType	ActivateTask(TaskType TaskID);
+	#define ActivateTask(TaskID) 	OSCallWrapper_1(ActivateTask_Fct_Id, (u32)TaskID)
+
+// StatusType	TerminateTask(void);
+	#define TerminateTask(void) 	OSCallWrapper_0(TerminateTask_Fct_Id)
+
+// StatusType	ChaineTask(TaskType TaskID);
+	#define ChaineTask(TaskID) 		OSCallWrapper_1(ChaineTask_Fct_Id, (u32)TaskID)
+
+// StatusType	Schedule(void);
+	#define Schedule(void) 			OSCallWrapper_0(Schedule_Fct_Id)
 
 /*********** Interrupt handling *********/
 /* ISR Macro Definition */
@@ -78,8 +123,8 @@ typedef struct
 
 /* Services declaration */
 ResourceType	DeclareResource(st_ResourceInfo *ResourceInfo);
-StatusType		__svc(4) GetResource(ResourceType ResID);
-StatusType		__svc(5) ReleaseResource(ResourceType ResID);
+StatusType		GetResource(ResourceType ResID);
+StatusType		ReleaseResource(ResourceType ResID);
 
 /* Constants declaration */
 #define RES_SCHEDULER		0xFF
@@ -116,9 +161,9 @@ typedef struct
 AlarmType	DeclareAlarm(st_AlarmInfo *AlarmInfo);
 StatusType	GetAlarmBase(AlarmType AlarmID, AlarmBaseRefType Info);
 StatusType	GetAlarm(AlarmType AlarmID, TickRefType Tick);
-StatusType	__svc(6) SetRelAlarm(AlarmType AlarmID, TickType Increment, TickType Cycle);
-StatusType	__svc(7) SetAbsAlarm(AlarmType AlarmID, TickType Start, TickType Cycle);
-StatusType	__svc(8) CancelAlarm(AlarmType AlarmID);
+StatusType	SetRelAlarm(AlarmType AlarmID, TickType Increment, TickType Cycle);
+StatusType	SetAbsAlarm(AlarmType AlarmID, TickType Start, TickType Cycle);
+StatusType	CancelAlarm(AlarmType AlarmID);
 
 /* Constants declaration */
 #define OSMAXALLOWEDVALUE	100000000
@@ -141,10 +186,10 @@ typedef struct
 
 /* Services declaration */
 EventMaskType	DeclareEvent(st_EventInfo *EventInfo);
-StatusType		__svc(9) SetEvent(TaskType TaskID, EventMaskType Mask);
-StatusType		__svc(10) ClearEvent(EventMaskType Mask);
+StatusType		SetEvent(TaskType TaskID, EventMaskType Mask);
+StatusType		ClearEvent(EventMaskType Mask);
 StatusType		GetEvent(TaskType TaskID, EventMaskType Mask);
-StatusType		__svc(11) WaitEvent(EventMaskType Mask);
+StatusType		WaitEvent(EventMaskType Mask);
 
 #define INVALID_EVENT	MAX_EVENT_NBR
 
@@ -156,6 +201,7 @@ typedef u8 AppModeType;
 	
 /* Services declaration */
 AppModeType	GetActiveApplicationMode(void);
+void		InitOS(void);
 void		StartOS(AppModeType Mode);
 void 		ShutdownOS(StatusType Error);
 

@@ -22,58 +22,38 @@
  */
  
 #include "stm32f10x_type.h"
-#include "stm32f10x_lib.h"
 #include "os_config.h"
 #include "kernel.h"
-
-#include "task.h"
-#include "alarm.h"
-#include "interrupts.h"
-#include "resource.h"
 #include "common.h"
-
+#include "task.h"
 #include "scheduler.h"
 
-#ifdef __WITH_EVENTS__
-#include "events.h"
-#endif /* __WITH_EVENTS__ */
+u32 Registers[17];
+u32	Saved_LR;
+u32 LR_Return;
 
-AppModeType	GetActiveApplicationMode(void)
+u32	OS_Stack[OS_STACK_SIZE];
+
+u32 Params[4];
+
+TaskType CurrentTask;
+TaskType NextTask;
+u8 InterruptPending;
+
+void Common_Init(void)
 {
-	return OSDEFAULTAPPMODE;
+	CurrentTask = E_OS_INVALID_TASK; 
+	NextTask = E_OS_INVALID_TASK;
+
+	LR_Return = 0xFFFFFFFD;
+	InterruptPending = 0;
 }
 
-void InitOS(void)
+void TaskReturn(void)
 {
-	/* Initialisation des ressources communes */
-	Common_Init();
+	Task_List[CurrentTask].state = SUSPENDED;
+	Task_List[CurrentTask].taskinfo = 0x0;
 
-	/* Initialisation des taches */
-	Task_Init();
-
-	/* Initialisation des resources */
-	//Resource_Init();
-
-	/* Initialisation des alarms */
-	//Alarm_Init();
-
-	/* Initialisation des interruptions */
-	//Interrupt_Init();
-
-#ifdef __WITH_EVENTS__
-	/* Initialisation des events */
-	Events_Init();
-#endif /* __WITH_EVENTS__ */
-}
-
-void StartOS(AppModeType Mode)
-{
-	/* Mode n'est pas utilisé pour l'instant */
-
-	Schedule(); /* Appel de la routine asm qui va lancer la premiere tache */
-}
-
-void ShutdownOS(StatusType Error)
-{
+	Reschedule();
 }
 
