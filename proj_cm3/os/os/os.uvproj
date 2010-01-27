@@ -262,7 +262,7 @@
               <MiscControls>-g -ffunction-sections</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\lib_cm3;..\..\..\system;..\..\..\os</IncludePath>
+              <IncludePath>..\..\..\lib_cm3;..\..\..\system;..\..\..\os;..\..\..\os\ports\cortex-m3</IncludePath>
             </VariousControls>
           </Carm>
           <Aarm>
@@ -457,6 +457,11 @@
               <FileName>definitions.inc</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\os\ports\cortex-m3\definitions.inc</FilePath>
+            </File>
+            <File>
+              <FileName>port.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\ports\cortex-m3\port.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -913,6 +918,11 @@
               <FileName>definitions.inc</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\os\ports\cortex-m3\definitions.inc</FilePath>
+            </File>
+            <File>
+              <FileName>port.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\os\ports\cortex-m3\port.h</FilePath>
             </File>
           </Files>
         </Group>

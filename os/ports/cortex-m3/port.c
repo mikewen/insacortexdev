@@ -21,5 +21,34 @@
  * Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+#include "stm32f10x_type.h"
 #include "os_config.h"
+#include "port.h"
 
+void Task_End_Fallback(void);
+
+#define INITIAL_REG		0xDEADBEEF
+#define INITIAL_PSR		0x01000000
+
+const u32 StartupStack[] = 
+{
+	INITIAL_REG,											// R0 (en tant que code retour de la fonction, ici sans signification)
+	INITIAL_REG, INITIAL_REG, INITIAL_REG, INITIAL_REG,		// R4, R5, R6, R7
+	INITIAL_REG, INITIAL_REG, INITIAL_REG, INITIAL_REG,		// R8, R9, R10, R11
+	INITIAL_REG, INITIAL_REG, INITIAL_REG, INITIAL_REG,		// R0, R1, R2, R3
+	INITIAL_REG,											// R12
+	(u32)Task_End_Fallback,				// Link @ vers Task_End_Fallback
+	0,									// Initial PC: a completer avec le point d'entrée de la tache
+	INITIAL_PSR							// Initial PSR, seul le bit T (Thumb) est positionné
+};
+
+void FastCopy (u32 *dest, u32 *src, u32 len)
+{
+	while (len!=0)
+	{
+		*dest= *src;
+		dest++;
+		src++;
+		len--; 
+	}
+}
