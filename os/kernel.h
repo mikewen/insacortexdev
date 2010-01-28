@@ -63,7 +63,6 @@ typedef struct
 	char *taskname;
 	void (*entrypoint)(void);
 	u32	priority;
-	u32 type;
 	TaskStateType state;
 	u32 locksource;
 	u32 locksourceid;
@@ -140,23 +139,32 @@ ResourceType	DeclareResource(st_ResourceInfo *ResourceInfo);
 /* Type definition */
 typedef u32 	TickType;
 typedef u32 	*TickRefType;
+
 typedef struct 
 {
 	TickType maxallowedvalue;
 	TickType tickperbase;
 	TickType mincycle;
 } AlarmBaseType, *AlarmBaseRefType;
+
 typedef u32 AlarmType;
 
 typedef struct 
 {
 	u8 type;
+	u8 state;
 	u32 period;
+	AlarmBaseType basetype;
 	void (*callbackfunc)(void);
+	TaskType TaskID;
 } st_AlarmInfo;
 
 /* Alarm Macro Definition */
 #define ALARMCALLBACK(name) void name(void)
+
+/* Alarm Constants */
+#define ALARM_SINGLE_SHOT	0
+#define ALARM_AUTO_RELOAD	1
 
 /* Services declaration */
 AlarmType	DeclareAlarm(st_AlarmInfo *AlarmInfo);

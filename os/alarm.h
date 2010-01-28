@@ -28,6 +28,9 @@
 #include "os_config.h"
 #include "kernel.h"
 
+#define ALARM_OFF	0
+#define ALARM_ON	1
+
 void Alarm_Init(void);
 
 #endif /* __ALARM_H__ */

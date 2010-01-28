@@ -34,12 +34,6 @@
 #define LOCK_SOURCE_EVENT		2
 #define LOCK_SOURCE_ALARM		3
 
-/*struct st_Task
-{
-
-	st_TaskInfo *taskinfo;
-};*/
-
 extern st_TaskInfo *Task_List[MAX_PRIORITY_LEVEL];
 extern u32 TaskStackPointer[MAX_PRIORITY_LEVEL];
 

@@ -33,23 +33,63 @@ struct st_Alarm
 } Alarm_List[MAX_ALARM_NBR];
 
 /* Alarm services declaration */
+
+/*
+ * AlarmType	DeclareAlarm(st_AlarmInfo *AlarmInfo)
+ * 
+ * Rajoute une alarme à la liste
+ */
 AlarmType	DeclareAlarm(st_AlarmInfo *AlarmInfo)
 {
-	return 0;
+u32 index;
+
+	index =0;
+
+	while (index< MAX_ALARM_NBR)
+	{
+		if (Alarm_List[index].alarminfo == 0)
+		{
+			Alarm_List[index].alarminfo = AlarmInfo;
+			Alarm_List[index].alarminfo->state = ALARM_OFF;
+		}
+		else index++;
+	}
+
+	if (index == MAX_ALARM_NBR) return E_OS_LIMIT;
+	else return E_OK;
 }
 
 StatusType	GetAlarmBase(AlarmType AlarmID, AlarmBaseRefType Info)
 {
+	if ((AlarmID>= MAX_ALARM_NBR) || (Alarm_List[index].alarminfo == 0))
+	{
+		return E_OS_ID;
+	}
+
+	Info = &(Alarm_List[index].alarminfo->basetype);
+
 	return E_OK;
 }
 
 StatusType	GetAlarm(AlarmType AlarmID, TickRefType Tick)
 {
+	if ((AlarmID>= MAX_ALARM_NBR) || (Alarm_List[index].alarminfo == 0))
+	{
+		return E_OS_ID;
+	}
+
+	Tick = &(Alarm_List[index].counter);
+
 	return E_OK;
 }
 
 StatusType	SetRelAlarm_Int(AlarmType AlarmID, TickType Increment, TickType Cycle)
 {
+	if ((AlarmID>= MAX_ALARM_NBR) || (Alarm_List[index].alarminfo == 0))
+	{
+		return E_OS_ID;
+	}
+
 	return E_OK;
 }
 

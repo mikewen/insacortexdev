@@ -228,7 +228,6 @@ u8 i;
 	BackgroundTask_info.taskname = (char*)BackgroundTask_nom;
 	BackgroundTask_info.entrypoint = BackgroundTask;
 	BackgroundTask_info.priority = 0;  	// Plus faible priorité
-	BackgroundTask_info.type = 0;
 
 	BackgroundTask_ID = DeclareTask(&BackgroundTask_info);
 }
