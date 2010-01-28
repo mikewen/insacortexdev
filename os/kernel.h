@@ -64,6 +64,9 @@ typedef struct
 	void (*entrypoint)(void);
 	u32	priority;
 	u32 type;
+	TaskStateType state;
+	u32 locksource;
+	u32 locksourceid;
 	u32 stack[STACK_SIZE];
 } st_TaskInfo;
 
@@ -217,7 +220,17 @@ void		InitOS(void);
 void		StartOS(AppModeType Mode);
 void 		ShutdownOS(StatusType Error);
 
+// StatusType	Restart_Scheduler(void);
+	#define Restart_Scheduler(Mask) 		OSCallWrapper_0(Reschedule_Fct_Id)
+
 /* Constants declaration */
 #define OSDEFAULTAPPMODE	0
+
+/* 
+ * Declaration de background task (definie comme "weak", 
+ * de facon a pouvoir la surcharger par une fonction utilisateur 
+ *
+ */
+void BackgroundTask(void) __attribute__ ((weak));
 
 #endif /* __KERNEL_H__ */

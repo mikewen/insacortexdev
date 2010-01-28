@@ -37,6 +37,7 @@
  */
 
 OS_Jump_Table:		.long	AlarmTimerTick
+					.long 	Reschedule
 					.long	ActivateTask_Int
 					.long	TerminateTask_Int
 					.long	ChaineTask_Int
@@ -83,7 +84,6 @@ OS_Switch_L0:		LSL		R7, #2					/* R7 = offset from start of table TaskStackPoint
 
                 	BX      LR 						/* End of function */
 
-
 /* 
  * Main entry point for OS
  * This handler should have same priority as timertick (should not be preempted by timertick interrupt)
@@ -124,7 +124,7 @@ SVC_OS_Call:		LDR		R4, =OS_Jump_Table	/* Retrieved function @ in jump table */
 					LDR		R7, [R7]	   	/* Store in R7 the task id after system call */
 											/* R7 = TaskId after system call */
 					CMP		R6, R7			/* If Task id before and after system call are different, task switch is needed */
-					CBZ		R6, SVC_Exit 	/* If zero, no switch needed, pop the stack and exit */
+					BEQ		SVC_Exit	 	/* If zero, no switch needed, pop the stack and exit */
 
 					PUSH 	{LR}
 					BL		OS_Switch_Tasks	/* Otherwise, swap previous task stack and selected task stack */
@@ -142,8 +142,8 @@ SVC_Exit:			STR		R0, [SP, #4*8]
 					.thumb_func	
 					.type	SysTick_Handler, %function
 SysTick_Handler: 
-					MOV		R0, #TimerTick_Fct_Id			/* 0 is the function ID of the RTC 				  */
-                	B       SVC_Handler	 	/* Branch to SVC_Handler for continuing treatment */
+					MOV		R0, #TimerTick_Fct_Id			/* 0 is the function ID of the RTC */
+                	B       SVC_Handler	 	/* Branch to SVC_Handler for continuing treatment  */
 
 /* 
  * End of task fallback
@@ -156,7 +156,7 @@ SysTick_Handler:
 					.thumb_func	
 					.type	Task_End_Fallback, %function
 Task_End_Fallback: 
-					MOV		R0, #TerminateTask_Fct_Id			/* Call TerminateTask service */
-                	B       SVC_Handler	 	/* Branch to SVC_Handler for continuing treatment */
+					MOV		R0, #TerminateTask_Fct_Id	/* Call TerminateTask service */
+                	SVC     1	 	/* Branch to SVC_Handler for continuing treatment */
                 
 					.end

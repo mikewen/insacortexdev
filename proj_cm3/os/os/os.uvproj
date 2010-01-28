@@ -259,7 +259,7 @@
             <wLevel>2</wLevel>
             <uThumb>1</uThumb>
             <VariousControls>
-              <MiscControls>-g -ffunction-sections</MiscControls>
+              <MiscControls>-g</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\lib_cm3;..\..\..\system;..\..\..\os;..\..\..\os\ports\cortex-m3</IncludePath>
@@ -277,7 +277,7 @@
           </Aarm>
           <LDarm>
             <umfTarg>1</umfTarg>
-            <enaGarb>1</enaGarb>
+            <enaGarb>0</enaGarb>
             <noStart>1</noStart>
             <noStLib>1</noStLib>
             <uMathLib>0</uMathLib>

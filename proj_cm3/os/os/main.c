@@ -14,13 +14,18 @@
 #include "STM32_Init.h"                           // STM32 Initialization
 #include "kernel.h"
 
+/* Description des taches */
+// Tache 1
 TaskType Tache_1_ID;
-
 st_TaskInfo Tache_1_info;
 const char Tache_1_nom[] = "Tache_1";
-
-/* Prototype des taches */
 TASK(Tache_1);
+
+// Tache 2
+TaskType Tache_2_ID;
+st_TaskInfo Tache_2_info;
+const char Tache_2_nom[] = "Tache_2";
+TASK(Tache_2);
 
 /*----------------------------------------------------------------------------
   MAIN function
@@ -39,6 +44,13 @@ int main (void)
 
 	Tache_1_ID = DeclareTask(&Tache_1_info);
 
+	Tache_2_info.taskname = (char*)Tache_2_nom;
+	Tache_2_info.entrypoint = Tache_2;
+	Tache_2_info.priority = 2;
+	Tache_2_info.type = 0;
+
+	Tache_2_ID = DeclareTask(&Tache_2_info);
+
 	StartOS(OSDEFAULTAPPMODE);
 
 	while(1); /* Boucle infinie : un main ne doit jamais rendre la main */
@@ -52,3 +64,39 @@ volatile int i;
 
 	for (i=1; i<5; i++);
 }
+
+TASK(Tache_2)
+{
+volatile int i;
+volatile int j;
+
+	for (i=1; i<5; i++)
+	{
+		j=j+i;
+	}
+}
+
+void BackgroundTask(void)
+{
+int i, j;
+
+	i=0;
+	j=0;
+	while (1)
+	{
+		i = i + (1<<j);
+		j++;
+
+		if (j>31) 
+		{
+			j=0;
+			ActivateTask(Tache_1_ID);
+		}
+
+		if (i == 0)
+		{
+			ActivateTask(Tache_2_ID);	
+		}
+	}
+}
+

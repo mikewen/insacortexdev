@@ -76,9 +76,9 @@ StatusType		GetResource_Int(ResourceType ResID)
 	if (Resource_List[ResID].state>0)
 	{
 		/* La resource est deja prise */
-		Task_List[CurrentTask].locksource = LOCK_SOURCE_RESOURCE;
-		Task_List[CurrentTask].locksourceid = ResID;
-		Task_List[CurrentTask].state = READY;
+		Task_List[CurrentTask]->locksource = LOCK_SOURCE_RESOURCE;
+		Task_List[CurrentTask]->locksourceid = ResID;
+		Task_List[CurrentTask]->state = READY;
 
 		Reschedule();
 	}
@@ -106,11 +106,11 @@ u8 End;
 
 		while (End != 1)
 		{
-			if (Task_List[i].locksource == LOCK_SOURCE_RESOURCE)
+			if (Task_List[i]->locksource == LOCK_SOURCE_RESOURCE)
 			{
-				if (Task_List[i].locksourceid == ResID)
+				if (Task_List[i]->locksourceid == ResID)
 				{
-					Task_List[i].locksource = LOCK_SOURCE_NONE;
+					Task_List[i]->locksource = LOCK_SOURCE_NONE;
 					End = 1;
 				}
 			}

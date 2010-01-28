@@ -24,13 +24,28 @@
 #ifndef __OS_CONFIG_H__
 #define __OS_CONFIG_H__
 
-#define STACK_SIZE			32	/* Exprimé en u32 */
+#define STACK_SIZE			128	/* Exprimé en u32 */
+
+#define MAX_PRIORITY_LEVEL	32
 
 #define MAX_TASK_NBR		16
 #define MAX_ALARM_NBR		8
 #define MAX_RESOURCE_NBR	16
 #define MAX_EVENT_NBR		16
 
+#if (MAX_PRIORITY_LEVEL<MAX_TASK_NBR)
+	#error Le nombre de niveau de priorité est inferieur au nombre de taches (MAX_PRIORITY_LEVEL < MAX_TASK_NBR)
+#endif 
+
+#if (MAX_TASK_NBR <= 1)
+	#error Nombre de tache invalide (MAX_TASK_NBR <= 1)
+#endif
+
 // #define __WITH_EVENTS__
+
+/* Switch pour le debug du noyau */
+#define __DEBUG_FILL_STACK__ 	/* Si defini, les piles des taches sont entierement remplies avec 
+                                   le motif DEBUG_FILL_STACK_PATTERN lors de la creation de la tache */
+#define DEBUG_FILL_STACK_PATTERN	0xDEADC0DE
 
 #endif /* __OS_CONFIG_H__ */

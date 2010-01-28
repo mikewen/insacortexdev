@@ -28,6 +28,13 @@
 #include "task.h"
 #include "common.h"
 
+/*
+ * void Reschedule(void)
+ * 
+ * Fonction de recalcul de la tache a executer
+ *
+ * TODO: possibilite de choisir plusieurs type de scheduler, à la compilation
+ */
 void Reschedule(void)
 {
 TaskType TaskID;
@@ -44,20 +51,20 @@ u8 End;
 
 	while (End != 1)
 	{
-		if (Task_List[TaskID].state != SUSPENDED)
+		if (Task_List[TaskID]->state != SUSPENDED)
 		{
-			if (Task_List[TaskID].locksource == LOCK_SOURCE_NONE)
+			if (Task_List[TaskID]->locksource == LOCK_SOURCE_NONE)
 			{
 				NextTask = TaskID;
 				End = 1;
 
 				if (NextTask != CurrentTask)
 				{
-					Task_List[NextTask].state = RUNNING;
+					Task_List[NextTask]->state = RUNNING;
 				
-					if (Task_List[CurrentTask].state == RUNNING)
+					if (Task_List[CurrentTask]->state == RUNNING)
 					{
-						Task_List[CurrentTask].state = READY;
+						Task_List[CurrentTask]->state = READY;
 					}
 
 					CurrentTask = NextTask;
@@ -73,12 +80,12 @@ u8 End;
 			if (TaskID == 0) 
 			{
 				NextTask = TaskID;
-				Task_List[TaskID].locksource = LOCK_SOURCE_NONE;
+				Task_List[TaskID]->locksource = LOCK_SOURCE_NONE;
 				End = 1;
 
 				if (NextTask != CurrentTask)
 				{
-					Task_List[NextTask].state = RUNNING;
+					Task_List[NextTask]->state = RUNNING;
 				}
 			}
 			else

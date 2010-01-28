@@ -30,15 +30,42 @@
 
 #include "port.h"
 
-struct st_Task Task_List[MAX_TASK_NBR];
-u32 TaskStackPointer[MAX_TASK_NBR]; 	// Stock les SP en cours des taches non actives 
+/* Tableau de description des taches */
+st_TaskInfo *Task_List[MAX_PRIORITY_LEVEL];
+u32 TaskStackPointer[MAX_PRIORITY_LEVEL]; 	// Stock les SP en cours des taches non actives 
 
 /* Declaration de la background task */
-void BackgroundTask(void);
 TaskType BackgroundTask_ID;
 st_TaskInfo BackgroundTask_info;
 const char BackgroundTask_nom[] = "Background Task";
 
+/* 
+ * void Prepare_Task_For_Activation(TaskType TaskID)
+ *
+ * Cette fonction s'occupe d'initialiser la pile et d'autre info de la tache pour une activation
+ */
+void Prepare_Task_For_Activation(TaskType TaskID)
+{
+		/* Elle passe a READY et rentre dans le pool des taches activables*/
+		Task_List[TaskID]->state = 		READY;
+		Task_List[TaskID]->locksource=	LOCK_SOURCE_NONE;
+
+		/* On lui recopie la stack initiale */
+		FastCopy(Task_List[TaskID]->stack + STACK_SIZE - STARTUP_STACK_SIZE, 
+		     	 (u32*)StartupStack, STARTUP_STACK_SIZE);
+
+		/* On met a jour le point d'entrée */
+		SET_ENTRY_POINT(TaskID,(u32)(Task_List[TaskID]->entrypoint));
+		
+		/* On enregistre le pointeur de pile dans TaskStackPointer */
+		TaskStackPointer[TaskID] = (u32)(Task_List[TaskID]->stack + STACK_SIZE - STARTUP_STACK_SIZE);
+}
+
+/*
+ * TaskType DeclareTask(st_TaskInfo *TaskInfo)
+ * 
+ * Permet d'enregistrer une tache
+ */
 TaskType DeclareTask(st_TaskInfo *TaskInfo)
 {
 TaskType TaskID;
@@ -51,31 +78,32 @@ TaskType TaskID;
 	} 
 	else
 	{
-		if (Task_List[TaskID].taskinfo != 0x0)
+		if (Task_List[TaskID] != 0x0)
 		{
-			 TaskID = E_OS_INVALID_TASK;
+			 TaskID = E_OS_LIMIT;
 		}
 		else
 		{
-			Task_List[TaskID].taskinfo= 	TaskInfo;
-			Task_List[TaskID].locksource=	LOCK_SOURCE_NONE;
-			Task_List[TaskID].state=		READY;
+			Task_List[TaskID] = 			TaskInfo;
 
-			/* On lui recopie la stack initiale */
-			FastCopy(Task_List[TaskID].taskinfo->stack + STACK_SIZE - STARTUP_STACK_SIZE, 
-		     	    (u32*)StartupStack, STARTUP_STACK_SIZE);
+#ifdef __DEBUG_FILL_STACK__	
+			/* On remplit la pile avec un motif pour tester la consommation qui en est faite */
+			FastFill(Task_List[TaskID]->stack, DEBUG_FILL_STACK_PATTERN, STACK_SIZE);
+#endif /* __DEBUG_FILL_STACK__ */
 
-			/* On met a jour le point d'entrée */
-			SET_ENTRY_POINT(TaskID,(u32)(Task_List[TaskID].taskinfo->entrypoint));
-
-			/* On enregistre le pointeur de pile dans TaskStackPointer */
-			TaskStackPointer[TaskID] = (u32)(Task_List[TaskID].taskinfo->stack + STACK_SIZE - STARTUP_STACK_SIZE); 
+			/* Preparation de la stack de la tache pour activation */
+			Prepare_Task_For_Activation(TaskID);
 		}
 	}
 	
 	return TaskID;
 }
 
+/*
+ * StatusType GetTaskID(TaskType *TaskID)
+ * 
+ * Retourne l'identifiant de la tache en cours (running)
+ */
 StatusType GetTaskID(TaskType *TaskID)
 {
 	*TaskID = CurrentTask;
@@ -83,19 +111,30 @@ StatusType GetTaskID(TaskType *TaskID)
 	return E_OK;
 }
 
+/*
+ * StatusType	GetTaskState(TaskType TaskID, TaskStateType *State)
+ * 
+ * Retourne l'etat de la tache indiqué (running) 
+ * ou retourne E_OS_INVALID_TASK si la tache n'existe pas (pas enregistrée)  
+ */
 StatusType	GetTaskState(TaskType TaskID, TaskStateType *State)
 {
-	if (TaskID >= MAX_TASK_NBR)
+	if ((TaskID >= MAX_TASK_NBR) || (Task_List[TaskID] == 0x0)) 
 	{
 		return E_OS_INVALID_TASK;
 	} 
 	
-	*State = Task_List[TaskID].state;
+	*State = Task_List[TaskID]->state;
 
 	return E_OK;
 }
 
-StatusType	ActivateTask_Int(TaskType TaskID)
+/*
+ * StatusType	ActivateTask(TaskType TaskID)
+ * 
+ * Active une tache (deja enregistrée), c-a-d passe son etat à READY et prepare la tache a étre executée  
+ */
+StatusType	ActivateTask_Int(u32 Func_ID, TaskType TaskID)
 {
 u8 Status;
 
@@ -106,80 +145,102 @@ u8 Status;
 
 	Status = E_OK;
 
-	if (Task_List[TaskID].state == SUSPENDED)
+	if ((Task_List[TaskID] != 0x0) && (Task_List[TaskID]->state == SUSPENDED))
 	{
-		/* Elle passe a READY et rentre dans le pool des taches activables*/
-		Task_List[TaskID].state = 		READY;
-		Task_List[TaskID].locksource=	LOCK_SOURCE_NONE;
+		/* Preparation de la stack de la tache pour activation */
+		Prepare_Task_For_Activation(TaskID);
 
-		/* On lui recopie la stack initiale */
-		FastCopy(Task_List[TaskID].taskinfo->stack + (STACK_SIZE*4) - (STARTUP_STACK_SIZE*4), 
-		         (u32*)StartupStack, STARTUP_STACK_SIZE);
-
-		/* on met a jour le point d'entrée */
-		SET_ENTRY_POINT(TaskID,(u32)(Task_List[TaskID].taskinfo->entrypoint));
-		
+		/* Determination de la nouvelle tache active */
 		Reschedule();	
 	}
 	else
 	{
-		Status = E_OS_LIMIT; // la tache a deja été activée
+		Status = E_OS_LIMIT; // La tache a deja été activée
 	}
 	return Status;
 }
 
-StatusType	TerminateTask_Int(void)
+/*
+ * StatusType	TerminateTask(void)
+ * 
+ * Termine la tache et la retire de la liste des taches activables 
+ */
+StatusType	TerminateTask_Int(u32 Func_ID)
 {
 u8 Status;
 
 	Status = E_OK;
 
-	if (Task_List[CurrentTask].state != SUSPENDED)
+	if (Task_List[CurrentTask]->state != SUSPENDED)
 	{
-		/* Elle passe a SUSPENDED */
-		Task_List[CurrentTask].state = SUSPENDED;
-//		Task_List[CurrentTask].taskinfo = 0x0;
+		/* Elle passe a SUSPENDED (retirée de la liste des taches activables)*/
+		Task_List[CurrentTask]->state = SUSPENDED;
 
+		/* Determination de la nouvelle tache active */
 		Reschedule();	
 	}
 	else
 	{
-		Status = E_OS_LIMIT; // la tache a deja été activée
+		Status = E_OS_LIMIT; // La tache a deja été suspendue
 	}
 	return Status;
 }
 
-StatusType	ChaineTask_Int(TaskType TaskID)
+/*
+ * StatusType	ChaineTask(TaskType TaskID)
+ * 
+ * Termine la tache en cours et active la tache indiquée, permettant son execution au plus tôt
+ */
+StatusType	ChaineTask_Int(u32 Func_ID, TaskType TaskID)
 {
 	return E_OS_LIMIT;
 }
 
-StatusType	Schedule_Int(void)
+/*
+ * StatusType	Schedule(void)
+ * 
+ * Active la tache de priorité superieur en relachant sa ressource, et passe la tache actuelle à ready
+ *
+ * TODO: je comprends pas trop ce que doit faire cette fonction -> A finir
+ */
+StatusType	Schedule_Int(u32 Func_ID)
 {
 	Reschedule();
 
 	return E_OK;
 }
 
+/*
+ * void Task_Init(void)
+ * 
+ * Initialise la partie du noyau responsable de la gestion des taches
+ */
 void Task_Init(void)
 {
 u8 i;
 
 	for(i=0; i<	MAX_TASK_NBR; i++)
 	{
-		Task_List[i].taskinfo = 0x0;
-		Task_List[i].state = SUSPENDED;
+		Task_List[i] = 0x0;
 	}
 
 	/* Ajout de la background task */
 	BackgroundTask_info.taskname = (char*)BackgroundTask_nom;
 	BackgroundTask_info.entrypoint = BackgroundTask;
-	BackgroundTask_info.priority = 0;  	// plus faible priorité
+	BackgroundTask_info.priority = 0;  	// Plus faible priorité
 	BackgroundTask_info.type = 0;
 
 	BackgroundTask_ID = DeclareTask(&BackgroundTask_info);
 }
 
+/*
+ * void BackgroundTask(void)
+ * 
+ * Tache de fond du system
+ *
+ * La background task etant declarée comme "weak", 
+ * cette definition	permet d'avoir une background task meme si l'utilisateur a oublié d'en fournir une
+ */
 void BackgroundTask(void)
 {
 	while (1);
