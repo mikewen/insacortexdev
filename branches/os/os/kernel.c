@@ -70,10 +70,11 @@ void StartOS(AppModeType Mode)
 {
 	/* Mode n'est pas utilisé pour l'instant */
 
-	Schedule(); /* Appel de la routine asm qui va lancer la premiere tache */
+	Restart_Scheduler(); /* Redemarrage du scheduler et lancement de l'OS avec la tache la + prioritaire */
 }
 
 void ShutdownOS(StatusType Error)
 {
+	/* TODO: Trouver un truc a faire ici ! */
 }
 

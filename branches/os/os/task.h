@@ -34,16 +34,15 @@
 #define LOCK_SOURCE_EVENT		2
 #define LOCK_SOURCE_ALARM		3
 
-struct st_Task
+/*struct st_Task
 {
-	TaskStateType state;
-	u8 locksource;
-	u8 locksourceid;
-	st_TaskInfo *taskinfo;
-};
 
-extern struct st_Task Task_List[MAX_TASK_NBR];
-extern u32 TaskStackPointer[MAX_TASK_NBR];
+	st_TaskInfo *taskinfo;
+};*/
+
+extern st_TaskInfo *Task_List[MAX_PRIORITY_LEVEL];
+extern u32 TaskStackPointer[MAX_PRIORITY_LEVEL];
+
 void Task_Init(void);
 
 #endif /* __TASK_H__ */
