@@ -40,14 +40,12 @@ int main (void)
 	Tache_1_info.taskname = (char*)Tache_1_nom;
 	Tache_1_info.entrypoint = Tache_1;
 	Tache_1_info.priority = 1;
-	Tache_1_info.type = 0;
 
 	Tache_1_ID = DeclareTask(&Tache_1_info);
 
 	Tache_2_info.taskname = (char*)Tache_2_nom;
 	Tache_2_info.entrypoint = Tache_2;
 	Tache_2_info.priority = 2;
-	Tache_2_info.type = 0;
 
 	Tache_2_ID = DeclareTask(&Tache_2_info);
 
