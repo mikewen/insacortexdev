@@ -449,11 +449,6 @@
               <FilePath>../../../os/ports/cortex-m3/call_wrapper.S</FilePath>
             </File>
             <File>
-              <FileName>port.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../os/ports/cortex-m3/port.c</FilePath>
-            </File>
-            <File>
               <FileName>definitions.inc</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\os\ports\cortex-m3\definitions.inc</FilePath>
@@ -462,6 +457,11 @@
               <FileName>port.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\os\ports\cortex-m3\port.h</FilePath>
+            </File>
+            <File>
+              <FileName>port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../os/ports/cortex-m3/port.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -910,47 +910,6 @@
               <FilePath>../../../os/ports/cortex-m3/call_wrapper.S</FilePath>
             </File>
             <File>
-              <FileName>port.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../os/ports/cortex-m3/port.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>2</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                </CommonProperty>
-                <FileArm>
-                  <Carm>
-                    <arpcs>2</arpcs>
-                    <stkchk>2</stkchk>
-                    <reentr>2</reentr>
-                    <interw>2</interw>
-                    <bigend>2</bigend>
-                    <Strict>0</Strict>
-                    <Optim>0</Optim>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <VariousControls>
-                      <MiscControls>-S</MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Carm>
-                </FileArm>
-              </FileOption>
-            </File>
-            <File>
               <FileName>definitions.inc</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\os\ports\cortex-m3\definitions.inc</FilePath>
@@ -959,6 +918,11 @@
               <FileName>port.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\os\ports\cortex-m3\port.h</FilePath>
+            </File>
+            <File>
+              <FileName>port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../os/ports/cortex-m3/port.c</FilePath>
             </File>
           </Files>
         </Group>

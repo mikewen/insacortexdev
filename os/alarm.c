@@ -27,6 +27,8 @@
 #include "task.h"
 #include "alarm.h"
 
+#include "scheduler.h"
+
 struct st_Alarm
 {
 	st_AlarmInfo *alarminfo;
@@ -218,6 +220,8 @@ TaskType TaskID;
 						if (Task_List[TaskID]->state==SUSPENDED)
 						{
 							Prepare_Task_For_Activation(TaskID);
+
+							Reschedule();
 						}
 						else
 						{
