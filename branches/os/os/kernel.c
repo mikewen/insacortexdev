@@ -30,6 +30,7 @@
 #include "alarm.h"
 #include "interrupts.h"
 #include "resource.h"
+#include "events.h"
 #include "common.h"
 
 #include "scheduler.h"
@@ -45,6 +46,10 @@ AppModeType	GetActiveApplicationMode(void)
 
 void InitOS(void)
 {
+	/* Initialisation des interruptions */
+	Interrupt_Init();
+	/* A la fin de l'init des IT, les interruptions doivent etre desactivées */
+
 	/* Initialisation des ressources communes */
 	Common_Init();
 
@@ -52,23 +57,21 @@ void InitOS(void)
 	Task_Init();
 
 	/* Initialisation des resources */
-	//Resource_Init();
+	Resource_Init();
 
 	/* Initialisation des alarms */
-	//Alarm_Init();
+	Alarm_Init();
 
-	/* Initialisation des interruptions */
-	//Interrupt_Init();
-
-#ifdef __WITH_EVENTS__
 	/* Initialisation des events */
 	Events_Init();
-#endif /* __WITH_EVENTS__ */
 }
 
 void StartOS(AppModeType Mode)
 {
 	/* Mode n'est pas utilisé pour l'instant */
+
+	/* On reautorise les IT */
+	ResumeAllInterrupts();
 
 	Restart_Scheduler(); /* Redemarrage du scheduler et lancement de l'OS avec la tache la + prioritaire */
 }

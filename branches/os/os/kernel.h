@@ -66,6 +66,9 @@ typedef struct
 	TaskStateType state;
 	u32 locksource;
 	u32 locksourceid;
+	u32	events_list;
+	u32 events_triggers;
+	u32 missingactivations;
 	u32 stack[STACK_SIZE];
 } st_TaskInfo;
 
@@ -153,18 +156,28 @@ typedef struct
 {
 	u8 type;
 	u8 state;
-	u32 period;
+	u32 increment;
+	u32	cycle;
 	AlarmBaseType basetype;
 	void (*callbackfunc)(void);
 	TaskType TaskID;
+	/* A rajouter: events */
 } st_AlarmInfo;
 
 /* Alarm Macro Definition */
 #define ALARMCALLBACK(name) void name(void)
 
-/* Alarm Constants */
-#define ALARM_SINGLE_SHOT	0
-#define ALARM_AUTO_RELOAD	1
+/* Alarm Type Constants */
+#define ALARM_SINGLE			(0<<0)
+#define ALARM_CYCLIC			(1<<0)
+#define ALARM_TYPE				(0x01)
+
+#define ALARM_AUTOSTART			(1<<7)
+
+#define ALARM_TRIGGER_TASK		(0<<1)
+#define ALARM_TRIGGER_CALLBACK	(1<<1)
+#define ALARM_TRIGGER_EVENT		(2<<1)
+#define ALARM_TRIGGER_MASK		(0x06)
 
 /* Services declaration */
 AlarmType	DeclareAlarm(st_AlarmInfo *AlarmInfo);
@@ -190,7 +203,6 @@ StatusType	GetAlarm(AlarmType AlarmID, TickRefType Tick);
 
 #define INVALID_ALARM		MAX_ALARM_NBR
 
-#ifdef __WITH_EVENTS__
 /*********** Event management *********/
 /* Type definition */
 typedef u32	EventMaskType;
@@ -198,7 +210,7 @@ typedef u32 *EventMaskRefType;
 
 typedef struct 
 {
-	u8 eventtype;
+	TaskType TaskID;
 } st_EventInfo;
 
 /* Services declaration */
@@ -215,8 +227,6 @@ StatusType		GetEvent(TaskType TaskID, EventMaskType Mask);
 	#define WaitEvent(Mask) 		OSCallWrapper_1(WaitEvent_Fct_Id, (u32)Mask)
 
 #define INVALID_EVENT	MAX_EVENT_NBR
-
-#endif /* __WITH_EVENTS__ */
 
 /*********** OS management *********/
 /* Type definition */

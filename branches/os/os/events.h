@@ -28,6 +28,8 @@
 #include "os_config.h"
 #include "kernel.h"
 
+void Events_Init(void);
+
 #endif /* __EVENTS_H__ */
 
 

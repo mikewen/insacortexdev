@@ -26,36 +26,118 @@
 #include "kernel.h"
 #include "interrupts.h"
 
+
 u8 InterruptCounter;
 
 /* Interrupt services declaration */
+
+/*
+ * void EnableAllInterrupts(void)
+ * 
+ * Reactive les interruptions
+ */
 void EnableAllInterrupts(void)
 {
+	/* 
+	 * TODO: Je ne comprends pas trop la spec au sujet de cette fonction. Il ne semble
+	 * pas y avoir de compteur d'activation/desactivation: du coup, je vois mal comment marche cette fonction 
+	 * et a quoi elle sert
+	 *
+	 * Je rebranche sur ResumeAllInterrupts
+	 */
+	
+	ResumeAllInterrupts();
 }
 
+/*
+ * void DisableAllInterrupts(void)
+ * 
+ * Desactive les interruptions
+ */
 void DisableAllInterrupts(void)
 {
+	/* 
+	 * TODO: Je ne comprends pas trop la spec au sujet de cette fonction. Il ne semble
+	 * pas y avoir de compteur d'activation/desactivation: du coup, je vois mal comment marche cette fonction 
+	 * et a quoi elle sert
+	 *
+	 * Je rebranche sur SuspendAllInterrupts
+	 */
+	
+	SuspendAllInterrupts();	
 }
 
+/*
+ * void ResumeAllInterrupts(void)
+ * 
+ * Reactive les interruptions en fonction du nombre desactivations qui ont deja eu lieu
+ */
 void ResumeAllInterrupts(void)
 {
+	if (InterruptCounter != 0)
+	{
+		InterruptCounter--;
+
+		if (InterruptCounter == 0) EnableAllInterrupts_port();
+	} 
 }
 
+/*
+ * void SuspendAllInterrupts(void)
+ * 
+ * Desactive les interruptions et memorise le nombre de desactivation qui ont deja eu lieu
+ */
 void SuspendAllInterrupts(void)
 {
+	InterruptCounter ++;
+
+	DisableAllInterrupts_port();
 }
 
+/*
+ * void ResumeOSInterrupts(void)
+ * 
+ * Reactive les interruptions desactivées par l'OS
+ */
 void ResumeOSInterrupts(void)
 {
+	/* 
+	 * TODO: Je ne comprends pas trop la spec au sujet de cette fonction. Il ne semble
+	 * pas y avoir de compteur d'activation/desactivation: du coup, je vois mal comment marche cette fonction 
+	 * et a quoi elle sert
+	 *
+	 * Je rebranche sur ResumeAllInterrupts
+	 */
+	
+	ResumeAllInterrupts();
 }
 
+/*
+ * void SuspendOSInterrupts(void)
+ * 
+ * Desactive les interruptions (demandé par l'OS)
+ */
 void SuspendOSInterrupts(void)
 {
+	/* 
+	 * TODO: Je ne comprends pas trop la spec au sujet de cette fonction. Il ne semble
+	 * pas y avoir de compteur d'activation/desactivation: du coup, je vois mal comment marche cette fonction 
+	 * et a quoi elle sert
+	 *
+	 * Je rebranche sur SuspendAllInterrupts
+	 */
+	
+	SuspendAllInterrupts();	
 }
 
+/*
+ * void Interrupt_Init(void)
+ * 
+ * Ininitialise le module Interrupt du noyau
+ */
 void Interrupt_Init(void)
 {
-	DisableAllInterrupts();
+	InterruptCounter=0; 	// Compteur d'imbrication des activations/desactivation d'interruption à 0 (It autorisées) 
 
-	InterruptCounter=1;
+	SuspendAllInterrupts(); // Desactives les IT (le temps pour l'OS de s'initialiser
 }

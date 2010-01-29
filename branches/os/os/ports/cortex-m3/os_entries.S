@@ -46,12 +46,10 @@ OS_Jump_Table:		.long	AlarmTimerTick
 					.long	ReleaseResource_Int	
 					.long	SetRelAlarm_Int		
 					.long	SetAbsAlarm_Int	
-					.long	CancelAlarm_Int
-.ifdef __WITH_EVENTS__		
+					.long	CancelAlarm_Int		
 					.long	SetEvent_Int			
 					.long	ClearEvent_Int		
-					.long	WaitEvent_Int
-.endif	
+					.long	WaitEvent_Int	
 OS_Jump_Table_End:
 
 /*					

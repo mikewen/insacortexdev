@@ -38,6 +38,7 @@ extern st_TaskInfo *Task_List[MAX_PRIORITY_LEVEL];
 extern u32 TaskStackPointer[MAX_PRIORITY_LEVEL];
 
 void Task_Init(void);
+void Prepare_Task_For_Activation(TaskType TaskID);
 
 #endif /* __TASK_H__ */
 
