@@ -62,13 +62,14 @@ typedef struct
 {
 	char *taskname;
 	void (*entrypoint)(void);
-	u32	priority;
+	u8	priority;
 	TaskStateType state;
-	u32 locksource;
-	u32 locksourceid;
-	u32	events_list;
-	u32 events_triggers;
-	u32 missingactivations;
+	u8 locksource;
+	u8 locksourceid;
+	u8 events_list;
+	u8 events_triggers;
+	u8 waiting_events;
+	u8 missingactivations;
 	u32 stack[STACK_SIZE];
 } st_TaskInfo;
 
@@ -116,8 +117,7 @@ typedef u32 ResourceType;
 
 typedef struct 
 {
-	u8 initstate;
-	u8 resourcetype;
+	u8 counter;
 } st_ResourceInfo;
 
 /* Services declaration */
@@ -134,10 +134,7 @@ ResourceType	DeclareResource(st_ResourceInfo *ResourceInfo);
 
 #define INVALID_RESOURCE 	MAX_RESOURCE_NBR
 
-#define RES_MUTEX			0
-#define RES_BINARY			1
-#define	RES_COUNTER			2
-
+#define RES_BINARY 0
 /*********** Alarms management *********/
 /* Type definition */
 typedef u32 	TickType;
@@ -215,7 +212,7 @@ typedef struct
 
 /* Services declaration */
 EventMaskType	DeclareEvent(st_EventInfo *EventInfo);
-StatusType		GetEvent(TaskType TaskID, EventMaskType Mask);
+StatusType		GetEvent(TaskType TaskID, EventMaskRefType Mask);
 
 // StatusType		SetEvent(TaskType TaskID, EventMaskType Mask);
 	#define SetEvent(TaskID, Mask) 	OSCallWrapper_2(SetEvent_Fct_Id, (u32)TaskID, (u32)Mask)

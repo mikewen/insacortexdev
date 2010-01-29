@@ -26,15 +26,18 @@
 #include "kernel.h"
 #include "task.h"
 #include "events.h"
+#include "common.h"
 
 #include "port.h"
+#include "scheduler.h"
 
 /* Event services declaration */
 
 /*
- * void Task_Init(void)
+ * EventMaskType	DeclareEvent(st_EventInfo *EventInfo)
  * 
- * Initialise la partie du noyau responsable de la gestion des taches
+ * Ajoute un nouvel event à la tache indiquée dans st_EventInfo
+ * Renvoi INVALID_EVENT si la tache ne peut plus recevoir d'event 
  */
 EventMaskType	DeclareEvent(st_EventInfo *EventInfo)
 {
@@ -50,27 +53,83 @@ EventMaskType event;
 	}
 }
 
+/*
+ * StatusType		SetEvent(TaskType TaskID, EventMaskType Mask)
+ * 
+ * Active les events indiqués dans Mask pour la tache indiquée 
+ */
 StatusType		SetEvent_Int(TaskType TaskID, EventMaskType Mask)
 {
+	if ((TaskID>= MAX_TASK_NBR) || (Task_List[TaskID] == 0)) return E_OS_ID;
+	if ((Task_List[TaskID]->events_list & Mask)!= Mask) return E_OS_ID;
+	if (Task_List[TaskID]->state == SUSPENDED) return E_OS_STATE;
+	
+	if ((Task_List[TaskID]->waiting_events & Mask) != 0) 
+	{
+		Task_List[TaskID]->events_triggers |= Mask;
+		Task_List[TaskID]->state = RUNNING;
+
+		Reschedule();
+	}
+
 	return E_OK;
 }
 
+/*
+ * StatusType		ClearEvent_Int(EventMaskType Mask)
+ * 
+ * Efface les events contenu dans Mask 
+ */
 StatusType		ClearEvent_Int(EventMaskType Mask)
 {
+	Task_List[CurrentTask]->events_triggers &= ~(Mask);
+	Task_List[CurrentTask]->waiting_events &= ~(Mask);
+
 	return E_OK;
 }
 
-StatusType		GetEvent(TaskType TaskID, EventMaskType Mask)
+/*
+ * StatusType		GetEvent(TaskType TaskID, EventMaskType Mask)
+ * 
+ * Recupere les events en cours de la tache
+ */
+StatusType		GetEvent(TaskType TaskID, EventMaskRefType Mask)
 {
+	if ((TaskID>= MAX_TASK_NBR) || (Task_List[TaskID] == 0)) return E_OS_ID;
+	if (Task_List[TaskID]->state == SUSPENDED) return E_OS_STATE;
+
+	*Mask = Task_List[TaskID]->events_triggers;
+	 
 	return E_OK;
 }
 
+/*
+ * StatusType		WaitEvent_Int(EventMaskType Mask)
+ * 
+ * Met la tache active en attente des evenement contenu dans le mask 
+ */
 StatusType		WaitEvent_Int(EventMaskType Mask)
 {
+	if (Task_List[CurrentTask]->locksource != LOCK_SOURCE_NONE) return E_OS_RESOURCE;
+	
+	if ((Task_List[CurrentTask]->events_triggers & Mask) == 0)
+	{
+		Task_List[CurrentTask]->waiting_events |= Mask;
+		Task_List[CurrentTask]->state = WAITING;
+
+		Reschedule();
+	}
+
 	return E_OK;
 }
 
+/*
+ * void Events_Init(void)
+ * 
+ * Initialisation du module "Events" du noyau 
+ */
 void Events_Init(void)
 {
+	/* Rien de special a faire ici */
 }
 

@@ -32,73 +32,73 @@
 struct st_Resource
 {
 	st_ResourceInfo *resourceinfo;
-	u8 state;
 } Resource_List[MAX_RESOURCE_NBR];
 
+/*
+ * ResourceType	DeclareResource(st_ResourceInfo *ResourceInfo)
+ * 
+ * Cree une nouvelle resource ou renvoi INVALID_RESOURCE si plus aucune resource disponible
+ */
 ResourceType	DeclareResource(st_ResourceInfo *ResourceInfo)
 {
-ResourceType ResID;
-u8 End;
+ResourceType index;
 
-	if (ResourceInfo->resourcetype != RES_BINARY) return INVALID_RESOURCE;
-
-	End = 0;
-	ResID = 0;
-
-	while (End != 1)
+	for (index =0; index < MAX_RESOURCE_NBR; index ++)
 	{
-		if (Resource_List[ResID].resourceinfo == 0x0)
-		{
-			End =1;
-
-			Resource_List[ResID].resourceinfo = ResourceInfo;
-			Resource_List[ResID].state = Resource_List[ResID].resourceinfo->initstate;
-			if (Resource_List[ResID].state >1) Resource_List[ResID].state=1; 				
+		if (Resource_List[index].resourceinfo == 0x0)
+		{	
+			Resource_List[index].resourceinfo = ResourceInfo;
+			Resource_List[index].resourceinfo->counter = 0;
+			
+			goto End_DeclareResource;	
 		}
-		else
-		{
-			ResID++;
-
-			if (ResID == MAX_RESOURCE_NBR)
-			{
-				End = 1;	
-			}
-		}		
 	}
+
+End_DeclareResource:
 		
-	return ResID;
+	return index;
 }
 
+/*
+ * StatusType		GetResource_Int(ResourceType ResID)
+ * 
+ * Prend une resource et bloque la tache en cours si la resource est deja prise
+ */
 StatusType		GetResource_Int(ResourceType ResID)
 {
-	if (Resource_List[ResID].resourceinfo == 0x0) return E_OS_ID;
+	if ((ResID>=MAX_RESOURCE_NBR) || (Resource_List[ResID].resourceinfo == 0x0)) return E_OS_ID;
 
-	if (Resource_List[ResID].state>0)
+	if (Resource_List[ResID].resourceinfo->counter>0)
 	{
 		/* La resource est deja prise */
 		Task_List[CurrentTask]->locksource = LOCK_SOURCE_RESOURCE;
 		Task_List[CurrentTask]->locksourceid = ResID;
-		Task_List[CurrentTask]->state = READY;
+		Task_List[CurrentTask]->state = WAITING;
 
 		Reschedule();
 	}
 	else
 	{
 		/* On prend la resource */
-		Resource_List[ResID].state=1;
+		Resource_List[ResID].resourceinfo->counter=1;
 	}
 
 	return E_OK;
 }
 
+/*
+ * StatusType		ReleaseResource_Int(ResourceType ResID)
+ * 
+ * Libere une resource et recherche si autre tache etait bloqué sur cette resource
+ */
 StatusType		ReleaseResource_Int(ResourceType ResID)
 {
 u8 i;
 u8 End;
 
-	if (Resource_List[ResID].resourceinfo == 0x0) return E_OS_ID;
+	if ((ResID>=MAX_RESOURCE_NBR) || (Resource_List[ResID].resourceinfo == 0x0)) return E_OS_ID;
 
-	if (Resource_List[ResID].state>0)
+	if (Resource_List[ResID].resourceinfo->counter>0)
 	{
 		/* Recherche si un tache plus prioritaire etait bloqué sur ce semaphore */
 		i = MAX_TASK_NBR-1;
@@ -111,6 +111,7 @@ u8 End;
 				if (Task_List[i]->locksourceid == ResID)
 				{
 					Task_List[i]->locksource = LOCK_SOURCE_NONE;
+					Task_List[i]->state=READY;
 					End = 1;
 				}
 			}
@@ -121,11 +122,10 @@ u8 End;
 				if (i==0)
 				{
 					End = 1;
-
-					/* Liberation de la ressource */
-					Resource_List[ResID].state=0;
 				}
 			}
+
+			Reschedule();
 		}
 	}
 	else
@@ -136,6 +136,11 @@ u8 End;
 	return E_OK;
 }
 
+/*
+ * void Resource_Init(void)
+ * 
+ * Initialisation du module "Resource" du noyau 
+ */
 void Resource_Init(void)
 {
 u8 i;
