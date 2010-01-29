@@ -48,7 +48,8 @@ void Prepare_Task_For_Activation(TaskType TaskID)
 {
 		/* Elle passe a READY et rentre dans le pool des taches activables*/
 		Task_List[TaskID]->state = 		READY;
-		Task_List[TaskID]->locksource=	LOCK_SOURCE_NONE;
+		Task_List[TaskID]->locksource =	LOCK_SOURCE_NONE;
+		Task_List[TaskID]->events_triggers = 0; /* Remet a zero les events */
 
 		/* On lui recopie la stack initiale */
 		FastCopy(Task_List[TaskID]->stack + STACK_SIZE - STARTUP_STACK_SIZE, 
@@ -84,7 +85,7 @@ TaskType TaskID;
 		}
 		else
 		{
-			Task_List[TaskID] = 			TaskInfo;
+			Task_List[TaskID] = TaskInfo;
 
 #ifdef __DEBUG_FILL_STACK__	
 			/* On remplit la pile avec un motif pour tester la consommation qui en est faite */
@@ -93,6 +94,9 @@ TaskType TaskID;
 
 			/* Preparation de la stack de la tache pour activation */
 			Prepare_Task_For_Activation(TaskID);
+
+			/* Cleanup de l'initialisation de la tache */
+			Task_List[TaskID]->events_list = 0;
 		}
 	}
 	

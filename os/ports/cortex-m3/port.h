@@ -25,6 +25,7 @@
 #define __PORT_H__
 
 #include "os_config.h"
+#include "stm_system.h"
 
 #define Reschedule_Fct_Id			1
 #define	ActivateTask_Fct_Id			2
@@ -47,6 +48,13 @@ extern const u32 StartupStack[];
 
 void FastCopy (register u32 *dest, register u32 *src, register u32 len);
 void FastFill(register u32 *dest, register u32 pattern, register u32 len);
+u32 SearchFreeLsb(register u32 field);
+
+/* Support des interruptions */
+#define EnableAllInterrupts_port(void) 	SYS_ENABLE_GLOBAL_INTERRUPTS()
+#define DisableAllInterrupts_port(void)	SYS_DISABLE_GLOBAL_INTERRUPTS()
+#define EnableSysInterrupts_port(void) 	SYS_ENABLE_FAULT_INTERRUPTS()
+#define DisableSysInterrupts_port(void)	SYS_DISABLE_FAULT_INTERRUPTS()
 
 #endif /* __PORT_H__ */
 

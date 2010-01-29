@@ -24,30 +24,53 @@
 #include "stm32f10x_type.h"
 #include "os_config.h"
 #include "kernel.h"
+#include "task.h"
 #include "events.h"
 
-#ifdef __WITH_EVENTS__
+#include "port.h"
 
 /* Event services declaration */
+
+/*
+ * void Task_Init(void)
+ * 
+ * Initialise la partie du noyau responsable de la gestion des taches
+ */
 EventMaskType	DeclareEvent(st_EventInfo *EventInfo)
 {
+EventMaskType event;
+
+	event = SearchFreeLsb(Task_List[EventInfo->TaskID]->events_list);
+
+	if (event == MAX_EVENT_NBR) return INVALID_EVENT;
+	else 
+	{
+		Task_List[EventInfo->TaskID]->events_list += (1<<event);
+		return (1<<event);
+	}
 }
 
 StatusType		SetEvent_Int(TaskType TaskID, EventMaskType Mask)
 {
+	return E_OK;
 }
 
 StatusType		ClearEvent_Int(EventMaskType Mask)
 {
+	return E_OK;
 }
 
 StatusType		GetEvent(TaskType TaskID, EventMaskType Mask)
 {
+	return E_OK;
 }
 
 StatusType		WaitEvent_Int(EventMaskType Mask)
 {
+	return E_OK;
 }
 
-#endif /* __WITH_EVENTS__ */
+void Events_Init(void)
+{
+}
 

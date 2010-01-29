@@ -255,7 +255,7 @@
             <interw>1</interw>
             <bigend>0</bigend>
             <Strict>0</Strict>
-            <Optim>1</Optim>
+            <Optim>4</Optim>
             <wLevel>2</wLevel>
             <uThumb>1</uThumb>
             <VariousControls>
@@ -716,14 +716,14 @@
             <interw>1</interw>
             <bigend>0</bigend>
             <Strict>0</Strict>
-            <Optim>0</Optim>
+            <Optim>4</Optim>
             <wLevel>2</wLevel>
             <uThumb>1</uThumb>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\lib_cm3;..\..\..\system;..\..\..\os</IncludePath>
+              <IncludePath>..\..\..\lib_cm3;..\..\..\system;..\..\..\os;..\..\..\os\ports\cortex-m3</IncludePath>
             </VariousControls>
           </Carm>
           <Aarm>
@@ -733,12 +733,12 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..\..\..\os\ports\cortex-m3</IncludePath>
             </VariousControls>
           </Aarm>
           <LDarm>
             <umfTarg>1</umfTarg>
-            <enaGarb>1</enaGarb>
+            <enaGarb>0</enaGarb>
             <noStart>1</noStart>
             <noStLib>1</noStLib>
             <uMathLib>0</uMathLib>
@@ -913,6 +913,42 @@
               <FileName>port.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../os/ports/cortex-m3/port.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                </CommonProperty>
+                <FileArm>
+                  <Carm>
+                    <arpcs>2</arpcs>
+                    <stkchk>2</stkchk>
+                    <reentr>2</reentr>
+                    <interw>2</interw>
+                    <bigend>2</bigend>
+                    <Strict>0</Strict>
+                    <Optim>0</Optim>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <VariousControls>
+                      <MiscControls>-S</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Carm>
+                </FileArm>
+              </FileOption>
             </File>
             <File>
               <FileName>definitions.inc</FileName>

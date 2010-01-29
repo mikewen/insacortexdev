@@ -25,6 +25,8 @@
 #include "os_config.h"
 #include "port.h"
 
+//#define __OS_OPTIMISED_FUNCTIONS__
+
 void Task_End_Fallback(void);
 
 #define INITIAL_REG		0xBEEFCAB0
@@ -46,6 +48,9 @@ const u32 StartupStack[] =
 
 void FastCopy(register u32 *dest, register u32 *src, register u32 len)
 {
+#ifdef __OS_OPTIMISED_FUNCTIONS__
+
+#else
 	while (len!=0)
 	{
 		*dest= *src;
@@ -53,10 +58,14 @@ void FastCopy(register u32 *dest, register u32 *src, register u32 len)
 		src++;
 		len--; 
 	}
+#endif
 }
 
 void FastFill(register u32 *dest, register u32 pattern, register u32 len)
 {
+#ifdef __OS_OPTIMISED_FUNCTIONS__
+
+#else
 	while (len!=0)
 	{
 		*dest= pattern;
@@ -64,4 +73,32 @@ void FastFill(register u32 *dest, register u32 pattern, register u32 len)
 
 		len--;
 	}
+#endif
+}
+
+u32 SearchFreeLsb(register u32 field)
+{
+u32 result;
+
+#ifdef __OS_OPTIMISED_FUNCTIONS__
+	asm ("CLZ %0, %1"
+		 :"=r"(result)	/* output */
+	 	 :"r"(field));		
+
+	result = 32 - result;
+#else
+	
+	result = 0;
+
+	while (result != 32)
+	{
+		if ((field & (1<<result)) == 0) goto End_SearchFreeLsb;
+		else result ++;
+	}
+
+End_SearchFreeLsb:
+
+#endif 
+
+	return result;	
 }
