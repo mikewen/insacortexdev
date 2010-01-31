@@ -56,5 +56,8 @@ u32 SearchFreeLsb(register u32 field);
 #define EnableSysInterrupts_port(void) 	SYS_ENABLE_FAULT_INTERRUPTS()
 #define DisableSysInterrupts_port(void)	SYS_DISABLE_FAULT_INTERRUPTS()
 
+/* Port_Hook */
+void PortHook(u32 Initial_MSP);
+
 #endif /* __PORT_H__ */
 

@@ -59,7 +59,9 @@ OSCallWrapper_2:
 					.thumb_func	
 					.type	OSCallWrapper_3, %function
 OSCallWrapper_3:                 
-					SVC		1 				/* Call OS service (RQ: the value is meaningless)*/
-					BX		LR				/* get back to main appli */
+					CMP		LR, #0xFFFFFFF0
+					BLT		Wrapper_NotIT		
+Wrapper_NotIT:		SVC		1 				/* Call OS service (RQ: the value is meaningless)*/
+Wrapper_End:		BX		LR				/* get back to main appli */
                 
 					.end
