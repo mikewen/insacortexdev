@@ -38,61 +38,32 @@
 void Reschedule(void)
 {
 TaskType TaskID;
-u8 End;
 
-	/* On parcours la table des taches à la recherche d'une tache RUNNING ou READY, 
+	/* On parcourt la table des taches à la recherche d'une tache RUNNING ou READY, 
 	 * non bloqués par une source (locksource)
 	 * A l'issue de cette fonction, la tache a executer sera indiquée dans CurrentTask 
 	 */
 
+ 	/* 
+	 * La tache 0, la moins prioritaire, correspond à la "background task" d'autres OS
+     * En ce sens, elle ne peut pas etre bloquée sur semaphore et doit tjs exister 
+	 */
+
+	if (Task_List[CurrentTask]->state == RUNNING) Task_List[CurrentTask]->state = READY;
+
 	/* On commence par la priorité la plus forte (MAX_TASK_NBR-1)*/   
 	TaskID = MAX_TASK_NBR-1;
-	End = 0;
 
-	while (End != 1)
+	for (TaskID = MAX_TASK_NBR-1; TaskID > 0; TaskID --)
 	{
-		if (Task_List[TaskID]->state != SUSPENDED)
+		if (Task_List[TaskID] != 0)
 		{
-			if (Task_List[TaskID]->locksource == LOCK_SOURCE_NONE)
-			{
-				NextTask = TaskID;
-				End = 1;
-
-				if (NextTask != CurrentTask)
-				{
-					Task_List[NextTask]->state = RUNNING;
-				
-					if (Task_List[CurrentTask]->state == RUNNING)
-					{
-						Task_List[CurrentTask]->state = READY;
-					}
-
-					CurrentTask = NextTask;
-				}
-			}
-		}
-
-		/* La tache 0, la moins prioritaire, correspond à la "background task" d'autres OS
-		   En ce sens, elle ne peut pas etre bloquée sur semaphore et doit tjs exister */
-		
-		if (End == 0)
-		{ 
-			if (TaskID == 0) 
-			{
-				NextTask = TaskID;
-				Task_List[TaskID]->locksource = LOCK_SOURCE_NONE;
-				End = 1;
-
-				if (NextTask != CurrentTask)
-				{
-					Task_List[NextTask]->state = RUNNING;
-				}
-			}
-			else
-			{
-				TaskID--;
-			}
+			if (Task_List[TaskID]->state == READY) goto End_Scheduling;	
 		}
 	}
+
+End_Scheduling:
+	
+	CurrentTask = TaskID;
 }
 

@@ -58,7 +58,7 @@ EventMaskType event;
  * 
  * Active les events indiqués dans Mask pour la tache indiquée 
  */
-StatusType		SetEvent_Int(TaskType TaskID, EventMaskType Mask)
+StatusType		SetEvent_Int(u32 Func_ID, TaskType TaskID, EventMaskType Mask)
 {
 	if ((TaskID>= MAX_TASK_NBR) || (Task_List[TaskID] == 0)) return E_OS_ID;
 	if ((Task_List[TaskID]->events_list & Mask)!= Mask) return E_OS_ID;
@@ -67,7 +67,7 @@ StatusType		SetEvent_Int(TaskType TaskID, EventMaskType Mask)
 	if ((Task_List[TaskID]->waiting_events & Mask) != 0) 
 	{
 		Task_List[TaskID]->events_triggers |= Mask;
-		Task_List[TaskID]->state = RUNNING;
+		Task_List[TaskID]->state = READY;
 
 		Reschedule();
 	}
@@ -80,7 +80,7 @@ StatusType		SetEvent_Int(TaskType TaskID, EventMaskType Mask)
  * 
  * Efface les events contenu dans Mask 
  */
-StatusType		ClearEvent_Int(EventMaskType Mask)
+StatusType		ClearEvent_Int(u32 Func_ID, EventMaskType Mask)
 {
 	Task_List[CurrentTask]->events_triggers &= ~(Mask);
 	Task_List[CurrentTask]->waiting_events &= ~(Mask);
@@ -108,14 +108,14 @@ StatusType		GetEvent(TaskType TaskID, EventMaskRefType Mask)
  * 
  * Met la tache active en attente des evenement contenu dans le mask 
  */
-StatusType		WaitEvent_Int(EventMaskType Mask)
+StatusType		WaitEvent_Int(u32 Func_ID, EventMaskType Mask)
 {
 	if (Task_List[CurrentTask]->locksource != LOCK_SOURCE_NONE) return E_OS_RESOURCE;
 	
 	if ((Task_List[CurrentTask]->events_triggers & Mask) == 0)
 	{
-		Task_List[CurrentTask]->waiting_events |= Mask;
-		Task_List[CurrentTask]->state = WAITING;
+		Task_List[CurrentTask]->waiting_events = Mask;
+		if (Mask != 0) Task_List[CurrentTask]->state = WAITING;
 
 		Reschedule();
 	}

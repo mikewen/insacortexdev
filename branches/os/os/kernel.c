@@ -68,7 +68,11 @@ void InitOS(void)
 
 void StartOS(AppModeType Mode)
 {
+u32 *p;
 	/* Mode n'est pas utilisé pour l'instant */
+	p = (u32*) 0x0;
+	/* On appel le hook du portage */
+	PortHook(*p);
 
 	/* On reautorise les IT */
 	ResumeAllInterrupts();

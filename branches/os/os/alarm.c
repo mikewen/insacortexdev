@@ -112,7 +112,7 @@ StatusType	GetAlarm(AlarmType AlarmID, TickRefType Tick)
  * 
  * Regle et demarre une alarme pour une echeance à une temps T relatif par rapport a l'instant d'activation
  */
-StatusType	SetRelAlarm_Int(AlarmType AlarmID, TickType Increment, TickType Cycle)
+StatusType	SetRelAlarm_Int(u32 Func_ID, AlarmType AlarmID, TickType Increment, TickType Cycle)
 {
 	if ((AlarmID>= MAX_ALARM_NBR) || (Alarm_List[AlarmID].alarminfo == 0)) return E_OS_ID;
 	if (Alarm_List[AlarmID].alarminfo->state == ALARM_ON) return E_OS_STATE;
@@ -139,11 +139,11 @@ StatusType	SetRelAlarm_Int(AlarmType AlarmID, TickType Increment, TickType Cycle
  * 
  * Regle et demarre une alarme pour une echeance à une temps T absolu par rapport a l'instant d'activation
  */
-StatusType	SetAbsAlarm_Int(AlarmType AlarmID, TickType Start, TickType Cycle)
+StatusType	SetAbsAlarm_Int(u32 Func_ID, AlarmType AlarmID, TickType Start, TickType Cycle)
 {
 /* TODO: J'ai du mal a comprendre l'interet de ce service. En attendant mieux, je le redirige sur SetRelAlarm */
 
-	return 	SetRelAlarm_Int(AlarmID, Start, Cycle);
+	return 	SetRelAlarm_Int(Func_ID, AlarmID, Start, Cycle);
 }
 
 /*
@@ -151,7 +151,7 @@ StatusType	SetAbsAlarm_Int(AlarmType AlarmID, TickType Start, TickType Cycle)
  * 
  * Arrete une alarme
  */
-StatusType	CancelAlarm_Int(AlarmType AlarmID)
+StatusType	CancelAlarm_Int(u32 Func_ID, AlarmType AlarmID)
 {
 	if ((AlarmID>= MAX_ALARM_NBR) || (Alarm_List[AlarmID].alarminfo == 0)) return E_OS_ID;
 	if (Alarm_List[AlarmID].alarminfo->state == ALARM_OFF) return E_OS_NOFUNC;

@@ -27,6 +27,10 @@ st_TaskInfo Tache_2_info;
 const char Tache_2_nom[] = "Tache_2";
 TASK(Tache_2);
 
+// Event 1 -> declanche la tache 2
+st_EventInfo Event1_Info;
+EventMaskType Event1_ID;
+
 /*----------------------------------------------------------------------------
   MAIN function
  *----------------------------------------------------------------------------*/
@@ -49,6 +53,9 @@ int main (void)
 
 	Tache_2_ID = DeclareTask(&Tache_2_info);
 
+	Event1_Info.TaskID = Tache_2_ID;
+	Event1_ID = DeclareEvent(&Event1_Info);
+
 	StartOS(OSDEFAULTAPPMODE);
 
 	while(1); /* Boucle infinie : un main ne doit jamais rendre la main */
@@ -70,6 +77,9 @@ volatile int j;
 
 	for (i=1; i<5; i++)
 	{
+		WaitEvent(Event1_ID);
+		ClearEvent(Event1_ID);
+
 		j=j+i;
 	}
 }
@@ -92,8 +102,9 @@ int i, j;
 		}
 
 		if (i == 0)
-		{
-			ActivateTask(Tache_2_ID);	
+		{	
+			//ActivateTask(Tache_2_ID);
+			SetEvent(Tache_2_ID, Event1_ID); 	
 		}
 	}
 }

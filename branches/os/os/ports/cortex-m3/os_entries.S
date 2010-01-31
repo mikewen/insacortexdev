@@ -156,5 +156,25 @@ SysTick_Handler:
 Task_End_Fallback: 
 					MOV		R0, #TerminateTask_Fct_Id	/* Call TerminateTask service */
                 	SVC     1	 	/* Branch to SVC_Handler for continuing treatment */
-                
+ 
+/* 
+ * Port Hook
+ * 
+ * Change Mode to PSP and Unprivilegied mode
+ */
+					.global	PortHook
+					.thumb
+					.thumb_func	
+					.type	PortHook, %function
+PortHook: 
+					PUSH	{R1}
+					MRS		R1, MSP
+					MSR		PSP, R1
+					MSR		MSP, R0
+					MRS		R1, CONTROL
+					MOV		R1, #3
+					MSR		CONTROL, R1
+					POP		{R1}
+					
+					BX		LR              
 					.end

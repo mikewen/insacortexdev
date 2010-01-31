@@ -64,7 +64,7 @@ End_DeclareResource:
  * 
  * Prend une resource et bloque la tache en cours si la resource est deja prise
  */
-StatusType		GetResource_Int(ResourceType ResID)
+StatusType		GetResource_Int(u32 Func_ID, ResourceType ResID)
 {
 	if ((ResID>=MAX_RESOURCE_NBR) || (Resource_List[ResID].resourceinfo == 0x0)) return E_OS_ID;
 
@@ -91,7 +91,7 @@ StatusType		GetResource_Int(ResourceType ResID)
  * 
  * Libere une resource et recherche si autre tache etait bloqué sur cette resource
  */
-StatusType		ReleaseResource_Int(ResourceType ResID)
+StatusType		ReleaseResource_Int(u32 Func_ID, ResourceType ResID)
 {
 u8 i;
 u8 End;
