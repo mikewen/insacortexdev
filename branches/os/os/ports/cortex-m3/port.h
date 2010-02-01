@@ -27,23 +27,22 @@
 #include "os_config.h"
 #include "stm_system.h"
 
-#define Reschedule_Fct_Id			1
-#define	ActivateTask_Fct_Id			2
-#define TerminateTask_Fct_Id		3
-#define ChaineTask_Fct_Id			4
-#define Schedule_Fct_Id				5
-#define GetResource_Fct_Id			6
-#define	ReleaseResource_Fct_Id		7
-#define SetRelAlarm_Fct_Id			8
-#define SetAbsAlarm_Fct_Id			9
-#define CancelAlarm_Fct_Id			10
-#define SetEvent_Fct_Id				11
-#define ClearEvent_Fct_Id			12
-#define WaitEvent_Fct_Id			13
+#define	ActivateTask_Fct_Id			1
+#define TerminateTask_Fct_Id		2
+#define ChaineTask_Fct_Id			3
+#define Schedule_Fct_Id				4
+#define GetResource_Fct_Id			5
+#define	ReleaseResource_Fct_Id		6
+#define SetRelAlarm_Fct_Id			7
+#define SetAbsAlarm_Fct_Id			8
+#define CancelAlarm_Fct_Id			9
+#define SetEvent_Fct_Id				10
+#define ClearEvent_Fct_Id			11
+#define WaitEvent_Fct_Id			12
 
 extern const u32 StartupStack[];
 
-#define STARTUP_STACK_SIZE			18 // Exprimé en mots de 32 bits */
+#define STARTUP_STACK_SIZE			16 // Exprimé en mots de 32 bits */
 #define SET_ENTRY_POINT(tid,ep)		Task_List[tid]->stack[STACK_SIZE-2] = ep	
 
 void FastCopy (register u32 *dest, register u32 *src, register u32 len);
