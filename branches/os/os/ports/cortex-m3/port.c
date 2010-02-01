@@ -31,15 +31,15 @@ void Task_End_Fallback(void);
 
 #define INITIAL_REG		0xBEEFCAB0
 #define INITIAL_PSR		0x01000000
-#define INITIAL_LR		0xFFFFFFF9
+#define INITIAL_LR		0xFFFFFFFD
 
 const u32 StartupStack[] = 
 {
-	INITIAL_REG+0,											// R0 (en tant que code retour de la fonction, ici sans signification)
-	INITIAL_LR,												// LR (celui pushé avant d'appeler OS_switch)
+//	INITIAL_REG+0,	    									// R0 (en tant que code retour de la fonction, ici sans signification)
+//	INITIAL_LR,												// LR (celui pushé avant d'appeler OS_switch)
 	INITIAL_REG+4, INITIAL_REG+5, INITIAL_REG+6, INITIAL_REG+7,		// R4, R5, R6, R7
 	INITIAL_REG+8, INITIAL_REG+9, INITIAL_REG+10, INITIAL_REG+11,	// R8, R9, R10, R11
-	0x00000000, INITIAL_REG+1, INITIAL_REG+2, INITIAL_REG+3,		// R0 (place vide), R1, R2, R3
+	INITIAL_REG+0, INITIAL_REG+1, INITIAL_REG+2, INITIAL_REG+3,		// R0 (place vide), R1, R2, R3
 	INITIAL_REG+12,											// R12
 	(u32)Task_End_Fallback,				// Link @ vers Task_End_Fallback
 	0,									// Initial PC: à completer avec le point d'entrée de la tache
