@@ -67,20 +67,44 @@ OS_Jump_Table_End:
 					.thumb_func
 					.type	OS_Switch_Tasks, %function
 OS_Switch_Tasks:	
-					PUSH	{R0}
-					LDR		R0, =TaskStackPointer	/* R0 pointe au debut de la table TaskStackPointer */
+					LDR		R1, =TaskStackPointer	/* R0 pointe au debut de la table TaskStackPointer */
 
 					CMP		R6, #E_OS_INVALID_TASK	/* if Previous_task was invalid (first call), do not store SP nor R0 */
-					BEQ		OS_Switch_L0			/* instead, jump directly to newtask (R7) context recovery */
+					BEQ		OS_Switch_First_Run		/* instead, jump directly to newtask (R7) context recovery */
 
 					LSL		R6, #2					/* R6 = offset from start of table TaskStackPointer (previous task index) */
-					STR		SP, [R0, R6]			/* Store SP in TaskStackPointer table */
+					/*STR		SP, [R1, R6]*/			/* Store SP in TaskStackPointer table */
+					MRS		R4, PSP
+					STR		R0, [R4, #4*8]
+					STR		R4, [R1, R6] 
 
 OS_Switch_L0:		LSL		R7, #2					/* R7 = offset from start of table TaskStackPointer (new task index) */
-					LDR		SP, [R0, R7]			/* Get back SP for the new task */
-					POP		{R0}					/* Get back return code for this task */
+					/*LDR		SP, [R1, R7]*/			/* Get back SP for the new task */
+					LDR		R4, [R1, R7]
+					MSR		PSP, R4
 
+					LDR		R0, [R4, #4*8]
                 	BX      LR 						/* End of function */
+
+OS_Switch_First_Run:
+					/*MOVT	R2, #0x2000
+					MOVW	R2, #0x5000
+					MSR		MSP, R0	*/
+					
+					/*MRS		R2, MSP	 				
+					MSR		PSP, R1
+					MSR		MSP, R0	 */
+
+					MRS		R2, CONTROL
+					MOV		R2, #2
+					MSR		CONTROL, R2
+					ISB
+
+					POP		{R2}
+					ADD		R2, #4					/* Indicate to use PSP when returning in thread mode */ 
+					PUSH 	{R2}
+					/*CPSIE	i	*/				
+					B		OS_Switch_L0
 
 /* 
  * Main entry point for OS
@@ -98,9 +122,15 @@ OS_Switch_L0:		LSL		R7, #2					/* R7 = offset from start of table TaskStackPoint
 					.thumb_func	
 					.type	SVC_Handler, %function
 SVC_Handler:        
-					PUSH 	{R4-R11} 		/* Save remaining registers onto system stack -> All registers are saved */
+					MRS		R12, PSP
+					CMP		R12, #0
+					BEQ		SVC_Start
 
-					LDR		R6, =CurrentTask
+					/*PUSH 	{R4-R11}*/ 		/* Save remaining registers onto system stack -> All registers are saved */
+					STMDB	R12!, {R4-R11}
+					MSR		PSP, R12
+
+SVC_Start:			LDR		R6, =CurrentTask
 					LDR		R6, [R6]		/* Store in R6 the task id when entering system call */
 											/* R6 = TaskId before system call */
 
@@ -128,10 +158,13 @@ SVC_OS_Call:		LDR		R4, =OS_Jump_Table	/* Retrieved function @ in jump table */
 					BL		OS_Switch_Tasks	/* Otherwise, swap previous task stack and selected task stack */
 					POP		{LR}
 
-SVC_Exit:			STR		R0, [SP, #4*8]
-					POP		{R4-R11} 		/* Restore register from stack and exit	*/
-					BX		LR				/* Leave SVC handler */		
-
+SVC_Exit:			STR		R0, [R4, #4*8]  /* R4 contains SP for current task */
+					/*POP		{R4-R11}*/ 		/* Restore register from stack and exit	*/
+					MOV		R12, R4
+					LDMFD	R12!,{R4-R11}
+					MSR		PSP, R12 
+					BX		LR				/* Leave SVC handler */	
+					
 /* 
  * RTC Timer entry point for OS
  */
@@ -156,25 +189,5 @@ SysTick_Handler:
 Task_End_Fallback: 
 					MOV		R0, #TerminateTask_Fct_Id	/* Call TerminateTask service */
                 	SVC     1	 	/* Branch to SVC_Handler for continuing treatment */
- 
-/* 
- * Port Hook
- * 
- * Change Mode to PSP and Unprivilegied mode
- */
-					.global	PortHook
-					.thumb
-					.thumb_func	
-					.type	PortHook, %function
-PortHook: 
-					PUSH	{R1}
-					MRS		R1, MSP
-					MSR		PSP, R1
-					MSR		MSP, R0
-					MRS		R1, CONTROL
-					MOV		R1, #3
-					MSR		CONTROL, R1
-					POP		{R1}
-					
-					BX		LR              
+               
 					.end
