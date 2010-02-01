@@ -39,6 +39,8 @@
 #include "events.h"
 #endif /* __WITH_EVENTS__ */
 
+void OS_Start_Switch(void);
+
 AppModeType	GetActiveApplicationMode(void)
 {
 	return OSDEFAULTAPPMODE;
@@ -68,16 +70,10 @@ void InitOS(void)
 
 void StartOS(AppModeType Mode)
 {
-//u32 *p;
+
 	/* Mode n'est pas utilisé pour l'instant */
-//	p = (u32*) 0x0;
-	/* On appel le hook du portage */
-//	PortHook(*p);
-
-	/* On reautorise les IT */
-	ResumeAllInterrupts();
-
-	Restart_Scheduler(); /* Redemarrage du scheduler et lancement de l'OS avec la tache la + prioritaire */
+ 
+	OS_Start_Switch(); 	/* demarrage du scheduler et lancement de l'OS avec la tache la + prioritaire */
 }
 
 void ShutdownOS(StatusType Error)

@@ -37,7 +37,6 @@
  */
 
 OS_Jump_Table:		.long	AlarmTimerTick
-					.long 	Reschedule
 					.long	ActivateTask_Int
 					.long	TerminateTask_Int
 					.long	ChaineTask_Int
@@ -51,6 +50,50 @@ OS_Jump_Table:		.long	AlarmTimerTick
 					.long	ClearEvent_Int		
 					.long	WaitEvent_Int	
 OS_Jump_Table_End:
+
+/* 
+ * OS startup
+ * This function start the first task
+ */
+ 					.global	OS_Start_Switch
+					.thumb
+					.thumb_func
+					.type	OS_Start_Switch, %function
+OS_Start_Switch:
+					BL		Reschedule		
+
+					LDR		R0, =CurrentTask
+					LDR		R0, [R0]				/* R0 contains the task to switch to */
+
+					LDR		R1, =TaskStackPointer	/* R1 points to the beginning of TaskStackPointer Table */
+					
+					LSL		R0, #2
+					LDR		R0, [R1, R0]  			/* R1 contains Stack Pointer of CurrentTask */
+
+					MSR		PSP, R0					/* PSP is loaded with CurrentTask Stack pointer */
+					MOVW	R0, #0x5000				/* R0 contains new MSP value */
+					MOVT	R0, #0x2000
+					MSR		MSP, R0
+
+					MRS		R0, CONTROL
+					MOV		R0, #2
+					MSR		CONTROL, R0	  			/* Now the thread mode use PSP stack pointer */
+					ISB 							/* Instruction Barrier to ensure next instruction will use PSP, not MSP */
+
+					/* 
+					 * Now, SP points on top of CurrentTask stack: use of PUSH and POP instructions
+					 * will make use of CurrentTask stack.
+					 */
+
+					POP 	{R4-R11}				/* Restore Initial data for this task */
+					POP		{R0-R3, R12, LR}
+					POP		{PC}					/* and jump at entry point */
+
+					/*
+					 * Sadly the very first task to be started will have an offset of one word in its stack
+					 * That's because initial PSR is never popped. I don't know how to do that except with 
+					 * a return from exception
+					 */
 
 /*					
  * Switch routine:
@@ -68,43 +111,16 @@ OS_Jump_Table_End:
 					.type	OS_Switch_Tasks, %function
 OS_Switch_Tasks:	
 					LDR		R1, =TaskStackPointer	/* R0 pointe au debut de la table TaskStackPointer */
-
-					CMP		R6, #E_OS_INVALID_TASK	/* if Previous_task was invalid (first call), do not store SP nor R0 */
-					BEQ		OS_Switch_First_Run		/* instead, jump directly to newtask (R7) context recovery */
-
+ 
 					LSL		R6, #2					/* R6 = offset from start of table TaskStackPointer (previous task index) */
-					/*STR		SP, [R1, R6]*/			/* Store SP in TaskStackPointer table */
-					MRS		R4, PSP
-					STR		R0, [R4, #4*8]
-					STR		R4, [R1, R6] 
+					STR		R4, [R1, R6]			/* Store previous task SP (contains in R4) in TaskStackPointer table */
+					STR		R0, [R4, #4*8]		    /* Store R0 (return status) in previous task stack*/ 
 
-OS_Switch_L0:		LSL		R7, #2					/* R7 = offset from start of table TaskStackPointer (new task index) */
-					/*LDR		SP, [R1, R7]*/			/* Get back SP for the new task */
-					LDR		R4, [R1, R7]
-					MSR		PSP, R4
+					LSL		R7, #2					/* R7 = offset from start of table TaskStackPointer (new task index) */			
+					LDR		R4, [R1, R7]		    /* Get back SP for the new task */
+					LDR		R0, [R4, #4*8]			/* Restore R0 (status code) */
 
-					LDR		R0, [R4, #4*8]
                 	BX      LR 						/* End of function */
-
-OS_Switch_First_Run:
-					/*MOVT	R2, #0x2000
-					MOVW	R2, #0x5000
-					MSR		MSP, R0	*/
-					
-					/*MRS		R2, MSP	 				
-					MSR		PSP, R1
-					MSR		MSP, R0	 */
-
-					MRS		R2, CONTROL
-					MOV		R2, #2
-					MSR		CONTROL, R2
-					ISB
-
-					POP		{R2}
-					ADD		R2, #4					/* Indicate to use PSP when returning in thread mode */ 
-					PUSH 	{R2}
-					/*CPSIE	i	*/				
-					B		OS_Switch_L0
 
 /* 
  * Main entry point for OS
@@ -122,15 +138,11 @@ OS_Switch_First_Run:
 					.thumb_func	
 					.type	SVC_Handler, %function
 SVC_Handler:        
-					MRS		R12, PSP
-					CMP		R12, #0
-					BEQ		SVC_Start
+					MRS		R12, PSP		/* R12 contains now the current stack pointer of the task */
+					STMDB	R12!, {R4-R11}	/* Save remaining registers onto task stack -> All registers are saved */
+					MOV		R4, R12		    /* And now, R4 contains the stack pointer of this task */
 
-					/*PUSH 	{R4-R11}*/ 		/* Save remaining registers onto system stack -> All registers are saved */
-					STMDB	R12!, {R4-R11}
-					MSR		PSP, R12
-
-SVC_Start:			LDR		R6, =CurrentTask
+					LDR		R6, =CurrentTask
 					LDR		R6, [R6]		/* Store in R6 the task id when entering system call */
 											/* R6 = TaskId before system call */
 
@@ -140,12 +152,12 @@ SVC_Start:			LDR		R6, =CurrentTask
 SVC_Invalid_Fct:	MOV		R0, #E_INVALID_FCT	/* Otherwise load R0 with E_INVALID_FCT */
 					B		SVC_Exit			/* And exit	 							 */
 
-SVC_OS_Call:		LDR		R4, =OS_Jump_Table	/* Retrieved function @ in jump table */
+SVC_OS_Call:		LDR		R5, =OS_Jump_Table	/* Retrieved function @ in jump table */
 					LSL		R0,	#2				/* Compute correct offset from start of table */
-					LDR		R4, [R4, R0]		/* And load R4 with @ of requested function */
+					LDR		R5, [R5, R0]		/* And load R5 with @ of requested function */
 					
 					PUSH	{LR}
-					BLX		R4 	 				/* Call requested function of OS	*/
+					BLX		R5 	 				/* Call requested function of OS	*/
 					POP		{LR}
 
 					LDR		R7, =CurrentTask
@@ -158,10 +170,9 @@ SVC_OS_Call:		LDR		R4, =OS_Jump_Table	/* Retrieved function @ in jump table */
 					BL		OS_Switch_Tasks	/* Otherwise, swap previous task stack and selected task stack */
 					POP		{LR}
 
-SVC_Exit:			STR		R0, [R4, #4*8]  /* R4 contains SP for current task */
-					/*POP		{R4-R11}*/ 		/* Restore register from stack and exit	*/
-					MOV		R12, R4
-					LDMFD	R12!,{R4-R11}
+SVC_Exit:			STR		R0, [R4, #4*8]  /* R4 contains SP for current task */		
+					MOV		R12, R4		    /* Move back R4 into R12 */
+					LDMFD	R12!,{R4-R11}   /* Restore register from stack and exit	*/
 					MSR		PSP, R12 
 					BX		LR				/* Leave SVC handler */	
 					
@@ -174,6 +185,17 @@ SVC_Exit:			STR		R0, [R4, #4*8]  /* R4 contains SP for current task */
 					.type	SysTick_Handler, %function
 SysTick_Handler: 
 					MOV		R0, #TimerTick_Fct_Id			/* 0 is the function ID of the RTC */
+                	B       SVC_Handler	 	/* Branch to SVC_Handler for continuing treatment  */
+
+/* 
+ * NMI entry point for OS (for call under IT)
+ */
+					.global	SysTick_Handler
+					.thumb
+					.thumb_func	
+					.type	SysTick_Handler, %function
+NMI_Handler: 
+					/* R0  contains the function ID to be called */
                 	B       SVC_Handler	 	/* Branch to SVC_Handler for continuing treatment  */
 
 /* 

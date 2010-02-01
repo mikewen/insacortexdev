@@ -27,17 +27,16 @@
 /* Function ID definition */
 
 		.equ	TimerTick_Fct_Id,			0
-		.equ	Reschedule_Fct_Id,			1
-		.equ 	ActivateTask_Fct_Id,		2
-		.equ	TerminateTask_Fct_Id,		3
-		.equ	ChaineTask_Fct_Id,			4
-		.equ	Schedule_Fct_Id,			5
-		.equ	GetResource_Fct_Id,			6
-		.equ	ReleaseResource_Fct_Id,		7
-		.equ	SetRelAlarm_Fct_Id,			8
-		.equ	SetAbsAlarm_Fct_Id,			9
-		.equ	CancelAlarm_Fct_Id,			10
-		.equ	SetEvent_Fct_Id,			11
-		.equ	ClearEvent_Fct_Id,			12
-		.equ	WaitEvent_Fct_Id,			13
+		.equ 	ActivateTask_Fct_Id,		1
+		.equ	TerminateTask_Fct_Id,		2
+		.equ	ChaineTask_Fct_Id,			3
+		.equ	Schedule_Fct_Id,			4
+		.equ	GetResource_Fct_Id,			5
+		.equ	ReleaseResource_Fct_Id,		6
+		.equ	SetRelAlarm_Fct_Id,			7
+		.equ	SetAbsAlarm_Fct_Id,			8
+		.equ	CancelAlarm_Fct_Id,			9
+		.equ	SetEvent_Fct_Id,			10
+		.equ	ClearEvent_Fct_Id,			11
+		.equ	WaitEvent_Fct_Id,			12
 
