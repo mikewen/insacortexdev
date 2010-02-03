@@ -155,7 +155,7 @@ u8 Status;
 		Prepare_Task_For_Activation(TaskID);
 
 		/* Determination de la nouvelle tache active */
-		Reschedule();	
+		//Reschedule();	
 	}
 	else
 	{
@@ -181,7 +181,7 @@ u8 Status;
 		Task_List[CurrentTask]->state = SUSPENDED;
 
 		/* Determination de la nouvelle tache active */
-		Reschedule();	
+		//Reschedule();	
 	}
 	else
 	{
@@ -209,7 +209,7 @@ StatusType	ChaineTask_Int(u32 Func_ID, TaskType TaskID)
  */
 StatusType	Schedule_Int(u32 Func_ID)
 {
-	Reschedule();
+	//Reschedule();
 
 	return E_OK;
 }

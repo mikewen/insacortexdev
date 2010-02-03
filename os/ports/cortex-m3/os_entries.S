@@ -52,6 +52,34 @@ OS_Jump_Table:		.long	AlarmTimerTick
 OS_Jump_Table_End:
 
 /* 
+ * OS Call
+ * This function call function contained in R0
+ */
+ 					.global	OS_Call
+					.thumb
+					.thumb_func
+					.type	OS_Call, %function
+OS_Call:
+					CMP		R0, #((OS_Jump_Table_End - OS_Jump_Table)/4) /* Check if R0 is greater than jump table size */
+					BCC		OS_Call_Jump	   		/* If R0 is inside jump table, continue to the call of requested function */
+
+OS_Call_Invalid_Fct:	
+					MOV		R0, #E_INVALID_FCT	/* Otherwise load R0 with E_INVALID_FCT */
+					B		OS_Call_Exit		/* And exit	 							 */
+
+OS_Call_Jump:		LDR		R5, =OS_Jump_Table	/* Retrieved function @ in jump table */
+					LSL		R0,	#2				/* Compute correct offset from start of table */
+					LDR		R5, [R5, R0]		/* And load R5 with @ of requested function */
+					
+					PUSH	{LR}
+					CPSID	I				/* Disable priority based interrupt */
+					BLX		R5 	 			/* Call requested function of OS	*/
+					CPSIE	I				/* Enable back priority based interrupt */
+					POP		{LR}
+
+OS_Call_Exit:		BX 		LR
+
+/* 
  * OS startup
  * This function start the first task
  */
@@ -87,6 +115,8 @@ OS_Start_Switch:
 
 					POP 	{R4-R11}				/* Restore Initial data for this task */
 					POP		{R0-R3, R12, LR}
+
+					CPSIE	I						/* Enable IT */
 					POP		{PC}					/* and jump at entry point */
 
 					/*
@@ -145,19 +175,17 @@ SVC_Handler:
 					LDR		R6, =CurrentTask
 					LDR		R6, [R6]		/* Store in R6 the task id when entering system call */
 											/* R6 = TaskId before system call */
+					PUSH 	{LR}
+					BL		OS_Call
+					POP		{LR}
+																				
+					CMP		R0, #E_INVALID_FCT
+					BEQ		SVC_Exit
 
-					CMP		R0, #((OS_Jump_Table_End - OS_Jump_Table)/4) /* Check if R0 is greater than jump table size */
-					BCC		SVC_OS_Call	   		/* If R0 is inside jump table, continue to the call of requested function */
-
-SVC_Invalid_Fct:	MOV		R0, #E_INVALID_FCT	/* Otherwise load R0 with E_INVALID_FCT */
-					B		SVC_Exit			/* And exit	 							 */
-
-SVC_OS_Call:		LDR		R5, =OS_Jump_Table	/* Retrieved function @ in jump table */
-					LSL		R0,	#2				/* Compute correct offset from start of table */
-					LDR		R5, [R5, R0]		/* And load R5 with @ of requested function */
-					
-					PUSH	{LR}
-					BLX		R5 	 				/* Call requested function of OS	*/
+					PUSH	{LR} 
+					CPSID	I				/* Disable priority based interrupt */			
+					BL		Reschedule 	 	/* Call scheduler	*/
+					CPSIE	I				/* Enable back priority based interrupt */
 					POP		{LR}
 
 					LDR		R7, =CurrentTask
@@ -188,15 +216,49 @@ SysTick_Handler:
                 	B       SVC_Handler	 	/* Branch to SVC_Handler for continuing treatment  */
 
 /* 
- * NMI entry point for OS (for call under IT)
+ * PendSV_Handler
+ *
+ * This fonction is called just after every pending IRQ has been serviced
+ * It priority level should be the least (as for SVC_Handler) in order for pending
+ * IRQ to be serviced first.
+ *
+ * This handler is called only if an IRQ has made an OS service call. Its job is to
+ * reschedule task and update stack as needed
  */
-					.global	SysTick_Handler
+					.global	PendSV_Handler
 					.thumb
 					.thumb_func	
-					.type	SysTick_Handler, %function
-NMI_Handler: 
-					/* R0  contains the function ID to be called */
-                	B       SVC_Handler	 	/* Branch to SVC_Handler for continuing treatment  */
+					.type	PendSV_Handler, %function
+PendSV_Handler: 
+					MRS		R12, PSP		/* R12 contains now the current stack pointer of the task */
+					STMDB	R12!, {R4-R11}	/* Save remaining registers onto task stack -> All registers are saved */
+					MOV		R4, R12		    /* And now, R4 contains the stack pointer of this task */
+
+					LDR		R6, =CurrentTask 	/* Store in R6 the task id when entering system call */
+					LDR		R6, [R6]		/* R6 = TaskId before system call */
+											
+					PUSH	{LR}
+					CPSID	I				/* Disable priority based interrupt */
+					BL		Reschedule 	 	/* Call scheduler	*/
+					CPSIE	I				/* Enable back priority based interrupt */
+					POP		{LR}
+
+					LDR		R7, =CurrentTask  	/* Store in R7 the task id after system call */
+					LDR		R7, [R7]	   	/* R7 = TaskId after system call */
+											
+					CMP		R6, R7			/* If Task id before and after system call are different, task switch is needed */
+					BEQ		PendSVC_Exit	 /* If zero, no switch needed, pop the stack and exit */
+
+					PUSH 	{LR}
+					BL		OS_Switch_Tasks	/* Otherwise, swap previous task stack and selected task stack */
+					POP		{LR}
+
+PendSVC_Exit:		STR		R0, [R4, #4*8]  /* R4 contains SP for current task */		
+					MOV		R12, R4		    /* Move back R4 into R12 */
+					LDMFD	R12!,{R4-R11}   /* Restore register from stack and exit	*/
+					MSR		PSP, R12 
+					BX		LR				/* Leave SVC handler */	
+
 
 /* 
  * End of task fallback

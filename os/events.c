@@ -69,7 +69,7 @@ StatusType		SetEvent_Int(u32 Func_ID, TaskType TaskID, EventMaskType Mask)
 		Task_List[TaskID]->events_triggers |= Mask;
 		Task_List[TaskID]->state = READY;
 
-		Reschedule();
+		//Reschedule();
 	}
 
 	return E_OK;
@@ -117,7 +117,7 @@ StatusType		WaitEvent_Int(u32 Func_ID, EventMaskType Mask)
 		Task_List[CurrentTask]->waiting_events = Mask;
 		if (Mask != 0) Task_List[CurrentTask]->state = WAITING;
 
-		Reschedule();
+		//Reschedule();
 	}
 
 	return E_OK;

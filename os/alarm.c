@@ -221,7 +221,7 @@ TaskType TaskID;
 						{
 							Prepare_Task_For_Activation(TaskID);
 
-							Reschedule();
+							//Reschedule();
 						}
 						else
 						{
