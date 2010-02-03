@@ -109,3 +109,8 @@ int i, j;
 	}
 }
 
+void ADC_IRQHandler(void)
+{
+	 ActivateTask(Tache_2_ID);
+}
+

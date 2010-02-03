@@ -59,9 +59,31 @@ OSCallWrapper_2:
 					.thumb_func	
 					.type	OSCallWrapper_3, %function
 OSCallWrapper_3:                 
-					CMP		LR, #0xFFFFFFF0
-					BLT		Wrapper_NotIT		
-Wrapper_NotIT:		SVC		1 				/* Call OS service (RQ: the value is meaningless)*/
+					PUSH	{R1-R3}
+					MRS		R1, IPSR  		/* R1 contains IPSR register, Reserved bits read as 0 */
+					CMP		R1, #0
+					BEQ		Wrapper_NotIT	/* If (IPSR & 0x1FF) == 0, we are not under IT */
+					
+					PUSH 	{LR}
+					BL		OS_Call			/* If under IT, call directly OS service */
+					POP		{LR}		
+
+					/* And then, record a pending PendSV interrupt */
+					MOVW	R1, #0xED04		/* R1 contains address of SCB_ICSR register, used */
+					MOVT	R1,	#0xE000		/* for pending PendSV interrupt */
+					                           
+					MOVW	R2, #0x0000		/* R2 contains mask used to set PENDSVSET bit	*/
+					MOVT	R2, #0x1000		/* in SCB_ICSR register */
+
+					LDR		R3, [R1]
+					AND		R3, R2
+					STR		R3, [R1]
+
+					POP		{R1-R3}
+					BX		LR
+
+Wrapper_NotIT:		POP 	{R1-R3}
+					SVC		1 				/* Call OS service (RQ: the immediate value is meaningless)*/
 Wrapper_End:		BX		LR				/* get back to main appli */
                 
 					.end

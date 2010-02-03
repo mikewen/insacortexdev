@@ -75,7 +75,7 @@ StatusType		GetResource_Int(u32 Func_ID, ResourceType ResID)
 		Task_List[CurrentTask]->locksourceid = ResID;
 		Task_List[CurrentTask]->state = WAITING;
 
-		Reschedule();
+		//Reschedule();
 	}
 	else
 	{
@@ -125,7 +125,7 @@ u8 End;
 				}
 			}
 
-			Reschedule();
+			//Reschedule();
 		}
 	}
 	else
