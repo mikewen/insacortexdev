@@ -74,10 +74,10 @@ typedef struct
 } st_TaskInfo;
 
 /* Constants definition */
-#define RUNNING 	'R'
-#define WAITING 	'W'
-#define READY		'r'
-#define SUSPENDED	'S'
+#define SUSPENDED	0x00
+#define READY		0x01
+#define RUNNING 	0x02
+#define WAITING 	0x03
 
 /* Task Macro Definition */
 #define TASK(name) void name(void)

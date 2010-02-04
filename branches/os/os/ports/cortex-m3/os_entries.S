@@ -249,11 +249,15 @@ PendSV_Handler:
 					CMP		R6, R7			/* If Task id before and after system call are different, task switch is needed */
 					BEQ		PendSVC_Exit	 /* If zero, no switch needed, pop the stack and exit */
 
-					PUSH 	{LR}
-					BL		OS_Switch_Tasks	/* Otherwise, swap previous task stack and selected task stack */
-					POP		{LR}
+					LDR		R1, =TaskStackPointer	/* R1 pointe au debut de la table TaskStackPointer */
+ 
+					LSL		R6, #2					/* R6 = offset from start of table TaskStackPointer (previous task index) */
+					STR		R4, [R1, R6]			/* Store previous task SP (contains in R4) in TaskStackPointer table */
 
-PendSVC_Exit:		STR		R0, [R4, #4*8]  /* R4 contains SP for current task */		
+					LSL		R7, #2					/* R7 = offset from start of table TaskStackPointer (new task index) */			
+					LDR		R4, [R1, R7]		    /* Get back SP for the new task */
+
+PendSVC_Exit:				
 					MOV		R12, R4		    /* Move back R4 into R12 */
 					LDMFD	R12!,{R4-R11}   /* Restore register from stack and exit	*/
 					MSR		PSP, R12 
