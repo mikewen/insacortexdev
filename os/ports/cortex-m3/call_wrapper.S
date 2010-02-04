@@ -59,30 +59,30 @@ OSCallWrapper_2:
 					.thumb_func	
 					.type	OSCallWrapper_3, %function
 OSCallWrapper_3:                 
-					PUSH	{R1-R3}
-					MRS		R1, IPSR  		/* R1 contains IPSR register, Reserved bits read as 0 */
-					CMP		R1, #0
+					PUSH	{R5-R7, LR}
+					MRS		R5, IPSR  		/* R5 contains IPSR register, Reserved bits read as 0 */
+					MOVW	R6, #0x01FF
+					AND		R5, R5, R6
+					CMP		R5, #0
 					BEQ		Wrapper_NotIT	/* If (IPSR & 0x1FF) == 0, we are not under IT */
 					
-					PUSH 	{LR}
-					BL		OS_Call			/* If under IT, call directly OS service */
-					POP		{LR}		
+					BL		OS_Call			/* If under IT, call directly OS service */		
 
 					/* And then, record a pending PendSV interrupt */
-					MOVW	R1, #0xED04		/* R1 contains address of SCB_ICSR register, used */
-					MOVT	R1,	#0xE000		/* for pending PendSV interrupt */
+					MOVW	R5, #0xED04		/* R5 contains address of SCB_ICSR register, used */
+					MOVT	R5,	#0xE000		/* for pending PendSV interrupt */
 					                           
-					MOVW	R2, #0x0000		/* R2 contains mask used to set PENDSVSET bit	*/
-					MOVT	R2, #0x1000		/* in SCB_ICSR register */
+					MOVW	R6, #0x0000		/* R6 contains mask used to set PENDSVSET bit	*/
+					MOVT	R6, #0x1000		/* in SCB_ICSR register */
 
-					LDR		R3, [R1]
-					AND		R3, R2
-					STR		R3, [R1]
+					LDR		R7, [R5]
+					ORR		R7, R6
+					STR		R7, [R5]
 
-					POP		{R1-R3}
+					POP		{R5-R7, LR}
 					BX		LR
 
-Wrapper_NotIT:		POP 	{R1-R3}
+Wrapper_NotIT:		POP 	{R5-R7, LR}
 					SVC		1 				/* Call OS service (RQ: the immediate value is meaningless)*/
 Wrapper_End:		BX		LR				/* get back to main appli */
                 

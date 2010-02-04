@@ -13,6 +13,7 @@
 
 #include "STM32_Init.h"                           // STM32 Initialization
 #include "kernel.h"
+#include "stm_system.h"
 
 /* Description des taches */
 // Tache 1
@@ -31,6 +32,8 @@ TASK(Tache_2);
 st_EventInfo Event1_Info;
 EventMaskType Event1_ID;
 
+void Init_Periph(void);
+
 /*----------------------------------------------------------------------------
   MAIN function
  *----------------------------------------------------------------------------*/
@@ -38,6 +41,8 @@ int main (void)
 {
 	stm32_Init ();                                  // STM32 setup
  
+	Init_Periph();
+
 	/* Code du projet a rajouter ici */
 	InitOS();
 
@@ -77,8 +82,8 @@ volatile int j;
 
 	for (i=1; i<5; i++)
 	{
-		WaitEvent(Event1_ID);
-		ClearEvent(Event1_ID);
+		/*WaitEvent(Event1_ID);
+		ClearEvent(Event1_ID);*/
 
 		j=j+i;
 	}
@@ -114,3 +119,14 @@ void ADC_IRQHandler(void)
 	 ActivateTask(Tache_2_ID);
 }
 
+void Init_Periph(void)
+{
+	NVIC_SET_PRIO_SYSTEM(SVCALL, 15);
+	NVIC_SET_PRIO_SYSTEM(PENDSV, 15);
+	
+	NVIC_ENABLE_PERIPH_IT(ADC1_2);
+
+	NVIC_ENABLE_SYSTEM_IT(MEM_FAULT);
+	NVIC_ENABLE_SYSTEM_IT(BUS_FAULT);
+	NVIC_ENABLE_SYSTEM_IT(USAGE_FAULT);	
+}
