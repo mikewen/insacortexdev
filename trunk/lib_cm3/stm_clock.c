@@ -173,3 +173,4 @@ unsigned int stm32_GetPCLK1 (void)
 {
 	return (unsigned int) (__PCLK1) ;
 }
+

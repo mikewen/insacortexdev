@@ -42,14 +42,14 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\</OutputDirectory>
+          <OutputDirectory>.\Obj\</OutputDirectory>
           <OutputName>baguette</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
-          <ListingPath>.\</ListingPath>
+          <ListingPath>.\Obj\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
           <CreateBatchFile>0</CreateBatchFile>
@@ -207,7 +207,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <RoSelD>3</RoSelD>
@@ -345,7 +345,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..\..\lib_user;..\..\lib_cm3;..\Baguette;..\..\system</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -386,11 +386,6 @@
           <GroupName>System</GroupName>
           <Files>
             <File>
-              <FileName>STM32_Init.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\STM32_Init.c</FilePath>
-            </File>
-            <File>
               <FileName>STM32F10x.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\STM32F10x.s</FilePath>
@@ -415,15 +410,65 @@
               <FileType>1</FileType>
               <FilePath>.\ihm.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Lib</GroupName>
+          <Files>
             <File>
-              <FileName>LCD_4bit.c</FileName>
+              <FileName>lib_baguette.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\LCD_4bit.c</FilePath>
+              <FilePath>..\..\lib_user\lib_baguette.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_baguette.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\lib_user\lib_baguette.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm_clock.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\lib_cm3\stm_clock.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm_usartx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\lib_cm3\stm_usartx.c</FilePath>
             </File>
             <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>LCD_4bit.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\lib_cm3\LCD_4bit.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm_clock_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\stm_clock_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm_usartx_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\stm_usartx_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>led.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\led.h</FilePath>
+            </File>
+            <File>
+              <FileName>ihm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ihm.h</FilePath>
+            </File>
+            <File>
+              <FileName>LCD.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\lib_cm3\LCD.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -465,14 +510,14 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\</OutputDirectory>
+          <OutputDirectory>.\Obj\</OutputDirectory>
           <OutputName>baguette</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
-          <ListingPath>.\</ListingPath>
+          <ListingPath>.\Obj\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
           <CreateBatchFile>0</CreateBatchFile>
@@ -630,7 +675,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <RoSelD>3</RoSelD>
@@ -768,7 +813,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..\..\lib_cm3;..\..\lib_user;..\Baguette;..\..\system</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -809,11 +854,6 @@
           <GroupName>System</GroupName>
           <Files>
             <File>
-              <FileName>STM32_Init.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\STM32_Init.c</FilePath>
-            </File>
-            <File>
               <FileName>STM32F10x.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\STM32F10x.s</FilePath>
@@ -838,15 +878,65 @@
               <FileType>1</FileType>
               <FilePath>.\ihm.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Lib</GroupName>
+          <Files>
             <File>
-              <FileName>LCD_4bit.c</FileName>
+              <FileName>lib_baguette.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\LCD_4bit.c</FilePath>
+              <FilePath>..\..\lib_user\lib_baguette.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_baguette.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\lib_user\lib_baguette.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm_clock.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\lib_cm3\stm_clock.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm_usartx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\lib_cm3\stm_usartx.c</FilePath>
             </File>
             <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>LCD_4bit.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\lib_cm3\LCD_4bit.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm_clock_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\stm_clock_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm_usartx_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\stm_usartx_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>led.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\led.h</FilePath>
+            </File>
+            <File>
+              <FileName>ihm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ihm.h</FilePath>
+            </File>
+            <File>
+              <FileName>LCD.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\lib_cm3\LCD.h</FilePath>
             </File>
           </Files>
         </Group>

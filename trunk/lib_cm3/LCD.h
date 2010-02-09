@@ -19,5 +19,13 @@ extern void lcd_print      (char *string);
 extern void lcd_bargraph   (int value, int size);
 extern void lcd_bargraphXY (int pos_x, int pos_y, int value);
 
+/* 
+ * uncomment _LCD_USE_BUSY_STATUS_ if you want the LCD to use the busy flag
+ * cannot works under simulation
+ * if _LCD_USE_BUSY_STATUS_ is commented, the waitfucntion will use a delay fucntion 
+ */
+
+//#define _LCD_USE_BUSY_STATUS_
+
 /******************************************************************************/
 
