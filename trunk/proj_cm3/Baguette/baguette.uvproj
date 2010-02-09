@@ -406,9 +406,9 @@
               <FilePath>.\font8.c</FilePath>
             </File>
             <File>
-              <FileName>ihm.c</FileName>
+              <FileName>support.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ihm.c</FilePath>
+              <FilePath>.\support.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -436,11 +436,6 @@
               <FilePath>..\..\lib_cm3\stm_usartx.c</FilePath>
             </File>
             <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\led.c</FilePath>
-            </File>
-            <File>
               <FileName>LCD_4bit.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\lib_cm3\LCD_4bit.c</FilePath>
@@ -454,16 +449,6 @@
               <FileName>stm_usartx_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\stm_usartx_config.h</FilePath>
-            </File>
-            <File>
-              <FileName>led.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\led.h</FilePath>
-            </File>
-            <File>
-              <FileName>ihm.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\ihm.h</FilePath>
             </File>
             <File>
               <FileName>LCD.h</FileName>
@@ -874,9 +859,9 @@
               <FilePath>.\font8.c</FilePath>
             </File>
             <File>
-              <FileName>ihm.c</FileName>
+              <FileName>support.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ihm.c</FilePath>
+              <FilePath>.\support.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -904,11 +889,6 @@
               <FilePath>..\..\lib_cm3\stm_usartx.c</FilePath>
             </File>
             <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\led.c</FilePath>
-            </File>
-            <File>
               <FileName>LCD_4bit.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\lib_cm3\LCD_4bit.c</FilePath>
@@ -922,16 +902,6 @@
               <FileName>stm_usartx_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\stm_usartx_config.h</FilePath>
-            </File>
-            <File>
-              <FileName>led.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\led.h</FilePath>
-            </File>
-            <File>
-              <FileName>ihm.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\ihm.h</FilePath>
             </File>
             <File>
               <FileName>LCD.h</FileName>
