@@ -1,5 +1,6 @@
 #include <stm32f10x_lib.h>                        // STM32F10x Library Definitions
-#include "STM32_Init.h"                           // STM32 Initialization
+
+#include "lib_baguette.h"
 #include "lcd.h"
 #include "led.h"
 #include "ihm.h"
@@ -191,9 +192,14 @@ void test(void)
 
 int main (void)
 {
-	stm32_Init();
-	adc_Init();
-    led_Init();
+	//stm32_Init();
+	//adc_Init();
+    //led_Init();
+	Init_Baguette();
+
+	Efface_Ecran();
+	Ecrit_Ecran('A');
+
 	ihm_Init();
 
 	tmp = 0;

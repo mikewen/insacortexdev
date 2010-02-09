@@ -114,7 +114,7 @@ static void delay (int cnt)
 *   Parameter:    none                                                         *
 *   Return:       Status byte contains busy flag and address pointer           *
 *******************************************************************************/
-
+#ifdef _LCD_USE_BUSY_STATUS_
 static unsigned char lcd_read_status (void)
 {
   unsigned char status;
@@ -135,7 +135,7 @@ static unsigned char lcd_read_status (void)
   LCD_DATA_DIR_OUT
   return (status);
 }
-
+#endif /* _LCD_USE_BUSY_STATUS_ */
 
 /*******************************************************************************
 * Wait until LCD controller busy flag is 0                                     *
@@ -147,9 +147,13 @@ static unsigned char wait_while_busy (void)
 {
   unsigned char status;
 
+#ifdef _LCD_USE_BUSY_STATUS_
   do  {
     status = lcd_read_status();
   }  while (status & 0x80);             /* Wait for busy flag                 */
+#else
+	delay(0x1800);
+#endif /* _LCD_USE_BUSY_STATUS_ */
 
   return (status);
 }
