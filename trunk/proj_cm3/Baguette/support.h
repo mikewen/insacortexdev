@@ -34,7 +34,7 @@ void Ecrit_LED(int val);
 
 /* 
  * Fonction: 	Init_Touche
- * Role: 		Initialisation des touches (PA0 -> Valide, PC13 -> RAZ)
+ * Role: 		Initialisation des touches (PA0 (WKUP)-> RAZ, PC13 (TAMP) -> Validation)
  * Entrée: 		Rien
  * Sortie: 		Rien
  */
@@ -42,7 +42,7 @@ void Init_Touche(void);
 
 /* 
  * Fonction: 	Init_Touche
- * Role: 		Lecture d'une touche (PC13 -> Validation, PA0 -> RAZ)
+ * Role: 		Lecture d'une touche (PC13 (TAMP) -> Validation, PA0 (WKUP) -> RAZ)
  * Entrée: 		
  *		R0: Bouton a lire
  *			1 = Bouton Effacement (BOUTON_EFFACE)
