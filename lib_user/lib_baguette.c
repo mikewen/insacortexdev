@@ -25,6 +25,36 @@ FILE UART;
  */
 void Init_IT(void)
 {
+	/* 
+	 * Regle les niveaux d'IT 
+	 * Par defaut, toutes les IT a niveau de prio reglable sont reglés à 0
+	 * donc, niveau d'IT max
+	 *
+	 * On va regler ceux que l'on utilise sur des niveaux moins important
+	 * -> permet le preamption + les vecteurs de faute d'etre activé
+	 */
+	NVIC_SET_PRIO_PERIPH(TIM1_UP, 15); 	/* L'IT timer 1 est la moins prio (affichage LCD) */
+	NVIC_SET_PRIO_PERIPH(ADC1_2, 14);
+	NVIC_SET_PRIO_SYSTEM(SYSTICK, 13);	/* Le clignotement des LED est le plus prioritaire */
+
+	/* Efface les etats "PENDING" des vecteurs */
+	NVIC_CLEAR_PENDING_PERIPH_IT(TIM1_UP);
+	NVIC_CLEAR_PENDING_PERIPH_IT(ADC1_2);
+	/* RQ: il n'existe pas d'etat "PENDING" pour les IT SYSTICK */
+
+	/* Active la prise en compte des IT */
+	NVIC_ENABLE_PERIPH_IT(TIM1_UP);
+	NVIC_ENABLE_PERIPH_IT(ADC1_2);
+	/* RQ: La prise en compte des IT SYSTICK est actif par defaut */
+
+	/* Et pour le debug, on active aussi la prise en compte des vecteurs de fautes */
+	NVIC_ENABLE_SYSTEM_IT(MEM_FAULT);
+	NVIC_ENABLE_SYSTEM_IT(BUS_FAULT);
+	NVIC_ENABLE_SYSTEM_IT(USAGE_FAULT);
+
+	/* Autorise les IT */
+	/*SYS_ENABLE_GLOBAL_INTERRUPTS();
+	SYS_ENABLE_FAULT_INTERRUPTS(); */
 }
 
 /* 
@@ -35,6 +65,11 @@ void Init_IT(void)
  */
 void Demarre_SYSTICK(void)
 {
+	SYSTICK_SET_PERIOD(1250); /* Regle une periode de 800 ns sur le timer system */
+
+	SYSTICK_CLOCK_AHB();		/* Set AHB (CPU clock) as clock input */
+	SYSTICK_ENABLE_COUNTER(); 	/* Lance le timer system */
+	SYSTICK_ENABLE_IT();		/* Et autorise les IT */
 }
 
 /* 
@@ -45,8 +80,16 @@ void Demarre_SYSTICK(void)
  */
 void Arrete_SYSTICK(void)
 {
+	SYSTICK_DISABLE_IT();
+	SYSTICK_DISABLE_COUNTER();
 }
 
+/*
+ * Timer1 Bits definitions
+ */
+
+#define TIM_AUTO_RELOAD	(1<<7)
+#define TIM_ENABLE		(1<<0)		
 /* 
  * Fonction: 	Demarre_Timer1
  * Role: 		Lance le timer 1 (pour le rafraichissement de l'interface)
@@ -55,6 +98,15 @@ void Arrete_SYSTICK(void)
  */
 void Demarre_Timer1(void)
 {
+	RCC->APB2ENR |= RCC_APB2Periph_TIM1;	/* Active l'horloge du Timer 1 */
+	
+	TIM1->CR1 = TIM_CounterMode_Down + TIM_AUTO_RELOAD;
+	TIM1->DIER = TIM_IT_Update;
+
+	TIM1->PSC = 65535; 	/* Fclk = Fapb2 / (65535+1) */
+	TIM1->ARR = ((__TIMxCLK / 65536) /10); /* Periode souhaité : 100ms, soit 10 Hz */
+	
+	TIM1->CR1 |= TIM_ENABLE;
 }
 
 /* 
@@ -65,6 +117,7 @@ void Demarre_Timer1(void)
  */
 void Arrete_Timer1(void)
 {
+	TIM1->CR1 &= ~TIM_ENABLE;
 }
 
 /* 
@@ -75,6 +128,7 @@ void Arrete_Timer1(void)
  */
 void Acquite_Timer1(void)
 {
+	TIM1->SR &= ~TIM_IT_Update;
 }
 
 /* 
@@ -172,7 +226,7 @@ void Init_ADC (void)
 	ADC_min = 0xFFFF;
 	ADC_max = 0;
 
-  	RCC->APB2ENR |= (1<<9);                         // enable periperal clock for ADC1
+  	RCC->APB2ENR |= RCC_APB2Periph_ADC1;            // enable peripheral clock for ADC1
 
   	ADC1->SQR1  = 0x00000000;                       // only one conversion
   	ADC1->SMPR2 = 0x00000028;                       // set sample time channel1 (55,5 cycles)
@@ -183,9 +237,6 @@ void Init_ADC (void)
                                                   	// EXTSEL = SWSTART 
                                                   	// enable ADC, no external Trigger
   	ADC1->CR2  |=  0x00500000;					  	// start SW conversion
-
-  	/* Activation de l'IT EOC */
-  	NVIC->ISER[0] = (0x01<<18);
 }
 
 /* 

@@ -18,9 +18,10 @@
  */
 void Init_LED(void)
 {
-	RCC->APB2ENR |= (1<<3);
+	RCC->APB2ENR |= RCC_APB2Periph_GPIOB;
 
-	GPIOB->CRH = 0x22222222;   /* A reprendre  */
+	GPIOB->CRH = 0x22222222;   /* Met les ligne 8 à 15 du port B en sortie push-pull, 2 Mhz.
+	                              A reprendre, moche  */
 
 	GPIOB->ODR = GPIOB->ODR & (~MASK); 
 }
@@ -40,20 +41,20 @@ void Ecrit_LED(int val)
 
 /* 
  * Fonction: 	Init_Touche
- * Role: 		Initialisation des touches (PA0 -> Valide, PC13 -> RAZ)
+ * Role: 		Initialisation des touches (PC13 (TAMP) -> Validation, PA0 (WKUP) -> RAZ)
  * Entrée: 		Rien
  * Sortie: 		Rien
  */
 void Init_Touche(void)
 {
-	RCC->APB2ENR |= (1<<2) + (1<<4);
+	RCC->APB2ENR |= RCC_APB2Periph_GPIOA + RCC_APB2Periph_GPIOC;
 
 	/* Les touches sont normallement reglées en entrée par defaut */
 }
 
 /* 
  * Fonction: 	Init_Touche
- * Role: 		Lecture d'une touche (PC13 -> Validation, PA0 -> RAZ)
+ * Role: 		Lecture d'une touche (PC13 (TAMP) -> Validation, PA0 (WKUP) -> RAZ)
  * Entrée: 		
  *		R0: Bouton a lire
  *			1 = Bouton Effacement (BOUTON_EFFACE)
@@ -72,12 +73,12 @@ int state;
 	if (button == BOUTON_EFFACE)
 	{
 		/* Bouton clear	== PA0 */
-		state = GPIOA->IDR & 0x01;
+		state = GPIOA->IDR & GPIO_Pin_0;
 	}
 	else
 	{
 		/* Bouton set == PC13 */
-		state = GPIOC->IDR & (0x01<<13);	
+		state = GPIOC->IDR & GPIO_Pin_13;	
 	}
 
 	return state ? 0 : 1;

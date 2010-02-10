@@ -166,7 +166,7 @@
 #define PENDSV_VECT_SHIFT			20
 #define SYSTICK_VECT_SHIFT			28
 
-#define NVIC_SET_PRIO_SYSTEM(vector,prio) SCB->SHPR[vector##_VECT_INDEX] = SCB->SHPR[vector##_VECT_INDEX] & ~((u32)(0xF << vector##_VECT_SHIFT));\
+#define NVIC_SET_PRIO_SYSTEM(vector,prio) SCB->SHPR[vector##_VECT_INDEX] = SCB->SHPR[vector##_VECT_INDEX] & ~((u32)(((u32)0x0F) << vector##_VECT_SHIFT));\
 								          SCB->SHPR[vector##_VECT_INDEX] = SCB->SHPR[vector##_VECT_INDEX] | (prio << vector##_VECT_SHIFT)
 
 /* Peripherals interrupts enable/disable/clear and set pending */
@@ -448,5 +448,9 @@ void SCB_Get_CPUID(cpuid_st *id);
 #define SYSTICK_ENABLE_COUNTER() (SysTick->CTRL = SysTick->CTRL | ((u32)(1))) 
 #define SYSTICK_DISABLE_COUNTER() (SysTick->CTRL = SysTick->CTRL & ~((u32)(1)))
 #define SYSTICK_IS_OVERFLOW() (SysTick->CTRL & ((u32)(1<<SYSTICK_OVERFLOW_BIT))) 
+
+/* Systick reload managment */
+/* Set systick periodic interrupt for a frequency FREQ, expressed in Hz */
+#define SYSTICK_SET_PERIOD(FREQ) SysTick->LOAD = (__SYSCLK/FREQ)
 
 #endif /*  __STM_SYSTEM_H__ */
