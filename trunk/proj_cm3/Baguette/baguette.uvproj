@@ -460,6 +460,11 @@
               <FileType>5</FileType>
               <FilePath>..\..\lib_cm3\stm_system.h</FilePath>
             </File>
+            <File>
+              <FileName>lib_baguette.inc</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\lib_user\lib_baguette.inc</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -917,6 +922,11 @@
               <FileName>stm_system.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\lib_cm3\stm_system.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_baguette.inc</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\lib_user\lib_baguette.inc</FilePath>
             </File>
           </Files>
         </Group>

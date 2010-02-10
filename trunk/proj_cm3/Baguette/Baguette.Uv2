@@ -21,6 +21,7 @@ File 3,5,<.\stm_clock_config.h><stm_clock_config.h>
 File 3,5,<.\stm_usartx_config.h><stm_usartx_config.h>
 File 3,5,<..\..\lib_cm3\LCD.h><LCD.h>
 File 3,5,<..\..\lib_cm3\stm_system.h><stm_system.h>
+File 3,5,<..\..\lib_user\lib_baguette.inc><lib_baguette.inc>
 
 
 Options 1,0,0  // Target 'Reel'
