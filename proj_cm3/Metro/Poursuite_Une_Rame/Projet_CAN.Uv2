@@ -166,7 +166,7 @@ Options 2,0,0  // Target 'Loco_Olymex'
  HexSel=1
  MG32K=0
  TGMORE=0
- RunUsr 0 1 <"C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs>
+ RunUsr 0 1 <"C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs/*.ELF>
  RunUsr 1 0 <>
  BrunUsr 0 0 <>
  BrunUsr 1 0 <>
@@ -210,7 +210,7 @@ Options 2,0,0  // Target 'Loco_Olymex'
  ALDMISC ()
  ALDSCAT (..\..\..\system\Linker_Script_GCC.ld -Wl,--gc-sections)
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
-  OPTDBG 48125,0,()()()()(..\Identification_Metro_01\metro_rame_V1.ini)()()()()() (BIN\UL2CM3.DLL)()()()
+  OPTDBG 48126,1,()()()()(..\Identification_Metro_01\metro_rame_V1.ini)()()()()() (BIN\UL2CM3.DLL)()()()
  FLASH1 { 9,0,0,0,1,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0 }
  FLASH2 (BIN\UL2CM3.DLL)
  FLASH3 ("" ())

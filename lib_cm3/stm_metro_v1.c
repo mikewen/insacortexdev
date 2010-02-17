@@ -28,7 +28,7 @@ ________________________________________________________________________________
 #include <stm32f10x_lib.h>
 #include "stm_metro_v1.h"
 
-
+#define SET_PRIORITY(pos,lvl)  NVIC->IPR[(pos/4)] |= ( (lvl) << (4+8*(pos-(pos/4)*4)) )
 #define __ALTERNATE_OUTPUT_PUSH_PULL_AND_OUTPUT_PUSH_PORTA           0x44300BB0
 #define __ENABLE_DRIVER_BRIDGE 		                 0x00000020
 #define __RCC_APB2ENR_PORTAEN	                     0x00000004
@@ -102,7 +102,7 @@ GPIOC->ODR	 |=(LED_AVANCE|LED_RECULE);                   //two leds off
 #define __TIM2_CCR2               0x0000            
 #define __TIM2_CCR3               0x00FA                 
 #define __TIM2_CCR4               0x0000               
-#define __TIM2_DIER               0x0001 
+#define __TIM2_DIER               0x0000 
 #define __TIMX_CR1_CEN			  0x0001
 
 
@@ -139,7 +139,7 @@ void  Init_Timer2()
       TIM2->CR2   = __TIM2_CR2;  	
 	  TIM2->SR=0x0000;							            // reset status register
                            // interrupts 
-      TIM2->DIER = __TIM2_DIER;                             // enable interrupt
+      TIM2->DIER = __TIM2_DIER;                             // disable interrupt
     //  NVIC->ISER[0] = 0x10000000;							// enable  nested vector interrupt controler
     // TIM2->CR1 |= __TIMX_CR1_CEN;                     // enable timer
                                  
@@ -280,6 +280,8 @@ void  Init_Timer3()
 	#ifdef USE_SPEED	 
 	  TIM3->DIER = __TIM3_DIER;                             // enable interrupt
       NVIC->ISER[0] = 0x20000000;							// enable  nested vector interrupt controler
+	 // NVIC->IPR[28/4] |= (SPEED_IT_LVL)<<(4+8*(28-28/4));
+	 SET_PRIORITY(28,SPEED_IT_LVL) ;
 	#endif /* USE_SPEED */
       
 	  TIM3->CR1 |= __TIMX_CR1_CEN;                     // enable timer                                 
@@ -378,6 +380,8 @@ void  Init_Timer4()
       TIM4->DIER = __TIM4_DIER;                             // enable interrupt
 	  NVIC->ISER[0] = 0x40000000;  							// enable  nested vector interrupt controler
 	  // priorité dans NVIC->IP[0]   TODO !!! prioritées selon defines
+//	  	  NVIC->IPR[8] |= (SPEED_IT_LVL)<<(0);
+	 SET_PRIORITY(30,SPEED_IT_LVL)	;
 
       TIM4->CR1 |= __TIMX_CR1_CEN;                              // enable timer
                                 
@@ -508,6 +512,9 @@ void Setup_Adc()
  	ADC1->SQR3   |=__SQR3__MASQUE_OR;
 
 	NVIC->ISER[0] |=__ADC_GLOBAL_INTERRUPT;
+	//NVIC->IPR[8] |= (SPEED_IT_LVL)<<(0);
+   	SET_PRIORITY(18,ADC_IT_LVL);
+
 }
 
 u16	Valeur_Courant;
