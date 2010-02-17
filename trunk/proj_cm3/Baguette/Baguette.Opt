@@ -16,12 +16,12 @@ GRPOPT 1,(System),1,0,0
 GRPOPT 2,(Apps),1,0,0
 GRPOPT 3,(Lib),1,0,0
 
-OPTFFF 1,1,2,268435456,0,37,44,0,<.\STM32F10x.s><STM32F10x.s> 
-OPTFFF 2,2,1,905969664,0,19,19,0,<.\main.c><main.c> 
+OPTFFF 1,1,2,268435456,0,0,0,0,<.\STM32F10x.s><STM32F10x.s> 
+OPTFFF 2,2,1,2,0,48,55,0,<.\main.c><main.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,66,0,0,0,69,0,0,0,101,3,0,0,209,1,0,0 }
 OPTFFF 2,3,1,0,0,0,0,0,<.\font8.c><font8.c> 
 OPTFFF 2,4,1,570425344,0,0,0,0,<.\support.c><support.c> 
-OPTFFF 3,5,1,402653184,0,0,0,0,<..\..\lib_user\lib_baguette.c><lib_baguette.c> 
-OPTFFF 3,6,5,486539264,0,96,117,0,<..\..\lib_user\lib_baguette.h><lib_baguette.h> 
+OPTFFF 3,5,1,0,0,0,0,0,<..\..\lib_user\lib_baguette.c><lib_baguette.c> 
+OPTFFF 3,6,5,486539264,0,0,0,0,<..\..\lib_user\lib_baguette.h><lib_baguette.h> 
 OPTFFF 3,7,1,0,0,0,0,0,<..\..\lib_cm3\stm_clock.c><stm_clock.c> 
 OPTFFF 3,8,1,0,0,0,0,0,<..\..\lib_cm3\stm_usartx.c><stm_usartx.c> 
 OPTFFF 3,9,1,0,0,0,0,0,<..\..\lib_cm3\LCD_4bit.c><LCD_4bit.c> 
@@ -29,7 +29,7 @@ OPTFFF 3,10,5,301989888,0,0,0,0,<.\stm_clock_config.h><stm_clock_config.h>
 OPTFFF 3,11,5,0,0,0,0,0,<.\stm_usartx_config.h><stm_usartx_config.h> 
 OPTFFF 3,12,5,0,0,0,0,0,<..\..\lib_cm3\LCD.h><LCD.h> 
 OPTFFF 3,13,5,822083584,0,0,0,0,<..\..\lib_cm3\stm_system.h><stm_system.h> 
-OPTFFF 3,14,5,67108864,0,91,102,0,<..\..\lib_user\lib_baguette.inc><lib_baguette.inc> 
+OPTFFF 3,14,5,67108864,0,0,0,0,<..\..\lib_user\lib_baguette.inc><lib_baguette.inc> 
 
 
 TARGOPT 1, (Reel)
@@ -40,7 +40,7 @@ TARGOPT 1, (Reel)
   OPTOX 16
   OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
   OPTXL 1,1,1,1,1,1,1,0,0
-  OPTFL 1,0,1
+  OPTFL 1,0,0
   OPTAX 255
   OPTBL 0,(Reference Manual)<DATASHTS\ST\STM32F10xxx.PDF>
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
@@ -49,6 +49,7 @@ TARGOPT 1, (Reel)
   OPTKEY 0,(ARMDBGFLAGS)()
   OPTKEY 0,(DLGUARM)((105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0))
   OPTKEY 0,(UL2CM3)(-UM0025DAE -O14 -S0 -C0 -N00("ARM CoreSight JTAG-DP") -D00(3BA00477) -L00(4) -N01("ST TMC") -D01(16410041) -L01(5) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000)
+  OPTBB 0,0,270,1,0,0,0,0,0,0,<lib_baguette.c>()()
   OPTWA 0,1,(texte_baguette)
   OPTWA 1,1,(ADC_Array)
   OPTDF 0x96
@@ -64,7 +65,7 @@ TARGOPT 2, (Simu)
   OPTOX 16
   OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
   OPTXL 1,1,1,1,1,1,1,0,0
-  OPTFL 1,0,0
+  OPTFL 1,0,1
   OPTAX 255
   OPTBL 0,(Reference Manual)<DATASHTS\ST\STM32F10xxx.PDF>
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
@@ -74,7 +75,8 @@ TARGOPT 2, (Simu)
   OPTKEY 0,(ARMDBGFLAGS)(-T0)
   OPTKEY 0,(DLGUARM)((105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0))
   OPTKEY 0,(UL2CM3)(-UM0397DAE -O14 -S0 -C0 -N00("ARM CoreSight JTAG-DP") -D00(3BA00477) -L00(4) -N01("ST TMC") -D01(16410041) -L01(5) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000)
-  OPTBB 0,0,113,1,134218288,0,0,0,0,1,<main.c>()()
+  OPTBB 0,0,113,1,134218266,0,0,0,0,1,<main.c>()(\main\113)
+  OPTBB 1,0,270,1,134219386,0,0,0,0,1,<lib_baguette.c>()()
   OPTWA 0,1,(texte_baguette)
   OPTWA 1,1,(ADC_Array)
   OPTMM 1,1,(SP)
