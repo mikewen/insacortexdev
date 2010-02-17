@@ -197,7 +197,7 @@ Options 2,0,0  // Target 'Simu'
  ADSLDIF ()
  ADSLDDW ()
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
-  OPTDBG 49149,0,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
+  OPTDBG 49149,1,()()()()(.\baguette_v1.ini)()()()()() (BIN\UL2CM3.DLL)()()()
  FLASH1 { 9,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
  FLASH2 (BIN\UL2CM3.DLL)
  FLASH3 ()

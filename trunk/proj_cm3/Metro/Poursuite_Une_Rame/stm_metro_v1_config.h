@@ -31,13 +31,14 @@ ________________________________________________________________________________
 
 //COMMENT line below to remove ADC code and current measure functions
 //#define USE_ADC
-
+#define ADC_IT_LVL (8)
 //COMMENT line below to remove T3 code and position measure functions
 #define USE_POSITION
 
 //COMMENT line below to remove T2 code and speeed measure functions
 #define USE_SPEED
 #define SPEED_TIC_FREQ  (2000UL*100UL)//
+#define SPEED_IT_LVL (5)
 
 //COMMENT line below to remove PWM code and functions
 #define USE_PWM 
