@@ -441,7 +441,6 @@ void ADC_IRQHandler	(void)
 	
 	if (ADC1->SR & AWD)
 	{
-		ADC1->SR &= ~AWD;
 		switch (phase)
 		{
 			case MONTE : 
@@ -463,6 +462,9 @@ void ADC_IRQHandler	(void)
 			default :
 				break; 
 		}
+		
+		ADC1->SR &= ~AWD;
+	
 	}
 
 }
