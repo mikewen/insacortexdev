@@ -390,6 +390,11 @@
               <FileType>2</FileType>
               <FilePath>.\STM32F10x.s</FilePath>
             </File>
+            <File>
+              <FileName>baguette_v1.ini</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\baguette_v1.ini</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -598,13 +603,13 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>0</TargetSelection>
+          <TargetSelection>1</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
+            <InitializationFile>.\baguette_v1.ini</InitializationFile>
           </SimDlls>
           <TargetDlls>
             <CpuDll></CpuDll>
@@ -852,6 +857,11 @@
               <FileName>STM32F10x.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\STM32F10x.s</FilePath>
+            </File>
+            <File>
+              <FileName>baguette_v1.ini</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\baguette_v1.ini</FilePath>
             </File>
           </Files>
         </Group>
