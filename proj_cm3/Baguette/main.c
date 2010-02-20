@@ -1,16 +1,34 @@
 #include <stm32f10x_lib.h>                        // STM32F10x Library Definitions
 
 #include "lib_baguette.h"
-#include "support.h"
+//#include "support.h"
+
+
+#define AU_MIN 0
+#define MONTE  1
+#define AU_MAX   2
+#define DESCEND  3
+volatile char phase ;
+// Seuils de SEB
+#define MAX_max 0xDCA
+#define MAX_min	0xC41
+#define MIN_max	0x5CA
+#define MIN_min	0x441
+// seuil au pif en volts
+#define S_TB  0x441 //((short int)(1.0/3.3*4096.0))
+#define S_B  0x5CA //((short int)(1.1/3.3*4096.0))
+#define S_H  0xC41 //((short int)(2.6/3.3*4096.0))
+#define S_TH 0xDCA // ((short int)(2.9/3.3*4096.0))
+
 
 /* Inclusion de la table de caractere */
+#define NB_CARS (4)
 extern unsigned char font8data[];
-
-/*
- * Prototype des focntions locales
- */
-void Init_Interface(void);
-void Interface_MAJ(void);
+char texte_baguette[NB_CARS] = {'A','B','C','D'};		// texte a afficher
+int index_tableau;			// Index dans la chaine a afficher, mais utilisé par l'interface
+#define FONT_SIZE (8)
+#define NB_TRAMES (NB_CARS*FONT_SIZE+2) 
+char trame[NB_TRAMES] ;
 
 /*
  * Declaration des variables
@@ -18,14 +36,12 @@ void Interface_MAJ(void);
 
 int tmp;		// Variable temporaire utilisé pour stocker le resultat de l'ADC
 
-int sens;		// Indique le sens de defilement sur la baguette. Utilise les constantes 
+//int sens;		// Indique le sens de defilement sur la baguette. Utilise les constantes 
 				// SENS_ETEINT, SENS_ALLER, SENS_RETOUR
 
 u8 index_tab; 	// Index pour la chaine a afficher
 u8 index_font;	// index dans la table de police d'ecriture
 
-char texte_baguette[4];		// texte a afficher
-int index_tableau;			// Index dans la chaine a afficher, mais utilisé par l'interface
 
 int potentiometre; 			// Variable temporaire contenant la valeur du potentiometre
 char caractere;				// Caractere "selectionné" par le potentiometre
@@ -34,16 +50,29 @@ char caractere;				// Caractere "selectionné" par le potentiometre
  * Constantes
  */
 
-// Seuils
-#define MAX_max 0xDCA
-#define MAX_min	0xC41
-#define MIN_max	0x5CA
-#define MIN_min	0x441
+	MAJ_trame(char texte_baguette[4], char trame[8*4])
+{
+	char i,j,k;
+	char * avoile;
+	
+	k=0;
 
-// Constantes de sens
-#define SENS_ETEINT	0
-#define SENS_ALLER	1
-#define SENS_RETOUR	2
+	trame[k++] = 0;
+
+	for (i=0;i<NB_CARS;i++)
+	{
+		avoile = (char *) (font8data + (texte_baguette[i]*FONT_SIZE)); 
+		for(j=0;j<FONT_SIZE;j++)
+		{
+			 trame[k++]=  *(avoile++);
+		}
+	}
+
+	trame[k++] = 0;
+
+}
+
+
 
 /* 
  * Fonction: 	main
@@ -56,8 +85,15 @@ int main (void)
 	/* Initialisation des peripheriques */
 	Init_Baguette();
 
-	/* Initialisation de l'interface (IHM) de saisi du texte */
-	Init_Interface();
+	phase = MONTE;
+	Watch_For_Higher_Than(S_TH);
+
+
+	/* Raz de l'index dans la chaine a afficher */
+	index_tableau=0;
+	MAJ_trame(texte_baguette,trame);
+
+	MAJ_Ecran (texte_baguette,caractere);
 
 	/* Initialisation utilisateur, pour regler les LED en sortie et les touches en entrée */
 	Init_LED();
@@ -65,7 +101,7 @@ int main (void)
 
 	/* Initailisation des variables globales */
 	tmp = 0;
-	sens = SENS_ETEINT;
+	//sens = SENS_ETEINT;
 	index_tab = 0;
 	index_font = 0;
 
@@ -77,43 +113,10 @@ int main (void)
 
 	while (1)
 	{
-		/* Dessus MAX max */
-		while (tmp <MAX_max)
-		{
-			 tmp = Lire_ADC(ADC_X);
-		}
-
-		sens = SENS_ETEINT;
-
-	   	/* Dessous MAX min */
-		while (tmp >MAX_min)
-		{
-			 tmp = Lire_ADC(ADC_X);
-		}
-
-		sens = SENS_ALLER;
-		index_font = 0;	/* debut du pattern a afficher */
-		index_tab = 0; /* debut du tableau */
-
-		/* Dessous MIN min */
-		while (tmp >MIN_min)
-		{
-			 tmp = Lire_ADC(ADC_X);
-		}
-
-		sens = SENS_ETEINT;
-
-		/* Dessus MIN max */
-		while (tmp <MIN_max)
-		{
-			 tmp = Lire_ADC(ADC_X);
-		}
-
-		sens = SENS_RETOUR;
-		index_font = 7;	/* fin du pattern a afficher */
-		index_tab = 3; /* fin du tableau */
 	}
 }
+
+
 
 /* 
  * Fonction: 	SysTick_Handler
@@ -123,95 +126,51 @@ int main (void)
  */
 void SysTick_Handler (void) 
 {
-u8 caractere;
 u8 pattern;
 
-  	switch (sens)
+  	switch (phase)
 	{
-	case SENS_ETEINT:
+	case AU_MIN:
 		/* rien a faire */
 		Ecrit_LED(0xFF);
 		break;
-	case SENS_ALLER:
+	case AU_MAX:
+		/* rien a faire */
+		Ecrit_LED(0xFF);
+		break;
+	case MONTE:
 		/* Sens "aller" */
-		/* Recupere dans la police d'ecriture le motif de led a afficher */
-		caractere = texte_baguette[index_tab];
-		pattern = font8data[(caractere*8) + index_font];
-		
+		pattern = trame[index_font++];
 		/* Inverse la polarité et affiche le motif */
 		Ecrit_LED(~pattern);
-
+		
+	
 		/* Fait avancer les index pour preparer le prochain motif */
-		index_font++;
-		if (index_font>=8)
+		if (index_font>= NB_TRAMES)
+		{
+			index_font = NB_TRAMES-1;
+	
+		}
+		break;
+	case DESCEND:
+		/* Sens "retour" */
+		pattern = trame[index_font--];
+		/* Inverse la polarité et affiche le motif */
+		Ecrit_LED(~pattern);
+		
+	
+		/* Fait avancer les index pour preparer le prochain motif */
+		if (((signed char) index_font) == -1 )
 		{
 			index_font = 0;
-
-			index_tab ++;
-			if (index_tab>=4)
-			{
-				sens = SENS_ETEINT;
-			}
 		}
 		break;
-	case SENS_RETOUR:
-		/* Sens "retour" */
-		/* Recupere dans la police d'ecriture le motif de led a afficher */
-		caractere = texte_baguette[index_tab];
-		pattern = font8data[(caractere*8) + index_font];
-		
-		/* Inverse la polarité et affiche le motif */
-		Ecrit_LED(~pattern);
 
-		/* Fait avancer les index pour preparer le prochain motif */
-		if (index_font==0)
-		{
-			index_font = 7;
 
-			if (index_tab==0)
-			{
-				sens = SENS_ETEINT;
-			}
-			else
-			{
-				index_tab --;
-			}
-		}
-		else
-		{
-			index_font--;
-		}
-		break;
 	}
   
 }
 
-/* 
- * Fonction: 	Init_Interface
- * Role: 		Initialisation de la partie affichage (interface) pour afficher le texte et saisir les caracteres
- * Entrée: 		Rien
- * Sortie: 		Rien
- */
-void Init_Interface(void)
-{	
-	/* Reset de l'ecran */
-	Efface_Ecran();
-	
-	/* Affichage du menu ecran */
-	Position_Curseur(0,0);
-	Ecrit_Chaine_Ecran("Texte:");
-	Position_Curseur(0,1);
-	Ecrit_Chaine_Ecran("Caractere> "); 
-
-	/* RAZ de la chaine a afficher */
-	for (index_tableau=0; index_tableau<4; index_tableau++)
-	{
-		texte_baguette[index_tableau]=' ';	
-	}
-
-	/* Raz de l'index dans la chaine a afficher */
-	index_tableau=0;
-}
 
 /* 
  * Fonction: 	TIM1_UP_IRQHandler
@@ -221,7 +180,7 @@ void Init_Interface(void)
  */
 void TIM1_UP_IRQHandler(void)
 {
-int i;
+
 
 	/* Acquitement de l'IT timer */
 	Acquite_Timer1();
@@ -237,35 +196,59 @@ int i;
 		if (index_tableau<4)
 		{
 			texte_baguette[index_tableau++]= caractere;
+			MAJ_trame(texte_baguette,trame);
 		}	
 	}	
 
 	/* Si le bouton "EFFACER" est appuyé, RAZ de la chaine et de l'index */
 	if (Lire_Touche(BOUTON_EFFACE))
 	{
-		for (index_tableau=0; index_tableau<4; index_tableau++)
+		for (index_tableau=0; index_tableau<NB_CARS; index_tableau++)
 		{
 			texte_baguette[index_tableau]=' ';	
 		}
+		MAJ_trame(texte_baguette,trame);
 
 		index_tableau=0;	
 	}
 	
-	/* Rafraichissement de l'ecran avec les nouvelle infos */
-	Efface_Ecran();
-
-	/* Affichage du texte "baguette" */
-	Position_Curseur(0,0);
-	Ecrit_Chaine_Ecran("Texte: ");
-
-	for (i=0; i<4; i++)
-	{
-		Ecrit_Ecran(texte_baguette[i]);	
-	}
-
-	/* Affichage du caractere selectionné par le potar */
-	Position_Curseur(0,1);
-	Ecrit_Chaine_Ecran("Caractere> ");
-	Ecrit_Ecran(caractere);	
+	MAJ_Ecran (texte_baguette,caractere);
 }
 
+ /* 
+ * Fonction: 	ADC_IRQHandler
+ * Role: 		Vecteur d'interruption de l'ADC: appelée en fin de conertion d'un canal
+ * Entrée: 		Rien
+ * Sortie: 		Rien
+ */
+
+
+void ADC_IRQHandler	(void)
+{
+		switch (phase)
+		{
+			case MONTE : 
+				phase = AU_MAX;
+				Watch_For_Lower_Than(S_H);
+				break;
+			case AU_MAX : 
+				phase = DESCEND;
+				Watch_For_Lower_Than(S_TB);
+				index_font = NB_TRAMES-1;	/* fin du pattern a afficher */
+				break;
+			case DESCEND : 
+				phase = AU_MIN;
+				Watch_For_Higher_Than(S_B);
+				break;
+			case AU_MIN : 
+				phase = MONTE;
+				Watch_For_Higher_Than(S_TH);
+				index_font = 0;	/* debut du pattern a afficher */
+				break;
+			default :
+				break; 
+		}
+		
+	Acquite_ADC();
+
+}

@@ -83,3 +83,25 @@ int state;
 
 	return state ? 0 : 1;
 }
+
+
+void MAJ_Ecran (char texte_baguette[4], char caractere)
+{
+	char i;
+	/* Rafraichissement de l'ecran avec les nouvelle infos */
+	Efface_Ecran();
+
+	/* Affichage du texte "baguette" */
+	Position_Curseur(0,0);
+	Ecrit_Chaine_Ecran("Texte: ");
+
+	for (i=0; i<4; i++)
+	{
+		Ecrit_Ecran(texte_baguette[i]);	
+	}
+
+	/* Affichage du caractere selectionné par le potar */
+	Position_Curseur(0,1);
+	Ecrit_Chaine_Ecran("Caractere> ");
+	Ecrit_Ecran(caractere);
+}	
