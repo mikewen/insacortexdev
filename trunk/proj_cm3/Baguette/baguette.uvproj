@@ -410,11 +410,6 @@
               <FileType>1</FileType>
               <FilePath>.\font8.c</FilePath>
             </File>
-            <File>
-              <FileName>support.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\support.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -603,7 +598,7 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>0</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -877,11 +872,6 @@
               <FileName>font8.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\font8.c</FilePath>
-            </File>
-            <File>
-              <FileName>support.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\support.c</FilePath>
             </File>
           </Files>
         </Group>
