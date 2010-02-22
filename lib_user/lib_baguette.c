@@ -209,17 +209,8 @@ void Position_Curseur(int x, int y)
  * Fonctions pour la gestion de l'ADC 
  */
 int Current_ADC;
-int ADC_Array[3];
+short int ADC_Array[3];
 
-#define AU_MIN 0
-#define MONTE  1
-#define AU_MAX   2
-#define DESCEND  3
-#define S_TB  ((short int)(1.0/3.3*4096.0))
-#define S_B  ((short int)(1.1/3.3*4096.0))
-#define S_H  ((short int)(2.6/3.3*4096.0))
-#define S_TH  ((short int)(2.9/3.3*4096.0))
-char phase ;
 
 int ADC_min, ADC_max;
 
@@ -318,8 +309,7 @@ int ADC_min, ADC_max;
 #define MEM2MEM	(1<<14)
 
 
-void Watch_For_Lower_Than(short int gap);
-void Watch_For_Higher_Than(short int gap);
+
 
 void Init_ADC (void) 
 {
@@ -375,8 +365,6 @@ void Init_ADC (void)
  
  	ADC1->CR2  |=  (ADON);				   // start SW conversion
 
-	phase = MONTE;
-	Watch_For_Higher_Than(S_TH);
 		
 
 }
@@ -391,6 +379,7 @@ void Watch_For_Higher_Than(short int gap)
 	ADC1->LTR = 0;
 
 	// valid guard interrupt flag
+	ADC1->SR &= ~AWD;
 	ADC1->CR1 |= (AWDIE);
 
 }
@@ -404,8 +393,19 @@ void Watch_For_Lower_Than(short int gap)
 	ADC1->LTR = (int)(gap) & 0xFFF;
 
 	// valid guard interrupt flag
+	ADC1->SR &= ~AWD;
 	ADC1->CR1 |= (AWDIE);
+}
 
+/* 
+ * Fonction: 	Acquite_Timer1
+ * Role: 		Acquite la drapeau d'interuption du timer 1 
+ * Entrée: 		Rien
+ * Sortie: 		Rien
+ */
+void Acquite_ADC(void)
+{
+		ADC1->SR &= ~AWD;
 }
 
 /* 
@@ -428,46 +428,7 @@ volatile register int tmp;
 	return tmp;
 }
 
-/* 
- * Fonction: 	ADC_IRQHandler
- * Role: 		Vecteur d'interruption de l'ADC: appelée en fin de conertion d'un canal
- * Entrée: 		Rien
- * Sortie: 		Rien
- */
 
-
-void ADC_IRQHandler	(void)
-{
-	
-	if (ADC1->SR & AWD)
-	{
-		switch (phase)
-		{
-			case MONTE : 
-				phase = AU_MAX;
-				Watch_For_Lower_Than(S_H);
-				break;
-			case AU_MAX : 
-				phase = DESCEND;
-				Watch_For_Lower_Than(S_TB);
-				break;
-			case DESCEND : 
-				phase = AU_MIN;
-				Watch_For_Higher_Than(S_B);
-				break;
-			case AU_MIN : 
-				phase = MONTE;
-				Watch_For_Higher_Than(S_TH);
-				break;
-			default :
-				break; 
-		}
-		
-		ADC1->SR &= ~AWD;
-	
-	}
-
-}
 
 /* 
  * Fonction: 	Init_Baguette
@@ -492,3 +453,103 @@ void Init_Baguette(void)
 	/* Init des IT */
 	Init_IT();
 }
+
+/*
+ * Fonctions pour la lecture des touches et l'ecriture des LED
+ */
+#define MASK    0xFF00
+
+/*
+ * Fonction:    Init_LED
+ * Role:                Initialisation des leds (PB8 - PB15)
+ * Entrée:              Rien
+ * Sortie:              Rien
+ */
+void Init_LED(void)
+{
+        RCC->APB2ENR |= RCC_APB2Periph_GPIOB;
+
+        GPIOB->CRH = 0x22222222;   /* Met les ligne 8 à 15 du port B en sortie push-pull, 2 Mhz.
+                                      A reprendre, moche  */
+
+        GPIOB->ODR = GPIOB->ODR & (~MASK);
+}
+
+/*
+ * Fonction:    Ecrit_LED
+ * Role:                Ecriture du poids fort des LED (PB8 - PB15)
+ * Entrée:              
+ *              R0: Valeur a ecrire (octet de poids faible)
+ * Sortie:              Rien
+ */
+void Ecrit_LED(int val)
+{
+        GPIOB->ODR = GPIOB->ODR & (~MASK);              // Remet les led à zero
+        GPIOB->ODR = GPIOB->ODR | (val<<8);     // Ecrit val sur PB8-> PB15
+}
+
+/*
+ * Fonction:    Init_Touche
+ * Role:                Initialisation des touches (PC13 (TAMP) -> Validation, PA0 (WKUP) -> RAZ)
+ * Entrée:              Rien
+ * Sortie:              Rien
+ */
+void Init_Touche(void)
+{
+        RCC->APB2ENR |= RCC_APB2Periph_GPIOA + RCC_APB2Periph_GPIOC;
+
+        /* Les touches sont normallement reglées en entrée par defaut */
+}
+
+/*
+ * Fonction:    Init_Touche
+ * Role:                Lecture d'une touche (PC13 (TAMP) -> Validation, PA0 (WKUP) -> RAZ)
+ * Entrée:              
+ *              R0: Bouton a lire
+ *                      1 = Bouton Effacement (BOUTON_EFFACE)
+ *                      2 = Bouton Validation (BOUTON_VALID)
+ * Sortie:
+ *              R0: Etat du bouton
+ *                      0 = Bouton appuyé
+ *                      Different de 0 = Bouton relaché
+ */
+int Lire_Touche(int button)
+{
+int state;
+
+        state = 0;
+
+        if (button == BOUTON_EFFACE)
+        {
+                /* Bouton clear == PA0 */
+                state = GPIOA->IDR & GPIO_Pin_0;
+        }
+        else
+        {
+                /* Bouton set == PC13 */
+                state = GPIOC->IDR & GPIO_Pin_13;      
+        }
+
+        return state ? 0 : 1;
+}
+
+void MAJ_Ecran(char texte_baguette[],char caractere)
+{	char i;
+
+        /* Rafraichissement de l'ecran avec les nouvelle infos */
+        Efface_Ecran();
+
+        /* Affichage du texte "baguette" */
+        Position_Curseur(0,0);
+        Ecrit_Chaine_Ecran("Texte: ");
+
+        for (i=0; i<4; i++)
+        {
+                Ecrit_Ecran(texte_baguette[i]); 
+        }
+
+        /* Affichage du caractere selectionné par le potar */
+        Position_Curseur(0,1);
+        Ecrit_Chaine_Ecran("Caractere> ");
+        Ecrit_Ecran(caractere); 
+ }
