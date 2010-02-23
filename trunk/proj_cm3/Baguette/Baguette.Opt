@@ -17,19 +17,18 @@ GRPOPT 2,(Apps),1,0,0
 GRPOPT 3,(Lib),1,0,0
 
 OPTFFF 1,1,2,268435456,0,0,0,0,<.\STM32F10x.s><STM32F10x.s> 
-OPTFFF 2,2,1,0,0,149,149,0,<.\main.c><main.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,66,0,0,0,69,0,0,0,101,3,0,0,209,1,0,0 }
+OPTFFF 2,2,1,1140850690,0,10,20,0,<.\main.c><main.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,66,0,0,0,69,0,0,0,101,3,0,0,209,1,0,0 }
 OPTFFF 2,3,1,0,0,0,0,0,<.\font8.c><font8.c> 
-OPTFFF 2,4,1,570425344,0,0,0,0,<.\support.c><support.c> 
-OPTFFF 3,5,1,469762048,0,424,424,0,<..\..\lib_user\lib_baguette.c><lib_baguette.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,22,0,0,0,23,0,0,0,48,3,0,0,171,1,0,0 }
-OPTFFF 3,6,5,486539264,0,0,0,0,<..\..\lib_user\lib_baguette.h><lib_baguette.h> 
-OPTFFF 3,7,1,0,0,0,0,0,<..\..\lib_cm3\stm_clock.c><stm_clock.c> 
-OPTFFF 3,8,1,754974722,0,304,315,0,<..\..\lib_cm3\stm_usartx.c><stm_usartx.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,88,0,0,0,92,0,0,0,53,3,0,0,204,1,0,0 }
-OPTFFF 3,9,1,0,0,0,0,0,<..\..\lib_cm3\LCD_4bit.c><LCD_4bit.c> 
-OPTFFF 3,10,5,301989888,0,0,0,0,<.\stm_clock_config.h><stm_clock_config.h> 
-OPTFFF 3,11,5,0,0,0,0,0,<.\stm_usartx_config.h><stm_usartx_config.h> 
-OPTFFF 3,12,5,0,0,0,0,0,<..\..\lib_cm3\LCD.h><LCD.h> 
-OPTFFF 3,13,5,822083584,0,0,0,0,<..\..\lib_cm3\stm_system.h><stm_system.h> 
-OPTFFF 3,14,5,67108864,0,0,0,0,<..\..\lib_user\lib_baguette.inc><lib_baguette.inc> 
+OPTFFF 3,4,1,452984832,0,466,466,0,<..\..\lib_user\lib_baguette.c><lib_baguette.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,22,0,0,0,23,0,0,0,48,3,0,0,171,1,0,0 }
+OPTFFF 3,5,5,0,0,1,1,0,<..\..\lib_user\lib_baguette.h><lib_baguette.h> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,66,0,0,0,69,0,0,0,96,3,0,0,221,1,0,0 }
+OPTFFF 3,6,1,0,0,0,0,0,<..\..\lib_cm3\LCD_4bit.c><LCD_4bit.c> 
+OPTFFF 3,7,5,301989888,0,0,0,0,<.\stm_clock_config.h><stm_clock_config.h> 
+OPTFFF 3,8,5,0,0,0,0,0,<.\stm_usartx_config.h><stm_usartx_config.h> 
+OPTFFF 3,9,5,0,0,0,0,0,<..\..\lib_cm3\LCD.h><LCD.h> 
+OPTFFF 3,10,5,822083584,0,0,0,0,<..\..\lib_cm3\stm_system.h><stm_system.h> 
+OPTFFF 3,11,5,67108864,0,0,0,0,<..\..\lib_user\lib_baguette.inc><lib_baguette.inc> 
+OPTFFF 3,12,1,0,0,0,0,0,<..\..\lib_cm3\stm_clock.c><stm_clock.c> 
+OPTFFF 3,13,1,0,0,0,0,0,<..\..\lib_cm3\stm_usartx.c><stm_usartx.c> 
 
 
 TARGOPT 1, (Reel)

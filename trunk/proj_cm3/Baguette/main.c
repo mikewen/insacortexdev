@@ -1,34 +1,29 @@
 #include <stm32f10x_lib.h>                        // STM32F10x Library Definitions
 
 #include "lib_baguette.h"
-//#include "support.h"
 
-
+/*
+ * Constantes
+ */
 #define AU_MIN 0
 #define MONTE  1
 #define AU_MAX   2
 #define DESCEND  3
-volatile char phase ;
-// Seuils de SEB
-#define MAX_max 0xDCA
-#define MAX_min	0xC41
-#define MIN_max	0x5CA
-#define MIN_min	0x441
-// seuil au pif en volts
-#define S_TB  0x441 //((short int)(1.0/3.3*4096.0))
-#define S_B  0x5CA //((short int)(1.1/3.3*4096.0))
-#define S_H  0xC41 //((short int)(2.6/3.3*4096.0))
-#define S_TH 0xDCA // ((short int)(2.9/3.3*4096.0))
 
+// Seuil pour l'accelerometre (axe X)
+#define S_TB  	0x441 	// Seuil_TresBas ((short int)(1.0/3.3*4096.0))
+#define S_B  	0x5CA 	// Seuil_Bas ((short int)(1.1/3.3*4096.0))
+#define S_H  	0xC41 	// Seuil_Haut ((short int)(2.6/3.3*4096.0))
+#define S_TH	0xDCA 	// Seuil_TresHaut ((short int)(2.9/3.3*4096.0))
 
 /* Inclusion de la table de caractere */
-#define NB_CARS (4)
+#define NB_CARS (4)			// Longueur du texte (en caractere) a afficher
 extern unsigned char font8data[];
 char texte_baguette[NB_CARS] = {'A','B','C','D'};		// texte a afficher
 int index_tableau;			// Index dans la chaine a afficher, mais utilisé par l'interface
 #define FONT_SIZE (8)
 #define NB_TRAMES (NB_CARS*FONT_SIZE+2) 
-char trame[NB_TRAMES] ;
+char trame[NB_TRAMES];		// Enchainement des differents motifs a enchainer sur les LED pour afficher le texte
 
 /*
  * Declaration des variables
@@ -36,21 +31,25 @@ char trame[NB_TRAMES] ;
 
 int tmp;		// Variable temporaire utilisé pour stocker le resultat de l'ADC
 
-//int sens;		// Indique le sens de defilement sur la baguette. Utilise les constantes 
-				// SENS_ETEINT, SENS_ALLER, SENS_RETOUR
+volatile char phase ; // Indique la phase de mouvement de la baguette. Utilise les constantes 
+					  // AU_MIN, MONTE, AU_MAX, DESCEND
 
 u8 index_tab; 	// Index pour la chaine a afficher
 u8 index_font;	// index dans la table de police d'ecriture
 
-
 int potentiometre; 			// Variable temporaire contenant la valeur du potentiometre
 char caractere;				// Caractere "selectionné" par le potentiometre
 
-/*
- * Constantes
- */
 
-	MAJ_trame(char texte_baguette[4], char trame[8*4])
+/* 
+ * Fonction: 	MAJ_trame
+ * Role: 		Construction de la trame (enchainement des differents motifs LED) a sequencer sur le baguette
+ * Entrée: 		
+ *			R0 = @ du tableau contenant le texte a afficher, avec zero terminal
+ *			R1 = @ du tableau prevu pour stocker la trame de motifs LED
+ * Sortie: 		Rien
+ */
+MAJ_trame(char texte_baguette[4], char trame[8*4])
 {
 	char i,j,k;
 	char * avoile;
@@ -69,10 +68,7 @@ char caractere;				// Caractere "selectionné" par le potentiometre
 	}
 
 	trame[k++] = 0;
-
 }
-
-
 
 /* 
  * Fonction: 	main
@@ -87,7 +83,6 @@ int main (void)
 
 	phase = MONTE;
 	Watch_For_Higher_Than(S_TH);
-
 
 	/* Raz de l'index dans la chaine a afficher */
 	index_tableau=0;
@@ -116,8 +111,6 @@ int main (void)
 	}
 }
 
-
-
 /* 
  * Fonction: 	SysTick_Handler
  * Role: 		Vecteur d'IT du timer systeme, utilisé pour cadencer la clignotement des LED
@@ -141,36 +134,31 @@ u8 pattern;
 	case MONTE:
 		/* Sens "aller" */
 		pattern = trame[index_font++];
-		/* Inverse la polarité et affiche le motif */
-		Ecrit_LED(~pattern);
 		
+		/* Inverse la polarité et affiche le motif */
+		Ecrit_LED(~pattern);	
 	
 		/* Fait avancer les index pour preparer le prochain motif */
 		if (index_font>= NB_TRAMES)
 		{
 			index_font = NB_TRAMES-1;
-	
 		}
 		break;
 	case DESCEND:
 		/* Sens "retour" */
 		pattern = trame[index_font--];
+
 		/* Inverse la polarité et affiche le motif */
 		Ecrit_LED(~pattern);
 		
-	
 		/* Fait avancer les index pour preparer le prochain motif */
 		if (((signed char) index_font) == -1 )
 		{
 			index_font = 0;
 		}
 		break;
-
-
 	}
-  
 }
-
 
 /* 
  * Fonction: 	TIM1_UP_IRQHandler
@@ -180,8 +168,6 @@ u8 pattern;
  */
 void TIM1_UP_IRQHandler(void)
 {
-
-
 	/* Acquitement de l'IT timer */
 	Acquite_Timer1();
 
@@ -217,38 +203,37 @@ void TIM1_UP_IRQHandler(void)
 
  /* 
  * Fonction: 	ADC_IRQHandler
- * Role: 		Vecteur d'interruption de l'ADC: appelée en fin de conertion d'un canal
+ * Role: 		Vecteur d'interruption de l'ADC: appelée par l'Analog Watchdog en cas de franchissement d'un seuil
  * Entrée: 		Rien
  * Sortie: 		Rien
  */
-
-
 void ADC_IRQHandler	(void)
 {
-		switch (phase)
-		{
-			case MONTE : 
-				phase = AU_MAX;
-				Watch_For_Lower_Than(S_H);
-				break;
-			case AU_MAX : 
-				phase = DESCEND;
-				Watch_For_Lower_Than(S_TB);
-				index_font = NB_TRAMES-1;	/* fin du pattern a afficher */
-				break;
-			case DESCEND : 
-				phase = AU_MIN;
-				Watch_For_Higher_Than(S_B);
-				break;
-			case AU_MIN : 
-				phase = MONTE;
-				Watch_For_Higher_Than(S_TH);
-				index_font = 0;	/* debut du pattern a afficher */
-				break;
-			default :
-				break; 
-		}
-		
+	switch (phase)
+	{
+		case MONTE : 
+			phase = AU_MAX;
+			Watch_For_Lower_Than(S_H);
+			break;
+		case AU_MAX : 
+			phase = DESCEND;
+			Watch_For_Lower_Than(S_TB);
+			index_font = NB_TRAMES-1;	/* fin du pattern a afficher */
+			break;
+		case DESCEND : 
+			phase = AU_MIN;
+			Watch_For_Higher_Than(S_B);
+			break;
+		case AU_MIN : 
+			phase = MONTE;
+			Watch_For_Higher_Than(S_TH);
+			index_font = 0;	/* debut du pattern a afficher */
+			break;
+		default :
+			break; 
+	}
+	
+	/* Acquitement du drapeau d'interruption AWD (Analog Watchdog) pour terminer l'interruption */	
 	Acquite_ADC();
-
 }
+

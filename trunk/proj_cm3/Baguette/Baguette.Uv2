@@ -11,17 +11,16 @@ Group (Lib)
 File 1,2,<.\STM32F10x.s><STM32F10x.s>
 File 2,1,<.\main.c><main.c>
 File 2,1,<.\font8.c><font8.c>
-File 2,1,<.\support.c><support.c>
 File 3,1,<..\..\lib_user\lib_baguette.c><lib_baguette.c>
 File 3,5,<..\..\lib_user\lib_baguette.h><lib_baguette.h>
-File 3,1,<..\..\lib_cm3\stm_clock.c><stm_clock.c>
-File 3,1,<..\..\lib_cm3\stm_usartx.c><stm_usartx.c>
 File 3,1,<..\..\lib_cm3\LCD_4bit.c><LCD_4bit.c>
 File 3,5,<.\stm_clock_config.h><stm_clock_config.h>
 File 3,5,<.\stm_usartx_config.h><stm_usartx_config.h>
 File 3,5,<..\..\lib_cm3\LCD.h><LCD.h>
 File 3,5,<..\..\lib_cm3\stm_system.h><stm_system.h>
 File 3,5,<..\..\lib_user\lib_baguette.inc><lib_baguette.inc>
+File 3,1,<..\..\lib_cm3\stm_clock.c><stm_clock.c>
+File 3,1,<..\..\lib_cm3\stm_usartx.c><stm_usartx.c>
 
 
 Options 1,0,0  // Target 'Reel'
