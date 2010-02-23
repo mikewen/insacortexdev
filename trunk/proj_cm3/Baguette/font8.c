@@ -266,6 +266,23 @@ unsigned char font8data[] =
 #endif
 };
 
+char riote[8];
+
+char *  Rotation (char * in)
+{
+	char i,j,val;
+
+	for (i=0;i<7;i++)
+	{
+		val = 0;
+		for (j=0;j<7;j++)
+		{
+			if ((*(in+j))&(1<<i)) val |= (1<<(j));
+		}
+	 	riote[7-i] = val;
+	}
+  return riote;	
+}
 /*struct aa_font font8 =
 {font8data, 8, "Standard vga 8x8 font", "vga8"};
   */
