@@ -538,7 +538,7 @@ int state;
  */
 void MAJ_Ecran(char texte_baguette[],char caractere)
 {	
-char i;
+register int i;
 
         /* Rafraichissement de l'ecran avec les nouvelle infos */
         Efface_Ecran();
@@ -556,4 +556,10 @@ char i;
         Position_Curseur(0,1);
         Ecrit_Chaine_Ecran("Caractere> ");
         Ecrit_Ecran(caractere); 
+
+		// fait une pause pour éviter d'effacer 
+		for(i=0;i<2754000/2;i++)
+		{
+		}
+
  }

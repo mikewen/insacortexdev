@@ -405,11 +405,6 @@
               <FileType>1</FileType>
               <FilePath>.\font8.c</FilePath>
             </File>
-            <File>
-              <FileName>support.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\support.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -867,11 +862,6 @@
               <FileName>font8.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\font8.c</FilePath>
-            </File>
-            <File>
-              <FileName>support.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\support.c</FilePath>
             </File>
           </Files>
         </Group>

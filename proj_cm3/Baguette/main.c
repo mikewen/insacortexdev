@@ -11,15 +11,15 @@
 #define DESCEND  3
 
 // Seuil pour l'accelerometre (axe X)
-#define S_TB  	0x441 	// Seuil_TresBas ((short int)(1.0/3.3*4096.0))
-#define S_B  	0x5CA 	// Seuil_Bas ((short int)(1.1/3.3*4096.0))
-#define S_H  	0xC41 	// Seuil_Haut ((short int)(2.6/3.3*4096.0))
-#define S_TH	0xDCA 	// Seuil_TresHaut ((short int)(2.9/3.3*4096.0))
+#define S_TB  	((short int)(1.0/3.3*4096.0)) 	// Seuil_TresBas  	0x441
+#define S_B  	((short int)(1.1/3.3*4096.0))		// Seuil_Bas 		0x5CA 
+#define S_H  	((short int)(2.6/3.3*4096.0)) 	// Seuil_Haut 		0xC41
+#define S_TH	((short int)(2.9/3.3*4096.0)) 	// Seuil_TresHaut 	0xDCA
 
 /* Inclusion de la table de caractere */
 #define NB_CARS (4)			// Longueur du texte (en caractere) a afficher
 extern unsigned char font8data[];
-char texte_baguette[NB_CARS] = {'A','B','C','D'};		// texte a afficher
+char texte_baguette[NB_CARS] = {'=','|','/','+'};		// texte a afficher
 int index_tableau;			// Index dans la chaine a afficher, mais utilisé par l'interface
 #define FONT_SIZE (8)
 #define NB_TRAMES (NB_CARS*FONT_SIZE+2) 
@@ -49,6 +49,9 @@ char caractere;				// Caractere "selectionné" par le potentiometre
  *			R1 = @ du tableau prevu pour stocker la trame de motifs LED
  * Sortie: 		Rien
  */
+
+char *  Rotation (char *);
+
 MAJ_trame(char texte_baguette[4], char trame[8*4])
 {
 	char i,j,k;
@@ -61,6 +64,7 @@ MAJ_trame(char texte_baguette[4], char trame[8*4])
 	for (i=0;i<NB_CARS;i++)
 	{
 		avoile = (char *) (font8data + (texte_baguette[i]*FONT_SIZE)); 
+		avoile = Rotation(avoile);
 		for(j=0;j<FONT_SIZE;j++)
 		{
 			 trame[k++]=  *(avoile++);
@@ -78,6 +82,9 @@ MAJ_trame(char texte_baguette[4], char trame[8*4])
  */
 int main (void)
 {
+
+	char btn_valid,btn_efface;
+	char vbtn_valid,vbtn_efface;
 	/* Initialisation des peripheriques */
 	Init_Baguette();
 
@@ -94,6 +101,9 @@ int main (void)
 	Init_LED();
 	Init_Touche();
 
+	vbtn_valid = Lire_Touche(BOUTON_VALID);
+	vbtn_efface = Lire_Touche(BOUTON_EFFACE);
+
 	/* Initailisation des variables globales */
 	tmp = 0;
 	//sens = SENS_ETEINT;
@@ -101,13 +111,53 @@ int main (void)
 	index_font = 0;
 
 	/* Lance le rafraichissement de l'interface */
-	Demarre_Timer1();
+	//Demarre_Timer1();
 
 	/* Lance le timer pour le clignotement des led */
 	Demarre_SYSTICK();
 
 	while (1)
 	{
+		/* Recuperation du caractere selectionné apr le potentiometre */
+		potentiometre = Lire_ADC(ADC_POTENTIOMETRE);
+		caractere = ((potentiometre*26)/0xFFF) + 'A';
+
+	 	btn_valid = Lire_Touche(BOUTON_VALID);
+		btn_efface = Lire_Touche(BOUTON_EFFACE);
+
+		/* Si le bouton "VALIDATION" est enfoncé, le caractere est ajouté 
+		   à la chaine a afficher (sauf si la chaine est pleine) */	
+		if ((!vbtn_valid) && btn_valid)
+		{
+			if (index_tableau<4)
+			{
+				texte_baguette[index_tableau++]= caractere;
+				MAJ_trame(texte_baguette,trame);
+		
+			}	
+		}	
+
+		/* Si le bouton "EFFACER" est appuyé, RAZ de la chaine et de l'index */
+		if ((!vbtn_efface) && btn_efface)
+		{
+			/*for (index_tableau=0; index_tableau<NB_CARS; index_tableau++)
+			{
+				texte_baguette[index_tableau]=' ';	
+			}
+			*/
+
+			MAJ_trame(texte_baguette,trame);
+
+	
+			index_tableau=0;	
+		}
+	
+	
+		vbtn_valid = btn_valid ;
+		vbtn_efface = btn_efface;
+
+ 		MAJ_Ecran (texte_baguette,caractere);
+
 	}
 }
 
@@ -158,47 +208,6 @@ u8 pattern;
 		}
 		break;
 	}
-}
-
-/* 
- * Fonction: 	TIM1_UP_IRQHandler
- * Role: 		Interruption du timer 1 sur overflow
- * Entrée: 		Rien
- * Sortie: 		Rien
- */
-void TIM1_UP_IRQHandler(void)
-{
-	/* Acquitement de l'IT timer */
-	Acquite_Timer1();
-
-	/* Recuperation du caractere selectionné apr le potentiometre */
-	potentiometre = Lire_ADC(ADC_POTENTIOMETRE);
-	caractere = ((potentiometre*25)/0xFFF) + 'A';
-	
-	/* Si le bouton "VALIDATION" est enfoncé, le caractere est ajouté 
-	   à la chaine a afficher (sauf si la chaine est pleine) */	
-	if (Lire_Touche(BOUTON_VALID))
-	{
-		if (index_tableau<4)
-		{
-			texte_baguette[index_tableau++]= caractere;
-			MAJ_trame(texte_baguette,trame);
-		}	
-	}	
-
-	/* Si le bouton "EFFACER" est appuyé, RAZ de la chaine et de l'index */
-	if (Lire_Touche(BOUTON_EFFACE))
-	{
-		for (index_tableau=0; index_tableau<NB_CARS; index_tableau++)
-		{
-			texte_baguette[index_tableau]=' ';	
-		}
-		MAJ_trame(texte_baguette,trame);
-
-		index_tableau=0;	
-	}
-	
-	MAJ_Ecran (texte_baguette,caractere);
 }
 
  /* 
