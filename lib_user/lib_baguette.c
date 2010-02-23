@@ -208,19 +208,11 @@ void Position_Curseur(int x, int y)
 /* 
  * Fonctions pour la gestion de l'ADC 
  */
-int Current_ADC;
 short int ADC_Array[3];
 
-
-int ADC_min, ADC_max;
-
-/* 
- * Fonction: 	Init_ADC
- * Role: 		Initialisation de l'ADC
- * Entrée: 		Rien
- * Sortie: 		Rien
+/*
+ * ADC and DMA Bits definitions
  */
-
 //___________________________________________
 //ADC1->CR1 bit description
 #define EOCIE 	(1<<5)
@@ -308,16 +300,14 @@ int ADC_min, ADC_max;
 #define PL_IS_VERYHIGH   (3<<PL_SHIFT)
 #define MEM2MEM	(1<<14)
 
-
-
-
+/* 
+ * Fonction: 	Init_ADC
+ * Role: 		Initialisation de l'ADC
+ * Entrée: 		Rien
+ * Sortie: 		Rien
+ */
 void Init_ADC (void) 
 {
-  	Current_ADC = 0;
-
-	ADC_min = 0xFFFF;
-	ADC_max = 0;
-
   	RCC->APB2ENR |= RCC_APB2Periph_ADC1;            // enable peripheral clock for ADC1
 	// switch on adc module
 	ADC1->CR2 |= ADON ;
@@ -336,19 +326,15 @@ void Init_ADC (void)
 	// channel 1 then 14 then 15
 	ADC1->SQR3  |= ((1 & SQX_MASK)<<SQ1_SHIFT) | ((14 & SQX_MASK)<<SQ2_SHIFT) | ((15 & SQX_MASK)<<SQ3_SHIFT);                       // set channel1 as 1st conversion
 
-  
-
 	// setup ADC guard on channel 14
 	ADC1->CR1 |= 14;
-	
-	
+		
 	// select single regular channel for guard
 	ADC1->CR1 |= (AWDSGL | AWDEN);
 	ADC1->CR1 &= ~(JAWDEN);
 	
 	// valid guard interrupt flag
 	//ADC1->CR1 |= (AWDIE);
-
 
 	//DMA configuration
 	RCC->AHBENR |=0x00000001;// DMA1 CLOCK ENABLE
@@ -364,11 +350,15 @@ void Init_ADC (void)
   	DMA1_Channel1->CCR |= EN;	// l'DMA bazar est en marche
  
  	ADC1->CR2  |=  (ADON);				   // start SW conversion
-
-		
-
 }
 
+/* 
+ * Fonction: 	Watch_For_Higher_Than
+ * Role: 		Regle l'analog watchdog pour surveiller le passage au dessus d'un seuil donné
+ * Entrée: 		
+ *				R0: Valeur 16 bits (LSW) du seuil 
+ * Sortie: 		Rien
+ */
 void Watch_For_Higher_Than(short int gap)
 {
 	// invalid guard interrupt flag
@@ -381,8 +371,15 @@ void Watch_For_Higher_Than(short int gap)
 	// valid guard interrupt flag
 	ADC1->SR &= ~AWD;
 	ADC1->CR1 |= (AWDIE);
-
 }
+
+/* 
+ * Fonction: 	Watch_For_Lower_Than
+ * Role: 		Regle l'analog watchdog pour surveiller le passage sous un seuil donné
+ * Entrée: 		
+ *				R0: Valeur 16 bits (LSW) du seuil 
+ * Sortie: 		Rien
+ */
 void Watch_For_Lower_Than(short int gap)
 {
 	// invalid guard interrupt flag
@@ -398,8 +395,8 @@ void Watch_For_Lower_Than(short int gap)
 }
 
 /* 
- * Fonction: 	Acquite_Timer1
- * Role: 		Acquite la drapeau d'interuption du timer 1 
+ * Fonction: 	Acquite_ADC
+ * Role: 		Acquite la drapeau d'interuption Analog Watchdog (AWD) de l'ADC
  * Entrée: 		Rien
  * Sortie: 		Rien
  */
@@ -428,7 +425,10 @@ volatile register int tmp;
 	return tmp;
 }
 
-
+/*
+ * Fonctions pour la lecture des touches et l'ecriture des LED
+ */
+#define MASK    0xFF00
 
 /* 
  * Fonction: 	Init_Baguette
@@ -455,15 +455,10 @@ void Init_Baguette(void)
 }
 
 /*
- * Fonctions pour la lecture des touches et l'ecriture des LED
- */
-#define MASK    0xFF00
-
-/*
  * Fonction:    Init_LED
- * Role:                Initialisation des leds (PB8 - PB15)
- * Entrée:              Rien
- * Sortie:              Rien
+ * Role:        Initialisation des leds (PB8 - PB15)
+ * Entrée:      Rien
+ * Sortie:      Rien
  */
 void Init_LED(void)
 {
@@ -477,10 +472,10 @@ void Init_LED(void)
 
 /*
  * Fonction:    Ecrit_LED
- * Role:                Ecriture du poids fort des LED (PB8 - PB15)
+ * Role:        Ecriture du poids fort des LED (PB8 - PB15)
  * Entrée:              
  *              R0: Valeur a ecrire (octet de poids faible)
- * Sortie:              Rien
+ * Sortie:      Rien
  */
 void Ecrit_LED(int val)
 {
@@ -490,9 +485,9 @@ void Ecrit_LED(int val)
 
 /*
  * Fonction:    Init_Touche
- * Role:                Initialisation des touches (PC13 (TAMP) -> Validation, PA0 (WKUP) -> RAZ)
- * Entrée:              Rien
- * Sortie:              Rien
+ * Role:        Initialisation des touches (PC13 (TAMP) -> Validation, PA0 (WKUP) -> RAZ)
+ * Entrée:      Rien
+ * Sortie:      Rien
  */
 void Init_Touche(void)
 {
@@ -503,7 +498,7 @@ void Init_Touche(void)
 
 /*
  * Fonction:    Init_Touche
- * Role:                Lecture d'une touche (PC13 (TAMP) -> Validation, PA0 (WKUP) -> RAZ)
+ * Role:        Lecture d'une touche (PC13 (TAMP) -> Validation, PA0 (WKUP) -> RAZ)
  * Entrée:              
  *              R0: Bouton a lire
  *                      1 = Bouton Effacement (BOUTON_EFFACE)
@@ -533,8 +528,17 @@ int state;
         return state ? 0 : 1;
 }
 
+/*
+ * Fonction:    MAJ_Ecran
+ * Role:        Rafraichit l'ecran et ecrit le "menu"
+ * Entrée:              
+ *              R0: Pointeur sur le texte a ecrire sur la baguette (pointeur sur le premier octets de la chaine, zero terminal)
+ *				R1: Octet de poids faible = Caractere selectionné par le potentiometre 
+ * Sortie:      Rien
+ */
 void MAJ_Ecran(char texte_baguette[],char caractere)
-{	char i;
+{	
+char i;
 
         /* Rafraichissement de l'ecran avec les nouvelle infos */
         Efface_Ecran();
