@@ -1,10 +1,21 @@
-/* merci au projet aalib "ascii art" */
-// ligne 10 se trouve les 8 Octets du caractÃ¨re de code asci 0
-// ligne 75 se trouve les 8 Octets du caractÃ¨re 'A' de code asci 75
+//   Librairie de fontes de caractères 8x8 "Standard vga 8x8 font" tirée de aalib  
+//               Created by Acco Labs from project aalib  "ascii art"
+// 
+// la ligne x (x de 20 à 275) du fichier contient les 8 Octets du caractère de code asci x-20
+//===> font8data contient les 8 octets de fonte des 256 caractères de la tables ASCII étendue
+//  '_' de code ascii 0x5F = 95       et  'P'  de code ascii 0x50 = 80
+//  font8data[95*8+0]=0x00= ........	font8data[80*8+0]=0xfc= 111111..
+//  font8data[95*8+1]=0x00= ........	font8data[80*8+0]=0x66= .11..11.
+//  font8data[95*8+2]=0x00= ........	font8data[80*8+0]=0x66= .11..11.		 . à la place de 0
+//  font8data[95*8+3]=0x00= ........	font8data[80*8+0]=0x7c= .11111..		   pour visibilité
+//  font8data[95*8+4]=0x00= ........	font8data[80*8+0]=0x60= .11.....
+//  font8data[95*8+5]=0x00= ........	font8data[80*8+0]=0x60= .11.....
+//  font8data[95*8+6]=0x00= ........	font8data[80*8+0]=0xf0= 1111....
+//  font8data[95*8+7]=0xFF= 11111111	font8data[80*8+0]=0x00= ........
+//===> char * Rotation (char *)  permet de "tourner" la fonte d'un caractère 
+//	  Rotation est définie et commentée après font8data ligne 280
 
-#define PETITE_TABLE
-//commentez la ligne ci-dessus pour avoir une table trop grosse <img alt="clin dâ€™oeil" src="font8_fichiers/wink.gif" width="15" height="15"> 
-unsigned char font8data[] =
+unsigned char font8data[8*256] =
 {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x7e, 0x81, 0xa5, 0x81, 0xbd, 0x99, 0x81, 0x7e,
@@ -86,7 +97,7 @@ unsigned char font8data[] =
     0xc6, 0xee, 0xfe, 0xfe, 0xd6, 0xc6, 0xc6, 0x00,
     0xc6, 0xe6, 0xf6, 0xde, 0xce, 0xc6, 0xc6, 0x00,
     0x38, 0x6c, 0xc6, 0xc6, 0xc6, 0x6c, 0x38, 0x00,
-    0xfc, 0x66, 0x66, 0x7c, 0x60, 0x60, 0xf0, 0x00,
+    0xfc, 0x66, 0x66, 0x7c, 0x60, 0x60, 0xf0, 0x00, //'P'
     0x7c, 0xc6, 0xc6, 0xc6, 0xd6, 0x7c, 0x0e, 0x00,
     0xfc, 0x66, 0x66, 0x7c, 0x6c, 0x66, 0xe6, 0x00,
     0x7c, 0xc6, 0xe0, 0x78, 0x0e, 0xc6, 0x7c, 0x00,
@@ -237,7 +248,6 @@ unsigned char font8data[] =
     0xfc, 0xcc, 0x60, 0x30, 0x60, 0xcc, 0xfc, 0x00,
     0x00, 0x00, 0x7e, 0xd8, 0xd8, 0xd8, 0x70, 0x00,
     0x00, 0x66, 0x66, 0x66, 0x66, 0x7c, 0x60, 0xc0,
-#ifndef PETITE_TABLE
     0x00, 0x76, 0xdc, 0x18, 0x18, 0x18, 0x18, 0x00,
     0xfc, 0x30, 0x78, 0xcc, 0xcc, 0x78, 0x30, 0xfc,
     0x38, 0x6c, 0xc6, 0xfe, 0xc6, 0x6c, 0x38, 0x00,
@@ -263,19 +273,51 @@ unsigned char font8data[] =
     0x70, 0x98, 0x30, 0x60, 0xf8, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x3c, 0x3c, 0x3c, 0x3c, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-#endif
 };
 
-char riote[8];
 
+
+// char * Rotation (char * in)
+//________
+//	Permet de tourner les octest de fonte d'un caractère
+//  par exemple les caractère '_' et 'P' ont  pour fonte
+//   0x00 	........	        0xfc   111111..
+//   0x00 	........			0x66   .11..11.
+//   0x00 	........			0x66   .11..11.		 . à la place de 0
+//   0x00 	........			0x7c   .11111..		   pour visibilité
+//   0x00 	........			0x60   .11.....
+//   0x00 	........			0x60   .11.....
+//   0x00 	........			0xf0   1111....
+//   0xFF 	11111111			0x00   ........
+// 
+//  Une fois tourné les fontes deviennent
+//   
+//   0x80 	1.......	        0x41   .1.....1
+//   0x80 	1.......	        0x7f   .1111111
+//   0x80 	1.......	        0x7f   .1111111
+//   0x80 	1.......	        0x49   .1..1..1
+//   0x80 	1.......	        0x09   ....1..1
+//   0x80 	1.......	        0x0f   ....1111
+//   0x80 	1.......	        0x06   .....11.
+//   0x80 	1.......	        0x00   ........
+
+//_______
+//  <==  in : pointe au début des 8 octets de fontes d'un caractère
+//  ==> renvoie un pointeur sur 8 octets d'espace mémoire contenant 
+//       la fonte du caractère "tourné"
+//_______
+
+static char riote[8] = "T vierge";	// Espace mémoire réservé pour la fonte tournée.
+									// Static permet ici de ne pas rendre public l'étiquette
+									// "riote"	=> variable persistante, globale au fichier mais de type privée
 char *  Rotation (char * in)
 {
 	char i,j,val;
 
-	for (i=0;i<7;i++)
-	{
+	for (i=0;i<8;i++)
+	{ // i indice de l'octet  
 		val = 0;
-		for (j=0;j<7;j++)
+		for (j=0;j<8;j++)
 		{
 			if ((*(in+j))&(1<<i)) val |= (1<<(j));
 		}
@@ -283,6 +325,3 @@ char *  Rotation (char * in)
 	}
   return riote;	
 }
-/*struct aa_font font8 =
-{font8data, 8, "Standard vga 8x8 font", "vga8"};
-  */

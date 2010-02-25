@@ -63,7 +63,7 @@ void Init_IT(void)
  * Entrée: 		Rien
  * Sortie: 		Rien
  */
-void Demarre_SYSTICK(void)
+void Demarre_Systick(void)
 {
 	SYSTICK_SET_PERIOD(1250); /* Regle une periode de 800 ns sur le timer system */
 
@@ -78,7 +78,7 @@ void Demarre_SYSTICK(void)
  * Entrée: 		Rien
  * Sortie: 		Rien
  */
-void Arrete_SYSTICK(void)
+void Arrete_Systick(void)
 {
 	SYSTICK_DISABLE_IT();
 	SYSTICK_DISABLE_COUNTER();
@@ -359,7 +359,7 @@ void Init_ADC (void)
  *				R0: Valeur 16 bits (LSW) du seuil 
  * Sortie: 		Rien
  */
-void Watch_For_Higher_Than(short int gap)
+void Analog_Dog_Watch_For_Higher_Than(short int gap)
 {
 	// invalid guard interrupt flag
 	ADC1->CR1 &= ~(AWDIE);
@@ -380,7 +380,7 @@ void Watch_For_Higher_Than(short int gap)
  *				R0: Valeur 16 bits (LSW) du seuil 
  * Sortie: 		Rien
  */
-void Watch_For_Lower_Than(short int gap)
+void Analog_Dog_Watch_For_Lower_Than(short int gap)
 {
 	// invalid guard interrupt flag
 	ADC1->CR1 &= ~(AWDIE);
@@ -452,6 +452,12 @@ void Init_Baguette(void)
 
 	/* Init des IT */
 	Init_IT();
+
+	/* Initialisation utilisateur, pour regler les LED en sortie et les touches en entrée */
+	Init_LED();
+	
+	Init_Touche();
+
 }
 
 /*
@@ -479,7 +485,7 @@ void Init_LED(void)
  */
 void Ecrit_LED(int val)
 {
-        GPIOB->ODR = GPIOB->ODR & (~MASK);              // Remet les led à zero
+        GPIOB->ODR = GPIOB->ODR & ((val<<8)+0xFF);              // Remet les led à zero
         GPIOB->ODR = GPIOB->ODR | (val<<8);     // Ecrit val sur PB8-> PB15
 }
 

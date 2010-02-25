@@ -19,7 +19,7 @@
 /* Inclusion de la table de caractere */
 #define NB_CARS (4)			// Longueur du texte (en caractere) a afficher
 extern unsigned char font8data[];
-char texte_baguette[NB_CARS] = {'=','|','/','+'};		// texte a afficher
+char texte_baguette[NB_CARS] = {'_','P','/','+'};		// texte a afficher
 int index_tableau;			// Index dans la chaine a afficher, mais utilisé par l'interface
 #define FONT_SIZE (8)
 #define NB_TRAMES (NB_CARS*FONT_SIZE+2) 
@@ -30,7 +30,7 @@ char trame[NB_TRAMES];		// Enchainement des differents motifs a enchainer sur le
  */
 
 int tmp;		// Variable temporaire utilisé pour stocker le resultat de l'ADC
-
+extern char riote[8];
 volatile char phase ; // Indique la phase de mouvement de la baguette. Utilise les constantes 
 					  // AU_MIN, MONTE, AU_MAX, DESCEND
 
@@ -89,7 +89,7 @@ int main (void)
 	Init_Baguette();
 
 	phase = MONTE;
-	Watch_For_Higher_Than(S_TH);
+	Analog_Dog_Watch_For_Higher_Than(S_TH);
 
 	/* Raz de l'index dans la chaine a afficher */
 	index_tableau=0;
@@ -97,9 +97,6 @@ int main (void)
 
 	MAJ_Ecran (texte_baguette,caractere);
 
-	/* Initialisation utilisateur, pour regler les LED en sortie et les touches en entrée */
-	Init_LED();
-	Init_Touche();
 
 	vbtn_valid = Lire_Touche(BOUTON_VALID);
 	vbtn_efface = Lire_Touche(BOUTON_EFFACE);
@@ -114,7 +111,7 @@ int main (void)
 	//Demarre_Timer1();
 
 	/* Lance le timer pour le clignotement des led */
-	Demarre_SYSTICK();
+	Demarre_Systick();
 
 	while (1)
 	{
@@ -222,20 +219,20 @@ void ADC_IRQHandler	(void)
 	{
 		case MONTE : 
 			phase = AU_MAX;
-			Watch_For_Lower_Than(S_H);
+			Analog_Dog_Watch_For_Lower_Than(S_H);
 			break;
 		case AU_MAX : 
 			phase = DESCEND;
-			Watch_For_Lower_Than(S_TB);
+			Analog_Dog_Watch_For_Lower_Than(S_TB);
 			index_font = NB_TRAMES-1;	/* fin du pattern a afficher */
 			break;
 		case DESCEND : 
 			phase = AU_MIN;
-			Watch_For_Higher_Than(S_B);
+			Analog_Dog_Watch_For_Higher_Than(S_B);
 			break;
 		case AU_MIN : 
 			phase = MONTE;
-			Watch_For_Higher_Than(S_TH);
+			Analog_Dog_Watch_For_Higher_Than(S_TH);
 			index_font = 0;	/* debut du pattern a afficher */
 			break;
 		default :

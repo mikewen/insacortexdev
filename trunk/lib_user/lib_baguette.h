@@ -24,7 +24,7 @@ void Init_Baguette(void);
  * Entrée: 		Rien
  * Sortie: 		Rien
  */
-void Demarre_SYSTICK(void);
+void Demarre_Systick(void);
 
 /* 
  * Fonction: 	Arrete_SYSTICK
@@ -32,7 +32,7 @@ void Demarre_SYSTICK(void);
  * Entrée: 		Rien
  * Sortie: 		Rien
  */
-void Arrete_SYSTICK(void);
+void Arrete_Systick(void);
 
 /* 
  * Fonction: 	Demarre_Timer1
@@ -122,7 +122,7 @@ int Lire_ADC(int channel);
  *				R0: Valeur 16 bits (LSW) du seuil 
  * Sortie: 		Rien
  */
-void Watch_For_Lower_Than(short int gap);
+void Analog_Dog_Watch_For_Lower_Than(short int gap);
 
 /* 
  * Fonction: 	Watch_For_Higher_Than
@@ -131,7 +131,7 @@ void Watch_For_Lower_Than(short int gap);
  *				R0: Valeur 16 bits (LSW) du seuil 
  * Sortie: 		Rien
  */
-void Watch_For_Higher_Than(short int gap);
+void Analog_Dog_Watch_For_Higher_Than(short int gap);
 
 /* 
  * Fonction: 	Acquite_ADC
