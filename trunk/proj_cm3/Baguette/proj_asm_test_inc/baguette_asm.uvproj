@@ -135,13 +135,13 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>3</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
+            <InitializationFile>..\baguette_v1.ini</InitializationFile>
           </SimDlls>
           <TargetDlls>
             <CpuDll></CpuDll>
@@ -388,7 +388,7 @@
             <File>
               <FileName>STM32F10x.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\STM32F10x.s</FilePath>
+              <FilePath>..\..\..\system\STM32F10x.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -396,24 +396,29 @@
           <GroupName>obj</GroupName>
           <Files>
             <File>
-              <FileName>stm_usartx.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>..\..\lib_cm3\objs\stm_usartx.o</FilePath>
-            </File>
-            <File>
-              <FileName>lcd_4bit.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>..\..\lib_cm3\objs\lcd_4bit.o</FilePath>
-            </File>
-            <File>
-              <FileName>lib_baguette.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>..\..\lib_cm3\objs\lib_baguette.o</FilePath>
+              <FileName>lib_baguette.inc</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\objs_lib_baguette\lib_baguette.inc</FilePath>
             </File>
             <File>
               <FileName>stm_clock.o</FileName>
               <FileType>3</FileType>
-              <FilePath>..\..\lib_cm3\objs\stm_clock.o</FilePath>
+              <FilePath>..\objs_lib_baguette\stm_clock.o</FilePath>
+            </File>
+            <File>
+              <FileName>stm_usartx.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\objs_lib_baguette\stm_usartx.o</FilePath>
+            </File>
+            <File>
+              <FileName>lcd_4bit.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\objs_lib_baguette\lcd_4bit.o</FilePath>
+            </File>
+            <File>
+              <FileName>lib_baguette.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\objs_lib_baguette\lib_baguette.o</FilePath>
             </File>
           </Files>
         </Group>
@@ -561,7 +566,7 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>3</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -814,7 +819,7 @@
             <File>
               <FileName>STM32F10x.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\STM32F10x.s</FilePath>
+              <FilePath>..\..\..\system\STM32F10x.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -822,24 +827,29 @@
           <GroupName>obj</GroupName>
           <Files>
             <File>
-              <FileName>stm_usartx.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>..\..\lib_cm3\objs\stm_usartx.o</FilePath>
-            </File>
-            <File>
-              <FileName>lcd_4bit.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>..\..\lib_cm3\objs\lcd_4bit.o</FilePath>
-            </File>
-            <File>
-              <FileName>lib_baguette.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>..\..\lib_cm3\objs\lib_baguette.o</FilePath>
+              <FileName>lib_baguette.inc</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\objs_lib_baguette\lib_baguette.inc</FilePath>
             </File>
             <File>
               <FileName>stm_clock.o</FileName>
               <FileType>3</FileType>
-              <FilePath>..\..\lib_cm3\objs\stm_clock.o</FilePath>
+              <FilePath>..\objs_lib_baguette\stm_clock.o</FilePath>
+            </File>
+            <File>
+              <FileName>stm_usartx.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\objs_lib_baguette\stm_usartx.o</FilePath>
+            </File>
+            <File>
+              <FileName>lcd_4bit.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\objs_lib_baguette\lcd_4bit.o</FilePath>
+            </File>
+            <File>
+              <FileName>lib_baguette.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\objs_lib_baguette\lib_baguette.o</FilePath>
             </File>
           </Files>
         </Group>

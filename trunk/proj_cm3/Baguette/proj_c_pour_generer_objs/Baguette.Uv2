@@ -8,19 +8,16 @@ Group (System)
 Group (Apps)
 Group (Lib)
 
-File 1,2,<.\STM32F10x.s><STM32F10x.s>
+File 1,2,<..\..\..\system\STM32F10x.s><STM32F10x.s>
 File 2,1,<.\main.c><main.c>
-File 2,1,<.\font8.c><font8.c>
-File 3,1,<..\..\lib_user\lib_baguette.c><lib_baguette.c>
-File 3,5,<..\..\lib_user\lib_baguette.h><lib_baguette.h>
-File 3,1,<..\..\lib_cm3\LCD_4bit.c><LCD_4bit.c>
+File 2,1,<..\..\..\lib_user\font8.c><font8.c>
+File 3,1,<..\..\..\lib_cm3\lib_baguette.c><lib_baguette.c>
+File 3,1,<..\..\..\lib_cm3\stm_clock.c><stm_clock.c>
+File 3,1,<..\..\..\lib_cm3\stm_system.c><stm_system.c>
+File 3,1,<..\..\..\lib_cm3\stm_usartx.c><stm_usartx.c>
+File 3,1,<..\..\..\lib_cm3\LCD_4bit.c><LCD_4bit.c>
 File 3,5,<.\stm_clock_config.h><stm_clock_config.h>
 File 3,5,<.\stm_usartx_config.h><stm_usartx_config.h>
-File 3,5,<..\..\lib_cm3\LCD.h><LCD.h>
-File 3,5,<..\..\lib_cm3\stm_system.h><stm_system.h>
-File 3,5,<..\..\lib_user\lib_baguette.inc><lib_baguette.inc>
-File 3,1,<..\..\lib_cm3\stm_clock.c><stm_clock.c>
-File 3,1,<..\..\lib_cm3\stm_usartx.c><stm_usartx.c>
 
 
 Options 1,0,0  // Target 'Reel'
@@ -48,7 +45,7 @@ Options 1,0,0  // Target 'Reel'
  EnvReg (ST\STM32F10x\)
  OrgReg (ST\STM32F10x\)
  TgStat=16
- OutDir (.\Obj\)
+ OutDir (.\)
  OutName (baguette)
  GenApp=1
  GenLib=0
@@ -77,11 +74,11 @@ Options 1,0,0  // Target 'Reel'
  OCMADSXRAM { 0,0,0,0,0,0,0,0,0 }
  OCR_RVCT { 1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,8,0,0,2,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,80,0,0,0,0,0,0,0,0,0,0,0 }
  RV_STAVEC ()
- ADSCCFLG { 5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSCCFLG { 17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSCMISC ()
  ADSCDEFN ()
  ADSCUDEF ()
- ADSCINCD (..\..\lib_user;..\..\lib_cm3;..\Baguette;..\..\system)
+ ADSCINCD (..\..\..\system;..\..\..\lib_cm3;..\..\..\lib_user;..\proj_c_pour_generer_objs)
  ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSAMISC ()
  ADSADEFN ()
@@ -106,10 +103,10 @@ Options 1,0,0  // Target 'Reel'
  ADSLDIF ()
  ADSLDDW ()
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
-  OPTDBG 49150,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
- FLASH1 { 9,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
+  OPTDBG 49150,3,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
+ FLASH1 { 9,0,0,0,1,0,0,0,1,16,0,0,0,0,0,0,0,0,0,0 }
  FLASH2 (BIN\UL2CM3.DLL)
- FLASH3 ()
+ FLASH3 ("" ())
  FLASH4 ()
 EndOpt
 
@@ -167,11 +164,11 @@ Options 2,0,0  // Target 'Simu'
  OCMADSXRAM { 0,0,0,0,0,0,0,0,0 }
  OCR_RVCT { 1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,8,0,0,2,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,80,0,0,0,0,0,0,0,0,0,0,0 }
  RV_STAVEC ()
- ADSCCFLG { 5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSCCFLG { 17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSCMISC ()
  ADSCDEFN ()
  ADSCUDEF ()
- ADSCINCD (..\..\lib_cm3;..\..\lib_user;..\Baguette;..\..\system)
+ ADSCINCD (..\..\..\system;..\..\..\lib_cm3;..\..\..\lib_user;..\proj_c_pour_generer_objs)
  ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSAMISC ()
  ADSADEFN ()
@@ -196,7 +193,7 @@ Options 2,0,0  // Target 'Simu'
  ADSLDIF ()
  ADSLDDW ()
   OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
-  OPTDBG 49149,1,()()()()(.\baguette_v1.ini)()()()()() (BIN\UL2CM3.DLL)()()()
+  OPTDBG 49149,2,()()()()(..\baguette_v1.ini)()()()()() (BIN\UL2CM3.DLL)()()()
  FLASH1 { 9,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,0,0 }
  FLASH2 (BIN\UL2CM3.DLL)
  FLASH3 ()
