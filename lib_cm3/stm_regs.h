@@ -74,7 +74,26 @@ typedef struct
 
 // Values definition for CR1 fields
 // Values for DISCNUM field
+#define ADC_DISCNUM_IS_1_CHANNEL	(0<<ADC_DISCNUM_SHIFT)
+#define ADC_DISCNUM_IS_2_CHANNELS	(1<<ADC_DISCNUM_SHIFT)
+#define ADC_DISCNUM_IS_3_CHANNELS	(2<<ADC_DISCNUM_SHIFT)
+#define ADC_DISCNUM_IS_4_CHANNELS	(3<<ADC_DISCNUM_SHIFT)
+#define ADC_DISCNUM_IS_5_CHANNELS	(4<<ADC_DISCNUM_SHIFT)
+#define ADC_DISCNUM_IS_6_CHANNELS	(5<<ADC_DISCNUM_SHIFT)
+#define ADC_DISCNUM_IS_7_CHANNELS	(6<<ADC_DISCNUM_SHIFT)
+#define ADC_DISCNUM_IS_8_CHANNELS	(7<<ADC_DISCNUM_SHIFT)
 
+// Values for DUALMOD field
+#define ADC_DUALMOD_IS_INDEPENDANT 	(0<<ADC_DUALMOD_SHIFT)
+#define ADC_DUALMOD_IS_COMBINED_1 	(1<<ADC_DUALMOD_SHIFT)
+#define ADC_DUALMOD_IS_COMBINED_2 	(2<<ADC_DUALMOD_SHIFT)
+#define ADC_DUALMOD_IS_COMBINED_3 	(3<<ADC_DUALMOD_SHIFT)
+#define ADC_DUALMOD_IS_COMBINED_4 	(4<<ADC_DUALMOD_SHIFT)
+#define ADC_DUALMOD_IS_INJECTED 	(5<<ADC_DUALMOD_SHIFT)
+#define ADC_DUALMOD_IS_REGULAR 		(6<<ADC_DUALMOD_SHIFT)
+#define ADC_DUALMOD_IS_FAST 		(7<<ADC_DUALMOD_SHIFT)
+#define ADC_DUALMOD_IS_SLOW 		(8<<ADC_DUALMOD_SHIFT)
+#define ADC_DUALMOD_IS_ALTERNATE 	(9<<ADC_DUALMOD_SHIFT)
 
 //ADC1->CR2 bit description
 #define ADC_ADON 	(1<<0)
@@ -113,16 +132,33 @@ typedef struct
 #define ADC_JEXTSEL_IS_EXTI			(6<<ADC_JEXTSEL_SHIFT)
 #define ADC_JEXTSEL_IS_SWSTART		(7<<ADC_JEXTSEL_SHIFT)
 
-//ADC1-SQR1 bit description
-#define ADC_SQX_MASK (0x001F)
+//ADC1->SQR1 bit description
 #define ADC_SQ13_SHIFT (0)
 #define ADC_SQ14_SHIFT (5)
 #define ADC_SQ15_SHIFT (10)
 #define ADC_SQ16_SHIFT (15)
-#define ADC_L_MASK (0x000F)
 #define ADC_L_SHIFT (20)
 
-//ADC1-SQR2 bit description
+// Values definition for SQR1 fields
+// Values for L field
+#define ADC_L_IS_1_CONVERSION		(0<<ADC_L_SHIFT)
+#define ADC_L_IS_2_CONVERSIONS		(1<<ADC_L_SHIFT)
+#define ADC_L_IS_3_CONVERSIONS		(2<<ADC_L_SHIFT)
+#define ADC_L_IS_4_CONVERSIONS		(3<<ADC_L_SHIFT)
+#define ADC_L_IS_5_CONVERSIONS		(4<<ADC_L_SHIFT)
+#define ADC_L_IS_6_CONVERSIONS		(5<<ADC_L_SHIFT)
+#define ADC_L_IS_7_CONVERSIONS		(6<<ADC_L_SHIFT)
+#define ADC_L_IS_8_CONVERSIONS		(7<<ADC_L_SHIFT)
+#define ADC_L_IS_9_CONVERSIONS		(8<<ADC_L_SHIFT)
+#define ADC_L_IS_10_CONVERSIONS		(9<<ADC_L_SHIFT)
+#define ADC_L_IS_11_CONVERSIONS		(10<<ADC_L_SHIFT)
+#define ADC_L_IS_12_CONVERSIONS		(11<<ADC_L_SHIFT)
+#define ADC_L_IS_13_CONVERSIONS		(12<<ADC_L_SHIFT)
+#define ADC_L_IS_14_CONVERSIONS		(13<<ADC_L_SHIFT)
+#define ADC_L_IS_15_CONVERSIONS		(14<<ADC_L_SHIFT)
+#define ADC_L_IS_16_CONVERSIONS		(15<<ADC_L_SHIFT)
+
+//ADC1->SQR2 bit description
 #define ADC_SQ7_SHIFT (0)
 #define ADC_SQ8_SHIFT (5)
 #define ADC_SQ9_SHIFT (10)
@@ -130,7 +166,7 @@ typedef struct
 #define ADC_SQ11_SHIFT (20)
 #define ADC_SQ12_SHIFT (25)
 
-//ADC1-SQR3 bit description
+//ADC1->SQR3 bit description
 #define ADC_SQ1_SHIFT (0)
 #define ADC_SQ2_SHIFT (5)
 #define ADC_SQ3_SHIFT (10)
@@ -138,12 +174,60 @@ typedef struct
 #define ADC_SQ5_SHIFT (20)
 #define ADC_SQ6_SHIFT (25)
 
+//ADC1->JSQR bit description
+#define ADC_JSQ1_SHIFT (0)
+#define ADC_JSQ2_SHIFT (5)
+#define ADC_JSQ3_SHIFT (10)
+#define ADC_JSQ4_SHIFT (15)
+#define ADC_JL_SHIFT (20)
+
+// Values definition for JSQR register
+// Values for JL field
+#define	ADC_JL_IS_1_CONVERSION		(0<<ADC_JL_SHIFT)
+#define	ADC_JL_IS_2_CONVERSIONS		(1<<ADC_JL_SHIFT)
+#define	ADC_JL_IS_3_CONVERSIONS		(2<<ADC_JL_SHIFT)
+#define	ADC_JL_IS_4_CONVERSIONS		(3<<ADC_JL_SHIFT)
+
+//ADC1->SMPR1 bit description
+#define ADC_SMP10_SHIFT	(0)
+#define ADC_SMP11_SHIFT	(3)
+#define ADC_SMP12_SHIFT	(6)
+#define ADC_SMP13_SHIFT	(9)
+#define ADC_SMP14_SHIFT	(12)
+#define ADC_SMP15_SHIFT	(15)
+#define ADC_SMP16_SHIFT	(18)
+#define ADC_SMP17_SHIFT	(21)
+
+//ADC1->SMPR2 bit description
+#define ADC_SMP0_SHIFT	(0)
+#define ADC_SMP1_SHIFT	(3)
+#define ADC_SMP2_SHIFT	(6)
+#define ADC_SMP3_SHIFT	(9)
+#define ADC_SMP4_SHIFT	(12)
+#define ADC_SMP5_SHIFT	(15)
+#define ADC_SMP6_SHIFT	(18)
+#define ADC_SMP7_SHIFT	(21)
+#define ADC_SMP8_SHIFT	(24)
+#define ADC_SMP9_SHIFT	(27)
+
+// Values definition for SMPRx register 
+// Values for SMPx field (to be shifted with correct SMPx_SHIFT constant)
+#define ADC_SMPx_IS_1_5_CYCLE	(0)
+#define ADC_SMPx_IS_7_5_CYCLE	(1)
+#define ADC_SMPx_IS_13_5_CYCLE	(2)
+#define ADC_SMPx_IS_28_5_CYCLE	(3)
+#define ADC_SMPx_IS_41_5_CYCLE	(4)
+#define ADC_SMPx_IS_55_5_CYCLE	(5)
+#define ADC_SMPx_IS_71_5_CYCLE	(6)
+#define ADC_SMPx_IS_239_5_CYCLE	(7)
+
 //ADC1->SR bit description
 #define ADC_AWD    (1<<0)
 #define ADC_EOC    (1<<1)
 #define ADC_JEOC   (1<<2)
 #define ADC_JSTRT  (1<<3)
 #define ADC_STRT   (1<<4)
+
 /*------------------------ Backup Registers ----------------------------------*/
 typedef struct
 {
@@ -340,6 +424,90 @@ typedef struct
   vu32 IFCR;
 } DMA_TypeDef;
 
+//DMA->ISR bit description
+#define DMA_GIF1	(1<<0)
+#define DMA_TCIF1	(1<<1)
+#define DMA_HTIF1	(1<<2)
+#define DMA_TEIF1	(1<<3)
+#define DMA_GIF2	(1<<4)
+#define DMA_TCIF2	(1<<5)
+#define DMA_HTIF2	(1<<6)
+#define DMA_TEIF2	(1<<7)
+#define DMA_GIF3	(1<<8)
+#define DMA_TCIF3	(1<<9)
+#define DMA_HTIF3	(1<<10)
+#define DMA_TEIF3	(1<<11)
+#define DMA_GIF4	(1<<12)
+#define DMA_TCIF4	(1<<13)
+#define DMA_HTIF4	(1<<14)
+#define DMA_TEIF4	(1<<15)
+#define DMA_GIF5	(1<<16)
+#define DMA_TCIF5	(1<<17)
+#define DMA_HTIF5	(1<<18)
+#define DMA_TEIF5	(1<<19)
+#define DMA_GIF6	(1<<20)
+#define DMA_TCIF6	(1<<21)
+#define DMA_HTIF6	(1<<22)
+#define DMA_TEIF6	(1<<23)
+#define DMA_GIF7	(1<<24)
+#define DMA_TCIF7	(1<<25)
+#define DMA_HTIF7	(1<<26)
+#define DMA_TEIF7	(1<<27)
+
+//DMA->IFCR bit description
+#define DMA_CGIF1	(1<<0)
+#define DMA_CTCIF1	(1<<1)
+#define DMA_CHTIF1	(1<<2)
+#define DMA_CTEIF1	(1<<3)
+#define DMA_CGIF2	(1<<4)
+#define DMA_CTCIF2	(1<<5)
+#define DMA_CHTIF2	(1<<6)
+#define DMA_CTEIF2	(1<<7)
+#define DMA_CGIF3	(1<<8)
+#define DMA_CTCIF3	(1<<9)
+#define DMA_CHTIF3	(1<<10)
+#define DMA_CTEIF3	(1<<11)
+#define DMA_CGIF4	(1<<12)
+#define DMA_CTCIF4	(1<<13)
+#define DMA_CHTIF4	(1<<14)
+#define DMA_CTEIF4	(1<<15)
+#define DMA_CGIF5	(1<<16)
+#define DMA_CTCIF5	(1<<17)
+#define DMA_CHTIF5	(1<<18)
+#define DMA_CTEIF5	(1<<19)
+#define DMA_CGIF6	(1<<20)
+#define DMA_CTCIF6	(1<<21)
+#define DMA_CHTIF6	(1<<22)
+#define DMA_CTEIF6	(1<<23)
+#define DMA_CGIF7	(1<<24)
+#define DMA_CTCIF7	(1<<25)
+#define DMA_CHTIF7	(1<<26)
+#define DMA_CTEIF7	(1<<27)
+
+//DMA_Channelx->CCR bit description
+#define DMA_EN	(1<<0)
+#define DMA_TCIE	(1<<1)
+#define DMA_HTIE	(1<<2)
+#define DMA_TEIE	(1<<3)
+#define DMA_DIR	    (1<<4)
+#define DMA_CIRC	(1<<5)
+#define DMA_PINC	(1<<6)
+#define DMA_MINC	(1<<7)
+#define DMA_PSIZE_SHIFT	(8)
+#define DMA_PSIZE_IS_8BITS 		(0 << PSIZE_SHIFT)
+#define DMA_PSIZE_IS_16BITS 	(1 << PSIZE_SHIFT)
+#define DMA_PSIZE_IS_32BITS 	(2 << PSIZE_SHIFT)
+#define DMA_MSIZE_SHIFT	(10)
+#define DMA_MSIZE_IS_8BITS (0 << MSIZE_SHIFT)
+#define DMA_MSIZE_IS_16BITS (1 << MSIZE_SHIFT)
+#define DMA_MSIZE_IS_32BITS (2 << MSIZE_SHIFT)
+#define DMA_PL_SHIFT	(12)
+#define DMA_PL_IS_LOW   (0<<PL_SHIFT)
+#define DMA_PL_IS_MEDIUM   (1<<PL_SHIFT)
+#define DMA_PL_IS_HIGH   (2<<PL_SHIFT)
+#define DMA_PL_IS_VERYHIGH   (3<<PL_SHIFT)
+#define DMA_MEM2MEM	(1<<14)
+
 /*------------------------ External Interrupt/Event Controller ---------------*/
 typedef struct
 {
@@ -376,6 +544,40 @@ typedef struct
   vu16 WRP2;
   vu16 WRP3;
 } OB_TypeDef;
+
+//FLASH->ACR bit description
+#define FLASH_HLFCYA	(1<<3)
+#define FLASH_PRFTBE	(1<<4)
+#define FLASH_PRFTBS	(1<<5)
+
+// Values definition for ACR register 
+// Values for LATENCY field 
+#define FLASH_LATENCY_0_WS	(0)
+#define FLASH_LATENCY_1_WS	(1)
+#define FLASH_LATENCY_2_WS	(2)
+
+//FLASH->SR bit description
+#define FLASH_BSY		(1<<0)
+#define FLASH_PGERR		(1<<2)
+#define FLASH_WRPRTERR	(1<<4)
+#define FLASH_EOP		(1<<5)
+
+//FLASH->CR bit description
+#define FLASH_PG		(1<<0)
+#define FLASH_PER		(1<<1)
+#define FLASH_MER		(1<<2)
+#define FLASH_OPTPG		(1<<4)
+#define FLASH_OPTER		(1<<5)
+#define FLASH_STRT		(1<<6)
+#define FLASH_LOCK		(1<<7)
+#define FLASH_OPTWRE	(1<<9)
+#define FLASH_ERRIE		(1<<10)
+#define FLASH_EOPIE		(1<<12)
+
+//FLASH Keys
+#define FLASH_KEY_RDPRT	0x00A5
+#define FLASH KEY_KEY1	0x45670123
+#define FLASH KEY_KEY2	0xCDEF89AB
 
 /*------------------------ Flexible Static Memory Controller -----------------*/
 typedef struct
@@ -436,6 +638,220 @@ typedef struct
   vu32 EXTICR[4];
 } AFIO_TypeDef;
 
+//GPIOx->CRL and GPIOx->CRH bit description
+#define GPIO_MODE_0_SHIFT	(0)
+#define GPIO_CNF_0_SHIFT	(2)
+#define GPIO_MODE_1_SHIFT	(4)
+#define GPIO_CNF_1_SHIFT	(6)
+#define GPIO_MODE_2_SHIFT	(8)
+#define GPIO_CNF_2_SHIFT	(10)
+#define GPIO_MODE_3_SHIFT	(12)
+#define GPIO_CNF_3_SHIFT	(14)
+#define GPIO_MODE_4_SHIFT	(16)
+#define GPIO_CNF_4_SHIFT	(18)
+#define GPIO_MODE_5_SHIFT	(20)
+#define GPIO_CNF_5_SHIFT	(22)
+#define GPIO_MODE_6_SHIFT	(24)
+#define GPIO_CNF_6_SHIFT	(26)
+#define GPIO_MODE_7_SHIFT	(28)
+#define GPIO_CNF_7_SHIFT	(30)
+
+#define GPIO_MODE_8_SHIFT	(0)
+#define GPIO_CNF_8_SHIFT	(2)
+#define GPIO_MODE_9_SHIFT	(4)
+#define GPIO_CNF_9_SHIFT	(6)
+#define GPIO_MODE_10_SHIFT	(8)
+#define GPIO_CNF_10_SHIFT	(10)
+#define GPIO_MODE_11_SHIFT	(12)
+#define GPIO_CNF_11_SHIFT	(14)
+#define GPIO_MODE_12_SHIFT	(16)
+#define GPIO_CNF_12_SHIFT	(18)
+#define GPIO_MODE_13_SHIFT	(20)
+#define GPIO_CNF_13_SHIFT	(22)
+#define GPIO_MODE_14_SHIFT	(24)
+#define GPIO_CNF_14_SHIFT	(26)
+#define GPIO_MODE_15_SHIFT	(28)
+#define GPIO_CNF_15_SHIFT	(30)
+
+// Values definition for CRL and CRH register 
+// Values for MODEx field (to be shifted with correct GPIO_MODE_xx_SHIFT constant)
+#define GPIO_MODE_INPUT			(0)
+#define GPIO_MODE_OUTPUT_10_MHZ	(1)
+#define GPIO_MODE_OUTPUT_2_MHZ	(2)
+#define GPIO_MODE_OUTPUT_50_MHZ	(3)
+
+// Values for CNFx field (to be shifted with correct GPIO_CNF_xx_SHIFT constant)
+#define GPIO_CNF_ANALOG_INPUT	(0)
+#define GPIO_CNF_FLOATING_INPUT	(1)
+#define GPIO_CNF_DIGITAL_INPUT	(2)
+
+#define GPIO_CNF_OUTPUT_PUSH_PULL		(0)
+#define GPIO_CNF_OUTPUT_OPEN_DRAIN		(1)
+#define GPIO_CNF_ALTERNATE_PUSH_PULL	(2)
+#define GPIO_CNF_ALTERNATE_OPEN_DRAIN	(3)
+
+//GPIOx->IDR, GPIOx->ODR and GPIOx->LCKR bit description
+#define GPIO_PIN_0		(1<<0)
+#define GPIO_PIN_1		(1<<1)
+#define GPIO_PIN_2		(1<<2)
+#define GPIO_PIN_3		(1<<3)
+#define GPIO_PIN_4		(1<<4)
+#define GPIO_PIN_5		(1<<5)
+#define GPIO_PIN_6		(1<<6)
+#define GPIO_PIN_7		(1<<7)
+#define GPIO_PIN_8		(1<<8)
+#define GPIO_PIN_9		(1<<9)
+#define GPIO_PIN_10		(1<<10)
+#define GPIO_PIN_11		(1<<11)
+#define GPIO_PIN_12		(1<<12)
+#define GPIO_PIN_13		(1<<13)
+#define GPIO_PIN_14		(1<<14)
+#define GPIO_PIN_15		(1<<15)
+
+//GPIOx->BSRR bit description
+//Note: we delibaretly not use BRR registers as they offer same functionalities as BSRR
+#define GPIO_SET_PIN_0	(GPIO_PIN_0)
+#define GPIO_SET_PIN_1	(GPIO_PIN_1)
+#define GPIO_SET_PIN_2	(GPIO_PIN_2)
+#define GPIO_SET_PIN_3	(GPIO_PIN_3)
+#define GPIO_SET_PIN_4	(GPIO_PIN_4)
+#define GPIO_SET_PIN_5	(GPIO_PIN_5)
+#define GPIO_SET_PIN_6	(GPIO_PIN_6)
+#define GPIO_SET_PIN_7	(GPIO_PIN_7)
+#define GPIO_SET_PIN_8	(GPIO_PIN_8)
+#define GPIO_SET_PIN_9	(GPIO_PIN_9)
+#define GPIO_SET_PIN_10	(GPIO_PIN_10)
+#define GPIO_SET_PIN_11	(GPIO_PIN_11)
+#define GPIO_SET_PIN_12	(GPIO_PIN_12)
+#define GPIO_SET_PIN_13	(GPIO_PIN_13)
+#define GPIO_SET_PIN_14	(GPIO_PIN_14)
+#define GPIO_SET_PIN_15	(GPIO_PIN_15)
+
+#define GPIO_CLEAR_PIN_0	(GPIO_PIN_0<<16)
+#define GPIO_CLEAR_PIN_1	(GPIO_PIN_1<<16)
+#define GPIO_CLEAR_PIN_2	(GPIO_PIN_2<<16)
+#define GPIO_CLEAR_PIN_3	(GPIO_PIN_3<<16)
+#define GPIO_CLEAR_PIN_4	(GPIO_PIN_4<<16)
+#define GPIO_CLEAR_PIN_5	(GPIO_PIN_5<<16)
+#define GPIO_CLEAR_PIN_6	(GPIO_PIN_6<<16)
+#define GPIO_CLEAR_PIN_7	(GPIO_PIN_7<<16)
+#define GPIO_CLEAR_PIN_8	(GPIO_PIN_8<<16)
+#define GPIO_CLEAR_PIN_9	(GPIO_PIN_9<<16)
+#define GPIO_CLEAR_PIN_10	(GPIO_PIN_10<<16)
+#define GPIO_CLEAR_PIN_11	(GPIO_PIN_11<<16)
+#define GPIO_CLEAR_PIN_12	(GPIO_PIN_12<<16)
+#define GPIO_CLEAR_PIN_13	(GPIO_PIN_13<<16)
+#define GPIO_CLEAR_PIN_14	(GPIO_PIN_14<<16)
+#define GPIO_CLEAR_PIN_15	(GPIO_PIN_15<<16)
+
+//GPIOx->LCKR bit description
+#define GPIO_LCKK		(1<<16)
+
+//AFIO->EVCR bits definition
+#define AFIO_PIN_SHIFT	(0)
+#define AFIO_PORT_SHIFT	(4)
+#define AFIO_EVOE		(1<<7)
+
+//Values definition for EVCR register 
+//Values for PIN field 
+#define AFIO_PIN_0		(0)
+#define AFIO_PIN_1		(1)
+#define AFIO_PIN_2		(2)
+#define AFIO_PIN_3		(3)
+#define AFIO_PIN_4		(4)
+#define AFIO_PIN_5		(5)
+#define AFIO_PIN_6		(6)
+#define AFIO_PIN_7		(7)
+#define AFIO_PIN_8		(8)
+#define AFIO_PIN_9		(9)
+#define AFIO_PIN_10		(10)
+#define AFIO_PIN_11		(11)
+#define AFIO_PIN_12		(12)
+#define AFIO_PIN_13		(13)
+#define AFIO_PIN_14		(14)
+#define AFIO_PIN_15		(15)
+
+//Values for PORT field 
+#define AFIO_PORT_A		(0<<AFIO_PORT_SHIFT)
+#define AFIO_PORT_B		(1<<AFIO_PORT_SHIFT)
+#define AFIO_PORT_C		(2<<AFIO_PORT_SHIFT)
+#define AFIO_PORT_D		(3<<AFIO_PORT_SHIFT)
+#define AFIO_PORT_E		(4<<AFIO_PORT_SHIFT)
+
+//AFIO->MAPR bits definition
+#define AFIO_SPI1_REMAP		(1<<0)
+#define AFIO_I2C1_REMAP		(1<<1)
+#define AFIO_USART1_REMAP	(1<<2)
+#define AFIO_USART2_REMAP	(1<<3)
+#define AFIO_USART3_REMAP_SHIFT	(4)
+#define AFIO_TIM1_REMAP_SHIFT	(6)
+#define AFIO_TIM2_REMAP_SHIFT	(8)
+#define AFIO_TIM3_REMAP_SHIFT	(10)
+#define AFIO_TIM4_REMAP		(1<<12)
+#define AFIO_CAN_REMAP_SHIFT	(13)
+#define AFIO_PD01_REMAP		(1<<15)
+#define AFIO_TIM5CH4_REMAP		(1<<16)
+#define AFIO_ADC1_ETRGINJ_REMAP	(1<<17)
+#define AFIO_ADC1_ETRGREG_REMAP	(1<<18)
+#define AFIO_ADC2_ETRGINJ_REMAP	(1<<19)
+#define AFIO_ADC2_ETRGREG_REMAP	(1<<20)
+#define AFIO_SWJ_CFG_SHIFT		(24)
+
+//Values definition for MAPR register 
+//Values for CAN field 
+#define AFIO_CAN_REMAP_PA11_PA12	(0)
+#define AFIO_CAN_REMAP_PB8_PB9		(2)
+#define AFIO_CAN_REMAP_PD0_PD1		(3)
+
+//Values for TIM3 field 
+#define AFIO_TIM3_NO_REMAP			(0)
+#define AFIO_TIM3_PARTIAL_REMAP		(2)
+#define AFIO_TIM3_FULL_REMAP		(3)
+
+//Values for TIM2 field 
+#define AFIO_TIM2_NO_REMAP			(0)
+#define AFIO_TIM2_REMAP_CH1_CH2		(1)
+#define AFIO_TIM2_REMAP_CH3_CH4		(2)
+#define AFIO_TIM2_FULL_REMAP		(3)
+
+//Values for TIM1 field 
+#define AFIO_TIM1_NO_REMAP			(0)
+#define AFIO_TIM1_PARTIAL_REMAP		(1)
+#define AFIO_TIM1_FULL_REMAP		(3)
+
+//Values for USART3 field 
+#define AFIO_USART3_NO_REMAP		(0)
+#define AFIO_USART3_PARTIAL_REMAP	(1)
+#define AFIO_USART3_FULL_REMAP		(3)
+
+//AFIO->EXTICR1, AFIO->EXTICR2, AFIO->EXTICR3 and AFIO->EXTICR4 bits definition
+#define AFIO_EXT0_SHIFT		(0)
+#define AFIO_EXT1_SHIFT		(4)
+#define AFIO_EXT2_SHIFT		(8)
+#define AFIO_EXT3_SHIFT		(12)
+#define AFIO_EXT4_SHIFT		(0)
+#define AFIO_EXT5_SHIFT		(4)
+#define AFIO_EXT6_SHIFT		(8)
+#define AFIO_EXT7_SHIFT		(12)
+#define AFIO_EXT8_SHIFT		(0)
+#define AFIO_EXT9_SHIFT		(4)
+#define AFIO_EXT10_SHIFT	(8)
+#define AFIO_EXT11_SHIFT	(12)
+#define AFIO_EXT12_SHIFT	(0)
+#define AFIO_EXT13_SHIFT	(4)
+#define AFIO_EXT14_SHIFT	(8)
+#define AFIO_EXT15_SHIFT	(12)
+
+//Values definition for EXTICR1, EXTICR2, EXTICR3 and EXTICR4 register 
+//Values for EXTx field (to be used with corresponding AFIO_EXTx_SHIFT definition)
+#define AFIO_EXT_PORT_PA		(0)
+#define AFIO_EXT_PORT_PB		(1)
+#define AFIO_EXT_PORT_PC		(2)
+#define AFIO_EXT_PORT_PD		(3)
+#define AFIO_EXT_PORT_PE		(4)
+#define AFIO_EXT_PORT_PF		(5)
+#define AFIO_EXT_PORT_PG		(6)
+
 /*------------------------ Inter-integrated Circuit Interface ----------------*/
 typedef struct
 {
@@ -467,6 +883,15 @@ typedef struct
   vu32 RLR;
   vu32 SR;
 } IWDG_TypeDef;
+
+/*------------------------ SystemTick ----------------------------------------*/
+typedef struct
+{
+  vu32 CTRL;
+  vu32 LOAD;
+  vu32 VAL;
+  vuc32 CALIB;
+} SysTick_TypeDef;
 
 /*------------------------ Nested Vectored Interrupt Controller --------------*/
 typedef struct
@@ -501,6 +926,9 @@ typedef struct
   vu32 BFAR;
   vu32 AFSR;
 } SCB_TypeDef;
+
+// Registers bit definitions and macro for NVIC, SCB and Systick are made in 
+// separate file stm_system.h (included at end of this file)
 
 /*------------------------ Power Control -------------------------------------*/
 typedef struct
@@ -596,15 +1024,6 @@ typedef struct
   vu16 I2SPR;
   u16  RESERVED8;  
 } SPI_TypeDef;
-
-/*------------------------ SystemTick ----------------------------------------*/
-typedef struct
-{
-  vu32 CTRL;
-  vu32 LOAD;
-  vu32 VAL;
-  vuc32 CALIB;
-} SysTick_TypeDef;
 
 /*------------------------ TIM -----------------------------------------------*/
 typedef struct
@@ -1265,37 +1684,8 @@ typedef struct
 
 #endif  /* DEBUG */
 
-/* Exported constants and  macro for registers bits definition ---------------*/
-
-/*
- * ADC bits definitions
- */
-
-
-
-//DMAx_Channelx->CCR bit description
-#define EN	(1<<0)
-#define TCIE	(1<<1)
-#define HTIE	(1<<2)
-#define TEIE	(1<<3)
-#define DIR	    (1<<4)
-#define CIRC	(1<<5)
-#define PINC	(1<<6)
-#define MINC	(1<<7)
-#define PSIZE_SHIFT	(8)
-#define PSIZE_IS_8BITS (0 << PSIZE_SHIFT)
-#define PSIZE_IS_16BITS (1 << PSIZE_SHIFT)
-#define PSIZE_IS_32BITS (2 << PSIZE_SHIFT)
-#define MSIZE_SHIFT	(10)
-#define MSIZE_IS_8BITS (0 << MSIZE_SHIFT)
-#define MSIZE_IS_16BITS (1 << MSIZE_SHIFT)
-#define MSIZE_IS_32BITS (2 << MSIZE_SHIFT)
-#define PL_SHIFT	(12)
-#define PL_IS_LOW   (0<<PL_SHIFT)
-#define PL_IS_MEDIUM   (1<<PL_SHIFT)
-#define PL_IS_HIGH   (2<<PL_SHIFT)
-#define PL_IS_VERYHIGH   (3<<PL_SHIFT)
-#define MEM2MEM	(1<<14)
+// Include register bits definition and macro for NVIC, SCB and systick peripherals
+#include "stm_system.h"
 
 #endif /* __STM_REGS_H__ */
 
