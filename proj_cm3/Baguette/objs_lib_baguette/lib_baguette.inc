@@ -1,6 +1,48 @@
-;/*****************************************************************************/
-;/* Fichier "include" pour les fonctions de lib_baguette                      */
-;/*****************************************************************************/
+;_______________________________________________________________________________
+;  Fichier "include" pour les fonctions de lib_baguette  
+;
+;  La baguette est utilisée pour les TP asm voir la page
+;                       
+;_______________________________________________________________________________
+;
+; Résumé des fonctions sous forme de prototypes en langage C
+; ===========================================================
+;	void Init_Baguette(void);
+;
+;	int Lire_Touche(int button);
+;	#define BOUTON_EFFACE   0x01
+;	#define BOUTON_VALID    0x02
+;
+;	void Ecrit_LED(int val);
+;
+;   void MAJ_Ecran(char texte_baguette[],char caractere);
+;
+;	void Demarre_Systick(void);
+;
+;	int Lire_ADC(int channel);
+;	#define ADC_POTENTIOMETRE   0
+;	#define ADC_X				1
+;	#define ADC_Y 				2
+;	void Analog_Dog_Watch_For_Lower_Than(short int gap);
+;	void Analog_Dog_Watch_For_Higher_Than(short int gap);
+;	void Acquite_ADC(void);
+;
+; ___ résumé des conventions du compilateur C ARM
+;  	     out  ma_function (parm0, param1, param2, ...)
+;
+;     out est retournée dans R0 (si <= 32bits)  
+;     param0 dans R0, param1 dans R1, param2 dans R2 etc.. si param < 32 bits
+; 	  param4 et plus sont stockés dans la pile
+;
+;     R0 à R3, et bien sur R13 à R15, sont potentiellement altérées par l'appel de la fonction 
+
+
+
+
+
+; ===========================================================
+; Déclarations asm et description dans la suite 
+; ===========================================================
 
 
 ;________________________________________________________________________________________
@@ -71,7 +113,7 @@ BOUTON_VALIDER equ 2
 ;void Ecrit_LED(int val);
  EXTERN Ecrit_LED [CODE]
 ; IN: 
-;     R0.0-R0.7: Valeur à envoyer sur les diodes
+;     R0.0-R0.7: Valeur à envoyer sur les diodes du port PB.8 à PB.15
 ; OUT: 	Rien
 ; REG. ALT. : R1-R3, R14, R15
 ;________________________________________________________________________________________
@@ -106,12 +148,86 @@ BOUTON_VALIDER equ 2
 ;  En simulé, l'écran LCD n'est pas simulé mais on peut observer l'UART1
 ;  Allez en debug dans l'onglet View->Serial Windows->UART1
 ;____ REEL 
-;  Observez simplement l'écran LCD, ou connecté un terminal sur UART1 avec un 
+;  Observez simplement l'écran LCD, ou connectez un terminal sur UART1 avec un 
 ;       connecteur DB9 sur la carte MCBSTM32
 ;________________________________________________________________________________________
 
 
 
+;________________________________________________________________________________________
+; void Demarre_Systick(void)
+ EXTERN Demarre_Systick
+; IN:  rien
+; OUT: 	Rien
+; REG. ALT. : R0,R1,R14,R15
+;________________________________________________________________________________________
+;  Lance le timer SYSTICK ( pour le clignotement des led ) de période 800us
+;    à partir de cet instant une interruption sera déclanchée toute les 800us
+;  Il faut donc définir un Handler pour cette interruption :
+;  SysTick_Handler PROC
+;	EXPORT SysTick_Handler
+;	; code de gestion de l'interruption
+;	BX LR  
+;   ENDP
+;________________________________________________________________________________________
+
+
+;________________________________________________________________________________________
+; int Lire_ADC(int channel);
+ EXTERN Lire_ADC
+; IN: 	 R0: canal à lire         
+;          		0 = valeur du potentiomètre de saisie (ADC_POTENTIOMETRE)
+;				1 = mesure de l'accélération de l'axe X (ADC_X) l'axe est indiqué sur la baguette.
+;				2 = mesure de l'accélération de l'axe Y (ADC_Y) l'axe est indiqué sur la baguette.
+; OUT: 	 R0: Résultat de la conversion sur 16 bits alignés à droite
+; 
+; REG. ALT. : R0-R2,R14,R15
+;______________________
+ADC_POTENTIOMETRE 	EQU		0
+ADC_X				EQU		1
+ADC_Y 				EQU		2
+;________________________________________________________________________________________
+;  Lis le résultat de la conversion analogique effectué par l'ADC1 et stocké par la DMA
+;  Le résultat est stocké en 16 bits alignés à droite, la pleine échelle est de 3.3 Volts
+;  0x?????000  => 0 Volts mesurés sur le canal indiqué
+;  0x?????FFF  => 3.3 Votls mesurés sur le canal indiqué
+;________________________________________________________________________________________
+
+
+
+;________________________________________________________________________________________
+;void Analog_Dog_Watch_For_Higher_Than(short int gap);
+;void Analog_Dog_Watch_For_Lower_Than(short int gap);
+ EXTERN Analog_Dog_Watch_For_Higher_Than [CODE]
+ EXTERN Analog_Dog_Watch_For_Lower_Than [CODE]
+; IN    R0.0-R0.11 : "gap" valeur du seuil sur 12 bits 
+; OUT 	rien
+; REG. ALT. : R0-R2, R14, R15
+;________________________________________________________________________________________
+;  Indique au watchdog analogique de déclencher une interruption si
+;      l'accélération en x (ADC_X) devient inférieure à "gap" pour "..For_Lower_Than"
+;      l'accélération en x (ADC_X) devient supérieure à "gap" pour "..For_Higwer_Than"
+;  L'appel de cette fonction déclenchera donc une interruption à récupérer en exportant
+; me handler "ADC_IRQhandler comme dans l'exemple suivant 
+;_________________________exemple de handler
+;ADC_IRQHandler PROC
+;	EXPORT ADC_IRQHandler
+;
+;       ; code à exécuter sur aboiment de l'analog watchdog
+;
+;	  BL Acquite_ADC		; acquittement sinon l'interruption reste toujours active !
+;
+;     ; retour d'interruption 
+;	  LDR LR,=0xFFFFFFF9  (au cas ou LR ai été modifié par le code)	
+; 	  BX LR
+; ENDP
+;_________________________
+; ATTENTION appelez Acquite_ADC en fin de handler (voir Acquite_ADC)
+;
+;   L'analog watchdog ne peut surveiller qu'un seul seuil à la foi !
+;   impossible de surveiller si l'on dépasse un certain seuil ET en même temps
+;   si l'on passe sous un seuil...
+;________________________________________________________________________________________
 
 ;________________________________________________________________________________________
 ; void Acquite_ADC(void);
@@ -127,21 +243,24 @@ BOUTON_VALIDER equ 2
 
 
 
-;________________________________________________________________________________________
- EXTERN Demarre_Systick
-; IN:  rien
-; OUT: 	Rien
-; REG. ALT. : R0,R1,R14,R15
-;________________________________________________________________________________________
-;  Lance le timer SYSTICK ( pour le clignotement des led ) de période 800us
-;    à partir de cet instant une interruption sera déclanchée toute les 800us
-;  Il faut donc définir un Handler pour cette interruption :
-;  SysTick_Handler PROC
-;	EXPORT SysTick_Handler
-;	; code de gestion de l'interruption
-;	BX LR
-;   ENDP
-;________________________________________________________________________________________
+;//////////////////////////////////////////////////////////////////////////////////////////
+; LES FONCTIONS SUIVANTES NE SONT PAS UTILES AU PROJET NORMALEMENT
+;/////////////////////////////////////////////////////////////////////////////////////////
+; Prototypes C
+; 	void Arrete_Systick(void);
+; Utiliser le timer 1 qui est cadencé à 100ms
+; 	void Demarre_Timer1(void);
+; 	void Arrete_Timer1(void);
+; 	void Acquite_Timer1(void);
+; Primitives de l'écran LCD/USART1
+; 	void Efface_Ecran(void);
+; 	void Ecrit_Ecran(char c);
+; 	void Ecrit_Chaine_Ecran(char *str);
+; 	void Position_Curseur(int x, int y);
+
+
+;/////////////////
+; déclaration asm
 
 ;/* 
 ; * Fonction: 	Arrete_SYSTICK
@@ -177,6 +296,8 @@ BOUTON_VALIDER equ 2
 ;/* 
 ; * Fonctions pour la gestion de l'ecran LCD 
 ; */
+
+
 
 ;/* 
 ; * Fonction: 	Efface_Ecran
@@ -214,31 +335,5 @@ BOUTON_VALIDER equ 2
 ; */
  EXTERN Position_Curseur
 
-;/* 
-; * Fonctions pour la gestion de l'ADC 
-; */
-
-;/* 
-; * Definition (EQU) a utiliser avec Lire_ADC
-; */
-ADC_POTENTIOMETRE 	EQU		0
-ADC_X				EQU		1
-ADC_Y 				EQU		2
-
-;/* 
-; * Fonction: 	Lire_ADC
-; * Role: 		Lecture de la valeur d'un canal de l'ADC
-; * Entrée: 		
-; *		R0:	Canal ADC à lire.
-; *			0 = Potentiometre
-; *			1 = Accelerometre voie X
-; *			2 = Accelerometre voie Y
-; * Sortie: 
-; *		R0: Valeur ADC (12 bits de poids faible)
-; */
- EXTERN Lire_ADC
- EXTERN Analog_Dog_Watch_For_Higher_Than [CODE]
- EXTERN Analog_Dog_Watch_For_Lower_Than [CODE]
- ;REG. ALT. : R0-R2,R14,R15
 
  END
