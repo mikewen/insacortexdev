@@ -146,9 +146,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>88</LineNumber>
+          <LineNumber>73</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134219814</Address>
+          <Address>134219784</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
@@ -156,14 +156,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>main_p1_aff.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\main_p1_aff\88</Expression>
+          <Expression>\main_p1_aff\73</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>115</LineNumber>
+          <LineNumber>151</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134219854</Address>
+          <Address>134219890</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
@@ -171,29 +171,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>main_p1_aff.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\main_p1_aff\115</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>79</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134219800</Address>
-          <ByteObject>0</ByteObject>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>main_p1_aff.s</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\main_p1_aff\79</Expression>
+          <Expression>\main_p1_aff\151</Expression>
         </Bp>
       </Breakpoint>
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
-          <SubType>8</SubType>
-          <ItemText>0x2000000D</ItemText>
+          <SubType>1</SubType>
+          <ItemText>0x20000031</ItemText>
         </Mm>
       </MemoryWindow1>
       <MemoryWindow2>
@@ -266,7 +251,7 @@
         <viewmode>1</viewmode>
         <vrSel>0</vrSel>
         <aSym>0</aSym>
-        <aTbox>0</aTbox>
+        <aTbox>1</aTbox>
         <AscS1>0</AscS1>
         <AscS2>0</AscS2>
         <AscS3>0</AscS3>
@@ -507,10 +492,10 @@
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>2</ColumnNumber>
+      <ColumnNumber>55</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>103</TopLine>
-      <CurrentLine>114</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>18</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\objs_lib_baguette\lib_baguette.inc</PathWithFileName>
       <FilenameWithoutPath>lib_baguette.inc</FilenameWithoutPath>
@@ -584,13 +569,27 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>20</ColumnNumber>
+      <ColumnNumber>72</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>79</TopLine>
-      <CurrentLine>108</CurrentLine>
+      <TopLine>132</TopLine>
+      <CurrentLine>145</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main_p1_aff.s</PathWithFileName>
       <FilenameWithoutPath>main_p1_aff.s</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>3</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>79</TopLine>
+      <CurrentLine>100</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\lib_user\font8.c</PathWithFileName>
+      <FilenameWithoutPath>font8.c</FilenameWithoutPath>
     </File>
   </Group>
 
@@ -602,9 +601,9 @@
   </Group>
 
   <AlienFiles>
-    <PathWithFilename>U:\Windows\Bureau\insacortexdev\proj_cm3\Baguette\proj_c_pour_generer_objs\main.c</PathWithFilename>
-    <TopLine>109</TopLine>
-    <CurrentLine>124</CurrentLine>
+    <PathWithFilename>U:\Windows\Bureau\insacortexdev\lib_cm3\lib_baguette.h</PathWithFilename>
+    <TopLine>167</TopLine>
+    <CurrentLine>204</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -628,9 +627,9 @@
   </AlienFiles>
 
   <AlienFiles>
-    <PathWithFilename>U:\Windows\Bureau\insacortexdev\lib_cm3\lib_baguette.h</PathWithFilename>
-    <TopLine>167</TopLine>
-    <CurrentLine>202</CurrentLine>
+    <PathWithFilename>U:\Windows\Bureau\insacortexdev\proj_cm3\Baguette\proj_c_pour_generer_objs\main.c</PathWithFilename>
+    <TopLine>142</TopLine>
+    <CurrentLine>142</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -807,7 +806,7 @@
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
+        <ActiveTab>1</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -882,7 +881,7 @@
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -1207,7 +1206,7 @@
         <FloatingRect_bottom>600</FloatingRect_bottom>
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
+        <ActiveTab>1</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -1307,7 +1306,7 @@
         <FloatingRect_bottom>600</FloatingRect_bottom>
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -1998,21 +1997,21 @@
       <Documents>
         <Doc>
           <Name>.\main_p1_aff.s</Name>
-          <ColumnNumber>20</ColumnNumber>
-          <TopLine>79</TopLine>
-          <CurrentLine>108</CurrentLine>
+          <ColumnNumber>72</ColumnNumber>
+          <TopLine>132</TopLine>
+          <CurrentLine>145</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\objs_lib_baguette\lib_baguette.inc</Name>
-          <ColumnNumber>2</ColumnNumber>
-          <TopLine>103</TopLine>
-          <CurrentLine>114</CurrentLine>
+          <ColumnNumber>55</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>18</CurrentLine>
         </Doc>
         <Doc>
           <Name>U:\Windows\Bureau\insacortexdev\proj_cm3\Baguette\proj_c_pour_generer_objs\main.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>109</TopLine>
-          <CurrentLine>124</CurrentLine>
+          <TopLine>142</TopLine>
+          <CurrentLine>142</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\..\..\system\STM32F10x.s</Name>
@@ -2022,9 +2021,15 @@
         </Doc>
         <Doc>
           <Name>U:\Windows\Bureau\insacortexdev\lib_cm3\lib_baguette.h</Name>
-          <ColumnNumber>71</ColumnNumber>
+          <ColumnNumber>25</ColumnNumber>
           <TopLine>167</TopLine>
-          <CurrentLine>202</CurrentLine>
+          <CurrentLine>204</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\..\..\lib_user\font8.c</Name>
+          <ColumnNumber>3</ColumnNumber>
+          <TopLine>79</TopLine>
+          <CurrentLine>100</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

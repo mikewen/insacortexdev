@@ -20,9 +20,14 @@
             
 ;______________________________VARIABLES________________________________________________            			
  AREA    RESET, DATA
-Phase			DCB 	'Q'	 
+Phase			DCB 	'Q'
 Texte_Baguette 	DCB 	"ABBA"
- 
+Trame			DCB 	0xfc, 0x66, 0x66, 0x7c, 0x60, 0x60, 0xf0, 0x00 ;'P'
+Trame2			DCB     0x30, 0x78, 0xcc, 0xcc, 0xfc, 0xcc, 0xcc, 0x00 ;'A'
+Trame3			DCB		0xfc, 0x66, 0x66, 0x7c, 0x60, 0x60, 0xf0, 0x00 ;'P'
+Trame4			DCB		0x30, 0x78, 0xcc, 0xcc, 0xfc, 0xcc, 0xcc, 0x00 ;'A'
+ptr_trame		SPACE	4
+
 ;______________________________CONSTANTES_______________________________________            			
  AREA    RESET, DATA, READONLY
 S_TB  	equ 	(0xFFF*1000/3300) 	;// Seuil_TresBas  	0x441
@@ -70,6 +75,11 @@ main	PROC
 			;index_tableau=0;
 			LDR R7,=0
 
+			;index_font = 0;
+			LDR R0,=ptr_trame
+			LDR R1,=Trame
+			STR R1,[R0]
+
 			;MAJ_trame(texte_baguette,trame);
 
 			;MAJ_Ecran (texte_baguette,caractere);
@@ -89,8 +99,7 @@ main	PROC
 			BL Lire_Touche
 			MOV R4,R0
 
-			;index_font = 0;
-
+	
 			;/* Lance le timer pour le clignotement des led */
 			BL Demarre_Systick
 
@@ -112,8 +121,6 @@ Pour_Toujours
 				BL Lire_Touche
 
 
-				BL Ecrit_LED
-
 			B Pour_Toujours
 
  ENDP
@@ -123,6 +130,24 @@ Pour_Toujours
 SysTick_Handler PROC
 	EXPORT SysTick_Handler
 	; code de gestion de l'interruption
+
+	LDR R2,=ptr_trame
+	LDR R1, [R2]
+	LDRB R0, [R1] , #1
+	LDR R2,=(Trame + 8*4 )
+    
+	CMP  R1,R2
+	BLT  |Pas_De_Recalage|
+		LDR R1,=Trame	
+|Pas_De_Recalage|
+
+	PUSH {R1,R2,LR}
+	BL Ecrit_LED
+	POP {R1,R2,LR}
+
+	STR R1,[R2]		
+
+
 	BX LR	; LR doit valoir
  ENDP
 ;_________________________
