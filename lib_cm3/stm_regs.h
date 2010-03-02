@@ -497,15 +497,15 @@ typedef struct
 #define DMA_PSIZE_IS_8BITS 		(0 << PSIZE_SHIFT)
 #define DMA_PSIZE_IS_16BITS 	(1 << PSIZE_SHIFT)
 #define DMA_PSIZE_IS_32BITS 	(2 << PSIZE_SHIFT)
-#define DMA_MSIZE_SHIFT	(10)
-#define DMA_MSIZE_IS_8BITS (0 << MSIZE_SHIFT)
-#define DMA_MSIZE_IS_16BITS (1 << MSIZE_SHIFT)
-#define DMA_MSIZE_IS_32BITS (2 << MSIZE_SHIFT)
-#define DMA_PL_SHIFT	(12)
-#define DMA_PL_IS_LOW   (0<<PL_SHIFT)
-#define DMA_PL_IS_MEDIUM   (1<<PL_SHIFT)
-#define DMA_PL_IS_HIGH   (2<<PL_SHIFT)
-#define DMA_PL_IS_VERYHIGH   (3<<PL_SHIFT)
+#define DMA_MSIZE_SHIFT			(10)
+#define DMA_MSIZE_IS_8BITS 		(0 << MSIZE_SHIFT)
+#define DMA_MSIZE_IS_16BITS 	(1 << MSIZE_SHIFT)
+#define DMA_MSIZE_IS_32BITS 	(2 << MSIZE_SHIFT)
+#define DMA_PL_SHIFT			(12)
+#define DMA_PL_IS_LOW   	(0<<PL_SHIFT)
+#define DMA_PL_IS_MEDIUM   	(1<<PL_SHIFT)
+#define DMA_PL_IS_HIGH   	(2<<PL_SHIFT)
+#define DMA_PL_IS_VERYHIGH	(3<<PL_SHIFT)
 #define DMA_MEM2MEM	(1<<14)
 
 /*------------------------ External Interrupt/Event Controller ---------------*/
@@ -952,6 +952,227 @@ typedef struct
   vu32 CSR;
 } RCC_TypeDef;
 
+//RCC->CR bits definition
+#define RCC_PLLRDY 	(1<<25)
+#define RCC_PLLON 	(1<<24)
+#define RCC_CSSON 	(1<<19)
+#define RCC_HSEBYP 	(1<<18)
+#define RCC_HSERDY 	(1<<17)
+#define RCC_HSEON 	(1<<16)
+#define RCC_HSICAL_SHIFT 	(8)
+#define RCC_HSITRIM_SHIFT 	(3)
+#define RCC_HSIRDY 	(1<<1)
+#define RCC_HSION 	(1<<0)
+
+//RCC->CFGR bits definition
+#define RCC_MCO_SHIFT	(24)
+#define RCC_MCO_IS_NO_CLOCK		(0<<RCC_MCO_SHIFT)
+#define RCC_MCO_IS_SYSCLK		(4<<RCC_MCO_SHIFT)
+#define RCC_MCO_IS_HSI			(5<<RCC_MCO_SHIFT)
+#define RCC_MCO_IS_HSE			(6<<RCC_MCO_SHIFT)
+#define RCC_MCO_IS_PLL			(7<<RCC_MCO_SHIFT)
+
+#define RCC_USBPRE	(1<<22)
+
+#define RCC_PLLMUL_SHIFT	(18)		 // PLL multiplication factor from 2 to 16
+#define RCC_PLLMUL_IS_2		(0<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_3		(1<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_4		(2<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_5		(3<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_6		(4<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_7		(5<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_8		(6<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_9		(7<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_10	(8<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_11	(9<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_12	(10<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_13	(11<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_14	(12<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_15	(13<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_IS_16	(14<<RCC_PLLMUL_SHIFT)
+#define RCC_PLLMUL_VAL(mult) (((mult-2) & 0xF )<<RCC_PLLMUL_SHIFT)
+
+#define RCC_PLLXTPRE 				(1<<17)
+#define RCC_PLLXTPRE_IS_HSE			(0<<17)
+#define RCC_PPLXTPRE_IS_HSE_DIV_2	(1<<17)
+
+#define RCC_PLLSRC			(1<<16)	     // PLL entry clock source
+#define RCC_PLLSRC_IS_HSI 	(0<<16)
+#define RCC_PLLSRC_IS_HSE 	(1<<16)
+
+#define RCC_ADCPRE_SHIFT			(14)
+#define RCC_ADCPRE_IS_PCLK2_DIV_2	(0<<RCC_ADCPRE_SHIFT)
+#define RCC_ADCPRE_IS_PCLK2_DIV_4	(1<<RCC_ADCPRE_SHIFT)
+#define RCC_ADCPRE_IS_PCLK2_DIV_6	(2<<RCC_ADCPRE_SHIFT)
+#define RCC_ADCPRE_IS_PCLK2_DIV_8	(3<<RCC_ADCPRE_SHIFT)
+#define RCC_ADCPRE_VAL(pres) (((pres/2) & 0x3 )<<RCC_ADCPRE_SHIFT)
+
+#define RCC_PPRE2_SHIFT				(11)		 // APB2 high speed prescaler=> PCLK2
+#define RCC_PPRE2_IS_HCLK			(0<<RCC_PPRE2_SHIFT)
+#define RCC_PPRE2_IS_HCLK_DIV_2 	(4<<RCC_PPRE2_SHIFT)
+#define RCC_PPRE2_IS_HCLK_DIV_4 	(5<<RCC_PPRE2_SHIFT)
+#define RCC_PPRE2_IS_HCLK_DIV_8 	(6<<RCC_PPRE2_SHIFT)
+#define RCC_PPRE2_IS_HCLK_DIV_16 	(7<<RCC_PPRE2_SHIFT)
+#define RCC_PPRE2_VAL(pre) ((pre==1) ? 0 : ((pre/2)-(pre/8)-2*(pre/16)+3)<<RCC_PPRE2_SHIFT)
+
+#define RCC_PPRE1_SHIFT				(8)		 // APB1 low speed prescaler=> PCLK1
+#define RCC_PPRE1_IS_HCLK 			(0<<RCC_PPRE1_SHIFT)
+#define RCC_PPRE1_IS_HCLK_DIV_2 	(4<<RCC_PPRE1_SHIFT)
+#define RCC_PPRE1_IS_HCLK_DIV_4 	(5<<RCC_PPRE1_SHIFT)
+#define RCC_PPRE1_IS_HCLK_DIV_8 	(6<<RCC_PPRE1_SHIFT)
+#define RCC_PPRE1_IS_HCLK_DIV_16 	(7<<RCC_PPRE1_SHIFT)
+#define RCC_PPRE1_VAL(pre) ((pre==1) ? 0 : ((pre/2)-(pre/8)-2*(pre/16)+3)<<RCC_PPRE1_SHIFT)
+
+#define RCC_HPRE_SHIFT				(4)		 //AHB prescaler just before APB1 and APB2 prescaler
+#define RCC_HPRE_IS_SYSCLK 			(0<<RCC_HPRE_SHIFT)
+#define RCC_HPRE_IS_SYSCLK_DIV_2 	(8<<RCC_HPRE_SHIFT)
+#define RCC_HPRE_IS_SYSCLK_DIV_4 	(9<<RCC_HPRE_SHIFT)
+#define RCC_HPRE_IS_SYSCLK_DIV_8 	(10<<RCC_HPRE_SHIFT)
+#define RCC_HPRE_IS_SYSCLK_DIV_16 	(11<<RCC_HPRE_SHIFT)
+#define RCC_HPRE_IS_SYSCLK_DIV_64 	(12<<RCC_HPRE_SHIFT)
+#define RCC_HPRE_IS_SYSCLK_DIV_128 	(13<<RCC_HPRE_SHIFT)
+#define RCC_HPRE_IS_SYSCLK_DIV_256 	(14<<RCC_HPRE_SHIFT)
+#define RCC_HPRE_IS_SYSCLK_DIV_512 	(15<<RCC_HPRE_SHIFT)
+#define RCC_HPRE_VAL(pre) ( (7+(pre>256)+(pre>128)+(pre>64)+(pre>16)+(pre>8)+(pre>4)+(pre>2)+(pre>1))<<RCC_HPRE_SHIFT )
+
+#define RCC_SWS_SHIFT		(2)
+#define RCC_SWS_IS_HSI		(0<<RCC_SWS_SHIFT)
+#define RCC_SWS_IS_HSE		(1<<RCC_SWS_SHIFT)
+#define RCC_SWS_IS_PLL		(2<<RCC_SWS_SHIFT)
+
+#define RCC_SW_SHIFT		(0)	//System clock switch
+#define RCC_SW_IS_HSI  		(0<<RCC_SW_SHIFT)	    // 8MHz  internal RC 
+#define RCC_SW_IS_HSE  		(1<<RCC_SW_SHIFT)		// External crystal
+#define RCC_SW_IS_PLL  		(2<<RCC_SW_SHIFT)		// PLL (on HSI or HSE)
+
+//RCC->CIR bits definition
+#define RCC_CSSC    	(1<<23) // clock security system interrupt clear
+#define RCC_PLLRDYC 	(1<<20) //                                               interrupt clear
+#define RCC_HSERDYC 	(1<<19)
+#define RCC_HSIRDYC 	(1<<18)
+#define RCC_LSERDYC 	(1<<17)         
+#define RCC_LSIRDYC 	(1<<16)
+#define RCC_PLLRDYIE 	(1<<12)        //interrupt enable
+#define RCC_HSERDYIE 	(1<<11)
+#define RCC_HSIRDYIE 	(1<<10)
+#define RCC_LSERDYIE 	(1<<9)         
+#define RCC_LSIRDYIE 	(1<<8)
+#define RCC_CSSF    	(1<<7)  //clock security system interrupt flag
+#define RCC_PLLRDYF 	(1<<4)  //                                                                flag
+#define RCC_HSERDYF 	(1<<3)
+#define RCC_HSIRDYF 	(1<<2)
+#define RCC_LSERDYF 	(1<<1)          
+#define RCC_LSIRDYF 	(1<<0)
+
+//RCC->APB2RSTR bits definition
+#define RCC_ADC3RST		(1<<15)
+#define RCC_USART1RST	(1<<14)
+#define RCC_TIM8RST		(1<<13)
+#define RCC_SPI1RST		(1<<12)
+#define RCC_TIM1RST		(1<<11)
+#define RCC_ADC2RST		(1<<10)
+#define RCC_ADC1RST		(1<<9)
+#define RCC_IOPGRST		(1<<8)
+#define RCC_IOPFRST		(1<<7)
+#define RCC_IOPERST		(1<<6)
+#define RCC_IOPDRST		(1<<5)
+#define RCC_IOPCRST		(1<<4)
+#define RCC_IOPBRST		(1<<3)
+#define RCC_IOPARST		(1<<2)
+#define RCC_AFIORST		(1<<0)
+
+//RCC->APB1RSTR bits definition
+#define RCC_DACRST		(1<<29)
+#define RCC_PWRRST		(1<<28)
+#define RCC_BKPRST		(1<<27)
+#define RCC_CANRST		(1<<25)
+#define RCC_USBRST		(1<<23)
+#define RCC_I2C2RST		(1<<22)
+#define RCC_I2C1RST		(1<<21)
+#define RCC_UART5RST	(1<<20)
+#define RCC_UART4RST	(1<<19)
+#define RCC_USART3RST	(1<<18)
+#define RCC_USART2RST	(1<<17)
+#define RCC_SPI3RST		(1<<15)
+#define RCC_SPI2RST		(1<<14)
+#define RCC_WWDGRST		(1<<11)
+#define RCC_TIM7RST		(1<<5)
+#define RCC_TIM6RST		(1<<4)
+#define RCC_TIM5RST		(1<<3)
+#define RCC_TIM4RST		(1<<2)
+#define RCC_TIM3RST		(1<<1)
+#define RCC_TIM2RST		(1<<0)
+
+//RCC->AHBENR bits definition
+#define RCC_SDIOEN		(1<<10)
+#define RCC_FSMCEN		(1<<8)
+#define RCC_CRCEN		(1<<6)
+#define RCC_FLITFEN		(1<<4)
+#define RCC_SRAMEN		(1<<2)
+#define RCC_DMA2EN		(1<<2)
+#define RCC_DMA1EN		(1<<0)
+
+//RCC->APB2ENRbits definition
+#define RCC_ADC3EN		(1<<15)
+#define RCC_USART1EN	(1<<14)
+#define RCC_TIM8EN		(1<<13)
+#define RCC_SPI1EN		(1<<12)
+#define RCC_TIM1EN		(1<<11)
+#define RCC_ADC2EN		(1<<10)
+#define RCC_ADC1EN 		(1<<9)
+#define RCC_IOPGEN		(1<<8)
+#define RCC_IOPFEN		(1<<7)
+#define RCC_IOPEEN		(1<<6)
+#define RCC_IOPDEN		(1<<5)
+#define RCC_IOPCEN		(1<<4)
+#define RCC_IOPBEN		(1<<3)
+#define RCC_IOPAEN		(1<<2)
+#define RCC_AFIOEN		(1<<0)
+
+//RCC->APB1ENR bits definition
+#define RCC_DACEN		(1<<29)
+#define RCC_PWREN		(1<<28)
+#define RCC_BKPEN		(1<<27)
+#define RCC_CANEN		(1<<25)
+#define RCC_USBEN		(1<<23)
+#define RCC_I2C2EN		(1<<22)
+#define RCC_I2C1EN		(1<<21)
+#define RCC_UART5EN		(1<<20)
+#define RCC_UART4EN		(1<<19)
+#define RCC_USART3EN	(1<<18)
+#define RCC_USART2EN	(1<<17)
+#define RCC_SPI3EN		(1<<15)
+#define RCC_SPI2EN		(1<<14)
+#define RCC_WWDGEN		(1<<11)
+#define RCC_TIM7EN		(1<<5)
+#define RCC_TIM6EN		(1<<4)
+#define RCC_TIM5EN		(1<<3)
+#define RCC_TIM4EN		(1<<2)
+#define RCC_TIM3EN		(1<<1)
+#define RCC_TIM2EN		(1<<0)
+
+//RCC->BDCR bits definition
+#define RCC_BDRST		(1<<16)
+#define RCC_RTCEN		(1<<15)
+#define RCC_RTCSEL_SHIFT	(8)
+#define RCC_RTCSEL_IS_NO_CLOCK	(0<<RCC_RTCSEL_SHIFT)
+#define RCC_RTCSEL_IS_LSE		(1<<RCC_RTCSEL_SHIFT)
+#define RCC_RTCSEL_IS_LSI		(2<<RCC_RTCSEL_SHIFT)
+#define RCC_RTCSEL_IS_HSE		(3<<RCC_RTCSEL_SHIFT)
+#define RCC_LSEBYP		(1<<2)
+#define RCC_LSERDY		(1<<1)
+#define RCC_LSEON		(1<<0)
+
+//RCC->CSR bits definition	
+#define RCC_LPWRRST		(1<<31)
+#define RCC_WWDGRSTF	(1<<30)
+#define RCC_IWDGRSTF	(1<<29)
+#define RCC_SFTRSTF		(1<<28)
+#define RCC_PORRSTF		(1<<27)
+#define RCC_PINRSTF		(1<<26)
+#define RCC_RMVF		(1<<24)
+#define RCC_LSIRDY		(1<<1)
+#define RCC_LSION		(1<<0)
 /*------------------------ Real-Time Clock -----------------------------------*/
 typedef struct
 {
@@ -1088,6 +1309,70 @@ typedef struct
   vu16 GTPR;
   u16  RESERVED6;
 } USART_TypeDef;
+
+//USART->SR bits definition	
+#define USART_CTS	(1<<9)
+#define USART_LBD	(1<<8)
+#define USART_TXE	(1<<7)
+#define USART_TC	(1<<6)
+#define USART_RXNE	(1<<5)
+#define USART_IDLE	(1<<4)
+#define USART_ORE	(1<<3)
+#define USART_NE	(1<<2)
+#define USART_FE	(1<<1)
+#define USART_PE	(1<<0)
+
+//USART->BRR bits definition	
+#define USART_DIV_MANTISSA_SHIFT	4
+#define USART_DIV_FRACTION_SHIFT	0
+
+//USART->CR1 bits definition	
+#define USART_UE	(1<<13)
+#define USART_M		(1<<12)
+#define USART_WAKE	(1<<11)
+#define USART_PCE	(1<<10)
+#define USART_PS	(1<<9)
+#define USART_PEIE	(1<<8)
+#define USART_TXEIE	(1<<7)
+#define USART_TCIE	(1<<6)
+#define USART_RXNEIE 	(1<<5)
+#define USART_IDLEIE	(1<<4)
+#define USART_TE	(1<<3)
+#define USART_RE	(1<<2)
+#define USART_RWU	(1<<1)
+#define USART_SBK	(1<<0)
+
+//USART->CR2 bits definition	
+#define USART_LINEN			(1<<14)
+#define USART_STOP_SHIFT	(12)
+#define USART_STOP_IS_1_BIT		(0<<USART_STOP_SHIFT)
+#define USART_STOP_IS_0_5_BIT	(1<<USART_STOP_SHIFT)
+#define USART_STOP_IS_2_BITS	(2<<USART_STOP_SHIFT)
+#define USART_STOP_IS_1_5_BIT	(3<<USART_STOP_SHIFT)
+#define USART_CLKEN			(1<<11)
+#define USART_CPOL			(1<<10)
+#define USART_CPHA			(1<<9)
+#define USART_LBCL			(1<<8)
+#define USART_LBDIE			(1<<6)
+#define USART_LBDL			(1<<5)
+#define USART_ADD_SHIFT		(0)
+
+//USART->CR3 bits definition	
+#define USART_CTSIE			(1<<10)
+#define USART_CTSE			(1<<9)
+#define USART_RTSE			(1<<8)
+#define USART_DMAT			(1<<7)
+#define USART_DMAR			(1<<6)
+#define USART_SCEN			(1<<5)
+#define USART_NACK			(1<<4)
+#define USART_HDSEL			(1<<3)
+#define USART_IRLP			(1<<2)
+#define USART_IREN			(1<<1)
+#define USART_EIE			(1<<0)
+
+//USART->GTPR bits definition	
+#define USART_GT_SHIFT		(8)
+#define USART_PSC_SHIFT		(0)
 
 /*------------------------ Window WATCHDOG -----------------------------------*/
 typedef struct

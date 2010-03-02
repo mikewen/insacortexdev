@@ -1,7 +1,9 @@
 #ifndef __STM_SYSTEM_H__
 #define __STM_SYSTEM_H__
 
-#include <stm32f10x_lib.h>
+#ifndef __STM_REGS_H__
+	#include <stm32f10x_lib.h>
+#endif /*__STM_REGS_H__ */
 
 /* Registers definition */
 /* NVIC and SCB registers are already defined by stm32f10x_lib.h */
