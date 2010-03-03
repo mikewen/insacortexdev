@@ -25,7 +25,7 @@ ________________________________________________________________________________
 */
 
 #include "stm_regs.h"
-#include "stm_usartx.h"     // import configuration NUM_USART and BAUDRATEx
+#include "stm_usartx_v2.h"     // import configuration NUM_USART and BAUDRATEx
 #include "stm_clock.h"
 
 #if !defined __MINILIB__
@@ -43,50 +43,38 @@ ________________________________________________________________________________
 // Je récupère les bouts de STM32_Init utiles à l'USART
 // 
 // USART conf modifiée pour être configurée par lib_usartx_pol.h
-#if ( USART_NUM == 1 )
-	#define __USART1
-	#define USARTx 				USART1
-	#define TX_DMA_CHANNEL 		DMA1_Channel4 
-	#define TX_DMA_HANDLER 		DMAChannel4_IRQHandler
-	#define DMA1_CHANNELx_IRQ 	DMA1_Channel4_IRQChannel
-	#define USARTx_IRQChannel 	USART1_IRQChannel
-	#define USARTx_IRQHandler 	USART1_IRQHandler
-	#define TX_DMA_NUM 			4
-	#define DMAx_ISR_MASK 		(1<<(4*(TX_DMA_NUM-1)+1))
-	#define DMAx_RESET_MASK 	(0xF<<(4*(TX_DMA_NUM-1)))
-	#define RX_DMA_CHANNEL 		DMA1_Channel5 
-	#define SET_APBxENR  		RCC->APB2ENR|=RCC_USART1EN                   // enable clock for USART1
-	#define SET_BAUD_RATE   	USART1->BRR=__USART_BRR(__PCLK2, __USART_BAUDRATE) // set baudrate
+#ifdef __USART1
+	#define TX_DMA_CHANNEL_USART1 		DMA1_Channel4 
+	#define TX_DMA_HANDLER_USART1 		DMAChannel4_IRQHandler
+	#define DMA1_CHANNELx_IRQ_USART1 	DMA1_Channel4_IRQChannel
+	#define TX_DMA_NUM_USART1 			4
+	#define DMAx_ISR_MASK_USART1 		(1<<(4*(TX_DMA_NUM-1)+1))
+	#define DMAx_RESET_MASK_USART1 		(0xF<<(4*(TX_DMA_NUM-1)))
+	#define RX_DMA_CHANNEL_USART1 		DMA1_Channel5 
+	#define SET_APBxENR_USART1  		RCC->APB2ENR|=RCC_USART1EN                   // enable clock for USART1
+	#define SET_BAUD_RATE_USART1   		USART1->BRR=__USART_BRR(__PCLK2, __USART_BAUDRATE) // set baudrate
 #endif
-#if ( USART_NUM == 2 )
-	#define __USART2
-	#define USARTx 				USART2
-	#define TX_DMA_CHANNEL 		DMA1_Channel7 
-	#define TX_DMA_HANDLER 		DMAChannel7_IRQHandler
-	#define DMA1_CHANNELx_IRQ 	DMA1_Channel7_IRQChannel
-	#define USARTx_IRQChannel 	USART2_IRQChannel
-	#define USARTx_IRQHandler 	USART2_IRQHandler
-	#define TX_DMA_NUM 			7
-	#define DMAx_ISR_MASK 		(1<<(4*(TX_DMA_NUM-1)+1))
-	#define DMAx_RESET_MASK 	(0xF<<(4*(TX_DMA_NUM-1)))
-	#define RX_DMA_CHANNEL 		DMA1_Channel6 
-	#define SET_APBxENR    		RCC->APB1ENR|=RCC_USART2EN                   // enable clock for USART2
-	#define SET_BAUD_RATE  		USART2->BRR=__USART_BRR(__PCLK1, __USART_BAUDRATE)
+#ifdef __USART2
+	#define TX_DMA_CHANNEL_USART2 		DMA1_Channel7 
+	#define TX_DMA_HANDLER_USART2 		DMAChannel7_IRQHandler
+	#define DMA1_CHANNELx_IRQ_USART2 	DMA1_Channel7_IRQChannel
+	#define TX_DMA_NUM_USART2 			7
+	#define DMAx_ISR_MASK_USART2 		(1<<(4*(TX_DMA_NUM-1)+1))
+	#define DMAx_RESET_MASK_USART2 		(0xF<<(4*(TX_DMA_NUM-1)))
+	#define RX_DMA_CHANNEL_USART2 		DMA1_Channel6 
+	#define SET_APBxENR_USART2    		RCC->APB1ENR|=RCC_USART2EN                   // enable clock for USART2
+	#define SET_BAUD_RATE_USART2  		USART2->BRR=__USART_BRR(__PCLK1, __USART_BAUDRATE)
 #endif
-#if ( USART_NUM == 3 )
-	#define __USART3
-	#define USARTx 				USART3
-	#define TX_DMA_CHANNEL 		DMA1_Channel2 
-	#define TX_DMA_HANDLER 		DMAChannel2_IRQHandler
-	#define DMA1_CHANNELx_IRQ 	DMA1_Channel2_IRQChannel
-	#define USARTx_IRQChannel 	USART3_IRQChannel
-	#define USARTx_IRQHandler 	USART3_IRQHandler
-	#define TX_DMA_NUM 			2
-	#define DMAx_ISR_MASK	 	(1<<(4*(TX_DMA_NUM-1)+1))
-	#define DMAx_RESET_MASK 	(0xF<<(4*(TX_DMA_NUM-1)))
-	#define RX_DMA_CHANNEL 		DMA1_Channel3 
-	#define SET_APBxENR   		RCC->APB1ENR|=RCC_USART3EN                   // enable clock for USART3
-	#define SET_BAUD_RATE 		USART3->BRR=__USART_BRR(__PCLK1, __USART_BAUDRATE)
+#ifdef __USART3
+	#define TX_DMA_CHANNEL_USART3 		DMA1_Channel2 
+	#define TX_DMA_HANDLER_USART3 		DMAChannel2_IRQHandler
+	#define DMA1_CHANNELx_IRQ_USART3 	DMA1_Channel2_IRQChannel
+	#define TX_DMA_NUM_USART3 			2
+	#define DMAx_ISR_MASK_USART3	 	(1<<(4*(TX_DMA_NUM-1)+1))
+	#define DMAx_RESET_MASK_USART3 		(0xF<<(4*(TX_DMA_NUM-1)))
+	#define RX_DMA_CHANNEL_USART3 		DMA1_Channel3 
+	#define SET_APBxENR_USART3   		RCC->APB1ENR|=RCC_USART3EN                   // enable clock for USART3
+	#define SET_BAUD_RATE_USART3 		USART3->BRR=__USART_BRR(__PCLK1, __USART_BAUDRATE)
 #endif
 
 #ifdef USART_DMA
@@ -95,15 +83,15 @@ ________________________________________________________________________________
 
 #ifdef USART_IRQ
 	#define DMA_BUFFER
-	void USARTx_IRQHandler (void);
+//	void USARTx_IRQHandler (void);
 #endif
 
 #ifdef USART_IRQ
 	#define __USART_CR1  		(USART_TXEIE | USART_RXNEIE)
-	#define __USART_INTERRUPTS 	(1<<(USART_NUM-1))
+//	#define __USART_INTERRUPTS 	(1<<(USART_NUM-1))
 #else
 	#define __USART_CR1			0x0
-	#define __USART_INTERRUPTS	0x0			
+//	#define __USART_INTERRUPTS	0x0			
 #endif
 
 #define __USART_CR2             0x0
@@ -123,6 +111,7 @@ ________________________________________________________________________________
 	char rbuff[RBUF_SIZE];
 #endif
 
+/* J'en suis ici !! */
 /*----------------------------------------------------------------------------
   Usart initialisation
  *----------------------------------------------------------------------------*/

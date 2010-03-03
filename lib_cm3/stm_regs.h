@@ -58,7 +58,7 @@ typedef struct
 } ADC_TypeDef;
 
 //ADC1->CR1 bit description
-"define ADC_AWDCH_MASK	0x1F
+#define ADC_AWDCH_MASK	0x1F
 #define ADC_EOCIE 	(1<<5)
 #define ADC_AWDIE 	(1<<6)
 #define ADC_JEOCIE 	(1<<7)
@@ -70,7 +70,7 @@ typedef struct
 #define ADC_DISCNUM_SHIFT (13)
 #define ADC_DUALMOD_SHIFT (16)
 #define ADC_JAWDEN  (1<<22)
-#define ADC_AWDEN  (1<<23)
+#define ADC_AWDEN  	(1<<23)
 
 // Values definition for CR1 fields
 // Values for DISCNUM field
@@ -96,20 +96,20 @@ typedef struct
 #define ADC_DUALMOD_IS_ALTERNATE 	(9<<ADC_DUALMOD_SHIFT)
 
 //ADC1->CR2 bit description
-#define ADC_ADON 	(1<<0)
-#define ADC_CONT 	(1<<1)
-#define ADC_CAL 	(1<<2)
-#define ADC_RSTCAL 	(1<<3)
-#define ADC_DMA 	(1<<8)
-#define ADC_ALIGN 	(1<<11)
+#define ADC_ADON 		(1<<0)
+#define ADC_CONT 		(1<<1)
+#define ADC_CAL 		(1<<2)
+#define ADC_RSTCAL 		(1<<3)
+#define ADC_DMA 		(1<<8)
+#define ADC_ALIGN 		(1<<11)
 #define ADC_JEXTSEL_SHIFT 	(12)
-#define ADC_JEXTTRIG (1<<15)
+#define ADC_JEXTTRIG 	(1<<15)
 #define ADC_EXTSEL_SHIFT (17)
 #define ADC_EXTSEL_ON_SWSTART (7<<EXTSEL_SHIFT)
-#define ADC_EXTTRIG  (1<<20)
-#define ADC_JSWSTART (1<<21)
-#define ADC_SWSTART  (1<<22)
-#define ADC_TSVREFE  (1<<23)
+#define ADC_EXTTRIG  	(1<<20)
+#define ADC_JSWSTART 	(1<<21)
+#define ADC_SWSTART  	(1<<22)
+#define ADC_TSVREFE  	(1<<23)
 
 // Values definition for CR2 fields
 // Values for JEXTSEL field
@@ -159,12 +159,12 @@ typedef struct
 #define ADC_L_IS_16_CONVERSIONS		(15<<ADC_L_SHIFT)
 
 //ADC1->SQR2 bit description
-#define ADC_SQ7_SHIFT (0)
-#define ADC_SQ8_SHIFT (5)
-#define ADC_SQ9_SHIFT (10)
-#define ADC_SQ10_SHIFT (15)
-#define ADC_SQ11_SHIFT (20)
-#define ADC_SQ12_SHIFT (25)
+#define ADC_SQ7_SHIFT 	(0)
+#define ADC_SQ8_SHIFT 	(5)
+#define ADC_SQ9_SHIFT 	(10)
+#define ADC_SQ10_SHIFT 	(15)
+#define ADC_SQ11_SHIFT 	(20)
+#define ADC_SQ12_SHIFT 	(25)
 
 //ADC1->SQR3 bit description
 #define ADC_SQ1_SHIFT (0)
@@ -175,11 +175,11 @@ typedef struct
 #define ADC_SQ6_SHIFT (25)
 
 //ADC1->JSQR bit description
-#define ADC_JSQ1_SHIFT (0)
-#define ADC_JSQ2_SHIFT (5)
-#define ADC_JSQ3_SHIFT (10)
-#define ADC_JSQ4_SHIFT (15)
-#define ADC_JL_SHIFT (20)
+#define ADC_JSQ1_SHIFT 	(0)
+#define ADC_JSQ2_SHIFT 	(5)
+#define ADC_JSQ3_SHIFT 	(10)
+#define ADC_JSQ4_SHIFT 	(15)
+#define ADC_JL_SHIFT 	(20)
 
 // Values definition for JSQR register
 // Values for JL field
@@ -209,6 +209,7 @@ typedef struct
 #define ADC_SMP7_SHIFT	(21)
 #define ADC_SMP8_SHIFT	(24)
 #define ADC_SMP9_SHIFT	(27)
+#define ADC_SMPx_VAL(smpx,val) 	(val<<smpx)
 
 // Values definition for SMPRx register 
 // Values for SMPx field (to be shifted with correct SMPx_SHIFT constant)
@@ -490,6 +491,8 @@ typedef struct
 #define DMA_HTIE	(1<<2)
 #define DMA_TEIE	(1<<3)
 #define DMA_DIR	    (1<<4)
+#define DMA_DIR_IS_FROM_PERIPHERAL 	(0)
+#define DMA_DIR_IS_FROM_MEMORY		DMA_DIR
 #define DMA_CIRC	(1<<5)
 #define DMA_PINC	(1<<6)
 #define DMA_MINC	(1<<7)
@@ -501,7 +504,7 @@ typedef struct
 #define DMA_MSIZE_IS_8BITS 		(0 << MSIZE_SHIFT)
 #define DMA_MSIZE_IS_16BITS 	(1 << MSIZE_SHIFT)
 #define DMA_MSIZE_IS_32BITS 	(2 << MSIZE_SHIFT)
-#define DMA_PL_SHIFT			(12)
+#define DMA_PL_SHIFT		(12)
 #define DMA_PL_IS_LOW   	(0<<PL_SHIFT)
 #define DMA_PL_IS_MEDIUM   	(1<<PL_SHIFT)
 #define DMA_PL_IS_HIGH   	(2<<PL_SHIFT)
@@ -576,8 +579,8 @@ typedef struct
 
 //FLASH Keys
 #define FLASH_KEY_RDPRT	0x00A5
-#define FLASH KEY_KEY1	0x45670123
-#define FLASH KEY_KEY2	0xCDEF89AB
+#define FLASH_KEY_KEY1	0x45670123
+#define FLASH_KEY_KEY2	0xCDEF89AB
 
 /*------------------------ Flexible Static Memory Controller -----------------*/
 typedef struct
