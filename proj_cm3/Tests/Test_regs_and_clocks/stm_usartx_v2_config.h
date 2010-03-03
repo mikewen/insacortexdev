@@ -56,13 +56,6 @@ ________________________________________________________________________________
 // 0x10 ->   USART3 TX/RX on PC10/PC11
 // others -> USART1 TX/RX on PD8/PD9
 
-// Select the USARTs to use
-// Uncomment the various USART you need
-//CONFIGURE
-//#define __USART1
-//#define __USART2
-//#define __USART3
-
 //CONFIGURE baudrate among following values
 //BAUDRATEx   9600      // OK avec zigbee
 //BAUDRATEx   14400 
@@ -76,6 +69,11 @@ ________________________________________________________________________________
 #define BAUDRATE_USART1	9600
 #define BAUDRATE_USART2	9600
 #define BAUDRATE_USART3	9600 
+
+//CONFIGURE uart priority in range from 0 (highest) to 15 (lowest)
+#define USART1_PRIORITY 15
+#define USART2_PRIORITY 15
+#define USART3_PRIORITY 15
 
 //choose USART mode (used by all selected USART) to use and configure it
 //CONFIGURE
