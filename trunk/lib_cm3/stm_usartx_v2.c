@@ -28,9 +28,21 @@ ________________________________________________________________________________
 #include "stm_usartx_v2.h"     // import configuration NUM_USART and BAUDRATEx
 #include "stm_clock.h"
 
+#define USART1_FILE_ID 1
+#define USART2_FILE_ID 2
+#define USART3_FILE_ID 3
+
 #if !defined __MINILIB__
 	FILE __stdout;
 	FILE __stdin;
+
+	FILE USART1_FILE = USART1_FILE_ID;
+	FILE USART2_FILE = USART2_FILE_ID;
+	FILE USART3_FILE = USART3_FILE_ID;
+#else
+	FILE USART1_FILE;
+	FILE USART2_FILE;
+	FILE USART3_FILE;
 #endif /* __MINILIB__ */
 
 #define __USART_SETUP             1              
@@ -108,72 +120,110 @@ ________________________________________________________________________________
 #define __AFIO_MAPR               	0x0              //  1
 
 #ifdef DMA_BUFFER
-	char rbuff[RBUF_SIZE];
+	void buffer_init(void);
+
+	#ifdef __USART1
+		#define END_RBUF_UART1  (&(rbuff_uart1[RBUF_SIZE-1]))
+		#define END_TBUF_UART1  (&(tbuff_uart1[TBUF_SIZE-1]))
+
+		char rbuff_uart1[RBUF_SIZE];
+		char tbuff_uart1[TBUF_SIZE];
+
+		char *in_ptr_uart1 = rbuff_uart1;		
+		char *send_ptr_uart1=tbuff_uart1;
+		char *pdma_uart1;
+		char tbuffer_uart1_empty=1;
+		short int dma_size_uart1;
+	#endif
+	#ifdef __USART2
+		#define END_RBUF_UART2  (&(rbuff_uart2[RBUF_SIZE-1]))
+		#define END_TBUF_UART2  (&(tbuff_uart2[TBUF_SIZE-1]))
+
+		char rbuff_uart2[RBUF_SIZE];
+		char tbuff_uart2[TBUF_SIZE];
+		
+		char *in_ptr_uart2 = rbuff_uart2;
+		char *send_ptr_uart2=tbuff_uart2;
+		char *pdma_uart2;
+		char tbuffer_uart2_empty=1;
+		short int dma_size_uart2;
+	#endif
+	#ifdef __USART3
+		#define END_RBUF_UART3  (&(rbuff_uart3[RBUF_SIZE-1]))
+		#define END_TBUF_UART3  (&(tbuff_uart3[TBUF_SIZE-1]))
+
+		char rbuff_uart3[RBUF_SIZE];
+		char tbuff_uart3[TBUF_SIZE];
+		
+		char *in_ptr_uart3 = rbuff_uart3;
+		char *send_ptr_uart3=tbuff_uart3;
+		char *pdma_uart3;
+		char tbuffer_uart3_empty=1;
+		short int dma_size_uart3;
+	#endif
 #endif
 
-/* J'en suis ici !! */
+
 /*----------------------------------------------------------------------------
   Usart initialisation
  *----------------------------------------------------------------------------*/
 void setup_usart()			//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTERNATE FUNCTION
 {
 #ifdef DMA_BUFFER
- 	void buffer_init(void);
-
 	buffer_init ();
 #endif
 
-	SET_APBxENR ;
- 	SET_BAUD_RATE ;
-    USARTx->CR1  = __USART_DATABITS;                       // set Data bits
-    USARTx->CR2  = __USART_STOPBITS;                       // set Stop bits
-    USARTx->CR1 |= __USART_PARITY;                         // set Parity
-    USARTx->CR3  = __USART_FLOWCTRL;                       // Set Flow Control
+#ifdef __USART1
+	/* TODO: Rajouter le reset de l'UART1 */
 
-    USARTx->CR1 |= (USART_RE | USART_TE);         		   // RX, TX enable
+	SET_APBxENR_USART1;
+ 	SET_BAUD_RATE_USART1;
+    USART1->CR1  = __USART_DATABITS;                       // set Data bits
+    USART1->CR2  = __USART_STOPBITS;                       // set Stop bits
+    USART1->CR1 |= __USART_PARITY;                         // set Parity
+    USART1->CR3  = __USART_FLOWCTRL;                       // Set Flow Control
+
+    USART1->CR1 |= (USART_RE | USART_TE);         		   // RX, TX enable
 
 	#ifdef USART_IRQ
-      	USARTx->CR1 |= __USART_CR1;
-      	USARTx->CR2 |= __USART_CR2;
-      	USARTx->CR3 |= __USART_CR3;
-      	NVIC->ISER[1] |= (1 << (USARTx_IRQChannel & 0x1F));   // enable interrupt
+      	USART1->CR1 |= __USART_CR1;
+      	USART1->CR2 |= __USART_CR2;
+      	USART1->CR3 |= __USART_CR3;
+
+		NVIC_ENABLE_PERIPH_IT(USART1);
+		NVIC_SET_PRIO_PERIPH(USART1,USART1_PRIORITY);
 	#endif
 
-    USARTx->CR1 |= USART_UE;                            // USART enable
+    USART1->CR1 |= USART_UE;                            // USART enable
  
 	#ifdef USART_DMA
 	RCC->AHBENR |= RCC_DMA1EN;					// DMA1 CLOCK ENABLE
-	TX_DMA_CHANNEL->CPAR =(u32)&(USARTx->DR); 	// ADRESSE  USART_DR
+	TX_DMA_CHANNEL->CPAR =(u32)&(USART1->DR); 	// ADRESSE  USART_DR
  	TX_DMA_CHANNEL->CNDTR=1;	
   	TX_DMA_CHANNEL->CCR|=(DMA_PL_IS_MEDIUM|DMA_MSIZE_IS_8BITS|DMA_PSIZE_IS_8BITS);	// PRIORITY LEVEL MEDIUM
   	TX_DMA_CHANNEL->CCR|=DMA_DIR_IS_FROM_MEMORY;   	// READ FROM MEMORY
   	TX_DMA_CHANNEL->CCR|=DMA_MINC;   			// POINTER INCREMENTALE MEMORY 
  	
-	RX_DMA_CHANNEL->CPAR =(u32)&(USARTx->DR); // ADRESSE  USART_DR
-  	RX_DMA_CHANNEL->CMAR =(u32)rbuff;   		// ADRESSE DATA_RECU
+	RX_DMA_CHANNEL->CPAR =(u32)&(USART1->DR); // ADRESSE  USART_DR
+  	RX_DMA_CHANNEL->CMAR =(u32)rbuff_uart1;   		// ADRESSE DATA_RECU
   	RX_DMA_CHANNEL->CNDTR=RBUF_SIZE;
   	RX_DMA_CHANNEL->CCR|=(DMA_PL_IS_MEDIUM|DMA_MSIZE_IS_8BITS|DMA_PSIZE_IS_8BITS);	// PRIORITY LEVEL MEDIUM
   	RX_DMA_CHANNEL->CCR&=(~DMA_DIR_IS_FROM_MEMORY);	// READ FROM PERIPHERAL
   	RX_DMA_CHANNEL->CCR|=DMA_MINC;   			// POINTER INCREMENTALE MEMORY 
   	RX_DMA_CHANNEL->CCR|=DMA_CIRC;				// CIRCULAR MODE
   
-  	//NVIC->ISER[0] = 0x00003000;
-  	NVIC->ISER[0] = 1<<DMA1_CHANNELx_IRQ;
+  	NVIC->ISER[0] = 1<<DMA1_CHANNELx_IRQ_USART1;
 
-  	USARTx->CR3 |= (USART_DMAT|USART_DMAR);		// DMAT AND DMAR ENABLE
+  	USART1->CR3 |= (USART_DMAT|USART_DMAR);		// DMAT AND DMAR ENABLE
 	//USARTx->CR3 |=0x00000700;					// CTS ENABLE ,RTS ENABLE ,CTSIE
 
-   	buffer_init();
-
-	TX_DMA_CHANNEL->CCR|=DMA_TCIE; // tc enable interrupt
-   	RX_DMA_CHANNEL->CCR|=DMA_EN;  //ENABLE CHANNEL	 3	  and tc enable    
+	TX_DMA_CHANNEL->CCR|=DMA_TCIE; 				// tc enable interrupt
+   	RX_DMA_CHANNEL->CCR|=DMA_EN;  				//ENABLE CHANNEL	 3	  and tc enable    
   	#endif
 
-//_________________________________________________________________________
-// PORT configuration
-
-#ifdef __USART1                                                    
-
+	//_________________________________________________________________________
+	// PORT configuration
+                                                   
     AFIO->MAPR  &= ~(1 << 2);                        	// clear USART1 remap
 
     if ((__USART1_REMAP & 0x04) == 0x00)              	// USART1 no remap
@@ -195,6 +245,55 @@ void setup_usart()			//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTER
 #endif /* __USART1 */
 
 #ifdef __USART2                                                    
+	/* TODO: Rajouter le reset de l'UART2 */
+
+	SET_APBxENR_USART2;
+ 	SET_BAUD_RATE_USART2;
+    USART2->CR1  = __USART_DATABITS;                       // set Data bits
+    USART2->CR2  = __USART_STOPBITS;                       // set Stop bits
+    USART2->CR1 |= __USART_PARITY;                         // set Parity
+    USART2->CR3  = __USART_FLOWCTRL;                       // Set Flow Control
+
+    USART2->CR1 |= (USART_RE | USART_TE);         		   // RX, TX enable
+
+	#ifdef USART_IRQ
+      	USART2->CR1 |= __USART_CR1;
+      	USART2->CR2 |= __USART_CR2;
+      	USART2->CR3 |= __USART_CR3;
+
+		NVIC_ENABLE_PERIPH_IT(USART2);
+		NVIC_SET_PRIO_PERIPH(USART2,USART2_PRIORITY);
+	#endif
+
+    USART2->CR1 |= USART_UE;                            // USART enable
+ 
+	#ifdef USART_DMA
+	RCC->AHBENR |= RCC_DMA1EN;					// DMA1 CLOCK ENABLE
+	TX_DMA_CHANNEL->CPAR =(u32)&(USART2->DR); 	// ADRESSE  USART_DR
+ 	TX_DMA_CHANNEL->CNDTR=1;	
+  	TX_DMA_CHANNEL->CCR|=(DMA_PL_IS_MEDIUM|DMA_MSIZE_IS_8BITS|DMA_PSIZE_IS_8BITS);	// PRIORITY LEVEL MEDIUM
+  	TX_DMA_CHANNEL->CCR|=DMA_DIR_IS_FROM_MEMORY;   	// READ FROM MEMORY
+  	TX_DMA_CHANNEL->CCR|=DMA_MINC;   			// POINTER INCREMENTALE MEMORY 
+ 	
+	RX_DMA_CHANNEL->CPAR =(u32)&(USART2->DR); // ADRESSE  USART_DR
+  	RX_DMA_CHANNEL->CMAR =(u32)rbuff_uart2;   		// ADRESSE DATA_RECU
+  	RX_DMA_CHANNEL->CNDTR=RBUF_SIZE;
+  	RX_DMA_CHANNEL->CCR|=(DMA_PL_IS_MEDIUM|DMA_MSIZE_IS_8BITS|DMA_PSIZE_IS_8BITS);	// PRIORITY LEVEL MEDIUM
+  	RX_DMA_CHANNEL->CCR&=(~DMA_DIR_IS_FROM_MEMORY);	// READ FROM PERIPHERAL
+  	RX_DMA_CHANNEL->CCR|=DMA_MINC;   			// POINTER INCREMENTALE MEMORY 
+  	RX_DMA_CHANNEL->CCR|=DMA_CIRC;				// CIRCULAR MODE
+  
+  	NVIC->ISER[0] = 1<<DMA1_CHANNELx_IRQ_USART2;
+
+  	USART2->CR3 |= (USART_DMAT|USART_DMAR);		// DMAT AND DMAR ENABLE
+	//USARTx->CR3 |=0x00000700;					// CTS ENABLE ,RTS ENABLE ,CTSIE
+
+	TX_DMA_CHANNEL->CCR|=DMA_TCIE; 				// tc enable interrupt
+   	RX_DMA_CHANNEL->CCR|=DMA_EN;  				//ENABLE CHANNEL	 3	  and tc enable    
+  	#endif
+
+	//_________________________________________________________________________
+	// PORT configuration
 
     AFIO->MAPR  &= ~(1 << 3);                         	// clear USART2 remap
 
@@ -231,6 +330,55 @@ void setup_usart()			//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTER
 #endif /* __USART2 */
 
 #ifdef __USART3                                                    
+	/* TODO: Rajouter le reset de l'UART3 */
+
+	SET_APBxENR_USART3;
+ 	SET_BAUD_RATE_USART3;
+    USART3->CR1  = __USART_DATABITS;                       // set Data bits
+    USART3->CR2  = __USART_STOPBITS;                       // set Stop bits
+    USART3->CR1 |= __USART_PARITY;                         // set Parity
+    USART3->CR3  = __USART_FLOWCTRL;                       // Set Flow Control
+
+    USART3->CR1 |= (USART_RE | USART_TE);         		   // RX, TX enable
+
+	#ifdef USART_IRQ
+      	USART3->CR1 |= __USART_CR1;
+      	USART3->CR2 |= __USART_CR2;
+      	USART3->CR3 |= __USART_CR3;
+
+		NVIC_ENABLE_PERIPH_IT(USART3);
+		NVIC_SET_PRIO_PERIPH(USART3,USART3_PRIORITY);
+	#endif
+
+    USART3->CR1 |= USART_UE;                            // USART enable
+ 
+	#ifdef USART_DMA
+	RCC->AHBENR |= RCC_DMA1EN;					// DMA1 CLOCK ENABLE
+	TX_DMA_CHANNEL->CPAR =(u32)&(USART3->DR); 	// ADRESSE  USART_DR
+ 	TX_DMA_CHANNEL->CNDTR=1;	
+  	TX_DMA_CHANNEL->CCR|=(DMA_PL_IS_MEDIUM|DMA_MSIZE_IS_8BITS|DMA_PSIZE_IS_8BITS);	// PRIORITY LEVEL MEDIUM
+  	TX_DMA_CHANNEL->CCR|=DMA_DIR_IS_FROM_MEMORY;   	// READ FROM MEMORY
+  	TX_DMA_CHANNEL->CCR|=DMA_MINC;   			// POINTER INCREMENTALE MEMORY 
+ 	
+	RX_DMA_CHANNEL->CPAR =(u32)&(USART3->DR); // ADRESSE  USART_DR
+  	RX_DMA_CHANNEL->CMAR =(u32)rbuff_uart3;   		// ADRESSE DATA_RECU
+  	RX_DMA_CHANNEL->CNDTR=RBUF_SIZE;
+  	RX_DMA_CHANNEL->CCR|=(DMA_PL_IS_MEDIUM|DMA_MSIZE_IS_8BITS|DMA_PSIZE_IS_8BITS);	// PRIORITY LEVEL MEDIUM
+  	RX_DMA_CHANNEL->CCR&=(~DMA_DIR_IS_FROM_MEMORY);	// READ FROM PERIPHERAL
+  	RX_DMA_CHANNEL->CCR|=DMA_MINC;   			// POINTER INCREMENTALE MEMORY 
+  	RX_DMA_CHANNEL->CCR|=DMA_CIRC;				// CIRCULAR MODE
+  
+  	NVIC->ISER[0] = 1<<DMA1_CHANNELx_IRQ_USART3;
+
+  	USART3->CR3 |= (USART_DMAT|USART_DMAR);		// DMAT AND DMAR ENABLE
+	//USARTx->CR3 |=0x00000700;					// CTS ENABLE ,RTS ENABLE ,CTSIE
+
+	TX_DMA_CHANNEL->CCR|=DMA_TCIE; 				// tc enable interrupt
+   	RX_DMA_CHANNEL->CCR|=DMA_EN;  				//ENABLE CHANNEL	 3	  and tc enable    
+  	#endif
+
+	//_________________________________________________________________________
+	// PORT configuration
 
     AFIO->MAPR  &= ~(3 << 4);                     		// clear USART3 remap
 
@@ -302,11 +450,48 @@ void setup_usart()			//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTER
 	char minilib_write(int file, char ch) 
 #endif
 {
-  	while (!(USARTx->SR & USART_TXE));
+#ifdef __USART1
+	#ifdef __MINILIB__
+	if (file == USART1_FILE_ID)
+	#else
+	if (f == USART1_FILE)
+	#endif
+	{
+  		while (!(USART1->SR & USART_TXE));
 
-  	USARTx->DR = (ch & 0x0FF);
+  		USART1->DR = (ch & 0x0FF);
 
-  	return (ch);
+  		return (ch);
+	}
+#endif
+#ifdef __USART2
+	#ifdef __MINILIB__
+	if (file == USART2_FILE_ID)
+	#else
+	if (f == USART2_FILE)
+	#endif
+	{
+  		while (!(USART2->SR & USART_TXE));
+
+  		USART2->DR = (ch & 0x0FF);
+
+  		return (ch);
+	}
+#endif
+#ifdef __USART3
+	#ifdef __MINILIB__
+	if (file == USART3_FILE_ID)
+	#else
+	if (f == USART3_FILE)
+	#endif
+	{
+  		while (!(USART3->SR & USART_TXE));
+
+  		USART3->DR = (ch & 0x0FF);
+
+  		return (ch);
+	}
+#endif
 }
 
 /*----------------------------------------------------------------------------
@@ -315,12 +500,45 @@ void setup_usart()			//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTER
 #if !defined __MINILIB__
 	int fgetc(FILE *f)
 #else
-	char minilib_read(void)
+	char minilib_read(int file)
 #endif
 {
-	while (!(USARTx->SR & USART_RXNE));
+#ifdef __USART1
+	#ifdef __MINILIB__
+	if (file == USART1_FILE_ID)
+	#else
+	if (f == USART1_FILE)
+	#endif
+	{
+		while (!(USART1->SR & USART_RXNE));
 
-  	return ((int)(USARTx->DR & 0x0FF));
+  		return ((int)(USART1->DR & 0x0FF));
+	}
+#endif
+#ifdef __USART2
+	#ifdef __MINILIB__
+	if (file == USART2_FILE_ID)
+	#else
+	if (f == USART2_FILE)
+	#endif
+	{
+		while (!(USART2->SR & USART_RXNE));
+
+  		return ((int)(USART2->DR & 0x0FF));
+	}
+#endif
+#ifdef __USART3
+	#ifdef __MINILIB__
+	if (file == USART3_FILE_ID)
+	#else
+	if (f == USART3_FILE)
+	#endif
+	{
+		while (!(USART3->SR & USART_RXNE));
+
+  		return ((int)(USART3->DR & 0x0FF));
+	}
+#endif
 }
 #endif /* USART_POL */
 /*****************************************************************************
@@ -331,25 +549,27 @@ void setup_usart()			//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTER
  *  Start DMA part of code
  *****************************************************************************/
 #ifdef USART_DMA
-#define END_RBUF  (&(rbuff[RBUF_SIZE-1]))
-
-char *in_ptr = rbuff;
-char tbuff[TBUF_SIZE];
-#define END_TBUF  (&(tbuff[TBUF_SIZE-1]))
-
-char *send_ptr=tbuff;
-char *pdma;
-char tbuffer_empty=1;
-short int dma_size;
 
 /*----------------------------------------------------------------------------
   buffer initialisation
  *----------------------------------------------------------------------------*/
 void buffer_init(void)
 { 
-	int i;
-	for (i=0;i<RBUF_SIZE;i++) rbuff[i] = 0;
-};
+int i;
+
+	for (i=0;i<RBUF_SIZE;i++) 
+	{
+	#ifdef __USART1
+		rbuff_uart1[i] = 0;
+	#endif
+	#ifdef __USART2
+		rbuff_uart2[i] = 0;
+	#endif
+	#ifdef __USART3
+		rbuff_uart3[i] = 0;
+	#endif
+	}
+}
 
 /*----------------------------------------------------------------------------
   fputc
@@ -357,51 +577,145 @@ void buffer_init(void)
 #if !defined __MINILIB__
 	int fputc(int ch, FILE *f) 
 #else
-	int usart_write(int ch)
+	char minilib_write(int file, char ch)
 #endif
-{ 
-	if (!tbuffer_empty)
- 	{
-		while (send_ptr == (char *) (TX_DMA_CHANNEL->CMAR)) ;
- 
- 		*send_ptr=ch;
-   
-   		if(send_ptr>=END_TBUF)
-      	{
-	  		send_ptr=tbuff;
-	  	}
-	  	else send_ptr++;
-   	 }
-	 else
-	 {
-	 	*send_ptr=ch;
-   
- 		// send single char to DMA
-		TX_DMA_CHANNEL->CCR &= (~DMA_EN);    //disABLE CHANNEL		 
-		TX_DMA_CHANNEL->CNDTR=1;
-		dma_size=TX_DMA_CHANNEL->CNDTR;  //save buff size because CNDTR is cleared on IRQ
-		TX_DMA_CHANNEL->CMAR=(unsigned int) send_ptr;
-	    tbuffer_empty=0;
-
-   		if(send_ptr>=END_TBUF)
-      	{
-	  		send_ptr=tbuff;
-	  	}
-	  	else send_ptr++;
-
-		TX_DMA_CHANNEL->CCR |= DMA_EN;
+{
+#ifdef __USART1
+	#ifdef __MINILIB__
+	if (file == USART1_FILE_ID)
+	#else
+	if (f == USART1_FILE)
+	#endif
+	{ 
+		if (!tbuffer_uart1_empty)
+		{
+			while (send_ptr_uart1 == (char *) (TX_DMA_CHANNEL->CMAR)) ;
+		
+			*send_ptr_uart1=ch;
+		
+			if(send_ptr_uart1>=END_TBUF)
+		  	{
+		  		send_ptr_uart1=tbuff_uart1;
+		  	}
+		  	else send_ptr_uart1++;
+		 }
+		 else
+		 {
+		 	*send_ptr_uart1=ch;
+		
+			// send single char to DMA
+			TX_DMA_CHANNEL->CCR &= (~DMA_EN);    //disABLE CHANNEL		 
+			TX_DMA_CHANNEL->CNDTR=1;
+			dma_size_uart1=TX_DMA_CHANNEL->CNDTR;  //save buff size because CNDTR is cleared on IRQ
+			TX_DMA_CHANNEL->CMAR=(unsigned int) send_ptr_uart1;
+		    tbuffer_uart1_empty=0;
+		
+			if(send_ptr_uart1>=END_TBUF)
+		  	{
+		  		send_ptr_uart1=tbuff_uart1;
+		  	}
+		  	else send_ptr_uart1++;
+		
+			TX_DMA_CHANNEL->CCR |= DMA_EN;
+		}
+		
+		return ch;
 	}
-   
-	return ch;
+#endif
+#ifdef __USART2
+	#ifdef __MINILIB__
+	if (file == USART2_FILE_ID)
+	#else
+	if (f == USART2_FILE)
+	#endif
+	{ 
+		if (!tbuffer_uart2_empty)
+		{
+			while (send_ptr_uart2 == (char *) (TX_DMA_CHANNEL->CMAR)) ;
+		
+			*send_ptr_uart2=ch;
+		
+			if(send_ptr_uart2>=END_TBUF)
+		  	{
+		  		send_ptr_uart2=tbuff_uart2;
+		  	}
+		  	else send_ptr_uart2++;
+		 }
+		 else
+		 {
+		 	*send_ptr_uart2=ch;
+		
+			// send single char to DMA
+			TX_DMA_CHANNEL->CCR &= (~DMA_EN);    //disABLE CHANNEL		 
+			TX_DMA_CHANNEL->CNDTR=1;
+			dma_size_uart2=TX_DMA_CHANNEL->CNDTR;  //save buff size because CNDTR is cleared on IRQ
+			TX_DMA_CHANNEL->CMAR=(unsigned int) send_ptr_uart2;
+		    tbuffer_uart2_empty=0;
+		
+			if(send_ptr_uart2>=END_TBUF)
+		  	{
+		  		send_ptr_uart2=tbuff_uart2;
+		  	}
+		  	else send_ptr_uart2++;
+		
+			TX_DMA_CHANNEL->CCR |= DMA_EN;
+		}
+		
+		return ch;
+	}
+#endif
+#ifdef __USART3
+	#ifdef __MINILIB__
+	if (file == USART3_FILE_ID)
+	#else
+	if (f == USART3_FILE)
+	#endif
+	{ 
+		if (!tbuffer_uart3_empty)
+		{
+			while (send_ptr_uart3 == (char *) (TX_DMA_CHANNEL->CMAR)) ;
+		
+			*send_ptr_uart3=ch;
+		
+			if(send_ptr_uart3>=END_TBUF)
+		  	{
+		  		send_ptr_uart3=tbuff_uart3;
+		  	}
+		  	else send_ptr_uart3++;
+		 }
+		 else
+		 {
+		 	*send_ptr_uart3=ch;
+		
+			// send single char to DMA
+			TX_DMA_CHANNEL->CCR &= (~DMA_EN);    //disABLE CHANNEL		 
+			TX_DMA_CHANNEL->CNDTR=1;
+			dma_size_uart3=TX_DMA_CHANNEL->CNDTR;  //save buff size because CNDTR is cleared on IRQ
+			TX_DMA_CHANNEL->CMAR=(unsigned int) send_ptr_uart3;
+		    tbuffer_uart3_empty=0;
+		
+			if(send_ptr_uart3>=END_TBUF)
+		  	{
+		  		send_ptr_uart3=tbuff_uart3;
+		  	}
+		  	else send_ptr_uart3++;
+		
+			TX_DMA_CHANNEL->CCR |= DMA_EN;
+		}
+		
+		return ch;
+	}
+#endif
 }
 
+/* J'en suis là */
 /*----------------------------------------------------------------------------
   fgetc
  *----------------------------------------------------------------------------*/
 #if !defined __MINILIB__
 	int fgetc(FILE *f)
 #else
-	int usart_read(void)
+	char minilib_read(int file)
 #endif
 {
 int ch;
@@ -492,54 +806,154 @@ struct buf_st
   	char buf [RBUF_SIZE];                           // Buffer
 };
 
-static struct buf_st rbuf = { 0, 0, };
-#define SIO_RBUFLEN ((unsigned short)(rbuf.in - rbuf.out))
+#ifdef __USART1
+	static struct buf_st rbuf_uart1 = { 0, 0, };
+	#define SIO_RBUFLEN_USART2 ((unsigned short)(rbuf_uart1.in - rbuf_uart1.out))
 
-static struct buf_st tbuf = { 0, 0, };
-#define SIO_TBUFLEN ((unsigned short)(tbuf.in - tbuf.out))
+	static struct buf_st tbuf_uart1 = { 0, 0, };
+	#define SIO_TBUFLEN_USART2 ((unsigned short)(tbuf_uart1.in - tbuf_uart1.out))
 
-static unsigned int tx_restart = 1;               // NZ if TX restart is required
+	static unsigned int tx_restart_uart1 = 1;               // NZ if TX restart is required
+#endif
+#ifdef __USART2
+	static struct buf_st rbuf_uart2 = { 0, 0, };
+	#define SIO_RBUFLEN_USART2 ((unsigned short)(rbuf_uart2.in - rbuf_uart2.out))
+
+	static struct buf_st tbuf_uart2 = { 0, 0, };
+	#define SIO_TBUFLEN_USART2 ((unsigned short)(tbuf_uart2.in - tbuf_uart2.out))
+
+	static unsigned int tx_restart_uart2 = 1;               // NZ if TX restart is required
+#endif
+#ifdef __USART3
+	static struct buf_st rbuf_uart3 = { 0, 0, };
+	#define SIO_RBUFLEN_USART2 ((unsigned short)(rbuf_uart3.in - rbuf_uart3.out))
+
+	static struct buf_st tbuf_uart3 = { 0, 0, };
+	#define SIO_TBUFLEN_USART2 ((unsigned short)(tbuf_uart3.in - tbuf_uart3.out))
+
+	static unsigned int tx_restart_uart3 = 1;               // NZ if TX restart is required
+#endif
 
 /*----------------------------------------------------------------------------
-  USART1_IRQHandler
-  Handles USART1 global interrupt request.
+  USARTx_IRQHandler
+  Handles USARTx global interrupt request.
  *----------------------------------------------------------------------------*/
-void USARTx_IRQHandler (void) 
+#ifdef __USART1
+void USART1_IRQHandler (void) 
 {
 volatile unsigned int IIR;
 struct buf_st *p;
 
-    IIR = USARTx->SR;
+    IIR = USART1->SR;
     if (IIR & USART_RXNE)                   // read interrupt
 	{
-    	USARTx->SR &= ~USART_RXNE;	          // clear interrupt
-      	p = &rbuf;
+    	USART1->SR &= ~USART_RXNE;	          // clear interrupt
+      	p = &rbuf_uart1;
 
       	if (((p->in - p->out) & ~(RBUF_SIZE-1)) == 0) 
 		{
-        	p->buf [p->in & (RBUF_SIZE-1)] = (USARTx->DR & 0x1FF);
+        	p->buf [p->in & (RBUF_SIZE-1)] = (USART1->DR & 0x1FF);
         	p->in++;
       	}
 	}
 
     if (IIR & USART_TXE) 
 	{
-      	USARTx->SR &= ~USART_TXE;	          // clear interrupt
-		p = &tbuf;
+      	USART1->SR &= ~USART_TXE;	          // clear interrupt
+		p = &tbuf_uart1;
 
       	if (p->in != p->out) 
 		{
-        	USARTx->DR = (p->buf [p->out & (TBUF_SIZE-1)] & 0x1FF);
+        	USART1->DR = (p->buf [p->out & (TBUF_SIZE-1)] & 0x1FF);
         	p->out++;
         	tx_restart = 0;
       	}
       	else 
 		{
         	tx_restart = 1;
-			USARTx->CR1 &= ~USART_TXE;		      // disable TX interrupt if nothing to send
+			USART1->CR1 &= ~USART_TXE;		      // disable TX interrupt if nothing to send
       	}
     }
 }
+#endif
+
+#ifdef __USART2
+void USART2_IRQHandler (void) 
+{
+volatile unsigned int IIR;
+struct buf_st *p;
+
+    IIR = USART2->SR;
+    if (IIR & USART_RXNE)                   // read interrupt
+	{
+    	USART2->SR &= ~USART_RXNE;	          // clear interrupt
+      	p = &rbuf_uart2;
+
+      	if (((p->in - p->out) & ~(RBUF_SIZE-1)) == 0) 
+		{
+        	p->buf [p->in & (RBUF_SIZE-1)] = (USART2->DR & 0x1FF);
+        	p->in++;
+      	}
+	}
+
+    if (IIR & USART_TXE) 
+	{
+      	USART2->SR &= ~USART_TXE;	          // clear interrupt
+		p = &tbuf_uart2;
+
+      	if (p->in != p->out) 
+		{
+        	USART2->DR = (p->buf [p->out & (TBUF_SIZE-1)] & 0x1FF);
+        	p->out++;
+        	tx_restart = 0;
+      	}
+      	else 
+		{
+        	tx_restart = 1;
+			USART2->CR1 &= ~USART_TXE;		      // disable TX interrupt if nothing to send
+      	}
+    }
+}
+#endif
+
+#ifdef __USART3
+void USART3_IRQHandler (void) 
+{
+volatile unsigned int IIR;
+struct buf_st *p;
+
+    IIR = USART3->SR;
+    if (IIR & USART_RXNE)                   // read interrupt
+	{
+    	USART3->SR &= ~USART_RXNE;	          // clear interrupt
+      	p = &rbuf_uart3;
+
+      	if (((p->in - p->out) & ~(RBUF_SIZE-1)) == 0) 
+		{
+        	p->buf [p->in & (RBUF_SIZE-1)] = (USART3->DR & 0x1FF);
+        	p->in++;
+      	}
+	}
+
+    if (IIR & USART_TXE) 
+	{
+      	USART3->SR &= ~USART_TXE;	          // clear interrupt
+		p = &tbuf_uart3;
+
+      	if (p->in != p->out) 
+		{
+        	USART3->DR = (p->buf [p->out & (TBUF_SIZE-1)] & 0x1FF);
+        	p->out++;
+        	tx_restart = 0;
+      	}
+      	else 
+		{
+        	tx_restart = 1;
+			USART3->CR1 &= ~USART_TXE;		      // disable TX interrupt if nothing to send
+      	}
+    }
+}
+#endif
 
 /*------------------------------------------------------------------------------
   buffer_Init
@@ -547,54 +961,138 @@ struct buf_st *p;
  *------------------------------------------------------------------------------*/
 void buffer_init (void) 
 {
-  	tbuf.in = 0;                                    // Clear com buffer indexes
-  	tbuf.out = 0;
-  	tx_restart = 1;
+#ifdef __USART1
+  	tbuf_uart1.in = 0;                                    // Clear com buffer indexes
+  	tbuf_uart1.out = 0;
+  	tx_restart_uart1 = 1;
 
-  	rbuf.in = 0;
-  	rbuf.out = 0;
+  	rbuf_uart1.in = 0;
+  	rbuf_uart1.out = 0;
+#endif
+#ifdef __USART2
+  	tbuf_uart2.in = 0;                                    // Clear com buffer indexes
+  	tbuf_uart2.out = 0;
+  	tx_restart_uart2 = 1;
+
+  	rbuf_uart2.in = 0;
+  	rbuf_uart2.out = 0;
+#endif
+#ifdef __USART3
+  	tbuf_uart3.in = 0;                                    // Clear com buffer indexes
+  	tbuf_uart3.out = 0;
+  	tx_restart_uart3 = 1;
+
+  	rbuf_uart3.in = 0;
+  	rbuf_uart3.out = 0;
+#endif
 }
 
 /*------------------------------------------------------------------------------
   SenChar
   transmit a character
  *------------------------------------------------------------------------------*/
-int SendChar (int c) 
+int SendChar (int c, int uart_nbr) 
 {
-struct buf_st *p = &tbuf;
-                                                  // If the buffer is full, return an error value
-  	if (SIO_TBUFLEN >= TBUF_SIZE) return (-1);
-                                                  
-  	p->buf [p->in & (TBUF_SIZE - 1)] = c;           // Add data to the transmit buffer.
-  	p->in++;
+struct buf_st *p;
 
-  	if (tx_restart)                                // If transmit interrupt is disabled, enable it
+#ifdef __USART1
+	if (uart_nbr == USART1_FILE_ID)
 	{
-    	tx_restart = 0;
-		USARTx->CR1 |= USART_TXE;		          // enable TX interrupt
-  	}
+		p = &tbuf_uart1;
+                                                  // If the buffer is full, return an error value
+  		if (SIO_TBUFLEN_UART1 >= TBUF_SIZE) return (-1);
+                                                  
+  		p->buf [p->in & (TBUF_SIZE - 1)] = c;           // Add data to the transmit buffer.
+  		p->in++;
 
-  	return (0);
+  		if (tx_restart)                                // If transmit interrupt is disabled, enable it
+		{
+    		tx_restart = 0;
+			USART1->CR1 |= USART_TXE;		          // enable TX interrupt
+  		}
+
+		return (0);
+	}
+#endif
+#ifdef __USART2
+	if (uart_nbr == USART2_FILE_ID)
+	{
+		p = &tbuf_uart2;
+                                                  // If the buffer is full, return an error value
+  		if (SIO_TBUFLEN_UART2 >= TBUF_SIZE) return (-1);
+                                                  
+  		p->buf [p->in & (TBUF_SIZE - 1)] = c;           // Add data to the transmit buffer.
+  		p->in++;
+
+  		if (tx_restart)                                // If transmit interrupt is disabled, enable it
+		{
+    		tx_restart = 0;
+			USART2->CR1 |= USART_TXE;		          // enable TX interrupt
+  		}
+
+		return (0);
+	}
+#endif
+#ifdef __USART3
+	if (uart_nbr == USART3_FILE_ID)
+	{
+		p = &tbuf_uart3;
+                                                  // If the buffer is full, return an error value
+  		if (SIO_TBUFLEN_UART3 >= TBUF_SIZE) return (-1);
+                                                  
+  		p->buf [p->in & (TBUF_SIZE - 1)] = c;           // Add data to the transmit buffer.
+  		p->in++;
+
+  		if (tx_restart)                                // If transmit interrupt is disabled, enable it
+		{
+    		tx_restart = 0;
+			USART3->CR1 |= USART_TXE;		          // enable TX interrupt
+  		}
+
+		return (0);
+	}
+#endif
 }
 
 /*------------------------------------------------------------------------------
   GetKey
   receive a character
  *------------------------------------------------------------------------------*/
-int GetKey (void) 
+int GetKey (int uart_nbr) 
 {
-struct buf_st *p = &rbuf;
+struct buf_st *p;
 
-	if (SIO_RBUFLEN == 0) return (-1);
+#ifdef __USART1
+	if (uart_nbr == USART1_FILE_ID)
+	{
+		p = &rbuf_uart1;
 
-  	return (p->buf [(p->out++) & (RBUF_SIZE - 1)]);
+		if (SIO_RBUFLEN_UART1 == 0) return (-1);
+
+  		return (p->buf [(p->out++) & (RBUF_SIZE - 1)]);
+	}
+#endif
+#ifdef __USART2
+	if (uart_nbr == USART2_FILE_ID)
+	{
+		p = &rbuf_uart2;
+
+		if (SIO_RBUFLEN_UART2 == 0) return (-1);
+
+  		return (p->buf [(p->out++) & (RBUF_SIZE - 1)]);
+	}
+#endif
+#ifdef __USART3
+	if (uart_nbr == USART3_FILE_ID)
+	{
+		p = &rbuf_uart3;
+
+		if (SIO_RBUFLEN_UART3 == 0) return (-1);
+
+  		return (p->buf [(p->out++) & (RBUF_SIZE - 1)]);
+	}
+#endif
 }
-
-//________________________________________________________________________________
-//________________________________________________________________________________
-// extrait de boards/keil/stm32/USART_irg/Retarget.c
-//________________________________________________________________________________
-//________________________________________________________________________________
 
 /*----------------------------------------------------------------------------
   fputc
@@ -602,10 +1100,16 @@ struct buf_st *p = &rbuf;
 #if !defined __MINILIB__
 	int fputc(int ch, FILE *f)
 #else
-	int usart_write(int ch)
+	char minilib_write(int file, char ch)
 #endif
 {
-  	return (SendChar(ch));
+	#ifdef __MINILIB__ 
+  		return (SendChar(file, ch));
+	#else
+		if (f == USART1_FILE) return (SendChar(USART1_FILE_ID, ch));
+		else if (f == USART2_FILE) return (SendChar(USART2_FILE_ID, ch));
+		else if (f == USART3_FILE) return (SendChar(USART3_FILE_ID, ch));
+	#endif
 }
 
 /*----------------------------------------------------------------------------
@@ -614,14 +1118,21 @@ struct buf_st *p = &rbuf;
 #if !defined __MINILIB__
 	int fgetc(FILE *f) 
 #else
-	int usart_read(void)
+	char minilib_read(int file)
 #endif
 {
 int ch;
 
 	do 
 	{
-    	ch = GetKey ();
+		#ifdef __MINILIB__ 
+			ch = GetKey (file);
+		#else
+			if (f == USART1_FILE) ch = GetKey (USART1_FILE_ID);
+			else if (f == USART2_FILE) ch = GetKey (USART2_FILE_ID);
+			else if (f == USART3_FILE) ch = GetKey (USART3_FILE_ID);
+			else ch = -1;
+		#endif
   	} while (ch == -1);
   	
   	return (ch);

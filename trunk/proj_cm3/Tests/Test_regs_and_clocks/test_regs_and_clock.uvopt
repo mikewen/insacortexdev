@@ -187,7 +187,7 @@
 
   <Group>
     <GroupName>Startup</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -196,10 +196,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>29</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>97</TopLine>
+      <CurrentLine>114</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../system/STM32F10x_GCC.s</PathWithFileName>
       <FilenameWithoutPath>STM32F10x_GCC.s</FilenameWithoutPath>
@@ -241,14 +241,14 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>0</FileNumber>
+      <FileNumber>4</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>13</TopLine>
+      <CurrentLine>13</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\syscalls.c</PathWithFileName>
       <FilenameWithoutPath>syscalls.c</FilenameWithoutPath>
@@ -262,11 +262,11 @@
     <cbSel>0</cbSel>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>4</FileNumber>
+      <FileNumber>5</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>5</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
@@ -276,14 +276,14 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>0</FileNumber>
+      <FileNumber>6</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>22</ColumnNumber>
+      <ColumnNumber>18</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>91</TopLine>
-      <CurrentLine>114</CurrentLine>
+      <TopLine>704</TopLine>
+      <CurrentLine>711</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\lib_cm3\stm_usartx_v2.c</PathWithFileName>
       <FilenameWithoutPath>stm_usartx_v2.c</FilenameWithoutPath>
@@ -291,9 +291,9 @@
   </Group>
 
   <AlienFiles>
-    <PathWithFilename>D:\Projets\MCU\ARM\Cortex\lib_cm3\stm_usartx_v2.h</PathWithFilename>
-    <TopLine>1</TopLine>
-    <CurrentLine>37</CurrentLine>
+    <PathWithFilename>D:\CORTEX\LIB_CM3\STM_SYSTEM.H</PathWithFilename>
+    <TopLine>181</TopLine>
+    <CurrentLine>181</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -317,35 +317,9 @@
   </AlienFiles>
 
   <AlienFiles>
-    <PathWithFilename>D:\Projets\MCU\ARM\Cortex\LIB_CM3\STM_REGS.H</PathWithFilename>
-    <TopLine>482</TopLine>
-    <CurrentLine>489</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>D:\Projets\MCU\ARM\Cortex\proj_cm3\Tests\Test_regs_and_clocks\stm_usartx_v2_config.h</PathWithFilename>
-    <TopLine>32</TopLine>
-    <CurrentLine>32</CurrentLine>
+    <PathWithFilename>D:\Cortex\proj_cm3\Tests\Test_regs_and_clocks\stm_usartx_v2_config.h</PathWithFilename>
+    <TopLine>51</TopLine>
+    <CurrentLine>76</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -1959,20 +1933,8 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>5</ActiveTab>
+      <ActiveTab>1</ActiveTab>
       <Documents>
-        <Doc>
-          <Name>D:\Projets\MCU\ARM\Cortex\LIB_CM3\STM_USARTX_V2.H</Name>
-          <ColumnNumber>41</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>37</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>D:\Projets\MCU\ARM\Cortex\minilib\syscalls_template\syscalls.c</Name>
-          <ColumnNumber>42</ColumnNumber>
-          <TopLine>79</TopLine>
-          <CurrentLine>109</CurrentLine>
-        </Doc>
         <Doc>
           <Name>.\main.c</Name>
           <ColumnNumber>0</ColumnNumber>
@@ -1980,21 +1942,33 @@
           <CurrentLine>4</CurrentLine>
         </Doc>
         <Doc>
-          <Name>D:\Projets\MCU\ARM\Cortex\LIB_CM3\STM_REGS.H</Name>
-          <ColumnNumber>8</ColumnNumber>
-          <TopLine>482</TopLine>
-          <CurrentLine>489</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>D:\Projets\MCU\ARM\Cortex\proj_cm3\Tests\Test_regs_and_clocks\stm_usartx_v2_config.h</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>32</TopLine>
-          <CurrentLine>32</CurrentLine>
-        </Doc>
-        <Doc>
           <Name>..\..\..\lib_cm3\stm_usartx_v2.c</Name>
-          <ColumnNumber>22</ColumnNumber>
-          <TopLine>91</TopLine>
+          <ColumnNumber>18</ColumnNumber>
+          <TopLine>704</TopLine>
+          <CurrentLine>711</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>D:\CORTEX\LIB_CM3\STM_SYSTEM.H</Name>
+          <ColumnNumber>14</ColumnNumber>
+          <TopLine>181</TopLine>
+          <CurrentLine>181</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>D:\Cortex\proj_cm3\Tests\Test_regs_and_clocks\stm_usartx_v2_config.h</Name>
+          <ColumnNumber>14</ColumnNumber>
+          <TopLine>51</TopLine>
+          <CurrentLine>76</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\syscalls.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>13</TopLine>
+          <CurrentLine>13</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../system/STM32F10x_GCC.s</Name>
+          <ColumnNumber>29</ColumnNumber>
+          <TopLine>97</TopLine>
           <CurrentLine>114</CurrentLine>
         </Doc>
       </Documents>
