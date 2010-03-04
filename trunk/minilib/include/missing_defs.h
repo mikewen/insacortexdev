@@ -21,6 +21,4 @@ struct __FILE
 
 #endif /* !defined (__AVR__) */
 
-
-
 #endif /* __MISSING_DEFS__ */
