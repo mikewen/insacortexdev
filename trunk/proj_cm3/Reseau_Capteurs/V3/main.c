@@ -35,7 +35,7 @@
 
 #define CARTE_ID	1
 
-#define NUMERO_TELEPHONE 	"0601020304"
+#define NUMERO_TELEPHONE 	"0683296916"
 u8 preScaler;
 
 #define MAX_CHAINES	10
@@ -221,7 +221,8 @@ int numero_capteur;
 			fprintf (RS606, "%d=ALERTE\n", CARTE_ID);
 			
 			lcd_clear();
-			lcd_print("Capteur: ALERTE");
+			sprintf (buf_temp, "Capteur %d:ALERTE", CARTE_ID);
+			lcd_print(buf_temp);
 		}
 		else
 		{
@@ -229,7 +230,8 @@ int numero_capteur;
 			fprintf (RS606, "%d=OK\n", CARTE_ID);
 
 			lcd_clear();
-			lcd_print("Capteur: OK");
+			sprintf (buf_temp, "Capteur %d:OK    ", CARTE_ID);
+			lcd_print(buf_temp);
 		}
 #endif /* _CARTE_A_ */
 
@@ -250,15 +252,15 @@ int numero_capteur;
 						etat_capteurs[numero_capteur-1]=0;
 						etat_precedent[numero_capteur-1] = ETAT_OK;
 						set_cursor(0,numero_capteur-1);
-						//sprintf (buf_temp, "Capteur %d:OK    ", numero_capteur);
-						lcd_print ("Capteur :OK    ");
+						sprintf (buf_temp, "Capteur %d:OK    ", numero_capteur);
+						lcd_print (buf_temp);//"Capteur :OK    ");
 					}	
 					else if (strfind(chaines_fm.buffer[i], "ALERTE"))
 					{
 						etat_capteurs[numero_capteur-1]=0;
 						set_cursor(0,numero_capteur-1);
-						//sprintf (buf_temp, "Capteur %d:ALERTE", numero_capteur);
-						lcd_print ("Capteur :ALERTE");
+						sprintf (buf_temp, "Capteur %d:ALERTE", numero_capteur);
+						lcd_print (buf_temp);//"Capteur :ALERTE");
 
 						if (etat_precedent[numero_capteur-1] != ETAT_KO)
 						{	
@@ -277,8 +279,8 @@ int numero_capteur;
 			if (etat_capteurs[i]>1) /* Capteur HS */
 			{
 				set_cursor(0,i);
-				//sprintf (buf_temp, "Capteur %d:HS    ", i+1);
-				lcd_print ("Capteur :HS    ");
+				sprintf (buf_temp, "Capteur %d:HS    ", i+1);
+				lcd_print (buf_temp);//"Capteur :HS    ");
 
 				if (etat_precedent[i] != ETAT_HS)
 				{
@@ -305,8 +307,13 @@ int numero_capteur;
 
 				/* Envoi sur GSM (UART1) d'un texto contenant l'erreur */
 				fprintf(GSM,"AT+CMGF=1\r\n");
+				{
+				int j ;
+				for (j=0;j<8000000;j++);
 				fprintf(GSM,"AT+CMGS=\"%s\"\r\n",NUMERO_TELEPHONE);
-				fprintf(GSM,"%s\0x1A\n",(char *)chaines_xbee.buffer[i]);
+				for (j=0;j<8000000;j++);
+				fprintf(GSM,"%s%c\n",(char *)chaines_xbee.buffer[i],0x1A);
+				}
 			}
 		}
 #endif /* _CARTE_C_ */
