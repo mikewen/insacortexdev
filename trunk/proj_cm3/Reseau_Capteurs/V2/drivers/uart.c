@@ -125,4 +125,27 @@ signed char data;
 	return data;
 }
 
+u8 UART_Buffer_State (FILE *f)
+{
+u8 status;
+	
+	status = EMPTY;
+	
+	switch (f->_file)
+	{
+		case UART_1_ID:
+		case UART_1_ID_NB:
+			if ((USART1->SR & USART_FLAG_RXNE)!=0) status = NOT_EMPTY;
+			break;
+		case UART_2_ID:
+		case UART_2_ID_NB:
+			if ((USART2->SR & USART_FLAG_RXNE)!=0) status = NOT_EMPTY;
+			break;
+		case UART_3_ID:
+		case UART_3_ID_NB:
+			if ((USART3->SR & USART_FLAG_RXNE)!=0) status = NOT_EMPTY;
+			break;
+	} 
 
+	return status;
+}

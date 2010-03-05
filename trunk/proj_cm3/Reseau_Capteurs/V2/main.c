@@ -53,9 +53,9 @@ void envoyerCaractereRS606(char C)
 	lcd_print("=>Envoi de : ");
 	lcd_putchar(C);
 	
-	Delay_1_RS606();
+//	Delay_1_RS606();
 	fputc(C, RS606);
-	Delay_1_RS606();
+//	Delay_1_RS606();
 }
 	
 void MonCallback (void)	;
@@ -119,10 +119,12 @@ static signed char caractere = 'a';
 
 		if (caractere>'z') caractere = 'a';
 #else /* _IS_SLAVE_ */
-		caractere=fgetc(RS606_NB);
+		//caractere=fgetc(RS606_NB);
 		
-		if (caractere != -1)
+		if (UART_Buffer_State(RS606) != EMPTY)
 		{
+			caractere=fgetc(RS606);
+
 			lcd_clear();
 			lcd_print("Reception de : ");
 			lcd_putchar(caractere);	
