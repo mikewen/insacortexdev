@@ -21,6 +21,10 @@ extern FILE UART_3_NB;
 #define UART_2_ID_NB 102
 #define UART_3_ID_NB 103 
 
+#define EMPTY 0
+#define NOT_EMPTY 1
+#define TIMEOUT 2
+
 void uart_init(void);
 
 void putchar_UART1(u8 c);
@@ -32,4 +36,6 @@ u8 getchar_UART3 (void);
 signed char getchar_UART1_NB (void);
 signed char getchar_UART2_NB (void);
 signed char getchar_UART3_NB (void);
+
+u8 UART_Buffer_State (FILE *f);
 #endif /* __UART_H__ */
