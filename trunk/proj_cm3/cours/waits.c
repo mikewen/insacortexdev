@@ -1,5 +1,5 @@
 unsigned char Nombre_D_Appels =0;
-
+volatile int imbecile;
 
 void wait_s32_u8(void)
 {
@@ -15,13 +15,13 @@ void wait_s32_u8(void)
 
 void wait_vs32_vu8(void)
 {
-	volatile int i;
+	
 	volatile unsigned char Number_Of_Wait_Calls = 0;
 
 	Nombre_D_Appels ++;
 	Number_Of_Wait_Calls ++;
 
-	for (i=0;i<0xF000;i++) ;
+	for (imbecile=0;imbecile<0xF000;imbecile++) ;
 
 }
 

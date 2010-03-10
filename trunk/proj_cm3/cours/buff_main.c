@@ -59,7 +59,8 @@ void dummy_asm(void);
 int main(void)
 {
   const char MaxCalls =3;
-	dummy_asm();
+	//dummy_asm();
+	wait_s32_u8();
 
 	Init_Clock_System() ;
 	
