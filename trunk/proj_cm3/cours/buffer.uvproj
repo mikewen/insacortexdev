@@ -410,6 +410,11 @@
               <FileType>1</FileType>
               <FilePath>.\waits.c</FilePath>
             </File>
+            <File>
+              <FileName>dummy_asm.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\dummy_asm.s</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

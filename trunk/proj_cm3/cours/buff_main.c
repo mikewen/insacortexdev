@@ -53,24 +53,20 @@ void dangereous_action(void)
 	while (1) printf("Raise all employee's pay\n");
 
 }
+
+void dummy_asm(void);
 		
 int main(void)
 {
-    unsigned short int i;
+  const char MaxCalls =3;
+	dummy_asm();
 
-	  	for (i=0;i<0xF000;i++) ;
-
-				wait_s32_u8();
-			wait_vs32_vu8();
-			wait_vu32_su8();
-
-	
 	Init_Clock_System() ;
 	
 	
 	setup_usart();
 
-   while(Get_Nombre_D_Appels()<3)
+   while(Get_Nombre_D_Appels()<MaxCalls)
    {
 		printf("Enter pass phrase:\n");
    		if (check_passwd()) 
