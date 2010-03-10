@@ -161,7 +161,7 @@
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>61</LineNumber>
+          <LineNumber>62</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>134218288</Address>
           <ByteObject>0</ByteObject>
@@ -176,9 +176,9 @@
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>63</LineNumber>
+          <LineNumber>69</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134218302</Address>
+          <Address>134218300</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
@@ -192,8 +192,8 @@
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
-          <SubType>4</SubType>
-          <ItemText>0x200001B0</ItemText>
+          <SubType>1</SubType>
+          <ItemText>0x20000000</ItemText>
         </Mm>
       </MemoryWindow1>
       <MemoryWindow2>
@@ -236,7 +236,7 @@
         <viewmode>1</viewmode>
         <vrSel>0</vrSel>
         <aSym>0</aSym>
-        <aTbox>1</aTbox>
+        <aTbox>0</aTbox>
         <AscS1>0</AscS1>
         <AscS2>0</AscS2>
         <AscS3>0</AscS3>
@@ -269,7 +269,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>114</TopLine>
+      <TopLine>111</TopLine>
       <CurrentLine>118</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\STM32F10x.s</PathWithFileName>
@@ -283,8 +283,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>50</TopLine>
-      <CurrentLine>63</CurrentLine>
+      <TopLine>69</TopLine>
+      <CurrentLine>72</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\buff_main.c</PathWithFileName>
       <FilenameWithoutPath>buff_main.c</FilenameWithoutPath>
@@ -323,13 +323,27 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>5</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>1</TopLine>
-      <CurrentLine>11</CurrentLine>
+      <CurrentLine>50</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\waits.c</PathWithFileName>
       <FilenameWithoutPath>waits.c</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>2</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>35</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>10</TopLine>
+      <CurrentLine>47</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\dummy_asm.s</PathWithFileName>
+      <FilenameWithoutPath>dummy_asm.s</FilenameWithoutPath>
     </File>
   </Group>
 
@@ -489,6 +503,84 @@
     </WindowPosition>
   </AlienFiles>
 
+  <AlienFiles>
+    <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\Baguette\proj_asm_etape0\main_p0_debug.s</PathWithFilename>
+    <TopLine>50</TopLine>
+    <CurrentLine>53</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\cours\buffer.map</PathWithFilename>
+    <TopLine>313</TopLine>
+    <CurrentLine>313</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\cours\dummy_asm.lst</PathWithFilename>
+    <TopLine>1</TopLine>
+    <CurrentLine>1</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
   <WinLayout>
     <sActiveDebugView>Default</sActiveDebugView>
     <iActiveDebugViewLocation>1</iActiveDebugViewLocation>
@@ -585,9 +677,9 @@
         <DockLocation>3</DockLocation>
         <Pinned>0</Pinned>
         <DockedRect_top>50</DockedRect_top>
-        <DockedRect_left>0</DockedRect_left>
+        <DockedRect_left>1</DockedRect_left>
         <DockedRect_bottom>76</DockedRect_bottom>
-        <DockedRect_right>626</DockedRect_right>
+        <DockedRect_right>627</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>0</FloatingRect_bottom>
@@ -1833,6 +1925,30 @@
       <ActiveTab>1</ActiveTab>
       <Documents>
         <Doc>
+          <Name>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\cours\buffer.map</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>313</TopLine>
+          <CurrentLine>313</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\dummy_asm.s</Name>
+          <ColumnNumber>35</ColumnNumber>
+          <TopLine>10</TopLine>
+          <CurrentLine>47</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\Baguette\proj_asm_etape0\main_p0_debug.s</Name>
+          <ColumnNumber>37</ColumnNumber>
+          <TopLine>50</TopLine>
+          <CurrentLine>53</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\STM32F10x.s</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>111</TopLine>
+          <CurrentLine>118</CurrentLine>
+        </Doc>
+        <Doc>
           <Name>..\..\lib_cm3\stm_usartx.h</Name>
           <ColumnNumber>25</ColumnNumber>
           <TopLine>1</TopLine>
@@ -1840,15 +1956,15 @@
         </Doc>
         <Doc>
           <Name>.\waits.c</Name>
-          <ColumnNumber>5</ColumnNumber>
+          <ColumnNumber>0</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>11</CurrentLine>
+          <CurrentLine>50</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\buff_main.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>50</TopLine>
-          <CurrentLine>63</CurrentLine>
+          <TopLine>69</TopLine>
+          <CurrentLine>72</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\stm_usartx_config.h</Name>
@@ -1875,6 +1991,12 @@
           <CurrentLine>5</CurrentLine>
         </Doc>
         <Doc>
+          <Name>H:\Documents\cm3_devel\svn_insacortexdev\proj_cm3\cours\dummy_asm.lst</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
+        </Doc>
+        <Doc>
           <Name>..\..\lib_cm3\stm_clock.c</Name>
           <ColumnNumber>0</ColumnNumber>
           <TopLine>134</TopLine>
@@ -1891,12 +2013,6 @@
           <ColumnNumber>0</ColumnNumber>
           <TopLine>203</TopLine>
           <CurrentLine>218</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\STM32F10x.s</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>114</TopLine>
-          <CurrentLine>118</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

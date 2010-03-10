@@ -1,7 +1,7 @@
 unsigned char Nombre_D_Appels =0;
 
 
-void wait_s32_u8(void)	__pure
+void wait_s32_u8(void)
 {
 	int i=0;
 	unsigned char Number_Of_Wait_Calls = 0;
