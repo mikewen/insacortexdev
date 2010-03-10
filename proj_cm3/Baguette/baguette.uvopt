@@ -538,6 +538,20 @@
       <PathWithFileName>.\STM32F10x.s</PathWithFileName>
       <FilenameWithoutPath>STM32F10x.s</FilenameWithoutPath>
     </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>2</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\baguette_v1.ini</PathWithFileName>
+      <FilenameWithoutPath>baguette_v1.ini</FilenameWithoutPath>
+    </File>
   </Group>
 
   <Group>
@@ -553,8 +567,8 @@
       <Focus>0</Focus>
       <ColumnNumber>13</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>17</CurrentLine>
+      <TopLine>127</TopLine>
+      <CurrentLine>127</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -621,8 +635,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>93</TopLine>
+      <CurrentLine>93</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\lib_user\lib_baguette.h</PathWithFileName>
       <FilenameWithoutPath>lib_baguette.h</FilenameWithoutPath>
@@ -1689,10 +1703,10 @@
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
-        <WinId>1913</WinId>
-        <ItemNo>38</ItemNo>
-        <Name>Instruction Trace</Name>
-        <AnchorWinID>203</AnchorWinID>
+        <WinId>35886</WinId>
+        <ItemNo>28</ItemNo>
+        <Name>not set</Name>
+        <AnchorWinID>35885</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1714,10 +1728,10 @@
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
-        <WinId>343</WinId>
-        <ItemNo>39</ItemNo>
-        <Name>Performance Analyzer</Name>
-        <AnchorWinID>1913</AnchorWinID>
+        <WinId>35887</WinId>
+        <ItemNo>29</ItemNo>
+        <Name>not set</Name>
+        <AnchorWinID>35886</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1739,10 +1753,10 @@
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
-        <WinId>204</WinId>
-        <ItemNo>40</ItemNo>
-        <Name>Performance Analyzer</Name>
-        <AnchorWinID>343</AnchorWinID>
+        <WinId>35888</WinId>
+        <ItemNo>30</ItemNo>
+        <Name>not set</Name>
+        <AnchorWinID>35887</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1764,10 +1778,10 @@
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
-        <WinId>346</WinId>
-        <ItemNo>41</ItemNo>
-        <Name>Code Coverage</Name>
-        <AnchorWinID>204</AnchorWinID>
+        <WinId>35889</WinId>
+        <ItemNo>31</ItemNo>
+        <Name>not set</Name>
+        <AnchorWinID>35888</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1792,7 +1806,7 @@
         <WinId>35885</WinId>
         <ItemNo>42</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>0</AnchorWinID>
+        <AnchorWinID>35889</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1817,7 +1831,7 @@
         <WinId>35886</WinId>
         <ItemNo>43</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35885</AnchorWinID>
+        <AnchorWinID>35890</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1842,7 +1856,7 @@
         <WinId>35887</WinId>
         <ItemNo>44</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35886</AnchorWinID>
+        <AnchorWinID>35891</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1867,7 +1881,7 @@
         <WinId>35888</WinId>
         <ItemNo>45</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35887</AnchorWinID>
+        <AnchorWinID>35892</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1892,7 +1906,7 @@
         <WinId>35889</WinId>
         <ItemNo>46</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35888</AnchorWinID>
+        <AnchorWinID>35893</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1917,7 +1931,7 @@
         <WinId>35890</WinId>
         <ItemNo>47</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35889</AnchorWinID>
+        <AnchorWinID>35894</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1942,7 +1956,7 @@
         <WinId>35891</WinId>
         <ItemNo>48</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35890</AnchorWinID>
+        <AnchorWinID>35895</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1967,7 +1981,7 @@
         <WinId>35892</WinId>
         <ItemNo>49</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35891</AnchorWinID>
+        <AnchorWinID>35896</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -1992,7 +2006,7 @@
         <WinId>35893</WinId>
         <ItemNo>50</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35892</AnchorWinID>
+        <AnchorWinID>35897</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2017,7 +2031,7 @@
         <WinId>35894</WinId>
         <ItemNo>51</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35893</AnchorWinID>
+        <AnchorWinID>35898</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2042,7 +2056,7 @@
         <WinId>35895</WinId>
         <ItemNo>52</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35894</AnchorWinID>
+        <AnchorWinID>35899</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2067,7 +2081,7 @@
         <WinId>35896</WinId>
         <ItemNo>53</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35895</AnchorWinID>
+        <AnchorWinID>35900</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2092,7 +2106,7 @@
         <WinId>35897</WinId>
         <ItemNo>54</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35896</AnchorWinID>
+        <AnchorWinID>35901</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2117,7 +2131,7 @@
         <WinId>35898</WinId>
         <ItemNo>55</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35897</AnchorWinID>
+        <AnchorWinID>35902</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2142,7 +2156,7 @@
         <WinId>35899</WinId>
         <ItemNo>56</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35898</AnchorWinID>
+        <AnchorWinID>35903</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2167,7 +2181,7 @@
         <WinId>35900</WinId>
         <ItemNo>57</ItemNo>
         <Name>not set</Name>
-        <AnchorWinID>35899</AnchorWinID>
+        <AnchorWinID>35904</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2214,10 +2228,10 @@
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
-        <WinId>35902</WinId>
-        <ItemNo>59</ItemNo>
-        <Name>not set</Name>
-        <AnchorWinID>35901</AnchorWinID>
+        <WinId>1913</WinId>
+        <ItemNo>49</ItemNo>
+        <Name>Instruction Trace</Name>
+        <AnchorWinID>203</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2239,10 +2253,10 @@
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
-        <WinId>35903</WinId>
-        <ItemNo>60</ItemNo>
-        <Name>not set</Name>
-        <AnchorWinID>35902</AnchorWinID>
+        <WinId>343</WinId>
+        <ItemNo>50</ItemNo>
+        <Name>Performance Analyzer</Name>
+        <AnchorWinID>1913</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2264,10 +2278,10 @@
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
-        <WinId>35904</WinId>
-        <ItemNo>61</ItemNo>
-        <Name>not set</Name>
-        <AnchorWinID>35903</AnchorWinID>
+        <WinId>204</WinId>
+        <ItemNo>51</ItemNo>
+        <Name>Performance Analyzer</Name>
+        <AnchorWinID>343</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2289,10 +2303,10 @@
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
-        <WinId>35905</WinId>
-        <ItemNo>62</ItemNo>
-        <Name>not set</Name>
-        <AnchorWinID>35904</AnchorWinID>
+        <WinId>346</WinId>
+        <ItemNo>52</ItemNo>
+        <Name>Code Coverage</Name>
+        <AnchorWinID>204</AnchorWinID>
         <AnchorWinName></AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
@@ -2346,11 +2360,17 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>5</ActiveTab>
+      <ActiveTab>0</ActiveTab>
       <Documents>
         <Doc>
           <Name>.\main.c</Name>
-          <ColumnNumber>13</ColumnNumber>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>127</TopLine>
+          <CurrentLine>127</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\..\lib_user\lib_baguette.inc</Name>
+          <ColumnNumber>4</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>17</CurrentLine>
         </Doc>
@@ -2371,6 +2391,12 @@
           <ColumnNumber>11</ColumnNumber>
           <TopLine>252</TopLine>
           <CurrentLine>282</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\..\lib_user\lib_baguette.h</Name>
+          <ColumnNumber>29</ColumnNumber>
+          <TopLine>93</TopLine>
+          <CurrentLine>93</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\..\lib_cm3\stm_clock.c</Name>
