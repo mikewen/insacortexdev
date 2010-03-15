@@ -67,7 +67,7 @@ int main(void)
 	
 	setup_usart();
 
-   while(Get_Nombre_D_Appels()<MaxCalls)
+   while(Get_Global_Nb_Calls()<MaxCalls)
    {
 		printf("Enter pass phrase:\n");
    		if (check_passwd()) 

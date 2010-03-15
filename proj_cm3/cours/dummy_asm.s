@@ -15,13 +15,14 @@ CHAR_FIN equ 'Z'
 TAILLE 	equ  15            
 ;___________________________________________________________________________________________________
 ;______________________________VARIABLES initialisées_______________________________________________           			
- AREA    RESET, DATA
+  AREA    DummyVars, DATA, READWRITE
 Caracteres		DCB 	'B','A',"BA",41
 Nombre			DCW		0xFFFE,-1,128
 Copy_Texte		SPACE   TAILLE
 ;___________________________________________________________________________________________________
 ;______________________________CONSTANTES MEMOIRE___________________________________________________            			
- AREA     DATA, READONLY
+				
+  AREA     DummyConsts, DATA, READONLY
 Texte 			DCB 	"Salut les geeks",CHAR_FIN
 Taille_Texte	DCW 	TAILLE  
 ID_PUCE			SPACE	15
@@ -30,7 +31,7 @@ ID_PUCE			SPACE	15
 
 ;___________________________________________________________________________________________________
 ;____________________________CODE___________________________________________________________________           
- AREA    |.text|, CODE, READONLY, ALIGN=2
+ AREA    |.textDummy|, CODE, READONLY, ALIGN=2
 
 
 
@@ -39,25 +40,31 @@ ID_PUCE			SPACE	15
 ;_________________________
 dummy_asm	PROC
 ;_________________________
- 	EXPORT dummy_asm             	
+ 	EXPORT dummy_asm   
+; fonction mystérieuse pour TD assembleur          	
 ; IN :  rien
-; OUT : rien
-; REGS :
+; OUT : R0 : somme des caractères
+; REGS ALTERES : R0-R1, R6-R8, R15(PC)
 ;_________________________
 
 	LDR R6,=Texte
+	LDR R8,=Copy_Texte
+	LDR R0,=0
 
 |Pas_Fini|
 
 		LDR R1,= CHAR_FIN
 		LDRB R7,[R6],#1
+		STRB R7,[R8],#1
+		ADD R0,R0,R7
+
 	CMP R1,R7
 	BNE |Pas_Fini|
 
-	BX LR
+	BX LR  ;retour à l'envoyeur
 
 ;_________________________
- ENDP  ; main
+ ENDP  ; dummy_asm
 ;_________________________
 
 

@@ -1,62 +1,45 @@
-unsigned char Nombre_D_Appels =0;
-volatile int imbecile;
+unsigned char Global_Nb_Calls =0;
 
 void wait_s32_u8(void)
-{
-	int i=0;
-	unsigned char Number_Of_Wait_Calls = 0;
-
-	Nombre_D_Appels ++;
-	Number_Of_Wait_Calls ++;
-
-	for (i=0;i<0xF000;i++) ;
-
+{	int i=0;
+	unsigned char Nb_Calls = 0;
+	Global_Nb_Calls ++;
+	Nb_Calls ++;
+	for (i=0;i<0xF0000000;i++) ;
 }
 
-void wait_vs32_vu8(void)
-{
-	
-	volatile unsigned char Number_Of_Wait_Calls = 0;
-
-	Nombre_D_Appels ++;
-	Number_Of_Wait_Calls ++;
-
-	for (imbecile=0;imbecile<0xF000;imbecile++) ;
-
+void wait_u32_su8(void)
+{	unsigned int i=0;
+	static unsigned char Nb_Calls = 0;
+	Global_Nb_Calls ++;
+	Nb_Calls ++;
+	for (i=0;i<0xF0000000;i++) ;
 }
 
-void wait_vu32_su8(void)
-{
-	volatile unsigned int i;
-	static unsigned char Number_Of_Wait_Calls = 0;
-
-	Nombre_D_Appels ++;
-	Number_Of_Wait_Calls ++;
-
-	for (i=0;i<0xF000;i++) ;
-
+void wait_vu32_vu8(void)
+{	volatile unsigned int i=0;
+	static unsigned char Nb_Calls = 0;
+	Global_Nb_Calls ++;
+	Nb_Calls ++;
+	for (i=0;i<0xF0000000;i++) ;
 }
 
 void wait_in_reverse_vu32_su8(void)
-{
-	volatile unsigned int i;
-	static unsigned char Number_Of_Wait_Calls = 0;
-
-	Nombre_D_Appels ++;
-	Number_Of_Wait_Calls ++;
-
-	for (i=0xF000;i>0;i--) ;
-
+{	volatile register unsigned int i=0;
+	static unsigned char Nb_Calls = 0;
+	Global_Nb_Calls ++;
+	Nb_Calls ++;
+	for (i=0xF0000000;i>0;i--) ;
 }
 
-unsigned char Get_Number_Of_Wait_Calls (void)
+
+unsigned char Get_Nb_Calls (void)
 {
-	static unsigned char Number_Of_Wait_Calls;
-	return Number_Of_Wait_Calls;
+	static unsigned char Nb_Calls;
+	return Nb_Calls;
 }
 
-unsigned char Get_Nombre_D_Appels (void)
+unsigned char Get_Global_Nb_Calls (void)
 {
-
-	return Nombre_D_Appels;
+	return Global_Nb_Calls;
 }
