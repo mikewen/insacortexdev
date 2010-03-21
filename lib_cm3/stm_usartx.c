@@ -40,16 +40,17 @@ ________________________________________________________________________________
 #define __USART_PARITY           0x00000000
 #define __USART_FLOWCTRL         0x00000000
 #define __USART_REMAP            0x00000000
+
 // Je récupère les bouts de STM32_Init utiles à l'USART
-// 
+
 // USART conf modifiée pour être configurée par lib_usartx_pol.h
 #if ( USART_NUM == 1 )
 	#define __USART1
 	#define USARTx 				USART1
 	#define TX_DMA_CHANNEL 		DMA1_Channel4 
 	#define TX_DMA_HANDLER 		DMAChannel4_IRQHandler
-	#define DMA1_CHANNELx_IRQ 	DMA1_Channel4_IRQChannel
-	#define USARTx_IRQChannel 	USART1_IRQChannel
+	#define DMA1_CHANNELx_IRQ 	DMA1_CHANNEL4_BIT_SHIFT
+	#define USARTx_IRQChannel 	USART1_BIT_SHIFT
 	#define USARTx_IRQHandler 	USART1_IRQHandler
 	#define TX_DMA_NUM 			4
 	#define DMAx_ISR_MASK 		(1<<(4*(TX_DMA_NUM-1)+1))
@@ -63,8 +64,8 @@ ________________________________________________________________________________
 	#define USARTx 				USART2
 	#define TX_DMA_CHANNEL 		DMA1_Channel7 
 	#define TX_DMA_HANDLER 		DMAChannel7_IRQHandler
-	#define DMA1_CHANNELx_IRQ 	DMA1_Channel7_IRQChannel
-	#define USARTx_IRQChannel 	USART2_IRQChannel
+	#define DMA1_CHANNELx_IRQ 	DMA1_CHANNEL7_BIT_SHIFT
+	#define USARTx_IRQChannel 	USART2_BIT_SHIFT
 	#define USARTx_IRQHandler 	USART2_IRQHandler
 	#define TX_DMA_NUM 			7
 	#define DMAx_ISR_MASK 		(1<<(4*(TX_DMA_NUM-1)+1))
@@ -78,8 +79,8 @@ ________________________________________________________________________________
 	#define USARTx 				USART3
 	#define TX_DMA_CHANNEL 		DMA1_Channel2 
 	#define TX_DMA_HANDLER 		DMAChannel2_IRQHandler
-	#define DMA1_CHANNELx_IRQ 	DMA1_Channel2_IRQChannel
-	#define USARTx_IRQChannel 	USART3_IRQChannel
+	#define DMA1_CHANNELx_IRQ 	DMA1_CHANNEL2_BIT_SHIFT
+	#define USARTx_IRQChannel 	USART3_BIT_SHIFT
 	#define USARTx_IRQHandler 	USART3_IRQHandler
 	#define TX_DMA_NUM 			2
 	#define DMAx_ISR_MASK	 	(1<<(4*(TX_DMA_NUM-1)+1))
@@ -368,7 +369,7 @@ void buffer_init(void)
 #if !defined __MINILIB__
 	int fputc(int ch, FILE *f) 
 #else
-	int usart_write(int ch)
+	char minilib_write(int file, char ch)
 #endif
 { 
 	if (!tbuffer_empty)
@@ -412,7 +413,7 @@ void buffer_init(void)
 #if !defined __MINILIB__
 	int fgetc(FILE *f)
 #else
-	int usart_read(void)
+	char minilib_read(void)
 #endif
 {
 int ch;
@@ -427,6 +428,14 @@ int ch;
   	return (ch);
 } 
 
+/*----------------------------------------------------------------------------
+  uart_buffer_full
+ *----------------------------------------------------------------------------*/
+int uart_buffer_full(void)
+{
+	return *in_ptr; 
+}
+ 
 /*----------------------------------------------------------------------------
   DMA IRQ handler
  *----------------------------------------------------------------------------*/
@@ -613,7 +622,7 @@ struct buf_st *p = &rbuf;
 #if !defined __MINILIB__
 	int fputc(int ch, FILE *f)
 #else
-	int usart_write(int ch)
+	char minilib_write(int file, char ch)
 #endif
 {
   	return (SendChar(ch));
@@ -625,7 +634,7 @@ struct buf_st *p = &rbuf;
 #if !defined __MINILIB__
 	int fgetc(FILE *f) 
 #else
-	int usart_read(void)
+	char minilib_read(int file)
 #endif
 {
 int ch;
@@ -635,7 +644,7 @@ int ch;
     	ch = GetKey ();
   	} while (ch == -1);
   	
-  	return (ch);
+  	return ((char)ch);
 }
 #endif /* USART_IRQ */
 

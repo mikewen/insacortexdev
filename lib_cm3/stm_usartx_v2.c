@@ -492,6 +492,8 @@ void setup_usart()			//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTER
   		return (ch);
 	}
 #endif
+
+	return 0;
 }
 
 /*----------------------------------------------------------------------------
@@ -539,6 +541,8 @@ void setup_usart()			//ATTENTION CONFIG  PIN RX AS FLOTING INPUT AND TX AS ALTER
   		return ((int)(USART3->DR & 0x0FF));
 	}
 #endif
+	
+	return 0;
 }
 #endif /* USART_POL */
 /*****************************************************************************
