@@ -21,21 +21,15 @@
  * Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+#ifndef _ADC_H_
+#define _ADC_H_
+
 #include "stm_regs.h"
-#include "hacheur.h"
 
 #include "config.h"
 
-int periode_capteur;
-float vitesse_moteur;
-int rapport_pwm;
-int cycle_moteur;
-int sens_rotation;
+void Init_ADC (void);
+int Lire_ADC(int voie);
 
-int P_MOS[6]= {1,2,3,1,2,3};
-int N_MOS[6]= {1,2,3,1,2,3};
+#endif /* _ADC_H_ */
 
-void Init_Hacheur (void)
-{
-	
-}
