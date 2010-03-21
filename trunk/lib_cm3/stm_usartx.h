@@ -87,7 +87,7 @@
 
 #ifdef USART_DMA
 	#define RBUF_SIZE 	(5)
-	#define TBUF_SIZE  (500)
+	#define TBUF_SIZE  (1000)
 
 	#ifdef USART_POL
 		#warning "USART_POL and USART_DMA mode used in the same time !! choose DMA one"
@@ -98,8 +98,9 @@
 		#undef USART_IRQ
 	#endif
 
+	int uart_buffer_full(void);
 #endif
-//what should we do while wainting ?
+//what should we do while waiting ?
 //#define USART_WAIT  os_wait();
 
 void setup_usart(void);

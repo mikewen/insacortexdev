@@ -145,16 +145,21 @@ static unsigned char lcd_read_status (void)
 
 static unsigned char wait_while_busy (void)
 {
-  unsigned char status;
+unsigned char status;
 
-#ifdef _LCD_USE_BUSY_STATUS_
-  do  {
-    status = lcd_read_status();
-  }  while (status & 0x80);             /* Wait for busy flag                 */
+#ifdef _LCD_SIMU_
+	status = 0x80;
 #else
-	delay(0x1800);
-#endif /* _LCD_USE_BUSY_STATUS_ */
-
+	#ifdef _LCD_USE_BUSY_STATUS_
+		do  
+		{
+			status = lcd_read_status();
+		}  while (status & 0x80);             /* Wait for busy flag                 */
+	#else
+		delay(0x1800);
+		status = 0x80;
+	#endif /* _LCD_USE_BUSY_STATUS_ */
+#endif /* _LCD_SIMU_ */
   return (status);
 }
 

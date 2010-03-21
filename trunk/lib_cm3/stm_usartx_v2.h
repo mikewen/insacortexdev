@@ -49,7 +49,7 @@
 #define __LIB_USARTx
 
 #include "stm_clock.h"
-#include "stm_usartx_v2_config.h"
+#include "stm_usartx.h"
 
 #include <stdio.h>
 /*----------------------------------------------------------------------------

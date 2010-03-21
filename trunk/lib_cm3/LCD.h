@@ -26,6 +26,6 @@ extern void lcd_bargraphXY (int pos_x, int pos_y, int value);
  */
 
 //#define _LCD_USE_BUSY_STATUS_
-
+#define _LCD_SIMU_
 /******************************************************************************/
 
