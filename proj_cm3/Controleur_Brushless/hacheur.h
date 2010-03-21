@@ -25,7 +25,6 @@
 #define _HACHEUR_H_
 
 #include "stm_regs.h"
-#include "hacheur.h"
 
 #include "config.h"
 

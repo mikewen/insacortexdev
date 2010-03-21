@@ -105,7 +105,7 @@ typedef struct
 #define ADC_JEXTSEL_SHIFT 	(12)
 #define ADC_JEXTTRIG 	(1<<15)
 #define ADC_EXTSEL_SHIFT (17)
-#define ADC_EXTSEL_ON_SWSTART (7<<EXTSEL_SHIFT)
+#define ADC_EXTSEL_ON_SWSTART (7<<ADC_EXTSEL_SHIFT)
 #define ADC_EXTTRIG  	(1<<20)
 #define ADC_JSWSTART 	(1<<21)
 #define ADC_SWSTART  	(1<<22)

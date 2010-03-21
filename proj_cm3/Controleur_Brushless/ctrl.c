@@ -25,6 +25,7 @@
 #include "stm_clock.h"
 #include "stm_usartx.h"
 #include "lcd.h"
+#include "adc.h"
 
 #include "interface.h"
 #include "hacheur.h"
@@ -38,11 +39,32 @@ int main (void)
 
 	/* Demarrage des peripheriques */
 	setup_usart();
+	Init_ADC();
 
 	/* Interface */
 	Init_Interface();
 	Init_Hacheur();
 
+ 	/* Reglage des IT */
+	NVIC_SET_PRIO_PERIPH(USART1, 15); 	/* La liaison serie est la moins prio */
+	NVIC_SET_PRIO_PERIPH(DMA1_CHANNEL4, 15); 	/* La liaison serie est la moins prio */
+	NVIC_SET_PRIO_SYSTEM(SYSTICK, 14);	/* Le timer systeme n'est pas trés prioritaire */
+	NVIC_SET_PRIO_PERIPH(ADC1_2, 13);
+
+	/* Efface les etats "PENDING" des vecteurs */
+	NVIC_CLEAR_PENDING_PERIPH_IT(TIM1_UP);
+	NVIC_CLEAR_PENDING_PERIPH_IT(ADC1_2);
+	/* RQ: il n'existe pas d'etat "PENDING" pour les IT SYSTICK */
+
+	/* Active la prise en compte des IT */
+	NVIC_ENABLE_PERIPH_IT(TIM1_UP);
+	NVIC_ENABLE_PERIPH_IT(ADC1_2);
+	/* RQ: La prise en compte des IT SYSTICK est actif par defaut */
+
+	/* Et pour le debug, on active aussi la prise en compte des vecteurs de fautes */
+	NVIC_ENABLE_SYSTEM_IT(MEM_FAULT);
+	NVIC_ENABLE_SYSTEM_IT(BUS_FAULT);
+	NVIC_ENABLE_SYSTEM_IT(USAGE_FAULT);
 	for (;;)
 	{
 		Interface();
