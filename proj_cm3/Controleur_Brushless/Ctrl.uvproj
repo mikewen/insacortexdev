@@ -372,6 +372,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Infos</GroupName>
+          <Files>
+            <File>
+              <FileName>infos.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\infos.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>
