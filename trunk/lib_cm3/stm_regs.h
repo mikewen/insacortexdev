@@ -1520,6 +1520,9 @@ typedef struct
 #define TIM_IC3PSC_SHIFT	(10)
 #define TIM_IC3PSC_VAL(val)	(val<<TIM_IC3PSC_SHIFT) // use values defined for field ICxPSC
 
+// TIM->CCER bits definition
+//A faire
+
 // TIM->BDTR bits definition
 #define TIM_MOE			(1<<15)
 #define TIM_AOE			(1<<14)
