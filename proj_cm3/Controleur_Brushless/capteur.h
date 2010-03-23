@@ -21,19 +21,18 @@
  * Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef _HACHEUR_H_
-#define _HACHEUR_H_
+#ifndef _CAPTEUR_H_
+#define _CAPTEUR_H_
 
 #include "stm_regs.h"
 
 #include "config.h"
 
-#define MOS_OUVERT 0xFFFFFFFF
-#define MOS_FERME 0xFFFFFFFE
+void Init_Capteur (void);
+int Lire_Capteur(void);
+void Ecrire_Capteur(int val);
+void Regle_Capteur_Haut(int val);
+void Regle_Capteur_Bas(int val);
 
-void Init_Hacheur (void);
-void Regle_Bras_Haut (int MOS_A, int MOS_B, int MOS_C);
-void Regle_Bras_Bas (int MOS_A, int MOS_B, int MOS_C);
-
-#endif /* _HACHEUR_H_ */
+#endif /* _CAPTEUR_H_ */
 

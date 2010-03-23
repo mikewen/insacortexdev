@@ -370,6 +370,11 @@
               <FileType>1</FileType>
               <FilePath>.\hacheur.c</FilePath>
             </File>
+            <File>
+              <FileName>capteur.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\capteur.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -71,14 +71,12 @@ void Init_ADC (void)
   	DMA1_Channel1->CCR |= DMA_EN;	// l'DMA bazar est en marche
  
  	ADC1->CR2  |=  (ADC_ADON);				   // start SW conversion	
-
-
 }
 
 int Lire_ADC(int voie)
 {
 	if ((voie <=0) || (voie>5)) return 0;
-	else return Table_ADC[voie];
+	else return Buffer_ADC[voie];
 }
 
 void Regle_Garde_ADC(int voie, int valeur)

@@ -9,7 +9,7 @@ PB6-PB7: Timer 4 channel 1 à 2 -> Encodeur
 PB8-PB15: Leds
 
 PC0-PC3: Ecran LCD
-PC6-PC9: Timer 3 channel 2 à 4 -> Driver de NMOS (A, B, C)
+PC7-PC9: Timer 3 channel 2 à 4 -> Driver de NMOS (A, B, C)
 PC4-PC5: ADC14 et ADC15 -> Acquisition de BFEM_C et V_BAT
 PC13:    Bouton Tamp
 PC10-PC12: Ecran LCD (controle)
