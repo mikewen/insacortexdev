@@ -28,9 +28,19 @@
 #include "adc.h"
 
 #include "interface.h"
+#include "capteur.h"
 #include "hacheur.h"
 
 #include "config.h"
+
+int periode_capteur;
+float vitesse_moteur;
+int rapport_pwm;
+int cycle_moteur;
+int sens_rotation;
+
+int P_MOS[6]= {1,2,3,1,2,3};
+int N_MOS[6]= {1,2,3,1,2,3};
 
 int main (void)
 {
@@ -43,6 +53,7 @@ int main (void)
 
 	/* Interface */
 	Init_Interface();
+	Init_Capteur();
 	Init_Hacheur();
 
  	/* Reglage des IT */
