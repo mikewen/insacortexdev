@@ -25,7 +25,7 @@
 #define _HACHEUR_H_
 
 #include "stm_regs.h"
-
+#include "callback.h"
 #include "config.h"
 
 #define MOS_OUVERT 0xFFFFFFFF

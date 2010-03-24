@@ -21,15 +21,17 @@
  * Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef _ADC_H_
-#define _ADC_H_
+#ifndef _CALLBACK_H_
+#define _CALLBACK_H_
 
-#include "stm_regs.h"
-#include "callback.h"
-#include "config.h"
+/* Definition d'un pointeur sur event (pas de parametre) */
+typedef void(*eventptr)(void);
 
-void Init_ADC (void);
-int Lire_ADC(int voie);
+#define DEFINE_EVENT(NOM, event) NOM##_EVENT=event;
+#define SEND_EVENT(event) event()
 
-#endif /* _ADC_H_ */
+/* Definiton d'un callback (1 parametre) */
+typedef int(*callbackptr)(int param);
+
+#endif /* _CALLBACK_H_ */
 

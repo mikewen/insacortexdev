@@ -25,6 +25,7 @@
 #include "adc.h"
 
 #include "config.h"
+#include "callback.h"
 
 u16 Buffer_ADC[6];
 

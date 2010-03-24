@@ -21,15 +21,42 @@
  * Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef _ADC_H_
-#define _ADC_H_
-
 #include "stm_regs.h"
-#include "callback.h"
+
+#include "capteur.h"
+#include "hacheur.h"
+#include "adc.h"
+#include "controle.h"
+
 #include "config.h"
+#include "callback.h"
 
-void Init_ADC (void);
-int Lire_ADC(int voie);
+int rapport_pwm;
+int cycle_moteur;
 
-#endif /* _ADC_H_ */
+int P_MOS[6]= {'A','B','B','C','C','A'};
+int N_MOS[6]= {'C','C','A','A','B','B'};
 
+void Callback_capteur_position_avant(void);
+
+void Init_Controle (void)
+{
+	DEFINE_EVENT(CAPTEUR_POSITION_AVANT, Callback_capteur_position_avant);
+	
+	cycle_moteur=0;
+	rapport_pwm=0xFFFF;
+}
+
+void Callback_capteur_position_avant(void)
+{
+	if (sens_rotation==1)
+	{
+		cycle_moteur ++;
+		if (cycle_moteur >=6) cycle_moteur = 0;
+	}
+	else
+	{
+		cycle_moteur --;
+		if (cycle_moteur <0) cycle_moteur = 5;
+	}
+}
