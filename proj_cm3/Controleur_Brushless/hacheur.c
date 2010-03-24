@@ -25,10 +25,10 @@
 #include "hacheur.h"
 
 #include "config.h"
+#include "callback.h"
 
 void Init_Hacheur (void)
-{
-	
+{	
 }
 
 void Regle_Bras_Haut (int MOS_A, int MOS_B, int MOS_C)

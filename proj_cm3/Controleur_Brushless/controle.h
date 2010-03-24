@@ -21,15 +21,17 @@
  * Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef _ADC_H_
-#define _ADC_H_
+#ifndef _CONTROLE_H_
+#define _CONTROLE_H_
 
 #include "stm_regs.h"
-#include "callback.h"
+
 #include "config.h"
 
-void Init_ADC (void);
-int Lire_ADC(int voie);
+extern int rapport_pwm;
+extern int cycle_moteur;
 
-#endif /* _ADC_H_ */
+void Init_Controle (void);
+
+#endif /* _CONTROLE_H_ */
 

@@ -235,8 +235,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>49</TopLine>
-      <CurrentLine>49</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../lib_cm3/stm_usartx.c</PathWithFileName>
       <FilenameWithoutPath>stm_usartx.c</FilenameWithoutPath>
@@ -261,10 +261,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>23</ColumnNumber>
+      <ColumnNumber>1</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>55</TopLine>
-      <CurrentLine>79</CurrentLine>
+      <TopLine>64</TopLine>
+      <CurrentLine>75</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\adc.c</PathWithFileName>
       <FilenameWithoutPath>adc.c</FilenameWithoutPath>
@@ -334,31 +334,31 @@
     <cbSel>0</cbSel>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>10</FileNumber>
+      <FileNumber>11</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>1</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>72</TopLine>
-      <CurrentLine>72</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\ctrl.c</PathWithFileName>
-      <FilenameWithoutPath>ctrl.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>11</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>1</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>24</TopLine>
-      <CurrentLine>34</CurrentLine>
+      <TopLine>26</TopLine>
+      <CurrentLine>32</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\hacheur.c</PathWithFileName>
       <FilenameWithoutPath>hacheur.c</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>5</GroupNumber>
+      <FileNumber>12</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>36</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>65</TopLine>
+      <CurrentLine>75</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\capteur.c</PathWithFileName>
+      <FilenameWithoutPath>capteur.c</FilenameWithoutPath>
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
@@ -366,13 +366,27 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>10</ColumnNumber>
+      <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>32</TopLine>
-      <CurrentLine>46</CurrentLine>
+      <TopLine>40</TopLine>
+      <CurrentLine>51</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\capteur.c</PathWithFileName>
-      <FilenameWithoutPath>capteur.c</FilenameWithoutPath>
+      <PathWithFileName>.\init.c</PathWithFileName>
+      <FilenameWithoutPath>init.c</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>5</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>42</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>44</TopLine>
+      <CurrentLine>55</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\controle.c</PathWithFileName>
+      <FilenameWithoutPath>controle.c</FilenameWithoutPath>
     </File>
   </Group>
 
@@ -383,14 +397,14 @@
     <cbSel>0</cbSel>
     <File>
       <GroupNumber>6</GroupNumber>
-      <FileNumber>12</FileNumber>
+      <FileNumber>13</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>3</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>12</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\infos.txt</PathWithFileName>
       <FilenameWithoutPath>infos.txt</FilenameWithoutPath>
@@ -398,9 +412,9 @@
   </Group>
 
   <AlienFiles>
-    <PathWithFilename>D:\Projets\Controleur_Brushless\LIB_CM3\STM_REGS.H</PathWithFilename>
-    <TopLine>1129</TopLine>
-    <CurrentLine>1153</CurrentLine>
+    <PathWithFilename>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\callback.h</PathWithFilename>
+    <TopLine>20</TopLine>
+    <CurrentLine>30</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -424,61 +438,9 @@
   </AlienFiles>
 
   <AlienFiles>
-    <PathWithFilename>D:\PROJETS\CONTROLEUR_BRUSHLESS\LIB_CM3\STM_SYSTEM.H</PathWithFilename>
-    <TopLine>288</TopLine>
-    <CurrentLine>288</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>D:\Projets\Controleur_Brushless\lib_cm3\lib_baguette.c</PathWithFilename>
-    <TopLine>37</TopLine>
-    <CurrentLine>53</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\capteur.h</PathWithFilename>
-    <TopLine>13</TopLine>
-    <CurrentLine>35</CurrentLine>
+    <PathWithFilename>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\controle.h</PathWithFilename>
+    <TopLine>22</TopLine>
+    <CurrentLine>32</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -503,7 +465,7 @@
 
   <AlienFiles>
     <PathWithFilename>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\adc.h</PathWithFilename>
-    <TopLine>16</TopLine>
+    <TopLine>26</TopLine>
     <CurrentLine>31</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
@@ -528,9 +490,9 @@
   </AlienFiles>
 
   <AlienFiles>
-    <PathWithFilename>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\config.h</PathWithFilename>
-    <TopLine>27</TopLine>
-    <CurrentLine>43</CurrentLine>
+    <PathWithFilename>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\capteur.h</PathWithFilename>
+    <TopLine>32</TopLine>
+    <CurrentLine>38</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -555,8 +517,8 @@
 
   <AlienFiles>
     <PathWithFilename>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\hacheur.h</PathWithFilename>
-    <TopLine>12</TopLine>
-    <CurrentLine>33</CurrentLine>
+    <TopLine>19</TopLine>
+    <CurrentLine>34</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -1920,85 +1882,67 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>11</ActiveTab>
+      <ActiveTab>0</ActiveTab>
       <Documents>
         <Doc>
-          <Name>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\hacheur.h</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>12</TopLine>
-          <CurrentLine>33</CurrentLine>
+          <Name>.\capteur.c</Name>
+          <ColumnNumber>36</ColumnNumber>
+          <TopLine>65</TopLine>
+          <CurrentLine>75</CurrentLine>
         </Doc>
         <Doc>
-          <Name>.\capteur.c</Name>
-          <ColumnNumber>10</ColumnNumber>
-          <TopLine>32</TopLine>
-          <CurrentLine>46</CurrentLine>
+          <Name>.\init.c</Name>
+          <ColumnNumber>4</ColumnNumber>
+          <TopLine>40</TopLine>
+          <CurrentLine>51</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\controle.c</Name>
+          <ColumnNumber>42</ColumnNumber>
+          <TopLine>44</TopLine>
+          <CurrentLine>55</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\callback.h</Name>
+          <ColumnNumber>20</ColumnNumber>
+          <TopLine>20</TopLine>
+          <CurrentLine>30</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\controle.h</Name>
+          <ColumnNumber>24</ColumnNumber>
+          <TopLine>22</TopLine>
+          <CurrentLine>32</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\hacheur.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>24</TopLine>
-          <CurrentLine>34</CurrentLine>
+          <ColumnNumber>1</ColumnNumber>
+          <TopLine>26</TopLine>
+          <CurrentLine>32</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\adc.c</Name>
-          <ColumnNumber>23</ColumnNumber>
-          <TopLine>55</TopLine>
-          <CurrentLine>79</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\config.h</Name>
-          <ColumnNumber>29</ColumnNumber>
-          <TopLine>27</TopLine>
-          <CurrentLine>43</CurrentLine>
+          <ColumnNumber>1</ColumnNumber>
+          <TopLine>64</TopLine>
+          <CurrentLine>75</CurrentLine>
         </Doc>
         <Doc>
           <Name>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\adc.h</Name>
           <ColumnNumber>21</ColumnNumber>
-          <TopLine>16</TopLine>
+          <TopLine>26</TopLine>
           <CurrentLine>31</CurrentLine>
         </Doc>
         <Doc>
-          <Name>.\ctrl.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>72</TopLine>
-          <CurrentLine>72</CurrentLine>
-        </Doc>
-        <Doc>
           <Name>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\capteur.h</Name>
-          <ColumnNumber>4</ColumnNumber>
-          <TopLine>13</TopLine>
-          <CurrentLine>35</CurrentLine>
+          <ColumnNumber>24</ColumnNumber>
+          <TopLine>32</TopLine>
+          <CurrentLine>38</CurrentLine>
         </Doc>
         <Doc>
-          <Name>D:\Projets\Controleur_Brushless\lib_cm3\lib_baguette.c</Name>
-          <ColumnNumber>36</ColumnNumber>
-          <TopLine>37</TopLine>
-          <CurrentLine>53</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>D:\PROJETS\CONTROLEUR_BRUSHLESS\LIB_CM3\STM_SYSTEM.H</Name>
-          <ColumnNumber>8</ColumnNumber>
-          <TopLine>288</TopLine>
-          <CurrentLine>288</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>../../lib_cm3/stm_usartx.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>49</TopLine>
-          <CurrentLine>49</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\infos.txt</Name>
-          <ColumnNumber>3</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>12</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>D:\Projets\Controleur_Brushless\LIB_CM3\STM_REGS.H</Name>
-          <ColumnNumber>18</ColumnNumber>
-          <TopLine>1129</TopLine>
-          <CurrentLine>1153</CurrentLine>
+          <Name>D:\Projets\Controleur_Brushless\proj_cm3\Controleur_Brushless\hacheur.h</Name>
+          <ColumnNumber>25</ColumnNumber>
+          <TopLine>19</TopLine>
+          <CurrentLine>34</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

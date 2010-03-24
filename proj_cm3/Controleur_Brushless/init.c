@@ -30,17 +30,9 @@
 #include "interface.h"
 #include "capteur.h"
 #include "hacheur.h"
+#include "controle.h"
 
 #include "config.h"
-
-int periode_capteur;
-float vitesse_moteur;
-int rapport_pwm;
-int cycle_moteur;
-int sens_rotation;
-
-int P_MOS[6]= {1,2,3,1,2,3};
-int N_MOS[6]= {1,2,3,1,2,3};
 
 int main (void)
 {
@@ -55,6 +47,7 @@ int main (void)
 	Init_Interface();
 	Init_Capteur();
 	Init_Hacheur();
+	Init_Controle();
 
  	/* Reglage des IT */
 	NVIC_SET_PRIO_PERIPH(USART1, 15); 	/* La liaison serie est la moins prio */
