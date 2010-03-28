@@ -141,7 +141,7 @@
             <CpuDllArguments></CpuDllArguments>
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
+            <InitializationFile>.\Brushless_1.ini</InitializationFile>
           </SimDlls>
           <TargetDlls>
             <CpuDll></CpuDll>
@@ -389,6 +389,16 @@
               <FileName>infos.txt</FileName>
               <FileType>5</FileType>
               <FilePath>.\infos.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Simulation</GroupName>
+          <Files>
+            <File>
+              <FileName>Brushless_1.ini</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Brushless_1.ini</FilePath>
             </File>
           </Files>
         </Group>

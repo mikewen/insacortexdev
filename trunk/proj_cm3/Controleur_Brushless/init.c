@@ -70,7 +70,7 @@ int main (void)
 	/* RQ: il n'existe pas d'etat "PENDING" pour les IT SYSTICK */
 
 	/* Active la prise en compte des IT */
-//	NVIC_ENABLE_PERIPH_IT(TIM1_UP);
+	NVIC_ENABLE_PERIPH_IT(TIM4);
 //	NVIC_ENABLE_PERIPH_IT(ADC1_2);
 //	NVIC_ENABLE_PERIPH_IT(DMA1_CHANNEL4);
 //	NVIC_ENABLE_PERIPH_IT(ADC1_2);
