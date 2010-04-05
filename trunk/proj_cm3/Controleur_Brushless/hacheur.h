@@ -31,9 +31,12 @@
 #define MOS_OUVERT 0xFFFFFFFF
 #define MOS_FERME 0xFFFFFFFE
 
+#define _PERIODE_PWM_TIM2_ (72000000U/20000U)
+#define PWM_MAX _PERIODE_PWM_TIM2_
+
 void Init_Hacheur (void);
-void Regle_Bras_Haut (int MOS_A, int MOS_B, int MOS_C);
-void Regle_Bras_Bas (int MOS_A, int MOS_B, int MOS_C);
+void Regle_Bras_Haut (int MOS_A, int MOS_B, int MOS_C, int pwm);
+void Regle_Bras_Bas (int MOS_A, int MOS_B, int MOS_C, int pwm);
 
 #endif /* _HACHEUR_H_ */
 

@@ -73,7 +73,7 @@ ________________________________________________________________________________
 // CONFIGURE pll multiplication factor  ONLY IF you set _SYSCLK_SOURCE IS_PLL
 // 								  		 OR IF you will set _USBCLK IS_USED
 // [2 to 16] choose any multiplication factor in this fork 
-#define __PLLMULL 5
+#define __PLLMULL 9
 
 // end of system clock cnfiguration
 //_________________________________________________________________________________________
@@ -99,7 +99,7 @@ ________________________________________________________________________________
 
 // CONFIGURE ADCPRE ADC prescaler 
 // {2,4,6,8} choose any division factor in this list
-#define _ADCPRE	4
+#define _ADCPRE	8
 
 // end of auxiliary peripherals clock configuration
 //_________________________________________________________________________________________

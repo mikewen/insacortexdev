@@ -37,6 +37,7 @@ extern int periode_capteur;
 extern float vitesse_moteur;
 extern int sens_rotation;
 
+void Demarre_Capteur(void);
 void Init_Capteur (void);
 int Lire_Capteur(void);
 void Ecrire_Capteur(int val);

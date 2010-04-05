@@ -31,7 +31,9 @@
 extern int rapport_pwm;
 extern int cycle_moteur;
 
+void Init_Moteur(void);
 void Init_Controle (void);
+void Regle_PWM(int pwm);
 
 #endif /* _CONTROLE_H_ */
 

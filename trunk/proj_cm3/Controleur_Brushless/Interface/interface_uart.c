@@ -28,8 +28,12 @@
 
 #include <stdio.h>
 
+#include "controle.h"
+
 char buffer[50];
 char *commande;
+
+volatile int pourcent_pwm;
 
 FILE Port_COM;
 
@@ -60,6 +64,7 @@ int commande_prete;
 		if (uart_buffer_full())
 		{
 			c=fgetc(&Port_COM);
+			fputc(c, &Port_COM);
 
 			if (c=='\r')
 			{
@@ -69,8 +74,6 @@ int commande_prete;
 			}
 			else
 			{
-				fputc(c, &Port_COM);
-
 				*commande = c;
 				commande++;
 			}
@@ -83,6 +86,14 @@ int commande_prete;
 		{
 			case 'a':
 			case 'A':
+				sscanf (commande, "%d", &pourcent_pwm);
+
+				if (pourcent_pwm<0) pourcent_pwm=0;
+				if (pourcent_pwm>100) pourcent_pwm=100;
+
+				printf ("Acceleration à %d%%\n", pourcent_pwm);
+				Regle_PWM(pourcent_pwm);
+
 				break;
 			case 'r':
 			case 'R':
