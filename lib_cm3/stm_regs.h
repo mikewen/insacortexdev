@@ -1115,7 +1115,7 @@ typedef struct
 #define RCC_DMA2EN		(1<<2)
 #define RCC_DMA1EN		(1<<0)
 
-//RCC->APB2ENRbits definition
+//RCC->APB2ENR bits definition
 #define RCC_ADC3EN		(1<<15)
 #define RCC_USART1EN	(1<<14)
 #define RCC_TIM8EN		(1<<13)

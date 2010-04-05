@@ -33,30 +33,81 @@
 
 int rapport_pwm;
 int cycle_moteur;
+int position_capteur_avant;
+int position_capteur_apres;
 
-int P_MOS[6]= {'A','B','B','C','C','A'};
-int N_MOS[6]= {'C','C','A','A','B','B'};
+#define PHASE_A	0
+#define PHASE_B 1
+#define PHASE_C 2
+
+volatile unsigned int temp;
+
+int P_MOS[6][3]= 
+{
+	{1,0,0},{0,1,0},{0,1,0},{0,0,1},{0,0,1},{1,0,0}
+};
+
+int N_MOS[6][3]= 
+{
+	{0,0,1},{0,0,1},{1,0,0},{1,0,0},{0,1,0},{0,1,0}
+};
 
 void Callback_capteur_position_avant(void);
 
 void Init_Controle (void)
 {
 	DEFINE_EVENT(CAPTEUR_POSITION_AVANT, Callback_capteur_position_avant);
-	
-	cycle_moteur=0;
-	rapport_pwm=0xFFFF;
+
+  	cycle_moteur=0;
+	rapport_pwm=0x0;
+	sens_rotation =1;
+
+	position_capteur_avant=0;
+	position_capteur_apres=0;
+
+	position_capteur_avant = position_capteur_avant + ((_RESOLUTION_CAPTEUR_/6)*4);
+	Regle_Position_Avant(position_capteur_avant);
+}
+
+void Init_Moteur(void)
+{
+	/* Reglage du hacheur */
+	rapport_pwm = 3200/2;
+	Regle_Bras_Haut(P_MOS[cycle_moteur][PHASE_A],P_MOS[cycle_moteur][PHASE_B],P_MOS[cycle_moteur][PHASE_C],rapport_pwm);
+	Regle_Bras_Bas(N_MOS[cycle_moteur][PHASE_A],N_MOS[cycle_moteur][PHASE_B],N_MOS[cycle_moteur][PHASE_C],rapport_pwm);	
+}
+
+void Regle_PWM(int pwm)
+{
+	temp = (unsigned int)pwm;
+	temp = temp*PWM_MAX;
+	temp = temp/100;
+
+	rapport_pwm = (int)temp;
 }
 
 void Callback_capteur_position_avant(void)
 {
 	if (sens_rotation==1)
 	{
+		position_capteur_avant = position_capteur_avant + ((_RESOLUTION_CAPTEUR_/6)*4);
+		if (position_capteur_avant>=(_RESOLUTION_CAPTEUR_*4)) position_capteur_avant = position_capteur_avant - (_RESOLUTION_CAPTEUR_*4);
+
 		cycle_moteur ++;
 		if (cycle_moteur >=6) cycle_moteur = 0;
 	}
 	else
 	{
+		position_capteur_avant = position_capteur_avant - ((_RESOLUTION_CAPTEUR_/6)*4);
+		if (position_capteur_avant<0) position_capteur_avant = (_RESOLUTION_CAPTEUR_*4)- position_capteur_avant;
+
 		cycle_moteur --;
 		if (cycle_moteur <0) cycle_moteur = 5;
 	}
+
+    Regle_Position_Avant(position_capteur_avant);
+
+	/* Reglage du hacheur */
+	Regle_Bras_Haut(P_MOS[cycle_moteur][PHASE_A],P_MOS[cycle_moteur][PHASE_B],P_MOS[cycle_moteur][PHASE_C],rapport_pwm);
+	Regle_Bras_Bas(N_MOS[cycle_moteur][PHASE_A],N_MOS[cycle_moteur][PHASE_B],N_MOS[cycle_moteur][PHASE_C],rapport_pwm);	 
 }

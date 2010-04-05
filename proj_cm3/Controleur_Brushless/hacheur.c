@@ -28,13 +28,68 @@
 #include "callback.h"
 
 void Init_Hacheur (void)
-{	
+{
+	/* Reglage du timer 2 -> PWM pour bras haut*/
+	RCC->APB1ENR |= RCC_TIM2EN; /* Mise en route de l'horloge du timer 2 */
+
+	TIM2->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */
+	TIM2->PSC = 0;
+	TIM2->ARR = _PERIODE_PWM_TIM2_; /* Periode de PWM -> 20Khz */
+
+	TIM2->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
+ 
+	TIM2->CCER = 0x3303;
+	TIM2->CCMR1 = TIM_OC1M_VAL(TIM_OCxM_PWM_1) + TIM_CC1S_IS_OUTPUT + TIM_OC1PE ;
+	TIM2->CCMR2 = TIM_OC3M_VAL(TIM_OCxM_PWM_1) + TIM_CC3S_IS_OUTPUT + TIM_OC3PE +
+				  TIM_OC4M_VAL(TIM_OCxM_PWM_1) + TIM_CC4S_IS_OUTPUT + TIM_OC4PE ;
+
+	TIM2->CCR1 = 0;
+	TIM2->CCR3 = 0;
+	TIM2->CCR4 = 0;
+
+	//TIM2->DIER |= TIM_CC1IE + TIM_CC4IE + TIM_CC3IE;
+	TIM2->CR1 |= TIM_CEN; 	
+	
+	/* Regle les bras du hacheur en sortie */
+	/* Reglage du port A */
+	RCC->APB2ENR |= RCC_IOPAEN; /* Mise en route de l'horloge du port A */
+	
+	GPIOA->ODR |= GPIO_PIN_0 + GPIO_PIN_2 + GPIO_PIN_3;	
+	
+	GPIOA->CRL &= ~((3<<GPIO_MODE_0_SHIFT) + (3<<GPIO_CNF_0_SHIFT) +
+	               (3<<GPIO_MODE_2_SHIFT) + (3<<GPIO_CNF_2_SHIFT) +
+	               (3<<GPIO_MODE_3_SHIFT) + (3<<GPIO_CNF_3_SHIFT));
+	
+	GPIOA->CRL |= (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_0_SHIFT) + (GPIO_CNF_ALTERNATE_PUSH_PULL<<GPIO_CNF_0_SHIFT) +
+	              (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_2_SHIFT) + (GPIO_CNF_ALTERNATE_PUSH_PULL<<GPIO_CNF_2_SHIFT) +
+	              (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_3_SHIFT) + (GPIO_CNF_ALTERNATE_PUSH_PULL<<GPIO_CNF_3_SHIFT);
+			 
+	/* Reglage du port C */
+	RCC->APB2ENR |= RCC_IOPCEN; /* Mise en route de l'horloge du port C */
+
+	GPIOC->ODR &= ~(GPIO_PIN_7 + GPIO_PIN_8 + GPIO_PIN_9); 
+		
+	GPIOC->CRL &= ~((3<<GPIO_MODE_7_SHIFT) + (3<<GPIO_CNF_7_SHIFT));
+	GPIOC->CRH &= ~((3<<GPIO_MODE_8_SHIFT) + (3<<GPIO_CNF_8_SHIFT) +
+	               (3<<GPIO_MODE_9_SHIFT) + (3<<GPIO_CNF_9_SHIFT));
+
+	GPIOC->CRL |= (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_7_SHIFT) + (GPIO_CNF_OUTPUT_PUSH_PULL<<GPIO_CNF_7_SHIFT);
+	GPIOC->CRH |= (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_8_SHIFT) + (GPIO_CNF_OUTPUT_PUSH_PULL<<GPIO_CNF_8_SHIFT) +
+	              (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_9_SHIFT) + (GPIO_CNF_OUTPUT_PUSH_PULL<<GPIO_CNF_9_SHIFT); 
 }
 
-void Regle_Bras_Haut (int MOS_A, int MOS_B, int MOS_C)
+void Regle_Bras_Haut (int MOS_A, int MOS_B, int MOS_C, int pwm)
 {
+	/*GPIOA->ODR &= (MOS_A<<0) + (MOS_B<<2) + (MOS_C<<3);
+	GPIOA->ODR |= (MOS_A<<0) + (MOS_B<<2) + (MOS_C<<3);*/
+
+	TIM2->CCR1 = MOS_A*pwm;
+	TIM2->CCR3 = MOS_B*pwm;
+	TIM2->CCR4 = MOS_C*pwm;
 }
 
-void Regle_Bras_Bas (int MOS_A, int MOS_B, int MOS_C)
+void Regle_Bras_Bas (int MOS_A, int MOS_B, int MOS_C, int pwm)
 {
+	GPIOC->ODR &= (MOS_A<<7) + (MOS_B<<8) + (MOS_C<<9);
+	GPIOC->ODR |= (MOS_A<<7) + (MOS_B<<8) + (MOS_C<<9);
 }

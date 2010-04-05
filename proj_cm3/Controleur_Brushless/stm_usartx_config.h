@@ -62,14 +62,14 @@ ________________________________________________________________________________
 
 
 //CONFIGURE baudrate among following values
-#define BAUDRATEx   9600      // OK avec zigbee
+//#define BAUDRATEx   9600      // OK avec zigbee
 //#define BAUDRATEx   14400 
 //#define BAUDRATEx   19200 
 //#define BAUDRATEx   28800 
 //#define BAUDRATEx   38400 
 //#define BAUDRATEx   56000 
 //#define BAUDRATEx   57600 
-//#define BAUDRATEx   115200 
+#define BAUDRATEx   115200 
 
 //choose USART mode to use and configure it
 //CONFIGURE
