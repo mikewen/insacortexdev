@@ -28,12 +28,16 @@
 
 #include "config.h"
 
-extern int rapport_pwm;
-extern int cycle_moteur;
+//extern int rapport_pwm;
+//extern int cycle_moteur;
+
+#define CONTROLE_MODE_AVANT 1
+#define CONTROLE_MODE_ARRIERE 2
+#define CONTROLE_MODE_FREIN 0
 
 void Init_Moteur(void);
 void Init_Controle (void);
-void Regle_PWM(int pwm);
+void Regle_Controle(int pwm, int mode);
 
 #endif /* _CONTROLE_H_ */
 

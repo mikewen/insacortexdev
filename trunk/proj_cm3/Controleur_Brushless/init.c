@@ -103,7 +103,7 @@ int main (void)
 	SYSTICK_DISABLE_COUNTER();
 	SYSTICK_DISABLE_IT();
 	
-	Regle_PWM(10);
+	Regle_Controle(1, CONTROLE_MODE_AVANT);
 	Demarre_Capteur();
 
 	for (;;)
