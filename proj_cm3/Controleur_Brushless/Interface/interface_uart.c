@@ -91,15 +91,23 @@ int commande_prete;
 				if (pourcent_pwm<0) pourcent_pwm=0;
 				if (pourcent_pwm>100) pourcent_pwm=100;
 
-				printf ("Acceleration à %d%%\n", pourcent_pwm);
-				Regle_PWM(pourcent_pwm);
-
+				printf ("En avant à %d%%\n", pourcent_pwm);
+				Regle_Controle(pourcent_pwm, CONTROLE_MODE_AVANT);
 				break;
 			case 'r':
 			case 'R':
+				sscanf (commande, "%d", &pourcent_pwm);
+
+				if (pourcent_pwm<0) pourcent_pwm=0;
+				if (pourcent_pwm>100) pourcent_pwm=100;
+
+				printf ("En arriere à %d%%\n", pourcent_pwm);
+				Regle_Controle(pourcent_pwm, CONTROLE_MODE_ARRIERE);
 				break;
 			case 's':
 			case 'S':
+				printf ("Arret du moteur (roue libre)\n");
+				Regle_Controle(0, CONTROLE_MODE_AVANT);
 				break;
 			case 'f':
 			case 'F':
@@ -137,7 +145,7 @@ void Interface_Aide(void)
 	printf ("I     -> Infos sur l'etat du systeme [vitesse, avance, etc]\n\n");
 	printf ("D     -> Calle le 0 du capteur et reinit le systeme\n\n");
 	printf ("Py=xx -> Regle certains parametres du systeme [y=parametre, xx=valeur]\n\n");
-	printf ("      y=0 -> Regle l'avance [entre 0 et %d]\n", (int)(_RESOLUTION_CAPTEUR_/6));
+	printf ("      y=0 -> Regle l'avance [entre 0 et %d]\n", (int)((_RESOLUTION_CAPTEUR_*4)/6));
 	printf ("?     -> Affiche ce menu\n\n");  
 }
 

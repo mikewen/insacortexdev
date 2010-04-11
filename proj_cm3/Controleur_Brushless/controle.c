@@ -40,8 +40,6 @@ int position_capteur_apres;
 #define PHASE_B 1
 #define PHASE_C 2
 
-volatile unsigned int temp;
-
 int P_MOS[6][3]= 
 {
 	{1,0,0},{0,1,0},{0,1,0},{0,0,1},{0,0,1},{1,0,0}
@@ -53,20 +51,22 @@ int N_MOS[6][3]=
 };
 
 void Callback_capteur_position_avant(void);
+void Callback_capteur_position_apres(void);
 
 void Init_Controle (void)
 {
 	DEFINE_EVENT(CAPTEUR_POSITION_AVANT, Callback_capteur_position_avant);
+	DEFINE_EVENT(CAPTEUR_POSITION_APRES, Callback_capteur_position_apres);
 
   	cycle_moteur=0;
 	rapport_pwm=0x0;
-	sens_rotation =1;
+	sens_rotation =CONTROLE_MODE_AVANT;
 
-	position_capteur_avant=0;
-	position_capteur_apres=0;
+	position_capteur_avant = ((_RESOLUTION_CAPTEUR_/6)*4);
+	position_capteur_apres = ((_RESOLUTION_CAPTEUR_)*4)-1;
 
-	position_capteur_avant = position_capteur_avant + ((_RESOLUTION_CAPTEUR_/6)*4);
 	Regle_Position_Avant(position_capteur_avant);
+	Regle_Position_Apres(position_capteur_apres);
 }
 
 void Init_Moteur(void)
@@ -77,35 +77,60 @@ void Init_Moteur(void)
 	Regle_Bras_Bas(N_MOS[cycle_moteur][PHASE_A],N_MOS[cycle_moteur][PHASE_B],N_MOS[cycle_moteur][PHASE_C],rapport_pwm);	
 }
 
-void Regle_PWM(int pwm)
+void Regle_Controle(int pwm, int mode)
 {
+unsigned int temp;
+
 	temp = (unsigned int)pwm;
 	temp = temp*PWM_MAX;
 	temp = temp/100;
 
 	rapport_pwm = (int)temp;
+	
+	if (sens_rotation != mode)
+	{
+		if (mode == CONTROLE_MODE_AVANT) cycle_moteur++;
+		else cycle_moteur--;
+	}
+	
+	if (cycle_moteur >=6) cycle_moteur=0;
+	if (cycle_moteur<0) cycle_moteur = 5;
+
+	sens_rotation = mode;
 }
 
 void Callback_capteur_position_avant(void)
 {
-	if (sens_rotation==1)
-	{
-		position_capteur_avant = position_capteur_avant + ((_RESOLUTION_CAPTEUR_/6)*4);
-		if (position_capteur_avant>=(_RESOLUTION_CAPTEUR_*4)) position_capteur_avant = position_capteur_avant - (_RESOLUTION_CAPTEUR_*4);
+	position_capteur_avant = position_capteur_avant + ((_RESOLUTION_CAPTEUR_/6)*4);
+	if (position_capteur_avant>=(_RESOLUTION_CAPTEUR_*4)) position_capteur_avant = position_capteur_avant - (_RESOLUTION_CAPTEUR_*4);
 
-		cycle_moteur ++;
-		if (cycle_moteur >=6) cycle_moteur = 0;
-	}
-	else
-	{
-		position_capteur_avant = position_capteur_avant - ((_RESOLUTION_CAPTEUR_/6)*4);
-		if (position_capteur_avant<0) position_capteur_avant = (_RESOLUTION_CAPTEUR_*4)- position_capteur_avant;
+	position_capteur_apres = position_capteur_apres + ((_RESOLUTION_CAPTEUR_/6)*4);
+	if (position_capteur_apres>=(_RESOLUTION_CAPTEUR_*4)) position_capteur_apres = position_capteur_apres - (_RESOLUTION_CAPTEUR_*4);
 
-		cycle_moteur --;
-		if (cycle_moteur <0) cycle_moteur = 5;
-	}
+	cycle_moteur ++;
+	if (cycle_moteur >=6) cycle_moteur = 0;
 
     Regle_Position_Avant(position_capteur_avant);
+	Regle_Position_Apres(position_capteur_apres);
+
+	/* Reglage du hacheur */
+	Regle_Bras_Haut(P_MOS[cycle_moteur][PHASE_A],P_MOS[cycle_moteur][PHASE_B],P_MOS[cycle_moteur][PHASE_C],rapport_pwm);
+	Regle_Bras_Bas(N_MOS[cycle_moteur][PHASE_A],N_MOS[cycle_moteur][PHASE_B],N_MOS[cycle_moteur][PHASE_C],rapport_pwm);	 
+}
+
+void Callback_capteur_position_apres(void)
+{
+	position_capteur_avant = position_capteur_avant - ((_RESOLUTION_CAPTEUR_/6)*4);
+	if (position_capteur_avant<0) position_capteur_avant = (_RESOLUTION_CAPTEUR_*4) - position_capteur_avant;
+
+	position_capteur_apres = position_capteur_apres - ((_RESOLUTION_CAPTEUR_/6)*4);
+	if (position_capteur_apres<0) position_capteur_apres = (_RESOLUTION_CAPTEUR_*4) - position_capteur_apres;
+
+	cycle_moteur --;
+	if (cycle_moteur <0) cycle_moteur = 5;
+
+    Regle_Position_Avant(position_capteur_avant);
+	Regle_Position_Apres(position_capteur_apres);
 
 	/* Reglage du hacheur */
 	Regle_Bras_Haut(P_MOS[cycle_moteur][PHASE_A],P_MOS[cycle_moteur][PHASE_B],P_MOS[cycle_moteur][PHASE_C],rapport_pwm);
