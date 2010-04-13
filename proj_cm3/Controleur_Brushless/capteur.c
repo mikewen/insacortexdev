@@ -57,21 +57,15 @@ void Init_Capteur (void)
 
 	TIM4->ARR = _RESOLUTION_CAPTEUR_*4; /* Amplitude du timer = Resolution du capteur*4 */
 	TIM4->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */ 
-	TIM4->PSC = 300;
-//	TIM4->PSC = 0;
+	TIM4->PSC = 0;
 
-//	TIM4->SMCR |= TIM_SMS_IS_ENCODER_3;	/* Reglage en mode encodeur */
-	TIM4->SMCR |= TIM_SMS_IS_DISABLED;	/* Reglage en mode encodeur */
+	TIM4->SMCR |= TIM_SMS_IS_ENCODER_3;	/* Reglage en mode encodeur */
 
-//	TIM4->CCMR1 |= TIM_CC2S_IS_INPUT_TI2 + TIM_OC2M_VAL(TIM_OCxM_ACTIVE_LEVEL_ON_MATCH) + 
-//	               TIM_CC1S_IS_INPUT_TI1 + TIM_OC1M_VAL(TIM_OCxM_ACTIVE_LEVEL_ON_MATCH); /* IC1FP1 sur TI1, IC2FP2, sur TI2 */
-	//TIM3->CCER &= ~((CC1P) | (CC2P)); /* Capture sur les fronts montants */
+	TIM4->CCMR1 |= TIM_CC2S_IS_INPUT_TI2 +  
+	               TIM_CC1S_IS_INPUT_TI1; /* IC1FP1 sur TI1, IC2FP2, sur TI2 */
+    //TIM4->CCER &= ~((CC1P) | (CC2P)); /* Capture sur les fronts montants */
 	
-	//TIM4->CCMR1 = TIM_OC2M_VAL(TIM_OCxM_TOGGLE) + TIM_OC1M_VAL(TIM_OCxM_TOGGLE);
-
-	//TIM4->CR1 |= TIM_CEN; 
-	
-	TIM4->DIER |= TIM_CC2IE + TIM_CC1IE;
+	TIM4->DIER |= TIM_CC3IE + TIM_CC4IE;
 }
 
 void Demarre_Capteur(void)
@@ -92,14 +86,14 @@ void Ecrire_Capteur(int val)
 
 void Regle_Position_Avant(int val)
 {
-	TIM4->CCR1=val;
-	TIM4->CCMR1 |= TIM_OC1M_VAL(TIM_OCxM_TOGGLE);
+	TIM4->CCR3=val;
+	TIM4->CCMR2 |= TIM_OC3M_VAL(TIM_OCxM_TOGGLE);
 }
 
 void Regle_Position_Apres(int val)
 {
-	TIM4->CCR2=val;
-	TIM4->CCMR1 |= TIM_OC1M_VAL(TIM_OCxM_TOGGLE);
+	TIM4->CCR4=val;
+	TIM4->CCMR2 |= TIM_OC4M_VAL(TIM_OCxM_TOGGLE);
 }
 
 void Regle_Seuil_Vitesse_Haut(int val)
@@ -116,15 +110,15 @@ int SR_TMP;
 
 	SR_TMP=TIM4->SR;
 
-		if (SR_TMP&TIM_CC1IF)
+		if (SR_TMP&TIM_CC3IF)
 		{
-			TIM4->SR = TIM4->SR & ~(TIM_CC1IF);	
+			TIM4->SR = TIM4->SR & ~(TIM_CC3IF);	
 			SEND_EVENT(CAPTEUR_POSITION_AVANT_EVENT);
 		}
 		
-		if (SR_TMP&TIM_CC2IF)
+		if (SR_TMP&TIM_CC4IF)
 		{
-			TIM4->SR = TIM4->SR & ~(TIM_CC2IF);	
+			TIM4->SR = TIM4->SR & ~(TIM_CC4IF);	
 			SEND_EVENT(CAPTEUR_POSITION_APRES_EVENT);
 		}	
 	

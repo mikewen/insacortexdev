@@ -26,7 +26,7 @@
 #define _AVEC_CAPTEUR_
 //define _SANS_CAPTEUR_
 
-#define _RESOLUTION_CAPTEUR_	300
+#define _RESOLUTION_CAPTEUR_	120
 
 #define _VERSION_MAJEUR_	1
 #define _VERSION_MINEUR_	0

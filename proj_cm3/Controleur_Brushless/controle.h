@@ -35,6 +35,7 @@
 #define CONTROLE_MODE_ARRIERE 2
 #define CONTROLE_MODE_FREIN 0
 
+void Cale_Moteur(void);
 void Init_Moteur(void);
 void Init_Controle (void);
 void Regle_Controle(int pwm, int mode);
