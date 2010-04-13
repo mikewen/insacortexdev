@@ -92,7 +92,7 @@ int main (void)
 	NVIC_ENABLE_SYSTEM_IT(USAGE_FAULT);
 
 	/* Calage du capteur */
-	Init_Moteur();
+	Cale_Moteur();
 	Drapeau_Init_Moteur=0;
 
 	SYSTICK_ENABLE_IT();
@@ -103,8 +103,8 @@ int main (void)
 	SYSTICK_DISABLE_COUNTER();
 	SYSTICK_DISABLE_IT();
 	
-	Regle_Controle(1, CONTROLE_MODE_AVANT);
 	Demarre_Capteur();
+	Init_Moteur();
 
 	for (;;)
 	{
