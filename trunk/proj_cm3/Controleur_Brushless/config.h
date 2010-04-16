@@ -27,9 +27,11 @@
 //define _SANS_CAPTEUR_
 
 #define _RESOLUTION_CAPTEUR_	120
+#define _RESOLUTION_ENCODEUR_	(_RESOLUTION_CAPTEUR_*2)
+#define _PAS_60_DEGRES_			(_RESOLUTION_ENCODEUR_/6)
 
-#define _VERSION_MAJEUR_	1
-#define _VERSION_MINEUR_	0
+#define _VERSION_MAJEUR_		1
+#define _VERSION_MINEUR_		0
 
 /* Ne rien modifier après cette ligne */
 /*___________________________________________________________________________________________________________*/

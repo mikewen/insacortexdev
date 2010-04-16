@@ -55,7 +55,7 @@ void Init_Capteur (void)
 	/* Reglage du timer 4 -> Encodeur */
 	RCC->APB1ENR |= RCC_TIM4EN; /* Mise en route de l'horloge du timer 4 */
 
-	TIM4->ARR = _RESOLUTION_CAPTEUR_*4; /* Amplitude du timer = Resolution du capteur*4 */
+	TIM4->ARR = _RESOLUTION_ENCODEUR_ - 1; /* Amplitude du timer = Resolution du capteur*2 -1 */
 	TIM4->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */ 
 	TIM4->PSC = 0;
 
@@ -93,7 +93,7 @@ void Regle_Position_Avant(int val)
 void Regle_Position_Apres(int val)
 {
 	TIM4->CCR4=val;
-	TIM4->CCMR2 |= TIM_OC4M_VAL(TIM_OCxM_TOGGLE);
+//	TIM4->CCMR2 |= TIM_OC4M_VAL(TIM_OCxM_TOGGLE);
 }
 
 void Regle_Seuil_Vitesse_Haut(int val)
@@ -126,5 +126,5 @@ int SR_TMP;
 
 void Default_Callback(void)
 {
-	while (1);
+	//while (1);
 }
