@@ -39,6 +39,7 @@ void Cale_Moteur(void);
 void Init_Moteur(void);
 void Init_Controle (void);
 void Regle_Controle(int pwm, int mode);
+void Regle_Avance(int av);
 
 #endif /* _CONTROLE_H_ */
 

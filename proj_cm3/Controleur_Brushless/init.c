@@ -82,8 +82,8 @@ int main (void)
 //	NVIC_ENABLE_PERIPH_IT(ADC1_2);
 	/* RQ: La prise en compte des IT SYSTICK est actif par defaut */
 
-//	SysTick->LOAD = 900000;
-    SysTick->LOAD = 9;
+	SysTick->LOAD = 900000*10;
+//    SysTick->LOAD = 9;
 	SYSTICK_CLOCK_AHB_8();
 
 	/* Et pour le debug, on active aussi la prise en compte des vecteurs de fautes */
