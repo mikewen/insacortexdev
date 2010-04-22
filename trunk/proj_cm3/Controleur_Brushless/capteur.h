@@ -29,7 +29,7 @@
 #include "config.h"
 
 extern eventptr CAPTEUR_POSITION_AVANT_EVENT;
-extern eventptr CAPTEUR_POSITION_APRES_EVENT;
+extern eventptr CAPTEUR_POSITION_ARRIERE_EVENT;
 extern eventptr CAPTEUR_SEUIL_HAUT_EVENT;
 extern eventptr CAPTEUR_SEUIL_BAS_EVENT;
 
@@ -42,7 +42,7 @@ void Init_Capteur (void);
 int Lire_Capteur(void);
 void Ecrire_Capteur(int val);
 void Regle_Position_Avant(int val);
-void Regle_Position_Apres(int val);
+void Regle_Position_Arriere(int val);
 void Regle_Seuil_Vitesse_Haut(int val);
 void Regle_Seuil_Vitesse_Bas(int val);
 

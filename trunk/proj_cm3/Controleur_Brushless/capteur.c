@@ -28,7 +28,7 @@
 #include "callback.h"
 
 eventptr CAPTEUR_POSITION_AVANT_EVENT;
-eventptr CAPTEUR_POSITION_APRES_EVENT;
+eventptr CAPTEUR_POSITION_ARRIERE_EVENT;
 eventptr CAPTEUR_SEUIL_HAUT_EVENT;
 eventptr CAPTEUR_SEUIL_BAS_EVENT;
 
@@ -41,7 +41,7 @@ void Init_Capteur (void)
 {
 	/* Reglage des callback par defaut */
 	DEFINE_EVENT(CAPTEUR_POSITION_AVANT, Default_Callback);
-	DEFINE_EVENT(CAPTEUR_POSITION_APRES, Default_Callback);
+	DEFINE_EVENT(CAPTEUR_POSITION_ARRIERE, Default_Callback);
 	DEFINE_EVENT(CAPTEUR_SEUIL_HAUT, Default_Callback);
 	DEFINE_EVENT(CAPTEUR_SEUIL_BAS, Default_Callback);
 
@@ -90,7 +90,7 @@ void Regle_Position_Avant(int val)
 	TIM4->CCMR2 |= TIM_OC3M_VAL(TIM_OCxM_TOGGLE);
 }
 
-void Regle_Position_Apres(int val)
+void Regle_Position_Arriere(int val)
 {
 	TIM4->CCR4=val;
 //	TIM4->CCMR2 |= TIM_OC4M_VAL(TIM_OCxM_TOGGLE);
@@ -119,7 +119,7 @@ int SR_TMP;
 		if (SR_TMP&TIM_CC4IF)
 		{
 			TIM4->SR = TIM4->SR & ~(TIM_CC4IF);	
-			SEND_EVENT(CAPTEUR_POSITION_APRES_EVENT);
+			SEND_EVENT(CAPTEUR_POSITION_ARRIERE_EVENT);
 		}	
 	
 }
