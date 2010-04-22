@@ -31,11 +31,22 @@
 #include "config.h"
 #include "callback.h"
 
+#include "stm_clock.h"
+
 int rapport_pwm;
 int cycle_moteur;
-int position_capteur_avant;
-int position_capteur_apres;
+//int position_capteur_avant;
+//int position_capteur_apres;
+int avance;
+int periode;
+int timer_precedent;
+float vitesse;
+int tour;
+float distance;
+float freq_dent;
+float distance;
 
+#define _DISTANCE_ROUE_ 213.6283
 #define PHASE_A	0
 #define PHASE_B 1
 #define PHASE_C 2
@@ -51,22 +62,19 @@ int N_MOS[6][3]=
 };
 
 void Callback_capteur_position_avant(void);
-void Callback_capteur_position_apres(void);
+void Callback_capteur_position_arriere(void);
 
 void Init_Controle (void)
 {
 	DEFINE_EVENT(CAPTEUR_POSITION_AVANT, Callback_capteur_position_avant);
-	//DEFINE_EVENT(CAPTEUR_POSITION_APRES, Callback_capteur_position_apres);
+	DEFINE_EVENT(CAPTEUR_POSITION_ARRIERE, Callback_capteur_position_arriere);
 
   	cycle_moteur=0;
 	rapport_pwm=0x0;
 	sens_rotation =CONTROLE_MODE_AVANT;
 
-	position_capteur_avant = _PAS_60_DEGRES_;
-	position_capteur_apres = _RESOLUTION_ENCODEUR_-1;
-
-	Regle_Position_Avant(position_capteur_avant);
-	Regle_Position_Apres(position_capteur_apres);
+	Regle_Position_Avant((_PAS_60_DEGRES_));
+	Regle_Position_Arriere((_RESOLUTION_ENCODEUR_-1));	
 
 	/*REgle le timer 1 pour essai */
 	RCC->APB2ENR |= RCC_TIM1EN; /* Mise en route de l'horloge du timer1 */
@@ -88,20 +96,40 @@ void Cale_Moteur(void)
 
 void Init_Moteur(void)
 {
-	Regle_Controle(0, CONTROLE_MODE_AVANT); /* PWM à 0% */
-
 	cycle_moteur=0;
+	avance =-15;
 
-	Regle_Position_Avant((_PAS_60_DEGRES_)-5);
-	Regle_Position_Apres((_RESOLUTION_ENCODEUR_-1)-5);	
+	tour =0;
+	vitesse= 0.0;
+	periode=0;
+	timer_precedent=0;
+
+	Regle_Position_Avant((_PAS_60_DEGRES_));
+	Regle_Position_Arriere((_RESOLUTION_ENCODEUR_-1));	
+	Ecrire_Capteur(0);
 
 	/* Reglage du hacheur */
-	Regle_Bras_Haut(P_MOS[cycle_moteur][PHASE_A],P_MOS[cycle_moteur][PHASE_B],P_MOS[cycle_moteur][PHASE_C],rapport_pwm);
-	Regle_Bras_Bas(N_MOS[cycle_moteur][PHASE_A],N_MOS[cycle_moteur][PHASE_B],N_MOS[cycle_moteur][PHASE_C],rapport_pwm);
+//	Regle_Bras_Haut(P_MOS[cycle_moteur][PHASE_A],P_MOS[cycle_moteur][PHASE_B],P_MOS[cycle_moteur][PHASE_C],rapport_pwm);
+//	Regle_Bras_Bas(N_MOS[cycle_moteur][PHASE_A],N_MOS[cycle_moteur][PHASE_B],N_MOS[cycle_moteur][PHASE_C],rapport_pwm);
 
-	TIM1->CR1 = TIM1->CR1 + TIM_CEN;
-//	Regle_Controle(10, CONTROLE_MODE_AVANT); /* PWM à 10% */
+//	TIM1->CR1 = TIM1->CR1 + TIM_CEN;
 	Regle_Controle(0, CONTROLE_MODE_AVANT); /* PWM à 0% */
+}
+
+void Calcul_stats(void)
+{
+float temp;
+	temp = (float)__HCLK;
+	temp = temp/8.0;
+	temp = temp/(periode*12.0);
+	vitesse = temp*60.0;
+
+	distance = (float)tour;
+	distance =  distance* _DISTANCE_ROUE_;
+
+	freq_dent= (float)(periode);
+	freq_dent = freq_dent/((float)(_PAS_60_DEGRES_));
+	freq_dent = (1.0/freq_dent);
 }
 
 void Regle_Controle(int pwm, int mode)
@@ -132,31 +160,56 @@ unsigned int temp;
 
 void Regle_Avance(int av)
 {
-int position;
-	
-	position = Lire_Capteur();
-	position = position + av;
-
-	if (position >= _RESOLUTION_ENCODEUR_) position = 0;
-	if (position <0) position = _RESOLUTION_ENCODEUR_ - position;
-	
-	Ecrire_Capteur(position);   
+//int position;
+//	
+//	position = Lire_Capteur();
+//	position = position + av;
+//
+//	if (position >= _RESOLUTION_ENCODEUR_) position = 0;
+//	if (position <0) position = _RESOLUTION_ENCODEUR_ - position;
+//	
+//	Ecrire_Capteur(position);   
+	avance = av;
 }
 
 void Callback_capteur_position_avant(void)
 {
+int position_capteur_avant;
+int position_capteur_arriere;
+int val;
+//	position_capteur_avant = position_capteur_avant + _PAS_60_DEGRES_;
+//	if (position_capteur_avant>=_RESOLUTION_ENCODEUR_) position_capteur_avant = position_capteur_avant - _RESOLUTION_ENCODEUR_;
+//
+//	position_capteur_apres = position_capteur_apres + _PAS_60_DEGRES_;
+//	if (position_capteur_apres>=_RESOLUTION_ENCODEUR_) position_capteur_apres = position_capteur_apres - _RESOLUTION_ENCODEUR_;
 
-	position_capteur_avant = position_capteur_avant + _PAS_60_DEGRES_;
-	if (position_capteur_avant>=_RESOLUTION_ENCODEUR_) position_capteur_avant = position_capteur_avant - _RESOLUTION_ENCODEUR_;
-
-	position_capteur_apres = position_capteur_apres + _PAS_60_DEGRES_;
-	if (position_capteur_apres>=_RESOLUTION_ENCODEUR_) position_capteur_apres = position_capteur_apres - _RESOLUTION_ENCODEUR_;
-
+	val = SysTick->VAL;
+	 
+	if (val>= timer_precedent) 
+	{
+		periode = (timer_precedent+0x1000000) - val ;
+	}
+	else 
+	{
+		periode = timer_precedent-val;
+	}
+	
+	timer_precedent = val;
+	 
 	cycle_moteur ++;
 	if (cycle_moteur >=6) cycle_moteur = 0;
+	tour++;
+	
+	position_capteur_avant = ((cycle_moteur+1)*_PAS_60_DEGRES_)-avance;
+	position_capteur_arriere = ((cycle_moteur)*_PAS_60_DEGRES_)-avance-1;
+
+	if (position_capteur_avant>=_RESOLUTION_ENCODEUR_) position_capteur_avant = position_capteur_avant - _RESOLUTION_ENCODEUR_;
+	if (position_capteur_arriere>=_RESOLUTION_ENCODEUR_) position_capteur_arriere = position_capteur_arriere - _RESOLUTION_ENCODEUR_;
+	if (position_capteur_avant<0) position_capteur_avant = _RESOLUTION_ENCODEUR_ + position_capteur_avant;
+	if (position_capteur_arriere<0) position_capteur_arriere = _RESOLUTION_ENCODEUR_ + position_capteur_arriere;
 
     Regle_Position_Avant(position_capteur_avant);
-	Regle_Position_Apres(position_capteur_apres);
+	Regle_Position_Arriere(position_capteur_arriere);
 
 #ifndef _DEBUG_CAPTEUR_
 	/* Reglage du hacheur */
@@ -174,25 +227,54 @@ void Callback_capteur_position_avant(void)
 		Regle_Bras_Bas((cycle_moteur&0x01),0,0,0);
 	}
 #endif 
+
+	Calcul_stats();
 }
 
-void Callback_capteur_position_apres(void)
+void Callback_capteur_position_arriere(void)
 {
-	position_capteur_avant = position_capteur_avant - _PAS_60_DEGRES_;
-	if (position_capteur_avant<0) position_capteur_avant = _RESOLUTION_ENCODEUR_ - position_capteur_avant;
+int position_capteur_avant;
+int position_capteur_arriere;
+int val;
+//	position_capteur_avant = position_capteur_avant - _PAS_60_DEGRES_;
+//	if (position_capteur_avant<0) position_capteur_avant = _RESOLUTION_ENCODEUR_ - position_capteur_avant;
+//
+//	position_capteur_apres = position_capteur_apres - _PAS_60_DEGRES_;
+//	if (position_capteur_apres<0) position_capteur_apres = _RESOLUTION_ENCODEUR_ - position_capteur_apres;
 
-	position_capteur_apres = position_capteur_apres - _PAS_60_DEGRES_;
-	if (position_capteur_apres<0) position_capteur_apres = _RESOLUTION_ENCODEUR_ - position_capteur_apres;
+	val = SysTick->VAL;
+	 
+	if (val>= timer_precedent) 
+	{
+		periode = (timer_precedent+0x1000000) - val ;
+	}
+	else 
+	{
+		periode = timer_precedent-val;
+	}
+	
+	timer_precedent = val;
 
 	cycle_moteur --;
 	if (cycle_moteur <0) cycle_moteur = 5;
+	tour--;
+
+	position_capteur_avant = ((cycle_moteur+1)*_PAS_60_DEGRES_)-avance+1;
+	position_capteur_arriere = ((cycle_moteur)*_PAS_60_DEGRES_)-avance;
+
+	if (position_capteur_avant>=_RESOLUTION_ENCODEUR_) position_capteur_avant = position_capteur_avant - _RESOLUTION_ENCODEUR_;
+	if (position_capteur_arriere>=_RESOLUTION_ENCODEUR_) position_capteur_arriere = position_capteur_arriere - _RESOLUTION_ENCODEUR_;
+	if (position_capteur_avant<0) position_capteur_avant = _RESOLUTION_ENCODEUR_ + position_capteur_avant;
+	if (position_capteur_arriere<0) position_capteur_arriere = _RESOLUTION_ENCODEUR_ + position_capteur_arriere;
 
     Regle_Position_Avant(position_capteur_avant);
-	Regle_Position_Apres(position_capteur_apres);
+	Regle_Position_Arriere(position_capteur_arriere);
 
 	/* Reglage du hacheur */
 	Regle_Bras_Haut(P_MOS[cycle_moteur][PHASE_A],P_MOS[cycle_moteur][PHASE_B],P_MOS[cycle_moteur][PHASE_C],rapport_pwm);
 	Regle_Bras_Bas(N_MOS[cycle_moteur][PHASE_A],N_MOS[cycle_moteur][PHASE_B],N_MOS[cycle_moteur][PHASE_C],rapport_pwm);	 
+
+	Calcul_stats();
 }
 
 void TIM1_UP_IRQHandler (void)

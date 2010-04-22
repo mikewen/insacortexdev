@@ -40,7 +40,7 @@ FILE Port_COM;
 
 void Init_Interface_uart(void)
 {
-	printf ("Controleur Brushless\nRéalisation: SDM\nVer: %d.%02d\n\n",_VERSION_MAJEUR_, _VERSION_MINEUR_);
+	printf ("Controleur Brushless\nRealisation: SDM\nVer: %d.%02d\n\n",_VERSION_MAJEUR_, _VERSION_MINEUR_);
 
 #ifdef _AVEC_CAPTEUR_
 	printf ("Mode capteur: AVEC\nResolution capteur: %d\n\n",_RESOLUTION_CAPTEUR_);
@@ -115,6 +115,8 @@ int commande_prete;
 				break;
 			case 'd':
 			case 'D':
+				Init_Moteur();
+				printf ("\nCapteur calle a zero\n");
 				break;
 			case 'p':
 			case 'P':

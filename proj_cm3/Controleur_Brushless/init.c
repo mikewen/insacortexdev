@@ -82,26 +82,27 @@ int main (void)
 //	NVIC_ENABLE_PERIPH_IT(ADC1_2);
 	/* RQ: La prise en compte des IT SYSTICK est actif par defaut */
 
-	SysTick->LOAD = 900000*10;
+	SysTick->LOAD = 0xFFFFFF;
 //    SysTick->LOAD = 9;
 	SYSTICK_CLOCK_AHB_8();
+	SYSTICK_ENABLE_COUNTER();
 
 	/* Et pour le debug, on active aussi la prise en compte des vecteurs de fautes */
 	NVIC_ENABLE_SYSTEM_IT(MEM_FAULT);
 	NVIC_ENABLE_SYSTEM_IT(BUS_FAULT);
 	NVIC_ENABLE_SYSTEM_IT(USAGE_FAULT);
 
-	/* Calage du capteur */
-	Cale_Moteur();
-	Drapeau_Init_Moteur=0;
-
-	SYSTICK_ENABLE_IT();
-	SYSTICK_ENABLE_COUNTER();
-
-	while (!Drapeau_Init_Moteur);
-
-	SYSTICK_DISABLE_COUNTER();
-	SYSTICK_DISABLE_IT();
+//	/* Calage du capteur */
+//	Cale_Moteur();
+//	Drapeau_Init_Moteur=0;
+//
+//	SYSTICK_ENABLE_IT();
+//	SYSTICK_ENABLE_COUNTER();
+//
+//	while (!Drapeau_Init_Moteur);
+//
+//	SYSTICK_DISABLE_COUNTER();
+//	SYSTICK_DISABLE_IT();
 	
 	Demarre_Capteur();
 	Init_Moteur();
@@ -114,5 +115,7 @@ int main (void)
 
 void SysTick_Handler(void)
 {
-	Drapeau_Init_Moteur=1;	
+//	Drapeau_Init_Moteur=1;
+
+	while (1);	
 }
