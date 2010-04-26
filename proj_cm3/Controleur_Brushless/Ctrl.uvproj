@@ -533,7 +533,7 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>2</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -653,7 +653,7 @@
             <interw>1</interw>
             <bigend>0</bigend>
             <Strict>0</Strict>
-            <Optim>0</Optim>
+            <Optim>2</Optim>
             <wLevel>2</wLevel>
             <uThumb>1</uThumb>
             <VariousControls>

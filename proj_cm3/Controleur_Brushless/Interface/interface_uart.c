@@ -33,8 +33,9 @@
 char buffer[50];
 char *commande;
 
-volatile int pourcent_pwm;
+int pourcent_pwm;
 int param_avance;
+int coeff_kv;
 
 FILE Port_COM;
 
@@ -92,7 +93,7 @@ int commande_prete;
 				if (pourcent_pwm<0) pourcent_pwm=0;
 				if (pourcent_pwm>100) pourcent_pwm=100;
 
-				printf ("\nEn avant a %d%%\n", pourcent_pwm);
+				printf ("\nEn avant a %d%% de la vitesse max\n", pourcent_pwm);
 				Regle_Controle(pourcent_pwm, CONTROLE_MODE_AVANT);
 				break;
 			case 'r':
@@ -102,7 +103,7 @@ int commande_prete;
 				if (pourcent_pwm<0) pourcent_pwm=0;
 				if (pourcent_pwm>100) pourcent_pwm=100;
 
-				printf ("\nEn arriere a %d%%\n", pourcent_pwm);
+				printf ("\nEn arriere a %d%% de la vitesse max\n", pourcent_pwm);
 				Regle_Controle(pourcent_pwm, CONTROLE_MODE_ARRIERE);
 				break;
 			case 's':
@@ -130,6 +131,15 @@ int commande_prete;
 						
 						Regle_Avance(param_avance);
 						printf ("\nAvance regle a %d\n",param_avance);  
+						break;
+					case '1':
+						sscanf (&commande[2], "%d", &coeff_kv);
+
+						if (coeff_kv >= 200) coeff_kv=199;
+						if (coeff_kv< 0) coeff_kv=0;
+						
+						Regle_Coeff_Kv(coeff_kv);
+						printf ("\nKv regle a %d\n",coeff_kv);  
 						break;
 					default:
 						printf ("\nParametre non supporte\n");
@@ -173,7 +183,20 @@ void Interface_Aide(void)
 
 void Interface_Info(void)
 {
+int av, p, t, v;
+int kv;
+
+	kv= Fourni_stats(&v, &t, &av, &p);
+
 	printf ("\nInfo systeme:\n\n");
 
-	printf ("Version: %d.%d\n", _VERSION_MAJEUR_, _VERSION_MINEUR_);
+	printf ("Version: %d.%d\n\n", _VERSION_MAJEUR_, _VERSION_MINEUR_);
+	printf ("Vitesse: %d\n", v);
+	printf ("nbr tour moteur: %d\n", t);
+	printf ("avance: %d\n", av);
+	printf ("Phase moteur: %d\n",p);
+	printf ("kv: %d\n", kv);
+
+	  
+	printf ("\n");
 }
