@@ -96,8 +96,7 @@ int main (void)
 //	Cale_Moteur();
 //	Drapeau_Init_Moteur=0;
 //
-//	SYSTICK_ENABLE_IT();
-//	SYSTICK_ENABLE_COUNTER();
+
 //
 //	while (!Drapeau_Init_Moteur);
 //
@@ -111,11 +110,4 @@ int main (void)
 	{
 		Interface();
 	}
-}
-
-void SysTick_Handler(void)
-{
-//	Drapeau_Init_Moteur=1;
-
-	while (1);	
 }

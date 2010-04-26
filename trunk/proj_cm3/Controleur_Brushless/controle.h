@@ -40,6 +40,8 @@ void Init_Moteur(void);
 void Init_Controle (void);
 void Regle_Controle(int pwm, int mode);
 void Regle_Avance(int av);
+int Fourni_stats (int *vitesse, int* tour, int* avance, int* phase);
+void Regle_Coeff_Kv(int kv);
 
 #endif /* _CONTROLE_H_ */
 
