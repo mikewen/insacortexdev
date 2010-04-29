@@ -31,7 +31,7 @@
 #define _PAS_60_DEGRES_			(_RESOLUTION_ENCODEUR_/6)
 
 #define _VERSION_MAJEUR_		1
-#define _VERSION_MINEUR_		1
+#define _VERSION_MINEUR_		2
 
 /* Ne rien modifier après cette ligne */
 /*___________________________________________________________________________________________________________*/

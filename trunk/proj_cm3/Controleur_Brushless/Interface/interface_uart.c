@@ -113,6 +113,13 @@ int commande_prete;
 				break;
 			case 'f':
 			case 'F':
+				sscanf (commande, "%d", &pourcent_pwm);
+
+				if (pourcent_pwm<0) pourcent_pwm=0;
+				if (pourcent_pwm>100) pourcent_pwm=100;
+
+				printf ("\nFrein a %d%%\n", pourcent_pwm);
+				Regle_Controle(pourcent_pwm, CONTROLE_MODE_FREIN);
 				break;
 			case 'd':
 			case 'D':
@@ -202,9 +209,9 @@ void Interface_Aide(void)
 void Interface_Info(void)
 {
 int av, p, t, v;
-int kv;
+int kp, ki, kd;
 
-	kv= Fourni_stats(&v, &t, &av, &p);
+	Fourni_stats(&v, &t, &av, &p);
 
 	printf ("\nInfo systeme:\n\n");
 
@@ -213,8 +220,12 @@ int kv;
 	printf ("nbr tour moteur: %d\n", t);
 	printf ("avance: %d\n", av);
 	printf ("Phase moteur: %d\n",p);
-	printf ("kv: %d\n", kv);
+	printf ("\n");
 
+	Fourni_coeffs (&kp, &ki, &kd);
+	printf ("kp: %d\n", kp);
+	printf ("ki: %d\n", ki);
+	printf ("kd: %d\n", kd);
 	  
 	printf ("\n");
 }
