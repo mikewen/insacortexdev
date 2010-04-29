@@ -135,11 +135,29 @@ int commande_prete;
 					case '1':
 						sscanf (&commande[2], "%d", &coeff_kv);
 
-						if (coeff_kv >= 200) coeff_kv=199;
+						if (coeff_kv >= 2000) coeff_kv=1999;
 						if (coeff_kv< 0) coeff_kv=0;
 						
 						Regle_Coeff_Kv(coeff_kv);
-						printf ("\nKv regle a %d\n",coeff_kv);  
+						printf ("\nKp regle a %d\n",coeff_kv);  
+						break;
+					case '2':
+						sscanf (&commande[2], "%d", &coeff_kv);
+
+						if (coeff_kv >= 2000) coeff_kv=1999;
+						if (coeff_kv< 0) coeff_kv=0;
+						
+						Regle_Coeff_Ki(coeff_kv);
+						printf ("\nKi regle a %d\n",coeff_kv);  
+						break;
+					case '3':
+						sscanf (&commande[2], "%d", &coeff_kv);
+
+						if (coeff_kv >= 2000) coeff_kv=1999;
+						if (coeff_kv< 0) coeff_kv=0;
+						
+						Regle_Coeff_Kd(coeff_kv);
+						printf ("\nKd regle a %d\n",coeff_kv);  
 						break;
 					default:
 						printf ("\nParametre non supporte\n");
