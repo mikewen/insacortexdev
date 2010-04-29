@@ -458,7 +458,7 @@
           <Type>0</Type>
           <LineNumber>40</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134222016</Address>
+          <Address>134222160</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
@@ -535,7 +535,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
-        <aLwin>0</aLwin>
+        <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>1</aSer1>
         <aSer2>0</aSer2>
@@ -625,8 +625,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>1</CurrentLine>
+      <TopLine>423</TopLine>
+      <CurrentLine>435</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../lib_cm3/stm_usartx.c</PathWithFileName>
       <FilenameWithoutPath>stm_usartx.c</FilenameWithoutPath>
@@ -686,10 +686,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>19</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>133</TopLine>
-      <CurrentLine>160</CurrentLine>
+      <TopLine>84</TopLine>
+      <CurrentLine>118</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Interface/interface_uart.c</PathWithFileName>
       <FilenameWithoutPath>interface_uart.c</FilenameWithoutPath>
@@ -744,8 +744,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>80</TopLine>
-      <CurrentLine>106</CurrentLine>
+      <TopLine>26</TopLine>
+      <CurrentLine>26</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\capteur.c</PathWithFileName>
       <FilenameWithoutPath>capteur.c</FilenameWithoutPath>
@@ -758,8 +758,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>7</TopLine>
-      <CurrentLine>42</CurrentLine>
+      <TopLine>21</TopLine>
+      <CurrentLine>40</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\init.c</PathWithFileName>
       <FilenameWithoutPath>init.c</FilenameWithoutPath>
@@ -770,10 +770,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>21</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>41</TopLine>
-      <CurrentLine>60</CurrentLine>
+      <TopLine>241</TopLine>
+      <CurrentLine>248</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\controle.c</PathWithFileName>
       <FilenameWithoutPath>controle.c</FilenameWithoutPath>
@@ -823,9 +823,35 @@
   </Group>
 
   <AlienFiles>
+    <PathWithFilename>D:\Documents and Settings\dimercur\Bureau\insacortexdev\proj_cm3\Controleur_Brushless\config.h</PathWithFilename>
+    <TopLine>1</TopLine>
+    <CurrentLine>34</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
     <PathWithFilename>D:\Documents and Settings\dimercur\Bureau\insacortexdev\proj_cm3\Controleur_Brushless\controle.h</PathWithFilename>
-    <TopLine>22</TopLine>
-    <CurrentLine>45</CurrentLine>
+    <TopLine>14</TopLine>
+    <CurrentLine>33</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -852,32 +878,6 @@
     <PathWithFilename>D:\Documents and Settings\dimercur\Bureau\insacortexdev\proj_cm3\Controleur_Brushless\capteur.h</PathWithFilename>
     <TopLine>17</TopLine>
     <CurrentLine>44</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>D:\Documents and Settings\dimercur\Bureau\insacortexdev\proj_cm3\Controleur_Brushless\config.h</PathWithFilename>
-    <TopLine>1</TopLine>
-    <CurrentLine>34</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -1454,7 +1454,7 @@
         <FloatingRect_bottom>600</FloatingRect_bottom>
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -1554,7 +1554,7 @@
         <FloatingRect_bottom>600</FloatingRect_bottom>
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
+        <ActiveTab>1</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -2098,14 +2098,14 @@
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>214</DockedRect_left>
         <DockedRect_bottom>302</DockedRect_bottom>
-        <DockedRect_right>1066</DockedRect_right>
+        <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
-        <Visible>0</Visible>
+        <ActiveTab>1</ActiveTab>
+        <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
@@ -2123,7 +2123,7 @@
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>214</DockedRect_left>
         <DockedRect_bottom>302</DockedRect_bottom>
-        <DockedRect_right>1066</DockedRect_right>
+        <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>250</FloatingRect_bottom>
@@ -2148,7 +2148,7 @@
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>214</DockedRect_left>
         <DockedRect_bottom>302</DockedRect_bottom>
-        <DockedRect_right>1066</DockedRect_right>
+        <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>250</FloatingRect_bottom>
@@ -2173,7 +2173,7 @@
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>214</DockedRect_left>
         <DockedRect_bottom>302</DockedRect_bottom>
-        <DockedRect_right>1066</DockedRect_right>
+        <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>250</FloatingRect_bottom>
@@ -2198,7 +2198,7 @@
         <DockedRect_top>76</DockedRect_top>
         <DockedRect_left>214</DockedRect_left>
         <DockedRect_bottom>302</DockedRect_bottom>
-        <DockedRect_right>1066</DockedRect_right>
+        <DockedRect_right>1280</DockedRect_right>
         <FloatingRect_top>0</FloatingRect_top>
         <FloatingRect_left>0</FloatingRect_left>
         <FloatingRect_bottom>250</FloatingRect_bottom>
@@ -2241,7 +2241,7 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>4</ActiveTab>
+      <ActiveTab>7</ActiveTab>
       <Documents>
         <Doc>
           <Name>D:\Documents and Settings\dimercur\Bureau\insacortexdev\proj_cm3\Controleur_Brushless\capteur.h</Name>
@@ -2251,27 +2251,27 @@
         </Doc>
         <Doc>
           <Name>D:\Documents and Settings\dimercur\Bureau\insacortexdev\proj_cm3\Controleur_Brushless\controle.h</Name>
-          <ColumnNumber>26</ColumnNumber>
-          <TopLine>22</TopLine>
-          <CurrentLine>45</CurrentLine>
+          <ColumnNumber>29</ColumnNumber>
+          <TopLine>14</TopLine>
+          <CurrentLine>33</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\capteur.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>80</TopLine>
-          <CurrentLine>106</CurrentLine>
+          <TopLine>26</TopLine>
+          <CurrentLine>26</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\Interface/interface_uart.c</Name>
-          <ColumnNumber>19</ColumnNumber>
-          <TopLine>133</TopLine>
-          <CurrentLine>160</CurrentLine>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>84</TopLine>
+          <CurrentLine>118</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\init.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>7</TopLine>
-          <CurrentLine>42</CurrentLine>
+          <TopLine>21</TopLine>
+          <CurrentLine>40</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\hacheur.c</Name>
@@ -2282,14 +2282,14 @@
         <Doc>
           <Name>../../lib_cm3/stm_usartx.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>1</CurrentLine>
+          <TopLine>423</TopLine>
+          <CurrentLine>435</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\controle.c</Name>
-          <ColumnNumber>21</ColumnNumber>
-          <TopLine>41</TopLine>
-          <CurrentLine>60</CurrentLine>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>241</TopLine>
+          <CurrentLine>248</CurrentLine>
         </Doc>
         <Doc>
           <Name>D:\Documents and Settings\dimercur\Bureau\insacortexdev\proj_cm3\Controleur_Brushless\config.h</Name>

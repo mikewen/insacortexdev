@@ -28,9 +28,6 @@
 
 #include "config.h"
 
-//extern int rapport_pwm;
-//extern int cycle_moteur;
-
 #define CONTROLE_MODE_AVANT 1
 #define CONTROLE_MODE_ARRIERE 2
 #define CONTROLE_MODE_FREIN 0
@@ -40,7 +37,8 @@ void Init_Moteur(void);
 void Init_Controle (void);
 void Regle_Controle(int pwm, int mode);
 void Regle_Avance(int av);
-int Fourni_stats (int *vitesse, int* tour, int* avance, int* phase);
+void Fourni_stats (int *vitesse, int* tour, int* avance, int* phase);
+void Fourni_coeffs (int *kp, int *ki, int *kd);
 void Regle_Coeff_Kv(int kv);
 void Regle_Coeff_Ki(int ki);
 void Regle_Coeff_Kd(int kd);
