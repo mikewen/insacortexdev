@@ -40,6 +40,8 @@ extern int sens_rotation;
 void Demarre_Capteur(void);
 void Init_Capteur (void);
 int Lire_Capteur(void);
+int Lire_Capteur_Avant(void);
+int Lire_Capteur_Arriere(void);
 void Ecrire_Capteur(int val);
 void Regle_Position_Avant(int val);
 void Regle_Position_Arriere(int val);

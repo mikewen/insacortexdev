@@ -79,6 +79,16 @@ int Lire_Capteur(void)
 	return TIM4->CNT;
 }
 
+int Lire_Capteur_Avant(void)
+{
+  	return (TIM4->CCR3);
+}
+
+int Lire_Capteur_Arriere(void)
+{
+	return (TIM4->CCR4);
+}
+
 void Ecrire_Capteur(int val)
 {
 	TIM4->CNT = val;
@@ -93,7 +103,7 @@ void Regle_Position_Avant(int val)
 void Regle_Position_Arriere(int val)
 {
 	TIM4->CCR4=val;
-//	TIM4->CCMR2 |= TIM_OC4M_VAL(TIM_OCxM_TOGGLE);
+	TIM4->CCMR2 |= TIM_OC4M_VAL(TIM_OCxM_TOGGLE);
 }
 
 void Regle_Seuil_Vitesse_Haut(int val)

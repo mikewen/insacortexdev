@@ -36,7 +36,7 @@
 int rapport_pwm;
 int cycle_moteur;
 
-int avance;
+int avance, delta_avance;
 int periode;
 int timer_precedent;
 float vitesse;
@@ -44,8 +44,9 @@ int tour;
 float distance;
 float freq_dent;
 float distance;
+float derniere_erreur;
 
-float Kp_v;
+float Kp_v, Ki_v, Kd_v;
 float derniere_commande;
 float vitesse_consigne;
 
@@ -54,9 +55,13 @@ float vitesse_consigne;
 #define PHASE_B 1
 #define PHASE_C 2
 
-#define COEFF_V	0.001
+#define COEFF_KP	0.08
+#define COEFF_KI	0.01
+#define COEFF_KD	0.04
+
 #define	V_MAX 25000.0
 
+#ifndef _TEST_COMMUTATION_
 int P_MOS[6][3]= 
 {
 	{1,0,0},{0,1,0},{0,1,0},{0,0,1},{0,0,1},{1,0,0}
@@ -66,6 +71,18 @@ int N_MOS[6][3]=
 {
 	{0,0,1},{0,0,1},{1,0,0},{1,0,0},{0,1,0},{0,1,0}
 };
+
+#else
+int P_MOS[6][3]= 
+{
+	{1,0,0},{1,1,0},{0,1,0},{0,1,1},{0,0,1},{1,0,1}
+};
+
+int N_MOS[6][3]= 
+{
+	{0,1,1},{0,0,1},{1,0,1},{1,0,0},{1,1,0},{0,1,0}
+};
+#endif
 
 void Callback_capteur_position_avant(void);
 void Callback_capteur_position_arriere(void);
@@ -110,12 +127,16 @@ void Init_Moteur(void)
 	periode=0;
 	timer_precedent=0;
 
-	Kp_v=COEFF_V;
+	Kp_v = COEFF_KP;
+	Ki_v = COEFF_KI;
+	Kd_v = COEFF_KD;
+
 	derniere_commande=0;
+	derniere_erreur=0;
 	vitesse_consigne=0;
 
-	Regle_Position_Avant((_PAS_60_DEGRES_));
-	Regle_Position_Arriere((_RESOLUTION_ENCODEUR_-1));	
+	Regle_Position_Avant((_PAS_60_DEGRES_)-avance);
+	Regle_Position_Arriere((_RESOLUTION_ENCODEUR_+avance));	
 	Ecrire_Capteur(0);
 
 	SysTick->LOAD = 50000;
@@ -166,22 +187,27 @@ unsigned int temp;
 }
 
 void Regle_Avance(int av)
-{ 
+{
+	delta_avance= avance - av;
 	avance = av;
 }
 
 void asservissement_vitesse(void)
 {
 float erreur;
+float integral;
+float derivee;
 
 	erreur =  vitesse_consigne- vitesse;
-	
-	erreur = Kp_v*erreur;
-	if (erreur>5.0) erreur =5.0;
-	if (erreur <-5.0) erreur =-5.0;
 
-	derniere_commande = derniere_commande + (erreur);
+	derivee = derniere_erreur - erreur;
+	derivee = Kd_v*derivee;
+
+	integral = derniere_erreur + erreur;
+	integral = Ki_v*integral;
 	
+	derniere_commande = (Kp_v*erreur) + integral + derivee;
+	 
 	if (derniere_commande <0.0) derniere_commande =0.0;
 	if (derniere_commande >100.0) derniere_commande = 100.0;
 	
@@ -192,6 +218,16 @@ void Regle_Coeff_Kv(int kv)
 {
 	Kp_v = ((float)kv)/1000.0;
 }
+
+void Regle_Coeff_Ki(int ki)
+{
+	Ki_v = ((float)ki)/1000.0;
+}
+
+void Regle_Coeff_Kd(int kd)
+{
+	Kd_v = ((float)kd)/1000.0;
+}
  
 void Regle_Controle(int pourcent, int mode)
 {
@@ -201,8 +237,8 @@ void Regle_Controle(int pourcent, int mode)
 
 	if (sens_rotation != mode)
 	{
-		if (mode == CONTROLE_MODE_AVANT) cycle_moteur++;
-		else cycle_moteur--;
+		if (mode == CONTROLE_MODE_AVANT) cycle_moteur+=3;
+		else cycle_moteur-=3;
 	}
 
 	if (cycle_moteur >=6) cycle_moteur=0;
@@ -239,12 +275,22 @@ int nouvelle_periode;
 
 	cycle_moteur ++;
 	if (cycle_moteur >=6) 
-	{	cycle_moteur = 0;
+	{	
+		cycle_moteur = 0;
 		tour++;
 	}
 	
-	position_capteur_avant = ((cycle_moteur+1)*_PAS_60_DEGRES_)-avance;
-	position_capteur_arriere = ((cycle_moteur)*_PAS_60_DEGRES_)-avance-1;
+	position_capteur_avant = Lire_Capteur_Avant();
+	position_capteur_arriere = Lire_Capteur_Arriere();
+	position_capteur_avant = (position_capteur_avant + _PAS_60_DEGRES_);
+	position_capteur_arriere = (position_capteur_arriere + _PAS_60_DEGRES_);
+
+	if (delta_avance != 0) 
+	{
+		position_capteur_avant += delta_avance;
+		position_capteur_arriere += delta_avance;
+		delta_avance =0;	
+	}
 
 	if (position_capteur_avant>=_RESOLUTION_ENCODEUR_) position_capteur_avant = position_capteur_avant - _RESOLUTION_ENCODEUR_;
 	if (position_capteur_arriere>=_RESOLUTION_ENCODEUR_) position_capteur_arriere = position_capteur_arriere - _RESOLUTION_ENCODEUR_;
@@ -303,8 +349,17 @@ int nouvelle_periode;
 		tour--;
 	}
 
-	position_capteur_avant = ((cycle_moteur+1)*_PAS_60_DEGRES_)-avance+1;
-	position_capteur_arriere = ((cycle_moteur)*_PAS_60_DEGRES_)-avance;
+		position_capteur_avant = Lire_Capteur_Avant();
+	position_capteur_arriere = Lire_Capteur_Arriere();
+	position_capteur_avant = (position_capteur_avant - _PAS_60_DEGRES_);
+	position_capteur_arriere = (position_capteur_arriere - _PAS_60_DEGRES_);
+
+	if (delta_avance != 0) 
+	{
+		position_capteur_avant += delta_avance;
+		position_capteur_arriere += delta_avance;
+		delta_avance =0;	
+	}
 
 	if (position_capteur_avant>=_RESOLUTION_ENCODEUR_) position_capteur_avant = position_capteur_avant - _RESOLUTION_ENCODEUR_;
 	if (position_capteur_arriere>=_RESOLUTION_ENCODEUR_) position_capteur_arriere = position_capteur_arriere - _RESOLUTION_ENCODEUR_;

@@ -42,6 +42,8 @@ void Regle_Controle(int pwm, int mode);
 void Regle_Avance(int av);
 int Fourni_stats (int *vitesse, int* tour, int* avance, int* phase);
 void Regle_Coeff_Kv(int kv);
+void Regle_Coeff_Ki(int ki);
+void Regle_Coeff_Kd(int kd);
 
 #endif /* _CONTROLE_H_ */
 
