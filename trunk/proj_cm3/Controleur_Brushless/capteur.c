@@ -27,10 +27,9 @@
 #include "config.h"
 #include "callback.h"
 
+/* Callback */
 eventptr CAPTEUR_POSITION_AVANT_EVENT;
 eventptr CAPTEUR_POSITION_ARRIERE_EVENT;
-eventptr CAPTEUR_SEUIL_HAUT_EVENT;
-eventptr CAPTEUR_SEUIL_BAS_EVENT;
 
 int periode_capteur;
 float vitesse_moteur;
@@ -42,8 +41,6 @@ void Init_Capteur (void)
 	/* Reglage des callback par defaut */
 	DEFINE_EVENT(CAPTEUR_POSITION_AVANT, Default_Callback);
 	DEFINE_EVENT(CAPTEUR_POSITION_ARRIERE, Default_Callback);
-	DEFINE_EVENT(CAPTEUR_SEUIL_HAUT, Default_Callback);
-	DEFINE_EVENT(CAPTEUR_SEUIL_BAS, Default_Callback);
 
 	/* Reglage du port B */
 	RCC->APB2ENR |= RCC_IOPBEN; /* Mise en route de l'horloge du port B */	
@@ -63,7 +60,6 @@ void Init_Capteur (void)
 
 	TIM4->CCMR1 |= TIM_CC2S_IS_INPUT_TI2 +  
 	               TIM_CC1S_IS_INPUT_TI1; /* IC1FP1 sur TI1, IC2FP2, sur TI2 */
-    //TIM4->CCER &= ~((CC1P) | (CC2P)); /* Capture sur les fronts montants */
 	
 	TIM4->DIER |= TIM_CC3IE + TIM_CC4IE;
 }
@@ -106,14 +102,6 @@ void Regle_Position_Arriere(int val)
 	TIM4->CCMR2 |= TIM_OC4M_VAL(TIM_OCxM_TOGGLE);
 }
 
-void Regle_Seuil_Vitesse_Haut(int val)
-{
-}
-
-void Regle_Seuil_Vitesse_Bas(int val)
-{
-}
-
 void TIM4_IRQHandler(void)
 {
 int SR_TMP;
@@ -131,10 +119,9 @@ int SR_TMP;
 			TIM4->SR = TIM4->SR & ~(TIM_CC4IF);	
 			SEND_EVENT(CAPTEUR_POSITION_ARRIERE_EVENT);
 		}	
-	
 }
 
 void Default_Callback(void)
 {
-	//while (1);
+	while (1);
 }

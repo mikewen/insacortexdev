@@ -27,6 +27,13 @@
 #include "config.h"
 #include "callback.h"
 
+/* 
+ * Init_Hacheur
+ *
+ * Initialisation des bras haut et bas du hacheur
+ * Bras haut (PMOS) connecté au timer 2 (canaux 1,3 et 4)
+ * Bras bas (NMOS) connecté aux GPIO (pas de timer)
+ */
 void Init_Hacheur (void)
 {
 	/* Reglage du timer 2 -> PWM pour bras haut*/
@@ -47,7 +54,6 @@ void Init_Hacheur (void)
 	TIM2->CCR3 = 0;
 	TIM2->CCR4 = 0;
 
-	//TIM2->DIER |= TIM_CC1IE + TIM_CC4IE + TIM_CC3IE;
 	TIM2->CR1 |= TIM_CEN; 	
 	
 	/* Regle les bras du hacheur en sortie */
@@ -78,16 +84,31 @@ void Init_Hacheur (void)
 	              (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_9_SHIFT) + (GPIO_CNF_OUTPUT_PUSH_PULL<<GPIO_CNF_9_SHIFT); 
 }
 
+/* 
+ * Regle_Bras_Haut
+ *
+ * Programme le bras haut
+ * MOS_A, MOS_B, MOS_C: valeur 0 ou 1
+ *      0: le PMOS est ouvert
+ *      1: Le PMOS est "haché" au rapport indiqué dans le parametre PWM
+ */
 void Regle_Bras_Haut (int MOS_A, int MOS_B, int MOS_C, int pwm)
 {
-	/*GPIOA->ODR &= (MOS_A<<0) + (MOS_B<<2) + (MOS_C<<3);
-	GPIOA->ODR |= (MOS_A<<0) + (MOS_B<<2) + (MOS_C<<3);*/
-
 	TIM2->CCR1 = MOS_A*pwm;
 	TIM2->CCR3 = MOS_B*pwm;
 	TIM2->CCR4 = MOS_C*pwm;
 }
 
+/* 
+ * Regle_Bras_Bas
+ *
+ * Programme le bras bas
+ * MOS_A, MOS_B, MOS_C: valeur 0 ou 1
+ *      0: le NMOS est ouvert
+ *      1: Le NMOS est fermé
+ *
+ * Le parametre pwm ne sert pas.
+ */
 void Regle_Bras_Bas (int MOS_A, int MOS_B, int MOS_C, int pwm)
 {
 	GPIOC->ODR &= (MOS_A<<7) + (MOS_B<<8) + (MOS_C<<9);
