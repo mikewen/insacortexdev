@@ -73,7 +73,7 @@ ________________________________________________________________________________
 // CONFIGURE pll multiplication factor  ONLY IF you set _SYSCLK_SOURCE IS_PLL
 // 								  		 OR IF you will set _USBCLK IS_USED
 // [2 to 16] choose any multiplication factor in this fork 
-#define __PLLMULL 5
+#define __PLLMULL 9
 
 // end of system clock cnfiguration
 //_________________________________________________________________________________________

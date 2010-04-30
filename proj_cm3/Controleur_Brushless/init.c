@@ -34,8 +34,6 @@
 
 #include "config.h"
 
-volatile int Drapeau_Init_Moteur;
-
 int main (void)
 {
 	/* Demarrage de l'horloge */
@@ -45,21 +43,23 @@ int main (void)
 	setup_usart();
 	Init_ADC();
 
-	/* Interface */
+	/* Demarrage de l'interface par liaison serie */
 	Init_Interface();
+
+	/* Demarrage des drivers moteur */
 	Init_Capteur();
 	Init_Hacheur();
 	Init_Controle();
 
  	/* Reglage des IT */
-	NVIC_SET_PRIO_PERIPH(USART1, 15); 	/* La liaison serie est la moins prio */
-	NVIC_SET_PRIO_PERIPH(DMA1_CHANNEL4, 15); 	/* La liaison serie est la moins prio */
-	NVIC_SET_PRIO_SYSTEM(SYSTICK, 14);	/* Le timer systeme n'est pas trés prioritaire */
+	NVIC_SET_PRIO_PERIPH(USART1, 15); 			/* La liaison serie est la moins prio */
+	NVIC_SET_PRIO_PERIPH(DMA1_CHANNEL4, 15); 	/* Le DMA de liaison serie est la moins prio */
+	NVIC_SET_PRIO_SYSTEM(SYSTICK, 14);			/* Le timer systeme n'est pas trés prioritaire */
 	NVIC_SET_PRIO_PERIPH(TIM1_UP, 13);
 	NVIC_SET_PRIO_PERIPH(TIM2, 12);
 	NVIC_SET_PRIO_PERIPH(TIM3, 11);
 	NVIC_SET_PRIO_PERIPH(TIM4, 10);
-	NVIC_SET_PRIO_PERIPH(ADC1_2, 9);
+	NVIC_SET_PRIO_PERIPH(ADC1_2, 9);			/* Les ADC sont les plus prioritaires */
 
 	/* Efface les etats "PENDING" des vecteurs */
 	NVIC_CLEAR_PENDING_PERIPH_IT(USART1);
@@ -73,39 +73,18 @@ int main (void)
 
 	/* Active la prise en compte des IT */
 	NVIC_ENABLE_PERIPH_IT(TIM4);
-//	NVIC_ENABLE_PERIPH_IT(ADC1_2);
-//	NVIC_ENABLE_PERIPH_IT(DMA1_CHANNEL4);
-//	NVIC_ENABLE_PERIPH_IT(ADC1_2);
-//	NVIC_ENABLE_PERIPH_IT(TIM1_UP);
-//	NVIC_ENABLE_PERIPH_IT(ADC1_2);
-//	NVIC_ENABLE_PERIPH_IT(TIM1_UP);
-//	NVIC_ENABLE_PERIPH_IT(ADC1_2);
 	/* RQ: La prise en compte des IT SYSTICK est actif par defaut */
-
-	SysTick->LOAD = 0xFFFFFF;
-//    SysTick->LOAD = 9;
-	SYSTICK_CLOCK_AHB_8();
-	SYSTICK_ENABLE_COUNTER();
 
 	/* Et pour le debug, on active aussi la prise en compte des vecteurs de fautes */
 	NVIC_ENABLE_SYSTEM_IT(MEM_FAULT);
 	NVIC_ENABLE_SYSTEM_IT(BUS_FAULT);
 	NVIC_ENABLE_SYSTEM_IT(USAGE_FAULT);
 
-//	/* Calage du capteur */
-//	Cale_Moteur();
-//	Drapeau_Init_Moteur=0;
-//
-
-//
-//	while (!Drapeau_Init_Moteur);
-//
-//	SYSTICK_DISABLE_COUNTER();
-//	SYSTICK_DISABLE_IT();
-	
+	/* Demarrage du capteur et initalisation moteur*/	
 	Demarre_Capteur();
 	Init_Moteur();
 
+	/* Boucle infinie sur la scrutation de l'interface serie, pour prise en compte des commandes */
 	for (;;)
 	{
 		Interface();
