@@ -1,0 +1,23 @@
+*** Creating Trace Output File 'Dev_Lib.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '".\stm32f10x.o"'
+### List of Objects: adding '"pwm.o"'
+### List of Objects: adding '"nvic_systick.o"'
+### List of Objects: adding '"port_io.o"'
+### List of Objects: adding '"adc.o"'
+### List of Objects: adding '"principal_4.o"'
+### ADS-LD Command completed:
+--device DARMSTM ".\stm32f10x.o" "pwm.o" "nvic_systick.o" "port_io.o" "adc.o" "principal_4.o" --library_type=microlib --ro-base 0x08000000 --entry 0x08000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\Dev_Lib.map" -o "Dev_Lib.axf"### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: 'Dev_Lib.axf'
+### ADS-LD Command File: 'Dev_Lib.lnp'
+### Checking for dirty Components...
+### Creating CmdFile 'Dev_Lib.lnp', Handle=0x000003A8
+### Writing '.lnp' file
+### ADS-LD Command file 'Dev_Lib.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.
