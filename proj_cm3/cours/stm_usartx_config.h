@@ -82,7 +82,7 @@ ________________________________________________________________________________
 
 //CONFIGURE if you use GCC with MiniLib
 // or comment to use standard ARMcc microlib
-#define __MINILIB__
+//#define __MINILIB__
 
 #endif /* __USARTX_CONFIG__ */
 
