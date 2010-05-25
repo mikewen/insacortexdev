@@ -2,22 +2,10 @@
 #include "stm_clock.h"
 #include "stm_usartx.h"
 #include "waits.h"
-
+extern unsigned int ELFHash(char* str, unsigned int len)  ;
+ 
 // 	  overflow_it(0xFF,16+4+4,0x08000216)
 
-char hash (char passwd[])
-{
-	int  i;
-	signed char somme = 0;
-
-	for (i=0;i<8;i++)
-	{
-	 	somme = (somme + passwd[i]);
-	}
-
-	return somme;
-
- }
 
 int check_passwd (void)
 {
@@ -26,14 +14,14 @@ int check_passwd (void)
 		char ok ;
 	} pass;
 	
-	char somme ;
+	unsigned int somme ;
 	
 
 		pass.ok = 0;
 
 		scanf("%s",pass.word);
 		
-		somme = hash(pass.word);
+		somme = ELFHash(pass.word,16);
 		
 		if (somme == 0x66)
 		{
@@ -51,20 +39,17 @@ void authentified_code(void)
 void dangereous_action(void)
 {
 	while (1) printf("Raise all employee's pay\n");
-
 }
 
 void dummy_asm(void);
 		
 int main(void)
+
 {
   const char MaxCalls =3;
-	//dummy_asm();
-	wait_s32_u8();
 
 	Init_Clock_System() ;
-	
-	
+		
 	setup_usart();
 
    while(Get_Global_Nb_Calls()<MaxCalls)

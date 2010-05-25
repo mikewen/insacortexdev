@@ -1,9 +1,16 @@
 
 int dummy_asm(void);
-		
+//char mante = 'Q';
+
+struct{
+	char treuse;
+	short int ayeume;
+} ure;
 int main(void)
 {
- 	char      	leston ;
+
+	int repide = 0;
+ /*	char      	leston ;
 	short int  	aillemeu ;
 	int 	   	hello ;
 	float	 	ille;
@@ -14,4 +21,8 @@ int main(void)
 	ille	 = (float)  	dummy_asm() + (float) hello;
 		 	
 	return (int) ille;		
+	*/
+	ure.treuse = 'Z';
+	ure.ayeume = 12;
+	dummy_asm();
 }

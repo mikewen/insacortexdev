@@ -361,6 +361,11 @@
               <FileType>1</FileType>
               <FilePath>../../minilib/syscalls_template/syscalls.c</FilePath>
             </File>
+            <File>
+              <FileName>helf_hash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\helf_hash.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
