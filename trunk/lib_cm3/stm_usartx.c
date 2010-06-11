@@ -371,10 +371,15 @@ void buffer_init(void)
 #else
 	char minilib_write(int file, char ch)
 #endif
-{ 
+{
+int i;
+ 
 	if (!tbuffer_empty)
  	{
-		while (send_ptr == (char *) (TX_DMA_CHANNEL->CMAR)) ;
+		while (send_ptr == (char *) (TX_DMA_CHANNEL->CMAR)) 
+		{
+			i = i+1;
+		}
  
  		*send_ptr=ch;
    

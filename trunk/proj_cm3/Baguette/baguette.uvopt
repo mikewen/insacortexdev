@@ -607,8 +607,8 @@
       <Focus>0</Focus>
       <ColumnNumber>23</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>284</TopLine>
-      <CurrentLine>301</CurrentLine>
+      <TopLine>242</TopLine>
+      <CurrentLine>242</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\lib_user\lib_baguette.c</PathWithFileName>
       <FilenameWithoutPath>lib_baguette.c</FilenameWithoutPath>
@@ -2143,9 +2143,9 @@
         <ItemNo>56</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35885</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>35885</OtherWinID>
-        <OtherWinName>???</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -2168,9 +2168,9 @@
         <ItemNo>57</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35885</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>35885</OtherWinID>
-        <OtherWinName>???</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -2193,9 +2193,9 @@
         <ItemNo>58</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35885</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>35885</OtherWinID>
-        <OtherWinName>???</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -2218,9 +2218,9 @@
         <ItemNo>59</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35885</AnchorWinID>
-        <AnchorWinName>???</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>35885</OtherWinID>
-        <OtherWinName>???</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -2243,9 +2243,9 @@
         <ItemNo>60</ItemNo>
         <Name>Instruction Trace</Name>
         <AnchorWinID>203</AnchorWinID>
-        <AnchorWinName>Disassembly</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>203</OtherWinID>
-        <OtherWinName>Disassembly</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -2268,9 +2268,9 @@
         <ItemNo>61</ItemNo>
         <Name>Performance Analyzer</Name>
         <AnchorWinID>203</AnchorWinID>
-        <AnchorWinName>Disassembly</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>203</OtherWinID>
-        <OtherWinName>Disassembly</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -2293,9 +2293,9 @@
         <ItemNo>62</ItemNo>
         <Name>Performance Analyzer</Name>
         <AnchorWinID>203</AnchorWinID>
-        <AnchorWinName>Disassembly</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>203</OtherWinID>
-        <OtherWinName>Disassembly</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -2318,9 +2318,9 @@
         <ItemNo>63</ItemNo>
         <Name>Code Coverage</Name>
         <AnchorWinID>203</AnchorWinID>
-        <AnchorWinName>Disassembly</AnchorWinName>
+        <AnchorWinName></AnchorWinName>
         <OtherWinID>203</OtherWinID>
-        <OtherWinName>Disassembly</OtherWinName>
+        <OtherWinName></OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -2346,7 +2346,7 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>0</ActiveTab>
+      <ActiveTab>3</ActiveTab>
       <Documents>
         <Doc>
           <Name>.\main.c</Name>
@@ -2357,8 +2357,8 @@
         <Doc>
           <Name>..\..\lib_user\lib_baguette.inc</Name>
           <ColumnNumber>4</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>17</CurrentLine>
+          <TopLine>19</TopLine>
+          <CurrentLine>19</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\..\lib_cm3\LCD_4bit.c</Name>
@@ -2369,8 +2369,8 @@
         <Doc>
           <Name>..\..\lib_user\lib_baguette.c</Name>
           <ColumnNumber>23</ColumnNumber>
-          <TopLine>284</TopLine>
-          <CurrentLine>301</CurrentLine>
+          <TopLine>242</TopLine>
+          <CurrentLine>242</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\font8.c</Name>
@@ -2381,8 +2381,8 @@
         <Doc>
           <Name>..\..\lib_user\lib_baguette.h</Name>
           <ColumnNumber>29</ColumnNumber>
-          <TopLine>93</TopLine>
-          <CurrentLine>93</CurrentLine>
+          <TopLine>19</TopLine>
+          <CurrentLine>19</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\..\lib_cm3\stm_clock.c</Name>
@@ -2393,7 +2393,7 @@
         <Doc>
           <Name>..\..\lib_cm3\stm_regs.h</Name>
           <ColumnNumber>33</ColumnNumber>
-          <TopLine>550</TopLine>
+          <TopLine>556</TopLine>
           <CurrentLine>580</CurrentLine>
         </Doc>
       </Documents>

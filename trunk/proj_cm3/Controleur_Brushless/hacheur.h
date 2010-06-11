@@ -31,12 +31,12 @@
 #define MOS_OUVERT 0xFFFFFFFF
 #define MOS_FERME 0xFFFFFFFE
 
-#define _PERIODE_PWM_TIM2_ (72000000U/20000U)
+#define _PERIODE_PWM_TIM2_ (72000000U/40000U)
+#define _PERIODE_PWM_TIM3_ (72000000U/40000U)
 #define PWM_MAX _PERIODE_PWM_TIM2_
 
 void Init_Hacheur (void);
-void Regle_Bras_Haut (int MOS_A, int MOS_B, int MOS_C, int pwm);
-void Regle_Bras_Bas (int MOS_A, int MOS_B, int MOS_C, int pwm);
-
+void Commande_Hacheur(int Phase_A, int Phase_B, int Phase_C);
+void ActiveITOverflow(eventptr cbk);
 #endif /* _HACHEUR_H_ */
 
