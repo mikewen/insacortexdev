@@ -27,6 +27,14 @@
 #include "config.h"
 #include "callback.h"
 
+#define _DEAD_TIME_ 4;
+
+eventptr PWM_OVERFLOW_EVENT;
+
+void Default_Callback_Hacheur (void)
+{
+}
+
 /* 
  * Init_Hacheur
  *
@@ -36,6 +44,9 @@
  */
 void Init_Hacheur (void)
 {
+	/* Init du callback sur une fonction vide */
+	DEFINE_EVENT(PWM_OVERFLOW, Default_Callback_Hacheur);
+
 	/* Reglage du timer 2 -> PWM pour bras haut*/
 	RCC->APB1ENR |= RCC_TIM2EN; /* Mise en route de l'horloge du timer 2 */
 
@@ -52,10 +63,26 @@ void Init_Hacheur (void)
 
 	TIM2->CCR1 = 0;
 	TIM2->CCR3 = 0;
-	TIM2->CCR4 = 0;
-
-	TIM2->CR1 |= TIM_CEN; 	
+	TIM2->CCR4 = 0;	
 	
+	/* Reglage du timer 3 -> PWM pour bras bas*/
+	RCC->APB1ENR |= RCC_TIM3EN; /* Mise en route de l'horloge du timer 3 */
+
+	TIM3->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */
+	TIM3->PSC = 0;
+	TIM3->ARR = _PERIODE_PWM_TIM2_; /* Periode de PWM -> 20Khz */
+
+	TIM3->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
+ 
+	TIM3->CCER = 0x3330;
+	TIM3->CCMR1 = TIM_OC2M_VAL(TIM_OCxM_PWM_1) + TIM_CC2S_IS_OUTPUT + TIM_OC2PE ;
+	TIM3->CCMR2 = TIM_OC3M_VAL(TIM_OCxM_PWM_1) + TIM_CC3S_IS_OUTPUT + TIM_OC3PE +
+				  TIM_OC4M_VAL(TIM_OCxM_PWM_1) + TIM_CC4S_IS_OUTPUT + TIM_OC4PE ;
+
+	TIM3->CCR2 = 0;
+	TIM3->CCR3 = 0;
+	TIM3->CCR4 = 0;
+
 	/* Regle les bras du hacheur en sortie */
 	/* Reglage du port A */
 	RCC->APB2ENR |= RCC_IOPAEN; /* Mise en route de l'horloge du port A */
@@ -79,38 +106,119 @@ void Init_Hacheur (void)
 	GPIOC->CRH &= ~((3<<GPIO_MODE_8_SHIFT) + (3<<GPIO_CNF_8_SHIFT) +
 	               (3<<GPIO_MODE_9_SHIFT) + (3<<GPIO_CNF_9_SHIFT));
 
-	GPIOC->CRL |= (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_7_SHIFT) + (GPIO_CNF_OUTPUT_PUSH_PULL<<GPIO_CNF_7_SHIFT);
-	GPIOC->CRH |= (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_8_SHIFT) + (GPIO_CNF_OUTPUT_PUSH_PULL<<GPIO_CNF_8_SHIFT) +
-	              (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_9_SHIFT) + (GPIO_CNF_OUTPUT_PUSH_PULL<<GPIO_CNF_9_SHIFT); 
+	GPIOC->CRL |= (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_7_SHIFT) + (GPIO_CNF_ALTERNATE_PUSH_PULL<<GPIO_CNF_7_SHIFT);
+	GPIOC->CRH |= (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_8_SHIFT) + (GPIO_CNF_ALTERNATE_PUSH_PULL<<GPIO_CNF_8_SHIFT) +
+	              (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_9_SHIFT) + (GPIO_CNF_ALTERNATE_PUSH_PULL<<GPIO_CNF_9_SHIFT); 
+
+	/* Remap du timer 3 sur PC7, 8 et 9 */
+	RCC->APB2ENR |= RCC_AFIOEN; /* Mise en route de l'horloge de l'AFIO */
+
+	/* Remap entierement le timer 3 */
+	AFIO->MAPR = AFIO_TIM3_FULL_REMAP<<AFIO_TIM3_REMAP_SHIFT;
+
+	TIM2->CR1 |= TIM_CEN; 
+	TIM3->CR1 |= TIM_CEN; 
+
+	/* Synchronisation des deux timers */
+	TIM2->CNT=0;
+	TIM3->CNT=0xCB-0xC5;
 }
 
 /* 
- * Regle_Bras_Haut
+ * Commande_Hacheur
  *
- * Programme le bras haut
- * MOS_A, MOS_B, MOS_C: valeur 0 ou 1
- *      0: le PMOS est ouvert
- *      1: Le PMOS est "haché" au rapport indiqué dans le parametre PWM
+ * Programme le hacheur en mode push pull
+ * Phase_A, Phase_B, Phase_C: valeur entre 0.0 et 65535.0
+ *      0.0: le bras est tout le temps collé à la masse
+ *      65535.0: le bras est tout le temps collé à VCC
+ *      Entre ces deux valeurs, c'est proportionnel
  */
-void Regle_Bras_Haut (int MOS_A, int MOS_B, int MOS_C, int pwm)
+void Commande_Hacheur(int Phase_A, int Phase_B, int Phase_C)
 {
-	TIM2->CCR1 = MOS_A*pwm;
-	TIM2->CCR3 = MOS_B*pwm;
-	TIM2->CCR4 = MOS_C*pwm;
+int Temp_Phase_A_Bras_Haut;
+int Temp_Phase_B_Bras_Haut;
+int Temp_Phase_C_Bras_Haut;
+
+int Temp_Phase_A_Bras_Bas;
+int Temp_Phase_B_Bras_Bas;
+int Temp_Phase_C_Bras_Bas;
+
+	if ((Phase_A==0) && (Phase_B== 0) &&(Phase_C==0))
+	{
+		Temp_Phase_A_Bras_Haut = 0;
+		Temp_Phase_B_Bras_Haut = 0;
+		Temp_Phase_C_Bras_Haut = 0;
+	
+		Temp_Phase_A_Bras_Bas = 0;
+		Temp_Phase_B_Bras_Bas = 0;
+		Temp_Phase_C_Bras_Bas = 0;
+	}
+	else
+	{	
+		/* Rajout de l'offset */
+		Temp_Phase_A_Bras_Haut = Phase_A+32768;
+		Temp_Phase_B_Bras_Haut = Phase_B+32768;
+		Temp_Phase_C_Bras_Haut = Phase_C+32768;
+
+		/* Remise a l'echelle */
+		Temp_Phase_A_Bras_Haut = (Temp_Phase_A_Bras_Haut*PWM_MAX)>>16;
+		Temp_Phase_B_Bras_Haut = (Temp_Phase_B_Bras_Haut*PWM_MAX)>>16;
+		Temp_Phase_C_Bras_Haut = (Temp_Phase_C_Bras_Haut*PWM_MAX)>>16;
+	
+		Temp_Phase_A_Bras_Bas = Temp_Phase_A_Bras_Haut;
+		Temp_Phase_B_Bras_Bas = Temp_Phase_B_Bras_Haut;
+		Temp_Phase_C_Bras_Bas = Temp_Phase_C_Bras_Haut;
+
+		/* Suppression du temps mort + saturation */
+		Temp_Phase_A_Bras_Haut = Temp_Phase_A_Bras_Haut - _DEAD_TIME_;
+		if (Temp_Phase_A_Bras_Haut <0) Temp_Phase_A_Bras_Haut = 0;
+		Temp_Phase_B_Bras_Haut = Temp_Phase_B_Bras_Haut - _DEAD_TIME_;
+		if (Temp_Phase_B_Bras_Haut <0) Temp_Phase_B_Bras_Haut = 0;
+		Temp_Phase_C_Bras_Haut = Temp_Phase_C_Bras_Haut - _DEAD_TIME_;
+		if (Temp_Phase_C_Bras_Haut <0) Temp_Phase_C_Bras_Haut = 0;
+	
+		Temp_Phase_A_Bras_Bas = Temp_Phase_A_Bras_Bas + _DEAD_TIME_;
+		if (Temp_Phase_A_Bras_Bas >PWM_MAX) Temp_Phase_A_Bras_Bas = PWM_MAX;
+		Temp_Phase_B_Bras_Bas = Temp_Phase_B_Bras_Bas + _DEAD_TIME_;
+		if (Temp_Phase_B_Bras_Bas >PWM_MAX) Temp_Phase_B_Bras_Bas = PWM_MAX;
+		Temp_Phase_C_Bras_Bas = Temp_Phase_C_Bras_Bas + _DEAD_TIME_;
+		if (Temp_Phase_C_Bras_Bas >PWM_MAX) Temp_Phase_C_Bras_Bas = PWM_MAX;
+	}
+
+/* Valeur pour branche haute (Tim 2)*/
+	TIM2->CCR1 = Temp_Phase_A_Bras_Haut;
+	TIM2->CCR3 = Temp_Phase_B_Bras_Haut;
+	TIM2->CCR4 = Temp_Phase_C_Bras_Haut;
+		
+/* Valeur pour branche haute (Tim 3)*/
+	TIM3->CCR2 = Temp_Phase_A_Bras_Bas;
+	TIM3->CCR3 = Temp_Phase_B_Bras_Bas;
+	TIM3->CCR4 = Temp_Phase_C_Bras_Bas;
 }
 
 /* 
- * Regle_Bras_Bas
+ * ActiveITOverflow
  *
- * Programme le bras bas
- * MOS_A, MOS_B, MOS_C: valeur 0 ou 1
- *      0: le NMOS est ouvert
- *      1: Le NMOS est fermé
- *
- * Le parametre pwm ne sert pas.
+ * Enregistre un callback sur l'IT timer 2
+ * Active automatiquement les IT sur overflow
  */
-void Regle_Bras_Bas (int MOS_A, int MOS_B, int MOS_C, int pwm)
+void ActiveITOverflow(eventptr cbk)
 {
-	GPIOC->ODR &= (MOS_A<<7) + (MOS_B<<8) + (MOS_C<<9);
-	GPIOC->ODR |= (MOS_A<<7) + (MOS_B<<8) + (MOS_C<<9);
+	DEFINE_EVENT(PWM_OVERFLOW, cbk);
+
+	/* Activer l'IT Timer2 overflow */
+	TIM2->DIER |= TIM_UIE; 
+}
+
+void TIM2_IRQHandler(void)
+{
+int SR_TMP;
+
+	SR_TMP=TIM2->SR;
+
+		if (SR_TMP&TIM_UIF)
+		{
+			TIM2->SR = TIM2->SR & ~(TIM_UIF);	
+			SEND_EVENT(PWM_OVERFLOW_EVENT);
+		}	
 }

@@ -31,6 +31,7 @@
 #include "capteur.h"
 #include "hacheur.h"
 #include "controle.h"
+#include "asservissement.h"
 
 #include "config.h"
 
@@ -47,6 +48,7 @@ int main (void)
 	Init_Interface();
 
 	/* Demarrage des drivers moteur */
+	Init_Asservissement();
 	Init_Capteur();
 	Init_Hacheur();
 	Init_Controle();
@@ -72,7 +74,7 @@ int main (void)
 	/* RQ: il n'existe pas d'etat "PENDING" pour les IT SYSTICK */
 
 	/* Active la prise en compte des IT */
-	NVIC_ENABLE_PERIPH_IT(TIM4);
+	NVIC_ENABLE_PERIPH_IT(TIM2);
 	/* RQ: La prise en compte des IT SYSTICK est actif par defaut */
 
 	/* Et pour le debug, on active aussi la prise en compte des vecteurs de fautes */

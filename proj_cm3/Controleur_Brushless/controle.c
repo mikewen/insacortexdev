@@ -27,431 +27,296 @@
 #include "hacheur.h"
 #include "adc.h"
 #include "controle.h"
+#include "asservissement.h"
 
 #include "config.h"
 #include "callback.h"
 
 #include "stm_clock.h"
+#include <stdlib.h>
 
-int rapport_pwm;
-int cycle_moteur;
+int commande_courante;
+int calage;
 int frein;
+int gaz;
+int avance;
 
-int avance, delta_avance;
-int periode;
-int timer_precedent;
-float vitesse;
-int tour;
-float distance;
-float freq_dent;
-float distance;
-float derniere_erreur;
-
-float Kp_v, Ki_v, Kd_v;
-float derniere_commande;
-float vitesse_consigne;
-
-#define _DISTANCE_ROUE_ 213.6283
-#define PHASE_A	0
-#define PHASE_B 1
-#define PHASE_C 2
-
-#define COEFF_KP	0.08
-#define COEFF_KI	0.01
-#define COEFF_KD	0.04
-
-#define	V_MAX 		25000.0
-
-int P_MOS_NORMAL[6][3]= 
+const s16 Tableau_Commande[1440]=
 {
-	{1,0,0},{0,1,0},{0,1,0},{0,0,1},{0,0,1},{1,0,0}
+
+        0, 1000, 2000, 2998, 3993, 4984, 5971, 6952,
+        7927, 8894, 9853, 10802, 11742, 12671, 13588, 14492,
+        15383, 16259, 17120, 17965, 18794, 19605, 20397, 21171,
+        21925, 22658, 23371, 24061, 24729, 25374, 25995, 26592,
+        27165, 27711, 28233, 28727, 29195, 29636, 30049, 30434,
+        30790, 31118, 31417, 31687, 31927, 32137, 32317, 32467,
+        32587, 32676, 32735, 32764, 32762, 32729, 32665, 32572,
+        32448, 32293, 32109, 31894, 31650, 31376, 31073, 30741,
+        30381, 29992, 29575, 29130, 28658, 28160, 27635, 27084,
+        26509, 25908, 25283, 24635, 23964, 23270, 22555, 21818,
+        21062, 20285, 19490, 18677, 17846, 16998, 16135, 15256,
+        14364, 13458, 12539, 11609, 10667, 9716, 8756, 7788,
+        6812, 5830, 4843, 3851, 2855, 1857, 857, -142,
+        -1143, -2143, -3140, -4135, -5125, -6111, -7092, -8065,
+        -9031, -9989, -10937, -11876, -12803, -13718, -14620, -15509,
+        -16383, -17242, -18085, -18911, -19719, -20509, -21280, -22031,
+        -22761, -23471, -24158, -24823, -25464, -26082, -26676, -27244,
+        -27787, -28305, -28796, -29260, -29696, -30106, -30486, -30839,
+        -31163, -31457, -31723, -31959, -32164, -32340, -32486, -32602,
+        -32687, -32741, -32765, -32759, -32722, -32654, -32556, -32427,
+        -32269, -32080, -31861, -31613, -31335, -31028, -30691, -30327,
+        -29934, -29513, -29064, -28589, -28086, -27558, -27004, -26424,
+        -25820, -25192, -24541, -23866, -23169, -22451, -21712, -20952,
+        -20173, -19375, -18559, -17726, -16876, -16010, -15130, -14235,
+        -13327, -12407, -11475, -10532, -9580, -8618, -7649, -6672,
+        -5689, -4701, -3709, -2713, -1714, -714, 285, 1286,
+        2285, 3282, 4276, 5267, 6252, 7231, 8204, 9169,
+        10125, 11072, 12009, 12934, 13847, 14748, 15635, 16507,
+        17363, 18204, 19027, 19833, 20620, 21388, 22137, 22864,
+        23570, 24254, 24916, 25554, 26168, 26758, 27323, 27863,
+        28377, 28864, 29324, 29757, 30162, 30539, 30887, 31207,
+        31497, 31758, 31990, 32191, 32363, 32505, 32616, 32696,
+        32747, 32766, 32755, 32714, 32642, 32539, 32407, 32244,
+        32050, 31827, 31575, 31293, 30981, 30641, 30272, 29875,
+        29450, 28998, 28518, 28012, 27480, 26922, 26339, 25732,
+        25100, 24446, 23768, 23068, 22347, 21604, 20842, 20060,
+        19259, 18441, 17605, 16753, 15885, 15003, 14106, 13196,
+        12274, 11341, 10397, 9443, 8480, 7510, 6532, 5549,
+        4560, 3567, 2570, 1572, 571, -428, -1429, -2428,
+        -3425, -4418, -5408, -6392, -7370, -8342, -9306, -10261,
+        -11206, -12142, -13065, -13977, -14875, -15760, -16630, -17484,
+        -18323, -19144, -19947, -20731, -21497, -22242, -22966, -23669,
+        -24350, -25008, -25643, -26254, -26841, -27402, -27938, -28448,
+        -28931, -29387, -29816, -30217, -30590, -30934, -31250, -31536,
+        -31793, -32020, -32218, -32385, -32522, -32629, -32705, -32751,
+        -32767, -32751, -32705, -32629, -32522, -32385, -32218, -32020,
+        -31793, -31536, -31250, -30934, -30590, -30217, -29816, -29387,
+        -28931, -28448, -27938, -27402, -26841, -26254, -25643, -25008,
+        -24350, -23669, -22966, -22242, -21497, -20731, -19947, -19144,
+        -18323, -17484, -16630, -15760, -14875, -13977, -13065, -12142,
+        -11206, -10261, -9306, -8342, -7370, -6392, -5408, -4418,
+        -3425, -2428, -1429, -428, 571, 1572, 2570, 3567,
+        4560, 5549, 6532, 7510, 8480, 9443, 10397, 11341,
+        12274, 13196, 14106, 15003, 15885, 16753, 17605, 18441,
+        19259, 20060, 20842, 21604, 22347, 23068, 23768, 24446,
+        25100, 25732, 26339, 26922, 27480, 28012, 28518, 28998,
+        29450, 29875, 30272, 30641, 30981, 31293, 31575, 31827,
+        32050, 32244, 32407, 32539, 32642, 32714, 32755, 32766,
+        32747, 32696, 32616, 32505, 32363, 32191, 31990, 31758,
+        31497, 31207, 30887, 30539, 30162, 29757, 29324, 28864,
+        28377, 27863, 27323, 26758, 26168, 25554, 24916, 24254,
+        23570, 22864, 22137, 21388, 20620, 19833, 19027, 18204,
+        17363, 16507, 15635, 14748, 13847, 12934, 12009, 11072,
+        10125, 9169, 8204, 7231, 6252, 5267, 4276, 3282,
+        2285, 1286, 285, -714, -1714, -2713, -3709, -4701,
+        -5689, -6672, -7649, -8618, -9580, -10532, -11475, -12407,
+        -13327, -14235, -15130, -16010, -16876, -17726, -18559, -19375,
+        -20173, -20952, -21712, -22451, -23169, -23866, -24541, -25192,
+        -25820, -26424, -27004, -27558, -28086, -28589, -29064, -29513,
+        -29934, -30327, -30691, -31028, -31335, -31613, -31861, -32080,
+        -32269, -32427, -32556, -32654, -32722, -32759, -32765, -32741,
+        -32687, -32602, -32486, -32340, -32164, -31959, -31723, -31457,
+        -31163, -30839, -30486, -30106, -29696, -29260, -28796, -28305,
+        -27787, -27244, -26676, -26082, -25464, -24823, -24158, -23471,
+        -22761, -22031, -21280, -20509, -19719, -18911, -18085, -17242,
+        -16383, -15509, -14620, -13718, -12803, -11876, -10937, -9989,
+        -9031, -8065, -7092, -6111, -5125, -4135, -3140, -2143,
+        -1143, -142, 857, 1857, 2855, 3851, 4843, 5830,
+        6812, 7788, 8756, 9716, 10667, 11609, 12539, 13458,
+        14364, 15256, 16135, 16998, 17846, 18677, 19490, 20285,
+        21062, 21818, 22555, 23270, 23964, 24635, 25283, 25908,
+        26509, 27084, 27635, 28160, 28658, 29130, 29575, 29992,
+        30381, 30741, 31073, 31376, 31650, 31894, 32109, 32293,
+        32448, 32572, 32665, 32729, 32762, 32764, 32735, 32676,
+        32587, 32467, 32317, 32137, 31927, 31687, 31417, 31118,
+        30790, 30434, 30049, 29636, 29195, 28727, 28233, 27711,
+        27165, 26592, 25995, 25374, 24729, 24061, 23371, 22658,
+        21925, 21171, 20397, 19605, 18794, 17965, 17120, 16259,
+        15383, 14492, 13588, 12671, 11742, 10802, 9853, 8894,
+        7927, 6952, 5971, 4984, 3993, 2998, 2000, 1000,
+        0, -1000, -2000, -2998, -3993, -4984, -5971, -6952,
+        -7927, -8894, -9853, -10802, -11742, -12671, -13588, -14492,
+        -15383, -16259, -17120, -17965, -18794, -19605, -20397, -21171,
+        -21925, -22658, -23371, -24061, -24729, -25374, -25995, -26592,
+        -27165, -27711, -28233, -28727, -29195, -29636, -30049, -30434,
+        -30790, -31118, -31417, -31687, -31927, -32137, -32317, -32467,
+        -32587, -32676, -32735, -32764, -32762, -32729, -32665, -32572,
+        -32448, -32293, -32109, -31894, -31650, -31376, -31073, -30741,
+        -30381, -29992, -29575, -29130, -28658, -28160, -27635, -27084,
+        -26509, -25908, -25283, -24635, -23964, -23270, -22555, -21818,
+        -21062, -20285, -19490, -18677, -17846, -16998, -16135, -15256,
+        -14364, -13458, -12539, -11609, -10667, -9716, -8756, -7788,
+        -6812, -5830, -4843, -3851, -2855, -1857, -857, 142,
+        1143, 2143, 3140, 4135, 5125, 6111, 7092, 8065,
+        9031, 9989, 10937, 11876, 12803, 13718, 14620, 15509,
+        16383, 17242, 18085, 18911, 19719, 20509, 21280, 22031,
+        22761, 23471, 24158, 24823, 25464, 26082, 26676, 27244,
+        27787, 28305, 28796, 29260, 29696, 30106, 30486, 30839,
+        31163, 31457, 31723, 31959, 32164, 32340, 32486, 32602,
+        32687, 32741, 32765, 32759, 32722, 32654, 32556, 32427,
+        32269, 32080, 31861, 31613, 31335, 31028, 30691, 30327,
+        29934, 29513, 29064, 28589, 28086, 27558, 27004, 26424,
+        25820, 25192, 24541, 23866, 23169, 22451, 21712, 20952,
+        20173, 19375, 18559, 17726, 16876, 16010, 15130, 14235,
+        13327, 12407, 11475, 10532, 9580, 8618, 7649, 6672,
+        5689, 4701, 3709, 2713, 1714, 714, -285, -1286,
+        -2285, -3282, -4276, -5267, -6252, -7231, -8204, -9169,
+        -10125, -11072, -12009, -12934, -13847, -14748, -15635, -16507,
+        -17363, -18204, -19027, -19833, -20620, -21388, -22137, -22864,
+        -23570, -24254, -24916, -25554, -26168, -26758, -27323, -27863,
+        -28377, -28864, -29324, -29757, -30162, -30539, -30887, -31207,
+        -31497, -31758, -31990, -32191, -32363, -32505, -32616, -32696,
+        -32747, -32766, -32755, -32714, -32642, -32539, -32407, -32244,
+        -32050, -31827, -31575, -31293, -30981, -30641, -30272, -29875,
+        -29450, -28998, -28518, -28012, -27480, -26922, -26339, -25732,
+        -25100, -24446, -23768, -23068, -22347, -21604, -20842, -20060,
+        -19259, -18441, -17605, -16753, -15885, -15003, -14106, -13196,
+        -12274, -11341, -10397, -9443, -8480, -7510, -6532, -5549,
+        -4560, -3567, -2570, -1572, -571, 428, 1429, 2428,
+        3425, 4418, 5408, 6392, 7370, 8342, 9306, 10261,
+        11206, 12142, 13065, 13977, 14875, 15760, 16630, 17484,
+        18323, 19144, 19947, 20731, 21497, 22242, 22966, 23669,
+        24350, 25008, 25643, 26254, 26841, 27402, 27938, 28448,
+        28931, 29387, 29816, 30217, 30590, 30934, 31250, 31536,
+        31793, 32020, 32218, 32385, 32522, 32629, 32705, 32751,
+        32767, 32751, 32705, 32629, 32522, 32385, 32218, 32020,
+        31793, 31536, 31250, 30934, 30590, 30217, 29816, 29387,
+        28931, 28448, 27938, 27402, 26841, 26254, 25643, 25008,
+        24350, 23669, 22966, 22242, 21497, 20731, 19947, 19144,
+        18323, 17484, 16630, 15760, 14875, 13977, 13065, 12142,
+        11206, 10261, 9306, 8342, 7370, 6392, 5408, 4418,
+        3425, 2428, 1429, 428, -571, -1572, -2570, -3567,
+        -4560, -5549, -6532, -7510, -8480, -9443, -10397, -11341,
+        -12274, -13196, -14106, -15003, -15885, -16753, -17605, -18441,
+        -19259, -20060, -20842, -21604, -22347, -23068, -23768, -24446,
+        -25100, -25732, -26339, -26922, -27480, -28012, -28518, -28998,
+        -29450, -29875, -30272, -30641, -30981, -31293, -31575, -31827,
+        -32050, -32244, -32407, -32539, -32642, -32714, -32755, -32766,
+        -32747, -32696, -32616, -32505, -32363, -32191, -31990, -31758,
+        -31497, -31207, -30887, -30539, -30162, -29757, -29324, -28864,
+        -28377, -27863, -27323, -26758, -26168, -25554, -24916, -24254,
+        -23570, -22864, -22137, -21388, -20620, -19833, -19027, -18204,
+        -17363, -16507, -15635, -14748, -13847, -12934, -12009, -11072,
+        -10125, -9169, -8204, -7231, -6252, -5267, -4276, -3282,
+        -2285, -1286, -285, 714, 1714, 2713, 3709, 4701,
+        5689, 6672, 7649, 8618, 9580, 10532, 11475, 12407,
+        13327, 14235, 15130, 16010, 16876, 17726, 18559, 19375,
+        20173, 20952, 21712, 22451, 23169, 23866, 24541, 25192,
+        25820, 26424, 27004, 27558, 28086, 28589, 29064, 29513,
+        29934, 30327, 30691, 31028, 31335, 31613, 31861, 32080,
+        32269, 32427, 32556, 32654, 32722, 32759, 32765, 32741,
+        32687, 32602, 32486, 32340, 32164, 31959, 31723, 31457,
+        31163, 30839, 30486, 30106, 29696, 29260, 28796, 28305,
+        27787, 27244, 26676, 26082, 25464, 24823, 24158, 23471,
+        22761, 22031, 21280, 20509, 19719, 18911, 18085, 17242,
+        16383, 15509, 14620, 13718, 12803, 11876, 10937, 9989,
+        9031, 8065, 7092, 6111, 5125, 4135, 3140, 2143,
+        1143, 142, -857, -1857, -2855, -3851, -4843, -5830,
+        -6812, -7788, -8756, -9716, -10667, -11609, -12539, -13458,
+        -14364, -15256, -16135, -16998, -17846, -18677, -19490, -20285,
+        -21062, -21818, -22555, -23270, -23964, -24635, -25283, -25908,
+        -26509, -27084, -27635, -28160, -28658, -29130, -29575, -29992,
+        -30381, -30741, -31073, -31376, -31650, -31894, -32109, -32293,
+        -32448, -32572, -32665, -32729, -32762, -32764, -32735, -32676,
+        -32587, -32467, -32317, -32137, -31927, -31687, -31417, -31118,
+        -30790, -30434, -30049, -29636, -29195, -28727, -28233, -27711,
+        -27165, -26592, -25995, -25374, -24729, -24061, -23371, -22658,
+        -21925, -21171, -20397, -19605, -18794, -17965, -17120, -16259,
+        -15383, -14492, -13588, -12671, -11742, -10802, -9853, -8894,
+        -7927, -6952, -5971, -4984, -3993, -2998, -2000, -1000,
 };
 
-int N_MOS_NORMAL[6][3]= 
-{
-	{0,0,1},{0,0,1},{1,0,0},{1,0,0},{0,1,0},{0,1,0}
-};
+#define _AVANCE_120_DEGRES_ 68	
+#define _AVANCE_240_DEGRES_	68+69
+#define _SINUS_90_DEGRES_ 	51
 
-int P_MOS_COMPLET[6][3]= 
-{
-	{1,0,0},{1,1,0},{0,1,0},{0,1,1},{0,0,1},{1,0,1}
-};
-
-int N_MOS_COMPLET[6][3]= 
-{
-	{0,1,1},{0,0,1},{1,0,1},{1,0,0},{1,1,0},{0,1,0}
-};
-
-int P_MOS_FREIN[6][3]= 
-{
-	{1,1,1},{1,1,1},{1,1,1},{1,1,1},{1,1,1},{1,1,1}
-};
-
-int N_MOS_FREIN[6][3]= 
-{
-	{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}
-};
-
-void Callback_capteur_position_avant(void);
-void Callback_capteur_position_arriere(void);
+void Callback_hacheur(void);
 
 void Init_Controle (void)
 {
-	DEFINE_EVENT(CAPTEUR_POSITION_AVANT, Callback_capteur_position_avant);
-	DEFINE_EVENT(CAPTEUR_POSITION_ARRIERE, Callback_capteur_position_arriere);
-
-  	cycle_moteur=0;
-	rapport_pwm=0x0;
-	sens_rotation =CONTROLE_MODE_AVANT;
-	frein = 0;
-
-	Regle_Position_Avant((_PAS_60_DEGRES_));
-	Regle_Position_Arriere((_RESOLUTION_ENCODEUR_-1));	
-
-	/*REgle le timer 1 pour essai */
-	RCC->APB2ENR |= RCC_TIM1EN; /* Mise en route de l'horloge du timer1 */
-	TIM1->PSC = 800;
-	TIM1->ARR = 10000; /* -> a 40 Mhz, ca donne une frequence de 5 Hz */
-
-	TIM1->DIER = TIM_UIE;
-}
-
-void Cale_Moteur(void)
-{
-	/* Reglage du hacheur */
-	Regle_Controle(10, CONTROLE_MODE_AVANT); /* PWM à 10% */
-	cycle_moteur=5;
-
-	Regle_Bras_Haut(P_MOS_NORMAL[cycle_moteur][PHASE_A],P_MOS_NORMAL[cycle_moteur][PHASE_B],P_MOS_NORMAL[cycle_moteur][PHASE_C],rapport_pwm);
-	Regle_Bras_Bas(N_MOS_NORMAL[cycle_moteur][PHASE_A],N_MOS_NORMAL[cycle_moteur][PHASE_B],N_MOS_NORMAL[cycle_moteur][PHASE_C],rapport_pwm);	
+  	gaz=0;
+	calage = _SINUS_90_DEGRES_;
 }
 
 void Init_Moteur(void)
 {
-	cycle_moteur=0;
-	avance =-15;
-
-	tour =0;
-	vitesse= 0.0;
-	periode=0;
-	timer_precedent=0;
-
-	Kp_v = COEFF_KP;
-	Ki_v = COEFF_KI;
-	Kd_v = COEFF_KD;
-
-	derniere_commande=0;
-	derniere_erreur=0;
-	vitesse_consigne=0;
-
-	Regle_Position_Avant((_PAS_60_DEGRES_)-avance);
-	Regle_Position_Arriere((_RESOLUTION_ENCODEUR_+avance));	
 	Ecrire_Capteur(0);
 
-	SysTick->LOAD = 50000;
-	SYSTICK_CLOCK_AHB_8();
-	SYSTICK_ENABLE_COUNTER();
-	SYSTICK_ENABLE_IT();
-	SYSTICK_ENABLE_COUNTER();
-
 	/* Reglage du hacheur */
-	Regle_Controle(0, CONTROLE_MODE_AVANT); /* PWM à 0% */
-}
+	Regle_Controle(0); /* gaz à 0% */
 
-void Calcul_stats(void)
-{
-float temp;
-	temp = (float)__HCLK;
-	temp = temp/8.0;
-	temp = temp/(periode*12.0);
-	vitesse = temp*60.0;
-
-	distance = (float)tour;
-	distance =  distance* _DISTANCE_ROUE_;
-
-	freq_dent= (float)(periode);
-	freq_dent = freq_dent/((float)(_PAS_60_DEGRES_));
-	freq_dent = (1.0/freq_dent);
-}
-
-void Fourni_stats (int *v, int* t, int* av, int* p)
-{
-	*v = (int)vitesse;
-	*t = tour;
-	*av = avance;
-	*p = cycle_moteur;	
-}
-
-void Fourni_coeffs (int *kp, int *ki, int *kd)
-{
-	*kp= (int)(Kp_v*1000.0);
-	*ki= (int)(Ki_v*1000.0);
-	*kd= (int)(Kd_v*1000.0);
-}
-
-void Regle_PWM(int pwm)
-{
-unsigned int temp;
-
-	temp = (unsigned int)pwm;
-	temp = temp*PWM_MAX;
-	temp = temp/100;
-
-	rapport_pwm = (int)temp;
+	ActiveITOverflow(Callback_hacheur);
 }
 
 void Regle_Avance(int av)
 {
-	delta_avance= avance - av;
 	avance = av;
 }
 
-void asservissement_vitesse(void)
+int Lire_Avance(void)
 {
-float erreur;
-float integral;
-float derivee;
-
-	erreur =  vitesse_consigne- vitesse;
-
-	derivee = derniere_erreur - erreur;
-	derivee = Kd_v*derivee;
-
-	integral = derniere_erreur + erreur;
-	integral = Ki_v*integral;
-	
-	derniere_commande = (Kp_v*erreur) + integral + derivee;
-	 
-	if (derniere_commande <0.0) derniere_commande =0.0;
-	if (derniere_commande >100.0) derniere_commande = 100.0;
-	
-	Regle_PWM(derniere_commande);
-}
-
-void Regle_Coeff_Kv(int kv)
-{
-	Kp_v = ((float)kv)/1000.0;
-}
-
-void Regle_Coeff_Ki(int ki)
-{
-	Ki_v = ((float)ki)/1000.0;
-}
-
-void Regle_Coeff_Kd(int kd)
-{
-	Kd_v = ((float)kd)/1000.0;
+	return avance;
 }
  
-void Regle_Controle(int pourcent, int mode)
+void Regle_Controle(int commande)
 {
-	frein = 0;
+int Phase_A, Phase_B, Phase_C;
+int capteur;
+int index_tab;
+int av;
 
-	vitesse_consigne=(((float)pourcent)*V_MAX)/100.0;
-	
-	asservissement_vitesse();
+	commande_courante=commande;
+	gaz = abs(commande);
 
-	if (mode == CONTROLE_MODE_FREIN)
+	if (commande >=0)
 	{
-		frein =1;
-	}
-	else 
-	{	
-		frein = 0;
-			
-		if (sens_rotation != mode)
-		{
-			sens_rotation = mode;
-		
-			if (mode == CONTROLE_MODE_AVANT)
-			{
-		 		cycle_moteur+=3;
-			}
-			else 
-			{
-				cycle_moteur-=3;
-			}
-		}
-	}
-
-	if (cycle_moteur >=6) cycle_moteur=0;
-	if (cycle_moteur<0) cycle_moteur = 5;
-
-	/* Reglage du hacheur */
-	if (frein)
-	{
-		Regle_Bras_Haut(P_MOS_FREIN[cycle_moteur][PHASE_A],P_MOS_FREIN[cycle_moteur][PHASE_B],P_MOS_FREIN[cycle_moteur][PHASE_C],rapport_pwm);
-		Regle_Bras_Bas(N_MOS_FREIN[cycle_moteur][PHASE_A],N_MOS_FREIN[cycle_moteur][PHASE_B],N_MOS_FREIN[cycle_moteur][PHASE_C],rapport_pwm);
+		calage = _SINUS_90_DEGRES_;
+		av = avance;
 	}
 	else
 	{
-		Regle_Bras_Haut(P_MOS_NORMAL[cycle_moteur][PHASE_A],P_MOS_NORMAL[cycle_moteur][PHASE_B],P_MOS_NORMAL[cycle_moteur][PHASE_C],rapport_pwm);
-		Regle_Bras_Bas(N_MOS_NORMAL[cycle_moteur][PHASE_A],N_MOS_NORMAL[cycle_moteur][PHASE_B],N_MOS_NORMAL[cycle_moteur][PHASE_C],rapport_pwm);
-	}
-}
-
-void Callback_capteur_position_avant(void)
-{
-int position_capteur_avant;
-int position_capteur_arriere;
-int val;
-int nouvelle_periode;
-
-	val = SysTick->VAL;
-	 
-	if (val>= timer_precedent) 
-	{
-		nouvelle_periode = (timer_precedent+0x1000000) - val ;
-	}
-	else 
-	{
-		nouvelle_periode = timer_precedent-val;
-	}
-	
-	timer_precedent = val;
-	
-	if (nouvelle_periode <80000 ) periode = nouvelle_periode;
-
-	cycle_moteur ++;
-	if (cycle_moteur >=6) 
-	{	
-		cycle_moteur = 0;
-		tour++;
-	}
-	
-	position_capteur_avant = Lire_Capteur_Avant();
-	position_capteur_arriere = Lire_Capteur_Arriere();
-	position_capteur_avant = (position_capteur_avant + _PAS_60_DEGRES_);
-	position_capteur_arriere = (position_capteur_arriere + _PAS_60_DEGRES_);
-
-	if (delta_avance != 0) 
-	{
-		position_capteur_avant += delta_avance;
-		position_capteur_arriere += delta_avance;
-		delta_avance =0;	
-	}
-
-	if (position_capteur_avant>=_RESOLUTION_ENCODEUR_) position_capteur_avant = position_capteur_avant - _RESOLUTION_ENCODEUR_;
-	if (position_capteur_arriere>=_RESOLUTION_ENCODEUR_) position_capteur_arriere = position_capteur_arriere - _RESOLUTION_ENCODEUR_;
-	if (position_capteur_avant<0) position_capteur_avant = _RESOLUTION_ENCODEUR_ + position_capteur_avant;
-	if (position_capteur_arriere<0) position_capteur_arriere = _RESOLUTION_ENCODEUR_ + position_capteur_arriere;
-
-    Regle_Position_Avant(position_capteur_avant);
-	Regle_Position_Arriere(position_capteur_arriere);
-
-#ifndef _DEBUG_CAPTEUR_
-	/* Reglage du hacheur */
-	if (frein)
-	{
-		Regle_Bras_Haut(P_MOS_FREIN[cycle_moteur][PHASE_A],P_MOS_FREIN[cycle_moteur][PHASE_B],P_MOS_FREIN[cycle_moteur][PHASE_C],rapport_pwm);
-		Regle_Bras_Bas(N_MOS_FREIN[cycle_moteur][PHASE_A],N_MOS_FREIN[cycle_moteur][PHASE_B],N_MOS_FREIN[cycle_moteur][PHASE_C],rapport_pwm);
-	}
-	else
-	{
-		Regle_Bras_Haut(P_MOS_NORMAL[cycle_moteur][PHASE_A],P_MOS_NORMAL[cycle_moteur][PHASE_B],P_MOS_NORMAL[cycle_moteur][PHASE_C],rapport_pwm);
-		Regle_Bras_Bas(N_MOS_NORMAL[cycle_moteur][PHASE_A],N_MOS_NORMAL[cycle_moteur][PHASE_B],N_MOS_NORMAL[cycle_moteur][PHASE_C],rapport_pwm);
-	}
-#else
-	Regle_Bras_Haut(0,0,0,0);
-
-	if (cycle_moteur==0) 
-	{
-		Regle_Bras_Bas(0,1,0,0);
-	}
-	else
-	{
-		Regle_Bras_Bas((cycle_moteur&0x01),0,0,0);
-	}
-#endif 
-
-	Calcul_stats();
-}
-
-void Callback_capteur_position_arriere(void)
-{
-int position_capteur_avant;
-int position_capteur_arriere;
-int val;
-int nouvelle_periode;
-
-	val = SysTick->VAL;
-	 
-	if (val>= timer_precedent) 
-	{
-		nouvelle_periode = (timer_precedent+0x1000000) - val ;
-	}
-	else 
-	{
-		nouvelle_periode = timer_precedent-val;
-	}
-	
-	timer_precedent = val;
-
-	if (nouvelle_periode <80000 ) periode = nouvelle_periode;
-
-	cycle_moteur --;
-	if (cycle_moteur <0) 
-	{
-		cycle_moteur = 5;
-		tour--;
-	}
-
-	position_capteur_avant = Lire_Capteur_Avant();
-	position_capteur_arriere = Lire_Capteur_Arriere();
-	position_capteur_avant = (position_capteur_avant - _PAS_60_DEGRES_);
-	position_capteur_arriere = (position_capteur_arriere - _PAS_60_DEGRES_);
-
-	if (delta_avance != 0) 
-	{
-		position_capteur_avant += delta_avance;
-		position_capteur_arriere += delta_avance;
-		delta_avance =0;	
-	}
-
-	if (position_capteur_avant>=_RESOLUTION_ENCODEUR_) position_capteur_avant = position_capteur_avant - _RESOLUTION_ENCODEUR_;
-	if (position_capteur_arriere>=_RESOLUTION_ENCODEUR_) position_capteur_arriere = position_capteur_arriere - _RESOLUTION_ENCODEUR_;
-	if (position_capteur_avant<0) position_capteur_avant = _RESOLUTION_ENCODEUR_ + position_capteur_avant;
-	if (position_capteur_arriere<0) position_capteur_arriere = _RESOLUTION_ENCODEUR_ + position_capteur_arriere;
-
-    Regle_Position_Avant(position_capteur_avant);
-	Regle_Position_Arriere(position_capteur_arriere);
-
-	/* Reglage du hacheur */
-	if (frein)
-	{
-		Regle_Bras_Haut(P_MOS_FREIN[cycle_moteur][PHASE_A],P_MOS_FREIN[cycle_moteur][PHASE_B],P_MOS_FREIN[cycle_moteur][PHASE_C],rapport_pwm);
-		Regle_Bras_Bas(N_MOS_FREIN[cycle_moteur][PHASE_A],N_MOS_FREIN[cycle_moteur][PHASE_B],N_MOS_FREIN[cycle_moteur][PHASE_C],rapport_pwm);
-	}
-	else
-	{
-		Regle_Bras_Haut(P_MOS_NORMAL[cycle_moteur][PHASE_A],P_MOS_NORMAL[cycle_moteur][PHASE_B],P_MOS_NORMAL[cycle_moteur][PHASE_C],rapport_pwm);
-		Regle_Bras_Bas(N_MOS_NORMAL[cycle_moteur][PHASE_A],N_MOS_NORMAL[cycle_moteur][PHASE_B],N_MOS_NORMAL[cycle_moteur][PHASE_C],rapport_pwm);
-	}
-
-	Calcul_stats();
-}
-
-void TIM1_UP_IRQHandler (void)
-{
-	TIM1->SR &= ~(TIM_UIF);
-
-	cycle_moteur ++;
-	if (cycle_moteur >=6) cycle_moteur = 0;
-
-	/* Reglage du hacheur */
-	if (frein)
-	{
-		Regle_Bras_Haut(P_MOS_FREIN[cycle_moteur][PHASE_A],P_MOS_FREIN[cycle_moteur][PHASE_B],P_MOS_FREIN[cycle_moteur][PHASE_C],rapport_pwm);
-		Regle_Bras_Bas(N_MOS_FREIN[cycle_moteur][PHASE_A],N_MOS_FREIN[cycle_moteur][PHASE_B],N_MOS_FREIN[cycle_moteur][PHASE_C],rapport_pwm);
-	}
-	else
-	{
-		Regle_Bras_Haut(P_MOS_NORMAL[cycle_moteur][PHASE_A],P_MOS_NORMAL[cycle_moteur][PHASE_B],P_MOS_NORMAL[cycle_moteur][PHASE_C],rapport_pwm);
-		Regle_Bras_Bas(N_MOS_NORMAL[cycle_moteur][PHASE_A],N_MOS_NORMAL[cycle_moteur][PHASE_B],N_MOS_NORMAL[cycle_moteur][PHASE_C],rapport_pwm);
+		calage = -_SINUS_90_DEGRES_;
+		av = -avance;
 	} 
+
+	capteur = Lire_Capteur();
+	index_tab = capteur+calage+avance;
+	
+	if (index_tab>=_TAILLE_COMMANDE_)
+	{
+		Phase_A = (int)Tableau_Commande[index_tab-_TAILLE_COMMANDE_];
+	}
+	else
+	{
+		Phase_A = (int)Tableau_Commande[index_tab];
+	}
+
+	if (index_tab + _AVANCE_120_DEGRES_>=_TAILLE_COMMANDE_)
+	{
+		Phase_B = (int)Tableau_Commande[(index_tab+_AVANCE_120_DEGRES_)-_TAILLE_COMMANDE_];
+	}
+	else
+	{
+		Phase_B = (int)Tableau_Commande[(index_tab+_AVANCE_120_DEGRES_)];
+	}
+
+	if (index_tab + _AVANCE_240_DEGRES_>=_TAILLE_COMMANDE_)
+	{
+		Phase_C = (int)Tableau_Commande[(index_tab+_AVANCE_240_DEGRES_)-_TAILLE_COMMANDE_];
+	}
+	else
+	{
+		Phase_C = (int)Tableau_Commande[(index_tab+_AVANCE_240_DEGRES_)];
+	}
+
+	Phase_A = (Phase_A*gaz)/100;
+	Phase_B = (Phase_B*gaz)/100;
+	Phase_C = (Phase_C*gaz)/100;
+
+	Commande_Hacheur(Phase_A, Phase_B, Phase_C);
 }
 
-void SysTick_Handler(void)
+void Callback_hacheur(void)
 {
-	asservissement_vitesse();	
+	Regle_Controle(commande_courante);
 }

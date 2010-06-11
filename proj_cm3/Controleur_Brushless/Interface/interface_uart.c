@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "controle.h"
+#include "asservissement.h"
 
 char buffer[50];
 char *commande;
@@ -90,26 +91,16 @@ int commande_prete;
 			case 'A':
 				sscanf (commande, "%d", &pourcent_pwm);
 
-				if (pourcent_pwm<0) pourcent_pwm=0;
+				if (pourcent_pwm<-100) pourcent_pwm=-100;
 				if (pourcent_pwm>100) pourcent_pwm=100;
 
-				printf ("\nEn avant a %d%% de la vitesse max\n", pourcent_pwm);
-				Regle_Controle(pourcent_pwm, CONTROLE_MODE_AVANT);
-				break;
-			case 'r':
-			case 'R':
-				sscanf (commande, "%d", &pourcent_pwm);
-
-				if (pourcent_pwm<0) pourcent_pwm=0;
-				if (pourcent_pwm>100) pourcent_pwm=100;
-
-				printf ("\nEn arriere a %d%% de la vitesse max\n", pourcent_pwm);
-				Regle_Controle(pourcent_pwm, CONTROLE_MODE_ARRIERE);
+				printf ("\nEn marche a %d%% de la vitesse max\n", pourcent_pwm);
+				Regle_Controle(pourcent_pwm);
 				break;
 			case 's':
 			case 'S':
 				printf ("\nArret du moteur (roue libre)\n");
-				Regle_Controle(0, CONTROLE_MODE_AVANT);
+				Regle_Controle(0);
 				break;
 			case 'f':
 			case 'F':
@@ -119,7 +110,7 @@ int commande_prete;
 				if (pourcent_pwm>100) pourcent_pwm=100;
 
 				printf ("\nFrein a %d%%\n", pourcent_pwm);
-				Regle_Controle(pourcent_pwm, CONTROLE_MODE_FREIN);
+				//Regle_Controle(pourcent_pwm, CONTROLE_MODE_FREIN);
 				break;
 			case 'd':
 			case 'D':
@@ -194,8 +185,7 @@ void Interface_Aide(void)
 {
 	printf ("\nAide commandes:\n\n");
 
-	printf ("A=xxx -> Vitesse en marche avant [xxx entre 0 et 100 %%]\n");
-	printf ("R=xxx -> Vitesse en marche arriere [xxx entre 0 et 100 %%]\n");
+	printf ("A=xxx -> Vitesse en marche avant [xxx entre -100 et 100 %%]\n");
 	printf ("S     -> Stop le moteur [en roue libre]\n\n");
 	printf ("F=xxx -> Frein actif [xxx entre 0 et 100 %%]. xxx=0 correspond à S\n");
 	printf ("I     -> Infos sur l'etat du systeme [vitesse, avance, etc]\n\n");

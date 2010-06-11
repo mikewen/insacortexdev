@@ -61,7 +61,7 @@ void Init_Capteur (void)
 	TIM4->CCMR1 |= TIM_CC2S_IS_INPUT_TI2 +  
 	               TIM_CC1S_IS_INPUT_TI1; /* IC1FP1 sur TI1, IC2FP2, sur TI2 */
 	
-	TIM4->DIER |= TIM_CC3IE + TIM_CC4IE;
+	//TIM4->DIER |= TIM_CC3IE + TIM_CC4IE;
 }
 
 void Demarre_Capteur(void)

@@ -252,10 +252,10 @@
             <arpcs>1</arpcs>
             <stkchk>0</stkchk>
             <reentr>0</reentr>
-            <interw>1</interw>
+            <interw>0</interw>
             <bigend>0</bigend>
             <Strict>0</Strict>
-            <Optim>0</Optim>
+            <Optim>4</Optim>
             <wLevel>2</wLevel>
             <uThumb>1</uThumb>
             <VariousControls>
@@ -286,7 +286,7 @@
             <BSSAddressRange></BSSAddressRange>
             <IncludeLibs>mini</IncludeLibs>
             <IncludeDir>..\..\minilib\lib\arm-cm3\GCC</IncludeDir>
-            <Misc></Misc>
+            <Misc>--gc-sections</Misc>
             <ScatterFile>..\..\system\Linker_Script_GCC.ld</ScatterFile>
           </LDarm>
         </TargetArm>
@@ -379,6 +379,11 @@
               <FileName>controle.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\controle.c</FilePath>
+            </File>
+            <File>
+              <FileName>asservissement.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\asservissement.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -777,6 +782,11 @@
               <FileName>controle.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\controle.c</FilePath>
+            </File>
+            <File>
+              <FileName>asservissement.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\asservissement.c</FilePath>
             </File>
           </Files>
         </Group>

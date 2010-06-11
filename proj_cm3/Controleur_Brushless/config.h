@@ -26,12 +26,14 @@
 #define _AVEC_CAPTEUR_
 //define _SANS_CAPTEUR_
 
-#define _RESOLUTION_CAPTEUR_	120
-#define _RESOLUTION_ENCODEUR_	(_RESOLUTION_CAPTEUR_*2)
+#define _RESOLUTION_CAPTEUR_	360
+#define _RESOLUTION_ENCODEUR_	(_RESOLUTION_CAPTEUR_*4)
 #define _PAS_60_DEGRES_			(_RESOLUTION_ENCODEUR_/6)
+#define _NB_PAIRS_DE_POLE_		7				
+#define _TAILLE_COMMANDE_ 			_RESOLUTION_ENCODEUR_
 
-#define _VERSION_MAJEUR_		1
-#define _VERSION_MINEUR_		2
+#define _VERSION_MAJEUR_		2
+#define _VERSION_MINEUR_		0
 
 /* Ne rien modifier après cette ligne */
 /*___________________________________________________________________________________________________________*/
