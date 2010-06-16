@@ -21,23 +21,26 @@
  * Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef _HACHEUR_H_
-#define _HACHEUR_H_
+#ifndef _ASSERVISSEMENT_H_
+#define _ASSERVISSEMENT_H_
 
 #include "stm_regs.h"
-#include "callback.h"
-#include "config.h"
 
-#define MOS_OUVERT 0xFFFFFFFF
-#define MOS_FERME 0xFFFFFFFE
+#define _DISTANCE_ROUE_ 213.6283
 
-#define _PERIODE_PWM_TIM2_ (40000000U/40000U)
-#define _PERIODE_PWM_TIM3_ (40000000U/40000U)
-#define PWM_MAX _PERIODE_PWM_TIM2_
+#define COEFF_KP	0.08
+#define COEFF_KI	0.01
+#define COEFF_KD	0.04
 
-void Init_Hacheur (void);
-void Commande_Hacheur(int Phase_A, int Phase_B, int Phase_C);
-void ActiveITOverflow(eventptr cbk);
-void RegleTempsMort(int deadtime);
-#endif /* _HACHEUR_H_ */
+#define	V_MAX 		25000.0
 
+void Init_Asservissement (void);
+void Calcul_stats(void);
+void Fourni_stats (int *v, int* t, int* av, int* p);
+void Fourni_coeffs (int *kp, int *ki, int *kd);
+void asservissement_vitesse(void);
+void Regle_Coeff_Kv(int kv);
+void Regle_Coeff_Ki(int ki);
+void Regle_Coeff_Kd(int kd);
+ 
+#endif /* _ASSERVISSEMENT_H_ */
