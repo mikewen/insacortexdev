@@ -28,6 +28,8 @@
 #include "callback.h"
 
 #define _DEAD_TIME_ 4;
+//#define _DEAD_TIME_ DeadTime;
+int DeadTime;
 
 eventptr PWM_OVERFLOW_EVENT;
 
@@ -44,6 +46,8 @@ void Default_Callback_Hacheur (void)
  */
 void Init_Hacheur (void)
 {
+	DeadTime = 500;
+
 	/* Init du callback sur une fonction vide */
 	DEFINE_EVENT(PWM_OVERFLOW, Default_Callback_Hacheur);
 
@@ -121,7 +125,7 @@ void Init_Hacheur (void)
 
 	/* Synchronisation des deux timers */
 	TIM2->CNT=0;
-	TIM3->CNT=0xCB-0xC5;
+	TIM3->CNT=0xD4-0xC9;
 }
 
 /* 
@@ -194,6 +198,17 @@ int Temp_Phase_C_Bras_Bas;
 	TIM3->CCR2 = Temp_Phase_A_Bras_Bas;
 	TIM3->CCR3 = Temp_Phase_B_Bras_Bas;
 	TIM3->CCR4 = Temp_Phase_C_Bras_Bas;
+}
+
+/* 
+ * RegleTempsMort
+ *
+ * Enregistre un callback sur l'IT timer 2
+ * Active automatiquement les IT sur overflow
+ */
+void RegleTempsMort(int deadtime)
+{
+	DeadTime = deadtime;
 }
 
 /* 

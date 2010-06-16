@@ -30,6 +30,7 @@
 
 #include "controle.h"
 #include "asservissement.h"
+#include "hacheur.h"
 
 char buffer[50];
 char *commande;
@@ -37,6 +38,7 @@ char *commande;
 int pourcent_pwm;
 int param_avance;
 int coeff_kv;
+int val_dead_time;
 
 FILE Port_COM;
 
@@ -165,6 +167,17 @@ int commande_prete;
 			case 'E':
 				
 				break;
+			case 'r':
+			case 'R':
+				sscanf (commande, "%d", &val_dead_time);
+
+				if (val_dead_time<0) val_dead_time=0;
+				if (val_dead_time>PWM_MAX-1) val_dead_time=PWM_MAX-1;
+
+				RegleTempsMort(val_dead_time);
+				printf ("\nDead Time regle a %d%%\n", val_dead_time);
+
+				break;
 			case 'i':
 			case 'I':
 				Interface_Info();
@@ -193,6 +206,7 @@ void Interface_Aide(void)
 	printf ("Py=xx -> Regle certains parametres du systeme [y=parametre, xx=valeur]\n\n");
 	printf ("      y=0 -> Regle l'avance [entre 0 et %d]\n", (int)(_PAS_60_DEGRES_));
 	printf ("E     -> Affiche l'etat du systeme\n");
+	printf ("R     -> Regle le temps mort de 0 a %d\n", PWM_MAX-1);
 	printf ("?     -> Affiche ce menu\n\n");  
 }
 
