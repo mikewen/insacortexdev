@@ -1,9 +1,0 @@
-principal_3.o: Principal_3.c
-principal_3.o: ../../../Bibli_INSA_STM32/Lib_STM32_TR_V2_1/stm_regs.h
-principal_3.o: C:\Keil\ARM\INC\ST\STM32F10x\stm32f10x_conf.h
-principal_3.o: C:\Keil\ARM\INC\ST\STM32F10x\stm32f10x_type.h
-principal_3.o: C:\Keil\ARM\INC\ST\STM32F10x\cortexm3_macro.h
-principal_3.o: ../../../Bibli_INSA_STM32/Lib_STM32_TR_V2_1/stm_system.h
-principal_3.o: ../../../Bibli_INSA_STM32/Lib_STM32_TR_V2_1/Port_IO.h
-principal_3.o: ../../../Bibli_INSA_STM32/Lib_STM32_TR_V2_1/NVIC_SysTick.h
-principal_3.o: ../../../Bibli_INSA_STM32/Lib_STM32_TR_V2_1/PWM.h
