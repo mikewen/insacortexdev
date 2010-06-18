@@ -75,6 +75,7 @@ int main (void)
 
 	/* Active la prise en compte des IT */
 	NVIC_ENABLE_PERIPH_IT(TIM2);
+	NVIC_ENABLE_PERIPH_IT(TIM4);
 	/* RQ: La prise en compte des IT SYSTICK est actif par defaut */
 
 	/* Et pour le debug, on active aussi la prise en compte des vecteurs de fautes */

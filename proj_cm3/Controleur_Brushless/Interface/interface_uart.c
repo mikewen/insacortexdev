@@ -47,10 +47,11 @@ void Init_Interface_uart(void)
 	printf ("Controleur Brushless\nRealisation: SDM\nVer: %d.%02d\n\n",_VERSION_MAJEUR_, _VERSION_MINEUR_);
 
 #ifdef _AVEC_CAPTEUR_
-	printf ("Mode capteur: AVEC\nResolution capteur: %d\n\n",_RESOLUTION_CAPTEUR_);
+	printf ("Mode capteur: AVEC\nResolution capteur: %d\n",_RESOLUTION_CAPTEUR_);
 #else
 	printf ("Mode capteur: SANS\n");
 #endif /* _AVEC_CAPTEUR_ */ 
+	printf ("Nombre de paires de pole: %d\n\n",_NB_PAIRS_DE_POLE_);
 
 	commande=buffer;
 	Port_COM._file=1;	

@@ -28,14 +28,7 @@
 #include "callback.h"
 #include "config.h"
 
-extern eventptr CAPTEUR_POSITION_AVANT_EVENT;
-extern eventptr CAPTEUR_POSITION_ARRIERE_EVENT;
-extern eventptr CAPTEUR_SEUIL_HAUT_EVENT;
-extern eventptr CAPTEUR_SEUIL_BAS_EVENT;
-
-extern int periode_capteur;
-extern float vitesse_moteur;
-extern int sens_rotation;
+#define _PERIODE_VITESSE_NULLE_	(unsigned int)0xFFFFFFFF
 
 void Demarre_Capteur(void);
 void Init_Capteur (void);
@@ -47,6 +40,8 @@ void Regle_Position_Avant(int val);
 void Regle_Position_Arriere(int val);
 void Regle_Seuil_Vitesse_Haut(int val);
 void Regle_Seuil_Vitesse_Bas(int val);
+int Donne_Vitesse(void);
+int Donne_nb_tour(void);
 
 #endif /* _CAPTEUR_H_ */
 

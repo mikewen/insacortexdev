@@ -31,10 +31,10 @@
 #define _RESOLUTION_ENCODEUR_	(_RESOLUTION_CAPTEUR_*4)
 #define _PAS_60_DEGRES_			(_RESOLUTION_ENCODEUR_/6)
 #define _NB_PAIRS_DE_POLE_		7				
-#define _TAILLE_COMMANDE_ 			_RESOLUTION_ENCODEUR_
+#define _TAILLE_COMMANDE_ 		_RESOLUTION_ENCODEUR_
 
 #define _VERSION_MAJEUR_		2
-#define _VERSION_MINEUR_		0
+#define _VERSION_MINEUR_		1
 
 /* Ne rien modifier après cette ligne */
 /*___________________________________________________________________________________________________________*/
