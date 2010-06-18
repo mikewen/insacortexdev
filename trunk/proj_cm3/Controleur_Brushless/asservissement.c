@@ -33,61 +33,37 @@
 
 #include "stm_clock.h"
 
-int periode;
-int timer_precedent;
-float vitesse;
-int tour;
-float distance;
-float freq_dent;
+volatile float vitesse;
+
 float distance;
 float derniere_erreur;
 
 float Kp_v, Ki_v, Kd_v;
 float derniere_commande;
-float vitesse_consigne;
+volatile float vitesse_consigne;
+
+volatile float erreur;
+volatile float integral;
+volatile float derivee;
 
 void Init_Asservissement (void)
 {
-  	//cycle_moteur=0;
-	//rapport_pwm=0x0;
-	//sens_rotation =CONTROLE_MODE_AVANT;
-	//frein = 0;
+	vitesse_consigne = 0.0;
 
-	//Regle_Position_Avant((_PAS_60_DEGRES_));
-	//Regle_Position_Arriere((_RESOLUTION_ENCODEUR_-1));	
+	Kp_v = COEFF_KP;
+	Ki_v = COEFF_KI;
+	Kd_v = COEFF_KD;
 
-	/*Regle le timer 1 pour mesurer les durées du capteurs */
-	RCC->APB2ENR |= RCC_TIM1EN; /* Mise en route de l'horloge du timer1 */
-	TIM1->PSC = 800;
-	TIM1->ARR = 10000; /* -> a 40 Mhz, ca donne une frequence de 5 Hz */
-
-	TIM1->DIER = TIM_UIE;
-}
-
-void Calcul_stats(void)
-{
-float temp;
-	temp = (float)__HCLK;
-	temp = temp/8.0;
-	temp = temp/(periode*12.0);
-	vitesse = temp*60.0;
-
-	distance = (float)tour;
-	distance =  distance* _DISTANCE_ROUE_;
-
-	freq_dent= (float)(periode);
-	freq_dent = freq_dent/((float)(_PAS_60_DEGRES_));
-	freq_dent = (1.0/freq_dent);
+	erreur=0;
+	integral=0;
+	derivee=0;
 }
 
 void Fourni_stats (int *v, int* t, int* av, int* p)
 {
-static int avance;
-
-	avance = Lire_Avance();
-	*v = (int)vitesse;
-	*t = tour;
-	*av = avance;
+	*v = Donne_Vitesse();
+	*t = Donne_nb_tour();
+	*av = Lire_Avance();
 	*p = 0;	
 }
 
@@ -98,24 +74,27 @@ void Fourni_coeffs (int *kp, int *ki, int *kd)
 	*kd= (int)(Kd_v*1000.0);
 }
 
-void asservissement_vitesse(void)
+int asservissement(int consigne)
 {
-float erreur;
-float integral;
-float derivee;
+	vitesse = (float) Donne_Vitesse();
+
+	vitesse_consigne = (float)consigne*20000.0/100.0;
 
 	erreur =  vitesse_consigne- vitesse;
 
 	derivee = derniere_erreur - erreur;
 	derivee = Kd_v*derivee;
 
-	integral = derniere_erreur + erreur;
-	integral = Ki_v*integral;
+	integral = integral + erreur;
+	integral = Ki_v*integral; 
 	
 	derniere_commande = (Kp_v*erreur) + integral + derivee;
+	derniere_erreur = erreur;
 	 
-	if (derniere_commande <0.0) derniere_commande =0.0;
+	if (derniere_commande <-100.0) derniere_commande =-100.0;
 	if (derniere_commande >100.0) derniere_commande = 100.0;
+
+	return (int) derniere_commande;
 }
 
 void Regle_Coeff_Kv(int kv)

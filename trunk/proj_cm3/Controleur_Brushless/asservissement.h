@@ -35,10 +35,9 @@
 #define	V_MAX 		25000.0
 
 void Init_Asservissement (void);
-void Calcul_stats(void);
 void Fourni_stats (int *v, int* t, int* av, int* p);
 void Fourni_coeffs (int *kp, int *ki, int *kd);
-void asservissement_vitesse(void);
+int asservissement(int consigne);
 void Regle_Coeff_Kv(int kv);
 void Regle_Coeff_Ki(int ki);
 void Regle_Coeff_Kd(int kd);

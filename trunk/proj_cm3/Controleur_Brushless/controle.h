@@ -34,7 +34,8 @@
 
 void Init_Moteur(void);
 void Init_Controle (void);
-void Regle_Controle(int commande);
+void Regle_Controle(int consigne_demandee);
+void Commande_moteur(int commande);
 void Regle_Avance(int av);
 int Lire_Avance(void);
 
