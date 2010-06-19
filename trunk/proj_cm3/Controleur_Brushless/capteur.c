@@ -26,14 +26,13 @@
 
 #include "config.h"
 #include "callback.h"
+#include "appli.h"
 
-#define _SYSTICK_MAX_ (unsigned int)0xFFFFFF
+volatile int nb_tours;
+volatile int position_actuelle;
+volatile int ancienne_position; 
 
-volatile unsigned int periode_capteur;
-int dernier_systick;
-
-unsigned int vitesse_moteur;
-int tour;
+volatile int vitesse_moteur;
 
 void Init_Capteur (void)
 {
@@ -59,12 +58,15 @@ void Init_Capteur (void)
     /*Regle le SYSTICK pour mesurer les durées du capteur */
 	SYSTICK_ENABLE_COUNTER(); /* Mise en route de l'horloge du timer1 */
 	SYSTICK_CLOCK_AHB();
-	SysTick->LOAD = _SYSTICK_MAX_; /* 2^24 -1 */
+	SysTick->LOAD = 2000000; /* 50ms*/
 	SYSTICK_ENABLE_IT();
 
-	TIM4->DIER |= TIM_CC3IE + TIM_CC4IE;
+	TIM4->DIER |= TIM_UIE;
 
-	periode_capteur = _PERIODE_VITESSE_NULLE_;
+	nb_tours=0;
+	position_actuelle=0;
+	ancienne_position=0;
+	vitesse_moteur=0;
 }
 
 void Demarre_Capteur(void)
@@ -78,128 +80,48 @@ int Lire_Capteur(void)
 	return TIM4->CNT;
 }
 
-int Lire_Capteur_Avant(void)
-{
-  	return (TIM4->CCR3);
-}
-
-int Lire_Capteur_Arriere(void)
-{
-	return (TIM4->CCR4);
-}
-
 void Ecrire_Capteur(int val)
 {
 	TIM4->CNT = val;
-
-	Regle_Position_Avant(val+10);
-	Regle_Position_Arriere(val-10);
 }
 
 int Donne_Vitesse(void)
 {
-int temp;
-
-	if (periode_capteur == _PERIODE_VITESSE_NULLE_) return 0;
-
-	temp = periode_capteur * 10;
-	temp = 40000000/temp;
-	vitesse_moteur = 60*temp;
-
-	return -vitesse_moteur;
+	return vitesse_moteur;
 }
 
 int Donne_nb_tour(void)
 {
-	return tour;
+	return nb_tours;
 }
 
-void Regle_Position_Avant(int val)
+void TIM4_IRQHandler (void)
 {
-	if (val<_RESOLUTION_ENCODEUR_ - 1)
+	if (TIM4->SR & TIM_UIF)
 	{
-		TIM4->CCR3=val;
-	}
-	else
-	{
-		TIM4->CCR3=val - _RESOLUTION_ENCODEUR_;
-	}
+		TIM4->SR = TIM4->SR & ~TIM_UIF;
 
-	TIM4->CCMR2 |= TIM_OC3M_VAL(TIM_OCxM_TOGGLE);
-}
-
-void Regle_Position_Arriere(int val)
-{
-	if (val<_RESOLUTION_ENCODEUR_ - 1)
-	{
-		TIM4->CCR4=val;
-	}
-	else
-	{
-		TIM4->CCR4=val - _RESOLUTION_ENCODEUR_;
-	}
-
-	TIM4->CCMR2 |= TIM_OC4M_VAL(TIM_OCxM_TOGGLE);
-}
-
-void TIM4_IRQHandler(void)
-{
-int SR_TMP;
-int Valeur_SYSTICK = SysTick->VAL;
-int Compteur = TIM4->CNT;
-
-	SR_TMP=TIM4->SR;
-
-		if (SR_TMP&TIM_CC3IF) /* Capteur_avant */
+		if (TIM4->CR1 & TIM_DIR) /* le compteur decompte */
 		{
-			TIM4->SR = TIM4->SR & ~(TIM_CC3IF);	
-			Regle_Position_Avant(Compteur+10);
-			Regle_Position_Arriere(Compteur-10);
-
-			tour++;
-						
-			if (dernier_systick<=Valeur_SYSTICK)
-			{
-				periode_capteur= _SYSTICK_MAX_ + dernier_systick - Valeur_SYSTICK;
-			}
-			else
-			{
-				periode_capteur= dernier_systick - Valeur_SYSTICK;
-			}
+			nb_tours--;
 		}
-		
-		if (SR_TMP&TIM_CC4IF) /* Capteur_Arriere */
+		else
 		{
-			TIM4->SR = TIM4->SR & ~(TIM_CC4IF);	
-			Regle_Position_Avant(Compteur+10);
-			Regle_Position_Arriere(Compteur-10);
-
-			tour --;
-
-			if (dernier_systick<=Valeur_SYSTICK)
-			{
-				periode_capteur= _SYSTICK_MAX_ + dernier_systick - Valeur_SYSTICK;
-			}
-			else
-			{
-				periode_capteur= dernier_systick - Valeur_SYSTICK;
-			}
-
-			periode_capteur = -periode_capteur;
+			nb_tours++;
 		}
-		
-		dernier_systick = Valeur_SYSTICK;	
+	}
 }
 
 void SysTick_Handler()
 {
-static int overflow =0;
+int temp;
+	temp = TIM4->CNT;
 
-	overflow++;
+	ancienne_position = position_actuelle;
+	position_actuelle = (nb_tours*_RESOLUTION_ENCODEUR_) + temp;
 
-	if (overflow>=2)
-	{
-		overflow =2;
-		periode_capteur = _PERIODE_VITESSE_NULLE_;
-	}
+	vitesse_moteur = position_actuelle - ancienne_position;
+	vitesse_moteur = vitesse_moteur * 25; /* Vitesse moteur exprimé en dixieme de tour/minute */
+	
+	Gere_Asservissement(nb_tours, vitesse_moteur);	  
 }

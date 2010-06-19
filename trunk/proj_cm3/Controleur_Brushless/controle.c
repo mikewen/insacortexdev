@@ -27,7 +27,6 @@
 #include "hacheur.h"
 #include "adc.h"
 #include "controle.h"
-#include "asservissement.h"
 
 #include "config.h"
 #include "callback.h"
@@ -35,7 +34,6 @@
 #include "stm_clock.h"
 #include <stdlib.h>
 
-volatile int consigne;
 volatile int commande_courante;
 int calage;
 int frein;
@@ -140,11 +138,6 @@ int Lire_Avance(void)
 	return avance;
 }
  
-void Regle_Controle(int consigne_demandee)
-{
-	consigne=consigne_demandee;	
-}
-
 void Commande_moteur(int commande)
 {
 int Phase_A, Phase_B, Phase_C;
@@ -209,19 +202,5 @@ int av;
 
 void Callback_hacheur(void)
 {
-static int compteur=0;
-	
-	if (consigne==0) commande_courante = 0;
-	else
-	{
-		compteur++;
-	
-		if (compteur >= 1600) /* -> 40 ms */
-		{
-			compteur =0;
-			commande_courante = asservissement(consigne);
-		}
-	}
-
 	Commande_moteur(commande_courante);
 }

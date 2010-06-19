@@ -21,8 +21,8 @@
  * Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef _ASSERVISSEMENT_H_
-#define _ASSERVISSEMENT_H_
+#ifndef _APPLI_H_
+#define _APPLI_H_
 
 #include "stm_regs.h"
 
@@ -32,14 +32,12 @@
 #define COEFF_KI	0.01
 #define COEFF_KD	0.04
 
-#define	V_MAX 		25000.0
+#define _VITESSE_MAX_ 30000 /*en dixieme de tour/minute */
 
-void Init_Asservissement (void);
-void Fourni_stats (int *v, int* t, int* av, int* p);
-void Fourni_coeffs (int *kp, int *ki, int *kd);
-int asservissement(int consigne);
-void Regle_Coeff_Kv(int kv);
-void Regle_Coeff_Ki(int ki);
-void Regle_Coeff_Kd(int kd);
+void Init_Application (void);
+void Application(void);
+void Regle_Controle(int consigne_demandee);
+void Gere_Asservissement(int tours, int vitesse);
+
  
-#endif /* _ASSERVISSEMENT_H_ */
+#endif /* _APPLI_H_ */

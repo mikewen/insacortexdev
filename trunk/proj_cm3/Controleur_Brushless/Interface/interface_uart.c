@@ -29,7 +29,7 @@
 #include <stdio.h>
 
 #include "controle.h"
-#include "asservissement.h"
+#include "appli.h"
 #include "hacheur.h"
 
 char buffer[50];
@@ -133,33 +133,6 @@ int commande_prete;
 						Regle_Avance(param_avance);
 						printf ("\nAvance regle a %d\n",param_avance);  
 						break;
-					case '1':
-						sscanf (&commande[2], "%d", &coeff_kv);
-
-						if (coeff_kv >= 2000) coeff_kv=1999;
-						if (coeff_kv< 0) coeff_kv=0;
-						
-						Regle_Coeff_Kv(coeff_kv);
-						printf ("\nKp regle a %d\n",coeff_kv);  
-						break;
-					case '2':
-						sscanf (&commande[2], "%d", &coeff_kv);
-
-						if (coeff_kv >= 2000) coeff_kv=1999;
-						if (coeff_kv< 0) coeff_kv=0;
-						
-						Regle_Coeff_Ki(coeff_kv);
-						printf ("\nKi regle a %d\n",coeff_kv);  
-						break;
-					case '3':
-						sscanf (&commande[2], "%d", &coeff_kv);
-
-						if (coeff_kv >= 2000) coeff_kv=1999;
-						if (coeff_kv< 0) coeff_kv=0;
-						
-						Regle_Coeff_Kd(coeff_kv);
-						printf ("\nKd regle a %d\n",coeff_kv);  
-						break;
 					default:
 						printf ("\nParametre non supporte\n");
 				}
@@ -213,24 +186,9 @@ void Interface_Aide(void)
 
 void Interface_Info(void)
 {
-int av, p, t, v;
-int kp, ki, kd;
-
-	Fourni_stats(&v, &t, &av, &p);
-
 	printf ("\nInfo systeme:\n\n");
 
 	printf ("Version: %d.%d\n\n", _VERSION_MAJEUR_, _VERSION_MINEUR_);
-	printf ("Vitesse: %d\n", v);
-	printf ("nbr tour moteur: %d\n", t);
-	printf ("avance: %d\n", av);
-	printf ("Phase moteur: %d\n",p);
 	printf ("\n");
 
-	Fourni_coeffs (&kp, &ki, &kd);
-	printf ("kp: %d\n", kp);
-	printf ("ki: %d\n", ki);
-	printf ("kd: %d\n", kd);
-	  
-	printf ("\n");
 }

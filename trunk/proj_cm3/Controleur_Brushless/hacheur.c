@@ -153,9 +153,9 @@ int Temp_Phase_C_Bras_Bas;
 		Temp_Phase_B_Bras_Haut = 0;
 		Temp_Phase_C_Bras_Haut = 0;
 	
-		Temp_Phase_A_Bras_Bas = 0;
-		Temp_Phase_B_Bras_Bas = 0;
-		Temp_Phase_C_Bras_Bas = 0;
+		Temp_Phase_A_Bras_Bas = _PERIODE_PWM_TIM2_;
+		Temp_Phase_B_Bras_Bas = _PERIODE_PWM_TIM2_;
+		Temp_Phase_C_Bras_Bas = _PERIODE_PWM_TIM2_;
 	}
 	else
 	{	

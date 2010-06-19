@@ -31,7 +31,7 @@
 #include "capteur.h"
 #include "hacheur.h"
 #include "controle.h"
-#include "asservissement.h"
+#include "appli.h"
 
 #include "config.h"
 
@@ -48,7 +48,7 @@ int main (void)
 	Init_Interface();
 
 	/* Demarrage des drivers moteur */
-	Init_Asservissement();
+	Init_Application();
 	Init_Capteur();
 	Init_Hacheur();
 	Init_Controle();
@@ -88,8 +88,7 @@ int main (void)
 	Init_Moteur();
 
 	/* Boucle infinie sur la scrutation de l'interface serie, pour prise en compte des commandes */
-	for (;;)
-	{
-		Interface();
-	}
+	Application();
+
+	for (;;);
 }

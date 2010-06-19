@@ -417,9 +417,9 @@
               <FilePath>.\controle.c</FilePath>
             </File>
             <File>
-              <FileName>asservissement.c</FileName>
+              <FileName>appli.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\asservissement.c</FilePath>
+              <FilePath>.\appli.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -856,9 +856,9 @@
               <FilePath>.\controle.c</FilePath>
             </File>
             <File>
-              <FileName>asservissement.c</FileName>
+              <FileName>appli.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\asservissement.c</FilePath>
+              <FilePath>.\appli.c</FilePath>
             </File>
           </Files>
         </Group>
