@@ -123,7 +123,7 @@ void Init_Moteur(void)
 
 	/* Reglage du hacheur */
 	Regle_Controle(0); /* gaz à 0% */
-	avance =10;
+	avance =7;
 
 	ActiveITOverflow(Callback_hacheur);
 }

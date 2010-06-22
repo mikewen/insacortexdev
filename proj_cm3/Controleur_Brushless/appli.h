@@ -28,9 +28,9 @@
 
 #define _DISTANCE_ROUE_ 213.6283
 
-#define COEFF_KP	0.08
-#define COEFF_KI	0.01
-#define COEFF_KD	0.04
+#define COEFF_KP	0.0008
+#define COEFF_KI	0.0004
+#define COEFF_KD	0.00065
 
 #define _VITESSE_MAX_ 30000 /*en dixieme de tour/minute */
 
