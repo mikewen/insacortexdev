@@ -34,6 +34,8 @@
 
 #define _VITESSE_MAX_ 30000 /*en dixieme de tour/minute */
 
+extern int asservissement;
+
 void Init_Application (void);
 void Application(void);
 void Regle_Controle(int consigne_demandee);

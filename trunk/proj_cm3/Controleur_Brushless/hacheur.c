@@ -27,8 +27,8 @@
 #include "config.h"
 #include "callback.h"
 
-#define _DEAD_TIME_ 4;
-//#define _DEAD_TIME_ DeadTime;
+//#define _DEAD_TIME_ 4;
+#define _DEAD_TIME_ DeadTime;
 int DeadTime;
 
 eventptr PWM_OVERFLOW_EVENT;
@@ -46,7 +46,7 @@ void Default_Callback_Hacheur (void)
  */
 void Init_Hacheur (void)
 {
-	DeadTime = 500;
+	DeadTime = 8;
 
 	/* Init du callback sur une fonction vide */
 	DEFINE_EVENT(PWM_OVERFLOW, Default_Callback_Hacheur);
@@ -125,7 +125,7 @@ void Init_Hacheur (void)
 
 	/* Synchronisation des deux timers */
 	TIM2->CNT=0;
-	TIM3->CNT=0xD4-0xC9;
+	TIM3->CNT=0xD4-0xC9+4;
 }
 
 /* 
@@ -228,12 +228,19 @@ void ActiveITOverflow(eventptr cbk)
 void TIM2_IRQHandler(void)
 {
 int SR_TMP;
+static int compteur=0;
 
 	SR_TMP=TIM2->SR;
 
 		if (SR_TMP&TIM_UIF)
 		{
-			TIM2->SR = TIM2->SR & ~(TIM_UIF);	
-			SEND_EVENT(PWM_OVERFLOW_EVENT);
+			TIM2->SR = TIM2->SR & ~(TIM_UIF);
+			compteur++;
+			
+			if (compteur>=10)
+			{	
+				compteur=0;
+				SEND_EVENT(PWM_OVERFLOW_EVENT);
+			}
 		}	
 }
