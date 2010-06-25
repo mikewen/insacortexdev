@@ -159,34 +159,53 @@ int Temp_Phase_C_Bras_Bas;
 	}
 	else
 	{	
-		/* Rajout de l'offset */
-		Temp_Phase_A_Bras_Haut = Phase_A+32768;
-		Temp_Phase_B_Bras_Haut = Phase_B+32768;
-		Temp_Phase_C_Bras_Haut = Phase_C+32768;
+		if (Phase_A>0)
+		{
+			Temp_Phase_A_Bras_Haut = PWM_MAX+1;
+			Temp_Phase_A_Bras_Bas = PWM_MAX+1;	
+		}
+		else if (Phase_A<0)
+		{
+			Temp_Phase_A_Bras_Haut = 0;
+			Temp_Phase_A_Bras_Bas = ((100+Phase_A) * PWM_MAX)/100;
+		}
+		else
+		{
+			Temp_Phase_A_Bras_Haut = 0;
+			Temp_Phase_A_Bras_Bas = PWM_MAX+1;
+		}
 
-		/* Remise a l'echelle */
-		Temp_Phase_A_Bras_Haut = (Temp_Phase_A_Bras_Haut*PWM_MAX)>>16;
-		Temp_Phase_B_Bras_Haut = (Temp_Phase_B_Bras_Haut*PWM_MAX)>>16;
-		Temp_Phase_C_Bras_Haut = (Temp_Phase_C_Bras_Haut*PWM_MAX)>>16;
-	
-		Temp_Phase_A_Bras_Bas = Temp_Phase_A_Bras_Haut;
-		Temp_Phase_B_Bras_Bas = Temp_Phase_B_Bras_Haut;
-		Temp_Phase_C_Bras_Bas = Temp_Phase_C_Bras_Haut;
+		if (Phase_B>0)
+		{
+			Temp_Phase_B_Bras_Haut = PWM_MAX+1;
+			Temp_Phase_B_Bras_Bas = PWM_MAX+1;	
+		}
+		else if (Phase_B<0)
+		{
+			Temp_Phase_B_Bras_Haut = 0;
+			Temp_Phase_B_Bras_Bas = ((100+Phase_B) * PWM_MAX)/100;
+		}
+		else
+		{
+			Temp_Phase_B_Bras_Haut = 0;
+			Temp_Phase_B_Bras_Bas = PWM_MAX+1;
+		}
 
-		/* Suppression du temps mort + saturation */
-		Temp_Phase_A_Bras_Haut = Temp_Phase_A_Bras_Haut - _DEAD_TIME_;
-		if (Temp_Phase_A_Bras_Haut <0) Temp_Phase_A_Bras_Haut = 0;
-		Temp_Phase_B_Bras_Haut = Temp_Phase_B_Bras_Haut - _DEAD_TIME_;
-		if (Temp_Phase_B_Bras_Haut <0) Temp_Phase_B_Bras_Haut = 0;
-		Temp_Phase_C_Bras_Haut = Temp_Phase_C_Bras_Haut - _DEAD_TIME_;
-		if (Temp_Phase_C_Bras_Haut <0) Temp_Phase_C_Bras_Haut = 0;
-	
-		Temp_Phase_A_Bras_Bas = Temp_Phase_A_Bras_Bas + _DEAD_TIME_;
-		if (Temp_Phase_A_Bras_Bas >PWM_MAX) Temp_Phase_A_Bras_Bas = PWM_MAX;
-		Temp_Phase_B_Bras_Bas = Temp_Phase_B_Bras_Bas + _DEAD_TIME_;
-		if (Temp_Phase_B_Bras_Bas >PWM_MAX) Temp_Phase_B_Bras_Bas = PWM_MAX;
-		Temp_Phase_C_Bras_Bas = Temp_Phase_C_Bras_Bas + _DEAD_TIME_;
-		if (Temp_Phase_C_Bras_Bas >PWM_MAX) Temp_Phase_C_Bras_Bas = PWM_MAX;
+		if (Phase_C>0)
+		{
+			Temp_Phase_C_Bras_Haut = PWM_MAX+1;
+			Temp_Phase_C_Bras_Bas = PWM_MAX+1;	
+		}
+		else if (Phase_C<0)
+		{
+			Temp_Phase_C_Bras_Haut = 0;
+			Temp_Phase_C_Bras_Bas = ((100+Phase_C) * PWM_MAX)/100;
+		}
+		else
+		{
+			Temp_Phase_C_Bras_Haut = 0;
+			Temp_Phase_C_Bras_Bas = PWM_MAX+1;
+		}
 	}
 
 /* Valeur pour branche haute (Tim 2)*/

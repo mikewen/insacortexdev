@@ -129,7 +129,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGDARM</Key>
-          <Name>(1010=599,173,965,723,0)(1007=105,140,282,408,0)(1008=786,242,1152,471,0)(1009=918,24,1152,565,0)(100=335,148,971,808,0)(110=-1,-1,-1,-1,0)(111=77,89,281,542,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=741,348,1152,762,0)(121=232,0,643,420,0)(122=405,89,816,503,0)(123=-1,-1,-1,-1,0)(140=92,105,770,432,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=137,154,412,437,0)(130=568,126,1152,864,0)(131=568,120,1152,864,0)(132=68,120,652,864,0)(133=568,120,1152,864,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(234=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=599,173,965,723,0)(1007=105,140,282,408,0)(1008=786,242,1152,471,0)(1009=918,24,1152,565,0)(100=335,148,971,808,0)(110=-1,-1,-1,-1,0)(111=77,89,281,542,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=741,348,1152,762,0)(121=232,0,643,420,0)(122=405,89,816,503,0)(123=-1,-1,-1,-1,0)(140=92,105,770,432,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=137,154,412,437,0)(130=568,126,1152,864,0)(131=654,272,1238,1009,0)(132=67,266,651,1003,0)(133=568,120,1152,864,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(234=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -156,7 +156,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>STM32F10x_GCC.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\STM32F10x_GCC\174</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
@@ -171,7 +171,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>STM32F10x_GCC.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\STM32F10x_GCC\168</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
@@ -186,7 +186,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>STM32F10x_GCC.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\STM32F10x_GCC\162</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
           <Number>3</Number>
@@ -201,35 +201,20 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>STM32F10x_GCC.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\STM32F10x_GCC\156</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
           <Number>4</Number>
           <Type>0</Type>
           <LineNumber>87</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134223422</Address>
+          <Address>134223414</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>init.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\init\87</Expression>
-        </Bp>
-        <Bp>
-          <Number>5</Number>
-          <Type>0</Type>
-          <LineNumber>142</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134223492</Address>
-          <ByteObject>0</ByteObject>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>controle.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -351,32 +336,32 @@
         <Wi>
           <IntNumber>0</IntNumber>
           <FirstString>TIM4_CNT</FirstString>
-          <SecondString>0000800000000000000000000000000000809640000000006400000000F2052A0100000054494D345F434E540000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000D000000000000000000000000000000000000000000000000000000000000000000000014040008</SecondString>
+          <SecondString>0000800000000000000000000000000000007E40000000006400000000E1F5050000000054494D345F434E540000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000D000000000000000000000000000000000000000000000000000000000000000000000014040008</SecondString>
         </Wi>
         <Wi>
           <IntNumber>1</IntNumber>
           <FirstString>TIM2_CCR1</FirstString>
-          <SecondString>FF00000000000000000000000000000000409C40000000006400000000F2052A0100000054494D325F43435231000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000022150008</SecondString>
+          <SecondString>FF00000000000000000000000000000000409C40000000006400000000E1F5050000000054494D325F43435231000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000022150008</SecondString>
         </Wi>
         <Wi>
           <IntNumber>2</IntNumber>
           <FirstString>TIM2_CCR3</FirstString>
-          <SecondString>0000800000000000000000000000000000409C40000000006400000000F2052A0100000054494D325F4343523300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000009A140008</SecondString>
+          <SecondString>0000800000000000000000000000000000409C40000000006400000000E1F5050000000054494D325F4343523300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000009A140008</SecondString>
         </Wi>
         <Wi>
           <IntNumber>3</IntNumber>
           <FirstString>TIM2_CCR4</FirstString>
-          <SecondString>0000000000000000000000000000000000409C40000000006400000000F2052A0100000054494D325F43435234000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000034040008</SecondString>
+          <SecondString>0000000000000000000000000000000000409C40000000006400000000E1F5050000000054494D325F43435234000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000034040008</SecondString>
         </Wi>
         <Wi>
           <IntNumber>4</IntNumber>
           <FirstString>(PORTA &amp; 0x1) &gt;&gt; 0</FirstString>
-          <SecondString>FF000000000000000000000000000000E0FFEF40010000006400000000F2052A01000000504F525441000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000680E0008</SecondString>
+          <SecondString>FF000000000000000000000000000000E0FFEF40010000006400000000E1F50500000000504F525441000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000680E0008</SecondString>
         </Wi>
         <Wi>
           <IntNumber>5</IntNumber>
           <FirstString>(PORTC &amp; 0x80) &gt;&gt; 7</FirstString>
-          <SecondString>00800000000000000000000000000000E0FFEF40010000006400000000F2052A01000000504F525443000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000680E0008</SecondString>
+          <SecondString>00800000000000000000000000000000E0FFEF40010000006400000000E1F50500000000504F525443000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000680E0008</SecondString>
         </Wi>
       </LogicAnalyzers>
     </TargetOption>
@@ -491,7 +476,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGTARM</Key>
-          <Name>(1010=322,425,688,968,0)(1007=-1,-1,-1,-1,0)(1008=914,42,1280,264,0)(1009=-1,-1,-1,-1,0)(100=644,273,1280,932,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=249,252,660,643,0)(121=792,61,1203,452,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=14,259,598,939,0)(131=613,246,1197,926,0)(132=31,243,615,923,0)(133=696,100,1280,780,0)(160=165,198,603,598,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=322,425,688,968,0)(1007=-1,-1,-1,-1,0)(1008=914,42,1280,264,0)(1009=-1,-1,-1,-1,0)(100=644,273,1280,932,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=249,252,660,643,0)(121=792,61,1203,452,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=14,259,598,939,0)(131=689,344,1273,1024,0)(132=29,344,613,1024,0)(133=696,100,1280,780,0)(160=165,198,603,598,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -682,8 +667,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>432</TopLine>
+      <CurrentLine>440</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../lib_cm3/stm_usartx.c</PathWithFileName>
       <FilenameWithoutPath>stm_usartx.c</FilenameWithoutPath>
@@ -785,10 +770,10 @@
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>22</ColumnNumber>
+      <ColumnNumber>20</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>111</TopLine>
-      <CurrentLine>128</CurrentLine>
+      <TopLine>59</TopLine>
+      <CurrentLine>63</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\hacheur.c</PathWithFileName>
       <FilenameWithoutPath>hacheur.c</FilenameWithoutPath>
@@ -829,8 +814,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>177</TopLine>
-      <CurrentLine>197</CurrentLine>
+      <TopLine>170</TopLine>
+      <CurrentLine>180</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\controle.c</PathWithFileName>
       <FilenameWithoutPath>controle.c</FilenameWithoutPath>
@@ -894,6 +879,32 @@
   </Group>
 
   <AlienFiles>
+    <PathWithFilename>D:\dimercur\proj_cm3\Controleur_Brushless\config.h</PathWithFilename>
+    <TopLine>19</TopLine>
+    <CurrentLine>37</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
     <PathWithFilename>D:\dimercur\proj_cm3\Controleur_Brushless\hacheur.h</PathWithFilename>
     <TopLine>17</TopLine>
     <CurrentLine>35</CurrentLine>
@@ -923,32 +934,6 @@
     <PathWithFilename>D:\dimercur\proj_cm3\Controleur_Brushless\controle.h</PathWithFilename>
     <TopLine>16</TopLine>
     <CurrentLine>35</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>D:\dimercur\proj_cm3\Controleur_Brushless\config.h</PathWithFilename>
-    <TopLine>19</TopLine>
-    <CurrentLine>37</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -1084,9 +1069,9 @@
         <ItemNo>5</ItemNo>
         <Name>Call Stack</Name>
         <AnchorWinID>1936</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Watch 1</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>2</DockType>
         <DockLocation>2</DockLocation>
@@ -1109,9 +1094,9 @@
         <ItemNo>6</ItemNo>
         <Name>Call Stack</Name>
         <AnchorWinID>1944</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Call Stack</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1134,9 +1119,9 @@
         <ItemNo>7</ItemNo>
         <Name>Locals</Name>
         <AnchorWinID>1507</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Call Stack</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1159,9 +1144,9 @@
         <ItemNo>8</ItemNo>
         <Name>Watch 2</Name>
         <AnchorWinID>1935</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Locals</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1184,9 +1169,9 @@
         <ItemNo>9</ItemNo>
         <Name>Memory 1</Name>
         <AnchorWinID>1937</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Watch 2</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1209,9 +1194,9 @@
         <ItemNo>10</ItemNo>
         <Name>Memory 2</Name>
         <AnchorWinID>1465</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Memory 1</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1234,9 +1219,9 @@
         <ItemNo>11</ItemNo>
         <Name>Memory 3</Name>
         <AnchorWinID>1466</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Memory 2</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1259,9 +1244,9 @@
         <ItemNo>12</ItemNo>
         <Name>Memory 4</Name>
         <AnchorWinID>1467</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Memory 3</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1284,9 +1269,9 @@
         <ItemNo>13</ItemNo>
         <Name>Symbols</Name>
         <AnchorWinID>1468</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Memory 4</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1309,9 +1294,9 @@
         <ItemNo>14</ItemNo>
         <Name>Build Output</Name>
         <AnchorWinID>1936</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Watch 1</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>2</DockType>
         <DockLocation>2</DockLocation>
@@ -1334,9 +1319,9 @@
         <ItemNo>15</ItemNo>
         <Name>Command</Name>
         <AnchorWinID>197</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Build Output</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1359,9 +1344,9 @@
         <ItemNo>16</ItemNo>
         <Name>Find in Files</Name>
         <AnchorWinID>198</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Command</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1384,9 +1369,9 @@
         <ItemNo>17</ItemNo>
         <Name>Browse</Name>
         <AnchorWinID>199</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Find in Files</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1409,9 +1394,9 @@
         <ItemNo>18</ItemNo>
         <Name>UART #1</Name>
         <AnchorWinID>38007</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Browser</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1434,9 +1419,9 @@
         <ItemNo>19</ItemNo>
         <Name>UART #2</Name>
         <AnchorWinID>1939</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>UART #1</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1459,9 +1444,9 @@
         <ItemNo>20</ItemNo>
         <Name>UART #3</Name>
         <AnchorWinID>1940</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>UART #2</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1484,9 +1469,9 @@
         <ItemNo>21</ItemNo>
         <Name>UART #4</Name>
         <AnchorWinID>1941</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>UART #3</AnchorWinName>
         <OtherWinID>1936</OtherWinID>
-        <OtherWinName></OtherWinName>
+        <OtherWinName>Watch 1</OtherWinName>
         <WinType>1</WinType>
         <DockType>4</DockType>
         <DockLocation>2</DockLocation>
@@ -1534,7 +1519,7 @@
         <ItemNo>23</ItemNo>
         <Name>Books</Name>
         <AnchorWinID>1005</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Project</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1559,7 +1544,7 @@
         <ItemNo>24</ItemNo>
         <Name>Functions</Name>
         <AnchorWinID>109</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Books</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1584,7 +1569,7 @@
         <ItemNo>25</ItemNo>
         <Name>Templates</Name>
         <AnchorWinID>195</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Functions</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1609,7 +1594,7 @@
         <ItemNo>26</ItemNo>
         <Name>Registers</Name>
         <AnchorWinID>196</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Templates</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1659,7 +1644,7 @@
         <ItemNo>28</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35885</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1684,7 +1669,7 @@
         <ItemNo>29</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35886</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1709,7 +1694,7 @@
         <ItemNo>30</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35887</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1734,7 +1719,7 @@
         <ItemNo>31</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35888</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1759,7 +1744,7 @@
         <ItemNo>32</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35889</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1784,7 +1769,7 @@
         <ItemNo>33</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35890</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1809,7 +1794,7 @@
         <ItemNo>34</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35891</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1834,7 +1819,7 @@
         <ItemNo>35</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35892</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1859,7 +1844,7 @@
         <ItemNo>36</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35893</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1884,7 +1869,7 @@
         <ItemNo>37</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35894</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1909,7 +1894,7 @@
         <ItemNo>38</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35895</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1934,7 +1919,7 @@
         <ItemNo>39</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35896</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1959,7 +1944,7 @@
         <ItemNo>40</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35897</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -1984,7 +1969,7 @@
         <ItemNo>41</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35898</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2009,7 +1994,7 @@
         <ItemNo>42</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35899</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2034,7 +2019,7 @@
         <ItemNo>43</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35900</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2059,7 +2044,7 @@
         <ItemNo>44</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35901</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2084,7 +2069,7 @@
         <ItemNo>45</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35902</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2109,7 +2094,7 @@
         <ItemNo>46</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35903</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2134,7 +2119,7 @@
         <ItemNo>47</ItemNo>
         <Name>not set</Name>
         <AnchorWinID>35904</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>???</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2184,7 +2169,7 @@
         <ItemNo>49</ItemNo>
         <Name>Instruction Trace</Name>
         <AnchorWinID>203</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Disassembly</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2209,7 +2194,7 @@
         <ItemNo>50</ItemNo>
         <Name>Performance Analyzer</Name>
         <AnchorWinID>1913</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Instruction Trace</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2234,7 +2219,7 @@
         <ItemNo>51</ItemNo>
         <Name>Performance Analyzer</Name>
         <AnchorWinID>343</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Performance Analyzer</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2259,7 +2244,7 @@
         <ItemNo>52</ItemNo>
         <Name>Code Coverage</Name>
         <AnchorWinID>204</AnchorWinID>
-        <AnchorWinName></AnchorWinName>
+        <AnchorWinName>Performance Analyzer</AnchorWinName>
         <OtherWinID>0</OtherWinID>
         <OtherWinName></OtherWinName>
         <WinType>1</WinType>
@@ -2312,7 +2297,7 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>7</ActiveTab>
+      <ActiveTab>8</ActiveTab>
       <Documents>
         <Doc>
           <Name>D:\dimercur\proj_cm3\Controleur_Brushless\controle.h</Name>
@@ -2323,8 +2308,8 @@
         <Doc>
           <Name>.\controle.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>177</TopLine>
-          <CurrentLine>197</CurrentLine>
+          <TopLine>170</TopLine>
+          <CurrentLine>180</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\appli.c</Name>
@@ -2334,9 +2319,9 @@
         </Doc>
         <Doc>
           <Name>.\hacheur.c</Name>
-          <ColumnNumber>22</ColumnNumber>
-          <TopLine>111</TopLine>
-          <CurrentLine>128</CurrentLine>
+          <ColumnNumber>20</ColumnNumber>
+          <TopLine>59</TopLine>
+          <CurrentLine>63</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\capteur.c</Name>
@@ -2361,6 +2346,12 @@
           <ColumnNumber>27</ColumnNumber>
           <TopLine>19</TopLine>
           <CurrentLine>37</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../lib_cm3/stm_usartx.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>432</TopLine>
+          <CurrentLine>440</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>
