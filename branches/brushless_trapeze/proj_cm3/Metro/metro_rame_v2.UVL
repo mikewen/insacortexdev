@@ -1,0 +1,44 @@
+[Signal 2]
+DispName=TIM3_CNT
+PlotType=0
+Color=8388608
+ValHex=0
+MinDec=1
+MinVal=0.
+MaxDec=1
+MaxVal=28000.
+Mask=0
+Offset=0
+[Signal 3]
+DispName=TIM2_CCR3
+PlotType=0
+Color=0
+ValHex=0
+MinDec=1
+MinVal=-200.
+MaxDec=1
+MaxVal=4096.
+Mask=-1
+Offset=0
+[Signal 5]
+DispName=PORTA
+PlotType=1
+Color=255
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=65535.
+Mask=64
+Offset=0
+[Signal 6]
+DispName=PORTA
+PlotType=1
+Color=32768
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=65535.
+Mask=128
+Offset=0
