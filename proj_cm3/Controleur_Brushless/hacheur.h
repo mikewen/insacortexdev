@@ -31,9 +31,10 @@
 #define MOS_OUVERT 0xFFFFFFFF
 #define MOS_FERME 0xFFFFFFFE
 
-#define _PERIODE_PWM_TIM2_ (40000000U/40000U)
-#define _PERIODE_PWM_TIM3_ (40000000U/40000U)
-#define PWM_MAX _PERIODE_PWM_TIM2_
+#define _FREQ_HACHAGE_		(80000U)
+#define _PERIODE_PWM_TIM2_ 	(40000000U/_FREQ_HACHAGE_)
+#define _PERIODE_PWM_TIM3_ 	_PERIODE_PWM_TIM2_
+#define PWM_MAX 			_PERIODE_PWM_TIM2_
 
 void Init_Hacheur (void);
 void Commande_Hacheur(int Phase_A, int Phase_B, int Phase_C);

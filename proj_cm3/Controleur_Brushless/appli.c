@@ -46,6 +46,8 @@ volatile int derniere_erreur;
 volatile int integral;
 volatile int derivee;
 
+int asservissement;
+
 void Init_Application (void)
 {
 	consigne_vitesse = 0;
@@ -63,6 +65,8 @@ void Init_Application (void)
 	partiel_prop =0.0;
 	partiel_int =0.0;
 	partiel_der =0.0;
+
+	asservissement = 0;
 }
 
 void Application (void)
@@ -81,6 +85,10 @@ int temp;
 	temp=(consigne_demandee*_VITESSE_MAX_)/100;	  
 
 	consigne_vitesse=temp;
+	if (asservissement == 0)
+	{
+		commande_courante = consigne_demandee;	
+	}
 }
 
 void Gere_Asservissement(int tours, int vitesse)

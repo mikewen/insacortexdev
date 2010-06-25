@@ -34,7 +34,7 @@
 #define _TAILLE_COMMANDE_ 		_RESOLUTION_ENCODEUR_
 
 #define _VERSION_MAJEUR_		2
-#define _VERSION_MINEUR_		1
+#define _VERSION_MINEUR_		2
 
 /* Ne rien modifier après cette ligne */
 /*___________________________________________________________________________________________________________*/

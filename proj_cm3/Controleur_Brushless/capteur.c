@@ -124,5 +124,8 @@ int temp;
 	vitesse_moteur = vitesse_moteur * 25; /* Vitesse moteur exprimé en dixieme de tour/minute */
 	vitesse_moteur = - vitesse_moteur;
 
-	Gere_Asservissement(nb_tours, vitesse_moteur);	  
+	if (asservissement != 0)
+	{
+		Gere_Asservissement(nb_tours, vitesse_moteur);	  
+	}
 }

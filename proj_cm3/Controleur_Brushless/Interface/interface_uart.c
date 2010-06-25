@@ -39,6 +39,7 @@ int pourcent_pwm;
 int param_avance;
 int coeff_kv;
 int val_dead_time;
+int regulation;
 
 FILE Port_COM;
 
@@ -143,6 +144,25 @@ int commande_prete;
 				break;
 			case 'r':
 			case 'R':
+				sscanf (commande, "%d", &regulation);
+
+				if (regulation<0) regulation=0;
+				if (regulation>1) regulation=1;
+				asservissement = regulation;
+
+				if (regulation==1)
+				{
+					printf ("\nAsservissement actif\n");
+				}
+				else
+				{
+					printf ("\nAsservissement inactif\n");	
+				}
+
+				break;
+
+			case 'w':
+			case 'W':
 				sscanf (commande, "%d", &val_dead_time);
 
 				if (val_dead_time<0) val_dead_time=0;
@@ -180,7 +200,8 @@ void Interface_Aide(void)
 	printf ("Py=xx -> Regle certains parametres du systeme [y=parametre, xx=valeur]\n\n");
 	printf ("      y=0 -> Regle l'avance [entre 0 et %d]\n", (int)(_PAS_60_DEGRES_));
 	printf ("E     -> Affiche l'etat du systeme\n");
-	printf ("R     -> Regle le temps mort de 0 a %d\n", PWM_MAX-1);
+	printf ("R     -> Active/desactive la regulation de vitesse\n");
+	printf ("W     -> Regle le temps mort de 0 a %d\n", PWM_MAX-1);
 	printf ("?     -> Affiche ce menu\n\n");  
 }
 

@@ -32,6 +32,8 @@
 #define CONTROLE_MODE_ARRIERE 2
 #define CONTROLE_MODE_FREIN 0
 
+extern volatile int commande_courante;
+
 void Init_Moteur(void);
 void Init_Controle (void);
 void Regle_Controle(int consigne_demandee);
