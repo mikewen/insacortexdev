@@ -405,11 +405,6 @@
               <FileType>1</FileType>
               <FilePath>.\font8.c</FilePath>
             </File>
-            <File>
-              <FileName>support.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\support.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -426,14 +421,19 @@
               <FilePath>..\..\..\lib_cm3\LCD_4bit.c</FilePath>
             </File>
             <File>
-              <FileName>lib_baguette.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\lib_user\lib_baguette.c</FilePath>
-            </File>
-            <File>
               <FileName>stm_usartx.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\lib_cm3\stm_usartx.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>objs</GroupName>
+          <Files>
+            <File>
+              <FileName>lib_baguette.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\objs_lib_baguette\lib_baguette.o</FilePath>
             </File>
           </Files>
         </Group>
@@ -838,11 +838,6 @@
               <FileType>1</FileType>
               <FilePath>.\font8.c</FilePath>
             </File>
-            <File>
-              <FileName>support.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\support.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -859,14 +854,19 @@
               <FilePath>..\..\..\lib_cm3\LCD_4bit.c</FilePath>
             </File>
             <File>
-              <FileName>lib_baguette.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\lib_user\lib_baguette.c</FilePath>
-            </File>
-            <File>
               <FileName>stm_usartx.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\lib_cm3\stm_usartx.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>objs</GroupName>
+          <Files>
+            <File>
+              <FileName>lib_baguette.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\objs_lib_baguette\lib_baguette.o</FilePath>
             </File>
           </Files>
         </Group>

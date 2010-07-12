@@ -87,7 +87,18 @@ void Init_Clock_System()
 	RCC->CIR	=__RCC_CIR_RESET;
 
 	RCC->CFGR 	=__RCC_CFGR_VALUE;
-	 	 
+	
+	/* Reglage de la flash (waitstates) */
+	FLASH->ACR = 0x0; /* reset du controlleur de flash -> 0WS, pas de buffer de prefetch  */
+
+	#if (__SYSCLK <=24000000UL)
+		FLASH->ACR |= FLASH_LATENCY_0_WS;
+	#elif (__SYSCLK <=48000000UL) 
+		FLASH->ACR |= FLASH_LATENCY_1_WS;
+	#else
+		FLASH->ACR |= FLASH_LATENCY_2_WS;
+	#endif 	 
+	 
 	#ifdef HSE_IS_USED
 		//activate HSE
 		RCC->CR |= RCC_HSEON;
@@ -120,7 +131,14 @@ void Init_Clock_System()
 
 		// switch clock to PLL
 		RCC->CFGR |= RCC_SW_IS_PLL;
-	#endif  	 	 
+	#endif 
+	
+	FLASH->ACR |= FLASH_PRFTBE; /* Buffer de prefetch activé */
+	
+	#if ((_HPRE == 1) && (__SYSCLK <8000000UL))
+		FLASH->ACR |= FLASH_HLFCYA; /* Half cycle flash access (possible seulement si sysclk < 8Mhz 
+		                               et HCLK == SYSCLK*/	
+	#endif	 	 
 }
 
 //__________________________________________

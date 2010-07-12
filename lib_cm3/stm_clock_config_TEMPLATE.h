@@ -37,8 +37,8 @@ ________________________________________________________________________________
 #define IS_HSI 1					//DO NOT MODIFIY THIS CONSTANT
 #define IS_HSE 2					//DO NOT MODIFIY THIS CONSTANT
 #define IS_PLL 3					//DO NOT MODIFIY THIS CONSTANT
-#define IS_DIRECT (1)				//DO NOT MODIFIY THIS CONSTANT
-#define IS_DIVIDED_BY_2 (1<<17)	    //DO NOT MODIFIY THIS CONSTANT
+#define IS_DIRECT 		(RCC_PLLXTPRE_IS_HSE)				//DO NOT MODIFIY THIS CONSTANT
+#define IS_DIVIDED_BY_2 (RCC_PPLXTPRE_IS_HSE_DIV_2)	    	//DO NOT MODIFIY THIS CONSTANT
 #define __HSI 8000000UL	  // High Speed Internal RC clock (8MHz) on STM32F103xx
 
 
