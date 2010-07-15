@@ -44,6 +44,7 @@ ________________
 */
 
 #include "standard_types.h"
+#include "stm_regs.h"
 
 // DEBUG avec printf sur USART ou LCD
 
@@ -275,6 +276,16 @@ void InitApp(void)
 int main (void)
 {
 	InitApp();
+
+	/* Activation des handlers d'erreurs*/
+	NVIC_ENABLE_SYSTEM_IT(MEM_FAULT);
+	NVIC_ENABLE_SYSTEM_IT(BUS_FAULT);
+	NVIC_ENABLE_SYSTEM_IT(USAGE_FAULT);
+
+	/* Reglages des niveau d'IT de systick et svcall */
+	NVIC_SET_PRIO_SYSTEM(SYSTICK, 1);
+	NVIC_SET_PRIO_SYSTEM(SVCALL, 1);
+
 	StartOS(OSDEFAULTAPPMODE);
 	return 0;	
 }
