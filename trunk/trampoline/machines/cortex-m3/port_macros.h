@@ -56,17 +56,17 @@ typedef unsigned portLONG portTickType;
 /* Critical section management. */
 
 /* 
- * Set basepri to portMAX_SYSCALL_INTERRUPT_PRIORITY without effecting other
+ * Set basepri to 1 without effecting other
  * registers.  r0 is clobbered.
  */ 
-#define portSET_INTERRUPT_MASK()						\
-	__asm volatile										\
-	(													\
-		"	mov r0, %0								\n"	\
-		"	msr basepri, r0							\n" \
-		::"i"(configMAX_SYSCALL_INTERRUPT_PRIORITY):"r0"	\
+#define portSET_INTERRUPT_MASK()			\
+	__asm volatile							\
+	(										\
+		"	mov r0, #0x20					\n"	\
+		"	msr basepri, r0				\n"	\
+		:::"r0"								\
 	)
-	
+			
 /*
  * Set basepri back to 0 without effective other registers.
  * r0 is clobbered.

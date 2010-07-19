@@ -89,7 +89,7 @@ void Init_Clock_System()
 	RCC->CFGR 	=__RCC_CFGR_VALUE;
 	
 	/* Reglage de la flash (waitstates) */
-	FLASH->ACR = 0x0; /* reset du controlleur de flash -> 0WS, pas de buffer de prefetch  */
+	FLASH->ACR = 0x0; /* reset du controleur de flash -> 0 WS, pas de buffer de prefetch  */
 
 	#if (__SYSCLK <=24000000UL)
 		FLASH->ACR |= FLASH_LATENCY_0_WS;
