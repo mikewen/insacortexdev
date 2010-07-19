@@ -122,7 +122,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGDARM</Key>
-          <Name>(1010=865,605,1231,1148,1)(1007=105,133,282,394,0)(1008=-1,-1,-1,-1,0)(1009=278,732,512,1266,1)(100=644,108,1280,768,0)(110=999,224,1203,677,0)(111=321,315,525,768,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=290,214,701,634,0)(121=852,354,1263,768,0)(122=394,300,805,720,0)(123=-1,-1,-1,-1,0)(140=75,107,753,440,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=150,0,734,744,0)(131=150,0,734,744,0)(132=696,0,1280,744,0)(133=150,0,734,744,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=940,297,1258,768,0)(234=-1,-1,-1,-1,0)(231=733,428,1173,768,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=894,106,1260,649,1)(1007=105,133,282,394,0)(1008=-1,-1,-1,-1,0)(1009=307,703,541,1237,1)(100=644,108,1280,768,0)(110=999,224,1203,677,0)(111=321,315,525,768,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=290,214,701,634,0)(121=852,354,1263,768,0)(122=394,300,805,720,0)(123=-1,-1,-1,-1,0)(140=75,107,753,440,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=150,0,734,744,0)(131=150,0,734,744,0)(132=696,0,1280,744,0)(133=150,0,734,744,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=940,297,1258,768,0)(234=-1,-1,-1,-1,0)(231=733,428,1173,768,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -234,7 +234,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>poursuite_CAN.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\poursuite_CAN\289</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -510,7 +510,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGTARM</Key>
-          <Name>(1010=818,48,1184,591,0)(1007=309,733,486,994,1)(1008=-1,-1,-1,-1,0)(1009=8,454,242,988,1)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=919,476,1237,947,0)(231=723,580,1163,920,0)(232=643,697,1083,1024,0)(233=26,186,392,599,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=878,56,1244,599,1)(1007=309,733,486,994,0)(1008=-1,-1,-1,-1,0)(1009=10,490,244,1024,1)(100=516,270,1152,929,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=919,476,1237,947,0)(231=723,580,1163,920,0)(232=643,697,1083,1024,0)(233=26,186,392,599,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -520,12 +520,12 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>(105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0)</Name>
+          <Name>(105=475,352,1144,696,0)(106=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
           <Key>UL2CM3</Key>
-          <Name>-UM0130ASE -O206 -S0 -C0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO19 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_16 -FS08000000 -FL04000</Name>
+          <Name>-UM0130ASE -O206 -S0 -C0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F10x_16 -FS08000000 -FL04000</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint>
@@ -534,7 +534,7 @@
           <Type>0</Type>
           <LineNumber>86</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134222132</Address>
+          <Address>134222152</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
@@ -592,9 +592,9 @@
         <Bp>
           <Number>4</Number>
           <Type>0</Type>
-          <LineNumber>289</LineNumber>
+          <LineNumber>288</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134227574</Address>
+          <Address>134227590</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
@@ -602,9 +602,21 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>poursuite_CAN.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\poursuite_CAN\288</Expression>
         </Bp>
       </Breakpoint>
+      <WatchWindow1>
+        <Ww>
+          <count>0</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>val_temp</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>val_temp_2</ItemText>
+        </Ww>
+      </WatchWindow1>
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
@@ -687,7 +699,7 @@
 
   <Group>
     <GroupName>os</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -698,8 +710,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>96</TopLine>
+      <CurrentLine>96</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os.c</FilenameWithoutPath>
@@ -712,8 +724,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>59</TopLine>
+      <CurrentLine>75</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_action.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_action.c</FilenameWithoutPath>
@@ -726,8 +738,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>52</TopLine>
+      <CurrentLine>52</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_alarm.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_alarm.c</FilenameWithoutPath>
@@ -740,8 +752,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>242</TopLine>
+      <CurrentLine>242</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_alarm_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_alarm_kernel.c</FilenameWithoutPath>
@@ -782,8 +794,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>42</TopLine>
+      <CurrentLine>45</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_event.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_event.c</FilenameWithoutPath>
@@ -796,8 +808,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>75</TopLine>
+      <CurrentLine>81</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_event_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_event_kernel.c</FilenameWithoutPath>
@@ -824,8 +836,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>96</TopLine>
+      <CurrentLine>106</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_it_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_it_kernel.c</FilenameWithoutPath>
@@ -838,8 +850,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>835</TopLine>
+      <CurrentLine>838</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_kernel.c</FilenameWithoutPath>
@@ -880,8 +892,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>53</TopLine>
+      <CurrentLine>53</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_task.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_task.c</FilenameWithoutPath>
@@ -894,8 +906,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>147</TopLine>
+      <CurrentLine>147</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_task_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_task_kernel.c</FilenameWithoutPath>
@@ -908,8 +920,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>293</TopLine>
-      <CurrentLine>297</CurrentLine>
+      <TopLine>315</TopLine>
+      <CurrentLine>315</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/os/tpl_os_timeobj_kernel.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_timeobj_kernel.c</FilenameWithoutPath>
@@ -939,12 +951,12 @@
       <GroupNumber>3</GroupNumber>
       <FileNumber>20</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>50</TopLine>
-      <CurrentLine>56</CurrentLine>
+      <TopLine>126</TopLine>
+      <CurrentLine>136</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c</PathWithFileName>
       <FilenameWithoutPath>tpl_machine_cm3.c</FilenameWithoutPath>
@@ -964,8 +976,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>75</TopLine>
-      <CurrentLine>75</CurrentLine>
+      <TopLine>50</TopLine>
+      <CurrentLine>86</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>../../../lib_cm3/cm3_traps.c</PathWithFileName>
       <FilenameWithoutPath>cm3_traps.c</FilenameWithoutPath>
@@ -974,9 +986,9 @@
       <GroupNumber>4</GroupNumber>
       <FileNumber>22</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>56</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
@@ -1079,12 +1091,12 @@
       <GroupNumber>5</GroupNumber>
       <FileNumber>29</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>277</TopLine>
-      <CurrentLine>289</CurrentLine>
+      <TopLine>273</TopLine>
+      <CurrentLine>288</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\poursuite_CAN.c</PathWithFileName>
       <FilenameWithoutPath>poursuite_CAN.c</FilenameWithoutPath>
@@ -1097,8 +1109,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>271</TopLine>
+      <CurrentLine>274</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Projet_Poursuite_CAN/tpl_os_generated_configuration.c</PathWithFileName>
       <FilenameWithoutPath>tpl_os_generated_configuration.c</FilenameWithoutPath>
@@ -1120,61 +1132,9 @@
   </Group>
 
   <AlienFiles>
-    <PathWithFilename>D:\dimercur\insacortexdev\proj_cm3\Controleur_Brushless\init.c</PathWithFilename>
-    <TopLine>7</TopLine>
-    <CurrentLine>25</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>D:\dimercur\insacortexdev\LIB_CM3\STM_REGS.H</PathWithFilename>
-    <TopLine>1961</TopLine>
-    <CurrentLine>1993</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>D:\DIMERCUR\INSACORTEXDEV\LIB_CM3\STM_SYSTEM.H</PathWithFilename>
-    <TopLine>302</TopLine>
-    <CurrentLine>302</CurrentLine>
+    <PathWithFilename>D:\DIMERCUR\INSACORTEXDEV\TRAMPOLINE\MACHINES\CORTEX-M3\PORT_MACROS.H</PathWithFilename>
+    <TopLine>50</TopLine>
+    <CurrentLine>65</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -2351,7 +2311,7 @@
         <FloatingRect_bottom>600</FloatingRect_bottom>
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>50</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
+        <ActiveTab>1</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -2401,7 +2361,7 @@
         <FloatingRect_bottom>600</FloatingRect_bottom>
         <FloatingRect_right>250</FloatingRect_right>
         <ContainerPercent>50</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -2651,7 +2611,7 @@
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
+        <ActiveTab>1</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -2676,8 +2636,8 @@
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
-        <Visible>1</Visible>
+        <ActiveTab>0</ActiveTab>
+        <Visible>0</Visible>
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
@@ -2788,13 +2748,31 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>2</ActiveTab>
+      <ActiveTab>5</ActiveTab>
       <Documents>
         <Doc>
-          <Name>../../../trampoline/os/tpl_os_timeobj_kernel.c</Name>
+          <Name>../../../lib_cm3/cm3_traps.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>293</TopLine>
-          <CurrentLine>297</CurrentLine>
+          <TopLine>50</TopLine>
+          <CurrentLine>86</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>D:\DIMERCUR\INSACORTEXDEV\TRAMPOLINE\MACHINES\CORTEX-M3\PORT_MACROS.H</Name>
+          <ColumnNumber>16</ColumnNumber>
+          <TopLine>50</TopLine>
+          <CurrentLine>65</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\Projet_Poursuite_CAN/tpl_os_generated_configuration.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>271</TopLine>
+          <CurrentLine>274</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\poursuite_CAN.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>273</TopLine>
+          <CurrentLine>288</CurrentLine>
         </Doc>
         <Doc>
           <Name>../../../system/STM32F10x_GCC.s</Name>
@@ -2805,38 +2783,74 @@
         <Doc>
           <Name>../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>50</TopLine>
-          <CurrentLine>56</CurrentLine>
+          <TopLine>126</TopLine>
+          <CurrentLine>136</CurrentLine>
         </Doc>
         <Doc>
-          <Name>../../../lib_cm3/cm3_traps.c</Name>
+          <Name>../../../trampoline/os/tpl_os_timeobj_kernel.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>315</TopLine>
+          <CurrentLine>315</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_task_kernel.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>147</TopLine>
+          <CurrentLine>147</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_task.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>53</TopLine>
+          <CurrentLine>53</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_kernel.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>835</TopLine>
+          <CurrentLine>838</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_it_kernel.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>96</TopLine>
+          <CurrentLine>106</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_event_kernel.c</Name>
           <ColumnNumber>0</ColumnNumber>
           <TopLine>75</TopLine>
+          <CurrentLine>81</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_event.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>42</TopLine>
+          <CurrentLine>45</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_alarm_kernel.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>242</TopLine>
+          <CurrentLine>242</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_alarm.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>52</TopLine>
+          <CurrentLine>52</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>../../../trampoline/os/tpl_os_action.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>59</TopLine>
           <CurrentLine>75</CurrentLine>
         </Doc>
         <Doc>
-          <Name>.\poursuite_CAN.c</Name>
+          <Name>../../../trampoline/os/tpl_os.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>277</TopLine>
-          <CurrentLine>289</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>D:\dimercur\insacortexdev\proj_cm3\Controleur_Brushless\init.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>7</TopLine>
-          <CurrentLine>25</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>D:\dimercur\insacortexdev\LIB_CM3\STM_REGS.H</Name>
-          <ColumnNumber>58</ColumnNumber>
-          <TopLine>1961</TopLine>
-          <CurrentLine>1993</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>D:\DIMERCUR\INSACORTEXDEV\LIB_CM3\STM_SYSTEM.H</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>302</TopLine>
-          <CurrentLine>302</CurrentLine>
+          <TopLine>96</TopLine>
+          <CurrentLine>96</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

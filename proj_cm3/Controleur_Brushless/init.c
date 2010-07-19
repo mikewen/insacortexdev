@@ -21,6 +21,7 @@
  * Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+
 #include "stm_regs.h"
 #include "stm_clock.h"
 #include "stm_usartx.h"

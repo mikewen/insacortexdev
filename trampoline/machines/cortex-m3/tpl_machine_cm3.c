@@ -49,6 +49,10 @@ idle_stack[SIZE_OF_IDLE_STACK/sizeof(tpl_stack_word)]={0xACDC0000,0xACDC0001,0xA
 //	};
 
 
+/* Debug */
+volatile unsigned int val_temp;
+volatile unsigned int val_temp_2;
+
 /*
  * tpl_sleep is used by the idle task
  */
@@ -81,9 +85,14 @@ void tpl_switch_context(tpl_context *old_context, tpl_context *new_context)
 	 // R1 has a pointer to the new context.
 	 // first of all: store the current context in old_context
 
+	//__asm__ ("pop {r7,lr} ;"); 
+	// DEBUG
+	__asm__ ("ldr r4, =val_temp");
+	__asm__ ("str r1,[r4]");
+
 	__asm__ ("pop {r4-r6,lr} ;"); // clean msp stack from previous C calls  
 	__asm__ ("pop {r4,lr} ;"); 
-	//__asm__ ("pop {r7,lr} ;"); 
+	
 
 				// now context is back and lr is the return address
 
@@ -123,6 +132,12 @@ void tpl_switch_context(tpl_context *old_context, tpl_context *new_context)
 				// SET NEW CONTEXT from R1 using SVC call
 void SVC_Handler ( void)	 //TODO __attribute__ ((naked))
 {  // processor is now in Handler mode
+	__asm__ ("ldr r4, =val_temp_2");
+	__asm__ ("str r1,[r4]");
+
+	__asm__ ("ldr r4, =val_temp");
+	__asm__ ("ldr r1,[r4]");
+
 	__asm__ ("ldr r1, [r1] ; "); // r1 pointer to new task cm3_context
 	__asm__ ("ldmia r1 ! , {r4-r11} ;"); // backup gpr not in stack frame from new context
 	__asm__ ("ldr r0, [r1]  ; ");  // get psp on the new context stack frame
