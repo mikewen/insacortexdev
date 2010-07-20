@@ -49,9 +49,10 @@ idle_stack[SIZE_OF_IDLE_STACK/sizeof(tpl_stack_word)]={0xACDC0000,0xACDC0001,0xA
 //	};
 
 
-/* Debug */
-volatile unsigned int val_temp;
-volatile unsigned int val_temp_2;
+#ifdef __BUG_R1_WORKAROUND__
+volatile unsigned int sauvegarde_R1;
+volatile unsigned int verification_R1;
+#endif /* __BUG_R1_WORKAROUND__ */
 
 /*
  * tpl_sleep is used by the idle task
@@ -81,15 +82,19 @@ void tpl_shutdown(void)
 
 void tpl_switch_context(tpl_context *old_context, tpl_context *new_context)
 {
-	 // R0 has a pointer to the old context. It seems to be 0 when no old context has to be saved
-	 // R1 has a pointer to the new context.
-	 // first of all: store the current context in old_context
+	// R0 has a pointer to the old context. It seems to be 0 when no old context has to be saved
+	// R1 has a pointer to the new context.
+	// first of all: store the current context in old_context
 
-	//__asm__ ("pop {r7,lr} ;"); 
-	// DEBUG
-	__asm__ ("ldr r4, =val_temp");
+#ifdef __BUG_R1_WORKAROUND__
+	// -- Correction bug aleatoire dans SVC_Handler --
+	// sauvegarde du registre R1
+	__asm__ ("ldr r4, =sauvegarde_R1");
 	__asm__ ("str r1,[r4]");
+	// -- fin de correction
+#endif /* __BUG_R1_WORKAROUND__*/
 
+	// first of all: store the current context in old_context
 	__asm__ ("pop {r4-r6,lr} ;"); // clean msp stack from previous C calls  
 	__asm__ ("pop {r4,lr} ;"); 
 	
@@ -124,6 +129,7 @@ void tpl_switch_context(tpl_context *old_context, tpl_context *new_context)
 				
 				//SET NEW CONTEXT
 	__asm__ ("set_new_context : ");
+	__asm__ ("CPSIE	I"); /* Enable IT, otherwise, it's not possible for SVC_Handler to trig */
 	__asm__ ("svc 0 ;"); //Processor is in thread mode : we need to make
 							 // a SVC call to get Handler mode and fake a return
 							 // to new context
@@ -132,11 +138,18 @@ void tpl_switch_context(tpl_context *old_context, tpl_context *new_context)
 				// SET NEW CONTEXT from R1 using SVC call
 void SVC_Handler ( void)	 //TODO __attribute__ ((naked))
 {  // processor is now in Handler mode
-	__asm__ ("ldr r4, =val_temp_2");
+
+#ifdef __BUG_R1_WORKAROUND__
+	// -- Correction bug aleatoire dans SVC_Handler --
+	// sauvegarde du registre R1, pour verification 
+	__asm__ ("ldr r4, =verification_R1");
 	__asm__ ("str r1,[r4]");
 
-	__asm__ ("ldr r4, =val_temp");
+	// Restauration du registre R1
+	__asm__ ("ldr r4, =sauvegarde_R1");
 	__asm__ ("ldr r1,[r4]");
+	// -- Fin de correction
+#endif /* __BUG_R1_WORKAROUND__ */
 
 	__asm__ ("ldr r1, [r1] ; "); // r1 pointer to new task cm3_context
 	__asm__ ("ldmia r1 ! , {r4-r11} ;"); // backup gpr not in stack frame from new context

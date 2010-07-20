@@ -25,7 +25,7 @@ TODO
 ______________________________________________________________________________________
 */
 
-#include <stm32f10x_lib.h>
+#include "stm_regs.h"
 #include "stm_metro_v1.h"
 
 #define SET_PRIORITY(pos,lvl)  NVIC->IPR[(pos/4)] |= ( (lvl) << (4+8*(pos-(pos/4)*4)) )
@@ -41,7 +41,7 @@ ________________________________________________________________________________
 #define __CC2_ON									 (1<<4) //0x0010
 #define __TIMX_CR1_CDISABLE 						 0xFFFE
 
-
+extern volatile unsigned int numero_IT;
 						   
  void Init_PortA()
 {
@@ -280,8 +280,8 @@ void  Init_Timer3()
 	#ifdef USE_SPEED	 
 	  TIM3->DIER = __TIM3_DIER;                             // enable interrupt
       NVIC->ISER[0] = 0x20000000;							// enable  nested vector interrupt controler
-	 // NVIC->IPR[28/4] |= (SPEED_IT_LVL)<<(4+8*(28-28/4));
-	 SET_PRIORITY(28,SPEED_IT_LVL) ;
+	 NVIC_SET_PRIO_PERIPH(TIM3, SPEED_IT_LVL);
+
 	#endif /* USE_SPEED */
       
 	  TIM3->CR1 |= __TIMX_CR1_CEN;                     // enable timer                                 
@@ -379,9 +379,8 @@ void  Init_Timer4()
                            // interrupts used
       TIM4->DIER = __TIM4_DIER;                             // enable interrupt
 	  NVIC->ISER[0] = 0x40000000;  							// enable  nested vector interrupt controler
-	  // priorité dans NVIC->IP[0]   TODO !!! prioritées selon defines
-//	  	  NVIC->IPR[8] |= (SPEED_IT_LVL)<<(0);
-	 SET_PRIORITY(30,SPEED_IT_LVL)	;
+	  
+	  NVIC_SET_PRIO_PERIPH(TIM4, SPEED_IT_LVL);
 
       TIM4->CR1 |= __TIMX_CR1_CEN;                              // enable timer
                                 
@@ -402,7 +401,6 @@ volatile s8 Etat_Vit = ARRETE;
 u16 Duree = DUREE_ARRET;
 void TIM4_IRQHandler(void)
 {
- 
  	if((TIM4->SR & 0x0001)) // est-ce un overflow ?(dépassement)
     {
 	  	TIM4->SR &= ~(0x0001);		 // reset interrupt flag
