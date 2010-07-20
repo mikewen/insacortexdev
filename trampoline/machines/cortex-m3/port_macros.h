@@ -21,7 +21,11 @@
  *-----------------------------------------------------------
  */
 
+/* configuration */
 
+// Contournement du bug R1
+// Pour activer le contournement du bug R1 dans le changement de contexte, activez la ligne suivant
+#define __BUG_R1_WORKAROUND__
 
 /* Type definitions.  */
 #define portCHAR		char
@@ -59,26 +63,17 @@ typedef unsigned portLONG portTickType;
  * Set basepri to 1 without effecting other
  * registers.  r0 is clobbered.
  */ 
-#define portSET_INTERRUPT_MASK()			\
-	__asm volatile							\
-	(										\
-		"	mov r0, #0x20					\n"	\
-		"	msr basepri, r0				\n"	\
-		:::"r0"								\
-	)
-			
+
+/* Disable priority based interrupt */
+#define portSET_INTERRUPT_MASK()  __asm__ (" CPSID	I")
+							
 /*
  * Set basepri back to 0 without effective other registers.
  * r0 is clobbered.
  */
-#define portCLEAR_INTERRUPT_MASK()			\
-	__asm volatile							\
-	(										\
-		"	mov r0, #0					\n"	\
-		"	msr basepri, r0				\n"	\
-		:::"r0"								\
-	)
 
+/* Enable priority based interrupt */
+#define portCLEAR_INTERRUPT_MASK()  __asm__ (" CPSIE	I")
 
 #define portDISABLE_INTERRUPTS()	portSET_INTERRUPT_MASK()
 #define portENABLE_INTERRUPTS()		portCLEAR_INTERRUPT_MASK()
