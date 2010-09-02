@@ -6,27 +6,27 @@ ________________________________________________________________________________
 ________________________________________________________________________________________
 USAGE
 	??? is the name of the library i.e. stm_clock
-	RELPATH is the relative path from your projetc directory to lib_cm3 directory	
-	
+	RELPATH is the relative path from your projetc directory to lib_cm3 directory
+
    	include RELPATH/lib_cm3/???.c file in your makefile
 	copy    RELPATH/lib_cm3/???_config_TEMPLATE.h in your project directory	(noted ./)
 	rename  ./???_config_TEMPLATE.h as ./???_config.h in your project directory
-	edit    ./???_config.h file for your project (lines with //CONF tags)  
-	ensure that ./ path is visible in CC compiler options 
-	add "#include "RELPATH/lib_cm3/???.h" in app. code 
+	edit    ./???_config.h file for your project (lines with //CONF tags)
+	ensure that ./ path is visible in CC compiler options
+	add "#include "RELPATH/lib_cm3/???.h" in app. code
 	add a call to "Init_???();" at initialisation step of your APP
 ________________________________________________________________________________________
 REVS
 	[Acco 06/01/2010] finalisation et commentaires de la première version
-		Testée en réel et simulé (utilisation de PWM et USART et CAN)		
+		Testée en réel et simulé (utilisation de PWM et USART et CAN)
 ________________________________________________________________________________________
 TODO
 	test _SYSCLK_SOURCE IS_HSI and IS_HSE
 	+ Peripheral clock enable  functions
 	+ USBCLK, MCO, CSS fonctionalities
 	+ RTCCLK IWDGCLK functionalities
-	+ TIM1 and TIM2  
- 	+ stm32_GetPCLK2() et autres fonctions pour assurer 
+	+ TIM1 and TIM2
+ 	+ stm32_GetPCLK2() et autres fonctions pour assurer
 	  la compatibilité avec stm32f10x lib
 ________________________________________________________________________________________
 */
@@ -63,16 +63,16 @@ ________________________________________________________________________________
 //  IS_HSI : for High Speed Internal clock  prescaled by 2 (the 8MHz local RC clock)
 //  IS_HSE : for High Speed External Clock  (the external crystal) prescaled by 2 or not
 #define _PLL_SOURCE IS_HSE
-   	
+
 //CONFIGURE pll extern prescaler ONLY IF you set _SYSCLK_SOURCE IS_PLL and _PLL_SOURCE IS_HSE
 // 								   OR IF you will set _USBCLK IS_USED
 // IS_DIRECT : when PLL input is directly driven by HSE external crystal
-// IS_DIVIDED_BY_2 : when PLL input is drived by /2 prescaler of HSE external crystal 
+// IS_DIVIDED_BY_2 : when PLL input is drived by /2 prescaler of HSE external crystal
 #define _PLLXTPRE IS_DIRECT
-	
+
 // CONFIGURE pll multiplication factor  ONLY IF you set _SYSCLK_SOURCE IS_PLL
 // 								  		 OR IF you will set _USBCLK IS_USED
-// [2 to 16] choose any multiplication factor in this fork 
+// [2 to 16] choose any multiplication factor in this fork
 #define __PLLMULL 5
 
 // end of system clock cnfiguration
@@ -87,17 +87,17 @@ ________________________________________________________________________________
 //                          SDIO,FSMC,AHB,Cortex system timer and FCLK
 // {1,2,4,8,16,64,128,256,512} choose any division factor in this list
 //                              (32 is not on the list!)
-#define _HPRE	1 
+#define _HPRE	1
 
-// CONFIGURE PPRE1 APB low-speed prescaler (presacler that gives clock to 
+// CONFIGURE PPRE1 APB low-speed prescaler (presacler that gives clock to
 // {1,2,4,8,16} choose any division factor in this list
-#define _PPRE1	2 
+#define _PPRE1	2
 
-// CONFIGURE PPRE2 APB high-speed prescaler (presacler that gives clock to 
+// CONFIGURE PPRE2 APB high-speed prescaler (presacler that gives clock to
 // {1,2,4,8,16} choose any division factor in this list
-#define _PPRE2	1 
+#define _PPRE2	1
 
-// CONFIGURE ADCPRE ADC prescaler 
+// CONFIGURE ADCPRE ADC prescaler
 // {2,4,6,8} choose any division factor in this list
 #define _ADCPRE	4
 
@@ -110,7 +110,7 @@ ________________________________________________________________________________
 //____________________________________________________________________________________*/
 
 //______________________________________________________________________________________
-// Control of inputs  
+// Control of inputs
 // Evaluation and control of frequencies (generates error message)
 // defines __SYSCLK, __HCLK, __PCLK1, __PCLK2, __ADCCLK	 __TIMXCLK __TIMxCLK
 #if (__HSE<4000000UL)
@@ -169,13 +169,13 @@ ________________________________________________________________________________
 		#define INPLL_CLK (__HSI/2)
 	#elif(_PLL_SOURCE==IS_HSE)
 		#if (_PLLXTPRE==IS_DIRECT)
-			#define INPLL_CLK (__HSE)	 	
+			#define INPLL_CLK (__HSE)
 		#elif (_PLLXTPRE==IS_DIVIDED_BY_2)
-			#define INPLL_CLK (__HSE/2)	 	
+			#define INPLL_CLK (__HSE/2)
 		#else
-			#define INPLL_CLK (3)	 				
+			#define INPLL_CLK (3)
 		#endif
-	#else 
+	#else
 		#define INPLL_CLK (2)
 	#endif
 	#define __PLLCLK ((__PLLMULL)*(INPLL_CLK))
@@ -185,22 +185,22 @@ ________________________________________________________________________________
 #endif
 #if ((__SYSCLK)>72000000UL)
 	#error "PLL output frequency should not exceed 72 MHz ! Reduce __PLMULL or set _PLLXTPRE to IS_DIVIDED_BY_2"
-#endif 
+#endif
 
 // Eval __HCLK	 output of AHB prescaler connect to SYSCLK
 #define __HCLK	((__SYSCLK)/(_HPRE))
 
-// Eval __PCLK1	 output of APB1 (low speed max 36MHz) prescaler 
+// Eval __PCLK1	 output of APB1 (low speed max 36MHz) prescaler
 #define __PCLK1 ((__HCLK)/(_PPRE1))
 #if ((__PCLK1)>36000000UL)
 	#error "APB1 output frequency should not exceed 36 MHz ! Increase _PPRE1 or _HPRE prescaler ratio"
-#endif 
+#endif
 #if (_PPRE1==1)
 	#define __TIMXCLK (__PCLK1)
 #else
 	#define __TIMXCLK (__PCLK1*2UL)
 #endif
-// Eval __PCLK2	 output of APB2 (High speed) prescaler 
+// Eval __PCLK2	 output of APB2 (High speed) prescaler
 #define __PCLK2 ((__HCLK)/(_PPRE2))
 #if (_PPRE2==1)
 	#define __TIMxCLK (__PCLK2)
@@ -212,8 +212,6 @@ ________________________________________________________________________________
 #define __ADCCLK ((__PCLK2)/(_ADCPRE))
 #if ((__ADCCLK)>14000000UL)
 	#error "ADC prescaler output frequency should not exceed 14 MHz ! Increase _ADCPRE or _HPRE prescaler ratio"
-#endif 
-	
 #endif
 
-			
+#endif

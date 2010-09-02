@@ -23,10 +23,10 @@
 #endif /* EXT */
 
 /* Includes ------------------------------------------------------------------*/
+#include "standard_types.h"
 #include "stm32f10x_conf.h"
-#include "stm32f10x_type.h"
 #include "cortexm3_macro.h"
-
+#include "stm32f10x_type.h"
 /* Exported types ------------------------------------------------------------*/
 /******************************************************************************/
 /*                         Peripheral registers structures                    */
