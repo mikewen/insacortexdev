@@ -2484,12 +2484,12 @@
 //   </e>
 
 // </e> End of External interrupt/event Configuration
-#define __EXTI_SETUP              0                       //  0
-#define __EXTI_USED               0x0000                  //  1
-#define __EXTI_INTERRUPTS         0x00000000              //  2
-#define __EXTI_IMR                0x00000000              //  3
-#define __EXTI_EMR                0x00000000              //  4
-#define __EXTI_RTSR               0x00000000              //  5
+#define __EXTI_SETUP              1                       //  0
+#define __EXTI_USED               0x0001                  //  1
+#define __EXTI_INTERRUPTS         0x00000001              //  2
+#define __EXTI_IMR                0x00000001              //  3
+#define __EXTI_EMR                0x00000001              //  4
+#define __EXTI_RTSR               0x00000001              //  5
 #define __EXTI_FTSR               0x00000000              //  6
 #define __AFIO_EXTICR1            0x00000000              //  7
 #define __AFIO_EXTICR2            0x00000000              //  8

@@ -1,28 +1,30 @@
+#include "waits.h"
 
-int dummy_asm(void);
-//char mante = 'Q';
+extern void dummy_asm(void);
 
-struct{
-	char treuse;
-	short int ayeume;
-} ure;
+extern unsigned char Global_Number_Of_Wait_Calls ;
+extern unsigned char Number_Of_Wait_Calls ;
+
 int main(void)
 {
+	 char avoile;
+	 char ette;
+	 char pie;
+	 char meurt;
 
-	int repide = 0;
- /*	char      	leston ;
-	short int  	aillemeu ;
-	int 	   	hello ;
-	float	 	ille;
-	 
-	leston   = (char)  		dummy_asm();
-	aillemeu = (short int) 	dummy_asm() + (short int) leston;
-	hello    = (int)   		dummy_asm() + (int) aillemeu;
-	ille	 = (float)  	dummy_asm() + (float) hello;
-		 	
-	return (int) ille;		
-	*/
-	ure.treuse = 'Z';
-	ure.ayeume = 12;
-	dummy_asm();
+	//dummy_asm();
+	
+	wait_s32_u8();
+	wait_u32_su8();
+	wait_in_reverse_s32_su8();
+	wait_glbl_su8();
+	wait_volatile_su8();
+
+	avoile = Get_Number_Of_Wait_Calls ();
+	ette = Get_Number_Of_Wait_Calls ();
+	pie = Global_Number_Of_Wait_Calls ;
+	meurt =  Number_Of_Wait_Calls ;
+
+	while (1) ;
+
 }
