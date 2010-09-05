@@ -21,9 +21,15 @@ namespace waveform_gen
         static TextWriter C_file;
 		static TextWriter H_file;
 		
+		static int Taille;
+		static float Taille_f;
+		
 		public static void Main(string[] args)
 		{
-			Table = new float[128];
+			Taille = 64;
+			Taille_f = (float)64.0;
+			
+			Table = new float[Taille];
 			C_file = new StreamWriter("waveform.c");
 			H_file = new StreamWriter("waveform.h");
 			
@@ -53,37 +59,37 @@ namespace waveform_gen
 			C_file.WriteLine(" */\n");
 			
 			C_file.WriteLine("#include \"stm_regs.h\"\n#include \"waveform.h\"\n");
-			C_file.WriteLine("const u32 Waveforms[_WAVEFORMS_NB_][_WAVEFORMS_LENGTH_] =\n{\n");
+			C_file.WriteLine("const u32 Waveforms[_WAVEFORMS_NB_][_WAVEFORMS_LENGTH_] =\n{");
 			
 			C_file.Write("\t{ // Triangle");
 				nb_waveform++;
 				
-				for (index=0;index<128/2;index++)
+				for (index=0;index<Taille/2;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
-					C_file.Write((int)(((float)index)*4096.0/64.0)+",");
+					C_file.Write((int)(((float)index)*4096.0/(Taille_f/2))+",");
 				}
 				
-				for (index=128/2;index>0;index--)
+				for (index=Taille/2;index>0;index--)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
-					C_file.Write((int)(((float)index)*4096.0/64.0)+",");
+					C_file.Write((int)(((float)index)*4096.0/(Taille_f/2))+",");
 				}
 			C_file.WriteLine("\n\t},");
 
 			C_file.Write("\t{ // Sinus");
 				nb_waveform++;
 				
-				for (index=0;index<128/2;index++)
+				for (index=0;index<Taille/2;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
 					C_file.Write((int)((Math.Sin((float)index*Math.PI/64.0))*2048.0+2048.0)+",");
 				}
 				
-				for (index=128/2;index<128;index++)
+				for (index=Taille/2;index<Taille;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
@@ -94,14 +100,14 @@ namespace waveform_gen
 			C_file.Write("\t{ // Square");
 				nb_waveform++;
 				
-				for (index=0;index<128/2;index++)
+				for (index=0;index<Taille/2;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
 					C_file.Write(((int)4096.0)+",");
 				}
 				
-				for (index=128/2;index<128;index++)
+				for (index=Taille/2;index<Taille;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
@@ -112,32 +118,32 @@ namespace waveform_gen
 			C_file.Write("\t{ // Sawteeth");
 				nb_waveform++;
 				
-				for (index=0;index<128/2;index++)
+				for (index=0;index<Taille/2;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
-					C_file.Write((int)(((float)index)*4096.0/64.0)+",");
+					C_file.Write((int)(((float)index)*4096.0/(Taille_f/2))+",");
 				}
 				
-				for (index=0;index<128/2;index++)
+				for (index=0;index<Taille/2;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
-					C_file.Write((int)(((float)index)*4096.0/64.0)+",");
+					C_file.Write((int)(((float)index)*4096.0/(Taille_f/2))+",");
 				}
 			C_file.WriteLine("\n\t},");
 			
 			C_file.Write("\t{ // Half sinus");
 				nb_waveform++;
 				
-				for (index=0;index<128/2;index++)
+				for (index=0;index<Taille/2;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
-					C_file.Write((int)((Math.Sin((float)index*Math.PI/64.0))*2048.0+2048.0)+",");
+					C_file.Write((int)((Math.Sin((float)index*Math.PI/(Taille_f/2)))*2048.0+2048.0)+",");
 				}
 				
-				for (index=128/2;index<128;index++)
+				for (index=Taille/2;index<Taille;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
@@ -148,32 +154,32 @@ namespace waveform_gen
 			C_file.Write("\t{ // Double positive sinus");
 				nb_waveform++;
 				
-				for (index=0;index<128/2;index++)
+				for (index=0;index<Taille/2;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
-					C_file.Write((int)((Math.Sin((float)index*Math.PI/64.0))*4096.0)+",");
+					C_file.Write((int)((Math.Sin((float)index*Math.PI/(Taille_f/2)))*4096.0)+",");
 				}
 				
-				for (index=0;index<128/2;index++)
+				for (index=0;index<Taille/2;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
-					C_file.Write((int)((Math.Sin((float)index*Math.PI/64.0))*4096.0)+",");
+					C_file.Write((int)((Math.Sin((float)index*Math.PI/(Taille_f/2)))*4096.0)+",");
 				}
 			C_file.WriteLine("\n\t},");
 			
 			C_file.Write("\t{ // Half sawteeth");
 				nb_waveform++;
 				
-				for (index=0;index<128/2;index++)
+				for (index=0;index<Taille/2;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
-					C_file.Write((int)(((float)index)*4096.0/64.0)+",");
+					C_file.Write((int)(((float)index)*4096.0/(Taille_f/2))+",");
 				}
 				
-				for (index=128/2;index<128;index++)
+				for (index=Taille/2;index<Taille;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
