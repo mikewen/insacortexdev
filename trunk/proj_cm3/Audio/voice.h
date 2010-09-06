@@ -24,7 +24,20 @@
 #ifndef _VOICE_H_
 #define _VOICE_H_
 
-#define _NB_VOICES_ 8
+#define _NB_VOICES_ 4
+
+#define _DO_	0
+#define _DO_#_	1
+#define _RE_	2
+#define _RE_#_	3
+#define _MI_	4
+#define _FA_	5
+#define _FA_#_	6
+#define _SOL_	7
+#define _SOL_#_	8
+#define _LA_	9
+#define _LA_#_	10
+#define _SI_	11
 
 struct VOICE_ST
 {
