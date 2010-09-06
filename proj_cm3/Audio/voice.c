@@ -31,36 +31,31 @@ extern u16 note_array[12][5]=
 {
 	/* Do, Do#,  Ré,   Ré#,  Mi,   Fa,   Fa#,  Sol,  Sol#, La,   La#,  Si */
 	{8600, 8117, 7662, 7232, 6826, 6443, 6081, 5740, 5418, 5114, 4827, 4556},	/* octave 2 */
-	{},	/* octave 3 */
+	{4300, 4059, 3831, 3616, 3413, 3221, 3041, 2870, 2709, },	/* octave 3 */
 	{},	/* octave 4 */
 	{},	/* octave 5 */
 	{}	/* octave 6 */
 };
 
+#define _PERIODE_PWM_TIM3_ 	72000000U
+#define PWM_MAX 			65535
 
-#define DEFINE_EVENT(NOM, event) NOM##_EVENT=event;
-#define SEND_EVENT(event) event()
-
-#define _FREQ_HACHAGE_		(40000U)
-#define _PERIODE_PWM_TIM4_ 	(72000000U/_FREQ_HACHAGE_)
-#define PWM_MAX 			_PERIODE_PWM_TIM4_
-
-eventptr PWM_OVERFLOW_EVENT;
-
-void Init_Voice (eventptr cbk)
+void Init_Voice (void)
 {
-	DEFINE_EVENT(PWM_OVERFLOW, cbk);
+	/* timer 3 : oscillateurs */
+	/* timer 2 : ADSR */
+	/* timer 1 : modulation fm */
 
-	/* Reglage du timer 4 -> PWM pour bras haut*/
-	RCC->APB1ENR |= RCC_TIM4EN; /* Mise en route de l'horloge du timer 4 */
+	/* Reglage du timer 3 -> PWM pour bras haut*/
+	RCC->APB1ENR |= RCC_TIM3EN; /* Mise en route de l'horloge du timer 3 */
 
 	TIM4->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */
 	TIM4->PSC = 0;
-	TIM4->ARR = 0x3FF; /*_PERIODE_PWM_TIM4_;  Periode de PWM -> 40Khz */
+	TIM4->ARR = PWM_MAX; 
 
 	TIM4->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
  
-	TIM4->CCER = 0x0100;
+	TIM4->CCER = 0x1111;
 	TIM4->CCMR2 = TIM_OC3M_VAL(TIM_OCxM_PWM_1) + TIM_CC3S_IS_OUTPUT + TIM_OC3PE ;
 
 	TIM4->CCR3 = 0;	
