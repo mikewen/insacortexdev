@@ -24,6 +24,9 @@
 #include "stm_regs.h"
 #include "stm_clock.h"
 #include "stm_usartx.h"
+#include "pwm.h"
+
+void Callback_pwm(void);
 
 void Init_Periphs(void)
 {
@@ -33,21 +36,11 @@ void Init_Periphs(void)
 	/* Liaison serie 19400/8/N/1 */
 	setup_usart();
 
-	/* Timer 2, ch 1 = sortie audio, 40 Khz */
-	RCC->APB1ENR |= RCC_TIM2EN; /* Mise en route de l'horloge du timer 2 */
+	/* Activation de la sortie audio (timer 4)*/
+	Init_PWM (Callback_pwm);
 
-	TIM2->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */
-	TIM2->PSC = 0;
-	TIM2->ARR = 1000; /* Periode de PWM -> 40Khz */
+	/* Activation des oscillateur de voix */
 
-	TIM2->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
- 
-	TIM2->CCER = 0x3303;
-	TIM2->CCMR1 = TIM_OC1M_VAL(TIM_OCxM_PWM_1) + TIM_CC1S_IS_OUTPUT + TIM_OC1PE ;
-
-	TIM2->CCR1 = 0;
-
-	TIM2->CR1 |= TIM_CEN;
 
 	/* Activation du systick à 80 Khz */
 
@@ -65,3 +58,6 @@ void Systick_Handler(void)
 	
 }
 
+void Callback_pwm(void)
+{
+} 

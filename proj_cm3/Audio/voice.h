@@ -41,10 +41,11 @@ struct VOICE_ST
 	u8 attack;
 	u8 decay;
 	u8 sustain;
-	u8 recall;
+	u8 release;
 };
 
 extern struct VOICE_ST voices[_NB_VOICES_];
 
+extern u16 note_array[12][5];
 #endif /* _VOICE_H_ */
 
