@@ -54,8 +54,8 @@ void Init_Periphs(void)
 	SYSTICK_ENABLE_COUNTER();
 
 	/* Activation des IT */
-	NVIC_SET_PRIO_PERIPH(TIM3, 5);
-	NVIC_SET_PRIO_PERIPH(TIM4, 10);
+	NVIC_SET_PRIO_PERIPH(TIM3, 10);
+	NVIC_SET_PRIO_PERIPH(TIM4, 5);
 	NVIC_SET_PRIO_SYSTEM(SYSTICK,14);
 
 	NVIC_ENABLE_PERIPH_IT(TIM3);
@@ -70,6 +70,7 @@ int main (void)
 
 	Init_Periphs();
 
+	Regle_Canal(0,_SI_, 4);
 	while (1);
 	return 0;
 }
@@ -78,7 +79,7 @@ void SysTick_Handler(void)
 {
 	compteur++;
 
-	if (compteur >=200)
+	/*if (compteur >=12)
 	{
 		compteur =0;
 
@@ -92,5 +93,5 @@ void SysTick_Handler(void)
 		}
 
 		if (octave>5) octave=0;
-	}
+	}*/
 }
