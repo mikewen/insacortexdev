@@ -25,8 +25,13 @@
 #include "stm_clock.h"
 #include "stm_usartx.h"
 #include "pwm.h"
+#include "voice.h"
 
 void Callback_pwm(void);
+
+int compteur;
+int note;
+int octave;
 
 void Init_Periphs(void)
 {
@@ -37,27 +42,55 @@ void Init_Periphs(void)
 	setup_usart();
 
 	/* Activation de la sortie audio (timer 4)*/
-	Init_PWM (Callback_pwm);
+	Init_PWM ();
 
 	/* Activation des oscillateur de voix */
+	Init_Voice ();
 
+	/* Activation du systick à 1 Khz */
+	SysTick->LOAD = 72000;
+	SYSTICK_ENABLE_IT();
+	SYSTICK_CLOCK_AHB();
+	SYSTICK_ENABLE_COUNTER();
 
-	/* Activation du systick à 80 Khz */
+	/* Activation des IT */
+	NVIC_SET_PRIO_PERIPH(TIM3, 5);
+	NVIC_SET_PRIO_PERIPH(TIM4, 10);
+	NVIC_SET_PRIO_SYSTEM(SYSTICK,14);
 
+	NVIC_ENABLE_PERIPH_IT(TIM3);
+	NVIC_ENABLE_PERIPH_IT(TIM4);
 }
 
 int main (void)
 {
+	compteur=0;
+	note=_DO_;
+	octave=0;
+
 	Init_Periphs();
 
+	while (1);
 	return 0;
 }
 
-void Systick_Handler(void)
+void SysTick_Handler(void)
 {
-	
-}
+	compteur++;
 
-void Callback_pwm(void)
-{
-} 
+	if (compteur >=200)
+	{
+		compteur =0;
+
+		Regle_Canal(0,note, octave);
+		note++;
+
+		if (note>_SI_) 
+		{
+			note = _DO_;
+			octave++;
+		}
+
+		if (octave>5) octave=0;
+	}
+}

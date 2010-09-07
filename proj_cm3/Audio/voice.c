@@ -23,19 +23,25 @@
 
 #include "stm_regs.h"
 #include "voice.h"
-
+#include "waveform.h"
 
 struct VOICE_ST voices[_NB_VOICES_];
 
-extern u16 note_array[12][5]=
+const u16 note_array[5][12]=
 {
 	/* Do, Do#,  Ré,   Ré#,  Mi,   Fa,   Fa#,  Sol,  Sol#, La,   La#,  Si */
 	{8600, 8117, 7662, 7232, 6826, 6443, 6081, 5740, 5418, 5114, 4827, 4556},	/* octave 2 */
-	{4300, 4059, 3831, 3616, 3413, 3221, 3041, 2870, 2709, },	/* octave 3 */
-	{},	/* octave 4 */
-	{},	/* octave 5 */
-	{}	/* octave 6 */
+	{4300, 4059, 3831, 3616, 3413, 3221, 3041, 2870, 2709, 2557, 2413, 2278},	/* octave 3 */
+	{2150, 2029, 1915, 1808, 1706, 1611, 1520, 1435, 1354, 1278, 1207, 1139},	/* octave 4 */
+	{1075, 1015, 958,  903,  853,  805,  760,  717,  677,  639,  603,  569 },	/* octave 5 */
+	{538,  507,  479,  452,  427,  403,  380,  359,  339,  320,  302,  285 }	/* octave 6 */
 };
+
+volatile u16 voice_buffer[4];
+u8 voice_note[4];
+u8 voice_octave[4];
+u16 voice_reload[4];
+u16 voice_counter[4];
 
 #define _PERIODE_PWM_TIM3_ 	72000000U
 #define PWM_MAX 			65535
@@ -49,47 +55,110 @@ void Init_Voice (void)
 	/* Reglage du timer 3 -> PWM pour bras haut*/
 	RCC->APB1ENR |= RCC_TIM3EN; /* Mise en route de l'horloge du timer 3 */
 
-	TIM4->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */
-	TIM4->PSC = 0;
-	TIM4->ARR = PWM_MAX; 
+	TIM3->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */
+	TIM3->PSC = 0;
+	TIM3->ARR = PWM_MAX; 
 
-	TIM4->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
+	TIM3->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
  
-	TIM4->CCER = 0x1111;
-	TIM4->CCMR2 = TIM_OC3M_VAL(TIM_OCxM_PWM_1) + TIM_CC3S_IS_OUTPUT + TIM_OC3PE ;
+	TIM3->CCER = 0x0;
+	TIM3->CCMR1 = TIM_OC1M_VAL(TIM_OCxM_FROZEN) + TIM_OC1PE + TIM_OC2M_VAL(TIM_OCxM_FROZEN) + TIM_OC2PE;
+	TIM3->CCMR2 = TIM_OC3M_VAL(TIM_OCxM_FROZEN) + TIM_OC3PE + TIM_OC4M_VAL(TIM_OCxM_FROZEN) + TIM_OC4PE;
 
-	TIM4->CCR3 = 0;	
+	TIM3->CCR1 = 0;
+	TIM3->CCR2 = 0;
+	TIM3->CCR3 = 0;
+	TIM3->CCR4 = 0;	
 
-	TIM4->DIER |= TIM_UIE; /* Active les IT overflow */
+	TIM3->DIER |= TIM_CC1IE + TIM_CC2IE + TIM_CC3IE + TIM_CC4IE; /* Active les IT overflow */
 	 
-	/* Regle les bras du hacheur en sortie */
-	/* Reglage du port B */
-	RCC->APB2ENR |= RCC_IOPBEN; /* Mise en route de l'horloge du port A */
-	
-	GPIOB->ODR |= GPIO_PIN_8; 	
-	
-	GPIOB->CRH &= ~((3<<GPIO_MODE_8_SHIFT) + (3<<GPIO_CNF_8_SHIFT));
-	
-	GPIOB->CRH |= (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_8_SHIFT) + (GPIO_CNF_ALTERNATE_PUSH_PULL<<GPIO_CNF_8_SHIFT);		 
-
-	TIM4->CR1 |= TIM_CEN; 
+	TIM3->CR1 |= TIM_CEN; 
 }
 
-void Regle_PWM(int val)
+void Regle_Canal(int canal, int note, int octave)
 {
-int tmp;
+	if (note==_VOICE_OFF_)
+	{
+		voice_buffer[canal]=0;
+		//TIM3->CCER = TIM3->CCER & ~(0x01<<4*canal);
+		switch (canal)
+		{
+		case 0:
+			TIM3->CCMR1 = TIM3->CCMR1 & TIM_OC1M_VAL(TIM_OCxM_FROZEN);
+			break;
+		case 1:
+			TIM3->CCMR1 = TIM3->CCMR1 & TIM_OC2M_VAL(TIM_OCxM_FROZEN);
+			break;
+		case 2:
+			TIM3->CCMR2 = TIM3->CCMR2 & TIM_OC3M_VAL(TIM_OCxM_FROZEN);
+			break;
+		case 3:
+			TIM3->CCMR2 = TIM3->CCMR2 & TIM_OC4M_VAL(TIM_OCxM_FROZEN);
+		}
+	}
+	else
+	{
+		voice_reload[canal]=note_array[octave][note];
 
-	tmp = val;
+		//TIM3->CCER = TIM3->CCER | (0x01<<4*canal);
 
-	if (tmp > 0x3FF) tmp = 0x3FF;
-	if (tmp < 0) tmp =0;
-	 
-	TIM4->CCR3 = tmp;	
+		switch (canal)
+		{
+		case 0:
+			TIM3->CCR1 = TIM3->CNT + voice_reload[canal];
+			TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC1M_VAL(TIM_OCxM_TOGGLE);
+			break;
+		case 1:
+			TIM3->CCR2 = TIM3->CNT + voice_reload[canal];
+			TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC2M_VAL(TIM_OCxM_TOGGLE);
+			break;
+		case 2:
+			TIM3->CCR3 = TIM3->CNT + voice_reload[canal];
+			TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC3M_VAL(TIM_OCxM_TOGGLE);
+			break;
+		case 3:
+			TIM3->CCR4 = TIM3->CNT + voice_reload[canal];
+			TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC4M_VAL(TIM_OCxM_TOGGLE);
+		}
+	}	
 }
 
-void TIM2_IRQHandler (void)
+void TIM3_IRQHandler (void)
 {
-	TIM4->SR = 0;
+u32 SR;
+u16 CNT;
 
-	SEND_EVENT(PWM_OVERFLOW_EVENT);
+	CNT = TIM3->CNT;
+	SR= TIM3->SR;
+
+	if (SR & TIM_CC1IF)
+	{
+		TIM3->CCR1 = CNT + voice_reload[0];
+		
+		TIM3->SR = TIM3->SR & ~(TIM_CC1IF);	
+
+		voice_buffer[0]=Waveforms[0][voice_counter[0]];
+		voice_counter[0] = (voice_counter[0]+1) & 0x3F;
+	}
+
+	if (SR & TIM_CC2IF)
+	{
+		TIM3->CCR2 = CNT + voice_reload[1];
+		
+		TIM3->SR = TIM3->SR & ~(TIM_CC2IF);	
+	}
+
+	if (SR & TIM_CC3IF)
+	{
+		TIM3->CCR3 = CNT + voice_reload[2];
+		
+		TIM3->SR = TIM3->SR & ~(TIM_CC3IF);	
+	}
+
+	if (SR & TIM_CC4IF)
+	{
+		TIM3->CCR4 = CNT + voice_reload[3];
+		
+		TIM3->SR = TIM3->SR & ~(TIM_CC4IF);	
+	}
 }
