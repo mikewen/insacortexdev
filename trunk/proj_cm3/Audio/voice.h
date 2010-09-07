@@ -27,17 +27,19 @@
 #define _NB_VOICES_ 4
 
 #define _DO_	0
-#define _DO_#_	1
+#define _DO_D_	1
 #define _RE_	2
-#define _RE_#_	3
+#define _RE_D_	3
 #define _MI_	4
 #define _FA_	5
-#define _FA_#_	6
+#define _FA_D_	6
 #define _SOL_	7
-#define _SOL_#_	8
+#define _SOL_D_	8
 #define _LA_	9
-#define _LA_#_	10
+#define _LA_D_	10
 #define _SI_	11
+
+#define _VOICE_OFF_	0xFF
 
 struct VOICE_ST
 {
@@ -58,7 +60,11 @@ struct VOICE_ST
 };
 
 extern struct VOICE_ST voices[_NB_VOICES_];
+extern const u16 note_array[5][12];
+extern volatile u16 voice_buffer[4];
 
-extern u16 note_array[12][5];
+void Init_Voice (void);
+void Regle_Canal(int canal, int note, int octave);
+
 #endif /* _VOICE_H_ */
 
