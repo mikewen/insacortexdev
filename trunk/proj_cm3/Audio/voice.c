@@ -34,7 +34,7 @@ const u16 note_array[5][12]=
 	{4300, 4059, 3831, 3616, 3413, 3221, 3041, 2870, 2709, 2557, 2413, 2278},	/* octave 3 */
 	{2150, 2029, 1915, 1808, 1706, 1611, 1520, 1435, 1354, 1278, 1207, 1139},	/* octave 4 */
 	{1075, 1015, 958,  903,  853,  805,  760,  717,  677,  639,  603,  569 },	/* octave 5 */
-	{538,  507,  479,  452,  427,  403,  380,  359,  339,  320,  302,  285 }	/* octave 6 */
+	{538,  507,  479,  452,  427,  403,  380,  359,  339,  320,  302,  284 }	/* octave 6 */
 };
 
 volatile u16 voice_buffer[4];
@@ -62,8 +62,8 @@ void Init_Voice (void)
 	TIM3->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
  
 	TIM3->CCER = 0x0;
-	TIM3->CCMR1 = TIM_OC1M_VAL(TIM_OCxM_FROZEN) + TIM_OC1PE + TIM_OC2M_VAL(TIM_OCxM_FROZEN) + TIM_OC2PE;
-	TIM3->CCMR2 = TIM_OC3M_VAL(TIM_OCxM_FROZEN) + TIM_OC3PE + TIM_OC4M_VAL(TIM_OCxM_FROZEN) + TIM_OC4PE;
+	TIM3->CCMR1 = TIM_OC1M_VAL(TIM_OCxM_FROZEN) + TIM_OC2M_VAL(TIM_OCxM_FROZEN);
+	TIM3->CCMR2 = TIM_OC3M_VAL(TIM_OCxM_FROZEN) + TIM_OC4M_VAL(TIM_OCxM_FROZEN);
 
 	TIM3->CCR1 = 0;
 	TIM3->CCR2 = 0;
@@ -133,31 +133,32 @@ u16 CNT;
 
 	if (SR & TIM_CC1IF)
 	{
-		TIM3->CCR1 = CNT + voice_reload[0];
+		TIM3->CCR1 = TIM3->CCR1 + voice_reload[0];
 		
 		TIM3->SR = TIM3->SR & ~(TIM_CC1IF);	
 
-		voice_buffer[0]=Waveforms[0][voice_counter[0]];
-		voice_counter[0] = (voice_counter[0]+1) & 0x3F;
+		voice_buffer[0]=Waveforms[6][voice_counter[0]];
+		voice_counter[0] = voice_counter[0]++;
+		if (voice_counter[0]>=64) voice_counter[0]=0;
 	}
 
 	if (SR & TIM_CC2IF)
 	{
-		TIM3->CCR2 = CNT + voice_reload[1];
+		TIM3->CCR2 = TIM3->CCR2 + voice_reload[1];
 		
 		TIM3->SR = TIM3->SR & ~(TIM_CC2IF);	
 	}
 
 	if (SR & TIM_CC3IF)
 	{
-		TIM3->CCR3 = CNT + voice_reload[2];
+		TIM3->CCR3 = TIM3->CCR3 + voice_reload[2];
 		
 		TIM3->SR = TIM3->SR & ~(TIM_CC3IF);	
 	}
 
 	if (SR & TIM_CC4IF)
 	{
-		TIM3->CCR4 = CNT + voice_reload[3];
+		TIM3->CCR4 = TIM3->CCR4 + voice_reload[3];
 		
 		TIM3->SR = TIM3->SR & ~(TIM_CC4IF);	
 	}

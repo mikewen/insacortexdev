@@ -33,7 +33,7 @@ void Init_PWM (void)
 
 	TIM4->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */
 	TIM4->PSC = 0;
-	TIM4->ARR = 0x3FF; /*_PERIODE_PWM_TIM4_;  Periode de PWM -> 40Khz */
+	TIM4->ARR = 0xFF; /*_PERIODE_PWM_TIM4_;  Periode de PWM -> 40Khz */
 
 	TIM4->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
  
@@ -71,11 +71,12 @@ int tmp;
 
 void TIM4_IRQHandler (void)
 {
-u32 tmp;
+//u32 tmp;
 
 	TIM4->SR = 0;
 
-	tmp = (voice_buffer[0]+voice_buffer[1]+voice_buffer[2]+voice_buffer[3])>>2;
+	//tmp = (voice_buffer[0]+voice_buffer[1]+voice_buffer[2]+voice_buffer[3])>>2;
 
-	Regle_PWM(tmp);
+	//Regle_PWM(voice_buffer[0]>>2);
+	TIM4->CCR3 = voice_buffer[0]>>4;
 }
