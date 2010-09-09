@@ -1,0 +1,20 @@
+*** Creating Trace Output File 'TP_GPIO.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '"stm32f10x.o"'
+### List of Objects: adding '"gpio.o"'
+### List of Objects: adding '"test_gpio.o"'
+### ADS-LD Command completed:
+--device DARMSTM "stm32f10x.o" "gpio.o" "test_gpio.o" --library_type=microlib --ro-base 0x08000000 --entry 0x08000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\TP_GPIO.map" -o "TP_GPIO.axf"### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: 'TP_GPIO.axf'
+### ADS-LD Command File: 'TP_GPIO.lnp'
+### Checking for dirty Components...
+### Creating CmdFile 'TP_GPIO.lnp', Handle=0x0000021C
+### Writing '.lnp' file
+### ADS-LD Command file 'TP_GPIO.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.
