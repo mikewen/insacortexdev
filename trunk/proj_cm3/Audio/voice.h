@@ -40,6 +40,7 @@
 #define _SI_	11
 
 #define _VOICE_OFF_	0xFF
+#define _VOICE_EMPTY_	0xFE
 
 struct VOICE_ST
 {
@@ -60,7 +61,7 @@ struct VOICE_ST
 };
 
 extern struct VOICE_ST voices[_NB_VOICES_];
-extern const u16 note_array[5][12];
+extern u16 note_array[5][12];
 extern volatile u16 voice_buffer[4];
 
 void Init_Voice (void);
