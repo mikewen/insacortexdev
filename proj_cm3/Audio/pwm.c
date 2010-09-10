@@ -38,7 +38,7 @@ void Init_PWM (void)
 	TIM4->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
  
 	TIM4->CCER = 0x0100;
-	TIM4->CCMR2 = TIM_OC3M_VAL(TIM_OCxM_PWM_1) + TIM_CC3S_IS_OUTPUT + TIM_OC3PE ;
+	TIM4->CCMR2 = TIM_OC3M_VAL(TIM_OCxM_PWM_1) + TIM_CC3S_IS_OUTPUT /*+ TIM_OC3PE */;
 
 	TIM4->CCR3 = 0;	
 
@@ -71,12 +71,13 @@ int tmp;
 
 void TIM4_IRQHandler (void)
 {
-//u32 tmp;
+u32 tmp;
 
 	TIM4->SR = 0;
 
-	//tmp = (voice_buffer[0]+voice_buffer[1]+voice_buffer[2]+voice_buffer[3])>>2;
+	tmp = (voice_buffer[0]+voice_buffer[1]+voice_buffer[2]+voice_buffer[3])>>2;
 
 	//Regle_PWM(voice_buffer[0]>>2);
-	TIM4->CCR3 = voice_buffer[0]>>4;
+	//TIM4->CCR3 = voice_buffer[0]>>4;
+	TIM4->CCR3 = tmp>>4;
 }

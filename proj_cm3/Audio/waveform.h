@@ -24,5 +24,5 @@
 #define _WAVEFORMS_NB_ 7
 #define _WAVEFORMS_LENGTH_ 128
 
-extern const u32 Waveforms[_WAVEFORMS_NB_][_WAVEFORMS_LENGTH_];
+extern u32 Waveforms[_WAVEFORMS_NB_][_WAVEFORMS_LENGTH_];
 

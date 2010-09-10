@@ -135,7 +135,7 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>0</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -149,7 +149,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>BIN\AGDIRDI.DLL</Driver>
+            <Driver>BIN\UL2CM3.DLL</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -475,7 +475,7 @@
           <Target>
             <UseTarget>1</UseTarget>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>0</RunToMain>
+            <RunToMain>1</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
             <RestoreWatchpoints>1</RestoreWatchpoints>
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
@@ -603,7 +603,7 @@
             <interw>1</interw>
             <bigend>0</bigend>
             <Strict>0</Strict>
-            <Optim>4</Optim>
+            <Optim>1</Optim>
             <wLevel>2</wLevel>
             <uThumb>1</uThumb>
             <VariousControls>

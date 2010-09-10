@@ -33,6 +33,103 @@ int compteur;
 int note;
 int octave;
 
+#define BPM 144
+#define COMPTEUR_MAX 104
+int index_musique;
+#define MUSIQUE_MAX 16*4
+
+typedef struct
+{
+	u8 note;
+	u8 octave;
+} ST_NOTE;
+
+ST_NOTE partition[MUSIQUE_MAX][4]=
+{
+	{{_SI_,1},			{_MI_,2},			{_MI_,0}, 			{_VOICE_EMPTY_,0}}, /* Temps 1 */
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_MI_,1},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_SOL_D_,1},		{_SI_,1},			{_MI_,0},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_LA_,1},			{_DO_,2},			{_MI_,1},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_SI_,1},			{_RE_,2},			{_MI_,0},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_MI_,1}, 			{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_LA_,1},			{_DO_,2},			{_MI_,0}, 			{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_SOL_,1},			{_SI_,2},			{_MI_,1},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	
+
+	{{_MI_,1},			{_LA_,1},			{_LA_,0}, 			{_VOICE_EMPTY_,0}}, /* Temps 2 */
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_LA_,1},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_MI_,1},			{_LA_,1},			{_LA_,0},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_LA_,1},			{_DO_,2},			{_LA_,1},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_DO_,2},			{_MI_,2},			{_LA_,0},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_LA_,1}, 			{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_SI_,1},			{_RE_,2},			{_LA_,0}, 			{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_LA_,1},			{_DO_,2},			{_LA_,1},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+
+	{{_SOL_D_,1},		{_SI_,1},			{_SOL_D_,0}, 		{_VOICE_EMPTY_,0}}, /* Temps 3 */
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_SOL_D_,1},		{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,1},	{_SOL_,0},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_LA_,1},			{_DO_,2},			{_SOL_,1},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_SI_,1},			{_RE_,2},			{_MI_,0},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_MI_,1}, 			{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_SI_,1},			{_MI_,2},			{_MI_,0}, 			{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_MI_,1},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+
+	{{_LA_,1},			{_DO_,2},			{_LA_,0}, 			{_VOICE_EMPTY_,0}}, /* Temps 4 */
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_LA_,1},			{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_MI_,1},			{_LA_,1},			{_LA_,0},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_LA_,1},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_OFF_,1},	{_VOICE_OFF_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_MI_,1},			{_LA_,1},			{_LA_,0},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_LA_,1}, 			{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_LA_,0}, 			{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_EMPTY_,1},	{_VOICE_EMPTY_,2},	{_SI_,0},		 	{_VOICE_EMPTY_,0}},
+	{{_VOICE_OFF_,1},	{_VOICE_OFF_,2},	{_VOICE_EMPTY_,0}, 	{_VOICE_EMPTY_,0}}
+};
+
 void Init_Periphs(void)
 {
 	/* Reglage des horloges systeme (40Mhz)*/
@@ -55,7 +152,7 @@ void Init_Periphs(void)
 
 	/* Activation des IT */
 	NVIC_SET_PRIO_PERIPH(TIM3, 10);
-	NVIC_SET_PRIO_PERIPH(TIM4, 5);
+	NVIC_SET_PRIO_PERIPH(TIM4, 11);
 	NVIC_SET_PRIO_SYSTEM(SYSTICK,14);
 
 	NVIC_ENABLE_PERIPH_IT(TIM3);
@@ -68,30 +165,77 @@ int main (void)
 	note=_DO_;
 	octave=0;
 
+	index_musique=0;
+
 	Init_Periphs();
 
-	Regle_Canal(0,_SI_, 4);
-	while (1);
+	while (1)
+	{
+
+	}
+
 	return 0;
 }
 
 void SysTick_Handler(void)
 {
+int i;
+
 	compteur++;
 
-	/*if (compteur >=12)
+/*	if (compteur >=1000)
 	{
 		compteur =0;
 
 		Regle_Canal(0,note, octave);
-		note++;
 
-		if (note>_SI_) 
+		switch (note)
 		{
+		case _DO_:
+			note = _RE_;			
+			break;
+		case _RE_:
+			note = _MI_;			
+			break;
+		case _MI_:
+			note = _FA_;			
+			break;
+		case _FA_:
+			note = _SOL_;			
+			break;
+		case _SOL_:
+			note = _LA_;			
+			break;
+		case _LA_:
+			note = _SI_;			
+			break;
+		case _SI_:
 			note = _DO_;
-			octave++;
+			
+			octave ++;
+			if (octave >4) octave=0;			
 		}
+	} */
 
-		if (octave>5) octave=0;
-	}*/
+	if (compteur>=COMPTEUR_MAX)
+	{
+		compteur=0;
+
+		for (i=0; i<4; i++)
+		{
+			if (partition[index_musique][i].note != _VOICE_EMPTY_)
+			{
+				Regle_Canal(i,
+				            partition[index_musique][i].note, 
+							partition[index_musique][i].octave);	
+			}
+		} 
+
+		/*Regle_Canal(0,
+				            partition[index_musique][0].note, 
+							partition[index_musique][0].octave);   */
+
+		index_musique++;
+		if (index_musique>=MUSIQUE_MAX) index_musique=0;
+	}
 }

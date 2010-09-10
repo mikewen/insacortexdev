@@ -27,7 +27,7 @@
 
 struct VOICE_ST voices[_NB_VOICES_];
 
-const u16 note_array[5][12]=
+u16 note_array[5][12]=
 {
 	/* Do, Do#,  Ré,   Ré#,  Mi,   Fa,   Fa#,  Sol,  Sol#, La,   La#,  Si */
 	{8600, 8117, 7662, 7232, 6826, 6443, 6081, 5740, 5418, 5114, 4827, 4556},	/* octave 2 */
@@ -42,6 +42,17 @@ u8 voice_note[4];
 u8 voice_octave[4];
 u16 voice_reload[4];
 u16 voice_counter[4];
+
+volatile int TIM3_cnt;
+
+volatile int SR;
+volatile int CCR1;
+volatile int CCMR1;
+volatile int CCMR2;
+volatile int CCER;
+volatile int CNT;
+
+int waveform_nbr;
 
 #define _PERIODE_PWM_TIM3_ 	72000000U
 #define PWM_MAX 			65535
@@ -73,6 +84,23 @@ void Init_Voice (void)
 	TIM3->DIER |= TIM_CC1IE + TIM_CC2IE + TIM_CC3IE + TIM_CC4IE; /* Active les IT overflow */
 	 
 	TIM3->CR1 |= TIM_CEN; 
+
+	RCC->APB2ENR |= RCC_IOPBEN; /* Mise en route de l'horloge du port B */
+	
+	//GPIOB->ODR |= GPIO_PIN_8; 	
+	
+	GPIOB->CRH &= ~((3<<GPIO_MODE_15_SHIFT) + (3<<GPIO_CNF_15_SHIFT));
+	
+	GPIOB->CRH |= (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_15_SHIFT) + (GPIO_CNF_OUTPUT_PUSH_PULL<<GPIO_CNF_15_SHIFT);		 
+
+	SR=0;
+	CCR1=0;
+	CCMR1=0;
+	CCMR2=0;
+	CCER=0;
+	CNT=0;
+
+	waveform_nbr = 2;
 }
 
 void Regle_Canal(int canal, int note, int octave)
@@ -80,7 +108,11 @@ void Regle_Canal(int canal, int note, int octave)
 	if (note==_VOICE_OFF_)
 	{
 		voice_buffer[canal]=0;
-		//TIM3->CCER = TIM3->CCER & ~(0x01<<4*canal);
+		voice_reload[canal]=0;
+		
+		TIM3->CCER = TIM3->CCER & ~(0x01<<4*canal);
+		TIM3_cnt=-1;
+
 		switch (canal)
 		{
 		case 0:
@@ -100,66 +132,85 @@ void Regle_Canal(int canal, int note, int octave)
 	{
 		voice_reload[canal]=note_array[octave][note];
 
-		//TIM3->CCER = TIM3->CCER | (0x01<<4*canal);
+		TIM3->CCER = TIM3->CCER | (0x01<<4*canal);
+		TIM3_cnt =0;
 
 		switch (canal)
 		{
 		case 0:
 			TIM3->CCR1 = TIM3->CNT + voice_reload[canal];
-			TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC1M_VAL(TIM_OCxM_TOGGLE);
+			TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC1M_VAL(TIM_OCxM_PWM_1);
 			break;
 		case 1:
 			TIM3->CCR2 = TIM3->CNT + voice_reload[canal];
-			TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC2M_VAL(TIM_OCxM_TOGGLE);
+			TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC2M_VAL(TIM_OCxM_PWM_1);
 			break;
 		case 2:
 			TIM3->CCR3 = TIM3->CNT + voice_reload[canal];
-			TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC3M_VAL(TIM_OCxM_TOGGLE);
+			TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC3M_VAL(TIM_OCxM_PWM_1);
 			break;
 		case 3:
 			TIM3->CCR4 = TIM3->CNT + voice_reload[canal];
-			TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC4M_VAL(TIM_OCxM_TOGGLE);
+			TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC4M_VAL(TIM_OCxM_PWM_1);
 		}
 	}	
 }
 
 void TIM3_IRQHandler (void)
 {
-u32 SR;
-u16 CNT;
-
-	CNT = TIM3->CNT;
-	SR= TIM3->SR;
-
-	if (SR & TIM_CC1IF)
+	if (TIM3->SR & TIM_CC1IF)
 	{
-		TIM3->CCR1 = TIM3->CCR1 + voice_reload[0];
-		
-		TIM3->SR = TIM3->SR & ~(TIM_CC1IF);	
+		TIM3->SR = TIM3->SR & ~(TIM_CC1IF);		
 
-		voice_buffer[0]=Waveforms[6][voice_counter[0]];
-		voice_counter[0] = voice_counter[0]++;
+		TIM3->CCR1 = TIM3->CCR1 + voice_reload[0];
+		TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC1M_VAL(TIM_OCxM_PWM_1);
+
+	//	GPIOB->ODR = GPIOB->ODR ^GPIO_PIN_15;
+
+		voice_buffer[0]=Waveforms[waveform_nbr][voice_counter[0]];
+		voice_counter[0]++;
 		if (voice_counter[0]>=64) voice_counter[0]=0;
 	}
 
-	if (SR & TIM_CC2IF)
+	if (TIM3->SR & TIM_CC2IF)
 	{
-		TIM3->CCR2 = TIM3->CCR2 + voice_reload[1];
-		
 		TIM3->SR = TIM3->SR & ~(TIM_CC2IF);	
+		
+		TIM3->CCR2 = TIM3->CNT + voice_reload[1];
+		TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC2M_VAL(TIM_OCxM_PWM_1);
+
+	//	GPIOB->ODR = GPIOB->ODR ^GPIO_PIN_15;
+
+		voice_buffer[1]=Waveforms[waveform_nbr][voice_counter[1]];
+		voice_counter[1]++;
+		if (voice_counter[1]>=64) voice_counter[1]=0;
 	}
 
-	if (SR & TIM_CC3IF)
+	if (TIM3->SR & TIM_CC3IF)
 	{
-		TIM3->CCR3 = TIM3->CCR3 + voice_reload[2];
-		
-		TIM3->SR = TIM3->SR & ~(TIM_CC3IF);	
+		TIM3->SR = TIM3->SR & ~(TIM_CC3IF);
+
+		TIM3->CCR3 = TIM3->CNT + voice_reload[2];
+		TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC3M_VAL(TIM_OCxM_PWM_1);
+
+	//	GPIOB->ODR = GPIOB->ODR ^GPIO_PIN_15;
+
+		voice_buffer[2]=Waveforms[waveform_nbr][voice_counter[2]];
+		voice_counter[2]++;
+		if (voice_counter[2]>=64) voice_counter[2]=0;		
 	}
 
-	if (SR & TIM_CC4IF)
+	if (TIM3->SR & TIM_CC4IF)
 	{
-		TIM3->CCR4 = TIM3->CCR4 + voice_reload[3];
+		TIM3->SR = TIM3->SR & ~(TIM_CC4IF);
 		
-		TIM3->SR = TIM3->SR & ~(TIM_CC4IF);	
+		TIM3->CCR4 = TIM3->CNT + voice_reload[3];
+		TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC4M_VAL(TIM_OCxM_PWM_1);
+
+	//	GPIOB->ODR = GPIOB->ODR ^GPIO_PIN_15;
+
+		voice_buffer[3]=Waveforms[waveform_nbr][voice_counter[3]];
+		voice_counter[3]++;
+		if (voice_counter[3]>=64) voice_counter[3]=0;
 	}
 }

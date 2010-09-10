@@ -24,7 +24,7 @@
 #include "stm_regs.h"
 #include "waveform.h"
 
-const u32 Waveforms[_WAVEFORMS_NB_][_WAVEFORMS_LENGTH_] =
+u32 Waveforms[_WAVEFORMS_NB_][_WAVEFORMS_LENGTH_] =
 {
 	{ // Triangle
 	0,128,256,384,512,640,768,896,
