@@ -63,7 +63,29 @@ void Init_Voice (void)
 	/* timer 2 : ADSR */
 	/* timer 1 : modulation fm */
 
-	/* Reglage du timer 3 -> PWM pour bras haut*/
+	/* Reglage du timer 1 -> Canal 0*/
+	RCC->APB2ENR |= RCC_TIM1EN; /* Mise en route de l'horloge du timer 1 */
+
+	TIM1->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */
+	TIM1->PSC = 0;
+	TIM1->ARR = PWM_MAX; 
+
+	TIM1->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
+
+	TIM1->DIER |= TIM_UIE; /* Active les IT overflow */
+
+	/* Reglage du timer 2 -> Canal 1*/
+	RCC->APB1ENR |= RCC_TIM2EN; /* Mise en route de l'horloge du timer 3 */
+
+	TIM2->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */
+	TIM2->PSC = 0;
+	TIM2->ARR = PWM_MAX; 
+
+	TIM2->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
+
+	TIM2->DIER |= TIM_UIE; /* Active les IT overflow */
+
+	/* Reglage du timer 3 -> Canal 2*/
 	RCC->APB1ENR |= RCC_TIM3EN; /* Mise en route de l'horloge du timer 3 */
 
 	TIM3->CNT = 0; /* On cale le timer juste apres (pas de risque de se prendre une IT avant la fin de l'init) */
@@ -71,34 +93,8 @@ void Init_Voice (void)
 	TIM3->ARR = PWM_MAX; 
 
 	TIM3->SMCR |= TIM_SMS_IS_DISABLED;	/* Desactivation du SMS */	
- 
-	TIM3->CCER = 0x0;
-	TIM3->CCMR1 = TIM_OC1M_VAL(TIM_OCxM_FROZEN) + TIM_OC2M_VAL(TIM_OCxM_FROZEN);
-	TIM3->CCMR2 = TIM_OC3M_VAL(TIM_OCxM_FROZEN) + TIM_OC4M_VAL(TIM_OCxM_FROZEN);
 
-	TIM3->CCR1 = 0;
-	TIM3->CCR2 = 0;
-	TIM3->CCR3 = 0;
-	TIM3->CCR4 = 0;	
-
-	TIM3->DIER |= TIM_CC1IE + TIM_CC2IE + TIM_CC3IE + TIM_CC4IE; /* Active les IT overflow */
-	 
-	TIM3->CR1 |= TIM_CEN; 
-
-	RCC->APB2ENR |= RCC_IOPBEN; /* Mise en route de l'horloge du port B */
-	
-	//GPIOB->ODR |= GPIO_PIN_8; 	
-	
-	GPIOB->CRH &= ~((3<<GPIO_MODE_15_SHIFT) + (3<<GPIO_CNF_15_SHIFT));
-	
-	GPIOB->CRH |= (GPIO_MODE_OUTPUT_50_MHZ<<GPIO_MODE_15_SHIFT) + (GPIO_CNF_OUTPUT_PUSH_PULL<<GPIO_CNF_15_SHIFT);		 
-
-	SR=0;
-	CCR1=0;
-	CCMR1=0;
-	CCMR2=0;
-	CCER=0;
-	CNT=0;
+	TIM3->DIER |= TIM_UIE; /* Active les IT overflow */ 
 
 	waveform_nbr = 2;
 }
@@ -109,108 +105,74 @@ void Regle_Canal(int canal, int note, int octave)
 	{
 		voice_buffer[canal]=0;
 		voice_reload[canal]=0;
-		
-		TIM3->CCER = TIM3->CCER & ~(0x01<<4*canal);
-		TIM3_cnt=-1;
 
 		switch (canal)
 		{
 		case 0:
-			TIM3->CCMR1 = TIM3->CCMR1 & TIM_OC1M_VAL(TIM_OCxM_FROZEN);
+			TIM1->CR1 &= ~TIM_CEN;
 			break;
 		case 1:
-			TIM3->CCMR1 = TIM3->CCMR1 & TIM_OC2M_VAL(TIM_OCxM_FROZEN);
+			TIM2->CR1 &= ~TIM_CEN;
 			break;
 		case 2:
-			TIM3->CCMR2 = TIM3->CCMR2 & TIM_OC3M_VAL(TIM_OCxM_FROZEN);
+			TIM3->CR1 &= ~TIM_CEN;
 			break;
-		case 3:
-			TIM3->CCMR2 = TIM3->CCMR2 & TIM_OC4M_VAL(TIM_OCxM_FROZEN);
 		}
 	}
 	else
 	{
 		voice_reload[canal]=note_array[octave][note];
 
-		TIM3->CCER = TIM3->CCER | (0x01<<4*canal);
-		TIM3_cnt =0;
-
 		switch (canal)
 		{
 		case 0:
-			TIM3->CCR1 = TIM3->CNT + voice_reload[canal];
-			TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC1M_VAL(TIM_OCxM_PWM_1);
+			TIM1->ARR = voice_reload[canal];
+			TIM1->CR1 |= TIM_CEN;
 			break;
 		case 1:
-			TIM3->CCR2 = TIM3->CNT + voice_reload[canal];
-			TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC2M_VAL(TIM_OCxM_PWM_1);
+			TIM2->ARR = voice_reload[canal];
+			TIM2->CR1 |= TIM_CEN;
 			break;
 		case 2:
-			TIM3->CCR3 = TIM3->CNT + voice_reload[canal];
-			TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC3M_VAL(TIM_OCxM_PWM_1);
+			TIM3->ARR = voice_reload[canal];
+			TIM3->CR1 |= TIM_CEN;
 			break;
-		case 3:
-			TIM3->CCR4 = TIM3->CNT + voice_reload[canal];
-			TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC4M_VAL(TIM_OCxM_PWM_1);
 		}
 	}	
 }
 
-void TIM3_IRQHandler (void)
+void TIM1_UP_IRQHandler (void)
 {
-	if (TIM3->SR & TIM_CC1IF)
+	if (TIM1->SR & TIM_UIF)
 	{
-		TIM3->SR = TIM3->SR & ~(TIM_CC1IF);		
-
-		TIM3->CCR1 = TIM3->CCR1 + voice_reload[0];
-		TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC1M_VAL(TIM_OCxM_PWM_1);
-
-	//	GPIOB->ODR = GPIOB->ODR ^GPIO_PIN_15;
+		TIM1->SR = TIM1->SR & ~(TIM_UIF);		
 
 		voice_buffer[0]=Waveforms[waveform_nbr][voice_counter[0]];
 		voice_counter[0]++;
 		if (voice_counter[0]>=64) voice_counter[0]=0;
 	}
+}
 
-	if (TIM3->SR & TIM_CC2IF)
+void TIM2_IRQHandler (void)
+{
+	if (TIM2->SR & TIM_UIF)
 	{
-		TIM3->SR = TIM3->SR & ~(TIM_CC2IF);	
-		
-		TIM3->CCR2 = TIM3->CNT + voice_reload[1];
-		TIM3->CCMR1 = TIM3->CCMR1 | TIM_OC2M_VAL(TIM_OCxM_PWM_1);
-
-	//	GPIOB->ODR = GPIOB->ODR ^GPIO_PIN_15;
+		TIM2->SR = TIM2->SR & ~(TIM_UIF);		
 
 		voice_buffer[1]=Waveforms[waveform_nbr][voice_counter[1]];
 		voice_counter[1]++;
 		if (voice_counter[1]>=64) voice_counter[1]=0;
 	}
+}
 
-	if (TIM3->SR & TIM_CC3IF)
+void TIM3_IRQHandler (void)
+{
+	if (TIM3->SR & TIM_UIF)
 	{
-		TIM3->SR = TIM3->SR & ~(TIM_CC3IF);
-
-		TIM3->CCR3 = TIM3->CNT + voice_reload[2];
-		TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC3M_VAL(TIM_OCxM_PWM_1);
-
-	//	GPIOB->ODR = GPIOB->ODR ^GPIO_PIN_15;
+		TIM3->SR = TIM3->SR & ~(TIM_UIF);		
 
 		voice_buffer[2]=Waveforms[waveform_nbr][voice_counter[2]];
 		voice_counter[2]++;
-		if (voice_counter[2]>=64) voice_counter[2]=0;		
-	}
-
-	if (TIM3->SR & TIM_CC4IF)
-	{
-		TIM3->SR = TIM3->SR & ~(TIM_CC4IF);
-		
-		TIM3->CCR4 = TIM3->CNT + voice_reload[3];
-		TIM3->CCMR2 = TIM3->CCMR2 | TIM_OC4M_VAL(TIM_OCxM_PWM_1);
-
-	//	GPIOB->ODR = GPIOB->ODR ^GPIO_PIN_15;
-
-		voice_buffer[3]=Waveforms[waveform_nbr][voice_counter[3]];
-		voice_counter[3]++;
-		if (voice_counter[3]>=64) voice_counter[3]=0;
+		if (voice_counter[2]>=64) voice_counter[2]=0;
 	}
 }

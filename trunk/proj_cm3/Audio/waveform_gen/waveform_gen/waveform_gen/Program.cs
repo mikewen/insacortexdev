@@ -85,15 +85,15 @@ namespace waveform_gen
 				for (index=0;index<Taille/2;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
-					
-					C_file.Write((int)((Math.Sin((float)index*Math.PI/64.0))*2048.0+2048.0)+",");
+
+                    C_file.Write((int)((Math.Sin((float)index * 2* Math.PI / Taille_f)) * 2048.0 + 2048.0) + ",");
 				}
 				
 				for (index=Taille/2;index<Taille;index++)
 				{
 					if (index%8==0) C_file.Write("\n\t");
-					
-					C_file.Write((int)((Math.Sin((float)index*Math.PI/64.0))*2048.0+2048.0)+",");
+
+                    C_file.Write((int)((Math.Sin((float)index * 2* Math.PI / Taille_f)) * 2048.0 + 2048.0) + ",");
 				}
 			C_file.WriteLine("\n\t},");
 			
@@ -140,7 +140,7 @@ namespace waveform_gen
 				{
 					if (index%8==0) C_file.Write("\n\t");
 					
-					C_file.Write((int)((Math.Sin((float)index*Math.PI/(Taille_f/2)))*2048.0+2048.0)+",");
+					C_file.Write((int)((Math.Sin((float)index*Math.PI/(Taille_f/2)))*2048.0)+",");
 				}
 				
 				for (index=Taille/2;index<Taille;index++)
