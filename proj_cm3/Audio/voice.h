@@ -63,6 +63,7 @@ struct VOICE_ST
 extern struct VOICE_ST voices[_NB_VOICES_];
 extern u16 note_array[5][12];
 extern volatile u16 voice_buffer[4];
+extern int waveform_nbr;
 
 void Init_Voice (void);
 void Regle_Canal(int canal, int note, int octave);
