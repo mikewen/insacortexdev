@@ -18,7 +18,19 @@ USAGE
 ________________________________________________________________________________________
 REVS
 	[Acco 06/01/2010] finalisation et commentaires de la première version
-		Testée en réel et simulé (utilisation de PWM et USART et CAN)		
+		Testée en réel et simulé (utilisation de PWM et USART et CAN)	
+	[TR 19/09/2010] Modification des fonctions de lecture :	
+		unsigned int stm32_Get_TIMXCLK (void) (TIM2,3,4)
+		unsigned int stm32_Get_TIMxCLK (void)  (TIM1)
+		unsigned int stm32_Get_ADCCLK (void)  (ADC1 et 2)
+		+ correction bug prescaler ADC :
+		les 4 lignes RCC_ADCPRE_VAL(_ADCPRE)| 		\
+		remplacé par 
+		RCC_ADCPRE_VAL((_ADCPRE-2))| 		\
+	[Acco 20/09/2010] 
+		+ Rajout de PCLK2, PCLK1, HCLK	
+		+ correction du bug ADC de Thierry ((ADC_PRE-2)) repasse à ADC_PRE mais modif
+		dans stm_regs.h
 ________________________________________________________________________________________
 TODO
 	test _SYSCLK_SOURCE IS_HSI and IS_HSE
@@ -26,9 +38,7 @@ TODO
 	+ USBCLK, MCO, CSS fonctionalities
 	+ RTCCLK IWDGCLK functionalities
 	+ TIM1 and TIM2  
- 	+ stm32_GetPCLK2() et autres fonctions pour assurer 
-	  la compatibilité avec stm32f10x lib
-________________________________________________________________________________________
+ ________________________________________________________________________________________
 */
 
 #include "stm_regs.h"
@@ -148,4 +158,40 @@ unsigned int stm32_GetPCLK1 (void)
 {
 	return (unsigned int) (__PCLK1) ;
 }
+
+unsigned int stm32_GetPCLK2 (void) __attribute__ ((weak));
+unsigned int stm32_GetPCLK2 (void) 
+{
+	return (unsigned int) (__PCLK2) ;
+}
+
+unsigned int stm32_GetHCLK (void) __attribute__ ((weak));
+unsigned int stm32_GetHCLK (void) 
+{
+	return (unsigned int) (__HCLK) ;
+}
+
+
+// Recupere l'horloge TIMXCLK, soit celle des timers 2, 3 et 4 prescaler compris
+unsigned int stm32_Get_TIMXCLK (void) __attribute__ ((weak));
+unsigned int stm32_Get_TIMXCLK (void) 
+{
+	return (unsigned int) (__TIMXCLK) ;
+}
+
+// Recupere l'horloge TIMxCLK, soit celle du timers 1 prescaler compris
+unsigned int stm32_Get_TIMxCLK (void) __attribute__ ((weak));
+unsigned int stm32_Get_TIMxCLK (void) 
+{
+	return (unsigned int) (__TIMxCLK) ;
+}
+
+// Recupere l'horloge ADCCLK, soit celle des ADC 1 et 2
+unsigned int stm32_Get_ADCCLK (void) __attribute__ ((weak));
+unsigned int stm32_Get_ADCCLK (void) 
+{
+	return (unsigned int) (__ADCCLK) ;
+}
+
+
 
