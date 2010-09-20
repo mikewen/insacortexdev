@@ -44,10 +44,51 @@ void Init_Clock_System(void) ;
 //   clocked  and won't keep any value 
 
 
+
+
+//________________________________________________
+extern unsigned int stm32_GetHCLK (void) ;
+// return frequency in Hz of the HCLK clock
+//   output of AHB prescaler 
+// use this function for peripherals programming
+// compatible with stm32f10x lib
+
 //________________________________________________
 extern unsigned int stm32_GetPCLK1 (void);
 // return frequency in Hz of the PCLK1 clock
-//   coutput of APB1 (low speed max 36MHz)
+//   output of APB1 (low speed max 36MHz)
 // use this function for peripherals programming
 // compatible with stm32f10x lib
+
+//________________________________________________
+extern unsigned int stm32_Get_TIMXCLK (void) ; 
+// return frequency in Hz of the TIMCCLK clock
+//   output of TIM2,3,4,6,7 multiplier (low speed max 36MHz)
+// use this function for peripherals programming
+// compatible with stm32f10x lib
+
+
+//________________________________________________
+extern unsigned int stm32_GetPCLK2 (void) ;
+// return frequency in Hz of the PCLK2 clock
+//   output of APB2 (high speed max 72MHz)
+// use this function for peripherals programming
+// compatible with stm32f10x lib
+
+
+//________________________________________________
+extern unsigned int stm32_Get_TIMxCLK (void) ;
+// return frequency in Hz of the TIMxCLK clock
+//  output of TIM1 &8 multiplier (high speed max 72MHz)
+// use this function for peripherals programming
+// compatible with stm32f10x lib
+
+//________________________________________________
+extern unsigned int stm32_Get_ADCCLK (void) ;
+// return frequency in Hz of the ADCCLK clock
+// output of ADC prescaler (max 14MHz)
+// use this function for peripherals programming
+// compatible with stm32f10x lib
+
+
 #endif
