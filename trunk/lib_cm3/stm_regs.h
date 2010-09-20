@@ -1008,7 +1008,7 @@ typedef struct
 #define RCC_ADCPRE_IS_PCLK2_DIV_4	(1<<RCC_ADCPRE_SHIFT)
 #define RCC_ADCPRE_IS_PCLK2_DIV_6	(2<<RCC_ADCPRE_SHIFT)
 #define RCC_ADCPRE_IS_PCLK2_DIV_8	(3<<RCC_ADCPRE_SHIFT)
-#define RCC_ADCPRE_VAL(pres) (((pres/2) & 0x3 )<<RCC_ADCPRE_SHIFT)
+#define RCC_ADCPRE_VAL(pres) ((((pres/2)-1) & 0x3 )<<RCC_ADCPRE_SHIFT)
 
 #define RCC_PPRE2_SHIFT				(11)		 // APB2 high speed prescaler=> PCLK2
 #define RCC_PPRE2_IS_HCLK			(0<<RCC_PPRE2_SHIFT)
