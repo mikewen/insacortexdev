@@ -1,0 +1,145 @@
+
+
+
+> Salut à tous,
+>
+> D'abord, IABR, j'ai juste posé la question comme ça. On s'en fout en  
+> fait...
+> Au niveau CORTEX et STM 32, je vous livre ma maxime après 4 TP :
+> "Dès que tu vois un bit pas net, t'y touche pas, tu verras, tout ira  
+> bien...".
+>
+> J'ai testé avec mes gars en TP, ça marche !
+>
+> Bon sinon, pour la PWM, et suivant la même maxime, je vous garantis  
+> que c'est
+> pas si dur que ça , 2 bit à toucher, un champ à régler et zou...
+>
+> En attaché un corrigé (testé en simu sur tous les timers, tous les  
+> channels)+ le
+> sujet.
+>
+> PE, Vincent, comme d'hab ?
+>
+> A+
+>
+> Thierry
+>
+>
+> Selon Guillaume AURIOL <guillaume.auriol@insa-toulouse.fr>:
+>
+>> Benh la je crois que c’est clair :
+>>
+>> Il vaut mieux que cela soit PE qui s’occupe du contrôle de periph  
+>> au regard
+>> de sa maitrise du Cortex
+
+>>
+>>
+>>
+>> De : Pierre-Emmanuel Hladik [mailto:pehladik@laas.fr]
+>> Envoyé : jeudi 23 septembre 2010 17:28
+>> À : Sébastien DI MERCURIO
+>> Cc : Guillaume AURIOL; thierry.rocacher@insa-toulouse.fr; 'Pascal  
+>> Acco';
+>> 'Vincent Mahout'
+>> Objet : Re: question it
+>>
+>>
+>>
+>> Un simple A vaut  toujours mieux qu'un double C !
+>>
+>>
+>>
+>> Si j'en crois la doc IABR indique uniquement quel sont les  
+>> interruptions en
+>> cours, ce qui doit permettre de faire des truc rusés en fonction de  
+>> l'état
+>> de toute les interruptions (genre si je suis sous interruption de  
+>> machin et
+>> que truc l'est aussi, alors je valide truc).
+>>
+>> The IABR0-IABR2 registers indicate which interrupts are active.
+>>
+>> A bit reads as 1 if the status of the corresponding interrupt is  
+>> active or
+>> active and pending.
+>>
+>>
+>>
+>> Active An exception that is being serviced by the processor but has  
+>> not
+>> completed.
+>>
+>> Note: An exception handler can interrupt the execution of another
+>>
+>> exception handler. In this case both exceptions are in the active
+>>
+>> state.
+>>
+>> Active and pending  The exception is being serviced by the  
+>> processor and
+>> there is a pending exception from the same source.
+>>
+>>
+>>
+>>
+>>
+>> Enfin je dis ça... ça pourrait être chose.
+>>
+>>
+>>
+>>
+>>
+>> Pour connaître ta source d'interruption, c'est le registre SR du
+>> périphérique qu'il faut aller voir.
+>>
+>> le registre IABR, je ne sais pas trop à quoi ça sert, en tout cas,  
+>> je ne
+>> m'en suis jamais servi
+>>
+>> On 23/09/2010 17:12, Guillaume AURIOL wrote:
+>>
+>> Bonjour a tous,
+>>
+>> Qqu’un peut il m’expliquer la positionnement de
+>>
+>>
+>>
+>> NVIC->IABR
+>>
+>> Et
+>>
+>> TIMx-> SR
+>>
+>>
+>>
+>> Je cherche a discriminer quel type d’interruption a lever une  
+>> interruption
+>> dans le timer2 (update ou CC ou
+)
+>>
+>>
+>>
+>>
+>>
+>> En copie l’autre ignare (vincent j’ai eu un doute a te mettre A ou  
+>> CC,
+>> considere ta place de A comme un defi)
+>>
+>>
+>>
+>> Guillaume A.
+>>
+>>
+>>
+>>
+>>
+>>
+>
+>
+>
+> < 
+> Formation_STM32_PWM 
+> .zip><Formation_STM32_PWM.pdf><Formation_STM32_PWM.odt>
+
