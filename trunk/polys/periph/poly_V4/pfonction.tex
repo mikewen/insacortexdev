@@ -1,0 +1,177 @@
+\chapter{L'épointeur de fonctions ne manque(nt) pas de piquant   !}
+
+\section{Appel indirect des fonctions}
+
+Extraits de : T. Monteil {\it et al.}, Du langage C au C++, Presses Universitaires du Mirail, 2009.\\
+
+De la même manière que le nom d'un tableau représente l'adresse d'implantation de ce tableau (c'est-à-dire l'adresse de son premier élément), le nom d'une fonction (sans parenthèses) représente l'adresse de cette fonction, plus exactement l'adresse de son point d'entrée. Cette adresse peut être :
+\begin{itemize}
+	\item attribué à un pointeur (pointeur de fonction), ce qui permet l'appel indirect de cette fonction,
+	\item transmise comme paramètre à d'autres fonctions,
+	\item placée dans un tableau de pointeurs de fonction.
+\end{itemize}
+
+\subsection{Pointeur de fonction}
+
+Un pointeur de fonction est une variable pouvant recevoir l'adresse d'une fonction. Dans la déclaration du pointeur, cette fonction est typée, si bien qu'il ne peut ensuite accepter de recevoir que l'adresse d'une fonction de même type. Voici la forme générale de la déclaration d'un tel pointeur:
+
+\begin{verbatim}
+type ( * ptrFct ) (type, type, ...);
+\end{verbatim}
+
+Les parenthèses de gauche sont obligatoires, sinon il s'agirait d'une fonction retournant un pointeur.
+
+\subsection{Affectation d'un pointeur de fonction}
+
+Voici comment on affecte l'adresse d'une fonction à un pointeur :
+
+\begin{verbatim}
+double ( * Math ) ( int, int, double ) ; /* Pointeur de fonction */
+double Racine ( int, int, double ) ; /* Fonction */
+
+Math = Racine ; /* Affectation */
+\end{verbatim}
+
+\subsection{Appel de fonction par un pointeur}
+
+Dès qu'un pointeur à reçu l'adresse d'une fonction, on peut appeler celle-ci indirectement selon la forme générale suivante :
+
+\begin{verbatim}
+/* définition d'un pointeur */
+type ( * ptrFcn ) (type, type, ...);
+
+/* déclaration d'une fonction de même type renvoyé */
+type Fonc (type, type, ...);
+
+/* affectation du pointeur */
+ptdFcn = Fonc;
+
+/* appel indirect de Fonc() */
+(*ptrFcn) (arguments);
+\end{verbatim}
+
+Dans le cas présent, les deux instructions ci-dessus sont bien équivalentes à un appel direct de \texttt{Fonc()} puisque \texttt{*ptrFcn} a pour valeur \texttt{Fonc}.
+
+\subsection{Passage de fonctions en paramètre}
+
+Il est possible de transmettre une fonction en paramètre d'une fonction appelante. Celle-ci emploie le nom de la fonction appelée sans parenthèses ni arguments à la suite. C'est donc l'adresse du point de lancement de cette fonction qui est empilée. Pareillement, on peut transmettre indirectement une fonction en paramètre grâce à un pointeur sur cette fonction. Dans l'exemple qui suit, \texttt{Fonction()} est appelée deux fois avec deux (adresses de) fonctions différentes passées en argument, et une fois avec un pointeur de fonction :
+
+\begin{verbatim}
+int Premiere (void) ;
+int Seconde (void) ;
+int ( * pFonction ) () = Seconde ;
+
+void Fonction (int (* ptrFoncArg) (), int Un , int deux )
+{
+	/* Corps de Fonction () */
+}
+/* exemple d'appels */
+/************************************************************************************/
+/* Appel directement avec l'adresse de la fonction Premier et les entiers 12 et -45 */
+Fonction ( Premiere, 12, -45);   
+
+/************************************************************************************/
+/* Appel avec l'adresse de la fonction Premier et les entiers 0 et 0                */
+Fonction ( Seconde, 0, 0);        
+
+/************************************************************************************/
+/* Appel indirect avec l'adresse de la fonction Seconde contenue                    */
+/* dans le pointeur de fonction */ 
+/* Les deux entiers sont affecté avec la sortie des fonctions Premiere et Seconde   */
+Fonction ( pFonction, Premiere (), Seconde () );
+\end{verbatim}
+
+\section{L'art et la manière... }
+
+Pour bien comprendre l'utilité de cette technique de programmation, il convient d'en rappeler l'objectif principal : \textbf{nous voulons offrir le moyen à un développeur d'application de configurer un périphérique sans qu'il est besoin d'en connaître son fonctionnement}. Le code que produit le développeur est uniquement dans la couche application (voir chapitre~\ref{sec:archi}) et il ne peut faire appel qu'à des fonctions de la couche pilote pour manipuler le matériel.
+
+Il se pose alors le problème suivant : comment offrir un service à un développeur d'applications qui lui permette d'exécuter lors d'une interruption une fonction qu'il aura développée ?\\
+Il est à noter que cette approche  est équivalente à la notion de services qu'offre un système d'exploitation. 
+
+Par exemple, il souhaite exécuter la fonction :
+ \begin{verbatim}
+void Ma_Fonction_IT ( void )  /* Couche application */
+{
+   /* Le code à exécuter pendant l'interruption */
+}
+\end{verbatim}
+
+Il faut noter que, quoiqu'il en soit, cette fonction ne pourra ni prendre d'arguments en entrée ni en retourner puisque son appel ne sera pas déclencher logiciellement. 
+
+Il faut donc que dans le Handler de l'interruption (la  fonction qui sera appelée en premier lieu lors de l'interruption) il fasse appel à cette fonction, soit :
+
+ \begin{verbatim}
+void XXX_IRQHandler ( void )  /* Couche pilote */
+{
+  Ma_Fonction_IT ();
+}
+\end{verbatim}
+
+Or cela ne respecte pas nos règles de codage, puisque le Handler doit faire partie de la couche pilote alors que \texttt{Ma\_foncion\_IT} fait partie de la couche application...
+
+Il n'y a pas de solution miracle, il faut faire un peu de programmation \og avancée \fg ! Ca fait du bien aux neurones... Remarquons au passage que la solution est fournie dans le chapitre~\ref{chap:dyn_stat}.
+
+\begin{center}
+\fbox{Si d'autres solutions --- effectives --- sont proposées, nous sommes preneur.}
+\end{center}
+
+\subsection{... de s'en servir avec la solution dynamique}
+Une première solution consiste à utiliser un pointeur de fonctions et s'écrit :
+ \begin{verbatim}
+/* Fichier de la couche "application" */
+void Ma_Fonction_IT ( void )
+{
+  /* Le code à exécuter pendant l'interruption */
+}
+
+/* à faire dans le main */
+Init_Periph(Ma_Fonction_IT);
+
+/* Fichier de la couche pilote */
+void (* pFnc) (void) ; /* déclaration d'un pointeur de fonction */
+
+void XXX_IRQHandler ( void )
+{
+  if (pFnc != 0)
+    (*pFnc) (); /* appel indirect de la fonction */
+}
+
+Init_periph (void (* ptrFonction) (void))
+{
+  pFnc = ptrFonction; /* affectation du pointeur */
+}
+\end{verbatim}
+
+
+\subsection{... de s'en passer avec la solution statique}
+Une seconde solution consiste à définir dans un fichier de configuration la fonction à exécuter pendant l'interruption :
+ \begin{verbatim}
+/* Fichier de la couche application écrite par l'utilisateur du pilote*/
+void Ma_Fonction_IT ( void )
+{
+  /* Le code à exécuter pendant l'interruption */
+}
+
+/* Fichier de configuration modifiable par l'utilisateur du pilote*/
+#ifdef HOOK_ON_XXX
+  #define XXX_HOOK_CALL Ma_Fonction_IT ()
+#endif
+
+/* Fichier de la couche pilote uniquement visible par le développeur du pilote */
+#ifdef HOOK_ON_XXX
+void XXX_IRQHandler ( void )
+{
+    XXX_HOOK_CALL ;
+}
+#end
+\end{verbatim}
+
+
+ \subsection{Quelques commentaires pour se faire une religion}
+
+Ces deux solutions sont élégantes et permettent de bien séparer les couches application et pilote. Elles ne sont pas strictement identiques au niveau fonctionnel et comportent quelques nuances :
+\begin{itemize}
+	\item La version dynamique permet de configurer l'interruption à la volée et de la reconfigurer en cours d'exécution.
+	\item La version statique nécessite une compilation du fichier pilote et donc de fournir son code, ce qui n'est pas le cas de la version dynamique. De plus, il faut maintenir le fichier de configuration.
+	\item La version statique va générer uniquement un Handler s'il y a une fonction à exécuter alors que la version dynamique génère un Handler avec 4 lignes de code, plus une fonction d'initialisation (1 ligne) et son appel du main (1 ligne), ce qui permet d'avoir un code plus compact.
+\end{itemize} 
