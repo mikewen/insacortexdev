@@ -61,7 +61,12 @@ int main (void)
 	//  d'horloge il ne mémorise pas la valeur désirée et rien
 	//  ne marche malgré les apparences... 
 	// Bon courage les futurs geeks
-
+	GPIOB->CRH = 0x44444474;
+	GPIOB->CRL = 0x44484444;
+	while(1)
+	{
+		GPIOB->ODR ^=(1<<9);
+	}
 	//__ configuration du port PB.8 à PB.15 pour faire blinky
 	// sur une ou plusieurs diodes de la carte MCBSTM32
 	

@@ -44,32 +44,45 @@ int main (void)
 
 TASK(Tache1)
 {
-
+	GPIOB->ODR |= 1<<8;
+	 
 	tempo(2);
 
+	GPIOB->ODR &= ~(1<<8);
+	
     TerminateTask();
 }
 
 TASK(Tache2)
 {
 	int i3 = 0;
+	GPIOB->ODR |= 1<<9;
+
 	// corps de la tâche Tache2
 //	Toggle_Led('2');
 	//while (1) 
 	 tempo(1);
 	 i3++;
+
 		
 //	i1--;
+	GPIOB->ODR &= ~(1<<9);
     TerminateTask();
 }
 	  
 ISR(EXTI0)
 {
+	GPIOB->ODR |= 1<<10;
+
 	// corps de l'ISR GSignal
 	compteur ++;
 //	Write_Integer_Lcd(compteur);
 	
-	
-	EXTI->PR |= 1 ; //reset peripheral flag
+	 	 //tempo(2);
+
+
+	GPIOB->ODR &= ~(1<<10);
+
+
 	TerminateISR();
 }

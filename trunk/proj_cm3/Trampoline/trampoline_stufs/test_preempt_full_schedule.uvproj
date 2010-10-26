@@ -33,7 +33,7 @@
           <BinPath></BinPath>
           <IncludePath></IncludePath>
           <LibPath></LibPath>
-          <RegisterFilePath>ST\STM32F10x\</RegisterFilePath>
+          <RegisterFilePath></RegisterFilePath>
           <DBRegisterFilePath>ST\STM32F10x\</DBRegisterFilePath>
           <TargetStatus>
             <Error>0</Error>
@@ -42,8 +42,8 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\obj\</OutputDirectory>
-          <OutputName>Projet_GCC</OutputName>
+          <OutputDirectory>.\</OutputDirectory>
+          <OutputName>test_preempt_full_schedule</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -114,9 +114,9 @@
             <Oh166RecLen>16</Oh166RecLen>
           </OPTHX>
           <Simulator>
-            <UseSimulator>1</UseSimulator>
+            <UseSimulator>0</UseSimulator>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>1</RunToMain>
+            <RunToMain>0</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
             <RestoreWatchpoints>1</RestoreWatchpoints>
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
@@ -125,7 +125,7 @@
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
           </Simulator>
           <Target>
-            <UseTarget>0</UseTarget>
+            <UseTarget>1</UseTarget>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>0</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -135,7 +135,7 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>0</TargetSelection>
+          <TargetSelection>1</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -157,9 +157,9 @@
             <UseTargetDll>1</UseTargetDll>
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
-            <UpdateFlashBeforeDebugging>0</UpdateFlashBeforeDebugging>
+            <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4096</DriverSelection>
+            <DriverSelection>4097</DriverSelection>
           </Flash1>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
           <Flash3>"" ()</Flash3>
@@ -262,7 +262,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\os;..\..\debug;..\..\machines\cortex-m3;..\cortex-m3;..\..\com;..\..\..\lib_cm3;.\test_isr2</IncludePath>
+              <IncludePath>..\..\..\trampoline\com;..\..\..\trampoline\os;..\..\..\trampoline\debug;..\..\..\trampoline\machines\cortex-m3;..\..\..\lib_user;.\test_preempt_full_schedule</IncludePath>
             </VariousControls>
           </Carm>
           <Aarm>
@@ -277,17 +277,17 @@
           </Aarm>
           <LDarm>
             <umfTarg>1</umfTarg>
-            <enaGarb>1</enaGarb>
+            <enaGarb>0</enaGarb>
             <noStart>1</noStart>
-            <noStLib>1</noStLib>
-            <uMathLib>0</uMathLib>
+            <noStLib>0</noStLib>
+            <uMathLib>1</uMathLib>
             <TextAddressRange></TextAddressRange>
             <DataAddressRange></DataAddressRange>
             <BSSAddressRange></BSSAddressRange>
             <IncludeLibs></IncludeLibs>
             <IncludeDir></IncludeDir>
             <Misc></Misc>
-            <ScatterFile>..\..\..\system\Linker_Script_GCC.ld</ScatterFile>
+            <ScatterFile>.\Linker_Script_GCC.ld -g</ScatterFile>
           </LDarm>
         </TargetArm>
       </TargetOption>
@@ -296,14 +296,19 @@
           <GroupName>Systeme</GroupName>
           <Files>
             <File>
-              <FileName>Startup_GCC.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>../../../system/Startup_GCC.s</FilePath>
+              <FileName>STM32_Init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>./STM32_Init.c</FilePath>
             </File>
             <File>
               <FileName>STM32F10x_GCC.s</FileName>
               <FileType>2</FileType>
-              <FilePath>../../../system/STM32F10x_GCC.s</FilePath>
+              <FilePath>./STM32F10x_GCC.s</FilePath>
+            </File>
+            <File>
+              <FileName>Startup_GCC.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>./Startup_GCC.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -311,117 +316,194 @@
           <GroupName>os</GroupName>
           <Files>
             <File>
-              <FileName>tpl_os_action.c</FileName>
+              <FileName>tpl_os.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_action.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os.c</FilePath>
             </File>
             <File>
-              <FileName>tpl_os_alarm_kernel.c</FileName>
+              <FileName>tpl_os_action.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_alarm_kernel.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_action.c</FilePath>
             </File>
             <File>
               <FileName>tpl_os_alarm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_alarm.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_alarm.c</FilePath>
             </File>
             <File>
-              <FileName>tpl_os_error.c</FileName>
+              <FileName>tpl_os_alarm_kernel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_error.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_event.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_event.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_it_kernel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_it_kernel.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_it.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_kernel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_kernel.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_rez_kernel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_rez_kernel.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_rez.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_rez.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_task.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_timeobj_kernel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_timeobj_kernel.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_alarm_kernel.c</FilePath>
             </File>
             <File>
               <FileName>tpl_os_dispatch_table.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_dispatch_table.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_dispatch_table.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_error.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_error.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_event.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_event.c</FilePath>
             </File>
             <File>
               <FileName>tpl_os_event_kernel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_event_kernel.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_event_kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_it_kernel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_it_kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_kernel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_rez.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_rez.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_rez_kernel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_rez_kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_task.c</FilePath>
             </File>
             <File>
               <FileName>tpl_os_task_kernel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_task_kernel.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_task_kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_timeobj_kernel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_timeobj_kernel.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>os_machine</GroupName>
+          <GroupName>os_machines</GroupName>
           <Files>
             <File>
               <FileName>tpl_machine_cm3.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../machines/cortex-m3/tpl_machine_cm3.c</FilePath>
+              <FilePath>../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>os_com</GroupName>
+          <Files>
+            <File>
+              <FileName>tpl_com_queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_app_copy.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_app_copy.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_errorhook.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_errorhook.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_external_com.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_external_com.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_filtering.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_filtering.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_filters.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_filters.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_internal_com.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_internal_com.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_message_management.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_message_management.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_notification.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_notification.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>os_debug</GroupName>
+          <Files>
+            <File>
+              <FileName>tpl_debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/debug/tpl_debug.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Lib</GroupName>
+          <Files>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>LCD_4bit.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/LCD_4bit.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_trajectoire_2009a.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/lib_trajectoire_2009a.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/led.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>Appli</GroupName>
           <Files>
             <File>
-              <FileName>test_isr2_main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\test_isr2_main.c</FilePath>
-            </File>
-            <File>
-              <FileName>periphs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\periphs.c</FilePath>
-            </File>
-            <File>
               <FileName>tpl_os_generated_configuration.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\test_isr2/tpl_os_generated_configuration.c</FilePath>
+              <FilePath>.\test_preempt_full_schedule/tpl_os_generated_configuration.c</FilePath>
+            </File>
+            <File>
+              <FileName>test_preempt_full_schedule_main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\test_preempt_full_schedule_main.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -429,34 +511,24 @@
           <GroupName>Include</GroupName>
           <Files>
             <File>
-              <FileName>STM32_Init.h</FileName>
+              <FileName>lib_trajectoire_2009a.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\system\STM32_Init.h</FilePath>
+              <FilePath>..\..\..\lib_user\lib_trajectoire_2009a.h</FilePath>
             </File>
             <File>
-              <FileName>STM32_Reg.h</FileName>
+              <FileName>lib_autom_2008a.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\system\STM32_Reg.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>templates</GroupName>
-          <Files>
-            <File>
-              <FileName>test_isr2.oil</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\test_isr2.oil</FilePath>
+              <FilePath>..\..\..\lib_user\lib_autom_2008a.h</FilePath>
             </File>
             <File>
-              <FileName>isr_specific.tpl</FileName>
+              <FileName>LCD.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\goil\templates\code\cortex-m3\isr_specific.tpl</FilePath>
+              <FilePath>..\..\..\lib_user\LCD.h</FilePath>
             </File>
             <File>
-              <FileName>each_isr_specific.tpl</FileName>
+              <FileName>uart.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\goil\templates\code\cortex-m3\each_isr_specific.tpl</FilePath>
+              <FilePath>..\..\..\lib_user\uart.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -526,9 +598,9 @@
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>1</RunUserProg1>
+            <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>"C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" Projet_GCC.elf</UserProg1Name>
+            <UserProg1Name></UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -614,8 +686,8 @@
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
-            <Capability>1</Capability>
-            <DriverSelection>4096</DriverSelection>
+            <Capability>0</Capability>
+            <DriverSelection>-1</DriverSelection>
           </Flash1>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
           <Flash3>"" ()</Flash3>
@@ -718,7 +790,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\os;..\..\debug;..\..\machines\cortex-m3;..\cortex-m3;..\..\com;..\..\..\lib_cm3;.\test_isr2</IncludePath>
+              <IncludePath>..\..\..\trampoline\com;..\..\..\trampoline\os;..\..\..\trampoline\debug;..\..\..\trampoline\machines\cortex-m3;..\..\..\lib_user;.\test_preempt_full_schedule</IncludePath>
             </VariousControls>
           </Carm>
           <Aarm>
@@ -734,8 +806,8 @@
           <LDarm>
             <umfTarg>1</umfTarg>
             <enaGarb>1</enaGarb>
-            <noStart>1</noStart>
-            <noStLib>1</noStLib>
+            <noStart>0</noStart>
+            <noStLib>0</noStLib>
             <uMathLib>0</uMathLib>
             <TextAddressRange></TextAddressRange>
             <DataAddressRange></DataAddressRange>
@@ -743,7 +815,7 @@
             <IncludeLibs></IncludeLibs>
             <IncludeDir></IncludeDir>
             <Misc></Misc>
-            <ScatterFile>..\..\..\system\Linker_Script_GCC.ld</ScatterFile>
+            <ScatterFile>.\Linker_Script_GCC.ld</ScatterFile>
           </LDarm>
         </TargetArm>
       </TargetOption>
@@ -752,14 +824,19 @@
           <GroupName>Systeme</GroupName>
           <Files>
             <File>
-              <FileName>Startup_GCC.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>../../../system/Startup_GCC.s</FilePath>
+              <FileName>STM32_Init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>./STM32_Init.c</FilePath>
             </File>
             <File>
               <FileName>STM32F10x_GCC.s</FileName>
               <FileType>2</FileType>
-              <FilePath>../../../system/STM32F10x_GCC.s</FilePath>
+              <FilePath>./STM32F10x_GCC.s</FilePath>
+            </File>
+            <File>
+              <FileName>Startup_GCC.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>./Startup_GCC.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -767,117 +844,194 @@
           <GroupName>os</GroupName>
           <Files>
             <File>
-              <FileName>tpl_os_action.c</FileName>
+              <FileName>tpl_os.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_action.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os.c</FilePath>
             </File>
             <File>
-              <FileName>tpl_os_alarm_kernel.c</FileName>
+              <FileName>tpl_os_action.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_alarm_kernel.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_action.c</FilePath>
             </File>
             <File>
               <FileName>tpl_os_alarm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_alarm.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_alarm.c</FilePath>
             </File>
             <File>
-              <FileName>tpl_os_error.c</FileName>
+              <FileName>tpl_os_alarm_kernel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_error.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_event.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_event.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_it_kernel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_it_kernel.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_it.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_kernel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_kernel.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_rez_kernel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_rez_kernel.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_rez.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_rez.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_task.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os.c</FilePath>
-            </File>
-            <File>
-              <FileName>tpl_os_timeobj_kernel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_timeobj_kernel.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_alarm_kernel.c</FilePath>
             </File>
             <File>
               <FileName>tpl_os_dispatch_table.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_dispatch_table.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_dispatch_table.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_error.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_error.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_event.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_event.c</FilePath>
             </File>
             <File>
               <FileName>tpl_os_event_kernel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_event_kernel.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_event_kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_it_kernel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_it_kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_kernel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_rez.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_rez.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_rez_kernel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_rez_kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_task.c</FilePath>
             </File>
             <File>
               <FileName>tpl_os_task_kernel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../os/tpl_os_task_kernel.c</FilePath>
+              <FilePath>../../../trampoline/os/tpl_os_task_kernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_os_timeobj_kernel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/os/tpl_os_timeobj_kernel.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>os_machine</GroupName>
+          <GroupName>os_machines</GroupName>
           <Files>
             <File>
               <FileName>tpl_machine_cm3.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../machines/cortex-m3/tpl_machine_cm3.c</FilePath>
+              <FilePath>../../../trampoline/machines/cortex-m3/tpl_machine_cm3.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>os_com</GroupName>
+          <Files>
+            <File>
+              <FileName>tpl_com_queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_app_copy.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_app_copy.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_errorhook.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_errorhook.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_external_com.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_external_com.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_filtering.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_filtering.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_filters.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_filters.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_internal_com.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_internal_com.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_message_management.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_message_management.c</FilePath>
+            </File>
+            <File>
+              <FileName>tpl_com_notification.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/com/tpl_com_notification.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>os_debug</GroupName>
+          <Files>
+            <File>
+              <FileName>tpl_debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../trampoline/debug/tpl_debug.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Lib</GroupName>
+          <Files>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>LCD_4bit.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/LCD_4bit.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_trajectoire_2009a.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/lib_trajectoire_2009a.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_user/led.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>Appli</GroupName>
           <Files>
             <File>
-              <FileName>test_isr2_main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\test_isr2_main.c</FilePath>
-            </File>
-            <File>
-              <FileName>periphs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\periphs.c</FilePath>
-            </File>
-            <File>
               <FileName>tpl_os_generated_configuration.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\test_isr2/tpl_os_generated_configuration.c</FilePath>
+              <FilePath>.\test_preempt_full_schedule/tpl_os_generated_configuration.c</FilePath>
+            </File>
+            <File>
+              <FileName>test_preempt_full_schedule_main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\test_preempt_full_schedule_main.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -885,34 +1039,24 @@
           <GroupName>Include</GroupName>
           <Files>
             <File>
-              <FileName>STM32_Init.h</FileName>
+              <FileName>lib_trajectoire_2009a.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\system\STM32_Init.h</FilePath>
+              <FilePath>..\..\..\lib_user\lib_trajectoire_2009a.h</FilePath>
             </File>
             <File>
-              <FileName>STM32_Reg.h</FileName>
+              <FileName>lib_autom_2008a.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\system\STM32_Reg.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>templates</GroupName>
-          <Files>
-            <File>
-              <FileName>test_isr2.oil</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\test_isr2.oil</FilePath>
+              <FilePath>..\..\..\lib_user\lib_autom_2008a.h</FilePath>
             </File>
             <File>
-              <FileName>isr_specific.tpl</FileName>
+              <FileName>LCD.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\goil\templates\code\cortex-m3\isr_specific.tpl</FilePath>
+              <FilePath>..\..\..\lib_user\LCD.h</FilePath>
             </File>
             <File>
-              <FileName>each_isr_specific.tpl</FileName>
+              <FileName>uart.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\goil\templates\code\cortex-m3\each_isr_specific.tpl</FilePath>
+              <FilePath>..\..\..\lib_user\uart.h</FilePath>
             </File>
           </Files>
         </Group>
