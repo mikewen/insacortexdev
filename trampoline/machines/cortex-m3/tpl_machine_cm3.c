@@ -250,12 +250,12 @@ FUNC(void, OS_CODE) tpl_init_context(
 
 void tpl_enable_interrupts(void)
 {
-	portENABLE_INTERRUPTS();
+	 __asm__ (" CPSIE	I");
 }
 
 void tpl_disable_interrupts(void)
 {
-	portDISABLE_INTERRUPTS();
+	 __asm__ (" CPSID	I");
 }
 
 /*
