@@ -7,3 +7,23 @@ C:\Home\ARM\insacortexdev\proj_cm3\Dimercur\MPPT\mppt.uvproj
 Project File Date:  11/02/2010
 
 <h2>Output:</h2>
+Build target 'Simu'
+assembling Startup_GCC.s...
+Assembler messages:
+Error: Error: can't open ../../system/Startup_GCC.s for reading: No such file or directory
+assembling STM32F10x_GCC.s...
+Assembler messages:
+Error: Error: can't open ../../system/STM32F10x_GCC.s for reading: No such file or directory
+compiling stm_usartx.c...
+arm-none-eabi-gcc: ../../lib_cm3/stm_usartx.c: No such file or directory
+arm-none-eabi-gcc: no input files
+compiling stm_clock.c...
+arm-none-eabi-gcc: ../../lib_cm3/stm_clock.c: No such file or directory
+arm-none-eabi-gcc: no input files
+compiling adc.c...
+adc.c(16): error: fatal error: stm_regs.h: No such file or directory
+compiling mppt.c...
+mppt.c(24): error: fatal error: stm_regs.h: No such file or directory
+compiling pwm.c...
+pwm.c(16): error: fatal error: stm_regs.h: No such file or directory
+Target not created
