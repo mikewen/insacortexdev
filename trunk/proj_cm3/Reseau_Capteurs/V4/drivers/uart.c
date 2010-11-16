@@ -227,15 +227,12 @@ struct buf_st *p;
 	switch (uart)
 	{
 		case UART_1_ID:
-		case UART_1_ID_NB:
 			p = &tbuf_uart1;
 			break;
 		case UART_2_ID:
-		case UART_2_ID_NB:
 			p = &tbuf_uart2;
 			break;
 		case UART_3_ID:
-		case UART_3_ID_NB:
 			p = &tbuf_uart3;
 			break;
 	}
@@ -250,7 +247,6 @@ struct buf_st *p;
 	switch (uart)
 	{
 		case UART_1_ID:
-		case UART_1_ID_NB:
 			if (tx_restart_uart1)
 			{
 				tx_restart_uart1 = 0; 
@@ -258,7 +254,6 @@ struct buf_st *p;
 			}
 			break;
 		case UART_2_ID:
-		case UART_2_ID_NB: 
 			if (tx_restart_uart2)
 			{
 				tx_restart_uart2 = 0; 
@@ -266,7 +261,6 @@ struct buf_st *p;
 			}
 			break;
 		case UART_3_ID:
-		case UART_3_ID_NB: 
 			if (tx_restart_uart3)
 			{
 				tx_restart_uart3 = 0; 
@@ -290,15 +284,12 @@ char data;
 	switch (uart)
 	{
 		case UART_1_ID:
-		case UART_1_ID_NB:
 			p = &rbuf_uart1;
 			break;
 		case UART_2_ID:
-		case UART_2_ID_NB:
 			p = &rbuf_uart2;
 			break;
 		case UART_3_ID:
-		case UART_3_ID_NB:
 			p = &rbuf_uart3;
 			break;
 	}
@@ -313,83 +304,6 @@ char data;
   	return (data);
 }
 
-void putchar_UART1(u8 c)
-{
-	SendChar(1, c);
-}
-
-u8 getchar_UART1 (void)
-{	 
-int ch;
-
-	do 
-	{
-    	ch = GetKey (1);
-  	} while (ch == -1);
-  	
-  	return ((u8)ch);
-}
-
-void putchar_UART2(u8 c)
-{
-	SendChar(2, c);
-}
-
-u8 getchar_UART2 (void)
-{	
-int ch;
-
-	do 
-	{
-    	ch = GetKey (2);
-  	} while (ch == -1);
-  	
-  	return ((u8)ch);
-}
-
-void putchar_UART3(u8 c)
-{
-	SendChar(3, c);
-}
-
-u8 getchar_UART3 (void)
-{	 
-int ch;
-
-	do 
-	{
-    	ch = GetKey (3);
-  	} while (ch == -1);
-  	
-  	return ((u8)ch);
-}
-
-signed char getchar_UART1_NB (void)
-{
-int ch;
-
-	ch = GetKey (1);
-  	
-  	return ((signed char)ch);
-}
-
-signed char getchar_UART2_NB (void)
-{
-int ch;
-
-	ch = GetKey (2);
-  	
-  	return ((signed char)ch);
-}
-
-signed char getchar_UART3_NB (void)
-{
-int ch;
-
-	ch = GetKey (3);
-  	
-  	return ((signed char)ch);
-}
 
 u8 UART_Buffer_State (FILE *f)
 {
@@ -400,15 +314,12 @@ u8 status;
 	switch (f->_file)
 	{
 		case UART_1_ID:
-		case UART_1_ID_NB:
 			if (rbuf_uart1.len !=0) status =NOT_EMPTY;
 			break;
 		case UART_2_ID:
-		case UART_2_ID_NB:
 			if (rbuf_uart2.len !=0) status =NOT_EMPTY;
 			break;
 		case UART_3_ID:
-		case UART_3_ID_NB:
 			if (rbuf_uart3.len !=0) status =NOT_EMPTY;
 			break;
 	} 
