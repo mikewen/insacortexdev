@@ -3,6 +3,12 @@
 
 int etat_RS = RS606_OFF;
 
+void RS606Init(void)
+{
+	/*Reglage de EXTI */
+
+}
+
 void RS606SetMode(RS606_MODE mode)
 {
 volatile int temp;
@@ -11,6 +17,11 @@ volatile int temp;
 
 	/* remet PB8 et PB9 à 0 */
 	GPIOB->ODR = GPIOB->ODR & ~(GPIO_Pin_8 + GPIO_Pin_9);
+
+	if (GPIOC->IDR & GPIO_Pin_4) /* Si aucune porteuse n'est detectée (CD à 1) */
+	{
+		if (mode == RS606_RX) mode = RS606_OFF;
+	}
 
 	switch (mode)
 	{
