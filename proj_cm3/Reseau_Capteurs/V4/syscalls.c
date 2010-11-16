@@ -15,6 +15,7 @@
 #include "missing_defs.h"
 
 #include "uart.h"
+#include "lcd.h"
 
 //TODO blabla
 char minilib_read(int);
@@ -146,6 +147,16 @@ char *loc_ptr=ptr;
 				break;
 			case UART_3_ID:
 				SendChar(3,*loc_ptr);
+				break;
+			case LCD_ID:
+				if ((*loc_ptr<' ') || (*loc_ptr>'~'))
+				{
+					lcd_putchar(' ');
+				}
+				else
+				{
+					lcd_putchar(*loc_ptr);
+				}
 				break;
 		}
 

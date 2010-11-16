@@ -10,10 +10,12 @@ extern FILE UART_1;
 extern FILE UART_2;
 extern FILE UART_3;
 
+extern FILE LCD_FILE;
+
 #define UART_1_ID 1
 #define UART_2_ID 2
 #define UART_3_ID 3 
-
+#define LCD_ID 4 
 
 #define EMPTY 0
 #define NOT_EMPTY 1

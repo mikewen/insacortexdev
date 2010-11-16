@@ -13,10 +13,7 @@ int Delay_Uart;
 FILE UART_1;
 FILE UART_2;
 FILE UART_3;
-
-FILE UART_1_NB;
-FILE UART_2_NB;
-FILE UART_3_NB;
+FILE LCD_FILE;
 
 #define BUF_SIZE 512
 
@@ -50,10 +47,7 @@ int i;
 	UART_1._file=UART_1_ID;
 	UART_2._file=UART_2_ID;
 	UART_3._file=UART_3_ID;
-
-	UART_1_NB._file=UART_1_ID_NB;
-	UART_2_NB._file=UART_2_ID_NB;
-	UART_3_NB._file=UART_3_ID_NB;
+	LCD_FILE._file=LCD_ID;
 
 	for (i=0; i<BUF_SIZE; i++)
 	{

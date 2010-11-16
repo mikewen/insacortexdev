@@ -26,25 +26,34 @@
 #define XBEE	&UART_2
 #define RS606	&UART_3
 
+#define LCD		&UART_1
+
 #define CARTE_ID	1
 
 #define TAILLE_BUFFER 200
 
 int c;
 char buffer_RS606[TAILLE_BUFFER];
-char buffer_XBee[TAILLE_BUFFER];
+char buffer_XBEE[TAILLE_BUFFER];
 int index_buffer_RS606;
-int index_buffer_XBee;
+int index_buffer_XBEE;
 int buffer_RS606_plein;
-int buffer_XBee_plein;
+int buffer_XBEE_plein;
 
 u8 preScaler;
 void MonCallback (void)	;
 
+#define TEMPO_RS_MAX 100
+#define TEMPO_XBEE_MAX 100
+int tempo_envoi_RS;
+int tempo_envoi_XBEE;
+char caractere_tx_RS;
+char caractere_tx_XBEE;
+char relache_bouton_RS;
+char relache_bouton_XBEE;
+
 int main (void)
 {
-int i;
-
 	/* Init du micro et des peripheriques */
 	stm32_Init ();
 	uart_init();
@@ -56,9 +65,17 @@ int i;
 	RS606SetMode(RS606_RX);
 
 	index_buffer_RS606 = 0;
-	index_buffer_XBee = 0;
+	index_buffer_XBEE = 0;
 	buffer_RS606_plein = 0;
-	buffer_XBee_plein =0;
+	buffer_XBEE_plein =0;
+
+	tempo_envoi_RS = 0;
+	tempo_envoi_XBEE = 0;
+	caractere_tx_RS ='A';
+	caractere_tx_XBEE = 'A';
+
+	relache_bouton_RS =0;
+	relache_bouton_XBEE=0;
 
 	/* Demarrage du service Timer */
 	//initialisation du prescaler
@@ -95,15 +112,15 @@ int i;
 			
 			if ((c=='\n') || (c=='\r'))
 			{
-				buffer_XBee[index_buffer_XBee]=0;
-				buffer_XBee_plein=1;
+				buffer_XBEE[index_buffer_XBEE]=0;
+				buffer_XBEE_plein=1;
 			}
 			else
 			{
-				buffer_XBee[index_buffer_XBee] = (char)c;
-				index_buffer_XBee++;
+				buffer_XBEE[index_buffer_XBEE] = (char)c;
+				index_buffer_XBEE++;
 
-				if (index_buffer_XBee>=TAILLE_BUFFER) index_buffer_XBee = TAILLE_BUFFER-1;
+				if (index_buffer_XBEE>=TAILLE_BUFFER) index_buffer_XBEE = TAILLE_BUFFER-1;
 			}	
 		}
 
@@ -114,9 +131,6 @@ int i;
 
 void MonCallback (void)
 {
-int i;
-int numero_capteur;
-
 	preScaler++;
 
 	if (preScaler==100)	/* Si 10 ms se sont ecoulées, execution des traitements periodiques */ 
@@ -124,109 +138,91 @@ int numero_capteur;
 		/* Remise a zero du compteur de periode */
 		preScaler = 0;
 
-#if defined (_CARTE_A_)
-   		if (!GPIOGetState(BOUTON_TAMP))
+	   	/* Gestion du module RS606 */
+   		if (!GPIOGetState(BOUTON_TAMP))	
 		{
-			/* Le capteur a emit une alerte */
-			fprintf (RS606, "%d=ALERTE\n", CARTE_ID);
-			
-			lcd_clear();
-			sprintf (buf_temp, "Capteur %d:ALERTE", CARTE_ID);
-			lcd_print(buf_temp);
+			/* Passe le module RS606 en transmission */
+			RS606SetMode(RS606_TX);
+			relache_bouton_RS = 1;
+
+			/* Envoi de caractere sur RS606 */
+			tempo_envoi_RS++;
+
+			if (tempo_envoi_RS>=TEMPO_RS_MAX)
+			{
+				caractere_tx_RS++;
+
+				if (caractere_tx_RS>'Z') caractere_tx_RS = 'A';
+			}
+
+			set_cursor(0,0);
+			fprintf(LCD,"RS-T: %c   ",caractere_tx_RS);
+
+			fprintf (RS606,"%c\n",caractere_tx_RS);
 		}
 		else
 		{
-			/* Le capteur va bien */
-			fprintf (RS606, "%d=OK\n", CARTE_ID);
-
-			lcd_clear();
-			sprintf (buf_temp, "Capteur %d:OK    ", CARTE_ID);
-			lcd_print(buf_temp);
-		}
-#endif /* _CARTE_A_ */
-
-#if defined (_CARTE_B_)		
-		for (i=0; i<MAX_CHAINES; i++)
-		{
-			if (chaines_fm.state[i] != 0)
+			if (relache_bouton_RS==1)
 			{
-				/* On a recu un message d'un capteur */
-				chaines_fm.state[i] = 0;
+				/*  passe le RS606 en mode reception ou OFF, selon l'etat de CD*/
+				RS606SetMode(RS606_RX);
 
-				numero_capteur = chaines_fm.buffer[i][0]-'0';
+				relache_bouton_RS=0;
 
-				if ((numero_capteur>0) && (numero_capteur<=MAX_CAPTEURS))
-				{
-					if (strfind(chaines_fm.buffer[i], "OK"))
-					{
-						etat_capteurs[numero_capteur-1]=0;
-						etat_precedent[numero_capteur-1] = ETAT_OK;
-						set_cursor(0,numero_capteur-1);
-						sprintf (buf_temp, "Capteur %d:OK    ", numero_capteur);
-						lcd_print (buf_temp);//"Capteur :OK    ");
-					}	
-					else if (strfind(chaines_fm.buffer[i], "ALERTE"))
-					{
-						etat_capteurs[numero_capteur-1]=0;
-						set_cursor(0,numero_capteur-1);
-						sprintf (buf_temp, "Capteur %d:ALERTE", numero_capteur);
-						lcd_print (buf_temp);//"Capteur :ALERTE");
-
-						if (etat_precedent[numero_capteur-1] != ETAT_KO)
-						{	
-							fprintf (XBEE, "Capteur %d ALERTE\n", numero_capteur);
-							etat_precedent[numero_capteur-1] = ETAT_KO;
-						}
-					}
-				}
+				set_cursor(0,0);
+				fprintf(LCD,"RS-R:                ");
 			}
-		}	
-		
-		for (i=0; i<MAX_CAPTEURS; i++)
-		{
-			etat_capteurs[i]++;
-		
-			if (etat_capteurs[i]>1) /* Capteur HS */
+
+			/* si une trame à été recue */
+			if (buffer_RS606_plein == 1)
 			{
-				set_cursor(0,i);
-				sprintf (buf_temp, "Capteur %d:HS    ", i+1);
-				lcd_print (buf_temp);//"Capteur :HS    ");
+				buffer_RS606_plein =0;
+				index_buffer_RS606 = 0;
 
-				if (etat_precedent[i] != ETAT_HS)
-				{
-					fprintf (XBEE, "Capteur %d HS\n", i+1);
-					etat_precedent[i] = ETAT_HS;	
-				}	
-		
-				etat_capteurs[i]=0;
-			}
-		}	
-#endif /* _CARTE_B_ */
-
-#if defined (_CARTE_C_)
-		for (i=0; i<MAX_CHAINES; i++)
-		{
-			if (chaines_xbee.state[i] != 0)
-			{
-				/* On a recu un message d'un capteur */
-				chaines_xbee.state[i] = 0;
-
-				/* Affichage du message */
-				lcd_clear();
-				lcd_print((char *)chaines_xbee.buffer[i]);
-
-				/* Envoi sur GSM (UART1) d'un texto contenant l'erreur */
-				fprintf(GSM,"AT+CMGF=1\r\n");
-				{
-				int j ;
-				for (j=0;j<8000000;j++);
-				fprintf(GSM,"AT+CMGS=\"%s\"\r\n",NUMERO_TELEPHONE);
-				for (j=0;j<8000000;j++);
-				fprintf(GSM,"%s%c\n",(char *)chaines_xbee.buffer[i],0x1A);
-				}
+				set_cursor(0,0);
+				fprintf(LCD,"RS-R: %s   ",buffer_RS606); 
 			}
 		}
-#endif /* _CARTE_C_ */
+
+	   	/* Gestion du module XBEE */
+   		if (!GPIOGetState(BOUTON_WKUP))	
+		{
+			/* Envoi de caractere sur XBEE */
+			tempo_envoi_XBEE++;
+			relache_bouton_XBEE = 1;
+
+			if (tempo_envoi_XBEE>=TEMPO_XBEE_MAX)
+			{
+				caractere_tx_XBEE++;
+
+				if (caractere_tx_XBEE>'Z') caractere_tx_XBEE = 'A';
+			}
+
+			set_cursor(1,0);
+			fprintf(LCD,"XB-T: %c   ",caractere_tx_XBEE);
+
+			fprintf (XBEE,"%c\n",caractere_tx_XBEE);
+		}
+		else
+		{
+			if (relache_bouton_XBEE==1)
+			{
+				relache_bouton_XBEE=0;
+
+				set_cursor(1,0);
+				fprintf(LCD,"XB-R:                ");
+			}
+
+			/* Si une trame à été recue */
+			if (buffer_XBEE_plein == 1)
+			{
+				buffer_XBEE_plein =0;
+				index_buffer_XBEE = 0;
+
+				set_cursor(1,0);
+				fprintf(LCD,"XB-R: %s   ",buffer_XBEE); 
+			}
+		}
 	}	
 }
 
