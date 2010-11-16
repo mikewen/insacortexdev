@@ -1,5 +1,5 @@
 /*
- * Reseau de capteur version 3
+ * Reseau de capteur version 4
  *
  *   Carte A transmet B en simplex (sans acquitement) l'etat de deux capteurs (Boutons TAMP => PA0; bouton WKUP => PC13) Toute les 0.5 secondes
  *   Carte B fait suivre à C en utilisant XBE, avec acquitement et retransmission.
@@ -9,9 +9,6 @@
  *                           <--(XBEE)----            
  *
  * Les clefs de compilation suivantes sont utilisées:
- *         _CARTE_A_: Permet de compiler le programme destiné à la carte A (surveillance capteurs)
- *         _CARTE_B_: Permet de compiler le programme destiné à la carte B (Passerelle RT606 -> XBEE)
- *         _CARTE_C_: Permet de compiler le programme destiné à la carte C (Passerelle XBEE -> GSM)
  *         _LCD_DEBUG_: Permet de desactiver l'ecran LCD, lors des simulations
  */
 
@@ -29,86 +26,24 @@
 #define XBEE	&UART_2
 #define RS606	&UART_3
 
-#define GSM_NB		&UART_1_NB
-#define XBEE_NB		&UART_2_NB
-#define RS606_NB	&UART_3_NB
-
 #define CARTE_ID	1
 
-#define NUMERO_TELEPHONE 	"0683296916"
+#define TAILLE_BUFFER 200
+
+int c;
+char buffer_RS606[TAILLE_BUFFER];
+char buffer_XBee[TAILLE_BUFFER];
+int index_buffer_RS606;
+int index_buffer_XBee;
+int buffer_RS606_plein;
+int buffer_XBee_plein;
+
 u8 preScaler;
-
-#define MAX_CHAINES	10
-#define MAX_LONGUEUR_CHAINE	100
-#define MAX_CAPTEURS 2
-
-#define ETAT_OK	0
-#define ETAT_KO 1
-#define ETAT_HS 2
-
-char buf_temp[200];
-
-struct buf_chaine_st
-{
-	char buffer[MAX_CHAINES][MAX_LONGUEUR_CHAINE];
-	int state[MAX_CHAINES];
-	int index_chaine;
-	int index_caractere;
-}; 
-
-struct buf_chaine_st chaines_xbee;
-struct buf_chaine_st chaines_fm;
-
-int etat_capteurs[MAX_CAPTEURS];
-int etat_precedent[MAX_CAPTEURS];
-  
 void MonCallback (void)	;
-
-int strfind(char *str, char *tok)
-{
-char *p_tok, *p_str;
-
-	p_tok = tok;
-	p_str = str;
-
-etape_1:
-	/* Recherche du debut de tok dasn str */
-	while (*p_str != 0)
-	{
-		if (*p_str==*p_tok) goto etape_2;
-
-		p_str++;
-	}
-
-etape_2:
-	/* Verification que tok se trouve bien la */
-	while ((*p_tok != 0) && (*p_str != 0))
-	{
-		if (*p_str!=*p_tok) 
-		{
-			p_tok=tok;
-			goto etape_1;
-		}
-
-		p_str++;
-		p_tok++;
-	} 
-
-	if (*p_tok == 0) return 1;
-	else return 0;
-}
 
 int main (void)
 {
 int i;
-
-#if defined (_CARTE_B_) || defined (_CARTE_C_)
-char caractere;
-#endif
-
-#if !defined (_CARTE_A_) && !defined (_CARTE_B_) && !defined (_CARTE_C_)
-	#error Vous devez definir au moins une des clefs suivantes: _CARTE_A_, _CARTE_B_, _CARTE_C_
-#endif
 
 	/* Init du micro et des peripheriques */
 	stm32_Init ();
@@ -117,38 +52,13 @@ char caractere;
 
 	/* Affichage d'un message d'accueil */
 	lcd_clear();
-#if defined (_CARTE_A_)
-	lcd_print("CARTE A");
-	RS606SetMode(RS606_TX);
-#endif /* _CARTE_A_ */
-#if defined (_CARTE_B_)
-	lcd_print("CARTE B");
+	lcd_print("RX");
 	RS606SetMode(RS606_RX);
 
-#endif /* _CARTE_B_ */
-#if defined (_CARTE_C_)
-	lcd_print("CARTE C");
-	RS606SetMode(RS606_OFF);
-#endif /* _CARTE_C_ */ 
-
-	for (i=0; i<MAX_CHAINES; i++)
-	{
-		chaines_xbee.buffer[i][0]=0;
-		chaines_xbee.state[i]=0;
-		chaines_fm.buffer[i][0]=0;	
-		chaines_fm.state[i]=0;
-	}
-
-	chaines_xbee.index_chaine = 0;
-	chaines_xbee.index_caractere = 0;
-	chaines_fm.index_chaine = 0;
-	chaines_fm.index_caractere = 0;
-
-	for (i=0; i<MAX_CAPTEURS; i++)
-	{
-		etat_capteurs[i]=0;
-		etat_precedent[i]=ETAT_OK;
-	}
+	index_buffer_RS606 = 0;
+	index_buffer_XBee = 0;
+	buffer_RS606_plein = 0;
+	buffer_XBee_plein =0;
 
 	/* Demarrage du service Timer */
 	//initialisation du prescaler
@@ -156,62 +66,62 @@ char caractere;
 	//avec appel de la routine MonCallback toutes les 10ms
 	TIMEInit( MonCallback);	
 
+	/* Recuperation des caracteres sur les liaisons series */
 	while (1)
 	{
-#if defined (_CARTE_B_)
+		/* Remplissage du buffer pour la liaison RS606 (FM) */
 		if (UART_Buffer_State(RS606) != EMPTY)
 		{
-			caractere=fgetc(RS606);
+			c=fgetc(RS606);
 			
-			if ((caractere=='\n') || (caractere=='\r'))
+			if ((c=='\n') || (c=='\r'))
 			{
-				chaines_fm.buffer[chaines_fm.index_chaine][chaines_fm.index_caractere] = 0;
-				chaines_fm.index_caractere=0;
-				chaines_fm.state[chaines_fm.index_chaine]=1;
-				chaines_fm.index_chaine++;
-				if (chaines_fm.index_chaine>(MAX_CHAINES-1)) chaines_fm.index_chaine=0;
+				buffer_RS606[index_buffer_RS606]=0;
+				buffer_RS606_plein=1;
 			}
 			else
 			{
-				chaines_fm.buffer[chaines_fm.index_chaine][chaines_fm.index_caractere] = caractere;
-				chaines_fm.index_caractere++;	
+				buffer_RS606[index_buffer_RS606] = (char)c;
+				index_buffer_RS606++;
+
+				if (index_buffer_RS606>=TAILLE_BUFFER) index_buffer_RS606 = TAILLE_BUFFER-1;
 			}	
 		}
-#endif /* _CARTE_B_ */
-#if defined (_CARTE_C_) || defined (_CARTE_B_) 
+
+		/* Remplissage du buffer pour la liaison XBEE (2.4GHz) */
 		if (UART_Buffer_State(XBEE) != EMPTY)
 		{
-			caractere=fgetc(XBEE);
+			c=fgetc(XBEE);
 			
-			if (caractere=='\n')
+			if ((c=='\n') || (c=='\r'))
 			{
-				chaines_xbee.buffer[chaines_xbee.index_chaine][chaines_xbee.index_caractere] = 0;
-				chaines_xbee.index_caractere=0;
-				chaines_xbee.state[chaines_xbee.index_chaine]=1;
-				chaines_xbee.index_chaine++;
-				if (chaines_xbee.index_chaine>(MAX_CHAINES-1)) chaines_xbee.index_chaine=0;
+				buffer_XBee[index_buffer_XBee]=0;
+				buffer_XBee_plein=1;
 			}
 			else
 			{
-				chaines_xbee.buffer[chaines_xbee.index_chaine][chaines_xbee.index_caractere] = caractere;
-				chaines_xbee.index_caractere++;	
+				buffer_XBee[index_buffer_XBee] = (char)c;
+				index_buffer_XBee++;
+
+				if (index_buffer_XBee>=TAILLE_BUFFER) index_buffer_XBee = TAILLE_BUFFER-1;
 			}	
 		}
-#endif /* _CARTE_C_ */ 
+
+		/* Remplissage du buffer pour la liaison GSM (900 Mhz) */
+		/* A faire !!! */
 	}
 }
 
 void MonCallback (void)
 {
-#if !defined (_CARTE_A_)
 int i;
 int numero_capteur;
-#endif
 
 	preScaler++;
 
-	if (preScaler==100)
+	if (preScaler==100)	/* Si 10 ms se sont ecoulées, execution des traitements periodiques */ 
 	{
+		/* Remise a zero du compteur de periode */
 		preScaler = 0;
 
 #if defined (_CARTE_A_)

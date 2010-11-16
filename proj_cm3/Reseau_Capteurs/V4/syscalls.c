@@ -102,26 +102,16 @@ char *loc_ptr=ptr;
 
 	while (loc_ptr-ptr < len) 
 	{
-		//*loc_ptr = minilib_read(file);
 		switch (file)
 		{
 			case UART_1_ID:
-				*loc_ptr=getchar_UART1();
+				*loc_ptr=GetKey(1);
 				break;
 			case UART_2_ID:
-				*loc_ptr=getchar_UART2();
+				*loc_ptr=GetKey(2);
 				break;
 			case UART_3_ID:
-				*loc_ptr=getchar_UART3();
-				break;
-			case UART_1_ID_NB:
-				*loc_ptr=getchar_UART1_NB();
-				break;
-			case UART_2_ID_NB:
-				*loc_ptr=getchar_UART2_NB();
-				break;
-			case UART_3_ID_NB:
-				*loc_ptr=getchar_UART3_NB();
+				*loc_ptr=GetKey(3);
 				break;
 			default:
 				*loc_ptr=(char)-1;
@@ -146,20 +136,16 @@ char *loc_ptr=ptr;
 
 	while (loc_ptr-ptr < len) 
 	{
-		//putchar_UART1(file,*loc_ptr);
 		switch (file)
 		{
 			case UART_1_ID:
-			case UART_1_ID_NB:
-				putchar_UART1(*loc_ptr);
+				SendChar(1,*loc_ptr);
 				break;
 			case UART_2_ID:
-			case UART_2_ID_NB:
-				putchar_UART2(*loc_ptr);
+				SendChar(2,*loc_ptr);
 				break;
 			case UART_3_ID:
-			case UART_3_ID_NB:
-				putchar_UART3(*loc_ptr);
+				SendChar(3,*loc_ptr);
 				break;
 		}
 
