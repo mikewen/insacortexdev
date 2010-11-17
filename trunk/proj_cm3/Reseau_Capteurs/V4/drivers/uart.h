@@ -21,6 +21,7 @@ extern FILE LCD_FILE;
 #define NOT_EMPTY 1
 #define TIMEOUT 2
 
+extern int UART_RS606TransmissionTerminee;
 void uart_init(void);
 
 int SendChar (int uart, int c);

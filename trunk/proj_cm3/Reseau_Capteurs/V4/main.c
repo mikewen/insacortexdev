@@ -21,6 +21,7 @@
 
 #include "STM32_Init.h"
 #include <stdio.h>
+#include <string.h>
 
 #define GSM		&UART_1
 #define XBEE	&UART_2
@@ -156,21 +157,24 @@ void MonCallback (void)
 			}
 
 			set_cursor(0,0);
-			fprintf(LCD,"RS-T: %c   ",caractere_tx_RS);
+			fprintf(LCD,"RS-T: MSG %c   ",caractere_tx_RS);
 
-			fprintf (RS606,"%c\n",caractere_tx_RS);
+			fprintf (RS606,"MSG %c\r",caractere_tx_RS);
 		}
 		else
 		{
 			if (relache_bouton_RS==1)
 			{
-				/*  passe le RS606 en mode reception ou OFF, selon l'etat de CD*/
-				RS606SetMode(RS606_RX);
-
-				relache_bouton_RS=0;
-
-				set_cursor(0,0);
-				fprintf(LCD,"RS-R:                ");
+				if (UART_RS606TransmissionTerminee==1)
+				{
+					/*  passe le RS606 en mode reception ou OFF, selon l'etat de CD*/
+					RS606SetMode(RS606_RX);
+	
+					relache_bouton_RS=0;
+	
+					set_cursor(0,0);
+					fprintf(LCD,"RS-R:                ");
+				}
 			}
 
 			/* si une trame à été recue */
@@ -179,8 +183,16 @@ void MonCallback (void)
 				buffer_RS606_plein =0;
 				index_buffer_RS606 = 0;
 
-				set_cursor(0,0);
-				fprintf(LCD,"RS-R: %s   ",buffer_RS606); 
+				if (strlen (buffer_RS606) >1)
+				{
+					set_cursor(0,0);
+					fprintf(LCD,"RS-R: %s           ",buffer_RS606+1); 	/* suppression du premier caractere */
+				}
+				else
+				{
+					set_cursor(0,0);
+					fprintf(LCD,"RS-R:              ");
+				}
 			}
 		}
 
@@ -199,9 +211,9 @@ void MonCallback (void)
 			}
 
 			set_cursor(1,0);
-			fprintf(LCD,"XB-T: %c   ",caractere_tx_XBEE);
+			fprintf(LCD,"XB-T: MSG %c   ",caractere_tx_XBEE);
 
-			fprintf (XBEE,"%c\n",caractere_tx_XBEE);
+			fprintf (XBEE,"MSG %c\r",caractere_tx_XBEE);
 		}
 		else
 		{
@@ -220,7 +232,7 @@ void MonCallback (void)
 				index_buffer_XBEE = 0;
 
 				set_cursor(1,0);
-				fprintf(LCD,"XB-R: %s   ",buffer_XBEE); 
+				fprintf(LCD,"XB-R: %s         ",buffer_XBEE); 
 			}
 		}
 	}	
