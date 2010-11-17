@@ -39,6 +39,7 @@ int tx_restart_uart2 = 1;               // NZ if TX restart is required
 struct buf_st rbuf_uart3 = { 0, 0, 0, };
 struct buf_st tbuf_uart3 = { 0, 0, 0, };
 int tx_restart_uart3 = 1;               // NZ if TX restart is required
+int UART_RS606TransmissionTerminee;
 
 void uart_init(void)
 {
@@ -68,6 +69,8 @@ int i;
 	rbuf_uart3.in = 0;
 	rbuf_uart3.out = 0;
 	rbuf_uart3.len = 0;
+
+	UART_RS606TransmissionTerminee=1;
 
 	NVIC_SET_PRIO_PERIPH(USART1,10);
 	NVIC_SET_PRIO_PERIPH(USART2,10);
@@ -189,25 +192,34 @@ struct buf_st *p;
       	}
 	}
 
-    if (IIR & USART_FLAG_TXE) 
+    if (USART->CR1 & USART_FLAG_TXE)
 	{
-      	USART3->SR &= ~USART_FLAG_TXE;	          // clear interrupt
-		p = &tbuf_uart3;
+		if (IIR & USART_FLAG_TXE) 
+		{
+	      	USART3->SR &= ~USART_FLAG_TXE;	          // clear interrupt
+			p = &tbuf_uart3;
+	
+	      	if (p->len !=0) 
+			{
+	        	USART3->DR = (unsigned char)(p->buf [p->out] & 0x0FF);
+	        	p->out++;
+				p->len--;
+				if (p->out> (BUF_SIZE-1)) p->out = 0;
+	        	tx_restart_uart3 = 0;
+	      	}
+	      	else 
+			{
+	        	tx_restart_uart3 = 1;
+				USART3->CR1 &= ~USART_FLAG_TXE;		      // disable TX interrupt if nothing to send
+	      	}
+	    }
+	}
 
-      	if (p->len !=0) 
-		{
-        	USART3->DR = (unsigned char)(p->buf [p->out] & 0x0FF);
-        	p->out++;
-			p->len--;
-			if (p->out> (BUF_SIZE-1)) p->out = 0;
-        	tx_restart_uart3 = 0;
-      	}
-      	else 
-		{
-        	tx_restart_uart3 = 1;
-			USART3->CR1 &= ~USART_FLAG_TXE;		      // disable TX interrupt if nothing to send
-      	}
-    }
+	if (IIR & USART_FLAG_TC)
+	{
+		UART_RS606TransmissionTerminee = 1;
+		USART3->SR &= ~USART_FLAG_TC;
+	}
 }
 
 /*------------------------------------------------------------------------------
@@ -259,6 +271,7 @@ struct buf_st *p;
 			{
 				tx_restart_uart3 = 0; 
 				USART3->CR1 |= USART_FLAG_TXE;		          // enable TX interrupt
+				UART_RS606TransmissionTerminee=0;
 			}
 			break;
 	}
