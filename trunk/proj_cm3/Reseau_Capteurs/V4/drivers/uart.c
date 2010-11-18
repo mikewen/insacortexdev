@@ -45,6 +45,9 @@ void uart_init(void)
 {
 int i;
 
+	/* Desactiver le RX de l'UART 3 */
+	UARTDesactiverRXRS606();
+
 	UART_1._file=UART_1_ID;
 	UART_2._file=UART_2_ID;
 	UART_3._file=UART_3_ID;
@@ -70,14 +73,23 @@ int i;
 	rbuf_uart3.out = 0;
 	rbuf_uart3.len = 0;
 
-	UART_RS606TransmissionTerminee=1;
-
+#pragma diag_remark	61, 68
 	NVIC_SET_PRIO_PERIPH(USART1,10);
 	NVIC_SET_PRIO_PERIPH(USART2,10);
 	NVIC_SET_PRIO_PERIPH(USART3,10);
 	NVIC_SET_PRIO_SYSTEM(SYSTICK,14);
+#pragma diag_default 61, 68
 }
 
+void UARTDesactiverRXRS606(void)
+{
+	USART3->CR1 = USART3->CR1 & ~(USART_Mode_Rx);
+}
+
+void UARTActiverRXRS606(void)
+{
+	USART3->CR1 = USART3->CR1 | (USART_Mode_Rx);
+}
 /*----------------------------------------------------------------------------
   USART1_IRQHandler
   Handles USART1 global interrupt request.
@@ -192,7 +204,7 @@ struct buf_st *p;
       	}
 	}
 
-    if (USART->CR1 & USART_FLAG_TXE)
+    if (USART3->CR1 & USART_FLAG_TXE)
 	{
 		if (IIR & USART_FLAG_TXE) 
 		{
@@ -220,6 +232,13 @@ struct buf_st *p;
 		UART_RS606TransmissionTerminee = 1;
 		USART3->SR &= ~USART_FLAG_TC;
 	}
+}
+
+void USARTFlushBuffer(void)
+{
+	rbuf_uart3.in = 0;
+	rbuf_uart3.out = 0;
+	rbuf_uart3.len = 0;
 }
 
 /*------------------------------------------------------------------------------
@@ -271,7 +290,6 @@ struct buf_st *p;
 			{
 				tx_restart_uart3 = 0; 
 				USART3->CR1 |= USART_FLAG_TXE;		          // enable TX interrupt
-				UART_RS606TransmissionTerminee=0;
 			}
 			break;
 	}

@@ -22,9 +22,14 @@ extern FILE LCD_FILE;
 #define TIMEOUT 2
 
 extern int UART_RS606TransmissionTerminee;
+
 void uart_init(void);
 
 int SendChar (int uart, int c);
 int GetKey (int uart);
 u8 UART_Buffer_State (FILE *f);
+void UARTDesactiverRXRS606(void);
+void UARTActiverRXRS606(void);
+void USARTFlushBuffer(void);
+
 #endif /* __UART_H__ */

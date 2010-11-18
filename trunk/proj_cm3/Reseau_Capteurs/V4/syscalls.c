@@ -37,6 +37,10 @@ char minilib_write(int, char);
 
 #endif /* !defined __AVR__ */
 #else
+
+	#undef ENOMEM
+	#undef EINVAL
+	
 	#define ENOMEM -2
 	#define EAGAIN -3
 	#define EINVAL -4

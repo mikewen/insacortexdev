@@ -11,5 +11,6 @@
 #define BOUTON_WKUP 4
 
 u16 GPIOGetState (u8 port);
+int GPIOEtatBouton (int bouton);
 
 #endif /* __GPIO_H__ */
