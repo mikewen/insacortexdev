@@ -22,18 +22,21 @@
 #include "STM32_Init.h"
 #include <stdio.h>
 #include <string.h>
+#include "stm_system.h"
 
 #define GSM		&UART_1
 #define XBEE	&UART_2
 #define RS606	&UART_3
 
-#define LCD		&UART_1
+#define LCD		&LCD_FILE
 
 #define CARTE_ID	1
 
+#define PERIODE_SYSTICK 10 /* exprimé en dizaine de ms (10ms) */
 #define TAILLE_BUFFER 200
 
-int c;
+char c;
+
 char buffer_RS606[TAILLE_BUFFER];
 char buffer_XBEE[TAILLE_BUFFER];
 int index_buffer_RS606;
@@ -58,13 +61,19 @@ int main (void)
 	/* Init du micro et des peripheriques */
 	stm32_Init ();
 	uart_init();
-	lcd_init();	
 
-	/* Affichage d'un message d'accueil */
+	lcd_init();	
 	lcd_clear();
-	lcd_print("RX");
+
+	GPIOB->ODR = GPIOB->ODR & ~(1<<15);
 	RS606SetMode(RS606_RX);
 
+	/* Preparation du service Timer */
+	preScaler = 0 ; 
+	//avec appel de la routine MonCallback toutes les 10ms
+	TIMEInit(MonCallback);
+
+	/* Initialisation des variables globales */
 	index_buffer_RS606 = 0;
 	index_buffer_XBEE = 0;
 	buffer_RS606_plein = 0;
@@ -78,11 +87,21 @@ int main (void)
 	relache_bouton_RS =0;
 	relache_bouton_XBEE=0;
 
-	/* Demarrage du service Timer */
-	//initialisation du prescaler
-	preScaler = 0 ; 
-	//avec appel de la routine MonCallback toutes les 10ms
-	TIMEInit( MonCallback);	
+	/* Affichage d'un message d'accueil */
+	set_cursor(0,0);
+	fprintf(LCD,"Res. de capteurs");
+	set_cursor(0,1);
+	fprintf(LCD,"Version 4");
+
+	TIMEWaitxms(3000);	
+
+	/* Demarrage du systick */
+	TIMEEnabled=1;
+
+	set_cursor(0,0);
+	fprintf(LCD,"RS-R:                ");
+	set_cursor(0,1);
+	fprintf(LCD,"XB-R:                ");
 
 	/* Recuperation des caracteres sur les liaisons series */
 	while (1)
@@ -90,7 +109,7 @@ int main (void)
 		/* Remplissage du buffer pour la liaison RS606 (FM) */
 		if (UART_Buffer_State(RS606) != EMPTY)
 		{
-			c=fgetc(RS606);
+			c=(char)fgetc(RS606);
 			
 			if ((c=='\n') || (c=='\r'))
 			{
@@ -99,7 +118,7 @@ int main (void)
 			}
 			else
 			{
-				buffer_RS606[index_buffer_RS606] = (char)c;
+				buffer_RS606[index_buffer_RS606] = c;
 				index_buffer_RS606++;
 
 				if (index_buffer_RS606>=TAILLE_BUFFER) index_buffer_RS606 = TAILLE_BUFFER-1;
@@ -109,7 +128,7 @@ int main (void)
 		/* Remplissage du buffer pour la liaison XBEE (2.4GHz) */
 		if (UART_Buffer_State(XBEE) != EMPTY)
 		{
-			c=fgetc(XBEE);
+			c=(char)fgetc(XBEE);
 			
 			if ((c=='\n') || (c=='\r'))
 			{
@@ -134,7 +153,7 @@ void MonCallback (void)
 {
 	preScaler++;
 
-	if (preScaler==100)	/* Si 10 ms se sont ecoulées, execution des traitements periodiques */ 
+	if (preScaler==PERIODE_SYSTICK)	/* Si 10 ms se sont ecoulées, execution des traitements periodiques */ 
 	{
 		/* Remise a zero du compteur de periode */
 		preScaler = 0;
@@ -159,22 +178,19 @@ void MonCallback (void)
 			set_cursor(0,0);
 			fprintf(LCD,"RS-T: MSG %c   ",caractere_tx_RS);
 
-			fprintf (RS606,"MSG %c\r",caractere_tx_RS);
+			fprintf (RS606,"$MSG %c\r",caractere_tx_RS);  /* le dollar sert de caractere perdu */
 		}
 		else
 		{
 			if (relache_bouton_RS==1)
 			{
-				if (UART_RS606TransmissionTerminee==1)
-				{
-					/*  passe le RS606 en mode reception ou OFF, selon l'etat de CD*/
-					RS606SetMode(RS606_RX);
-	
-					relache_bouton_RS=0;
-	
-					set_cursor(0,0);
-					fprintf(LCD,"RS-R:                ");
-				}
+				/*  passe le RS606 en mode reception*/
+				RS606SetMode(RS606_RX);
+
+				relache_bouton_RS=0;
+
+				set_cursor(0,0);
+				fprintf(LCD,"RS-R:                ");
 			}
 
 			/* si une trame à été recue */
@@ -210,7 +226,7 @@ void MonCallback (void)
 				if (caractere_tx_XBEE>'Z') caractere_tx_XBEE = 'A';
 			}
 
-			set_cursor(1,0);
+			set_cursor(0,1);
 			fprintf(LCD,"XB-T: MSG %c   ",caractere_tx_XBEE);
 
 			fprintf (XBEE,"MSG %c\r",caractere_tx_XBEE);
@@ -221,7 +237,7 @@ void MonCallback (void)
 			{
 				relache_bouton_XBEE=0;
 
-				set_cursor(1,0);
+				set_cursor(0,1);
 				fprintf(LCD,"XB-R:                ");
 			}
 
@@ -231,7 +247,7 @@ void MonCallback (void)
 				buffer_XBEE_plein =0;
 				index_buffer_XBEE = 0;
 
-				set_cursor(1,0);
+				set_cursor(0,1);
 				fprintf(LCD,"XB-R: %s         ",buffer_XBEE); 
 			}
 		}

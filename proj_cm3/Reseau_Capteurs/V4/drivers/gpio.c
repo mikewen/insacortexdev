@@ -26,3 +26,10 @@ u16 state =0;
 
 	return state;
 }
+
+int GPIOEtatBouton (int bouton)
+{
+int etat;
+
+	return etat;
+}

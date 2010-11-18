@@ -5,8 +5,12 @@
 
 typedef void (*TIME_CALLBACK) (void);
 
+extern int TIMEEnabled;
+
 void TIMEInit (TIME_CALLBACK callback);
 u32 TIMEGetCounter(void);
 void TIMEResetCounter(void);
+void TIMEWait1ms(void);
+void TIMEWaitxms(int ms);
 
 #endif /* __TIME_H__ */

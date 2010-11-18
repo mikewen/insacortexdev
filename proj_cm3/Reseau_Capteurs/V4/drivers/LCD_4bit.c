@@ -20,7 +20,7 @@
 
 /* If processor works on high frequency delay has to be increased, it can be 
    increased by factor 2^N by this constant                                   */
-#define DELAY_2N     0
+#define DELAY_2N     1
 
 /*------------------------- Text LCD size definitions ------------------------*/
 
