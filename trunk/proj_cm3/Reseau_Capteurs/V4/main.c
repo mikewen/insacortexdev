@@ -47,8 +47,8 @@ int buffer_XBEE_plein;
 u8 preScaler;
 void MonCallback (void)	;
 
-#define TEMPO_RS_MAX 100
-#define TEMPO_XBEE_MAX 100
+#define TEMPO_RS_MAX 10
+#define TEMPO_XBEE_MAX 10
 int tempo_envoi_RS;
 int tempo_envoi_XBEE;
 char caractere_tx_RS;
@@ -170,15 +170,16 @@ void MonCallback (void)
 
 			if (tempo_envoi_RS>=TEMPO_RS_MAX)
 			{
+				tempo_envoi_RS =0;
 				caractere_tx_RS++;
-
+				
 				if (caractere_tx_RS>'Z') caractere_tx_RS = 'A';
+
+				set_cursor(0,0);
+				fprintf(LCD,"RS-T: MSG %c   ",caractere_tx_RS);
+	
+				fprintf (RS606,"$MSG %c\r",caractere_tx_RS);  /* le dollar sert de caractere perdu */
 			}
-
-			set_cursor(0,0);
-			fprintf(LCD,"RS-T: MSG %c   ",caractere_tx_RS);
-
-			fprintf (RS606,"$MSG %c\r",caractere_tx_RS);  /* le dollar sert de caractere perdu */
 		}
 		else
 		{
@@ -221,15 +222,16 @@ void MonCallback (void)
 
 			if (tempo_envoi_XBEE>=TEMPO_XBEE_MAX)
 			{
+				tempo_envoi_XBEE =0;
 				caractere_tx_XBEE++;
 
 				if (caractere_tx_XBEE>'Z') caractere_tx_XBEE = 'A';
+			
+				set_cursor(0,1);
+				fprintf(LCD,"XB-T: MSG %c   ",caractere_tx_XBEE);
+	
+				fprintf (XBEE,"MSG %c\r",caractere_tx_XBEE);
 			}
-
-			set_cursor(0,1);
-			fprintf(LCD,"XB-T: MSG %c   ",caractere_tx_XBEE);
-
-			fprintf (XBEE,"MSG %c\r",caractere_tx_XBEE);
 		}
 		else
 		{

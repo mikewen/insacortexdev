@@ -150,7 +150,7 @@ static unsigned char wait_while_busy (void)
 {
   unsigned char status;
 
-#if !defined _LCD_DEBUG_
+#ifndef _LCD_DEBUG_
   do  {
     status = lcd_read_status();
   }  while (status & 0x80);             /* Wait for busy flag                 */
