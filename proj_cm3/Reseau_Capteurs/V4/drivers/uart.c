@@ -227,11 +227,12 @@ struct buf_st *p;
 	    }
 	}
 
-	if (IIR & USART_FLAG_TC)
+/*	if (IIR & USART_FLAG_TC)
 	{
 		UART_RS606TransmissionTerminee = 1;
 		USART3->SR &= ~USART_FLAG_TC;
 	}
+*/
 }
 
 void USARTFlushBuffer(void)
