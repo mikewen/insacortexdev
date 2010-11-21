@@ -13,7 +13,6 @@
  */
 
 #include "uart.h"
-#include "adc.h"
 #include "time.h"
 #include "gpio.h"
 #include "lcd.h"
@@ -44,8 +43,7 @@ int index_buffer_XBEE;
 int buffer_RS606_plein;
 int buffer_XBEE_plein;
 
-u8 preScaler;
-void MonCallback (void)	;
+u8 Counter100ms;
 
 #define TEMPO_RS_MAX 10
 #define TEMPO_XBEE_MAX 10
@@ -55,6 +53,10 @@ char caractere_tx_RS;
 char caractere_tx_XBEE;
 char relache_bouton_RS;
 char relache_bouton_XBEE;
+
+void HarvestMessages(void);
+void RS606PeriodicTask(void);
+void XBEEPeriodicTask(void);
 
 int main (void)
 {
@@ -69,9 +71,8 @@ int main (void)
 	RS606SetMode(RS606_RX);
 
 	/* Preparation du service Timer */
-	preScaler = 0 ; 
-	//avec appel de la routine MonCallback toutes les 10ms
-	TIMEInit(MonCallback);
+	Counter100ms = 0 ; 
+	TIMEInit(NULL);
 
 	/* Initialisation des variables globales */
 	index_buffer_RS606 = 0;
@@ -106,6 +107,48 @@ int main (void)
 	/* Recuperation des caracteres sur les liaisons series */
 	while (1)
 	{
+		/* Recuperation et mise en forme des messages */
+		HarvestMessages(); 
+
+		/*
+		 * Activation des actions pariodiques
+		 * Remarque 1: La periode de base (minimale) est de 10 ms
+		 *             Pour obtenir des periodes multiples de cette periode de base, utilisez des compteurs
+		 * Remarque 2: Les actions réalisées ici sont dites "collaboratives": si vous faites une operation
+		 *             bloquante, vous bloquez toutes les autres actions, y compris la recuperation des messages
+		 */
+
+		if (TIME10ms()==TRUE) /* Si 10 ms se sont ecoulées, execution des actions periodiques */
+		{
+			Counter100ms++;
+			
+			/* 
+			 * Si 100 ms se sont ecoulées, execution des traitements periodiques à recurrence de 100ms 
+			 */ 
+
+			if (Counter100ms==PERIODE_SYSTICK)	
+			{
+				/* Remise a zero du compteur de periode 100ms */
+				Counter100ms = 0;
+			
+			   	/* 
+				 * Tache periodique pour le module FM RS606 (433 MHZ)
+				 * Voir la description de la fonction pour plus d'infos 
+				 */
+				RS606PeriodicTask();
+			
+			   	/* 
+				 * Tache periodique pour le module 802.15.4 XBEE (2,4 GHZ)
+				 * Voir la description de la fonction pour plus d'infos 
+				 */
+				XBEEPeriodicTask();
+			}	
+		}
+	}
+}
+
+void HarvestMessages(void)
+{
 		/* Remplissage du buffer pour la liaison RS606 (FM) */
 		if (UART_Buffer_State(RS606) != EMPTY)
 		{
@@ -146,113 +189,191 @@ int main (void)
 
 		/* Remplissage du buffer pour la liaison GSM (900 Mhz) */
 		/* A faire !!! */
+}							
+ 
+/*
+ * Tache periodique du module RS606
+ *
+ * Rappel concernant le transmetteur:
+ * Le transmetteur utilise une porteuse à 433 Mhz. Le module ne possede aucune intelligence embarqué.
+ * En plus des lignes RX et TX directement connectées à l'UART 3, le module possede 3 autres lignes:
+ * TX_CMD (PB8): à 0, le module emet une porteuse et transmet les données presentes sur la ligne TX.
+ * RX_CMD (PB9): à 0, le module recupere les données presentes dasn la bande 433 Mhz et les recopie sur la ligne RX.
+ * CD (PC4): lorsque le module est en reception (RX_CMD à 0), cette ligne indique si une porteuse est en cours d'emission
+ *         0: une porteuse est emise
+ *         1: Aucune porteuse detectée
+ *
+ * Le module peut donc fonctionner dans 4 modes:
+ *         Off: (TX_CMD et RX_CMD à 1) Le module est desactivé.
+ *         Reception: (TX_CMD à 1 et RX_CMD à 0) Le module est en reception.
+ *         Transmission: (TX_CMD à 0 et RX_CMD à 1) Le module est en transmission.
+ *         LoopBack: (TX_CMD et RX_CMD à 0) Le module est en transmission et recopie sur RX les données envoyées.
+ *
+ * Si plusieurs modules emettent une porteuse en meme temps, les données transmises seront brouillées. Il est donc
+ * important de verifier si le media (la FM) est disponible en verifiant la presence de porteuse (ligne CD) lorsque le module 
+ * est en reception.
+ *
+ * A cela s'ajoutent les limitations suivantes:
+ *        A: Lorsque le module est basculé du mode transmission au mode reception, le premier caractere recu est verrolé.
+ *        B: Le module etant fondamentalement simplex (half duplex), lorsque l'on passe le module de transmission à reception, 
+ *           il faut s'assurer que la precedente transmission soit completement terminée, sinon les données restantes seront perdues.
+ *	         Pour info, l'UART est "bufferisé" en transmission et reception. Ainsi, les fonctions printf, puts, etc ne sont pas bloquants.
+ *           Autrement dit, ces fonctions se terminent avant que la transmission se soit effectivement terminée !
+ *        C: Lorsque le module RS606 est en reception et qu'aucune porteuse n'est emise, le module decode du bruit electronique.
+ *           Il en resulte la reception de caracteres aleatoires.
+ *        
+ * On va resoudre ces problemes en:
+ *        A: Ajoutant un caractere supplementaire ($) en debut de message à transmettre. Lors de la reception d'un message
+ *           le premier caractere sera ignoré et supprimé.
+ *        B: Utilisant une fonction special de l'UART (UARTTransmissionComplete) pour savoir si la transmission est completement
+ *           terminée.
+ *        C: Surveillant la ligne CD et desactiver la reception de l'UART 3 lorsque la ligne est à 1 (pas de porteuse). Ceci est
+ *           réalisé par le fichier RS606.c et par UART.c
+ *
+ * La machine à état va etre celui-ci:
+ *
+ *									 
+ *			     B(TAMP) appuyé	  ----------------  B(TAMP) relaché	  ----------------------------  
+ *			  ------------------> | Transmission |------------------> | Attente fin transmission |-----
+ *			  | 				  ----------------					  ----------------------------	  |
+ * 		   -------					 ^																  |
+ * Init -> | OFF | 					 |																  |
+ *		   -------                   --------------------------										  |
+ *			  |					  -------------				  |										  |
+ *			  ------------------> | Reception |----------------										  |
+ *				 B(TAMP) relaché  -------------	B(TAMP) appuyé										  |
+ *										^															  |
+ *										|															  |
+ *										---------------------------------------------------------------
+ *												  UARTTransmissionComplete() == 1
+ * 
+ */        
+void RS606PeriodicTask(void)
+{
+	if (!GPIOGetState(BOUTON_TAMP))	
+	{
+		/* Passe le module RS606 en transmission */
+		RS606SetMode(RS606_TX);
+		relache_bouton_RS = 1;
+	
+		/* Envoi de caractere sur RS606 */
+		tempo_envoi_RS++;
+	
+		if (tempo_envoi_RS>=TEMPO_RS_MAX)
+		{
+			tempo_envoi_RS =0;
+			caractere_tx_RS++;
+			
+			if (caractere_tx_RS>'Z') caractere_tx_RS = 'A';
+	
+			set_cursor(0,0);
+			fprintf(LCD,"RS-T: MSG %c   ",caractere_tx_RS);
+	
+			fprintf (RS606,"$MSG %c\r",caractere_tx_RS);  /* le dollar sert de caractere perdu */
+		}
+	}
+	else
+	{
+		if (relache_bouton_RS==1)
+		{
+			/*  passe le RS606 en mode reception*/
+			RS606SetMode(RS606_RX);
+	
+			relache_bouton_RS=0;
+	
+			set_cursor(0,0);
+			fprintf(LCD,"RS-R:                ");
+		}
+	
+		/* si une trame à été recue */
+		if (buffer_RS606_plein == 1)
+		{
+			buffer_RS606_plein =0;
+			index_buffer_RS606 = 0;
+	
+			if (strlen (buffer_RS606) >1)
+			{
+				set_cursor(0,0);
+				fprintf(LCD,"RS-R: %s           ",buffer_RS606+1); 	/* suppression du premier caractere */
+			}
+			else
+			{
+				set_cursor(0,0);
+				fprintf(LCD,"RS-R:              ");
+			}
+		}
 	}
 }
 
-void MonCallback (void)
+/*
+ * Tache periodique du module XBEE
+ *
+ * Rappel concernant le module XBEE:
+ * A la difference du module RS606, le XBEE embarque de l'intelligence (en fait il implemente une stack PHY 
+ * conforme à la norme 802.15.4). Du coup, la surveillance du media, la verification de collision, le filtrage 
+ * d'adresse et de pan ID sont directement integré au module.
+ *
+ * Le module apparait donc basiquement comme une liaison serie bi-directionnelle. 
+ *
+ * La machine à état ressemble donc à ceci:
+ *
+ *									 
+ *			     B(WKUP) appuyé	  ----------------  B(WKUP) relaché	   
+ *			  ------------------> | Transmission |-----------------------
+ *			  | 				  ----------------					    |
+ * 		   -------					     ^								|
+ * Init -> | OFF | 					     |								|
+ *		   -------                       ----------------------  		|
+ *			  |					  -------------				  |			|
+ *			  ------------------> | Reception |----------------			|
+ *				 B(WKUP) relaché  -------------	B(WKUP) appuyé		    |
+ *										^								|
+ *										|								|
+ *										---------------------------------
+ *												  
+ * 
+ */  
+void XBEEPeriodicTask(void)
 {
-	preScaler++;
-
-	if (preScaler==PERIODE_SYSTICK)	/* Si 10 ms se sont ecoulées, execution des traitements periodiques */ 
+	if (!GPIOGetState(BOUTON_WKUP))	
 	{
-		/* Remise a zero du compteur de periode */
-		preScaler = 0;
-
-	   	/* Gestion du module RS606 */
-   		if (!GPIOGetState(BOUTON_TAMP))	
-		{
-			/* Passe le module RS606 en transmission */
-			RS606SetMode(RS606_TX);
-			relache_bouton_RS = 1;
-
-			/* Envoi de caractere sur RS606 */
-			tempo_envoi_RS++;
-
-			if (tempo_envoi_RS>=TEMPO_RS_MAX)
-			{
-				tempo_envoi_RS =0;
-				caractere_tx_RS++;
-				
-				if (caractere_tx_RS>'Z') caractere_tx_RS = 'A';
-
-				set_cursor(0,0);
-				fprintf(LCD,"RS-T: MSG %c   ",caractere_tx_RS);
+		/* Envoi de caractere sur XBEE */
+		tempo_envoi_XBEE++;
+		relache_bouton_XBEE = 1;
 	
-				fprintf (RS606,"$MSG %c\r",caractere_tx_RS);  /* le dollar sert de caractere perdu */
-			}
-		}
-		else
+		if (tempo_envoi_XBEE>=TEMPO_XBEE_MAX)
 		{
-			if (relache_bouton_RS==1)
-			{
-				/*  passe le RS606 en mode reception*/
-				RS606SetMode(RS606_RX);
-
-				relache_bouton_RS=0;
-
-				set_cursor(0,0);
-				fprintf(LCD,"RS-R:                ");
-			}
-
-			/* si une trame à été recue */
-			if (buffer_RS606_plein == 1)
-			{
-				buffer_RS606_plein =0;
-				index_buffer_RS606 = 0;
-
-				if (strlen (buffer_RS606) >1)
-				{
-					set_cursor(0,0);
-					fprintf(LCD,"RS-R: %s           ",buffer_RS606+1); 	/* suppression du premier caractere */
-				}
-				else
-				{
-					set_cursor(0,0);
-					fprintf(LCD,"RS-R:              ");
-				}
-			}
-		}
-
-	   	/* Gestion du module XBEE */
-   		if (!GPIOGetState(BOUTON_WKUP))	
-		{
-			/* Envoi de caractere sur XBEE */
-			tempo_envoi_XBEE++;
-			relache_bouton_XBEE = 1;
-
-			if (tempo_envoi_XBEE>=TEMPO_XBEE_MAX)
-			{
-				tempo_envoi_XBEE =0;
-				caractere_tx_XBEE++;
-
-				if (caractere_tx_XBEE>'Z') caractere_tx_XBEE = 'A';
-			
-				set_cursor(0,1);
-				fprintf(LCD,"XB-T: MSG %c   ",caractere_tx_XBEE);
+			tempo_envoi_XBEE =0;
+			caractere_tx_XBEE++;
 	
-				fprintf (XBEE,"MSG %c\r",caractere_tx_XBEE);
-			}
+			if (caractere_tx_XBEE>'Z') caractere_tx_XBEE = 'A';
+		
+			set_cursor(0,1);
+			fprintf(LCD,"XB-T: MSG %c   ",caractere_tx_XBEE);
+	
+			fprintf (XBEE,"MSG %c\r",caractere_tx_XBEE);
 		}
-		else
+	}
+	else
+	{
+		if (relache_bouton_XBEE==1)
 		{
-			if (relache_bouton_XBEE==1)
-			{
-				relache_bouton_XBEE=0;
-
-				set_cursor(0,1);
-				fprintf(LCD,"XB-R:                ");
-			}
-
-			/* Si une trame à été recue */
-			if (buffer_XBEE_plein == 1)
-			{
-				buffer_XBEE_plein =0;
-				index_buffer_XBEE = 0;
-
-				set_cursor(0,1);
-				fprintf(LCD,"XB-R: %s         ",buffer_XBEE); 
-			}
+			relache_bouton_XBEE=0;
+	
+			set_cursor(0,1);
+			fprintf(LCD,"XB-R:                ");
 		}
-	}	
+	
+		/* Si une trame à été recue */
+		if (buffer_XBEE_plein == 1)
+		{
+			buffer_XBEE_plein =0;
+			index_buffer_XBEE = 0;
+	
+			set_cursor(0,1);
+			fprintf(LCD,"XB-R: %s         ",buffer_XBEE); 
+		}
+	}
 }
+
 

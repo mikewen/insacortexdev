@@ -1,3 +1,9 @@
+/*
+ * Projet: Reseau de capteur
+ *
+ * Rôle: Gestion du module FM RS606
+ * Version: 4.0
+ */
 #include <stm32f10x_lib.h>
 #include "RS606.h"
 #include "uart.h"
@@ -6,12 +12,20 @@
 extern char buffer_RS606[200];
 int etat_RS = RS606_OFF;
 
-void RS606Init(void)
-{
-	/*Reglage de EXTI */
-
-}
-
+/*
+ * int GPIOGetState (int port)
+ *
+ * Retourne l'etat courant d'un GPIO (pas d'antirebond)
+ *
+ * Parametres:
+ *     Entrée: 
+ *            port (int): identifiant du port
+ *     Sortie:
+ *            int: etat du port (0 ou different de 0) ou -1 si l'identifiant du bouton est invalide 
+ *
+ * Limitations:
+ *     Aucune
+ */
 void RS606SetMode(RS606_MODE mode)
 {
 volatile int temp;
@@ -53,6 +67,20 @@ volatile int temp;
 	}
 }
 
+/*
+ * int GPIOGetState (int port)
+ *
+ * Retourne l'etat courant d'un GPIO (pas d'antirebond)
+ *
+ * Parametres:
+ *     Entrée: 
+ *            port (int): identifiant du port
+ *     Sortie:
+ *            int: etat du port (0 ou different de 0) ou -1 si l'identifiant du bouton est invalide 
+ *
+ * Limitations:
+ *     Aucune
+ */
 void EXTI4_IRQHandler(void)
 {
 	//TIMEWait1ms();

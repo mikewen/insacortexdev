@@ -114,25 +114,28 @@ struct buf_st *p;
       	}
 	}
 
-    if (IIR & USART_FLAG_TXE) 
+	if (USART1->CR1 & USART_FLAG_TXE)
 	{
-      	USART1->SR &= ~USART_FLAG_TXE;	          // clear interrupt
-		p = &tbuf_uart1;
-
-      	if (p->len !=0) 
+	    if (IIR & USART_FLAG_TXE) 
 		{
-        	USART1->DR = (unsigned char)(p->buf [p->out] & 0x0FF);
-        	p->out++;
-			p->len--;
-			if (p->out> (BUF_SIZE-1)) p->out = 0;
-        	tx_restart_uart1 = 0;
-      	}
-      	else 
-		{
-        	tx_restart_uart1 = 1;
-			USART1->CR1 &= ~USART_FLAG_TXE;		      // disable TX interrupt if nothing to send
-      	}
-    }
+	      	USART1->SR &= ~USART_FLAG_TXE;	          // clear interrupt
+			p = &tbuf_uart1;
+	
+	      	if (p->len !=0) 
+			{
+	        	USART1->DR = (unsigned char)(p->buf [p->out] & 0x0FF);
+	        	p->out++;
+				p->len--;
+				if (p->out> (BUF_SIZE-1)) p->out = 0;
+	        	tx_restart_uart1 = 0;
+	      	}
+	      	else 
+			{
+	        	tx_restart_uart1 = 1;
+				USART1->CR1 &= ~USART_FLAG_TXE;		      // disable TX interrupt if nothing to send
+	      	}
+	    }
+	}
 }
 
 /*----------------------------------------------------------------------------
@@ -159,25 +162,28 @@ struct buf_st *p;
       	}
 	}
 
-    if (IIR & USART_FLAG_TXE) 
+	if (USART2->CR1 & USART_FLAG_TXE)
 	{
-      	USART2->SR &= ~USART_FLAG_TXE;	          // clear interrupt
-		p = &tbuf_uart2;
-
-      	if (p->len !=0) 
+	    if (IIR & USART_FLAG_TXE) 
 		{
-        	USART2->DR = (unsigned char)(p->buf [p->out] & 0x0FF);
-        	p->out++;
-			p->len--;
-			if (p->out> (BUF_SIZE-1)) p->out = 0;
-        	tx_restart_uart2 = 0;
-      	}
-      	else 
-		{
-        	tx_restart_uart2 = 1;
-			USART2->CR1 &= ~USART_FLAG_TXE;		      // disable TX interrupt if nothing to send
-      	}
-    }
+	      	USART2->SR &= ~USART_FLAG_TXE;	          // clear interrupt
+			p = &tbuf_uart2;
+	
+	      	if (p->len !=0) 
+			{
+	        	USART2->DR = (unsigned char)(p->buf [p->out] & 0x0FF);
+	        	p->out++;
+				p->len--;
+				if (p->out> (BUF_SIZE-1)) p->out = 0;
+	        	tx_restart_uart2 = 0;
+	      	}
+	      	else 
+			{
+	        	tx_restart_uart2 = 1;
+				USART2->CR1 &= ~USART_FLAG_TXE;		      // disable TX interrupt if nothing to send
+	      	}
+	    }
+	}
 }
 
 /*----------------------------------------------------------------------------

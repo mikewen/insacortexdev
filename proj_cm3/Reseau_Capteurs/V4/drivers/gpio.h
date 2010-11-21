@@ -1,16 +1,40 @@
+/*
+ * Projet: Reseau de capteur
+ *
+ * Rôle: Gestion des entrées/sorties discretes et des boutons
+ * Version: 4.0
+ */
 #ifndef __GPIO_H__
 #define __GPIO_H__
 
 #include <stm32f10x_lib.h>
 
-#define PORT_PA8 0
-#define PORT_PA12 1
-#define PORT_PA14 2
+/* 
+ * Definition des identifiants des GPIOs et boutons
+ *
+ * Si d'autres boutons ou GPIO sont necessaires, les rajouter dans la liste
+ */
+enum 
+{
+	BOUTON_TAMP=0,	  /* Fixé à zero pour pouvoir s'en servir d'index dans le tableau GPIODebounceBuffer */
+	BOUTON_WKUP
+};
 
-#define BOUTON_TAMP 3
-#define BOUTON_WKUP 4
+/*
+ * Definition des etats de sortie pour GPIOButton
+ */
+enum
+{
+	BUTTON_PRESSED,
+	BUTTON_JUST_PRESSED,
+	BUTTON_RELEASED,
+	BUTTON_JUST_RELEASED
+};
 
-u16 GPIOGetState (u8 port);
-int GPIOEtatBouton (int bouton);
+/*
+ * Fonctions exportées (publiques)
+ */
+int GPIOGetState (int port);
+int GPIOBouton (int bouton);
 
 #endif /* __GPIO_H__ */
