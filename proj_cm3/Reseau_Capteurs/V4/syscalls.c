@@ -110,13 +110,13 @@ char *loc_ptr=ptr;
 		switch (file)
 		{
 			case UART_1_ID:
-				*loc_ptr=GetKey(1);
+				*loc_ptr=UARTGetChar(1);
 				break;
 			case UART_2_ID:
-				*loc_ptr=GetKey(2);
+				*loc_ptr=UARTGetChar(2);
 				break;
 			case UART_3_ID:
-				*loc_ptr=GetKey(3);
+				*loc_ptr=UARTGetChar(3);
 				break;
 			default:
 				*loc_ptr=(char)-1;
@@ -144,13 +144,13 @@ char *loc_ptr=ptr;
 		switch (file)
 		{
 			case UART_1_ID:
-				SendChar(1,*loc_ptr);
+				UARTSendChar(1,*loc_ptr);
 				break;
 			case UART_2_ID:
-				SendChar(2,*loc_ptr);
+				UARTSendChar(2,*loc_ptr);
 				break;
 			case UART_3_ID:
-				SendChar(3,*loc_ptr);
+				UARTSendChar(3,*loc_ptr);
 				break;
 			case LCD_ID:
 				if ((*loc_ptr<' ') || (*loc_ptr>'~'))

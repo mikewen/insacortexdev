@@ -35,6 +35,6 @@ enum
  * Fonctions exportées (publiques)
  */
 int GPIOGetState (int port);
-int GPIOBouton (int bouton);
+int GPIOButton (int button);
 
 #endif /* __GPIO_H__ */

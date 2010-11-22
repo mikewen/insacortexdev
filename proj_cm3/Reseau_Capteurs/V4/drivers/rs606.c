@@ -35,7 +35,7 @@ volatile int temp;
 		/* Met les lignes PB9 (TX_CMD) PB8 (RX_CMD) en sortie : fait dans stm32_Init.c */
 	
 		/* Desactive la voie montante RX du RS606 */
-		UARTDesactiverRXRS606();
+		UARTDesactivateRXRS606();
 	
 		/* remet PB8 et PB9 à 0 */
 		GPIOB->ODR = GPIOB->ODR & ~(GPIO_Pin_8 + GPIO_Pin_9);
@@ -55,7 +55,7 @@ volatile int temp;
 				/* Attente de 1 ms */
 				if ((GPIOC->IDR & GPIO_Pin_4)==0) /* Si une porteuse est detectée (CD à 0) */
 				{
-					UARTActiverRXRS606();	
+					UARTActivateRXRS606();	
 				}
 				break;
 			case RS606_TX_LOOPBACK:
@@ -90,8 +90,8 @@ void EXTI4_IRQHandler(void)
 	{
 		if (GPIOC->IDR & GPIO_Pin_4)
 		{
-			/* Pas de CD -> Desactiver l'UART RX*/
-			UARTDesactiverRXRS606();
+			/* Pas de CD -> Desactiver l'UART RX */
+			UARTDesactivateRXRS606();
 
 			GPIOB->ODR = GPIOB->ODR & ~(1<<15);
 
@@ -101,7 +101,7 @@ void EXTI4_IRQHandler(void)
 		else
 		{
 			/* CD detectée -> Activer l'UART RX */
-			UARTActiverRXRS606();
+			UARTActivateRXRS606();
 
 			GPIOB->ODR = GPIOB->ODR | (1<<15);
 		}

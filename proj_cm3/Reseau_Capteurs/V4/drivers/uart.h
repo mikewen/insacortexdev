@@ -1,3 +1,9 @@
+/*
+ * Projet: Reseau de capteur
+ *
+ * Rôle: Gestion des liaisons series
+ * Version: 4.0
+ */
 #ifndef __UART_H__
 #define __UART_H__
 
@@ -6,30 +12,43 @@
 #include <stdio.h>
 #include "missing_defs.h"
 
-extern FILE UART_1;
-extern FILE UART_2;
-extern FILE UART_3;
-
-extern FILE LCD_FILE;
-
+/* 
+ * Definition des identifiants de liaison serie et LCD
+ */
 #define UART_1_ID 1
 #define UART_2_ID 2
 #define UART_3_ID 3 
 #define LCD_ID 4 
 
-#define EMPTY 0
-#define NOT_EMPTY 1
-#define TIMEOUT 2
+/* 
+ * Definition pour UARTBufferState 
+ */
+enum 
+{
+	EMPTY=0,
+	NOT_EMPTY
+};
 
-extern int UART_RS606TransmissionTerminee;
+/*
+ * Variables exportées (publiques)
+ */
+extern int UART_RS606TransmissionFinished;
 
-void uart_init(void);
+/* Fichiers identifiant les UARTS et l'ecran (pour printf et scanf) */
+extern FILE UART_1;
+extern FILE UART_2;
+extern FILE UART_3;
 
-int SendChar (int uart, int c);
-int GetKey (int uart);
-u8 UART_Buffer_State (FILE *f);
-void UARTDesactiverRXRS606(void);
-void UARTActiverRXRS606(void);
+extern FILE LCD_FILE;
+/*
+ * Fonctions exportées (publiques)
+ */
+void UARTInit(void);
+int UARTSendChar (int uart, int c);
+int UARTGetChar (int uart);
+int UARTBufferState (FILE *f);
+void UARTDesactivateRXRS606(void);
+void UARTActivateRXRS606(void);
 void USARTFlushBuffer(void);
 
 #endif /* __UART_H__ */
