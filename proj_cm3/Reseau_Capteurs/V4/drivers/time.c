@@ -78,9 +78,12 @@ int status = FALSE;
 void TIMEWait1ms(void)
 {
 #define _MAX_1MS_ 9000L
-volatile unsigned int i;
 
+#ifndef _LCD_DEBUG_
+volatile unsigned int i;
+			   
 	for (i=_MAX_1MS_; i!=0; i--); 
+#endif /* _LCD_DEBUG_ */
 }
 
 /*

@@ -45,7 +45,7 @@ int tx_restart_uart2 = 1;               // NZ if TX restart is required
 struct buf_st rbuf_uart3 = { 0, 0, 0, };
 struct buf_st tbuf_uart3 = { 0, 0, 0, };
 int tx_restart_uart3 = 1;               // NZ if TX restart is required
-int UART_RS606TransmissionTerminee;
+int UART_RS606TransmissionFinished;
 
 /*
  * void UARTInit(void)
@@ -94,6 +94,8 @@ int i;
 	rbuf_uart3.in = 0;
 	rbuf_uart3.out = 0;
 	rbuf_uart3.len = 0;
+
+	UART_RS606TransmissionFinished=1; // Ben oui, vu qu'il n'y a eu encore aucune transmission
 }
 
 /*
@@ -218,6 +220,7 @@ struct buf_st *p;
 			{
 				tx_restart_uart3 = 0; 
 				USART3->CR1 |= USART_FLAG_TXE;		          // Active l'IT TX 
+				UART_RS606TransmissionFinished=0;
 			}
 			break;
 	}
@@ -443,16 +446,21 @@ struct buf_st *p;
 	      	else 
 			{
 	        	tx_restart_uart3 = 1;
-				USART3->CR1 &= ~USART_FLAG_TXE;		      // disable TX interrupt if nothing to send
+				USART3->CR1 &= ~USART_FLAG_TXE;		      // disable TX interrupt if nothing more to send
+				USART3->CR1 |= USART_FLAG_TC;             // Enable end of transmission interrupt 
+				USART3->SR &= ~USART_FLAG_TC;
 	      	}
 	    }
 	}
 
-/*	if (IIR & USART_FLAG_TC)
+	if (USART3->CR1 & USART_FLAG_TC)
 	{
-		UART_RS606TransmissionTerminee = 1;
-		USART3->SR &= ~USART_FLAG_TC;
+		if (IIR & USART_FLAG_TC)
+		{
+			UART_RS606TransmissionFinished = 1;
+			USART3->CR1 &= ~USART_FLAG_TC;             // Disable end of transmission interrupt 
+			USART3->SR &= ~USART_FLAG_TC;
+		}
 	}
-*/
 }
 

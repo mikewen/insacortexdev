@@ -16,8 +16,8 @@
  */
 enum 
 {
-	BOUTON_TAMP=0,	  /* Fixé à zero pour pouvoir s'en servir d'index dans le tableau GPIODebounceBuffer */
-	BOUTON_WKUP
+	BUTTON_TAMP=0,	  /* Fixé à zero pour pouvoir s'en servir d'index dans le tableau GPIODebounceBuffer */
+	BUTTON_WKUP
 };
 
 /*
