@@ -23,17 +23,28 @@
 #include <string.h>
 #include "stm_system.h"
 
+/*
+ * Affectation des moyens de communication 5GSM/XBEE/RS606) sur les UARTs 
+ */
 #define GSM		&UART_1
 #define XBEE	&UART_2
 #define RS606	&UART_3
 
 #define LCD		&LCD_FILE
 
-#define CARTE_ID	1
-
+/*
+ * Periode des taches periodiques (exprimé en dizaine de ms) 
+ */
 #define PERIODE_SYSTICK 10 /* exprimé en dizaine de ms (10ms) */
+
+/*
+ * Taille des buffers pour stocker les messages recus (en octets)
+ */
 #define TAILLE_BUFFER 200
 
+/*
+ * Variable globale pour la recuperation des messages des differents moyens de communication 
+ */
 char c;
 
 char buffer_RS606[TAILLE_BUFFER];
@@ -43,8 +54,9 @@ int index_buffer_XBEE;
 int buffer_RS606_plein;
 int buffer_XBEE_plein;
 
-u8 Counter100ms;
+int Counter100ms;
 
+int Buttonstate;
 #define TEMPO_RS_MAX 10
 #define TEMPO_XBEE_MAX 10
 int tempo_envoi_RS;
@@ -54,18 +66,65 @@ char caractere_tx_XBEE;
 char relache_bouton_RS;
 char relache_bouton_XBEE;
 
+/* 
+ * Variables et definition pour les machines a état de la RS606 et du XBEE 
+ */
+enum
+{
+	RS606_OFF,
+	RS606_TRANSMIT,
+	RS606_WAIT_END_TRANSMITION,
+	RS606_RECEIVE
+}
+
+enum
+{
+	XBEE_OFF,
+	XBEE_TRANSMIT,
+	XBEE_RECEIVE
+}
+
+int RS606MachineState;
+int XBEEMachineState;
+
+/*
+ * Prototypes des fonctions utilisées par le main
+ */
 void HarvestMessages(void);
 void RS606PeriodicTask(void);
 void XBEEPeriodicTask(void);
 
+/*
+ * int main (void)
+ *
+ * Point d'entrée du programme
+ *
+ * Parametres:
+ *     Entrée: 
+ *            aucun	
+ *     Sortie:
+ *            aucun
+ *
+ * Limitations:
+ *     La fonction ne doit pas se terminer -> Boucle infinie
+ */
 int main (void)
 {
 	/* Init du micro et des peripheriques */
 	stm32_Init ();
-	uart_init();
+	UARTInit();
 
 	lcd_init();	
 	lcd_clear();
+
+	/* Reglage du niveau de priorité des interruptions */
+#pragma diag_remark	61, 68	/* suppression des messages d'erreur penibles */
+	NVIC_SET_PRIO_PERIPH(USART1,10);
+	NVIC_SET_PRIO_PERIPH(USART2,10);
+	NVIC_SET_PRIO_PERIPH(USART3,10);
+	NVIC_SET_PRIO_PERIPH(EXTI4,9);
+	NVIC_SET_PRIO_SYSTEM(SYSTICK,14);
+#pragma diag_default 61, 68
 
 	GPIOB->ODR = GPIOB->ODR & ~(1<<15);
 	RS606SetMode(RS606_RX);
@@ -74,7 +133,7 @@ int main (void)
 	Counter100ms = 0 ; 
 	TIMEInit(NULL);
 
-	/* Initialisation des variables globales */
+	/* Initialisation des variables globales utilisées par les taches periodiques */
 	index_buffer_RS606 = 0;
 	index_buffer_XBEE = 0;
 	buffer_RS606_plein = 0;
@@ -88,26 +147,32 @@ int main (void)
 	relache_bouton_RS =0;
 	relache_bouton_XBEE=0;
 
+	/* Initialisation des machines à etat */
+	RS606MachineState = RS606_OFF;
+	XBEEMachineState = XBEE_OFF;
+
 	/* Affichage d'un message d'accueil */
 	set_cursor(0,0);
 	fprintf(LCD,"Res. de capteurs");
 	set_cursor(0,1);
 	fprintf(LCD,"Version 4");
 
+	/* Attente de 3 secondes */
 	TIMEWaitxms(3000);	
 
 	/* Demarrage du systick */
 	TIMEEnabled=1;
 
+	/* Effacement de l'ecran et affichage de l'ecran de base */
 	set_cursor(0,0);
 	fprintf(LCD,"RS-R:                ");
 	set_cursor(0,1);
 	fprintf(LCD,"XB-R:                ");
 
-	/* Recuperation des caracteres sur les liaisons series */
+	/* Boucle principale, infinie */
 	while (1)
 	{
-		/* Recuperation et mise en forme des messages */
+		/* Recuperation et mise en forme des messages sur les liaisons series */
 		HarvestMessages(); 
 
 		/*
@@ -150,11 +215,11 @@ int main (void)
 void HarvestMessages(void)
 {
 		/* Remplissage du buffer pour la liaison RS606 (FM) */
-		if (UART_Buffer_State(RS606) != EMPTY)
+		if (UARTBufferState(RS606) != EMPTY)
 		{
 			c=(char)fgetc(RS606);
 			
-			if ((c=='\n') || (c=='\r'))
+			if ((c=='\n') || (c=='\r'))	/* Si l'on recoit un newline (\n) ou un retour chariot (\r), le message est terminé */
 			{
 				buffer_RS606[index_buffer_RS606]=0;
 				buffer_RS606_plein=1;
@@ -169,11 +234,11 @@ void HarvestMessages(void)
 		}
 
 		/* Remplissage du buffer pour la liaison XBEE (2.4GHz) */
-		if (UART_Buffer_State(XBEE) != EMPTY)
+		if (UARTBufferState(XBEE) != EMPTY)
 		{
 			c=(char)fgetc(XBEE);
 			
-			if ((c=='\n') || (c=='\r'))
+			if ((c=='\n') || (c=='\r'))	/* Si l'on recoit un newline (\n) ou un retour chariot (\r), le message est terminé */
 			{
 				buffer_XBEE[index_buffer_XBEE]=0;
 				buffer_XBEE_plein=1;
@@ -250,7 +315,33 @@ void HarvestMessages(void)
  */        
 void RS606PeriodicTask(void)
 {
-	if (!GPIOGetState(BOUTON_TAMP))	
+	ButtonState = GPIOButton(BUTTON_TAMP);
+
+	switch (RS606MachineState)
+	{
+	case RS606_OFF:
+		if ((ButtonState == BUTTON_PRESSED) || (ButtonState == BUTTON_JUST_PRESSED))
+		{
+			/* Bouton appuyé -> En transmission */
+			RS606MachineState = RS606_TRANSMIT;
+
+			RS606SetMode(RS606_TX);
+		}
+		else
+		{
+		}
+		break;
+	case RS606_TRANSMIT:
+		break;
+	case RS606_WAIT_END_TRANSMITION:
+		break;
+	case RS606_RECEIVE:
+		break;
+	default:
+		RS606MachineState = RS606_OFF; 
+	}
+
+	if (!GPIOGetState(BUTTON_TAMP))	
 	{
 		/* Passe le module RS606 en transmission */
 		RS606SetMode(RS606_TX);
@@ -311,7 +402,7 @@ void RS606PeriodicTask(void)
  * Rappel concernant le module XBEE:
  * A la difference du module RS606, le XBEE embarque de l'intelligence (en fait il implemente une stack PHY 
  * conforme à la norme 802.15.4). Du coup, la surveillance du media, la verification de collision, le filtrage 
- * d'adresse et de pan ID sont directement integré au module.
+ * d'adresse et de pan ID sont directement integrés au module.
  *
  * Le module apparait donc basiquement comme une liaison serie bi-directionnelle. 
  *
