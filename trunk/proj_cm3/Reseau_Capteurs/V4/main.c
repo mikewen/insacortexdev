@@ -1,15 +1,16 @@
 /*
  * Reseau de capteur version 4
  *
- *   Carte A transmet B en simplex (sans acquitement) l'etat de deux capteurs (Boutons TAMP => PA0; bouton WKUP => PC13) Toute les 0.5 secondes
- *   Carte B fait suivre à C en utilisant XBE, avec acquitement et retransmission.
- *   Carte C envoi un SMS contenant le numero du capteur
+ *   Cette application permet d'envoyer et recevoir des messages sur la liaison FM (RS606) et la liaison XBEE (2,4Ghz)
  *
- *       [A]---(RT606)--->[B]---(XBEE)--->[C]---(GSM)--->[Telephone]
- *                           <--(XBEE)----            
+ *   Pour envoyer un message toutes les secondes sur le lien FM (UART3), appuyez sur le bouton TAMP
+ *   Pour envoyer un message toutes les secondes sur le lien XBEE (UART2), appuyez sur le bouton WKUP
+ *
+ *   Pour recevoir des messages en FM ou en XBEE laissez les boutons respectifs relachés.
+ *           
  *
  * Les clefs de compilation suivantes sont utilisées:
- *         _LCD_DEBUG_: Permet de desactiver l'ecran LCD, lors des simulations
+ *         _LCD_DEBUG_: Permet de desactiver l'ecran LCD et les temporisations bloquantes en simulé
  */
 
 #include "uart.h"
@@ -56,7 +57,8 @@ int buffer_XBEE_plein;
 
 int Counter100ms;
 
-int Buttonstate;
+int ButtonState;
+
 #define TEMPO_RS_MAX 10
 #define TEMPO_XBEE_MAX 10
 int tempo_envoi_RS;
@@ -71,18 +73,18 @@ char relache_bouton_XBEE;
  */
 enum
 {
-	RS606_OFF,
+	RS606_IDLE,
 	RS606_TRANSMIT,
 	RS606_WAIT_END_TRANSMITION,
 	RS606_RECEIVE
-}
+};
 
 enum
 {
-	XBEE_OFF,
+	XBEE_IDLE,
 	XBEE_TRANSMIT,
 	XBEE_RECEIVE
-}
+};
 
 int RS606MachineState;
 int XBEEMachineState;
@@ -148,8 +150,8 @@ int main (void)
 	relache_bouton_XBEE=0;
 
 	/* Initialisation des machines à etat */
-	RS606MachineState = RS606_OFF;
-	XBEEMachineState = XBEE_OFF;
+	RS606MachineState = RS606_IDLE;
+	XBEEMachineState = XBEE_IDLE;
 
 	/* Affichage d'un message d'accueil */
 	set_cursor(0,0);
@@ -302,7 +304,7 @@ void HarvestMessages(void)
  *			  ------------------> | Transmission |------------------> | Attente fin transmission |-----
  *			  | 				  ----------------					  ----------------------------	  |
  * 		   -------					 ^																  |
- * Init -> | OFF | 					 |																  |
+ * Init -> | IDLE | 				 |																  |
  *		   -------                   --------------------------										  |
  *			  |					  -------------				  |										  |
  *			  ------------------> | Reception |----------------										  |
@@ -319,81 +321,161 @@ void RS606PeriodicTask(void)
 
 	switch (RS606MachineState)
 	{
-	case RS606_OFF:
+	case RS606_IDLE:
 		if ((ButtonState == BUTTON_PRESSED) || (ButtonState == BUTTON_JUST_PRESSED))
 		{
 			/* Bouton appuyé -> En transmission */
 			RS606MachineState = RS606_TRANSMIT;
 
+			/* Passe le RS606 en mode transmetteur */
 			RS606SetMode(RS606_TX);
+
+			/* RAZ de la tempo d'envoi des caracteres */
+			tempo_envoi_RS = 0;
 		}
 		else
 		{
+			/* Bouton relaché -> En reception */
+			RS606MachineState = RS606_RECEIVE;
+
+			/* Passe le RS606 en mode reception*/
+			RS606SetMode(RS606_RX);
 		}
 		break;
 	case RS606_TRANSMIT:
-		break;
-	case RS606_WAIT_END_TRANSMITION:
-		break;
-	case RS606_RECEIVE:
-		break;
-	default:
-		RS606MachineState = RS606_OFF; 
-	}
+		if (ButtonState==BUTTON_JUST_RELEASED)
+		{
+			/* Si l'utilisateur vient de relacher le bouton, il faut attendre la fin de la transmission */
+		    RS606MachineState = RS606_WAIT_END_TRANSMITION;
 
-	if (!GPIOGetState(BUTTON_TAMP))	
-	{
-		/* Passe le module RS606 en transmission */
-		RS606SetMode(RS606_TX);
-		relache_bouton_RS = 1;
-	
-		/* Envoi de caractere sur RS606 */
-		tempo_envoi_RS++;
-	
-		if (tempo_envoi_RS>=TEMPO_RS_MAX)
-		{
-			tempo_envoi_RS =0;
-			caractere_tx_RS++;
-			
-			if (caractere_tx_RS>'Z') caractere_tx_RS = 'A';
-	
-			set_cursor(0,0);
-			fprintf(LCD,"RS-T: MSG %c   ",caractere_tx_RS);
-	
-			fprintf (RS606,"$MSG %c\r",caractere_tx_RS);  /* le dollar sert de caractere perdu */
-		}
-	}
-	else
-	{
-		if (relache_bouton_RS==1)
-		{
-			/*  passe le RS606 en mode reception*/
-			RS606SetMode(RS606_RX);
-	
-			relache_bouton_RS=0;
-	
+			/* Effacement de l'ecran */
 			set_cursor(0,0);
 			fprintf(LCD,"RS-R:                ");
 		}
-	
-		/* si une trame à été recue */
-		if (buffer_RS606_plein == 1)
+		else
 		{
-			buffer_RS606_plein =0;
-			index_buffer_RS606 = 0;
-	
-			if (strlen (buffer_RS606) >1)
+			if (tempo_envoi_RS>=TEMPO_RS_MAX) /* Si la tempo d'envoi des caracteres est atteinte, il faut envoyer le message */
 			{
+				tempo_envoi_RS =0;
+				
+				if (caractere_tx_RS>'Z') caractere_tx_RS = 'A';
+		
+				/* Affichage à l'ecran */
 				set_cursor(0,0);
-				fprintf(LCD,"RS-R: %s           ",buffer_RS606+1); 	/* suppression du premier caractere */
-			}
-			else
-			{
-				set_cursor(0,0);
-				fprintf(LCD,"RS-R:              ");
+				fprintf(LCD,"RS-T: MSG %c   ",caractere_tx_RS);
+		
+				/* Et envoi du message sur la FM */
+				fprintf (RS606,"$MSG %c\r",caractere_tx_RS);  /* Le dollar sert de caractere perdu */
+
+				/* Preparation du prochain caractere */
+				caractere_tx_RS++;
 			}
 		}
+		break;
+	case RS606_WAIT_END_TRANSMITION:
+		if (UART_RS606TransmissionFinished == 1) /* Si la transmission est completement terminée, on peut repasser en reception */
+		{
+			RS606MachineState = RS606_RECEIVE;
+			
+			/* Passe le RS606 en mode reception */
+			RS606SetMode(RS606_RX);	
+
+			/* Efface l'ecran */
+			set_cursor(0,0);
+			fprintf(LCD,"RS-R:                ");
+		}
+		break;
+	case RS606_RECEIVE:
+		if ((ButtonState == BUTTON_PRESSED) || (ButtonState == BUTTON_JUST_PRESSED))
+		{
+			/* Si l'utilisateur vient d'appuyer sur le bouton, on passe en transmission */
+		    RS606MachineState = RS606_TRANSMIT;
+			
+			/* Passe le RS606 en mode transmetteur */
+			RS606SetMode(RS606_TX);
+
+			/* RAZ de la tempo d'envoi des caracteres */
+			tempo_envoi_RS = 0;	
+		}
+		else
+		{
+			/* Si une trame à été recue */
+			if (buffer_RS606_plein == 1)
+			{
+				buffer_RS606_plein =0;
+				index_buffer_RS606 = 0;
+		
+				if (strlen (buffer_RS606) >1) /* Si le message contient au moins de caractere 
+												(le caractere a supprimer et un caractere à afficher */
+				{
+					set_cursor(0,0);
+					fprintf(LCD,"RS-R: %s           ",buffer_RS606+1); 	/* Suppression du premier caractere */
+				}
+				else /* Le message est trop court -> poubelle */
+				{
+					set_cursor(0,0);
+					fprintf(LCD,"RS-R:              ");
+				}
+			}
+		}
+		break;
+	default:
+		RS606MachineState = RS606_IDLE; 
 	}
+
+//	if (!GPIOGetState(BUTTON_TAMP))	
+//	{
+//		/* Passe le module RS606 en transmission */
+//		RS606SetMode(RS606_TX);
+//		relache_bouton_RS = 1;
+//	
+//		/* Envoi de caractere sur RS606 */
+//		tempo_envoi_RS++;
+//	
+//		if (tempo_envoi_RS>=TEMPO_RS_MAX)
+//		{
+//			tempo_envoi_RS =0;
+//			caractere_tx_RS++;
+//			
+//			if (caractere_tx_RS>'Z') caractere_tx_RS = 'A';
+//	
+//			set_cursor(0,0);
+//			fprintf(LCD,"RS-T: MSG %c   ",caractere_tx_RS);
+//	
+//			fprintf (RS606,"$MSG %c\r",caractere_tx_RS);  /* le dollar sert de caractere perdu */
+//		}
+//	}
+//	else
+//	{
+//		if (relache_bouton_RS==1)
+//		{
+//			/*  passe le RS606 en mode reception*/
+//			RS606SetMode(RS606_RX);
+//	
+//			relache_bouton_RS=0;
+//	
+//			set_cursor(0,0);
+//			fprintf(LCD,"RS-R:                ");
+//		}
+//	
+//		/* si une trame à été recue */
+//		if (buffer_RS606_plein == 1)
+//		{
+//			buffer_RS606_plein =0;
+//			index_buffer_RS606 = 0;
+//	
+//			if (strlen (buffer_RS606) >1)
+//			{
+//				set_cursor(0,0);
+//				fprintf(LCD,"RS-R: %s           ",buffer_RS606+1); 	/* suppression du premier caractere */
+//			}
+//			else
+//			{
+//				set_cursor(0,0);
+//				fprintf(LCD,"RS-R:              ");
+//			}
+//		}
+//	}
 }
 
 /*
@@ -413,7 +495,7 @@ void RS606PeriodicTask(void)
  *			  ------------------> | Transmission |-----------------------
  *			  | 				  ----------------					    |
  * 		   -------					     ^								|
- * Init -> | OFF | 					     |								|
+ * Init -> | IDLE | 					 |								|
  *		   -------                       ----------------------  		|
  *			  |					  -------------				  |			|
  *			  ------------------> | Reception |----------------			|
@@ -426,45 +508,121 @@ void RS606PeriodicTask(void)
  */  
 void XBEEPeriodicTask(void)
 {
-	if (!GPIOGetState(BOUTON_WKUP))	
+	ButtonState = GPIOButton(BUTTON_WKUP);
+    
+	switch (XBEEMachineState)
 	{
-		/* Envoi de caractere sur XBEE */
-		tempo_envoi_XBEE++;
-		relache_bouton_XBEE = 1;
-	
-		if (tempo_envoi_XBEE>=TEMPO_XBEE_MAX)
+	case XBEE_IDLE:
+		if ((ButtonState == BUTTON_PRESSED) || (ButtonState == BUTTON_JUST_PRESSED))
 		{
-			tempo_envoi_XBEE =0;
-			caractere_tx_XBEE++;
-	
-			if (caractere_tx_XBEE>'Z') caractere_tx_XBEE = 'A';
-		
-			set_cursor(0,1);
-			fprintf(LCD,"XB-T: MSG %c   ",caractere_tx_XBEE);
-	
-			fprintf (XBEE,"MSG %c\r",caractere_tx_XBEE);
+			/* Bouton appuyé -> En transmission */
+			XBEEMachineState = XBEE_TRANSMIT;
+
+			/* RAZ de la tempo d'envoi des caracteres */
+			tempo_envoi_XBEE = 0;
 		}
-	}
-	else
-	{
-		if (relache_bouton_XBEE==1)
+		else
 		{
-			relache_bouton_XBEE=0;
-	
+			/* Bouton relaché -> En reception */
+			XBEEMachineState = XBEE_RECEIVE;
+		}
+		break;
+	case XBEE_TRANSMIT:
+		if (ButtonState==BUTTON_JUST_RELEASED)
+		{
+			/* Si l'utilisateur vient de relacher le bouton, il faut attendre la fin de la transmission */
+		    XBEEMachineState = XBEE_RECEIVE;
+
+			/* Effacement de l'ecran */
 			set_cursor(0,1);
 			fprintf(LCD,"XB-R:                ");
 		}
-	
-		/* Si une trame à été recue */
-		if (buffer_XBEE_plein == 1)
+		else
 		{
-			buffer_XBEE_plein =0;
-			index_buffer_XBEE = 0;
-	
-			set_cursor(0,1);
-			fprintf(LCD,"XB-R: %s         ",buffer_XBEE); 
+			if (tempo_envoi_XBEE>=TEMPO_XBEE_MAX) /* Si la tempo d'envoi des caracteres est atteinte, il faut envoyer le message */
+			{
+				tempo_envoi_XBEE =0;
+		
+				if (caractere_tx_XBEE>'Z') caractere_tx_XBEE = 'A';
+			
+				/* Affichage à l'ecran */
+				set_cursor(0,1);
+				fprintf(LCD,"XB-T: MSG %c   ",caractere_tx_XBEE);
+		
+				/* Et envoi du message sur le XBEE */
+				fprintf (XBEE,"MSG %c\r",caractere_tx_XBEE);
+
+				/* Preparation du prochain caractere */
+				caractere_tx_XBEE++;
+			}
 		}
+		break;
+	case XBEE_RECEIVE:
+		if ((ButtonState == BUTTON_PRESSED) || (ButtonState == BUTTON_JUST_PRESSED))
+		{
+			/* Si l'utilisateur vient d'appuyer sur le bouton, on passe en transmission */
+		    XBEEMachineState = XBEE_TRANSMIT;
+
+			/* RAZ de la tempo d'envoi des caracteres */
+			tempo_envoi_XBEE = 0;	
+		}
+		else
+		{
+			/* Si une trame à été recue */
+			if (buffer_XBEE_plein == 1)
+			{
+				buffer_XBEE_plein =0;
+				index_buffer_XBEE = 0;
+		
+				/* Affichage du message à l'ecran */
+				set_cursor(0,1);
+				fprintf(LCD,"XB-R: %s         ",buffer_XBEE); 
+			}
+		}
+		break;
+	default:
+		XBEEMachineState = XBEE_IDLE; 
 	}
+
+//	if (!GPIOGetState(BUTTON_WKUP))	
+//	{
+//		/* Envoi de caractere sur XBEE */
+//		tempo_envoi_XBEE++;
+//		relache_bouton_XBEE = 1;
+//	
+//		if (tempo_envoi_XBEE>=TEMPO_XBEE_MAX)
+//		{
+//			tempo_envoi_XBEE =0;
+//			caractere_tx_XBEE++;
+//	
+//			if (caractere_tx_XBEE>'Z') caractere_tx_XBEE = 'A';
+//		
+//			set_cursor(0,1);
+//			fprintf(LCD,"XB-T: MSG %c   ",caractere_tx_XBEE);
+//	
+//			fprintf (XBEE,"MSG %c\r",caractere_tx_XBEE);
+//		}
+//	}
+//	else
+//	{
+//		if (relache_bouton_XBEE==1)
+//		{
+//			relache_bouton_XBEE=0;
+//	
+//			set_cursor(0,1);
+//			fprintf(LCD,"XB-R:                ");
+//		}
+//	
+//		/* Si une trame à été recue */
+//		if (buffer_XBEE_plein == 1)
+//		{
+//			buffer_XBEE_plein =0;
+//			index_buffer_XBEE = 0;
+//	
+//			set_cursor(0,1);
+//			fprintf(LCD,"XB-R: %s         ",buffer_XBEE); 
+//		}
+//	}
 }
 
 

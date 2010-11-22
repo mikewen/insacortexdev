@@ -36,10 +36,10 @@ int state =0;
 
 	switch (port)
 	{
-	case BOUTON_TAMP:
+	case BUTTON_TAMP:
 		state = (GPIOC->IDR & GPIO_Pin_13);
 		break;
-	case BOUTON_WKUP:
+	case BUTTON_WKUP:
 		state = (GPIOA->IDR & GPIO_Pin_0);
 		break;
 	default:
