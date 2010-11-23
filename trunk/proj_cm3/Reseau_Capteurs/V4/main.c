@@ -25,7 +25,7 @@
 #include "stm_system.h"
 
 /*
- * Affectation des moyens de communication 5GSM/XBEE/RS606) sur les UARTs 
+ * Affectation des moyens de communication (GSM/XBEE/RS606) sur les UARTs 
  */
 #define GSM		&UART_1
 #define XBEE	&UART_2
@@ -354,6 +354,8 @@ void RS606PeriodicTask(void)
 		}
 		else
 		{
+			tempo_envoi_RS++;
+
 			if (tempo_envoi_RS>=TEMPO_RS_MAX) /* Si la tempo d'envoi des caracteres est atteinte, il faut envoyer le message */
 			{
 				tempo_envoi_RS =0;
@@ -539,6 +541,8 @@ void XBEEPeriodicTask(void)
 		}
 		else
 		{
+			tempo_envoi_XBEE++;
+
 			if (tempo_envoi_XBEE>=TEMPO_XBEE_MAX) /* Si la tempo d'envoi des caracteres est atteinte, il faut envoyer le message */
 			{
 				tempo_envoi_XBEE =0;

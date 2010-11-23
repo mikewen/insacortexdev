@@ -11,3 +11,11 @@ V3: Reseau de capteur:
 
 	[A]---(RT606)--->[B]---(XBEE)--->[C]---(GSM)--->[Telephone]
                             <--(XBEE)----            
+V4: Demonstrateur pour les communications RS606 et XBEE
+    Cette application permet d'envoyer et recevoir des messages sur la liaison FM (RS606) et la liaison XBEE (2,4Ghz)
+
+    Pour envoyer un message toutes les secondes sur le lien FM (UART3), appuyez sur le bouton TAMP
+    Pour envoyer un message toutes les secondes sur le lien XBEE (UART2), appuyez sur le bouton WKUP
+
+    Pour recevoir des messages en FM ou en XBEE laissez les boutons respectifs relachés.
+  
