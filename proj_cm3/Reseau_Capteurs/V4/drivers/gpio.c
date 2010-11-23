@@ -14,7 +14,7 @@
 
 int GPIODebounceBuffer[2][2]; /* Tableau pour l'antirebond, à 2 lignes (pour les deux boutons)
                                  et 2 colonnes (pour les deux etats comparés) */
-int GPIOButonLastState[2];    /* Tableau pour memoriser l'etat precedent des boutons et detecter les
+int GPIOButonLastState[2]= {BUTTON_RELEASED,BUTTON_RELEASED};    /* Tableau pour memoriser l'etat precedent des boutons et detecter les
                                  transitions appuyé->relaché et relaché->appuyé */
 /*
  * int GPIOGetState (int port)
@@ -75,7 +75,7 @@ int GPIOButton (int button)
 	 
 	if (GPIODebounceBuffer[button][0] == GPIODebounceBuffer[button][1])	/* Le bouton est stable */
 	{
-		if (GPIOButonLastState[button] != GPIODebounceBuffer[button][1]) /* le bouton n'a pas changé d'etat depuis la derniere fois */
+		if (GPIOButonLastState[button] == GPIODebounceBuffer[button][1]) /* le bouton n'a pas changé d'etat depuis la derniere fois */
 		{
 			if (GPIODebounceBuffer[button][1] == 0) return BUTTON_PRESSED;
 			else return BUTTON_RELEASED;
@@ -90,7 +90,11 @@ int GPIOButton (int button)
 			else return BUTTON_JUST_RELEASED;
 		} 				
 	}
-	else return GPIOButonLastState[button]; /* Le bouton n'est pas stable, on renvoi l'etat stable precedent */
+	else 
+	{
+		if (GPIOButonLastState[button] == 0) return BUTTON_PRESSED; /* Le bouton n'est pas stable, on renvoi l'etat stable precedent */
+		else return BUTTON_RELEASED;
+	}
 
 /* Suppression du warning qui indique que la fonction se termine sans return. ARMCC n'est pas trés futé sur ce coup là ... */
 #pragma diag_remark	940
