@@ -1,0 +1,28 @@
+\BOOKMARK [0][-]{chapter.1}{Architecture en couches}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Introduction et d\351finitions}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Architecture logicielle recommand\351e}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Guide des bonnes mani\350res}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.4}{La couche mat\351rielle}{chapter.1}% 5
+\BOOKMARK [0][-]{chapter.2}{Faudrait pas prendre les pilotes pour des navigateurs ! }{}% 6
+\BOOKMARK [1][-]{section.2.1}{Premier exemple : configuration d'une broche d'entr\351e-sortie}{chapter.2}% 7
+\BOOKMARK [2][-]{subsection.2.1.1}{Pilote dynamique}{section.2.1}% 8
+\BOOKMARK [2][-]{subsection.2.1.2}{Pilote statique}{section.2.1}% 9
+\BOOKMARK [1][-]{section.2.2}{Second exemple : configuration d'une interruption}{chapter.2}% 10
+\BOOKMARK [2][-]{subsection.2.2.1}{Pilote dynamique}{section.2.2}% 11
+\BOOKMARK [2][-]{subsection.2.2.2}{Pilote statique}{section.2.2}% 12
+\BOOKMARK [0][-]{chapter.3}{Bah ! Les masques}{}% 13
+\BOOKMARK [1][-]{section.3.1}{Op\351rateur logiques et bit \340 bit}{chapter.3}% 14
+\BOOKMARK [1][-]{section.3.2}{Mettre un bit \340 1}{chapter.3}% 15
+\BOOKMARK [1][-]{section.3.3}{Mettre un bit \340 0}{chapter.3}% 16
+\BOOKMARK [1][-]{section.3.4}{Inverser un bit}{chapter.3}% 17
+\BOOKMARK [1][-]{section.3.5}{Initialiser une tranche de bits}{chapter.3}% 18
+\BOOKMARK [0][-]{chapter.4}{L'\351pointeur de fonctions ne manque\(nt\) pas de piquant !}{}% 19
+\BOOKMARK [1][-]{section.4.1}{Appel indirect des fonctions}{chapter.4}% 20
+\BOOKMARK [2][-]{subsection.4.1.1}{Pointeur de fonction}{section.4.1}% 21
+\BOOKMARK [2][-]{subsection.4.1.2}{Affectation d'un pointeur de fonction}{section.4.1}% 22
+\BOOKMARK [2][-]{subsection.4.1.3}{Appel de fonction par un pointeur}{section.4.1}% 23
+\BOOKMARK [2][-]{subsection.4.1.4}{Passage de fonctions en param\350tre}{section.4.1}% 24
+\BOOKMARK [1][-]{section.4.2}{L'art et la mani\350re... }{chapter.4}% 25
+\BOOKMARK [2][-]{subsection.4.2.1}{... de s'en servir avec la solution dynamique}{section.4.2}% 26
+\BOOKMARK [2][-]{subsection.4.2.2}{... de s'en passer avec la solution statique}{section.4.2}% 27
+\BOOKMARK [2][-]{subsection.4.2.3}{Quelques commentaires pour se faire une religion}{section.4.2}% 28

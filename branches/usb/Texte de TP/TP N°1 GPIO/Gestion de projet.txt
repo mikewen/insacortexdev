@@ -1,0 +1,589 @@
+
+SUJET DE Thierry 
+
+Je vous joins le sujet de TP (surement à reprendre un peu, notamment sur les
+fautes d'orthographe), j'ai pas trop relu.
+Je vous joins aussi le .zip du projet keil, qui est mon corrigé. Vous pourrez
+juger de la complexité du truc.
+C'est chiant à gratter à cause des masques qui pètent de partout, mais au moins,
+passé ce TP, ils seront rompus à l'exercice, ou...dégoutés.
+
+Notons que pour l'appli bateau, c'est surtout la fonction de config qui sera
+utilisée (la plus dure à gratter).
+
+Une remarque sur les structures logicielles : on aura, avec ce module driver,
+une dépendance horizontale inter module de la couche périph. En effet, le
+module driver PWM.c devra inclure fatalement GPIO.h (si on souhaite que la
+fonction d'init PWM fixe le sens de la broche).
+ Si ça pose un pb philosophique, la solution c'est d'exploiter GPIO.h et PWM.h
+en couche service, et ce sera au concepteur de la couche service, de manager la
+conf PWM et la conf de la broche associée (je trouve ça un peu con mais bon).
+
+Je m'égare un peu et me surprend à parler un langage curieux. Vous  m'avez suivi
+sur cette puissante remarque ?
+
+Une dernière, dites moi si j'en demande trop dans le GPIO.h, en terme de
+généricité. J'attends vos avis pour faire marche arrière s'il le faut.
+Si vous voulez vraiment cobayer (Vincent ?), je vous suggère de dézipper
+l'archive et de jeter GPIO.C (sauf la ligne de conf de l'horloge, que j'ai pour
+l'instant passé sous silence ds le sujet de TP).
+
+ A+ et à vous de jouer
+
+Thierry
+
+-------------------------------------------------------------------------------------------------------------
+REPONSE DE Pascal :
+
+J'ai lu le bordel rapidement et ça a l'air tout bon sauf la structure des répertoires que tu donne :
+sys et couche_drivers (que l'on peut nommer drivers ou pilotes) sont réutilisable par d'autre projets et ne doivent donc pas se retrouver dans le répertoire du projet...
+Je préfèrerait que l'on continue sur ce qui a été inculqué en assembleur :
+
+Pour les lib dynamiques :
+
+devel_cm3 ------ sys
+			|---pilotes---|--  gpio.c
+			|		     |---gpio.h
+			|		     
+			|---services
+			|---projets ---- debug_gpio---- debug_gpio.uvproj
+					     |				|---main.c
+					     |                         .............................
+					     |--debug_service_inclinometre
+					     |--appli_finale
+	
+Pour les libs statiques, le fichier de configuration doit être dans le répertoire de projet
+devel_cm3 ------ sys
+			|---pilotes---|--  gpio.c
+			|		     |--- gpio.h
+			|		     |---exemple_gpio_conf.h
+			|---services
+			|---projets ---- debug_gpio---- debug_gpio.uvproj
+					     |				|---main.c
+					     |				|---gpio_conf.h												
+				    	     |                         .............................
+					     |--debug_service_inclinometre
+					     |--appli_finale
+
+quénavou les bouzeux ?
+
+ça permet de lancer PEH sur l'histoire des dynamiques et statiques :-)
+
+
+-------------------------------------------------------------------------------------------------------------
+REPONSE DE PEH :
+
+Salut,
+
+Très bien ! Ca m'a permis d'apprendre plein de choses :)
+
+Je ferai simplement un changement sur les prototypes des fonctions, en particulier pour le paramètre Port. Au lieu de passer un char prenant une valeur dans {a,b,c,d}, je passerai directement le pointeur sur la structure GPIO_TypeDef, ce qui donnerait par exemple :
+char Port_IO_Init(* GPIO_TypeDef Port, char Broche, char Sens, char Techno)
+
+J'y vois un avantage certain pour le compacité du code, ça évite de passer par GPIOx qui est dans ta correction, ce qui rendra plus lisible et simple le code. Par contre on perd en généricité puisqu'il faut inclue le stm_regs.h dans le fichier qui appel.
+
+
+-------------------------------------------------------------------------------------------------------------
+RE REPONSE DE TR : 
+
+Salut PE,
+
+Je trouve ton idée intéressante, elle soulage le code. Après, faut voir avec le
+reste de l'équipe si on peut faire une entorse au règlement (dépendance).
+
+J'en profite, et là tout le monde écoute !, pour vous dire que les pointeurs de
+structures m'échappent gravement. Donc, mon pauvre petit cerveau a bien du mal
+à mettre en oeuvre la forme préconisée par PE.
+Pour moi, j'en suis resté à GPIOA->ODR=..., et j'ai compris que cette ligne est
+équivalente à (*GPIOA).ODR=... Donc GPIOA physiquement, contient l'adresse du
+premier champ de la structure. GPIOA est donc un int à une adresse en RAM,
+comme tout pointeur.  J'ai bon là, ou je suis déjà débordé ??
+Pour résumé mon niveau de compréhension :
+Sous C167 on disait ODR=, sous STM32 on dit GPIOA->ODR= .
+
+Mais alors, bon ou pas, quelqu'un pourrait-il m'expliquer cet extrait de
+stmregs.h :
+
+typedef struct
+{
+  vu32 CRL;
+  vu32 CRH;
+  vu32 IDR;
+  vu32 ODR;
+  vu32 BSRR;
+  vu32 BRR;
+  vu32 LCKR;
+} GPIO_TypeDef;
+
+Ca c'est OK (je crois), c'est la déclaration d'un nouveau type, un struct,
+auquel on donne le nom de GPIO_TypeDef et qui a tout plein de champs.
+GPIO_TypeDef est donc un type comme int ou vu32 mais plus compliqué...
+
+Mais là ça se gatte :
+
+ #define GPIOA               ((GPIO_TypeDef *) GPIOA_BASE)
+
+Ca ressemble à un casting, mais bon, c'est tout ce que je peux en dire. Donc si
+qquun peut m'expliquer ça, et avec un schéma de la RAM pour voir où est qui.
+Seb avait tenté de m'expliquer, mais mes pauvres neurones n'ont pas fait la
+synthèse...
+
+Suite à une explication convaincante (de votre part, génies du langage C), voila
+comment je vois les choses :
+
+Je comprends toujours rien (je suis un pauvre con) mais :
+- je ne peux pas procéder comme le préconise PE, puisque j'y pompe rien, et on
+reste sur la forme initiale
+
+J'ai compris (je suis pas si con que ça, et surtout, y a de grands pédagogues
+parmi vous) :
+- on considère que les étudiants sont plus forts que moi, et d'entrée au premier
+TP, on les dépucelle...et on part sur l'idée de PE
+- on considère que les étudiants sont aussi forts que moi (...), et donc, on
+reste sur la position initiale pour ne pas les azimuter d'entrée, l'enseignement
+périph n'ayant pas pour objectif de faire des cadors du C.
+
+Quoiqu'il en soit PE, je veux bien un petit corrigé...ça me rappelle un peu
+cette histoire de pointeur de fonction, j'en viens à le regretter celui-là...
+
+
+
+
+-----------------------------------------------------------------------------------------------
+Longue expliation de Seb
+
+Bon, je vais essayer de te répondre Thierry, mais de vive voix, c'est quand même
+plus simple.
+
+Tout d'abord l'écriture
+
+             GPIOA->ODR
+
+se lit comme: "GPIOA est un pointeur sur une structure de donnée qui contient
+(au moins) un champ nommé ODR"
+
+Ensuite, il faut comprendre que les périphériques du STM32 sont des blocs IP
+VHDL, sur étagère, utilisés dans d'autres de leur micro. Du coup, le bloc "IO"
+sera décliné en n exemplaires dans la puce, formant les différents ports IO (A,
+B, C ..). De la même manière, les USART, les SPI, les I2C, les TIMER sont des
+périphériques clonés en plusieurs exemplaires dans la puce.
+
+Bien entendu, chaque instance d'un périphérique possède les mêmes registres que
+ses frères, espacés (au niveau de leurs adresses) de la même manière. Autrement
+dit, si tu connais l'adresse absolue du premier registre d'un périphérique, tu
+n'as aucun mal à connaitre les adresses absolues des autres. J'enfonce
+probablement des portes ouvertes, mais ca permet d'être sur qu'on parle tous de
+la même chose.
+
+Si on prend comme exemple le port A, la disposition des registres d'un GPIO va
+être décrite dans une structure: c'est normal, les registres sont toujours
+disposés (espacés) de la même manière (instanciation d'un bloc IP). C'est fait
+avec ce bout de code:
+
+          typedef struct
+          {
+             vu32 CRL;
+             vu32 CRH;
+             vu32 IDR;
+             vu32 ODR;
+             vu32 BSRR;
+             vu32 BRR;
+             vu32 LCKR;
+          } GPIO_TypeDef;
+
+Au passage, notons l'utilisation de typedef: ca évite de devoir préciser
+"struct" avant GPIO_Typedef lors de l'utilisation du type. Notons aussi
+l'utilisation des types vu32, qui sont déclarés comme étant des "volatile
+unsigned int", int sur cette architecture valant 32 bits, d'où le 32 de vu32.
+
+Bien, avec ca, on a décrit la disposition relative des registres d'un periph
+entre eux. Reste à "accrocher" cette disposition à l'adresse de base du periph.
+C'est fait avec ce code:
+
+          #define GPIOA               ((GPIO_TypeDef *) GPIOA_BASE)
+
+Avec ca, on déclare un alias "GPIOA" comme étant un pointeur pointant à
+l'adresse "GPIOA_BASE" sur une structure de type "(GPIO_TypeDef *)". Remarquons
+au passage que grâce à l'utilisation de "typedef" dans la déclaration de la
+structure "GPIO_TypeDef", ca nous a évité d'écrire:
+
+          #define GPIOA               ((struct GPIO_TypeDef *) GPIOA_BASE)
+
+C'est quand même plus élégant !
+
+De plus, l'avantage de déclarer "GPIOA" avec un #define, plutôt que par:
+
+          GPIO_TypeDef *GPIOA = ((GPIO_TypeDef *) GPIOA_BASE);
+
+c'est que ca n'occupe pas de place en RAM ou en Flash. Mais les deux sont
+valables.
+
+Du coup, quand on écrit:
+
+          GPIOA->ODR = 0x20;
+
+c'est remplacé par le préprocesseur C par:
+
+          ((struct GPIO_TypeDef *) GPIOA_BASE)->ODR = 0x20;
+
+ce qui au final donnera en pseudo code qq chose comme:
+
+           "Écrire 0x20 à l'adresse (GPIOA_BASE + addr relative de ODR)"
+
+Quand on défini ensuite une fonction comme suit:
+
+           void Set_Port (GPIO_TypeDef *port,
+                          int          pin,
+                          char         direction);
+
+On a bien "port" défini comme un pointeur sur une structure de type
+GPIO_TypeDef: c'est bien similaire à la déclaration de GPIOA, sauf que
+l'adresse du pointeur n'est pas fourni.
+Du coup, lors de l'appel:
+
+          Set_Port (GPIOA, 2, 'O'); /* Configure la pin 2 du port A en sortie */
+
+le préprocesseur va remplacer ca par:
+
+          Set_Port (((GPIO_TypeDef *) GPIOA_BASE), 2, 'O');
+
+Ce qui revient donc à affecter l'adresse "GPIOA_BASE" à "port" lors du passage
+de paramètre à la fonction "Set_Port". On se retrouve bien avec un pointeur
+"port", pointant sur une structure de type "GPIO_TypeDef" et initialisé à
+l'adresse "GPIOA_BASE".
+
+Du coup, dans le corps de la fonction, lorsque l'on va écrire un truc comme:
+
+          port->ODR = 0x20;
+
+le compilateur va bien réaliser l'affectation de la valeur 0x20 à l'adresse
+(GPIOA_BASE + addr relative de ODR).
+
+C'est carrément élégant comme code, l'appel de la fonction est super lisible et
+ca vire une quantité phénoménale de "switch ... case" et autre "if ... else"
+
+J'espère avoir répondu à ta question mon Titi et désolé d'avoir saoulé les
+autres.
+
+Seb
+
+
+-----------------------------------------------------------------------------------------------
+Encore une de PE
+
+Salut,
+
+Très bien cette version avec l'étape intermédiaire très concrète pour configurer une IO.
+
+Pour rassurer Guillaume et qu'il puisse dormir tranquillement —enfin autant que sa fille peut le laisser dormir—, j'ai fait l'ingénu —que je suis réellement— et suivi le TP.
+
+Tout d'abord je le trouve très bien fait et progressif. Voici cependant quelques questions et commentaires ouvertes à tout le monde :
+
+- L'explication sur Push-pull, Open drain etc. est claire, je comprends presque électroniquement ce qui se passe, mais à quoi ça sert ? Je veux dire que pour moi l'électronique c'est loin et deux trois exemples concrets d'utilisation ne feraient pas de mal... Autrement dit en caricaturant : soit je suis informaticien et on ne dit : "ton périph tu le configures en Open Drain" et je me moque de savoir ce que c'est au niveau électronique... soit on me dit "voilà le machin que l'on veut connecter en entrée-sortie, qu'est-ce qu'il faut choisir comme techno ?" et là je suis sec... N'est-il pas possible de donner des exemples par rapport au bateau en disant : "on connecte tel machin au port truc, du coup comme le machin a tel comportement alors il est évident qu'il faut choisir du Open Drain".
+
+- J'ai mis du temps à trouver une réponse pour la  question sur le nombre de ports et pins et je trouve ma méthode peu élégante. En gros, je suis allé p.23 du datasheet et j'ai compté les ports et les broches. Il n'y a pas un autre moyen ?
+
+- Pour les registres de configuration de la direction et de la techno, la réponse est identique ou non ? C'est bien GPIOx_CRL ou GPIOx_CRH ? Ou alors tu voulais les bits CNF et MODE de ces registres ? Dans ce cas il faut reformuler la question en bits de configuration et non registres de configuration.
+
+- Juste pour être sûr de comprendre toutes les subtilités : BSRR sert à mettre à 0 ou 1 une broche en sortie en une opération atomique, c'est bien ça ? Que se passe-t-il si on laisse le bit BR ou BSR à 1 ? Histoire de bien comprendre, est-ce que vous pourriez me donner un exemple d'utilisation de BSRR ?
+
+- On est d'accord qu'une AF est utiliser pour rediriger le port vers un autre périph ? Dans le cadre de ce premier TP c'est simplement pour que les étudiants ne passent pas à côté de ce point pour la suite, ou alors j'ai raté quelque chose ?
+
+@Pascal : peux-tu m'envoyer l'archive qui sera distribuée aux étudiants, pour que je me cogne le code.
+
+J'attaque bientôt le deuxième TP.
+
+A+
+PE
+
+------------------------------------------------------------------------------------------------
+
+Pacal .... 
+
+
+Voilà j'ai mis sur insacortexdev:trunk/poly/periph  le bordel
+src_etudiant
+poly (avec sources en latex)
+
+Je pense ajouter à la fin du truc sur les couche un explication sur comment communiquer avec la couche matérielle.
+Le coup des adresses/registres et une expliquation du stm_reg.h TODO
+ 
+J'ai traduit le TP timer 1 en latex et l'ai intégré au poly AVEC DES MODIFS (te vexes pas thierry :-)
+
+Pour voir le joly pdf utilisez la page web du svn insacortexdev->source->browse
+c'est dans trunk/polys/periph/poly/poly_periph.pdf
+
+ou alors cliquez là
+
+http://insacortexdev.googlecode.com/svn/trunk/polys/periph/poly/poly_periph.pdf
+
+Bonne lecture
+
+
+------------------------------------------------------------------------------------------
+Thierry ...
+
+Pascal,
+
+Je ne me vexe pas, mais hier à minuit, j'ai pris un orage qui m'a empêché de te
+faire la réponse suivante :
+
+Comment je fais moi, pour apporter des modifs aux documents ? En gros tu
+m'obliges à passer sous latek et j'ai pas que ça à faire.
+Il y a encore n sujets à écrire. On fait comment ? PE souhaite ajouter un petit
+paragraphe sur un exemple de open drain (j'avais une idée en tête). Je fais
+comment pour le rajouter, je te demande la permission ?
+Hier, tu m'en as parlé, j'ai pas percuté, j'aurais du te freiner. J'ai merdé.
+
+J'avoue que je suis désabusé. Je peux plus contribuer directement (hyper
+frustrant). Je fais quoi, je continue à gratter les interruptions et le reste
+sous open office ? Sinon, Pascal, je te laisse prendre la main sous LATEK, tu
+grattes les TP, je te fais les remarques en fichier texte et tu apportes les
+modifs toi même. Pour moi, tes LATEK son des pdf. Je peux pas les modifier
+
+Pour l'instant j'arrête de produire. Je dis pas que LATEK c'est nul, c'est sans
+doute mieux que openoffice, plus pro, plus ceci, plus cela. Mais non d'une
+pipe, on est à la rue sur ce le démarrage de cet enseignement, ça c'est la
+couche de trop. Je peuuuux pluuuuuus..
+
+
+A+
+
+------------------------------------------------------------------------------------------
+Guillaume ...
+
+Bon les gars faut se calmer....
+Plein de bonnes volontes de partout donc c'est sympa on reproche rien a
+personne.
+On est tous plus au moins a la rue (pour differentes raisons et sur
+differents plans...) a cause d'un enseignement nouveau qui demarre
+maintenant.
+C'est vrai on le savait mais je n'ai pas eu trop l'impression de glander au
+printemps dernier.
+On a fait 1 ou 2 petanques mais cela n'a pas trop joue sur la planning.
+Pourquoi pas essayer de baisser notre niveau d'excellence :
+Dans cette UV, on a l'ambition maintenant de faire du periph, du hard, du
+statique du dynamique, de la belle conception en couche, du multi projets
+applicatifs, de la genericite....
+Tout est recevable, mais pourquoi ne pas monter en puissance sur plusieurs
+annees: le pb est que pour tout integrer d'un coup, cela demande bien plus
+de tps a preparer les supports de TP puis les TP.
+En plus on ne peut absolument pas savoir comment l'enseignement va passer au
+pres des etudiants et donc s'ils sont lents (ce que l'on croit tous) j'ai
+peur que cela foire pas mal en baclant un peu tous les objectifs...
+Le pb de Thierry c'est que l'on s'ajuste a la volee a cause de l'urgence et
+parce qu'on a voulu trop bien faire d'un coup...
+Voila voila...
+
+------------------------------------------------------------------------------------------
+Pascal ...
+
+
+Oulaa que de remous !
+
+Il y  a la solution intermédiaire que je visai mais que je n'ai pas expliquée (il était minuit et Agnès laissait entrevoir la naissance de sa poitrine alors...)
+- thierry continue de pondre le contenu en oo (ils sont dans le svn aussi)
+- pascal traduit en Latex en mettant ses modifs et ses petites parties (clock tree etc)
+- les candides essayent, relisent etc et via le svn viennent modifier les .tex (modifier c'est facile en général) 
+
+J'avais commencé le GPIO car il me semblait terminé côté Thierry.
+J'attends une version un peu fixe des suivants avants de les passer à Latex.
+
+On peut séparer les sujets de TP du poly sans problème...
+
+OK ? 
+
+Pour le src_etudiant on peut faire les remarques et modifier via svn sans problèmes.
+
+
+------------------------------------------------------------------------------------------
+Thierrry ...
+
+Recoucou,
+
+D'abord, Pascal, je voudrais que tu m'excuses car j'ai été un peu nerveux ce
+matin (au réveil c'est souvent comme ça !). Ne m'en tiens pas rigueur stp.
+
+Autre chose que je voudrais dire, pour prolonger les propos de Vincent, c'est
+que "le mieux est l'ennemi du bien...". Et le sablier s'écoule amenant une
+certaine nervosité. Je crois qu'il faut arrêter de penser (et je parle pour moi
+aussi) qu'on va arriver à faire qque chose de nickel cette année. On va se
+planter un peu, c'est la vie, c'est pas grave. Autorisons nous une
+demi-réussite, qui est le prix à payer pour oser basculer vers le fameux STM32.
+
+S'agissant de LATEK ou LATEX ou je sais plus quoi, j'ai un peu mal aux fesses,
+alors je vous le dis tout net, ça rentrera pas cette année ! Disons que je
+pense la chose suivante:
+Il y a deux types de papiers que nous produisons tous, ceux que les étudiants
+garderons, et ceux qu'ils jetterons. Ils garderons les doc de type "cours /
+méthodologie " du genre de celui que PE et Pascal ont gratté en LATEK. Ils
+jetterons les sujets de TP qui sont de simples guides (ils sont nécessaires et
+coutent du temps, mais sont éphémères). Donc je suis persuadé que les "guides
+TP" que je construits et que vous amendez, ne doivent pas faire partie des doc
+de fond des doc de contenu. Ils ne seront jamais publiés. Donc le débat
+word/OO/Latek est lourd et inutile pour ce type de papier.
+
+Pour reprendre enfin le mail de Guitou, je pense qu'il souhaite faire une toute
+première intro en TP sur un projet tout fait, déjà écrit dans son ensemble,
+pour que les étudiants s'y amusent un peu (1h à 1h30). Je pense que l'idée est
+bonne et que cela constitue une étape préalable au GPIO, même si précisément,
+on les utilisent ds l'étape 0.
+
+Donc voila ce que je vous propose :
+
+
+
+
+Organisation / contenu des documents :
+
+3 types de documents :
+- documents de type cours / méthodologie / annexes diverses
+- documents constructeurs
+- documents guide TP
+
+Je vous parlerai des documents TP (puisque je me suis engagé à les rédiger, avec
+vos relectures et remarques diverses) :
+- chaque sujet de TP (pas forcément 2h45) = 1 document pdf (origine odt)
+c'est le seul moyen de créer les sujets au fur et à mesure, la série commençant
+très prochainement
+- le sujet de TP fait référence aux documents de cours/méthode/annexes
+téléchargeables, (ce que je considère comme les doc nobles)
+- les sujets de TP sont constitués de la même manière (le plus court possible,
+mais avec tout de même un petit propos sur les périphs en général. L'an
+prochain, ces petits propos pourraient être regroupés dans un doc uniforme qui
+rentrerait ds la catégorie cours/ méthodologie/ annexes diverses, rédigé (si
+t'insiste Pascal, en latek). Cela constituerait un cours générique sur les
+périphs plus résistant au temps qui passe...
+
+
+Dernière remarque, après discussion avec Guillaume, les docs TP pourraient être
+:
+document 0 : un blinky tout fait, analysé par les étudiants avec 2 / 3 bricoles
+à modifier. (une page A4 de sujet)
+document 1 : les GPIO
+document 2 : les timers
+document 3 : les IT (timer, it externes)
+document 4 : la PWM
+document 5 : l'ADC
+
+
+un peu de détail :
+document 0 : on fait un clignotant merdique sur une LED, les étudiants changent
+le port de sortie, on en profite pour expliquer ces fameuses structures de
+registres. Dire un mot sur les horloges.
+
+
+document 1 : on demande à faire une fonction générique de config, avec comme
+paramètre d'entrée le pointeur sur la jeu de registre (GPIOA ou...) version PE.
+Tout cela fait dans le main. Ensuite, on leur fait faire un module. A la fin, on
+peut leur donner le corrigé en version statique (à approfondir si on sent les
+étudiants mûrs, sinon on attend).
+
+document 2 : on demande à écrire la conf de timer générique (en incluant le
+timer1 qui est compatible avec les autres). Tout cela direct en modulaire bien
+sûr
+
+document 3 : on demande de rédiger un module IT qui contiendra ce qu'il faut
+pour configurer une IT sur débordement timer (et aussi ?) les IT externes (en
+vue de l'index de la
+girouette)
+
+document 4 : à vous de me dire, pour l'instant je me suis pas spécialement
+creusé
+
+document 5 : à vous de me dire, pour l'instant je me suis pas spécialement
+creusé
+
+
+
+Structure de répertoire envisagée (celle de Pascal):
+/Pilotes
+/Sys
+/projets
+	/blinky
+	/Test_GPIO
+	/Test_Timer
+	/Test_IT
+	/Test_PWM
+	/Test_ADC
+
+
+Est-ce que tout le monde est OK ? ds le cas contraire, mail ou mieux réunion.
+
+
+
+------------------------------------------------------------------------------------------
+Pierre ...
+
+Salut,
+
+"trop de mails, tue le mail", alors je ne vais répondre qu'à certains points...
+
+Tout d'abord : elle est où mon archive zip du TP 1 que je prends comme un étudiant dans une salle de TP ? 
+
+Comprendre : je suis comme un étudiant et je dézippe une archive pour commencer mon TP...
+
+Ensuite, pour les documents. A mon avis pas besoin de document 0 et 1, mais directement une application dans le sujet 1 qui fait clignoter une led avec une bête boucle "four" et cela directement dans le main(). Pour l'instant je ne comprends rien à l'archive que j'ai pu voir, pour vous dire que les étudiants seront à la ramassent...
+
+Je vois bien le déroulement du TP1 de la manière suivante :
+1) Ils lisent le sujet du TP et on leur explique les principes des GPIO
+2) Ils répondent aux questions du sujet (celles actuelles sont très bien)
+3) Ils chargent l'archive et lancent le projet TP1 sans réfléchir
+4) Ils compilent, font clignoter les leds, utilisent l'oscillo pour regarder tout cela
+5) Une petite question pour changer la pinouille de sortie, comme cela ils apprennent à écrire un masque
+6) On leur demande de découper le code à la main dans différents fichiers, comme cela ils découvrent les répertoires et prennent de bonnes habitudes. Ils comprennent le principe des couches en le faisant et non pas en ayant des trucs dans tous les sens dès le début.
+7) On demande d'écrire de manière générique la configuration des GPIO dans le fichiers drivers.
+8) Tout le monde rentre se coucher.
+
+Voilà c'est qu'une proposition. Il me semble que c'est exactement ce qui est prévu actuellement, il suffit juste de faire du ménage pour supprimer les choses inutiles au début (par exemple, on va pas les faire chier avec le statique et dynamique au début).
+
+
+------------------------------------------------------------------------------------------
+
+Pascal ...
+
+Bon 
+exit svn on fait par mail
+exit latex on reprend OO (Thierry envoie stp tes dernières versions des sujets)
+exit les initiatives de dernière minute
+
+Pouvez-vous répondre clairement et sans râler sur le fond :
+Qu'est ce qui ne va pas dans l'étape GPIO rédigée et le src_etudiant ?  (je les mets en attaché et vous épargne l'étape svn qu'on abandonne)
+Il me semble à peu de chose près que c'est le document 0 + 1+ 2 dont parle thierry ! Les étapes y sont, le src compile et il est clair non ?
+
+ 
+
+
+
+
+
+
+
+
+Thierry s'en inspirera ou pas pour refaire le gpio.odt du TP 1
+
+Les remarques de PEH restent en suspend :
+	- j'ai cru comprendre que Thierry allait rédiger dans la phase GPIO pour répondre au "pourquoi faire push/pull ou Open drain".
+	Je pensais à présenter quelques cas d'école : broche sur diode et bouton poussoir, 3 processseur sur la même ligne et demander
+	aux étudiant s'ils préconisent open/drain, floating input etc... A thierry de voir
+
+	- pour le BSSR c'est bizarre. Quelle est la différence entre écrire dans ODR et écrire dans BSS... Au pif je dirais qu'il s'agit d'un problème de temps d'accès :
+	si la CPU tourne à 40MHz et le GPIO à 8MHz : je pense que l'écriture dans ODR va bloquer 5 cycles, alors que celle dans BSS se fera en un cycle et aura un effet sur le prochain front de GPIO... C'est une hypothèse juste. 
+
+	- est-que je rédige un truc sur l'accès à la couche matérielle comme j'ai démarré au 1.4 du pdf ou c'est pas urgent ?
+
+A+
+
+
+
+------------------------------------------------------------------------------------------
+ ...
+
+
+
+
+
+
+
+
+

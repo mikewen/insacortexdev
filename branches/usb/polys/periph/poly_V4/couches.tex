@@ -1,0 +1,89 @@
+\chapter{Architecture en couches}
+\label{sec:archi}
+
+\section{Introduction et définitions}
+
+Un \href{http://fr.wikipedia.org/wiki/Pilote_informatique}{pilote informatique} (ou plus connu sous l'anglicisme \og driver \fg) est un programme informatique qui permet à un autre programme d'interagir avec un périphérique. En général, chaque périphérique a son propre pilote.
+
+Pour assurer \href{http://fr.wikipedia.org/wiki/Qualité_logicielle}{la qualité d'une application}, il est nécessaire de bien concevoir les pilotes et leur relation avec l'application. Petit rappel : en informatique, la qualité désigne un ensemble d'indicateurs pour offrir une appréciation globale d'un logiciel. Elle se base sur : la complétude des fonctionnalités, la précision des résultats, la fiabilité, la tolérance aux pannes, la facilité et la flexibilité de son utilisation, la simplicité, l'extensibilité, etc.
+
+Parmi ces critères, le néologisme \href{http://fr.wikipedia.org/wiki/Portabilité_(informatique)}{portabilité} désigne, pour un programme informatique, sa capacité à fonctionner dans différents environnements d'exécution, en particulier différents environnements matériels. A cela s'ajoute l'\href{http://fr.wikipedia.org/wiki/Adaptabilité}{adaptabilité} qui est souvent utilisé pour désigner la qualité d'un logiciel qui peut être modifié aisément en harmonie avec les changements auxquels son utilisation peut être soumise.
+
+La portabilité et l'adaptabilité d'une application nécessite d'avoir une \href{http://fr.wikipedia.org/wiki/Architecture_logicielle}{architecture logicielle} solide. Celle-ci définit l'organisation interne d'un logiciel, son découpage en couches et en modules, ainsi que les responsabilités de chaque module et la nature et la structure des relations entre modules.
+
+Les relations entres les modules sont fournies via une \href{http://fr.wikipedia.org/wiki/Interface_de_programmation}{interface de programmation} (\emph{Application Programming Interface ou API}). Elle permet l'interaction des programmes les uns avec les autres. Du point de vue technique une API est un ensemble de fonctions, procédures ou classes mises à disposition par une bibliothèque logicielle, un système d'exploitation ou un service. La connaissance des API est indispensable à l'\href{http://fr.wikipedia.org/wiki/Interopérabilité}{interopérabilité} entre les composants logiciels.
+
+Dans le cas typique d'une bibliothèque, il s'agit généralement de fonctions considérées comme utiles pour d'autres composants.
+Une interface en tant que telle est quelque chose d'abstrait ; les composants réalisant celle-ci étant des mises en {\oe}uvre (ou implémentation). Idéalement il peut y avoir plusieurs mises en {\oe}uvre pour une même interface. Par exemple, sous UNIX, la libc définit des fonctions de base utilisées par pratiquement tous les programmes et est fournie par des mises en {\oe}uvre propriétaires ou libres, sous différents systèmes d'exploitation.
+
+\section{Architecture logicielle recommandée}
+
+Pour en revenir à nos moutons électroniques, nous préconisons pour les TP de périphériques une architecture logicielle en trois couches (voir figure~\ref{fig:archi}). 
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.7]{figures/architecture.pdf}
+\caption{Architecture logicielle}
+\label{fig:archi}
+\end{center}
+\end{figure}
+
+Les différentes couches sont :
+\begin{itemize}
+\item {\bf La couche application} : Cette couche ne comporte que du code dédié à une application. Elle comporte l'ensemble des fonctions de traitement et d'orchestration de l'application. 
+\item {\bf La couche de services applicatifs} : Cette couche un ensemble de fonctions qui masquent les périphériques matériels au niveau de l'application pour en offrir une représentation abstraite. Par exemple, le service d'acquisition d'une vitesse masque l'appel au périphérique ADC pour offrir une vision purement abstraite de la variable de vitesse. 
+\item {\bf La couche de pilotes} : Cette couche ne comporte que du code lié à la configuration et l'utilisation des périphériques sans présupposé une utilisation particulière par une application.
+\end{itemize}
+
+Une telle architecture offre de nombreux avantages :
+\begin{itemize}
+\item  Seules les couches \og services applicatifs \fg et \og pilotes \fg doivent changer si le matériel évolue, la couche application n'ayant a priori besoin que de quelques modifications pour prendre en considération les nouvelles capacités du support d'exécution (surtout en ce qui concerne le temps).
+\item Les modules qui composent la couche pilotes peuvent être utilisées pour différentes applications et ainsi offrir des composants pris sur étagères.
+\item La couche services applicatifs fournit des services génériques pour un même ensemble de familles d'applications sans avoir besoin d'être réécrit à chaque développement ou évolution d'une application sur le même support.
+\item Le test des modules est fait de manière unitaire, ce qui facilite le débogage sans avoir besoin de chercher la petite bête.
+\end{itemize}
+
+Les éléments qui composent une couche ne peuvent communiquer qu'avec un élément d'une couche inférieure et cela se fait uniquement à travers les API des différentes modules.
+
+\section{Guide des bonnes manières}
+
+
+Chaque module est associé à deux fichiers, l'un comportant le code (.c) et l'autre définissant son API (.h). Seul les fonctions déclarées dans le ficher d'en-tête sont accessibles aux autres éléments logiciels.
+
+Comme le fichier d'en-tête est le seul élément utilisable (lisible / modifiable) par un utilisateur externe au module, il est capital de bien le commenter. Le commentaire est considéré comme un mode d'emploi du module. Ceci est d'autant plus vrai, que les constructeurs de micro-contrôleurs proposent des modules (ou bibliothèques) au format .lib ou .o.  Ces derniers sont compilés donc de fait, non modifiables.
+
+Afin d'assurer la portabilité des modules de la couche pilotes, il est interdit qu'une des fonctions d'un module utilisent une variable globale au projet. Si on veut utiliser une variable globale au projet, dans la couches service ou application, cela peut se faire par le biais d'un fichier d'entête partagé, par exemple, global.h. Ceci étant, c'est fortement déconseillé.
+
+Quelques règles sont spécifiques aux couches :
+\begin{itemize}
+\item {\bf Couche application}
+	\begin{itemize}
+		\item Le \texttt{main()} est contenu dans la couche application et ne peut faire appel qu'à des fonctions de la couche services. 
+		\item Aucune référence à des périphériques n'est fait au niveau de la couche application.
+	\end{itemize}
+\item {\bf Couche services applicatifs}
+	\begin{itemize}
+		\item Le code des modules de la couches services contient des fonctions directements liées à l'application : les noms de fonctions et de variables font explicitement référence à l'application. 
+		\item Les fonctions au niveau services appellent uniquement des fonctions de niveau pilotes. Elles ne s'appellent pas entre elles. Dit autrement, elles ne peuvent inclure que des fichiers de niveau pilote.
+		\item Les fichiers sont organisés par domaine lié à l'application 
+	\end{itemize}
+\item {\bf Couche pilotes}
+	\begin{itemize}
+		\item La couche pilotes ne contient que les fonctions qui concernent directement les périphériques.
+		\item Les noms des fonctions doivent évoquer les périphériques.
+		\item Les fonctions ne font pas référence à l'application et doivent être définie de manière indépendante à toute application.
+	\end{itemize}
+\end{itemize}
+
+\section{La couche matérielle}
+Le logiciel, et dans notre cas la couche pilote, est exécuté sur le coeur du processeur et doit communiquer avec les périphériques. Les périphériques sont des circuits, essentiellement de l'électronique numérique, présents sur la puce qui fournissent des fonctions d'interface avec le matériel sur lequel la puce est embarquée. Ces circuits ne sont pas programmables comme le coeur : ils ne peuvent pas exécuter des lignes de programmes. Par contre, on peut les configurer, c-à-d. modifier un paramètre de son fonctionnement, où transférer des données avec le coeur du processeur.
+
+TODO SCHEMA REGISTRE GPIOA\_ODR
+
+Si l'on écrit une valeur à l'adresse XXX, avec la ligne \verb+*(0x8000123)=13+ en langage C qui sera traduite par exemple par \verb+ldr R0,=0x8000123 ; ldr R1,=13; str R1,[R0]+ en assembleur, le coeur va positionner la valeur $0x8000123$ sur le bus d'adresse, la valeur $13$ sur le bus de donnée, la ligne $R/\overline{W}$ à 0 pour \emph{write} et attendre un front d'horloge actif.
+
+TODO finir tout ça
+
+ 
+
+

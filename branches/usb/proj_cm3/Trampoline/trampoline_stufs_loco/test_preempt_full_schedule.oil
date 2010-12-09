@@ -1,0 +1,97 @@
+/* Running the following example:
+ *just call goil a first time using the command line:
+ *goil --target=cortex-m3 -g --templates=../../goil/templates/ firstAVR.oil
+ *(COMPILER, LINKER and ASSEMBLER in OS section may be adapted to your 
+ * specific install of avr cross-compiler)
+ *
+ *Then a Makefile is generated. Just type:
+ *make
+ *To clean the project, call:
+ *make clean
+ * It will remove all generated files, except the Makefile.
+ */
+OIL_VERSION = "2.5" : "test" ;
+
+CPU test {
+
+    OS config {
+        STATUS = STANDARD;
+        TRAMPOLINE_BASE_PATH = "../../../Trampoline";
+        APP_NAME = "test_preempt_full_schedule_bin";
+        APP_SRC = "./test_preempt_full_schedule_main.c";
+       // APP_SRC = "STM32_Init.c";
+        CFLAGS  = "-Wall -Os -g -I. -mcpu=cortex-m3 -mthumb"; 
+        LDFLAGS = "-Wall -Os -g -I. -mcpu=cortex-m3 -mthumb";
+        LDFLAGS = "-T ./Cortex_M.ld";
+        ASFLAGS = "-Wall -Os -g -I. -mcpu=cortex-m3 -mthumb -c";
+        COMPILER  = "/usr/local/armCortex/bin/arm-eabi-gcc";
+        LINKER    = "/usr/local/armCortex/bin/arm-eabi-gcc";
+        ASSEMBLER = "/usr/local/armCortex/bin/arm-eabi-gcc";
+    } ;
+
+
+    APPMODE std {
+    };
+
+   TASK Tache1 {
+      PRIORITY = 1;
+      AUTOSTART = FALSE ;
+      ACTIVATION = 1;
+      SCHEDULE = FULL;
+      STACKSIZE = 256;
+	  RESOURCE = res;
+    };
+    
+    TASK Tache2 {
+      PRIORITY = 5;
+      AUTOSTART = FALSE ;
+      ACTIVATION = 1;
+      SCHEDULE = FULL;
+      STACKSIZE = 256;
+    };
+
+
+/*	ISR GSignal {
+  		CATEGORY = 2;
+   		PRIORITY = 1;
+       STACKSIZE = 256;
+		TRAP = INT7_vect;
+//        TRAP = INT7_vect;
+    };
+*/
+    COUNTER General_counter {
+        TICKSPERBASE = 1;
+        MAXALLOWEDVALUE = 65535;
+        MINCYCLE =1;
+//		SOURCE = TIMER2_OVF_vect;
+    };
+
+    ALARM Active_Tache1 {
+        COUNTER = General_counter;
+        ACTION = ACTIVATETASK {
+            TASK = Tache1;
+        };
+        AUTOSTART = TRUE {
+		ALARMTIME = 1;
+		CYCLETIME = 10;
+		APPMODE=std;
+		};
+	};
+
+    ALARM Active_Tache2 {
+        COUNTER = General_counter;
+        ACTION = ACTIVATETASK {
+            TASK = Tache2;
+        };
+        AUTOSTART = TRUE {
+		ALARMTIME = 1;
+		CYCLETIME = 2;
+		APPMODE=std;
+		};
+	};
+
+   RESOURCE res {
+     RESOURCEPROPERTY = STANDARD ;
+   };
+
+};

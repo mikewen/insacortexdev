@@ -1,0 +1,147 @@
+\chapter{Etape 1 : GPIO}
+
+\begin{minipage}{0.2\linewidth}
+\includegraphics[width=\textwidth]{./figures/etape_gpio.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.7\linewidth}
+Les \emph{General Purpose Input Output (GPIO) ports} sont les périphériques les plus simples à comprendre.
+Les compétences visées sont~:
+\begin{itemize}
+\item savoir trouver une information dans la bonne doc
+\item comprendre l'étape de configuration d'un périphérique
+\item programmer un port d'E/S
+\item concevoir un pilote élémentaire un peu générique
+\end{itemize}
+\end{minipage}
+
+%____________________________________________________________
+\section{Le GPIO dans le système~: Bordage de voile automatique d'un voilier}
+
+\includegraphics[width=0.8\textwidth]{./figures/system_gpio.png}
+
+%____________________________________________________________
+\section{Les ports d'E/S en général}
+
+Un port d'entrée/sortie communique avec l'extérieur du micro-contrôleur par le biais de plusieurs fils (broches), en général regroupé par paquet de 8 ou 16. Il communique avec le processeur par sa seule et unique possibilité : les bus d'adresses et de données. Ceci est commun à TOUS les périphériques du micro--contrôleur. 
+Par voie de conséquence, tout périphérique possède en son sein un certain nombre de registres accessibles en lecture ou écriture par le coeur. Ceux-ci on pour rôle de configurer et d'utiliser le périphérique.
+
+
+Un port d'E/S a donc pour rôle d'imposer (Output) ou de lire (Input) un niveau de tension  (associé aux niveaux logique $0$ ou $1$ )  sur l'ensemble de ses broches. Selon le micro--contrôleur, le niveau logique $1$ peut être $5V$, $3V3$ ou encore $1V8$.
+
+
+Le port d'E/S possède donc au minimum deux registres de configuration (l'un qui spécifie pour chaque broche sa direction, l'autre spécifiant la technologie utilisée) et un registre d'utilisation qui est à l'image logique des broches.
+
+\subsubsection{Technologie de sortie}
+\begin{figure}[h!]
+\begin{minipage}{0.48\linewidth}
+\includegraphics[width=0.9\textwidth]{./figures/gpio_push_pull.png}
+%\caption
+
+{\emph{Push--Pull}\footnote{Pousse--tire}-- La structure (technologie) possède deux interrupteurs (K1, K2, des transistors MOS complémentaires). K1 et K2 sont systématiquement inversés : La broche peut donc être portée au potentiel 0V ou 3,3V.
+En mode \emph{Push--Pull}, c'est le port d'E/S qui impose le niveau logique d'une broche, que ce soit un niveau $1$ ou $0$. Il est le maître, le circuit extérieur est l'esclave, récepteur.}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\linewidth}
+\includegraphics[width=\textwidth]{./figures/gpio_open_drain.png}
+%\caption[]
+
+{\emph{Open Drain}\footnote{Drain ouvert~: drain est le nom de la broche du transistor MOS reliée à la broche : \og Drain laissé ouvert\fg{}}-- Ici, un seul intérrupteur est commandé, l'autre est maintenu bloqué (on ne le fait pas apparaître): la broche ne peut être portée par le port qu'à une tension de 0V.
+Remarquons que si K1 est ouvert, la broche est \og en l'air \fg{}. Ce sera donc au circuit extérieur de fixer le potentiel de la broche dans cet état précis. En mode \emph{Open Drain}, le port d'E/S ne peut imposer que le niveau logique $0$. Le niveau $1$ est fixé par le circuit extérieur. Le port d'E/S n'est donc pas le seul maître du potentiel sur la broche. Le circuit extérieur l'est aussi.}
+\end{minipage}
+\end{figure}
+
+
+
+\subsubsection{Technologie d'entrée}
+%\begin{figure}[h!]
+\begin{minipage}{0.45\linewidth}
+\includegraphics[width=0.8\textwidth]{./figures/gpio_floatting.png}
+%\caption
+
+{\emph{floating input}\protect\footnote{entrée flottante} --
+La broche, côté du port E/S, est laissée libre, flottante. Ainsi, c'est le circuit extérieur qui est totalement maître du potentiel de la broche. Cela veut aussi dire, que si le circuit extérieur est déconnecté, le broche possède un potentiel inconnu (à proscrire car favorise le captage de parasites).}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\linewidth}
+\includegraphics[width=0.8\textwidth]{./figures/gpio_pull_down.png}
+%\caption
+
+{\emph{Pull Down/Up}\protect\footnote{entrée tirée au niveau bas/haut} --
+Dans le \emph{pull down}, une résistance (dite de rappel) relie la broche au 0V. Le potentiel de la broche se retrouve ainsi à 0V lorsque le circuit extérieur est déconnecté. Le circuit extérieur peut imposer un potentiel à condition d'avoir une résistance de sortie faible devant R. Même principe pour le \emph{pull up}, mais la résistance est reliée au Vcc ($5V$, $3V3$, ou $1V8$)
+}
+\end{minipage}
+%\end{figure}
+
+
+\section{À faire}
+
+Afin de réaliser les programmes logiciel de couche basse (périphérique), le programmeur doit avoir une connaissance solide du micro--contrôleur cible. Ainsi, la première tâche est de chercher les informations nécessaires dans une documentation constructeur. Cette étape, longue, sera tout de même facilitée par les connaissances apportées au chapitre précédant.
+
+La documentation à disposition :
+\begin{description}
+\item[PM0056 Programming manual :]  document ST qui décrit le coeur Cortex M3, et en particulier les instruction assembleur mais aussi les périphériques natifs du coeur que sont le gestionnaire d'interruption, NVIC, et le timer système, SYSTICK. (STM32\_PM0056.pdf)
+\item[RM0008 Reference manual] document ST qui décrit les périphériques de la famille des STM32F103xx, qui donne toutes les informations utiles au sujet des périphériques de la puce.
+\item[STM32F103x6, STM32F103x8, STM32F103xB] \emph{datasheet} du micro--contrôleur qui traite de tout ce qui est limitation de vitesse, contraintes électrique, boîtier...
+\end{description}
+
+
+Méthodologie générale de lecture du \emph{reference manual} :
+\begin{enumerate}
+\item S'approprier le périphérique : Il faut identifier, dans le chapitre qui traite du périphérique étudié, sa structure, son fonctionnement, en s'appuyant sur que l'on sait déjà de ce type de circuit. Pour cela, très souvent on trouve un schéma fonctionnel qui aide beaucoup. 
+\item Identifier les registres qui sont nécessaires au fonctionnement du pérphérique, identifier les champs de bit dans chacun des registres qui ont une fonction de configuration intéressante pour l'application donnée.
+\item Noter en commentaire dans les fichiers .c ces informations avant même de commencer à écrire le module de la couche driver.
+\end{enumerate}
+
+ 
+\subsection{Questionnaire guide}
+
+Nous allons travailler sur le micro--contrôleur dont la référence est STM32F103RB, en boîtier LQFP64.
+
+\paragraph{Q1~:} Donner le nombre de port GPIO de la puce, et pour chacun d'entre eux donner le nombre de broches associées
+
+\paragraph{Q2~:} Trouver le nom des registres associés aux fonctions suivante et indiquez, pour chacun, s'il sert à configurer le port ou à communiquer :
+
+\begin{tabular}{|c|c|c|}
+\hline
+Fonction du registre & Nom du registre & Config. ou comm. \\ \hline
+Permet de fixer la direction des broches du port & & \\ \hline
+Permet du fixer la technologie de chaque broche& & \\ \hline
+Contient l'image du port en lecture& & \\ \hline
+Contient l'image du port en écriture& & \\ \hline
+\end{tabular}
+
+\paragraph{Q3~:} Expliquer à quoi sert le registre GPIOx.BSRR
+
+\paragraph{Q4~:} Décliner toutes les possibilités technologiques des broches du GPIO. Sur quel champ de registre doit-on agir pour faire le choix ?
+
+\paragraph{Q5~:} Qu'appelle t-on Alternate function ?
+
+
+\subsection{Projets Keils à réaliser}
+\subsubsection{Premiers pas}
+En première étape, vous allez concevoir l'équivalent du \og hello world\fg{} pour les périphériques : le \emph{blinky}. 
+Pour cela récupérez les fichier \texttt{src\_etudiants.zip} sur le wiki et décompressez-le dans votre répertoire favori.
+
+Les répertoires~:
+\begin{description}
+\item[sys] contient les fichiers .h nécessaires à la définition des registres (\texttt{stm\_regs.h}), ainsi que le fichier de démarrage écrit en assembleur.
+\item[pilotes] contiendra bien sûr les pilotes tels que le module \texttt{GPIO.c} et son entête \texttt{GPIO.h}.
+\item[projet] contient des répertoire de projets applicatifs comme \texttt{premiers\_pas}. Chaque répertoire projet contiens au moins un fichier \texttt{.uvproj} et les sources applicatives comme \texttt{main.c} 
+\end{description}
+
+Ouvrez le projet contenu dans  \texttt{./projets/premiers\_pas} et complétez le \texttt{main.c} afin de faire clignoter (aussi vite que vous voudrez) la diode branchée sur le port GPIOB broche 9. Vous utiliserez pour cela les masques binaires et la définition des registres de \texttt{./sys/stm\_regs.h}. Mesurez la période d'oscillation à l'oscilloscope et tentez d'identifier le nombre de cycles machines utilisés. 
+
+Le \texttt{main.c} que vous avez réalisé est typiquement un exemple de fichier mélangeant les couches pilotes et application. On vous demande dans la suite d'écrire un pilote des ports GPIO générique et de l'utiliser dans cette application. 
+
+\subsubsection{Premier pilote}
+Créez un nouveau projet dans \texttt{./projets/test\_GPIO/} à partir de zéro. Vous rédigez le module \texttt{./pilotes/GPIO.c}  correspondant à son API, \verb+GPIO.h+ (qui vous est donnée en guise de spécification). L'applicatif de test, par exemple \texttt{./projets/test\_gpio/main\_blinky.c}, doit permettre de déboguer le module, et d'y opérer des tests le plus complets possibles en démarrant par le simple « blinky ».
+
+Le travail qui vous est demandé (tout comme ceux des futurs TP) est ainsi directement réutilisable pour le projet voilier.
+
+
+
+
+
+
+
