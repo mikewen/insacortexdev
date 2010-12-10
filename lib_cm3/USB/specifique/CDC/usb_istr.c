@@ -23,8 +23,8 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-__IO uint16_t wIstr;  /* ISTR register last read value */
-__IO uint8_t bIntPackSOF = 0;  /* SOFs received between 2 consecutive packets */
+volatile u16 wIstr;  /* ISTR register last read value */
+volatile u8 bIntPackSOF = 0;  /* SOFs received between 2 consecutive packets */
 
 /* Extern variables ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
@@ -69,7 +69,7 @@ void USB_Istr(void)
 #if (IMR_MSK & ISTR_SOF)
   if (wIstr & ISTR_SOF & wInterrupt_Mask)
   {
-    _SetISTR((uint16_t)CLR_SOF);
+    _SetISTR((u16)CLR_SOF);
     bIntPackSOF++;
 
 #ifdef SOF_CALLBACK
@@ -94,7 +94,7 @@ void USB_Istr(void)
 #if (IMR_MSK & ISTR_RESET)
   if (wIstr & ISTR_RESET & wInterrupt_Mask)
   {
-    _SetISTR((uint16_t)CLR_RESET);
+    _SetISTR((u16)CLR_RESET);
     Device_Property.Reset();
 #ifdef RESET_CALLBACK
     RESET_Callback();
@@ -105,7 +105,7 @@ void USB_Istr(void)
 #if (IMR_MSK & ISTR_DOVR)
   if (wIstr & ISTR_DOVR & wInterrupt_Mask)
   {
-    _SetISTR((uint16_t)CLR_DOVR);
+    _SetISTR((u16)CLR_DOVR);
 #ifdef DOVR_CALLBACK
     DOVR_Callback();
 #endif
@@ -115,7 +115,7 @@ void USB_Istr(void)
 #if (IMR_MSK & ISTR_ERR)
   if (wIstr & ISTR_ERR & wInterrupt_Mask)
   {
-    _SetISTR((uint16_t)CLR_ERR);
+    _SetISTR((u16)CLR_ERR);
 #ifdef ERR_CALLBACK
     ERR_Callback();
 #endif
@@ -125,7 +125,7 @@ void USB_Istr(void)
 #if (IMR_MSK & ISTR_WKUP)
   if (wIstr & ISTR_WKUP & wInterrupt_Mask)
   {
-    _SetISTR((uint16_t)CLR_WKUP);
+    _SetISTR((u16)CLR_WKUP);
     Resume(RESUME_EXTERNAL);
 #ifdef WKUP_CALLBACK
     WKUP_Callback();
@@ -148,7 +148,7 @@ void USB_Istr(void)
       Resume(RESUME_LATER);
     }
     /* clear of the ISTR bit must be done after setting of CNTR_FSUSP */
-    _SetISTR((uint16_t)CLR_SUSP);
+    _SetISTR((u16)CLR_SUSP);
 #ifdef SUSP_CALLBACK
     SUSP_Callback();
 #endif
@@ -159,7 +159,7 @@ void USB_Istr(void)
 #if (IMR_MSK & ISTR_ESOF)
   if (wIstr & ISTR_ESOF & wInterrupt_Mask)
   {
-    _SetISTR((uint16_t)CLR_ESOF);
+    _SetISTR((u16)CLR_ESOF);
     /* resume handling timing is made with ESOFs */
     Resume(RESUME_ESOF); /* request without change of the machine state */
 
