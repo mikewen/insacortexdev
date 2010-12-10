@@ -117,15 +117,15 @@ USB_OTG_Status;
 
 typedef struct USB_OTG_ep
 {
-  uint8_t        num;
-  uint8_t        is_in;
-  uint32_t       tx_fifo_num;
-  uint32_t       type;
-  uint8_t        even_odd_frame;
-  uint32_t       maxpacket;
-  uint8_t        *xfer_buff;
-  uint32_t       xfer_len;
-  uint32_t       xfer_count;
+  u8        num;
+  u8        is_in;
+  u32       tx_fifo_num;
+  u32       type;
+  u8        even_odd_frame;
+  u32       maxpacket;
+  u8        *xfer_buff;
+  u32       xfer_len;
+  u32       xfer_count;
 }
 USB_OTG_EP , *PUSB_OTG_EP;
 
@@ -144,9 +144,9 @@ USB_OTG_EP , *PUSB_OTG_EP;
   USB_OTG_WRITE_REG32(&USB_OTG_FS_regs.DOUTEPS[epnum]->DOEPINTx,doepint.d32);
 
 
-#define USB_OTG_READ_REG32(reg)  (*(__IO uint32_t *)reg)
+#define USB_OTG_READ_REG32(reg)  (*(volatile u32 *)reg)
 
-#define USB_OTG_WRITE_REG32(reg,value) (*(__IO uint32_t *)reg = value)
+#define USB_OTG_WRITE_REG32(reg,value) (*(volatile u32 *)reg = value)
 
 #define USB_OTG_MODIFY_REG32(reg,clear_mask,set_mask) \
   USB_OTG_WRITE_REG32(reg, (((USB_OTG_READ_REG32(reg)) & ~clear_mask) | set_mask ) )
@@ -155,21 +155,21 @@ USB_OTG_EP , *PUSB_OTG_EP;
 #define uDELAY(usec)  USB_OTG_BSP_uDelay(usec)
 #define mDELAY(msec)  USB_OTG_BSP_uDelay(1000 * msec)
 
-#define _OTGD_FS_GATE_PHYCLK     *(__IO uint32_t*)(0x50000E00) = 0x03
-#define _OTGD_FS_UNGATE_PHYCLK   *(__IO uint32_t*)(0x50000E00) = 0x00
+#define _OTGD_FS_GATE_PHYCLK     *(volatile u32*)(0x50000E00) = 0x03
+#define _OTGD_FS_UNGATE_PHYCLK   *(volatile u32*)(0x50000E00) = 0x00
 
 /*******************************************************************************
                    USB OTG INTERNAL TIME BASE
 *******************************************************************************/
-void USB_OTG_BSP_uDelay (const uint32_t usec);
+void USB_OTG_BSP_uDelay (const u32 usec);
 /********************************************************************************
                      EXPORTED FUNCTIONS FROM THE OTGD_FS_CAL LAYER
 ********************************************************************************/
 USB_OTG_Status  OTGD_FS_CoreInit(void);
-USB_OTG_Status  OTGD_FS_SetAddress(uint32_t BaseAddress);
+USB_OTG_Status  OTGD_FS_SetAddress(u32 BaseAddress);
 USB_OTG_Status  OTGD_FS_EnableGlobalInt(void);
 USB_OTG_Status  OTGD_FS_DisableGlobalInt(void);
-USB_OTG_Status  OTGD_FS_FlushTxFifo (uint32_t num);
+USB_OTG_Status  OTGD_FS_FlushTxFifo (u32 num);
 USB_OTG_Status  OTGD_FS_FlushRxFifo (void);
 USB_OTG_Status  OTGD_FS_CoreInitDev (void);
 USB_OTG_Status  OTGD_FS_EnableDevInt(void);
@@ -180,19 +180,19 @@ USB_OTG_Status  OTGD_FS_EPStartXfer(USB_OTG_EP *ep);
 USB_OTG_Status  OTGD_FS_EP0StartXfer(USB_OTG_EP *ep);
 USB_OTG_Status  OTGD_FS_EPSetStall(USB_OTG_EP *ep);
 USB_OTG_Status  OTGD_FS_EPClearStall(USB_OTG_EP *ep);
-uint32_t        OTGD_FS_ReadDevAllOutEp_itr(void);
-uint32_t        OTGD_FS_ReadDevOutEP_itr(USB_OTG_EP *ep);
-uint32_t        OTGD_FS_ReadDevAllInEPItr(void);
-uint32_t        OTGD_FS_GetEPStatus(USB_OTG_EP *ep);
-uint32_t        USBD_FS_IsDeviceMode(void);
-uint32_t        OTGD_FS_ReadCoreItr(void);
-USB_OTG_Status  OTGD_FS_WritePacket(uint8_t *src, 
-                                    uint8_t ep_num, 
-                                    uint16_t bytes);
-void*           OTGD_FS_ReadPacket(uint8_t *dest, 
-                                   uint16_t bytes);
+u32        OTGD_FS_ReadDevAllOutEp_itr(void);
+u32        OTGD_FS_ReadDevOutEP_itr(USB_OTG_EP *ep);
+u32        OTGD_FS_ReadDevAllInEPItr(void);
+u32        OTGD_FS_GetEPStatus(USB_OTG_EP *ep);
+u32        USBD_FS_IsDeviceMode(void);
+u32        OTGD_FS_ReadCoreItr(void);
+USB_OTG_Status  OTGD_FS_WritePacket(u8 *src, 
+                                    u8 ep_num, 
+                                    u16 bytes);
+void*           OTGD_FS_ReadPacket(u8 *dest, 
+                                   u16 bytes);
 
-void            OTGD_FS_SetEPStatus(USB_OTG_EP *ep, uint32_t Status);
+void            OTGD_FS_SetEPStatus(USB_OTG_EP *ep, u32 Status);
 void            OTGD_FS_SetRemoteWakeup(void);
 void            OTGD_FS_ResetRemoteWakeup(void);
 

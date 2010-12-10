@@ -18,25 +18,19 @@
 #define __USB_LIB_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x.h"
-#include "usb_type.h"
+//#include "stm32f10x.h"
+#include "stm_regs.h"
+//#include "usb_type.h"
 #include "usb_regs.h"
 #include "usb_def.h"
 #include "usb_core.h"
 #include "usb_init.h"
-#ifndef STM32F10X_CL
- #include "usb_mem.h"
- #include "usb_int.h"
-#endif /* STM32F10X_CL */
+
+#include "usb_mem.h"
+#include "usb_int.h"
+
 
 #include "usb_sil.h"
-
-#ifdef STM32F10X_CL
- #include "otgd_fs_cal.h"
- #include "otgd_fs_pcd.h"
- #include "otgd_fs_dev.h"
- #include "otgd_fs_int.h"
-#endif /* STM32F10X_CL */
 
 
 /* Exported types ------------------------------------------------------------*/

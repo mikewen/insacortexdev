@@ -18,7 +18,7 @@
 #include "usb_desc.h"
 
 /* USB Standard Device Descriptor */
-const uint8_t Virtual_Com_Port_DeviceDescriptor[] =
+const u8 Virtual_Com_Port_DeviceDescriptor[] =
   {
     0x12,   /* bLength */
     USB_DEVICE_DESCRIPTOR_TYPE,     /* bDescriptorType */
@@ -31,7 +31,7 @@ const uint8_t Virtual_Com_Port_DeviceDescriptor[] =
     0x83,
     0x04,   /* idVendor = 0x0483 */
     0x40,
-    0x57,   /* idProduct = 0x7540 */
+    0x57,   /* idProduct = 0x5740 */
     0x00,
     0x02,   /* bcdDevice = 2.00 */
     1,              /* Index of string descriptor describing manufacturer */
@@ -40,7 +40,7 @@ const uint8_t Virtual_Com_Port_DeviceDescriptor[] =
     0x01    /* bNumConfigurations */
   };
 
-const uint8_t Virtual_Com_Port_ConfigDescriptor[] =
+const u8 Virtual_Com_Port_ConfigDescriptor[] =
   {
     /*Configuation Descriptor*/
     0x09,   /* bLength: Configuation Descriptor size */
@@ -123,7 +123,7 @@ const uint8_t Virtual_Com_Port_ConfigDescriptor[] =
   };
 
 /* USB String Descriptors */
-const uint8_t Virtual_Com_Port_StringLangID[VIRTUAL_COM_PORT_SIZ_STRING_LANGID] =
+const u8 Virtual_Com_Port_StringLangID[VIRTUAL_COM_PORT_SIZ_STRING_LANGID] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_LANGID,
     USB_STRING_DESCRIPTOR_TYPE,
@@ -131,7 +131,7 @@ const uint8_t Virtual_Com_Port_StringLangID[VIRTUAL_COM_PORT_SIZ_STRING_LANGID] 
     0x04 /* LangID = 0x0409: U.S. English */
   };
 
-const uint8_t Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR] =
+const u8 Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_VENDOR,     /* Size of Vendor string */
     USB_STRING_DESCRIPTOR_TYPE,             /* bDescriptorType*/
@@ -141,7 +141,7 @@ const uint8_t Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR] 
     'c', 0, 's', 0
   };
 
-const uint8_t Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT] =
+const u8 Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT,          /* bLength */
     USB_STRING_DESCRIPTOR_TYPE,        /* bDescriptorType */
@@ -151,7 +151,7 @@ const uint8_t Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT
     'M', 0, ' ', 0, 'P', 0, 'o', 0, 'r', 0, 't', 0, ' ', 0, ' ', 0
   };
 
-uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] =
+u8 Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_SERIAL,           /* bLength */
     USB_STRING_DESCRIPTOR_TYPE,                   /* bDescriptorType */

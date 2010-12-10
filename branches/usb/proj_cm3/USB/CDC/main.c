@@ -14,7 +14,8 @@
 *******************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x.h"
+//#include "stm32f10x.h"
+#include "stm_regs.h"
 #include "usb_lib.h"
 #include "usb_desc.h"
 #include "hw_config.h"

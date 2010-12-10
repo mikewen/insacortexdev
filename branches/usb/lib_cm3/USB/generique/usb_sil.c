@@ -17,6 +17,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usb_lib.h"
 
+/* TODO: voir quel est la valeur de ce masque */
+#define IMR_MSK 0x01
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -32,7 +35,7 @@
 * Output         : None.
 * Return         : Status.
 *******************************************************************************/
-uint32_t USB_SIL_Init(void)
+u32 USB_SIL_Init(void)
 {
 #ifndef STM32F10X_CL
   
@@ -63,7 +66,7 @@ uint32_t USB_SIL_Init(void)
 * Output         : None.
 * Return         : Status.
 *******************************************************************************/
-uint32_t USB_SIL_Write(uint8_t bEpAddr, uint8_t* pBufferPointer, uint32_t wBufferSize)
+u32 USB_SIL_Write(u8 bEpAddr, u8* pBufferPointer, u32 wBufferSize)
 {
 #ifndef STM32F10X_CL
 
@@ -92,9 +95,9 @@ uint32_t USB_SIL_Write(uint8_t bEpAddr, uint8_t* pBufferPointer, uint32_t wBuffe
 * Output         : None.
 * Return         : Number of received data (in Bytes).
 *******************************************************************************/
-uint32_t USB_SIL_Read(uint8_t bEpAddr, uint8_t* pBufferPointer)
+u32 USB_SIL_Read(u8 bEpAddr, u8* pBufferPointer)
 {
-  uint32_t DataLength = 0;
+  u32 DataLength = 0;
 
 #ifndef STM32F10X_CL
 

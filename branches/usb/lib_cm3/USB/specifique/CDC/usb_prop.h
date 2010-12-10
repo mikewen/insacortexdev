@@ -21,10 +21,10 @@
 /* Exported types ------------------------------------------------------------*/
 typedef struct
 {
-  uint32_t bitrate;
-  uint8_t format;
-  uint8_t paritytype;
-  uint8_t datatype;
+  u32 bitrate;
+  u8 format;
+  u8 paritytype;
+  u8 datatype;
 }LINE_CODING;
 
 /* Exported constants --------------------------------------------------------*/
@@ -58,15 +58,15 @@ void Virtual_Com_Port_SetConfiguration(void);
 void Virtual_Com_Port_SetDeviceAddress (void);
 void Virtual_Com_Port_Status_In (void);
 void Virtual_Com_Port_Status_Out (void);
-RESULT Virtual_Com_Port_Data_Setup(uint8_t);
-RESULT Virtual_Com_Port_NoData_Setup(uint8_t);
-RESULT Virtual_Com_Port_Get_Interface_Setting(uint8_t Interface, uint8_t AlternateSetting);
-uint8_t *Virtual_Com_Port_GetDeviceDescriptor(uint16_t );
-uint8_t *Virtual_Com_Port_GetConfigDescriptor(uint16_t);
-uint8_t *Virtual_Com_Port_GetStringDescriptor(uint16_t);
+RESULT Virtual_Com_Port_Data_Setup(u8);
+RESULT Virtual_Com_Port_NoData_Setup(u8);
+RESULT Virtual_Com_Port_Get_Interface_Setting(u8 Interface, u8 AlternateSetting);
+u8 *Virtual_Com_Port_GetDeviceDescriptor(u16 );
+u8 *Virtual_Com_Port_GetConfigDescriptor(u16);
+u8 *Virtual_Com_Port_GetStringDescriptor(u16);
 
-uint8_t *Virtual_Com_Port_GetLineCoding(uint16_t Length);
-uint8_t *Virtual_Com_Port_SetLineCoding(uint16_t Length);
+u8 *Virtual_Com_Port_GetLineCoding(u16 Length);
+u8 *Virtual_Com_Port_SetLineCoding(u16 Length);
 
 #endif /* __usb_prop_H */
 
