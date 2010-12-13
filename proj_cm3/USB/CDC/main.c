@@ -28,6 +28,7 @@
 /* Extern variables ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
+void Init_Periphs(void);
 
 /*******************************************************************************
 * Function Name  : main.
@@ -38,15 +39,27 @@
 *******************************************************************************/
 int main(void)
 {
-  Set_System();
-  Set_USBClock();
-  USB_Interrupts_Config();
-  USB_Init();
-  
-  while (1)
-  {
-  }
+//  Set_System();
+//  Set_USBClock();
+//  USB_Interrupts_Config();
+//  USB_Init();
+	
+	Init_Periphs();
+	  
+	while (1)
+	{
+	}
 }
+
+void Init_Periphs(void)
+{
+	/* Demarrage des horloges */
+	Init_Clock_System();
+
+	/* Demarrage de l'USB */
+	Init_USB_CDC();
+}
+
 #ifdef USE_FULL_ASSERT
 /*******************************************************************************
 * Function Name  : assert_failed
