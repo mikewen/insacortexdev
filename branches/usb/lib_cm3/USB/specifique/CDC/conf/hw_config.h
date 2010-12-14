@@ -18,7 +18,6 @@
 #define __HW_CONFIG_H
 
 /* Includes ------------------------------------------------------------------*/
-//#include "usb_type.h"
 #include "stm_regs.h"
 
 /* Exported types ------------------------------------------------------------*/
@@ -30,7 +29,7 @@
 #define LED_ON                0xF0
 #define LED_OFF               0xFF
 
-#define USART_RX_DATA_SIZE   2048
+#define USART_RX_DATA_SIZE    2048
 /* Exported functions ------------------------------------------------------- */
 void Init_USB_CDC(void);
 //void Set_USBClock(void);
