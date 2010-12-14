@@ -4,7 +4,7 @@
 * Version            : V3.2.1
 * Date               : 07/05/2010
 * Description        : Simplified Interface Layer for Global Initialization and 
-*                      Endpoint Rea/Write operations.
+*                      Endpoint Read/Write operations.
 ********************************************************************************
 * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.

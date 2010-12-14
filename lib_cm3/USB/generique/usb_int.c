@@ -12,7 +12,6 @@
 * CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE CODING
 * INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
 *******************************************************************************/
-#ifndef STM32F10X_CL
 
 /* Includes ------------------------------------------------------------------*/
 #include "usb_lib.h"
@@ -182,7 +181,5 @@ void CTR_HP(void)
 
   }/* while(...) */
 }
-
-#endif  /* STM32F10X_CL */
 
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

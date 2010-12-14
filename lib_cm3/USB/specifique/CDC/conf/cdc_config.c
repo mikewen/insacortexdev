@@ -16,21 +16,18 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm_regs.h"
 #include "usb_conf.h"
-//#include "stm32f10x_it.h"
 #include "usb_lib.h"
 #include "usb_prop.h"
 #include "usb_desc.h"
 #include "hw_config.h"
 #include "platform_config.h"
 #include "usb_pwr.h"
-//#include "stm32_eval.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 ErrorStatus HSEStartUpStatus;
-//USART_InitTypeDef USART_InitStructure;
 
 u8  USART_Rx_Buffer [USART_RX_DATA_SIZE]; 
 u32 USART_Rx_ptr_in = 0;
@@ -109,21 +106,6 @@ void Init_USB_CDC(void)
 }
 
 /*******************************************************************************
-* Function Name  : Set_USBClock
-* Description    : Configures USB Clock input (48MHz)
-* Input          : None.
-* Return         : None.
-*******************************************************************************/
-//void Set_USBClock(void)
-//{
-//  /* Select USBCLK source */
-//  RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_1Div5);
-//  
-//  /* Enable the USB clock */
-//  RCC_APB1PeriphClockCmd(RCC_APB1Periph_USB, ENABLE);
-//}
-
-/*******************************************************************************
 * Function Name  : Enter_LowPowerMode
 * Description    : Power-off system clocks and power while entering suspend mode
 * Input          : None.
@@ -169,25 +151,12 @@ void USB_Interrupts_Config(void)
 //
 //  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 //
-//#ifdef STM32F10X_CL 
-//  /* Enable the USB Interrupts */
-//  NVIC_InitStructure.NVIC_IRQChannel = OTG_FS_IRQn;
-//  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-//  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-//  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-//  NVIC_Init(&NVIC_InitStructure);
-//#else
 //  NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
 //  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
 //  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 //  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 //  NVIC_Init(&NVIC_InitStructure);
-//#endif /* STM32F10X_CL */
 //
-//  /* Enable USART Interrupt */
-//  NVIC_InitStructure.NVIC_IRQChannel = EVAL_COM1_IRQn;
-//  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-//  NVIC_Init(&NVIC_InitStructure);
 
 	NVIC_SET_PRIO_PERIPH(USB_LP_CAN_RX0, 3);
 	NVIC_ENABLE_PERIPH_IT(USB_LP_CAN_RX0);
@@ -201,26 +170,16 @@ void USB_Interrupts_Config(void)
 *******************************************************************************/
 void USB_Cable_Config (FunctionalState NewState)
 {
-//#ifdef USE_STM3210C_EVAL 
-//#error moncul 
-//  if (NewState != DISABLE)
-//  {
-//    USB_DevConnect();
-//  }
-//  else
-//  {
-//    USB_DevDisconnect();
-//  }
-//#else /* USE_STM3210B_EVAL or USE_STM3210E_EVAL */
-  if (NewState != DISABLE)
-  {
-    GPIO_ResetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
-  }
-  else
-  {
-    GPIO_SetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
-  }
-//#endif /* USE_STM3210C_EVAL */
+	if (NewState != DISABLE)
+	{
+		//GPIO_ResetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
+		USB_DISCONNECT->BSRR = USB_DISCONNECT_PIN;
+	}
+	else
+	{
+		//GPIO_SetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
+		USB_DISCONNECT->BRR = USB_DISCONNECT_PIN;
+	}
 }
 
 /*******************************************************************************
@@ -264,6 +223,8 @@ void USB_Cable_Config (FunctionalState NewState)
 *******************************************************************************/
 bool USART_Config(void)
 {
+	/* TODO: Penser a rajouter un callback pour gerer la config de l'UART */
+
 	return (TRUE);
 }
 //{
@@ -414,15 +375,10 @@ void Handle_USBAsynchXfer (void)
     }
     USB_Tx_State = 1; 
     
-#ifdef USE_STM3210C_EVAL
-    USB_SIL_Write(EP1_IN, &USART_Rx_Buffer[USB_Tx_ptr], USB_Tx_length);  
-#else
     UserToPMABufferCopy(&USART_Rx_Buffer[USB_Tx_ptr], ENDP1_TXADDR, USB_Tx_length);
     SetEPTxCount(ENDP1, USB_Tx_length);
     SetEPTxValid(ENDP1); 
-#endif
   }  
-  
 }
 /*******************************************************************************
 * Function Name  : UART_To_USB_Send_Data.

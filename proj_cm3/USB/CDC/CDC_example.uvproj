@@ -380,6 +380,11 @@
               <FileType>1</FileType>
               <FilePath>../../../lib_cm3/USB/specifique/CDC/usb_pwr.c</FilePath>
             </File>
+            <File>
+              <FileName>usb_cdc_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_cm3/USB/specifique/CDC/usb_cdc_api.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -402,11 +407,6 @@
               <FileName>cdc_config.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../lib_cm3/USB/specifique/CDC/conf/cdc_config.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f10x_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\stm32f10x_it.c</FilePath>
             </File>
           </Files>
         </Group>

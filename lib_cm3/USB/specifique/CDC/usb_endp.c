@@ -58,7 +58,8 @@ void EP1_IN_Callback (void)
     }
     else 
     {
-      if (USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE){
+      if (USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE)
+	  {
         USB_Tx_ptr = USART_Rx_ptr_out;
         USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
         
@@ -74,13 +75,9 @@ void EP1_IN_Callback (void)
         USART_Rx_length = 0;
       }
       
-#ifdef USE_STM3210C_EVAL
-      USB_SIL_Write(EP1_IN, &USART_Rx_Buffer[USB_Tx_ptr], USB_Tx_length);  
-#else
       UserToPMABufferCopy(&USART_Rx_Buffer[USB_Tx_ptr], ENDP1_TXADDR, USB_Tx_length);
       SetEPTxCount(ENDP1, USB_Tx_length);
-      SetEPTxValid(ENDP1); 
-#endif  
+      SetEPTxValid(ENDP1);  
     }
   }
 }
@@ -105,12 +102,10 @@ void EP3_OUT_Callback(void)
   USB_To_USART_Send_Data(USB_Rx_Buffer, USB_Rx_Cnt);
   
   /* Loopback */
-  Loopback_To_USB_Send_Data(USB_Rx_Buffer, USB_Rx_Cnt);
+  //Loopback_To_USB_Send_Data(USB_Rx_Buffer, USB_Rx_Cnt);
 
-#ifndef STM32F10X_CL
   /* Enable the receive of data on EP3 */
   SetEPRxValid(ENDP3);
-#endif /* STM32F10X_CL */
 }
 
 
@@ -121,11 +116,8 @@ void EP3_OUT_Callback(void)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-#ifdef STM32F10X_CL
-void INTR_SOFINTR_Callback(void)
-#else
+
 void SOF_Callback(void)
-#endif /* STM32F10X_CL */
 {
   static u32 FrameCount = 0;
   
