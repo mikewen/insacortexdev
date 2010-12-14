@@ -15,6 +15,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm_regs.h"
+#include "usb_conf.h"
 //#include "stm32f10x_it.h"
 #include "usb_lib.h"
 #include "usb_prop.h"
@@ -29,7 +30,7 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 ErrorStatus HSEStartUpStatus;
-USART_InitTypeDef USART_InitStructure;
+//USART_InitTypeDef USART_InitStructure;
 
 u8  USART_Rx_Buffer [USART_RX_DATA_SIZE]; 
 u32 USART_Rx_ptr_in = 0;
@@ -42,6 +43,37 @@ static void IntToUnicode (u32 value , u8 *pbuf , u8 len);
 
 extern LINE_CODING linecoding;
 
+/**
+  * @brief  Sets the selected data port bits.
+  * @param  GPIOx: where x can be (A..G) to select the GPIO peripheral.
+  * @param  GPIO_Pin: specifies the port bits to be written.
+  *   This parameter can be any combination of GPIO_Pin_x where x can be (0..15).
+  * @retval None
+  */
+void GPIO_SetBits(GPIO_TypeDef* GPIOx, u16 GPIO_Pin)
+{
+  /* Check the parameters */
+  assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+  assert_param(IS_GPIO_PIN(GPIO_Pin));
+  
+  GPIOx->BSRR = GPIO_Pin;
+}
+
+/**
+  * @brief  Clears the selected data port bits.
+  * @param  GPIOx: where x can be (A..G) to select the GPIO peripheral.
+  * @param  GPIO_Pin: specifies the port bits to be written.
+  *   This parameter can be any combination of GPIO_Pin_x where x can be (0..15).
+  * @retval None
+  */
+void GPIO_ResetBits(GPIO_TypeDef* GPIOx, u16 GPIO_Pin)
+{
+  /* Check the parameters */
+  assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+  assert_param(IS_GPIO_PIN(GPIO_Pin));
+  
+  GPIOx->BRR = GPIO_Pin;
+}
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 /*******************************************************************************
@@ -54,7 +86,7 @@ void Init_USB_CDC(void)
 {
 	/* Les horloges systeme sont déja initialisées */
 
-  /* Enable USB_DISCONNECT GPIO clock */
+  	/* Enable USB_DISCONNECT GPIO clock */
 //  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIO_DISCONNECT, ENABLE);
 
   /* Configure USB pull-up pin */
@@ -64,10 +96,10 @@ void Init_USB_CDC(void)
 //  GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
 
    /* Select USBCLK source */
-  RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_1Div5);
+//  RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_1Div5);
   
   /* Enable the USB clock */
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_USB, ENABLE);
+//  RCC_APB1PeriphClockCmd(RCC_APB1Periph_USB, ENABLE);
 
   /* Enable USB interrupts */
   USB_Interrupts_Config();
@@ -169,16 +201,17 @@ void USB_Interrupts_Config(void)
 *******************************************************************************/
 void USB_Cable_Config (FunctionalState NewState)
 {
-#ifdef USE_STM3210C_EVAL  
-  if (NewState != DISABLE)
-  {
-    USB_DevConnect();
-  }
-  else
-  {
-    USB_DevDisconnect();
-  }
-#else /* USE_STM3210B_EVAL or USE_STM3210E_EVAL */
+//#ifdef USE_STM3210C_EVAL 
+//#error moncul 
+//  if (NewState != DISABLE)
+//  {
+//    USB_DevConnect();
+//  }
+//  else
+//  {
+//    USB_DevDisconnect();
+//  }
+//#else /* USE_STM3210B_EVAL or USE_STM3210E_EVAL */
   if (NewState != DISABLE)
   {
     GPIO_ResetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
@@ -187,7 +220,7 @@ void USB_Cable_Config (FunctionalState NewState)
   {
     GPIO_SetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
   }
-#endif /* USE_STM3210C_EVAL */
+//#endif /* USE_STM3210C_EVAL */
 }
 
 /*******************************************************************************
@@ -196,30 +229,30 @@ void USB_Cable_Config (FunctionalState NewState)
 * Input          :  None.
 * Return         :  None.
 *******************************************************************************/
-void USART_Config_Default(void)
-{
-  /* EVAL_COM1 default configuration */
-  /* EVAL_COM1 configured as follow:
-        - BaudRate = 9600 baud  
-        - Word Length = 8 Bits
-        - One Stop Bit
-        - Parity Odd
-        - Hardware flow control desabled
-        - Receive and transmit enabled
-  */
-  USART_InitStructure.USART_BaudRate = 9600;
-  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-  USART_InitStructure.USART_StopBits = USART_StopBits_1;
-  USART_InitStructure.USART_Parity = USART_Parity_Odd;
-  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-
-  /* Configure and enable the USART */
-  STM_EVAL_COMInit(COM1, &USART_InitStructure);
-
-  /* Enable the USART Receive interrupt */
-  USART_ITConfig(EVAL_COM1, USART_IT_RXNE, ENABLE);
-}
+//void USART_Config_Default(void)
+//{
+//  /* EVAL_COM1 default configuration */
+//  /* EVAL_COM1 configured as follow:
+//        - BaudRate = 9600 baud  
+//        - Word Length = 8 Bits
+//        - One Stop Bit
+//        - Parity Odd
+//        - Hardware flow control desabled
+//        - Receive and transmit enabled
+//  */
+//  USART_InitStructure.USART_BaudRate = 9600;
+//  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+//  USART_InitStructure.USART_StopBits = USART_StopBits_1;
+//  USART_InitStructure.USART_Parity = USART_Parity_Odd;
+//  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+//  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+//
+//  /* Configure and enable the USART */
+//  STM_EVAL_COMInit(COM1, &USART_InitStructure);
+//
+//  /* Enable the USART Receive interrupt */
+//  USART_ITConfig(EVAL_COM1, USART_IT_RXNE, ENABLE);
+//}
 
 /*******************************************************************************
 * Function Name  :  USART_Config.
@@ -231,79 +264,82 @@ void USART_Config_Default(void)
 *******************************************************************************/
 bool USART_Config(void)
 {
-
-  /* set the Stop bit*/
-  switch (linecoding.format)
-  {
-    case 0:
-      USART_InitStructure.USART_StopBits = USART_StopBits_1;
-      break;
-    case 1:
-      USART_InitStructure.USART_StopBits = USART_StopBits_1_5;
-      break;
-    case 2:
-      USART_InitStructure.USART_StopBits = USART_StopBits_2;
-      break;
-    default :
-    {
-      USART_Config_Default();
-      return (FALSE);
-    }
-  }
-
-  /* set the parity bit*/
-  switch (linecoding.paritytype)
-  {
-    case 0:
-      USART_InitStructure.USART_Parity = USART_Parity_No;
-      break;
-    case 1:
-      USART_InitStructure.USART_Parity = USART_Parity_Even;
-      break;
-    case 2:
-      USART_InitStructure.USART_Parity = USART_Parity_Odd;
-      break;
-    default :
-    {
-      USART_Config_Default();
-      return (FALSE);
-    }
-  }
-
-  /*set the data type : only 8bits and 9bits is supported */
-  switch (linecoding.datatype)
-  {
-    case 0x07:
-      /* With this configuration a parity (Even or Odd) should be set */
-      USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-      break;
-    case 0x08:
-      if (USART_InitStructure.USART_Parity == USART_Parity_No)
-      {
-        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-      }
-      else 
-      {
-        USART_InitStructure.USART_WordLength = USART_WordLength_9b;
-      }
-      
-      break;
-    default :
-    {
-      USART_Config_Default();
-      return (FALSE);
-    }
-  }
-
-  USART_InitStructure.USART_BaudRate = linecoding.bitrate;
-  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
- 
-  /* Configure and enable the USART */
-  STM_EVAL_COMInit(COM1, &USART_InitStructure);
-
-  return (TRUE);
+	return (TRUE);
 }
+//{
+//
+//  /* set the Stop bit*/
+//  switch (linecoding.format)
+//  {
+//    case 0:
+//      USART_InitStructure.USART_StopBits = USART_StopBits_1;
+//      break;
+//    case 1:
+//      USART_InitStructure.USART_StopBits = USART_StopBits_1_5;
+//      break;
+//    case 2:
+//      USART_InitStructure.USART_StopBits = USART_StopBits_2;
+//      break;
+//    default :
+//    {
+//      USART_Config_Default();
+//      return (FALSE);
+//    }
+//  }
+//
+//  /* set the parity bit*/
+//  switch (linecoding.paritytype)
+//  {
+//    case 0:
+//      USART_InitStructure.USART_Parity = USART_Parity_No;
+//      break;
+//    case 1:
+//      USART_InitStructure.USART_Parity = USART_Parity_Even;
+//      break;
+//    case 2:
+//      USART_InitStructure.USART_Parity = USART_Parity_Odd;
+//      break;
+//    default :
+//    {
+//      USART_Config_Default();
+//      return (FALSE);
+//    }
+//  }
+//
+//  /*set the data type : only 8bits and 9bits is supported */
+//  switch (linecoding.datatype)
+//  {
+//    case 0x07:
+//      /* With this configuration a parity (Even or Odd) should be set */
+//      USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+//      break;
+//    case 0x08:
+//      if (USART_InitStructure.USART_Parity == USART_Parity_No)
+//      {
+//        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+//      }
+//      else 
+//      {
+//        USART_InitStructure.USART_WordLength = USART_WordLength_9b;
+//      }
+//      
+//      break;
+//    default :
+//    {
+//      USART_Config_Default();
+//      return (FALSE);
+//    }
+//  }
+//
+//  USART_InitStructure.USART_BaudRate = linecoding.bitrate;
+//  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+//  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+// 
+//  /* Configure and enable the USART */
+//  STM_EVAL_COMInit(COM1, &USART_InitStructure);
+//
+//  return (TRUE);
+//}
 
 /*******************************************************************************
 * Function Name  : USB_To_USART_Send_Data.
@@ -315,13 +351,15 @@ bool USART_Config(void)
 void USB_To_USART_Send_Data(u8* data_buffer, u8 Nb_bytes)
 {
   
-  u32 i;
-  
-  for (i = 0; i < Nb_bytes; i++)
-  {
-    USART_SendData(EVAL_COM1, *(data_buffer + i));
-    while(USART_GetFlagStatus(EVAL_COM1, USART_FLAG_TXE) == RESET); 
-  }  
+//  u32 i;
+//  
+//  for (i = 0; i < Nb_bytes; i++)
+//  {
+//    USART_SendData(EVAL_COM1, *(data_buffer + i));
+//    while(USART_GetFlagStatus(EVAL_COM1, USART_FLAG_TXE) == RESET); 
+//  }  
+
+/* Todo: remplir un buffer tempon pour stocker les donnée en reception (USB -> Appli) */
 }
 
 /*******************************************************************************
@@ -395,22 +433,24 @@ void Handle_USBAsynchXfer (void)
 void USART_To_USB_Send_Data(void)
 {
   
-  if (linecoding.datatype == 7)
-  {
-    USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(EVAL_COM1) & 0x7F;
-  }
-  else if (linecoding.datatype == 8)
-  {
-    USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(EVAL_COM1);
-  }
-  
-  USART_Rx_ptr_in++;
-  
-  /* To avoid buffer overflow */
-  if(USART_Rx_ptr_in == USART_RX_DATA_SIZE)
-  {
-    USART_Rx_ptr_in = 0;
-  }
+//  if (linecoding.datatype == 7)
+//  {
+//    USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(EVAL_COM1) & 0x7F;
+//  }
+//  else if (linecoding.datatype == 8)
+//  {
+//    USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(EVAL_COM1);
+//  }
+//  
+//  USART_Rx_ptr_in++;
+//  
+//  /* To avoid buffer overflow */
+//  if(USART_Rx_ptr_in == USART_RX_DATA_SIZE)
+//  {
+//    USART_Rx_ptr_in = 0;
+//  }
+
+/* Todo: probablement rien, sinon, mettre un buffer circulaire pour l'envoi des données (APP -> USB) */
 }
 
 /*******************************************************************************
