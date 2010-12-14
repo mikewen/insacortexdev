@@ -20,6 +20,7 @@
 #include "usb_desc.h"
 #include "hw_config.h"
 #include "usb_pwr.h"
+#include "stm_clock.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
