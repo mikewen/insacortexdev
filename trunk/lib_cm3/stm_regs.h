@@ -22,6 +22,7 @@
   #define EXT extern
 #endif /* EXT */
 
+#ifndef __STM32F10x_H
 /* Includes ------------------------------------------------------------------*/
 #include "standard_types.h"
 #include "stm32f10x_conf.h"
@@ -30,7 +31,7 @@
 /* Exported types ------------------------------------------------------------*/
 /******************************************************************************/
 /*                         Peripheral registers structures                    */
-/******************************************************************************/
+/******************************************************************************/    
 
 /*------------------------ Analog to Digital Converter -----------------------*/
 typedef struct
@@ -2239,5 +2240,6 @@ typedef struct
 // Include register bits definition and macro for NVIC, SCB and systick peripherals
 #include "stm_system.h"
 
+#endif /* __STM32F10x_H */
 #endif /* __STM_REGS_H__ */
 
