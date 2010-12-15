@@ -27,6 +27,7 @@
 #endif
 
 #ifndef __STM32F10x_H
+#ifndef __STD_TYPES_H__
 
 typedef signed long      s32;
 typedef signed short     s16;
@@ -69,6 +70,7 @@ typedef enum { ERROR = 0, SUCCESS  = !ERROR} ErrorStatus;
 /* Exported functions ------------------------------------------------------- */
 /* External variables --------------------------------------------------------*/
 
+#endif /* __STD_TYPES_H__ */
 #endif /* __USB_TYPE_H */
 
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

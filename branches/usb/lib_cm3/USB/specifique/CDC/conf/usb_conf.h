@@ -55,6 +55,8 @@
 /*-------------------------------------------------------------*/
 /* -------------------   ISTR events  -------------------------*/
 /*-------------------------------------------------------------*/
+#define USB_LP_IT_LEVEL		8
+
 /* IMR_MSK */
 /* mask defining which events has to be handled */
 /* by the device application software */

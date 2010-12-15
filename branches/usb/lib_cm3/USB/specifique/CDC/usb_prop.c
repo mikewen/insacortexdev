@@ -25,7 +25,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-u8 Request = 0;
+uint8_t Request = 0;
 
 LINE_CODING linecoding =
   {
@@ -76,22 +76,22 @@ USER_STANDARD_REQUESTS User_Standard_Requests =
 
 ONE_DESCRIPTOR Device_Descriptor =
   {
-    (u8*)Virtual_Com_Port_DeviceDescriptor,
+    (uint8_t*)Virtual_Com_Port_DeviceDescriptor,
     VIRTUAL_COM_PORT_SIZ_DEVICE_DESC
   };
 
 ONE_DESCRIPTOR Config_Descriptor =
   {
-    (u8*)Virtual_Com_Port_ConfigDescriptor,
+    (uint8_t*)Virtual_Com_Port_ConfigDescriptor,
     VIRTUAL_COM_PORT_SIZ_CONFIG_DESC
   };
 
 ONE_DESCRIPTOR String_Descriptor[4] =
   {
-    {(u8*)Virtual_Com_Port_StringLangID, VIRTUAL_COM_PORT_SIZ_STRING_LANGID},
-    {(u8*)Virtual_Com_Port_StringVendor, VIRTUAL_COM_PORT_SIZ_STRING_VENDOR},
-    {(u8*)Virtual_Com_Port_StringProduct, VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT},
-    {(u8*)Virtual_Com_Port_StringSerial, VIRTUAL_COM_PORT_SIZ_STRING_SERIAL}
+    {(uint8_t*)Virtual_Com_Port_StringLangID, VIRTUAL_COM_PORT_SIZ_STRING_LANGID},
+    {(uint8_t*)Virtual_Com_Port_StringVendor, VIRTUAL_COM_PORT_SIZ_STRING_VENDOR},
+    {(uint8_t*)Virtual_Com_Port_StringProduct, VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT},
+    {(uint8_t*)Virtual_Com_Port_StringSerial, VIRTUAL_COM_PORT_SIZ_STRING_SERIAL}
   };
 
 /* Extern variables ----------------------------------------------------------*/
@@ -119,6 +119,9 @@ void Virtual_Com_Port_init(void)
 
   /* Perform basic device initialization operations */
   USB_SIL_Init();
+
+  /* configure the USART to the default settings */
+  //USART_Config_Default();
 
   bDeviceState = UNCONNECTED;
 }
@@ -254,9 +257,9 @@ void Virtual_Com_Port_Status_Out(void)
 * Output         : None.
 * Return         : USB_UNSUPPORT or USB_SUCCESS.
 *******************************************************************************/
-RESULT Virtual_Com_Port_Data_Setup(u8 RequestNo)
+RESULT Virtual_Com_Port_Data_Setup(uint8_t RequestNo)
 {
-  u8    *(*CopyRoutine)(u16);
+  uint8_t    *(*CopyRoutine)(uint16_t);
 
   CopyRoutine = NULL;
 
@@ -294,7 +297,7 @@ RESULT Virtual_Com_Port_Data_Setup(u8 RequestNo)
 * Output         : None.
 * Return         : USB_UNSUPPORT or USB_SUCCESS.
 *******************************************************************************/
-RESULT Virtual_Com_Port_NoData_Setup(u8 RequestNo)
+RESULT Virtual_Com_Port_NoData_Setup(uint8_t RequestNo)
 {
 
   if (Type_Recipient == (CLASS_REQUEST | INTERFACE_RECIPIENT))
@@ -319,7 +322,7 @@ RESULT Virtual_Com_Port_NoData_Setup(u8 RequestNo)
 * Output         : None.
 * Return         : The address of the device descriptor.
 *******************************************************************************/
-u8 *Virtual_Com_Port_GetDeviceDescriptor(u16 Length)
+uint8_t *Virtual_Com_Port_GetDeviceDescriptor(uint16_t Length)
 {
   return Standard_GetDescriptorData(Length, &Device_Descriptor);
 }
@@ -331,7 +334,7 @@ u8 *Virtual_Com_Port_GetDeviceDescriptor(u16 Length)
 * Output         : None.
 * Return         : The address of the configuration descriptor.
 *******************************************************************************/
-u8 *Virtual_Com_Port_GetConfigDescriptor(u16 Length)
+uint8_t *Virtual_Com_Port_GetConfigDescriptor(uint16_t Length)
 {
   return Standard_GetDescriptorData(Length, &Config_Descriptor);
 }
@@ -343,9 +346,9 @@ u8 *Virtual_Com_Port_GetConfigDescriptor(u16 Length)
 * Output         : None.
 * Return         : The address of the string descriptors.
 *******************************************************************************/
-u8 *Virtual_Com_Port_GetStringDescriptor(u16 Length)
+uint8_t *Virtual_Com_Port_GetStringDescriptor(uint16_t Length)
 {
-  u8 wValue0 = pInformation->USBwValue0;
+  uint8_t wValue0 = pInformation->USBwValue0;
   if (wValue0 > 4)
   {
     return NULL;
@@ -360,12 +363,12 @@ u8 *Virtual_Com_Port_GetStringDescriptor(u16 Length)
 * Function Name  : Virtual_Com_Port_Get_Interface_Setting.
 * Description    : test the interface and the alternate setting according to the
 *                  supported one.
-* Input1         : u8: Interface : interface number.
-* Input2         : u8: AlternateSetting : Alternate Setting number.
+* Input1         : uint8_t: Interface : interface number.
+* Input2         : uint8_t: AlternateSetting : Alternate Setting number.
 * Output         : None.
 * Return         : The address of the string descriptors.
 *******************************************************************************/
-RESULT Virtual_Com_Port_Get_Interface_Setting(u8 Interface, u8 AlternateSetting)
+RESULT Virtual_Com_Port_Get_Interface_Setting(uint8_t Interface, uint8_t AlternateSetting)
 {
   if (AlternateSetting > 0)
   {
@@ -385,14 +388,14 @@ RESULT Virtual_Com_Port_Get_Interface_Setting(u8 Interface, u8 AlternateSetting)
 * Output         : None.
 * Return         : Inecoding structure base address.
 *******************************************************************************/
-u8 *Virtual_Com_Port_GetLineCoding(u16 Length)
+uint8_t *Virtual_Com_Port_GetLineCoding(uint16_t Length)
 {
   if (Length == 0)
   {
     pInformation->Ctrl_Info.Usb_wLength = sizeof(linecoding);
     return NULL;
   }
-  return(u8 *)&linecoding;
+  return(uint8_t *)&linecoding;
 }
 
 /*******************************************************************************
@@ -402,14 +405,14 @@ u8 *Virtual_Com_Port_GetLineCoding(u16 Length)
 * Output         : None.
 * Return         : Linecoding structure base address.
 *******************************************************************************/
-u8 *Virtual_Com_Port_SetLineCoding(u16 Length)
+uint8_t *Virtual_Com_Port_SetLineCoding(uint16_t Length)
 {
   if (Length == 0)
   {
     pInformation->Ctrl_Info.Usb_wLength = sizeof(linecoding);
     return NULL;
   }
-  return(u8 *)&linecoding;
+  return(uint8_t *)&linecoding;
 }
 
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

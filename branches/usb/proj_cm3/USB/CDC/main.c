@@ -16,9 +16,10 @@
 /* Includes ------------------------------------------------------------------*/
 //#include "stm32f10x.h"
 #include "stm_regs.h"
+
 #include "usb_lib.h"
 #include "usb_desc.h"
-#include "hw_config.h"
+#include "usb_cdc.h"
 #include "usb_pwr.h"
 #include "stm_clock.h"
 
@@ -26,6 +27,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+u8 tampon;
 /* Extern variables ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -40,15 +42,19 @@ void Init_Periphs(void);
 *******************************************************************************/
 int main(void)
 {
-//  Set_System();
-//  Set_USBClock();
-//  USB_Interrupts_Config();
-//  USB_Init();
-	
+	/* Init des peripheriques (en gros, l'horloge et l'USB) */
 	Init_Periphs();
 	  
 	while (1)
 	{
+		/* Si des données sont arrivées sur le port COM virtuel */
+		if (USB_CDC_RXBufferLength()!=0)
+		{
+			/* Loopback, mais avec les data +1 */
+			USB_CDC_ReadData(&tampon, 1);
+			tampon ++;
+			USB_CDC_SendData(&tampon, 1);
+		}
 	}
 }
 
@@ -57,29 +63,8 @@ void Init_Periphs(void)
 	/* Demarrage des horloges */
 	Init_Clock_System();
 
-	/* Demarrage de l'USB */
-	Init_USB_CDC();
+	/* Demarrage de l'USB en classe CDC*/
+	USB_CDC_Init();
 }
-
-#ifdef USE_FULL_ASSERT
-/*******************************************************************************
-* Function Name  : assert_failed
-* Description    : Reports the name of the source file and the source line number
-*                  where the assert_param error has occurred.
-* Input          : - file: pointer to the source file name
-*                  - line: assert_param error line source number
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void assert_failed(uint8_t* file, uint32_t line)
-{
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-
-  /* Infinite loop */
-  while (1)
-  {}
-}
-#endif
 
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

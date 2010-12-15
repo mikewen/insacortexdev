@@ -30,6 +30,9 @@ TODO
 ________________________________________________________________________________________
 */
 
+#ifndef __STD_TYPES_H__
+#define __STD_TYPES_H__
+
 
 #ifdef 	__STM32F10x_TYPE_H
 	// STM has defined everything we need : no need to include OSEK types
@@ -63,7 +66,7 @@ typedef volatile unsigned char  vu8;
 
 typedef volatile unsigned long  const vuc32;  /* Read Only */
 typedef volatile unsigned short const vuc16;  /* Read Only */
-typedef volatile unsigned char  const vuc8;   /* Read Only */
+typedef volatile unsigned char  const vuc8;   /* Read Only */ 
 
 #ifndef FALSE
 typedef enum {FALSE = 0, TRUE = !FALSE} bool;
@@ -151,6 +154,15 @@ typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 
 
 #endif
-#endif
 
+#define uint8_t 	u8
+#define uint16_t	u16
+#define uint32_t	u32
+
+#define     __I     volatile const
+#define     __O     volatile                  /*!< defines 'write only' permissions     */
+#define     __IO    volatile  
+
+#endif
+#endif
 
