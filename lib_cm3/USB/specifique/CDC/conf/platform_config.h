@@ -18,30 +18,46 @@
 #define __PLATFORM_CONFIG_H
 
 /* Includes ------------------------------------------------------------------*/
+//#include "stm32f10x.h"
+#include "stm_regs.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Uncomment the line corresponding to the STMicroelectronics evaluation board
    used to run the example */
-#if !defined (USE_STM3210B_EVAL) &&  !defined (USE_STM3210E_EVAL)
+#if !defined (USE_STM3210B_EVAL) &&  !defined (USE_STM3210E_EVAL)  &&  !defined (USE_STM3210C_EVAL) && !defined (USE_MCBSTM32)
  //#define USE_STM3210B_EVAL
- #define USE_STM3210E_EVAL
+ //#define USE_STM3210E_EVAL
+ //#define USE_STM3210C_EVAL
+ #define USE_MCBSTM32
 #endif
 
 /* Define the STM32F10x hardware depending on the used evaluation board */
-#ifdef USE_STM3210B_EVAL
+#ifdef USE_MCBSTM32
+  #define USB_DISCONNECT                      GPIOD  
+  #define USB_DISCONNECT_PIN                  GPIO_Pin_9
+  #define RCC_APB2Periph_GPIO_DISCONNECT      RCC_APB2Periph_GPIOD
+  #define EVAL_COM1_IRQn                      USART1_IRQn
 
-  #define USB_DISCONNECT                    GPIOD  
-  #define USB_DISCONNECT_PIN                (1<<9)
-  #define RCC_APB2Periph_GPIO_DISCONNECT    RCC_APB2Periph_GPIOD
+#elif defined USE_STM3210B_EVAL
+  #define USB_DISCONNECT                      GPIOD  
+  #define USB_DISCONNECT_PIN                  GPIO_Pin_9
+  #define RCC_APB2Periph_GPIO_DISCONNECT      RCC_APB2Periph_GPIOD
+  #define EVAL_COM1_IRQn                      USART1_IRQn
 
-#else /* USE_STM3210E_EVAL */
+#elif defined (USE_STM3210E_EVAL)
+  #define USB_DISCONNECT                      GPIOB  
+  #define USB_DISCONNECT_PIN                  GPIO_Pin_14
+  #define RCC_APB2Periph_GPIO_DISCONNECT      RCC_APB2Periph_GPIOB
+  #define EVAL_COM1_IRQn                      USART1_IRQn
 
-  #define USB_DISCONNECT                    GPIOB  
-  #define USB_DISCONNECT_PIN                (1<<14)
-  #define RCC_APB2Periph_GPIO_DISCONNECT    RCC_APB2Periph_GPIOB
+#elif defined (USE_STM3210C_EVAL)
+  #define USB_DISCONNECT                      0  
+  #define USB_DISCONNECT_PIN                  0
+  #define RCC_APB2Periph_GPIO_DISCONNECT      0
+  #define EVAL_COM1_IRQn                      USART2_IRQn
 
-#endif /* USE_STM3210B_EVAL */
+#endif /* USE_MCBSTM32 */
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */

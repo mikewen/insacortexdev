@@ -18,7 +18,7 @@
 #define __HW_CONFIG_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm_regs.h"
+#include "usb_type.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
@@ -29,19 +29,21 @@
 #define LED_ON                0xF0
 #define LED_OFF               0xFF
 
-#define USART_RX_DATA_SIZE    2048
+#define USART_RX_DATA_SIZE   2048
+#define BUFFER_RX_DATA_SIZE   USART_RX_DATA_SIZE
+#define BUFFER_TX_DATA_SIZE   USART_RX_DATA_SIZE
 /* Exported functions ------------------------------------------------------- */
-void Init_USB_CDC(void);
-//void Set_USBClock(void);
+void Set_System(void);
+void Set_USBClock(void);
 void Enter_LowPowerMode(void);
 void Leave_LowPowerMode(void);
 void USB_Interrupts_Config(void);
 void USB_Cable_Config (FunctionalState NewState);
-//void USART_Config_Default(void);
+void USART_Config_Default(void);
 bool USART_Config(void);
-void USB_To_USART_Send_Data(u8* data_buffer, u8 Nb_bytes);
-void USART_To_USB_Send_Data(void);
+void USB_To_USART_Send_Data(uint8_t* data_buffer, uint8_t Nb_bytes);
 void Loopback_To_USB_Send_Data(u8* data_buffer, u8 Nb_bytes);
+void USART_To_USB_Send_Data(void);
 void Handle_USBAsynchXfer (void);
 void Get_SerialNum(void);
 

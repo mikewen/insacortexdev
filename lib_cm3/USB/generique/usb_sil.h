@@ -23,9 +23,9 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-u32 USB_SIL_Init(void);
-u32 USB_SIL_Write(u8 bEpAddr, u8* pBufferPointer, u32 wBufferSize);
-u32 USB_SIL_Read(u8 bEpAddr, u8* pBufferPointer);
+uint32_t USB_SIL_Init(void);
+uint32_t USB_SIL_Write(uint8_t bEpAddr, uint8_t* pBufferPointer, uint32_t wBufferSize);
+uint32_t USB_SIL_Read(uint8_t bEpAddr, uint8_t* pBufferPointer);
 
 /* External variables --------------------------------------------------------*/
 

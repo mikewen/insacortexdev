@@ -29,15 +29,15 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-u8 USB_Rx_Buffer[VIRTUAL_COM_PORT_DATA_SIZE];
-extern  u8 USART_Rx_Buffer[];
-extern u32 USART_Rx_ptr_out;
-extern u32 USART_Rx_length;
-extern u8  USB_Tx_State;
+uint8_t USB_Rx_Buffer[VIRTUAL_COM_PORT_DATA_SIZE];
+extern  uint8_t USART_Rx_Buffer[];
+extern uint32_t USART_Rx_ptr_out;
+extern uint32_t USART_Rx_length;
+extern uint8_t  USB_Tx_State;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-
+extern void USB_To_Buffer_Send_Data(u8* data_buffer, u8 Nb_bytes);
 /*******************************************************************************
 * Function Name  : EP1_IN_Callback
 * Description    :
@@ -47,8 +47,8 @@ extern u8  USB_Tx_State;
 *******************************************************************************/
 void EP1_IN_Callback (void)
 {
-  u16 USB_Tx_ptr;
-  u16 USB_Tx_length;
+  uint16_t USB_Tx_ptr;
+  uint16_t USB_Tx_length;
   
   if (USB_Tx_State == 1)
   {
@@ -58,8 +58,7 @@ void EP1_IN_Callback (void)
     }
     else 
     {
-      if (USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE)
-	  {
+      if (USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE){
         USB_Tx_ptr = USART_Rx_ptr_out;
         USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
         
@@ -75,9 +74,13 @@ void EP1_IN_Callback (void)
         USART_Rx_length = 0;
       }
       
+#ifdef USE_STM3210C_EVAL
+      USB_SIL_Write(EP1_IN, &USART_Rx_Buffer[USB_Tx_ptr], USB_Tx_length);  
+#else
       UserToPMABufferCopy(&USART_Rx_Buffer[USB_Tx_ptr], ENDP1_TXADDR, USB_Tx_length);
       SetEPTxCount(ENDP1, USB_Tx_length);
-      SetEPTxValid(ENDP1);  
+      SetEPTxValid(ENDP1); 
+#endif  
     }
   }
 }
@@ -91,7 +94,7 @@ void EP1_IN_Callback (void)
 *******************************************************************************/
 void EP3_OUT_Callback(void)
 {
-  u16 USB_Rx_Cnt;
+  uint16_t USB_Rx_Cnt;
   
   /* Get the received data buffer and update the counter */
   USB_Rx_Cnt = USB_SIL_Read(EP3_OUT, USB_Rx_Buffer);
@@ -99,13 +102,15 @@ void EP3_OUT_Callback(void)
   /* USB data will be immediately processed, this allow next USB traffic beeing 
   NAKed till the end of the USART Xfet */
   
-  USB_To_USART_Send_Data(USB_Rx_Buffer, USB_Rx_Cnt);
+  USB_To_Buffer_Send_Data(USB_Rx_Buffer, USB_Rx_Cnt);
   
   /* Loopback */
   //Loopback_To_USB_Send_Data(USB_Rx_Buffer, USB_Rx_Cnt);
 
+#ifndef STM32F10X_CL
   /* Enable the receive of data on EP3 */
   SetEPRxValid(ENDP3);
+#endif /* STM32F10X_CL */
 }
 
 
@@ -116,10 +121,13 @@ void EP3_OUT_Callback(void)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-
+#ifdef STM32F10X_CL
+void INTR_SOFINTR_Callback(void)
+#else
 void SOF_Callback(void)
+#endif /* STM32F10X_CL */
 {
-  static u32 FrameCount = 0;
+  static uint32_t FrameCount = 0;
   
   if(bDeviceState == CONFIGURED)
   {

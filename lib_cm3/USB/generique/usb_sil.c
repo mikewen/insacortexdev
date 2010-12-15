@@ -4,7 +4,7 @@
 * Version            : V3.2.1
 * Date               : 07/05/2010
 * Description        : Simplified Interface Layer for Global Initialization and 
-*                      Endpoint Read/Write operations.
+*                      Endpoint Rea/Write operations.
 ********************************************************************************
 * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -16,9 +16,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usb_lib.h"
-
-/* TODO: voir quel est la valeur de ce masque */
-#define IMR_MSK 0x01
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -35,7 +32,7 @@
 * Output         : None.
 * Return         : Status.
 *******************************************************************************/
-u32 USB_SIL_Init(void)
+uint32_t USB_SIL_Init(void)
 {
 #ifndef STM32F10X_CL
   
@@ -66,7 +63,7 @@ u32 USB_SIL_Init(void)
 * Output         : None.
 * Return         : Status.
 *******************************************************************************/
-u32 USB_SIL_Write(u8 bEpAddr, u8* pBufferPointer, u32 wBufferSize)
+uint32_t USB_SIL_Write(uint8_t bEpAddr, uint8_t* pBufferPointer, uint32_t wBufferSize)
 {
 #ifndef STM32F10X_CL
 
@@ -95,9 +92,9 @@ u32 USB_SIL_Write(u8 bEpAddr, u8* pBufferPointer, u32 wBufferSize)
 * Output         : None.
 * Return         : Number of received data (in Bytes).
 *******************************************************************************/
-u32 USB_SIL_Read(u8 bEpAddr, u8* pBufferPointer)
+uint32_t USB_SIL_Read(uint8_t bEpAddr, uint8_t* pBufferPointer)
 {
-  u32 DataLength = 0;
+  uint32_t DataLength = 0;
 
 #ifndef STM32F10X_CL
 

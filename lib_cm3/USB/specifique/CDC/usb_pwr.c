@@ -14,7 +14,7 @@
 *******************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
-//#include "stm32f10x.h"
+//#include "stm32f10x.h"															
 #include "stm_regs.h"
 #include "usb_lib.h"
 #include "usb_conf.h"
@@ -25,13 +25,13 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-volatile u32 bDeviceState = UNCONNECTED; /* USB device status */
-volatile bool fSuspendEnabled = TRUE;  /* true when suspend is possible */
+__IO uint32_t bDeviceState = UNCONNECTED; /* USB device status */
+__IO bool fSuspendEnabled = TRUE;  /* true when suspend is possible */
 
 struct
 {
-  volatile RESUME_STATE eState;
-  volatile u8 bESOFcnt;
+  __IO RESUME_STATE eState;
+  __IO uint8_t bESOFcnt;
 }ResumeS;
 
 /* Extern variables ----------------------------------------------------------*/
@@ -49,7 +49,7 @@ struct
 RESULT PowerOn(void)
 {
 #ifndef STM32F10X_CL
-  u16 wRegVal;
+  uint16_t wRegVal;
 
   /*** cable plugged-in ? ***/
   USB_Cable_Config(ENABLE);
@@ -107,7 +107,7 @@ RESULT PowerOff()
 void Suspend(void)
 {
 #ifndef STM32F10X_CL
-  u16 wCNTR;
+  uint16_t wCNTR;
   /* suspend preparation */
   /* ... */
 
@@ -144,7 +144,7 @@ void Suspend(void)
 void Resume_Init(void)
 {
 #ifndef STM32F10X_CL
-  u16 wCNTR;
+  uint16_t wCNTR;
 #endif /* STM32F10X_CL */ 
 
   /* ------------------ ONLY WITH BUS-POWERED DEVICES ---------------------- */
@@ -187,7 +187,7 @@ void Resume_Init(void)
 void Resume(RESUME_STATE eResumeSetVal)
 {
 #ifndef STM32F10X_CL
-  u16 wCNTR;
+  uint16_t wCNTR;
 #endif /* STM32F10X_CL */
 
   if (eResumeSetVal != RESUME_ESOF)
