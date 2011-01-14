@@ -32,15 +32,15 @@ OPTFFF 2,9,1,0,0,0,0,0,<../../os/tpl_os_it.c><tpl_os_it.c>
 OPTFFF 2,10,1,0,0,0,0,0,<../../os/tpl_os_kernel.c><tpl_os_kernel.c> 
 OPTFFF 2,11,1,0,0,0,0,0,<../../os/tpl_os_rez_kernel.c><tpl_os_rez_kernel.c> 
 OPTFFF 2,12,1,0,0,0,0,0,<../../os/tpl_os_rez.c><tpl_os_rez.c> 
-OPTFFF 2,13,1,0,0,0,0,0,<../../os/tpl_os_task.c><tpl_os_task.c> 
+OPTFFF 2,13,1,1,0,7,7,0,<../../os/tpl_os_task.c><tpl_os_task.c> 
 OPTFFF 2,14,1,0,0,0,0,0,<../../os/tpl_os.c><tpl_os.c> 
 OPTFFF 2,15,1,0,0,0,0,0,<../../os/tpl_os_timeobj_kernel.c><tpl_os_timeobj_kernel.c> 
 OPTFFF 2,16,1,0,0,0,0,0,<../../os/tpl_os_dispatch_table.c><tpl_os_dispatch_table.c> 
 OPTFFF 2,17,1,0,0,0,0,0,<../../os/tpl_os_event_kernel.c><tpl_os_event_kernel.c> 
-OPTFFF 2,18,1,0,0,89,105,0,<../../os/tpl_os_task_kernel.c><tpl_os_task_kernel.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,101,0,0,0,28,0,0,0,40,3,0,0,177,1,0,0 }
-OPTFFF 3,19,1,637534208,0,43,59,0,<../../machines/cortex-m3/tpl_machine_cm3.c><tpl_machine_cm3.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,22,0,0,0,23,0,0,0,221,2,0,0,176,1,0,0 }
-OPTFFF 5,20,1,637534208,0,139,142,0,<.\test_preempt_full_schedule/tpl_os_generated_configuration.c><tpl_os_generated_configuration.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,244,255,255,255,26,0,0,0,183,2,0,0,175,1,0,0 }
-OPTFFF 5,21,1,134217730,0,38,47,0,<.\test_preempt_full_schedule_main.c><test_preempt_full_schedule_main.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,101,0,0,0,28,0,0,0,40,3,0,0,177,1,0,0 }
+OPTFFF 2,18,1,0,0,0,0,0,<../../os/tpl_os_task_kernel.c><tpl_os_task_kernel.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,101,0,0,0,28,0,0,0,40,3,0,0,177,1,0,0 }
+OPTFFF 3,19,1,637534208,0,0,0,0,<../../machines/cortex-m3/tpl_machine_cm3.c><tpl_machine_cm3.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,22,0,0,0,23,0,0,0,221,2,0,0,176,1,0,0 }
+OPTFFF 5,20,1,637534208,0,0,0,0,<.\test_preempt_full_schedule/tpl_os_generated_configuration.c><tpl_os_generated_configuration.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,244,255,255,255,26,0,0,0,183,2,0,0,175,1,0,0 }
+OPTFFF 5,21,1,134217728,0,0,0,0,<.\test_preempt_full_schedule_main.c><test_preempt_full_schedule_main.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,101,0,0,0,28,0,0,0,40,3,0,0,177,1,0,0 }
 OPTFFF 6,22,5,0,0,0,0,0,<..\..\system\STM32_Init.h><STM32_Init.h> 
 OPTFFF 6,23,5,0,0,0,0,0,<..\..\system\STM32_Reg.h><STM32_Reg.h> 
 OPTFFF 7,24,5,0,0,0,0,0,<.\App\archi_appli.oil><archi_appli.oil> 
@@ -50,8 +50,7 @@ OPTFFF 7,27,5,0,0,0,0,0,<.\templates\c166\counter_specific.tpl><counter_specific
 OPTFFF 7,28,5,0,0,0,0,0,<.\templates\c166\each_isr_specific.tpl><each_isr_specific.tpl> 
 OPTFFF 7,29,5,0,0,0,0,0,<.\templates\c166\each_task_specific.tpl><each_task_specific.tpl> 
 
-ExtF <U:\Windows\Bureau\Trampoline\insacortexdev\trampoline\examples\cortex-m3\got_goiled.bat> 1,2,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,11,0,0,0,10,0,0,0,214,2,0,0,234,1,0,0 }
-ExtF <U:\Windows\Bureau\Trampoline\insacortexdev\trampoline\examples\cortex-m3\test_preempt_full_schedule.oil> 41,65,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,22,0,0,0,23,0,0,0,207,2,0,0,228,1,0,0 }
+ExtF <E:\Compte en local\Enseignement\APP\insacortexdev\trampoline\OS\TPL_OS_DEFINITIONS.H> 67,67,0,{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
 
 TARGOPT 1, (Simulé)
  ARMCLK=8000000
