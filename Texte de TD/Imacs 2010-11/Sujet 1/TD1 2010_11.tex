@@ -22,7 +22,7 @@
 \ifComment
   \newcommand{\Comment}[1]{} % blachit les lettres pour les rendres invisibles
 \else
-  \newcommand{\Comment}[1]{\vspace{1cm}\color{blue} \textsl{Commentaire :  {#1} } \color{black} } 
+  \newcommand{\Comment}[1]{\vspace{1cm}\color{blue} \textsl{Commentaire :  {#1} } \color{black} }
 \fi
 
 
@@ -40,11 +40,11 @@
 
 \maketitle
 \begin{abstract}
-Le but de ce TD est tout d'abord de comprendre un petit bout de code. Cela suppose donc de voir comment l'enchaînement d'instructions basiques permettent de construire un algorithme simple. Une aspect important de compréhension concerne l'accès en mémoire par indirection. Enfin, il s'agira de jouer sur ces modes d'adressage afin de modifier le code afin de l'optimiser.
+Le but de ce TD est tout d'abord de comprendre un petit bout de code. Cela suppose donc de voir comment l'enchaînement d'instructions basiques permettent de construire un algorithme simple. Une aspect important de compréhension concerne l'accès en mémoire par indirection. Enfin, il s'agira de jouer sur ces modes d'adressage afin de modifier le code dans l'espoir de l'optimiser.
 \end{abstract}
 
 
-\section{L'algorithme}
+\section{Le programme}
 
 Soit le morceau de programme suivant :
 
@@ -68,7 +68,7 @@ Lors de l'exécution de ce code la mémoire aura le contenu suivant :
 
 
 \section{comprehension}
-Dans un premier temps, il s'agit d'analyser ce programme 
+Dans un premier temps, il s'agit d'analyser ce programme.
 
 
 \Comment{leur faire reprendre la notion du test conditionné....vu rapidement en cours....insister sur le fait qu'un cmp tout seul ne sert à rien}
@@ -141,7 +141,7 @@ Modifiez la gestion du pointeur \emph{R0} pour utiliser un adressage indirect av
 
 \Comment{il n'y a pas de codage unique - décrémenter plutôt qu'incrémenter est souvent plu sjudicieix car cela permet d'utiliser le drapeau Z }
 \begin{quest}
-Modifiez le code pour supprimer l'instruction \emph{CMP} en se rappelant que l'instruction \emph{SUBS} modifie l'état du fanion \emph{Z}. 
+Modifiez le code pour supprimer l'instruction \emph{CMP} en se rappelant que l'instruction \emph{SUBS} modifie l'état du fanion \emph{Z}.
 \end{quest}
 
 
