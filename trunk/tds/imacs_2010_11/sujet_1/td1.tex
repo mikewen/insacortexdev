@@ -15,8 +15,8 @@
 \addtolength{\voffset}{2cm}
 
 
-\newif\ifComment \Commenttrue        % POUR BASCULER EN MODE sans commentaire
-%\newif\ifComment \Commentfalse    % POUR BASCULER EN MODE  commenté
+%\newif\ifComment \Commenttrue        % POUR BASCULER EN MODE sans commentaire
+\newif\ifComment \Commentfalse    % POUR BASCULER EN MODE  commenté
 
 
 \ifComment
@@ -124,7 +124,7 @@ Remplissez le tableau relatant l'état des registres \emph{R0} à \emph{R3} (en he
 \Comment{reprendre la notion qu'en assembleur il n'y a pas de type de données jsute des quantités d'octets à charger => modiifcaiton de l'incrémentation du pointeur ...Attention un int est a priori signé donc l'instruction de chargement est LDRSH ... }
 
 \begin{quest}
-Le programmeur s'est trompé dans son codage. En effet, le tableau contient 5 \textit{int} (2 octets) et non 10 \textit{char} (1 seul octet). Modifiez les instructions pour apporter cette correction.
+Le programmeur s'est trompé dans son codage. En effet, le tableau contient 5 \textit{short int} (2 octets) et non 10 \textit{char} (1 seul octet). Modifiez les instructions pour apporter cette correction.
 \end{quest}
 
 \Comment{reprendre l'inversion pf PF de sdonnes en mémoire pour faire l'addition correctement}
