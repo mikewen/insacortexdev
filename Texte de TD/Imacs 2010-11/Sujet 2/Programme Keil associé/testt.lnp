@@ -1,0 +1,4 @@
+--cpu Cortex-M3 "stm32f10x.o" "test.o" --library_type=microlib --scatter "testt.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\testt.map" -o "testt.axf"
