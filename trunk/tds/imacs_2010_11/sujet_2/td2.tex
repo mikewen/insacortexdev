@@ -1,0 +1,161 @@
+%% LyX 1.5.5 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[twocolumn,french]{IEEEtran}
+\usepackage[T1]{fontenc}
+
+\usepackage{graphicx}
+\usepackage{babel}
+\usepackage{color}
+
+\newtheorem{quest}{Question}
+\addtolength{\hoffset}{2cm}
+\addtolength{\textwidth}{-2cm}
+\addtolength{\textheight}{-2cm}
+\addtolength{\voffset}{2cm}
+
+
+
+
+
+\newif\ifComment \Commenttrue        % POUR BASCULER EN MODE sans commentaire
+%\newif\ifComment \Commentfalse    % POUR BASCULER EN MODE  commenté
+
+
+\ifComment
+  \newcommand{\Comment}[1]{} % blachit les lettres pour les rendres invisibles
+\else
+  \newcommand{\Comment}[1]{\vspace{1cm}\color{blue} \textsl{Commentaire :  {#1} } \color{black} }
+\fi
+
+\RequirePackage{xcolor}
+\usepackage{xcolor}
+
+   \definecolor{Avoir}{rgb}{0.906,0.47,.091}
+    \definecolor{LightGreen}{rgb}{0.836,0.918,0.699}
+    \definecolor{Boulette}{rgb}{0.3255 , 0.4235, 0.4745}
+    \definecolor{Roseline}{rgb}{0.6588 0.2588 0.1647}
+    \definecolor{BrunSombre}{rgb}{0.28627451 , 0.239215686, 0.129411765}
+    \definecolor{ColorExemple}{rgb} {0.9098, 0.9372, 0.9059}              %{0.8,0.9,0.7}
+    \definecolor{ColorSyntaxe}{rgb}{0.815686275, 0.894117647,0.650980392 }
+    \definecolor{BleuClair}{rgb}{0.84313725 0.862745098	0.921568627}
+
+\DeclareFixedFont{%
+\listingfont}{T1}{cmtt}{m}{n}{0.65\baselineskip}
+
+
+\newcommand{\listage}[1]{
+    \vspace{2mm}
+    \begin{center}
+    \fcolorbox {BrunSombre}{ColorExemple}
+        {
+        \parbox{0.45\textwidth}
+            {
+            \vspace{.2 cm}
+            \listingfont{#1}
+            \vspace{.2 cm}
+            }
+         }
+    \end{center}
+}
+
+
+
+\begin{document}
+
+\title{TD2  Asm Cortex-M3}
+
+\author{3 IMACS 2010-2011 \\ \vspace{.5 cm} \small{Vincent MAHOUT}}
+
+\maketitle
+\begin{abstract}
+Le but de ce TD est de se pencher sur les techniques de déclaration de variables et d'approfondir les modes d'adressage un peu particulier. On continuera à explorer une boucle simple, de type \textit{Tant Que} en s'interrogeant au final sur le traitement des opérations portant sur des octets lorsqu'elles affectent un registre 32 bits en entier.
+
+\end{abstract}
+
+
+\section{Déclaration}
+
+Soit le morceau de programme suivant :
+
+\listage{	
+;*********************************************** \\
+; SECTION DE DONNEES\\
+;***********************************************\\	
+AREA  mesdonnees, data, readwrite\\
+
+\begin{tabular}{lll}
+Vide		&SPACE & 20\\
+Un			&FILL  & 6,2,2\\
+Chaine  	&DCB   & "TD 2",0 \\
+Table 		&DCD   & 0x12,12,'A', 0, 0xABCDEF\\
+\end{tabular}\\
+;***********************************************
+}
+\Comment{Reprendre rapidement le nom, type et propriétés d'une section}
+\begin{quest}
+Quelles sont les caractéristiques de cette section.
+\end{quest}
+
+
+\Comment{Pas de piège si ce n'est que fill reserve 6 octets (3 demi mots) et non 6 fois un demi mot initialisé avec 2...il y a un bêtise dans le polycopié à ce sujet - Attention aussi à l'octet de padding pour mettre Table à une adrese doublement paire - voir le programme pour une réponse exacte}
+\begin{quest}
+On suppose que l'éditeur de liens a attribué l'adresse physique $0$x$20000000$ à la variable \emph{Vide}. Donnez la représentation de l'espace mémoire correspondante à ces déclarations. Ce \textit{mapping} sera donné octet par octet, les nombres seront exprimés en base hexadécimale et la valeur numérique des 4 symboles sera spécifiée.
+
+\end{quest}
+
+
+\section{Programmation}
+On souhaite recopier \emph{Table} dans \emph{Vide} en multipliant chacun des octets composant la table par deux avant de faire le transfert.
+Le programme débute comme :
+\listage{	
+;*********************************************** \\
+; SECTION DE CODE\\
+;***********************************************\\	
+AREA  moncode, code, readonly\\
+
+\begin{tabular}{lll}
+main  	&PROC \\
+
+	    &LDR &R0,=Vide \\
+		&LDR &R1,=Table \\
+
+    & \vdots \\
+\end{tabular}\\
+;***********************************************
+}
+
+\Comment{Il faut les orienter vers un compteur décroissant....ou donner une solution de ce type là à la fin car cela facilitera la question suivante - La diffucluté pour eux est la mise en place d'un compteur et celle d'une boucle TQ alors que c'est une structure qui n'a pas été vue en cours au moment du TD...}
+\begin{quest}
+Ecrire les lignes suivantes du programme réalisant ce transfert, en utilisant l'adressage indirect simple
+\end{quest}
+
+\Comment{Juste pour rigoler sur les modes d'adressage - Insister sur l'intérêt de l'indirect + index qui est très proche de la gestion d'un tableau en C : Table[n] - Inversion aussi de la solution : on commence par la fin de Table..}
+\begin{quest}
+Même question mais en utilisant l'adressage indirect avec index et l'adressage indirect pré-déplacé.
+\end{quest}
+
+
+\section{Complication}
+
+Il s'agit maintenant de compliquer un peu la routine pour obtenir un programme qui exécute l'algorithme suivant :
+
+\listage{	
+Compteur = 20\\
+Carac =0 \\
+TantQue(Compteur > 0 ET Carac > 0)\\
+\begin{tabular}{llll}
+\hspace{.3cm}      & Carac $\leftarrow$ Table(11-Compteur) \\
+      & Carac $\leftarrow$ Carac * 2 \\
+      & Vide(11-Compteur) $\leftarrow$ Carac \\
+      & Compteur $\leftarrow$ Compteur -1; 
+\end{tabular}\\
+FinTantQue
+}
+
+\Comment{cela parait simple sur le papier...il suffit de rajouter un test de type break pour sortir de la boucle TQ...sauf que le résultat est sur 32 bits.... donc le test par la drapeau N n'a pas  de sens....il doit avoir plusieurs solutions...j'en ai codé une.}
+\begin{quest}
+Modifiez le code existant pour établir une version correspondante à l'algorithme proposé. Attention \emph{Carac} correspond bien à un octet!!!
+\end{quest}
+
+
+\end{document}
