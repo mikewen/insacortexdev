@@ -48,15 +48,15 @@ Vel 		DCB  0x00,0x00,0xcd,0xab,0xef,0xcd,0x55,0x55,0x08,0x0c,0x11,0x45,0x14,0x10
 
 main  	PROC 
    
-	    LDR R0,= 0x20000006
-		MOV R2,#0
+	    LDR R0,= Vel+2
+		MOV R1,#0
 		MOV R3,#0
-		LDRB R1,[R0]
-Calcul 	LDR R4,[R0]
-		ADD R2,R4
+Calcul 	LDRH R2,[R0]
+		ADD R1,R2
+		ADD R0,#1
 		ADD R3,#1
 		CMP R3,#10
-		BEQ Calcul	
+		BNE Calcul	
 		
 inf     B inf	  ; boucle infinie
 
