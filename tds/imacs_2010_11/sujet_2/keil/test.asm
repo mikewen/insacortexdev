@@ -27,6 +27,7 @@
 	
 Vide		space 20
 Un			fill 6,2,2
+test        fill 8,0x89abcdef,4
 Chaine  	DCB "TD 2",0
 Table 		DCD  0x12,12,'A', 0, 0xABCDEF 
 ;************************************************************************
