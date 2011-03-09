@@ -142,12 +142,12 @@ Il s'agit maintenant de compliquer un peu la routine pour obtenir un programme q
 \listage{	
 Compteur = 20\\
 Carac =0 \\
-TantQue(Compteur > 0 ET Carac > 0)\\
+TantQue(Compteur > 0 ET Carac $\geq$ 0)\\
 \begin{tabular}{llll}
 \hspace{.3cm}      & Carac $\leftarrow$ Table(11-Compteur) \\
       & Carac $\leftarrow$ Carac * 2 \\
       & Vide(11-Compteur) $\leftarrow$ Carac \\
-      & Compteur $\leftarrow$ Compteur -1; 
+      & Compteur $\leftarrow$ Compteur -1;
 \end{tabular}\\
 FinTantQue
 }
