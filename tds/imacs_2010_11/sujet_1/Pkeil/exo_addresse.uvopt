@@ -184,7 +184,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
-        <aLwin>0</aLwin>
+        <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
@@ -237,10 +237,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>12</ColumnNumber>
+      <ColumnNumber>50</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>47</TopLine>
-      <CurrentLine>54</CurrentLine>
+      <TopLine>46</TopLine>
+      <CurrentLine>51</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\test.asm</PathWithFileName>
       <FilenameWithoutPath>test.asm</FilenameWithoutPath>
@@ -256,7 +256,7 @@
       <Documents>
         <Doc>
           <Name>.\test.asm</Name>
-          <ColumnNumber>20</ColumnNumber>
+          <ColumnNumber>50</ColumnNumber>
           <TopLine>46</TopLine>
           <CurrentLine>51</CurrentLine>
         </Doc>
