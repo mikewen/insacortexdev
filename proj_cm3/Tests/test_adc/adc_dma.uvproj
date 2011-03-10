@@ -285,7 +285,7 @@
             <TextAddressRange></TextAddressRange>
             <DataAddressRange></DataAddressRange>
             <BSSAddressRange></BSSAddressRange>
-            <IncludeLibs>libmini</IncludeLibs>
+            <IncludeLibs>mini</IncludeLibs>
             <IncludeDir>..\..\..\minilib\lib\arm-cm3\GCC</IncludeDir>
             <Misc></Misc>
             <ScatterFile>..\..\..\system\Linker_Script_GCC.ld</ScatterFile>
@@ -332,11 +332,6 @@
               <FilePath>../../../lib_cm3/stm_system.c</FilePath>
             </File>
             <File>
-              <FileName>syscalls.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../minilib/syscalls_template/syscalls.c</FilePath>
-            </File>
-            <File>
               <FileName>stm_usartx.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../lib_cm3/stm_usartx.c</FilePath>
@@ -350,6 +345,11 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>syscalls.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\syscalls.c</FilePath>
             </File>
           </Files>
         </Group>
