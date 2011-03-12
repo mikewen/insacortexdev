@@ -263,7 +263,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\lib_cm3;.;..\..\..\minilib\include</IncludePath>
+              <IncludePath>..\..\..\lib_cm3;..\..\..\minilib\include;./configs</IncludePath>
             </VariousControls>
           </Carm>
           <Aarm>
@@ -332,9 +332,19 @@
               <FilePath>../../../lib_cm3/stm_system.c</FilePath>
             </File>
             <File>
+              <FileName>syscalls.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../minilib/syscalls_template/syscalls.c</FilePath>
+            </File>
+            <File>
               <FileName>stm_usartx.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../lib_cm3/stm_usartx.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../lib_cm3/stm_adc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -346,35 +356,35 @@
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
             </File>
-            <File>
-              <FileName>syscalls.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\syscalls.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>configs</GroupName>
           <Files>
             <File>
-              <FileName>stm_clock_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\stm_clock_config.h</FilePath>
-            </File>
-            <File>
               <FileName>stm_usartx_config.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\stm_usartx_config.h</FilePath>
+              <FilePath>.\configs\stm_usartx_config.h</FilePath>
             </File>
             <File>
               <FileName>cm3_traps_config.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\cm3_traps_config.h</FilePath>
+              <FilePath>.\configs\cm3_traps_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm_adc_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\configs\stm_adc_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm_clock_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\configs\stm_clock_config.h</FilePath>
             </File>
             <File>
               <FileName>stm_timx_config.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\stm_timx_config.h</FilePath>
+              <FilePath>.\configs\stm_timx_config.h</FilePath>
             </File>
           </Files>
         </Group>

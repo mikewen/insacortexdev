@@ -25,7 +25,7 @@ ________________________________________________________________________________
 */
 
 #include "stm_regs.h"
-#include "stm_usartx_v2.h"     // import configuration NUM_USART and BAUDRATEx
+#include "stm_multi_usartx.h"     // import configuration NUM_USART and BAUDRATEx
 #include "stm_clock.h"
 
 #define USART1_FILE_ID 1

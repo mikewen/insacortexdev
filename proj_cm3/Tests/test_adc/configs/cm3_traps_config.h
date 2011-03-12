@@ -30,6 +30,9 @@ ________________________________________________________________________________
 #ifndef _CM3_TRAPS_CONFIG
 #define _CM3_TRAPS_CONFIG
 
+//COMMENT line below to disable CORE dump on STDIO when hardfault
+//#define CORE_DUMP
+
 //COMMENT line below to disable LED blink function
 #define USE_BLINK_LEDS
 #ifdef USE_BLINK_LEDS

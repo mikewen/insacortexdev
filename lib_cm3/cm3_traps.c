@@ -27,18 +27,17 @@ TODO
 ________________________________________________________________________________________
 */
 
-#include <stm32f10x_lib.h>
 #include "cm3_traps.h"
-#include <stdio.h>
+#include "stm_regs.h"
 
-#define CORE_DUMP
 #ifdef CORE_DUMP
+	#include <stdio.h>
 
-#define SCB_BASE_ADDR	0xE000ED00
-#define CFSR_REG_ADDR 	0xE000ED28
-#define HFSR_REG_ADDR	0xE000ED2C
-#define MMFAR_REG_ADDR	0xE000ED34
-#define BFAR_REG_ADDR	0xE000ED38
+	#define SCB_BASE_ADDR	0xE000ED00
+	#define CFSR_REG_ADDR 	0xE000ED28
+	#define HFSR_REG_ADDR	0xE000ED2C
+	#define MMFAR_REG_ADDR	0xE000ED34
+	#define BFAR_REG_ADDR	0xE000ED38
 
 u32 CFSR_REG;
 u32 HFSR_REG;
