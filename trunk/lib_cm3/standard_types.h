@@ -140,7 +140,9 @@ typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
 
 typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 
-#define NULL       0
+#ifndef NULL
+	#define NULL       0
+#endif
 
 #define U8_MAX     ((u8)255)
 #define S8_MAX     ((s8)127)
