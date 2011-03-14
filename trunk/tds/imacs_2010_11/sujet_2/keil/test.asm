@@ -1,4 +1,9 @@
-		
+
+;"########################################"
+; Assemblage conditionné
+;"########################################"
+
+
 
 ;************************************************************************
 	THUMB	
@@ -51,6 +56,12 @@ boucleQ3
 		SUBS R3,#1
 		BNE boucleQ3
 
+;"########################################"
+; Assemblage conditionné
+;"########################################"
+
+ IF Registre=2
+
 VersionQ4   
 	    LDR R0,=Vide
 		LDR R1,= Table
@@ -58,11 +69,12 @@ VersionQ4
 		ADD R1,R3		   ; positionnement en fin de Table
 		
 boucleQ4
-	    LDRB R2,[R1,#-1]!	 ; prédéplacement
+	    LDR R2,[R1,#-1]!	 ; prédéplacement
 		LSLS R2,#1
         STRB R2,[R0,R3]
 		SUBS R3,#1
 		BNE boucleQ4			
+ ENDIF
 
 VersionQ5 
 		LDR R0,=Vide

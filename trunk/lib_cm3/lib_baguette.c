@@ -438,6 +438,8 @@ volatile register int tmp;
  */
 void Init_Baguette(void)
 {
+	unsigned int *R0;
+
 	/* Init des horloges */
 	Init_Clock_System();
 
@@ -457,6 +459,11 @@ void Init_Baguette(void)
 	Init_LED();
 	
 	Init_Touche();
+
+	R0 =(unsigned int *) 0xE000ED14;
+	*(R0)= *(R0) | ((0x0001)<< 3);
+
+
 
 }
 
