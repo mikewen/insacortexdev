@@ -41,7 +41,7 @@ void USB_Interrupts_Config(void);
 void USB_Cable_Config (FunctionalState NewState);
 void USART_Config_Default(void);
 bool USART_Config(void);
-void USB_To_USART_Send_Data(uint8_t* data_buffer, uint8_t Nb_bytes);
+void USB_To_USART_Send_Data(u8* data_buffer, u8 Nb_bytes);
 void Loopback_To_USB_Send_Data(u8* data_buffer, u8 Nb_bytes);
 void USART_To_USB_Send_Data(void);
 void Handle_USBAsynchXfer (void);
