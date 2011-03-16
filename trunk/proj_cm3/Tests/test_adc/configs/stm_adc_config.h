@@ -151,13 +151,13 @@ TODO	ADC_DUALMOD_IS_ALTERNATE
 		#define ADC_DMA_PL	DMA_PL_IS_VERYHIGH
 
 		//CONFIGURE if Transfert Error Interrupt is needed
-		#define ADC_DMA_TEIT
+		//#define ADC_DMA_TEIT
 		//CONFIGURE protoype and name of hook to execute on TEIE
 		extern void Adc_Dma_Pannic(void);
 		#define ADC_DMA_TE_HOOK Adc_Dma_Pannic()
 
 		//CONFIGURE if Hamf Transfert Complete Interrupt is needed
-		#define ADC_DMA_HTIT
+		//#define ADC_DMA_HTIT
 		//CONFIGURE protoype and name of hook to execute on HTIE
 		extern void Adc_Dma_Half(void);
 		#define ADC_DMA_HT_HOOK Adc_Dma_Half()

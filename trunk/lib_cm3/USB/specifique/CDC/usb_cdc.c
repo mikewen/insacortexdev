@@ -23,9 +23,9 @@
 #include "usb_pwr.h"
 #include "usb_cdc.h"
 #include "stm_clock.h"
-#include "stm32f10x_gpio.h"
-#include "stm32f10x_rcc.h"
-#include "stm32f10x_nvic.h"
+//#include "stm32f10x_gpio.h"
+//#include "stm32f10x_rcc.h"
+//#include "stm32f10x_nvic.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -282,12 +282,12 @@ void USB_Cable_Config (FunctionalState NewState)
 	if (NewState != DISABLE)
 	{
 		//GPIO_ResetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
-		GPIOD->BRR = GPIO_Pin_2;
+		GPIOD->BRR = GPIO_PIN_2;
 	}
 	else
 	{
 		//GPIO_SetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
-		GPIOD->BSRR = GPIO_Pin_2;
+		GPIOD->BSRR = GPIO_PIN_2;
 	}
 }
 
