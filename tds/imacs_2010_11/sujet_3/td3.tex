@@ -1,0 +1,157 @@
+%% LyX 1.5.5 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[twocolumn,french]{IEEEtran}
+\usepackage[T1]{fontenc}
+
+\usepackage{graphicx}
+\usepackage{babel}
+\usepackage{color}
+
+\newtheorem{quest}{Question}
+\addtolength{\hoffset}{2cm}
+\addtolength{\textwidth}{-2cm}
+\addtolength{\textheight}{-2cm}
+\addtolength{\voffset}{2cm}
+
+
+
+
+
+\newif\ifComment \Commenttrue        % POUR BASCULER EN MODE sans commentaire
+%\newif\ifComment \Commentfalse    % POUR BASCULER EN MODE  commenté
+
+
+\ifComment
+  \newcommand{\Comment}[1]{} % blachit les lettres pour les rendres invisibles
+\else
+  \newcommand{\Comment}[1]{\vspace{1cm}\color{blue} \textsl{Commentaire :  {#1} } \color{black} }
+\fi
+
+\RequirePackage{xcolor}
+\usepackage{xcolor}
+
+   \definecolor{Avoir}{rgb}{0.906,0.47,.091}
+    \definecolor{LightGreen}{rgb}{0.836,0.918,0.699}
+    \definecolor{Boulette}{rgb}{0.3255 , 0.4235, 0.4745}
+    \definecolor{Roseline}{rgb}{0.6588 0.2588 0.1647}
+    \definecolor{BrunSombre}{rgb}{0.28627451 , 0.239215686, 0.129411765}
+    \definecolor{ColorExemple}{rgb} {0.9098, 0.9372, 0.9059}              %{0.8,0.9,0.7}
+    \definecolor{ColorSyntaxe}{rgb}{0.815686275, 0.894117647,0.650980392 }
+    \definecolor{BleuClair}{rgb}{0.84313725 0.862745098	0.921568627}
+
+\DeclareFixedFont{%
+\listingfont}{T1}{cmtt}{m}{n}{0.65\baselineskip}
+
+
+\newcommand{\listage}[1]{
+    \vspace{2mm}
+    \begin{center}
+    \fcolorbox {BrunSombre}{ColorExemple}
+        {
+        \parbox{0.45\textwidth}
+            {
+            \vspace{.2 cm}
+            \listingfont{#1}
+            \vspace{.2 cm}
+            }
+         }
+    \end{center}
+}
+
+
+
+\begin{document}
+
+\title{TD3  Asm Cortex-M3}
+
+\author{3 IMACS 2010-2011 \\ \vspace{.5 cm} \small{Vincent MAHOUT}}
+
+\maketitle
+\begin{abstract}
+Le but de ce TD est de passer en revue, c'est à dire proposer des codages d'algorithme, les différentes structures algorithmiques basiques.
+
+
+\end{abstract}
+
+
+\section{Si...Sinon}
+
+Soit l'algorithme suivant :
+
+\listage{
+	
+Nombre =  Saisie() \\
+Compte = Compte +1\\
+Si (Nombre < 0) \\
+\begin{tabular}{ll}
+\hspace{.25cm} & Nombre $\leftarrow$ -Nombre \\
+\end{tabular}
+\\FinSi\\
+Si (Nombre < (Max-Biais)) \\
+\begin{tabular}{ll}
+\hspace{.25cm} & Nombre $\leftarrow$ Nombre+Biais\\
+\end{tabular}
+\\Sinon\\
+\begin{tabular}{ll}
+\hspace{.25cm} & Nombre $\leftarrow$ Max\\
+\end{tabular}
+\\FinSi\\
+Table[Compte] = Nombre
+}
+
+\Comment{Ne pas oublier les déclaration de sections....}
+\begin{quest}
+\emph{Compte} et \emph{Max} sont deux 1/2 mots (16 bits) et \emph{Biais} est un octet. Écrivez les lignes qui permettent de faire la réservation de ces variables. On donnera des valeurs initiales (laissées à votre choix) à \emph{Max} et \emph{Biais}. \emph{Compte} sera initialisé à $-1$. \emph{Table} sera un tableau de \emph{Taille} demi mots, \emph{Taille} étant une constante déclarée en début de lisiting.
+\end{quest}
+
+
+\Comment{Rien de compliqué - Attention aux accès signés/non signés et octet/demi mot. Difficultés à prévoir sur le fait qu'il faille calculer (Max-Biais) avant de faire le test. J'insiste en cours sur le codage correct d'un SI à savoir si l'on a SI(COND) on code un Branch non(COND) pour éviter le traitement. Cela reste vrai même pour le SI..SINON pour respecter l'ordre de l'algo : le code de TraitSI doit être AVANT le code de TraitSinon}
+\begin{quest}
+Proposez un codage de cet algorithme en respectant les consignes suivantes :
+\begin{itemize}
+    \item[$\bullet$] \emph{R0} servira de registre temporaire pour contenir les adresses des entités mémoires auxquelles il sera nécessaire d'accéder.
+    \item[$\bullet$] \emph{R1} servira de pointeur sur \emph{Table}
+    \item[$\bullet$] \emph{Compte} sera lu en mémoire puis réécrit en mémoire après incrémentation.
+\end{itemize}
+
+\end{quest}
+
+
+\section{Export en procédure et boucle Tant Que}
+On se propose d'exporter le formatage de la données saisie dans une procédure. L'algorithme précédent devient alors :
+
+\listage{
+Nombre =  Saisie() \\
+Compte = Compte +1\\
+Nombre = Formatage(Nombre)\\
+Table[Compte] = Nombre
+}
+où \emph{Formatage} est la procédure qui contient l'ensemble des structures Si...Sinon.
+
+\Comment{Poser des jalons sur le passage d'arguments à une procédure}
+\begin{quest}
+Écrivez la procédure en supposant qu'elle connaît les variables globales \emph{Max} et \emph{Biais}. On supposera que l'argument \emph{Nombre} est passé en entrée de cette procédure avec le registre \emph{R4} et que c'est par ce même registre qu'elle retournera son résultat.
+\end{quest}
+
+
+\Comment{Insistez pour que le test se fasse bien au début de la procédure Tantque...Faire...FinTantque - Ce qui nécessite le saut non conditionné à la fin}
+\begin{quest}
+Insérez à cet algorithme une structure \textit{TantQue} pour que le processus de saisie/formatage/stockage soit effectué tant que la valeur $0$ n'a pas été saisie.
+\end{quest}
+
+\Comment{Test de condition avec une composition en ET ..  là aussi gare aux sauts imbriqués dans tous les sens}
+\begin{quest}
+Comment doit-on modifier le test de ce \textit{TantQue} pour être sûr de ne pas dépasser les capacités de stockage dans Table ? Codez cette modification.
+\end{quest}
+
+
+
+\section{Boucle Pour}
+
+\Comment{Personnellement je suis pour! Le passage d'arguments est laissé libre mais doit être réfléchi a minima}
+\begin{quest}
+Écrivez une procédure (ainsi que son appel) qui permettent de calculer la moyenne de \emph{Table} précédemment saisie. Cette procédure s'appuiera sur une structure de boucle \textit{Pour} utilisant la variable \emph{Compte}.
+\end{quest}
+
+
+\end{document}
