@@ -1,0 +1,95 @@
+### uVision2 Project, (C) Keil Software
+### Do not modify !
+
+ cExt (*.c)
+ aExt (*.s*; *.src; *.a*)
+ oExt (*.obj)
+ lExt (*.lib)
+ tExt (*.txt; *.h; *.inc)
+ pExt (*.plm)
+ CppX (*.cpp)
+ DaveTm { 0,0,0,0,0,0,0,0 }
+
+Target (Simulé), 0x0003 // Tools: 'ARM-GNU'
+Target (Reel), 0x0003 // Tools: 'ARM-GNU'
+GRPOPT 1,(Systeme),0,0,0
+GRPOPT 2,(os),1,0,0
+GRPOPT 3,(os_machine),1,0,0
+GRPOPT 4,(Lib),0,0,0
+GRPOPT 5,(Appli),1,0,0
+GRPOPT 6,(Include),1,0,0
+GRPOPT 7,(templates),1,0,0
+
+OPTFFF 1,1,1,0,0,0,0,0,<.\STM32_Init.c><STM32_Init.c> 
+OPTFFF 1,2,2,0,0,0,0,0,<.\STM32F10x.s><STM32F10x.s> 
+OPTFFF 2,3,1,0,0,0,0,0,<../../os/tpl_os_action.c><tpl_os_action.c> 
+OPTFFF 2,4,1,0,0,0,0,0,<../../os/tpl_os_alarm_kernel.c><tpl_os_alarm_kernel.c> 
+OPTFFF 2,5,1,0,0,0,0,0,<../../os/tpl_os_alarm.c><tpl_os_alarm.c> 
+OPTFFF 2,6,1,0,0,0,0,0,<../../os/tpl_os_error.c><tpl_os_error.c> 
+OPTFFF 2,7,1,0,0,0,0,0,<../../os/tpl_os_event.c><tpl_os_event.c> 
+OPTFFF 2,8,1,0,0,0,0,0,<../../os/tpl_os_it_kernel.c><tpl_os_it_kernel.c> 
+OPTFFF 2,9,1,0,0,0,0,0,<../../os/tpl_os_it.c><tpl_os_it.c> 
+OPTFFF 2,10,1,0,0,0,0,0,<../../os/tpl_os_kernel.c><tpl_os_kernel.c> 
+OPTFFF 2,11,1,0,0,0,0,0,<../../os/tpl_os_rez_kernel.c><tpl_os_rez_kernel.c> 
+OPTFFF 2,12,1,0,0,0,0,0,<../../os/tpl_os_rez.c><tpl_os_rez.c> 
+OPTFFF 2,13,1,1,0,7,7,0,<../../os/tpl_os_task.c><tpl_os_task.c> 
+OPTFFF 2,14,1,0,0,0,0,0,<../../os/tpl_os.c><tpl_os.c> 
+OPTFFF 2,15,1,0,0,0,0,0,<../../os/tpl_os_timeobj_kernel.c><tpl_os_timeobj_kernel.c> 
+OPTFFF 2,16,1,0,0,0,0,0,<../../os/tpl_os_dispatch_table.c><tpl_os_dispatch_table.c> 
+OPTFFF 2,17,1,0,0,0,0,0,<../../os/tpl_os_event_kernel.c><tpl_os_event_kernel.c> 
+OPTFFF 2,18,1,0,0,0,0,0,<../../os/tpl_os_task_kernel.c><tpl_os_task_kernel.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,101,0,0,0,28,0,0,0,40,3,0,0,177,1,0,0 }
+OPTFFF 3,19,1,637534208,0,0,0,0,<../../machines/cortex-m3/tpl_machine_cm3.c><tpl_machine_cm3.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,22,0,0,0,23,0,0,0,221,2,0,0,176,1,0,0 }
+OPTFFF 5,20,1,637534208,0,0,0,0,<.\test_preempt_full_schedule/tpl_os_generated_configuration.c><tpl_os_generated_configuration.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,244,255,255,255,26,0,0,0,183,2,0,0,175,1,0,0 }
+OPTFFF 5,21,1,134217728,0,0,0,0,<.\test_preempt_full_schedule_main.c><test_preempt_full_schedule_main.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,232,255,255,255,101,0,0,0,28,0,0,0,40,3,0,0,177,1,0,0 }
+OPTFFF 6,22,5,0,0,0,0,0,<..\..\system\STM32_Init.h><STM32_Init.h> 
+OPTFFF 6,23,5,0,0,0,0,0,<..\..\system\STM32_Reg.h><STM32_Reg.h> 
+OPTFFF 7,24,5,0,0,0,0,0,<.\App\archi_appli.oil><archi_appli.oil> 
+OPTFFF 7,25,5,0,0,0,0,0,<.\templates\c166\isr_specific.tpl><isr_specific.tpl> 
+OPTFFF 7,26,5,0,0,0,0,0,<.\templates\c166\counter_list_specific.tpl><counter_list_specific.tpl> 
+OPTFFF 7,27,5,0,0,0,0,0,<.\templates\c166\counter_specific.tpl><counter_specific.tpl> 
+OPTFFF 7,28,5,0,0,0,0,0,<.\templates\c166\each_isr_specific.tpl><each_isr_specific.tpl> 
+OPTFFF 7,29,5,0,0,0,0,0,<.\templates\c166\each_task_specific.tpl><each_task_specific.tpl> 
+
+ExtF <E:\Compte en local\Enseignement\APP\insacortexdev\trampoline\OS\TPL_OS_DEFINITIONS.H> 67,67,0,{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+
+TARGOPT 1, (Simulé)
+ ARMCLK=8000000
+  OPTTT 0,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 120,65,8,<.\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 1,0,1
+  OPTAX 0
+  OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
+  OPTDBG 48125,0,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
+  OPTKEY 0,(DLGDARM)((1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(133=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(234=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0))
+  OPTKEY 0,(ARMDBGFLAGS)(-T0)
+  OPTBB 0,0,31,1,0,0,0,0,0,0,<test_preempt_full_schedule_main.c>()()
+  OPTBB 1,0,176,1,134222486,0,0,0,0,1,<tpl_machine_cm3.c>()()
+  OPTBB 2,0,132,1,134222420,0,0,0,0,1,<tpl_machine_cm3.c>()()
+  OPTWA 0,1,(General_counter_counter_desc)
+  OPTDF 0x1000080
+  OPTLE <>
+  OPTLC <>
+  OPTLA 0,(General_counter_counter_desc.first_to)(FF000000000000000000C041000000800000C041000000006400000000F2052A0100000047656E6572616C5F636F756E7465725F636F756E7465725F646573632E66697273745F746F0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000034140008)
+EndOpt
+
+TARGOPT 2, (Reel)
+ ARMCLK=8000000
+  OPTTT 0,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 120,65,8,<.\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 0,0,0
+  OPTAX 0
+  OPTDL (SARMCM3.DLL)()(DARMSTM.DLL)(-pSTM32F103RB)(SARMCM3.DLL)()(TARMSTM.DLL)(-pSTM32F103RB)
+  OPTDBG 49150,1,()()()()()()()()()() (BIN\UL2CM3.DLL)()()()
+  OPTDF 0x0
+  OPTLE <>
+  OPTLC <>
+EndOpt
+

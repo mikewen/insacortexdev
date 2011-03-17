@@ -1,0 +1,337 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+D:\dimercur\insacortexdev\proj_cm3\Filtre\filtre.uvproj
+Project File Date:  09/01/2010
+
+<h2>Output:</h2>
+Build target 'Simu'
+assembling STM32F10x_GCC.s...
+assembling Startup_GCC.s...
+linking...
+./objs/startup_gcc.o: In function `appel_main':
+D:\dimercur\insacortexdev\proj_cm3\Filtre/../../system/Startup_GCC.s:61: undefined reference to `main'
+collect2: ld returned 1 exit status
+Target not created
+Build target 'Simu'
+compiling filtre.c...
+filtre.c(3): warning: return type of 'main' is not 'int'
+linking...
+".\objs\filtre.elf" - 0 Error(s), 1 Warning(s).
+Build target 'Simu'
+compiling filtre.c...
+linking...
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling pwm.c...
+compiling adc.c...
+compiling filtre.c...
+linking...
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    380       0       0     380     17c objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+assembling STM32F10x_GCC.s...
+assembling Startup_GCC.s...
+compiling pwm.c...
+compiling adc.c...
+compiling filtre.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    380       0       0     380     17c objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+compiling adc.c...
+adc.c: In function 'Init_ADC':
+adc.c(28): error: 'RCC_APB2Periph_ADC1' undeclared (first use in this function)
+adc.c(28): error: (Each undeclared identifier is reported only once
+adc.c(28): error: for each function it appears in.)
+adc.c(30): error: 'ADON' undeclared (first use in this function)
+adc.c(33): error: 'SCAN' undeclared (first use in this function)
+adc.c(35): error: 'EXTSEL_ON_SWSTART' undeclared (first use in this function)
+adc.c(35): error: 'CONT' undeclared (first use in this function)
+adc.c(35): error: 'DMA' undeclared (first use in this function)
+adc.c(40): error: 'L_MASK' undeclared (first use in this function)
+adc.c(40): error: 'L_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQX_MASK' undeclared (first use in this function)
+adc.c(44): error: 'SQ1_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQ2_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQ3_SHIFT' undeclared (first use in this function)
+adc.c(50): error: 'AWDSGL' undeclared (first use in this function)
+adc.c(50): error: 'AWDEN' undeclared (first use in this function)
+adc.c(51): error: 'JAWDEN' undeclared (first use in this function)
+adc.c(59): error: 'PSIZE_IS_16BITS' undeclared (first use in this function)
+adc.c(59): error: 'MSIZE_IS_16BITS' undeclared (first use in this function)
+adc.c(61): error: 'DIR' undeclared (first use in this function)
+adc.c(62): error: 'CIRC' undeclared (first use in this function)
+adc.c(64): error: 'MINC' undeclared (first use in this function)
+adc.c(65): error: 'PL_IS_MEDIUM' undeclared (first use in this function)
+adc.c(67): error: 'EN' undeclared (first use in this function)
+adc.c: In function 'Analog_Dog_Watch_For_Higher_Than':
+adc.c(82): error: 'AWDIE' undeclared (first use in this function)
+adc.c(89): error: 'AWD' undeclared (first use in this function)
+adc.c: In function 'Analog_Dog_Watch_For_Lower_Than':
+adc.c(103): error: 'AWDIE' undeclared (first use in this function)
+adc.c(110): error: 'AWD' undeclared (first use in this function)
+adc.c: In function 'Acquite_ADC':
+adc.c(122): error: 'AWD' undeclared (first use in this function)
+adc.c - 29 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling adc.c...
+adc.c: In function 'Init_ADC':
+adc.c(28): error: 'RCC_APB2Periph_ADC1' undeclared (first use in this function)
+adc.c(28): error: (Each undeclared identifier is reported only once
+adc.c(28): error: for each function it appears in.)
+adc.c(30): error: 'ADON' undeclared (first use in this function)
+adc.c(33): error: 'SCAN' undeclared (first use in this function)
+adc.c(35): error: 'EXTSEL_ON_SWSTART' undeclared (first use in this function)
+adc.c(35): error: 'CONT' undeclared (first use in this function)
+adc.c(35): error: 'DMA' undeclared (first use in this function)
+adc.c(40): error: 'L_MASK' undeclared (first use in this function)
+adc.c(40): error: 'L_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQX_MASK' undeclared (first use in this function)
+adc.c(44): error: 'SQ1_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQ2_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQ3_SHIFT' undeclared (first use in this function)
+adc.c(50): error: 'AWDSGL' undeclared (first use in this function)
+adc.c(50): error: 'AWDEN' undeclared (first use in this function)
+adc.c(51): error: 'JAWDEN' undeclared (first use in this function)
+adc.c(59): error: 'PSIZE_IS_16BITS' undeclared (first use in this function)
+adc.c(59): error: 'MSIZE_IS_16BITS' undeclared (first use in this function)
+adc.c(61): error: 'DIR' undeclared (first use in this function)
+adc.c(62): error: 'CIRC' undeclared (first use in this function)
+adc.c(64): error: 'MINC' undeclared (first use in this function)
+adc.c(65): error: 'PL_IS_MEDIUM' undeclared (first use in this function)
+adc.c(67): error: 'EN' undeclared (first use in this function)
+adc.c: In function 'Analog_Dog_Watch_For_Higher_Than':
+adc.c(82): error: 'AWDIE' undeclared (first use in this function)
+adc.c(89): error: 'AWD' undeclared (first use in this function)
+adc.c: In function 'Analog_Dog_Watch_For_Lower_Than':
+adc.c(103): error: 'AWDIE' undeclared (first use in this function)
+adc.c(110): error: 'AWD' undeclared (first use in this function)
+adc.c: In function 'Acquite_ADC':
+adc.c(122): error: 'AWD' undeclared (first use in this function)
+compiling stm_clock.c...
+../Filtre/stm_clock_config.h(214): error: #error "ADC prescaler output frequency should not exceed 14 MHz ! Increase _ADCPRE or _HPRE prescaler ratio"
+compiling filtre.c...
+Target not created
+Build target 'Simu'
+compiling adc.c...
+adc.c: In function 'Init_ADC':
+adc.c(28): error: 'RCC_APB2Periph_ADC1' undeclared (first use in this function)
+adc.c(28): error: (Each undeclared identifier is reported only once
+adc.c(28): error: for each function it appears in.)
+adc.c(30): error: 'ADON' undeclared (first use in this function)
+adc.c(33): error: 'SCAN' undeclared (first use in this function)
+adc.c(35): error: 'EXTSEL_ON_SWSTART' undeclared (first use in this function)
+adc.c(35): error: 'CONT' undeclared (first use in this function)
+adc.c(35): error: 'DMA' undeclared (first use in this function)
+adc.c(40): error: 'L_MASK' undeclared (first use in this function)
+adc.c(40): error: 'L_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQX_MASK' undeclared (first use in this function)
+adc.c(44): error: 'SQ1_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQ2_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQ3_SHIFT' undeclared (first use in this function)
+adc.c(50): error: 'AWDSGL' undeclared (first use in this function)
+adc.c(50): error: 'AWDEN' undeclared (first use in this function)
+adc.c(51): error: 'JAWDEN' undeclared (first use in this function)
+adc.c(59): error: 'PSIZE_IS_16BITS' undeclared (first use in this function)
+adc.c(59): error: 'MSIZE_IS_16BITS' undeclared (first use in this function)
+adc.c(61): error: 'DIR' undeclared (first use in this function)
+adc.c(62): error: 'CIRC' undeclared (first use in this function)
+adc.c(64): error: 'MINC' undeclared (first use in this function)
+adc.c(65): error: 'PL_IS_MEDIUM' undeclared (first use in this function)
+adc.c(67): error: 'EN' undeclared (first use in this function)
+adc.c: In function 'Analog_Dog_Watch_For_Higher_Than':
+adc.c(82): error: 'AWDIE' undeclared (first use in this function)
+adc.c(89): error: 'AWD' undeclared (first use in this function)
+adc.c: In function 'Analog_Dog_Watch_For_Lower_Than':
+adc.c(103): error: 'AWDIE' undeclared (first use in this function)
+adc.c(110): error: 'AWD' undeclared (first use in this function)
+adc.c: In function 'Acquite_ADC':
+adc.c(122): error: 'AWD' undeclared (first use in this function)
+compiling stm_clock.c...
+Target not created
+Build target 'Simu'
+compiling adc.c...
+adc.c: In function 'Init_ADC':
+adc.c(40): error: 'L_MASK' undeclared (first use in this function)
+adc.c(40): error: (Each undeclared identifier is reported only once
+adc.c(40): error: for each function it appears in.)
+adc.c(40): error: 'L_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQX_MASK' undeclared (first use in this function)
+adc.c(44): error: 'SQ1_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQ2_SHIFT' undeclared (first use in this function)
+adc.c(44): error: 'SQ3_SHIFT' undeclared (first use in this function)
+compiling filtre.c...
+Target not created
+Build target 'Simu'
+compiling adc.c...
+adc.c(24): error: conflicting types for 'ADC_Array'
+adc.h(19): error: previous declaration of 'ADC_Array' was here
+adc.c: In function 'Lire_ADC':
+adc.c(85): error: 'channel' undeclared (first use in this function)
+adc.c(85): error: (Each undeclared identifier is reported only once
+adc.c(85): error: for each function it appears in.)
+Target not created
+Build target 'Simu'
+compiling adc.c...
+adc.c: In function 'Lire_ADC':
+adc.c(85): error: 'channel' undeclared (first use in this function)
+adc.c(85): error: (Each undeclared identifier is reported only once
+adc.c(85): error: for each function it appears in.)
+compiling filtre.c...
+Target not created
+Build target 'Simu'
+compiling adc.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    740       0     208     948     3b4 objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+compiling adc.c...
+adc.c - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling adc.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    660       0     208     868     364 objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling pwm.c...
+compiling filtre.c...
+filtre.c: In function 'main':
+filtre.c(30): warning: implicit declaration of function 'Init_Clock_System'
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    692       0     248     940     3ac objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 1 Warning(s).
+Build target 'Simu'
+assembling STM32F10x_GCC.s...
+assembling Startup_GCC.s...
+compiling pwm.c...
+compiling adc.c...
+compiling stm_clock.c...
+compiling filtre.c...
+filtre.c(19): error: clock.h: No such file or directory
+filtre.c: In function 'main':
+filtre.c(31): warning: implicit declaration of function 'Init_Clock_System'
+Target not created
+Build target 'Simu'
+assembling STM32F10x_GCC.s...
+assembling Startup_GCC.s...
+compiling pwm.c...
+compiling adc.c...
+compiling stm_clock.c...
+compiling filtre.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    692       0     248     940     3ac objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling pwm.c...
+pwm.c: In function 'Init_PWM':
+pwm.c(52): error: called object '256' is not a function
+Target not created
+compiling pwm.c...
+pwm.c: In function 'Init_PWM':
+pwm.c(52): error: called object '256' is not a function
+pwm.c - 1 Error(s), 0 Warning(s).
+compiling pwm.c...
+pwm.c - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling filtre.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    808       0     256    1064     428 objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling pwm.c...
+compiling filtre.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    836       0     256    1092     444 objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling pwm.c...
+pwm.c(74): error: expected identifier or '(' before '{' token
+compiling filtre.c...
+Target not created
+Build target 'Simu'
+compiling pwm.c...
+pwm.c: In function 'TIM4_IRQHandler':
+pwm.c(77): warning: implicit declaration of function 'PWM_OVERFLOW'
+linking...
+./objs/pwm.o: In function `TIM4_IRQHandler':
+D:\dimercur\insacortexdev\proj_cm3\Filtre/pwm.c:77: undefined reference to `PWM_OVERFLOW'
+collect2: ld returned 1 exit status
+Target not created
+Build target 'Simu'
+compiling pwm.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    972       0     256    1228     4cc objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling filtre.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    984       0     256    1240     4d8 objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+assembling STM32F10x_GCC.s...
+assembling Startup_GCC.s...
+compiling pwm.c...
+compiling adc.c...
+compiling stm_clock.c...
+compiling filtre.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    984       0     256    1240     4d8 objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling filtre.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    988       0     256    1244     4dc objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling adc.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    988       0     256    1244     4dc objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    988       0     256    1244     4dc objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+assembling STM32F10x_GCC.s...
+assembling Startup_GCC.s...
+compiling pwm.c...
+compiling adc.c...
+compiling stm_clock.c...
+compiling filtre.c...
+linking...
+User command #1: "C:\Program Files\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" objs\*.elf
+   text    data     bss     dec     hex filename
+    988       0     256    1244     4dc objs\filtre.elf
+".\objs\filtre.elf" - 0 Error(s), 0 Warning(s).

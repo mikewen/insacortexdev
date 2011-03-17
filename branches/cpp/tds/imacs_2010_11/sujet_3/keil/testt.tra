@@ -1,0 +1,20 @@
+*** Creating Trace Output File 'testt.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '"stm32f10x.o"'
+### List of Objects: adding '"test.o"'
+### ADS-LD Command completed:
+--cpu Cortex-M3 "stm32f10x.o" "test.o" --library_type=microlib --scatter "testt.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\testt.map" -o "testt.axf"### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: 'testt.axf'
+### ADS-LD Command File: 'testt.lnp'
+### Checking for dirty Components...
+### Creating CmdFile 'testt.lnp', Handle=0x000006A4
+### Writing '.lnp' file
+### ADS-LD Command file 'testt.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.

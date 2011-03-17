@@ -1,0 +1,21 @@
+Ce repertoire contient le code source du TP reseau de capteurs de Mr Auriol, dispensé en 5eme année
+
+V1: Version initial, simplex en RS606, sans librairie C (printf)
+
+V2: Idem que V1, mais utilisant la librairie C minilib (fourni donc printf, scanf + stdlib + string)
+
+V3: Reseau de capteur:
+    Carte A transmet B en simplex (sans acquitement) l'etat de deux capteurs (Boutons TAMP => PA0; bouton WKUP => PC13) Toute les 0.5 secondes
+    Carte B fait suivre à C en utilisant XBE, avec acquitement et retransmission.
+    Carte C envoi un SMS contenant le numero du capteur
+
+	[A]---(RT606)--->[B]---(XBEE)--->[C]---(GSM)--->[Telephone]
+                            <--(XBEE)----            
+V4: Demonstrateur pour les communications RS606 et XBEE
+    Cette application permet d'envoyer et recevoir des messages sur la liaison FM (RS606) et la liaison XBEE (2,4Ghz)
+
+    Pour envoyer un message toutes les secondes sur le lien FM (UART3), appuyez sur le bouton TAMP
+    Pour envoyer un message toutes les secondes sur le lien XBEE (UART2), appuyez sur le bouton WKUP
+
+    Pour recevoir des messages en FM ou en XBEE laissez les boutons respectifs relachés.
+  

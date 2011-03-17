@@ -1,0 +1,199 @@
+\chapter{Faudrait pas prendre les pilotes pour des navigateurs ! }
+
+Lors de l'implémentation d'un pilote plusieurs possibilités sont offertes en particulier pour tout ce qui est lié à la configuration.
+
+\section{Premier exemple : configuration d'une broche d'entrée-sortie}
+
+Prenons l'exemple de la configuration d'un port d'entrée-sortie.  Au cour de la conception la fonction \texttt{Pin\_IO\_Init(State, Port, Pin\_Number)} est décrite comme permettant au pin numéro \texttt{Pin\_Number} du port {\tt Port} d'être configurer dans l'état \texttt{State}.
+
+Au niveau implémentation cela peut se traduire de deux manières : soit dynamiquement, c'est-à-dire que c'est à l'exécution que la configuration sera faite, soit statiquement, c'est-à-dire que la configuration sera faite à la compilation. Ces deux stratégies nécessitent alors une implémentation différente.
+
+\subsection{Pilote dynamique}
+Dans le cas dynamique, l'API du pilote fournit à l'application une fonction de configuration, par exemple l'API \texttt{./pilotes/GPIO\_dyn.h} du listing~\ref{li:gpio_dyn.h}
+\begin{lstlisting}[float=htbp,frame=tb,,label=li:gpio_dyn.h, caption = ./pilotes/GPIO\_dyn.h : l'API du pilote dynamique]
+// Port configuration function
+void Pin_IO_Init(char State, GPIO_TypeDef * Port, int Pin_Number);
+// State should be 'i' for INPUT, 'o' for OUTPUT
+// Port pointer to GPIO structure defined in stm_regs.h : GPIOA, ...
+// Pin_Number : as it says...
+// Example :
+// Pin_IO_Init('o',GPIOD,3); set port D pin number 3 as an output
+\end{lstlisting}
+et son implémentation dans \texttt{./pilotes/GPIO\_dyn.c} (listing \ref{li:gpio_dyn.c}) permet de régler les registre du {\tt Port} voulus en fonction de {\tt State} et {\tt Pin\_Number}.
+\begin{lstlisting}[float=htbp,frame=tb,label=li:gpio_dyn.c,caption = ./pilotes/GPIO\_dyn.c : source du pilote dynamique]
+void Pin_IO_Init(char State, GPIO_TypeDef * Port, int Pin_Number)
+{
+	if (State=='i')
+	{// input port
+		//reset mode[0:1] to 00 = floating input
+		Port->CRL &= ~(3<<(Pin_Number*4)); 	
+	}
+	else
+	{//output port
+		 //set mode[0:1] to 11 = output 50MHz
+		Port->CRL |= (3<<(Pin_Number*4));
+	}
+}
+\end{lstlisting}
+
+La configuration d'une broche se fera par un appel de l'application (couche application ou service) en passant les paramètres souhaités à la fonction {\tt Pin\_IO\_Init}.  Dans  l'exemple du listing~\ref{li:test_gpio.c}, on régle la broche 2 du port GPIOA en entrée.
+\begin{lstlisting}[float=htbp,frame=tb, label=li:test_gpio.c, caption = ./projet/tes\_GPIO\_dyn/Test\_GPIO.c : source applicative]
+#include "../../../pilotes/GPIO_dyn.h"
+// ou #include "GPIO_dyn.h" si le chemin
+//      est déclaré dans les options du compilateur...
+...
+void main (void)
+{
+	Init_Clock();
+	Init_GPIO();
+	Init_Pin('i',GPIOA,2); // Bouton Valid de MCB167
+}
+\end{lstlisting}
+
+Les fonctions de configurations sont donc écrites dans le fichier .c, par exemple \texttt{./pilotes/GPIO\_dyn.c} et on donne accès aux couches supérieures (service et application) via une API dument commentée, par exemple \texttt{./pilotes/GPIO\_dyn.h}. L'arborescence des fichiers conseillée, voir fig.~\ref{fig:arbo}, permet ainsi de réutiliser le pilote dans plusieurs projets sans faire de copie multiple de ces fichiers.
+
+\begin{SCfigure}[50][htbp]
+	\centering
+	\includegraphics[width=0.35 \textwidth]{./figures/arborescence.png}
+	\caption{Arborescence où le répertoire \texttt{pilotes} est au même niveau que celui des projets. Plusieurs projets peuvent donc inclure le même pilote en donnant le chemin relatif vers le .h (\texttt{../../pilotes/GPIO\_stat.h}). Chaque applicatif de projet (\texttt{Test\_GPIO.c}) configure son pilote en passant les paramètres lors d el'appel de la fonction d'initialisation. Dans le cas de pilote statique, le fichier de configuration \texttt{GPIO\_stat\_conf.h} est placé dans le projet car la configuration dépend de l'application et ne peut être la même.}
+	\label{fig:arbo}
+ \end{SCfigure}
+
+\subsection{Pilote statique}
+Dans le cas statique, la configuration se fait directement dans un fichier de configuration, par exemple \texttt{./projet/exemple/GPIO\_stat\_conf.h}, appartenant au projet. Dans ce fichier de configuration, l'utilisateur va commenter ou décommenter des directives \verb+#define ...+ :
+  \begin{lstlisting}[float=htbp,frame=tb,caption = ./projet/exemple/GPIO\_stat\_conf.h : configuration via des directive de compilation]
+//CONF : if you want to use GPIOA port then
+// uncomment the following line
+#define GPIOA_IS_USED
+
+// CONF : by default all ports are inputs
+// to set a port to output add lines in the format
+// #undef P<port>_<pin>
+// #define P<port>_<pin>  IS_OUTPUT
+// Example : PB_3 fort pin number 3 of GPIOB
+#undef PA_2
+#define PA_2 IS_OUTPUT
+\end{lstlisting}
+
+Le fichier de configuration est inclus par le fichier source, par exemple \texttt{./pilotes/GPIO\_stat.c}, ce qui va influencer sa compilation et ainsi intégrer les configurations:
+\begin{lstlisting}[float=htbp,frame=tb,caption = ./pilotes/GPIO\_stat.c : configuré via des directives de compilation]
+#define IS_INPUT 0x0
+#define IS_OUTPUT 0x3
+
+#define PA_0 IS_INPUT
+#define PA_1 IS_INPUT
+#define PA_2 IS_INPUT
+...
+
+#include "GPIO_stat_conf.h"
+// path to the conf file should be set in compiler options
+// Now PA_x are configured by user
+
+void GPIO_Init(void)
+{
+   #ifdef GPIOA_IS_USED
+   // construct the init from the PA_x configured
+   GPIOA->CRL = (PA_0<<0)|(PA_1<<4)|(PA_2<<8)|(PA_3<<12)|(PA_4<<16);
+   #endif
+}
+\end{lstlisting}
+
+L'application, quand à elle, ne fait qu'appeler une fonction d'initialisation sans paramètres :
+\begin{lstlisting}[float=htbp,frame=tb,caption = ./projet/exemple/main\_stat.c : source applicative]
+#include "../../../pilotes/GPIO_stat.h"
+// ou #include "GPIO_stat.h" si le chemin est dans les options...
+...
+void main (void)
+{
+	Init_Clock();
+	Init_GPIO();
+}
+\end{lstlisting}
+
+Dans cet exemple la simplicité n'est pas en faveur de la version statique, cependant le code produit statiquement est beaucoup moins coûteux en terme de mémoire, car il ne compilera les fonctions de configuration que si des ports sont utilisés.
+
+\section{Second exemple : configuration d'une interruption}
+
+Les interruptions peuvent permettre d'exécuter une fonction liée à l'application suite à un événement matériel. Il y a donc d'un côté la fonction qui appartient à la couche applicative et de l'autre l'interruption à capturer au niveau de la couche pilotes. Lors de la configuration du système il faut être capable de faire le lien entre ces deux éléments...
+\subsection{Pilote dynamique}
+Dans sa version dynamique, cela revient à prototyper une fonction dans le pilote du périphérique qui permet de faire le lien entre la fonction et une interruption du périphérique. Supposons que nous voulons exécuter la fonction \texttt{toto(void)} lors de l'interruption provoquée par le périphérique \texttt{XXX}.
+
+Le pilote de \texttt{XXX} comportera une fonction \texttt{Init\_IT\_XXX(void (* IT\_fonction) (void))} qui permettra de lier l'interruption de \texttt{XXX} à la fonction \texttt{IT\_fonction}.
+
+\begin{lstlisting}[float=htbp,frame=tb,caption = ./pilotes/Pilote\_XXX.c : configuration d'une interruption]
+void (*pt_IT_Hook) (void); // Pointeur de fonction pour l'IT
+
+void Init_IT_XXX(void (* IT_fonction) (void))
+{
+	pt_IT_Hook = IT_fonction;
+	... // Activer l'interruption
+}
+...
+\end{lstlisting}
+
+Le handler de l'interruption est alors défini dans la suite de manière générique par la code suivant :
+\begin{lstlisting}[float=htbp,frame=tb,caption = ./pilotes/Pilote\_XXX.c : handler d'une interruption en dynamique]
+...
+void XXX_IRQHandler void // Handler de l'IT de XXX
+{
+ 	if ((int) pt_IT_Hook != 0)
+	{
+		(*pt_IT_Hook)(); // Appel à la fonction
+	}
+}
+\end{lstlisting}
+
+Au niveau applicatif la configuration du périphérique se fera grâce au code suivant :
+\begin{lstlisting}[float=htbp,frame=tb,caption = ./projet/ex\_it/main.c : Exemple de configuration d'une interruption en dynamique]
+#include "../../../pilotes/Pilotes_XXX.h"
+...
+void main (void) // Handler de l'IT de XXX
+{
+	Init_Clock();
+	Init_GPIO();
+ 	Init_IT_XXX(&toto);
+}
+
+void toto(void)
+{
+	// Code à exécuter pendant l'interruption
+}
+...
+\end{lstlisting}
+
+Bien sûr la fonction de configuration de l'interruption pourrait être plus évoluée, par exemple en fixant le niveau de l'interruption etc.
+
+\subsection{Pilote statique}
+
+Dans le cas d'un pilote statique la solution est plus simple à implémenter. Il suffit de faire un fichier de configuration:
+\begin{lstlisting}[float=htbp,frame=tb,caption = ./projet/exemple/Pilote\_XXX\_conf.h : configuration via des directive de compilation]
+// CONFIGURATION PART
+// please uncomment if you wich to launch a function on IT
+// #define THERE_IS_A_HOOK_ON_IT
+#ifdef THERE_IS_A_HOOK_ON_IT
+	// CONFIGURE here the function prototype
+	void toto (void);
+	//CONFIGURE here the call to the hook function
+	#define IT_HOOK_CALL  toto()
+#endif
+\end{lstlisting}
+
+Le source du pilote utilise la directive \verb+#ifdef+ pour insérer ou non l'appel de la fonction lors de l'interruption
+\begin{lstlisting}[float=htbp,frame=tb,caption = ./pilotes/Pilote\_XXX.c : handler d'IT utilisant les directives de compilation]
+#include "Pilote_XXX_conf.h"
+// path to the conf file should be set in compiler options
+
+void XXX_IRQHandler void // Handler de l'IT de XXX
+{
+	#ifdef THERE_IS_A_HOOK_ON_IT
+		IT_HOOK_CALL;
+	#else
+		...
+	#end
+	...
+}
+\end{lstlisting}
+
+Remarquez que dans cet exemple, la version statique va générer uniquement un \emph{Handler} vide alors que la version dynamique génère un \emph{Handler} avec 4 lignes de code, plus une fonction d'initialisation (1 ligne) et son appel du main (1 ligne). Vous comprenez maintenant la compacité de la version statique mais malheureusement aussi sa complexité...
+
+\`A vous de choisir...

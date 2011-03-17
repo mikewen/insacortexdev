@@ -1,0 +1,211 @@
+\chapter{Bah !  Les masques}
+Pour programmer un périphérique il est nécessaire d'aller modifier un
+ou plusieurs bits dans un registre sans modifier les autres. Par exemple le registre \verb+ADC_CR1+ sert à configurer le convertisseur analogique--numérique \verb+ADC1+ :
+\begin{figure}[htbp]
+\begin{center}
+\fbox{\includegraphics[width=\textwidth]{./figures/adc_cr1.png}}
+\caption{Extrait du \emph{reference manual} du STM32 p. 236, la suite décrit la fonction de chaque bit, comme \texttt{SCAN} et \texttt{AWDIE} et la signification des valeurs de chaque tranches de bit tels que \texttt{DISCNUM}}
+\label{fig:adc_cr1}
+\end{center}
+\end{figure}
+
+
+Pour cela on utilise les masques logiques et certaines astuces pour construire
+un masque clairement sans risquer de se tromper. Dans l'exemple suivant le bit \texttt{SCAN} de \texttt{ADC\_CR1} est mis à 1 et le bit \texttt{EOCIE} est mis à 0 sans toucher aux autres bits.
+Les registres \texttt{ADC1\_CR2}, \texttt{ADC1\_SQR1}, \texttt{ADC1\_SQR3} sont aussi manipulés avec des masques~:
+
+\begin{lstlisting}[frame=tb,caption = Extrait de la configuration de l'ADC de la baguette magique vue en assembleur]
+ADC1->CR1  |= (ADC_SCAN);    // continuous scan of channels 1,14,15	
+
+ADC1->CR1  &= ~(ADC_EOCIE);   // pas d'interruption de fin de conv.                                         
+
+ADC1->CR2  |= (ADC_EXTSEL_ON_SWSTART | ADC_ CONT | ADC_DMA);  
+    // EXTSEL = SWSTART 
+    // use data align right,continuous conversion
+    // send DMA request
+
+// convert sequence is channel 1 then 14 then 15
+ADC1->SQR3  |= (1 <<SQ1_SHIFT)  |  (14 <<SQ2_SHIFT) | (15 <<SQ3_SHIFT);                       
+\end{lstlisting}
+
+
+\begin{minipage}{0.5\linewidth}
+	%\begin{figure}[htbp]
+	\includegraphics[width=0.6\textwidth]{./figures/masque_art_primitif.jpg}
+	%\caption{}
+	%\label{fig:art}
+	%\end{figure}
+\end{minipage}
+\hfill
+\begin{minipage}{0.5\linewidth}
+Si vous avez aucune idée de comment se code fonctionne c'est que vous ne maitrisez pas encore l'art primitif du masque~: lisez--donc la suite. 
+
+\emph{Ci--contre, un masque primitif (on préfère dire \emph{d'art premier}) d'origine Gabonaise.}
+\end{minipage}
+
+\section{Opérateur logiques et bit à bit}
+On utilise les opérateurs  logiques ET, OU, XOR (OU exclusif) et NOT entre un registre et un masque pour manipuler les bits. Les opérateurs logiques et leurs syntaxe en langage C sont résumés dans le tableau suivant~:
+\begin{center}
+  \begin{tabular}{@{} c|c|c @{}}
+    Fonction logique & Opérateur logique & Opérateur bit à bit \\ 
+    \hline
+    ET & \&\& & \& \\ 
+    OU & || & | \\ 
+    XOR & aucun & $\widehat{ }$ \\ 
+    NON & ! & \ctilde \\ 
+  
+  \end{tabular}
+\end{center}
+
+L'opérateur logique considère les opérandes (qu'elle soient 8/16/32 bit) comme une valeur booléenne fausse si tous les bits sont nuls et vrai sinon. Elle fournit un résultat booléen nul si c'est faux et différent de zéro (en général la valeur 1) sinon. Ne confondez donc pas l'opérateur logique avec l'opérateur bit à bit qui effectue 8/16/32 opérations logiques entre chaque bits respectifs des opérandes, par exemple :
+\begin{lstlisting}[frame=tb]
+a = 2; // soit b00000010 en binaire est vrai car différent de 0
+b = 1; // soit b00000001 en binaire est vrai aussi
+y = a && b; // donne 1(vrai) car a ET b est vrai
+z = a & b; // donne b00000000 car chaque ET des bits de a et b sont faux
+\end{lstlisting}
+
+\section{Mettre un bit à 1}
+
+Pour cela on utilise l'opérateur OU avec une valeur binaire, appelée \emph{masque}, ayant des bits à 1 uniquement devant les bits que l'on veut initialiser~:
+\begin{equation*}
+\left.
+\begin{array}{lcccccccc}
+   & b_7 & b_6 & b_5 & b_4 & b_3 & b_2 & b_1 & b_0  \\
+  OU\hspace{0.5cm} &0&0&0&1&0&0&1&1  \\
+  \cline{2-9}
+   = & b_7 & b_6 & b_5 &1& b_3 & b_2 &1&1  \\
+\end{array}
+\right.
+\qquad \text{car } \quad x \,\, OU \,\, 1 = 1 \qquad \text{ et }\quad x \,\, OU \,\,0 = x
+\end{equation*}
+
+Ainsi les bits $b_4$, $b_1$ et $b_0$ sont passés à 1 sans modifier la valeur des autres bits.  
+
+Pour effectuer cela en langage C on doit calculer la valeur du masque binaire : convertir  \texttt{b00010011} en hexadécimal (\texttt{0x13}) ou en décimal (19) car le langage C n'admet pas de littéraux en binaire.
+
+\begin{lstlisting}[frame=tb]
+char avoile;
+...
+//formulations équivalentes
+avoile = avoile |  0x13;   // opérateur | inline
+avoile |=  0x13;           // opérateur | préfixé à =
+avoile |=  19;             // valeur du masque en décimal
+\end{lstlisting}
+
+Il n'est pas très évident de comprendre que \texttt{0x13} ou \texttt{19} correspond à un masque visant les bits de rang $0$,$1$ et $4$, de plus il est très facile de se tromper lorsque l'on fait la conversion soi--même. Un \emph{geek} utilisera l'opérateur de décalage à gauche \verb+<<x+ pour positionner un 1 devant  le bit de rang $x$ pour construire sont masque ainsi~:
+\begin{equation*}
+\left.
+\begin{array}{lrccccccccc}
+&                &                      & b_7 & b_6 & b_5 & b_4 & b_3 & b_2 & b_1 & b_0  \\
+& (1<<0)   & \rightarrow &  0&0&0&0&0&0&0&1  \\
+OU & (1<<1)   & \rightarrow &  0&0&0&0&0&0&1&0  \\	 
+OU &  (1<<4)   &  \rightarrow &  0&0&0&1&0&0&0&0  \\	
+ \cline{4-11} 
+ = & (1<<0)|(1<<1)|(1<<4)   &  \rightarrow &  0&0&0&1&0&0&1&1  \\	
+\end{array}
+\right.
+\end{equation*}
+ 
+Ainsi le code suivant est plus lisible et ne risque pas de comporter d'erreur de conversion~:
+\begin{lstlisting}[frame=tb]
+//formulations équivalentes
+avoile = avoile |  0x13;   // opérateur | inline
+avoile = avoile | (1<<0)|(1<<1)|(1<<4);
+avoile |= (1<<0)|(1<<1)|(1<<4);
+\end{lstlisting}
+
+\section{Mettre un bit à 0}
+
+Pour cela on utilise l'opérateur ET avec une masque ayant des bits à 0 uniquement devant les bits que l'on veut initialiser~:
+\begin{equation*}
+\left.
+\begin{array}{lcccccccc}
+   &b_7& b_6 & b_5 & b_4 & b_3 & b_2 & b_1 & b_0  \\
+  ET\hspace{0.5cm} &1&1&1&0&1&1&0&0  \\
+    \cline{2-9}
+   = & b_7 & b_6 & b_5 &0& b_3 & b_2 &0&0  \\
+\end{array}
+\right.
+\qquad \text{car } \quad x \,\, ET \,\, 1 = x \qquad \text{ et }\quad x \,\, ET \,\,0 = 0
+\end{equation*}
+
+Ainsi les bits $b_4$, $b_1$ et $b_0$ sont passés à 0 sans modifier la valeur des autres bits.  
+
+
+Pour construire le masque, on peut toujours effectuer la conversion soit-même avec un risque d'erreur~: $b11101100 = 0xEC = 236$. On peut aussi construire le masque avec des 1 devant les bits à annuler et ensuite inverser chaque bit avec l'opérateur \ctilde.
+\begin{equation*}
+\left.
+\begin{array}{lrccccccccc}
+  & (1<<0)|(1<<1)|(1<<4)   &  \rightarrow &  0&0&0&1&0&0&1&1  \\	
+  & \ctilde(1<<0)|(1<<1)|(1<<4)   &  \rightarrow &  1&1&1&0&1&1&0&0  \\	
+ET &   \mbox{avoile}            &   \rightarrow  & b_7 & b_6 & b_5 & b_4 & b_3 & b_2 & b_1 & b_0  \\
+\cline{4-11}
+ = &  \mbox{avoile }  \, \& \ctilde\!\!\!\!( (1<<0)|(1<<1)|(1<<4) )  &  \rightarrow & b_7 & b_6 & b_5 &0& b_3 & b_2 &0&0  \\
+\end{array}
+\right.
+\end{equation*}
+
+Ce qui donne en langage C :
+\begin{lstlisting}[frame=tb]
+//formulations équivalentes
+avoile = avoile &  0xEB;   
+avoile = avoile & ~((1<<0)|(1<<1)|(1<<4));
+avoile &= ~((1<<0)|(1<<1)|(1<<4));
+\end{lstlisting}
+
+\section{Inverser un bit}
+
+Pour cela on utilise l'opérateur XOR avec une masque ayant des bits à 1 uniquement devant les bits à inverser~:
+\begin{equation*}
+\left.
+\begin{array}{lcccccccc}
+   &b_7& b_6 & b_5 & b_4 & b_3 & b_2 & b_1 & b_0  \\
+  XOR \hspace{0.5cm}  &0&0&0&1&0&0&1&1  \\
+   \cline{2-9}
+   =&b_7& b_6 & b_5 &\overline{b_4}& b_3 & b_2 &\overline{b_1}&\overline{b_0}  \\
+\end{array}
+\right.
+\qquad \text{car } \quad x \,\, XOR \,\, 1 = \overline{x} \qquad \text{ et }\quad x \,\, XOR \,\,0 = x
+\end{equation*}
+
+Ainsi seuls les bits $b_4$,$b_1$ et $b_0$ ont été inversés.
+
+On construit les masques comme les masque OU de mise à 1.
+
+\section{Initialiser une tranche de bits}
+Une tranche de bit est un ensemble de quelques bits contigus dont la valeur a une signification particulière. Par exemple \texttt{DISCNUM} est une tranche de 3 bits du registre \texttt{ADC\_CR1} qui indique le nombre de canaux à convertir.
+
+Un programmeur avertis peut désirer initialiser une tranche de \texttt{avoile} à la valeur contenue dans \texttt{numero}. Pour cela il faut procéder en trois étapes~: limiter la valeur de \texttt{numero} pour ne pas dépasser la tranche de 3 bits et la caler au bon endroit ; annuler la tranche de trois bits de \texttt{avoile} ; puis recopier les 1 du premier masque dans \texttt{avoile} avec un OU~:
+\begin{equation*}
+\left.
+\begin{array}{lrccccccccc}
+  & \mbox{num}   &  \rightarrow &   n_7 & n_6 & n_5 & n_4 & n_3 & n_2 & n_1 & n_0  \\ 
+  &  0x7   &  \rightarrow &   0&0&0&0&0 &1&1&1 \\ 
+  & (\mbox{num} \, \& \, 0x7)   &  \rightarrow &  0&0&0&0&0 & n_2 & n_1 & n_0  \\ 
+  & (\mbox{num} \, \& \, 0x7)<<4   &  \rightarrow &  0 & n_2 & n_1 & n_0 & 0 & 0 & 0 & 0  \\ 
+OU &   \mbox{avoile}  \, \& \ctilde\!\!\!\!(0x7 << 4)           &   \rightarrow  & b_7 & 0 & 0 & 0 & b_3 & b_2 & b_1 & b_0  \\
+\cline{4-11}
+ = &  (\mbox{avoile} \, \, \& \ctilde\!\!\!\!(0x7 << 4) )  \, | \,(\mbox{num}\, \&\, 0x7)<<4)  &  \rightarrow & b_7 & n_2 & n_1 &n_0& b_3 & b_2 &b_1&b_0  \\
+\end{array}
+\right.
+\end{equation*}
+
+
+Le programme suivant permet d'affecter la tranche \texttt{DISCNUM} avec la valeur contenue dans la variable \texttt{numero}~:
+\begin{lstlisting}[frame=tb]
+void set_discnum ( char numero)
+{
+   // raz de la tranche DISCNUM : 3 bits de rang 13-15 de ADC_CR1
+   ADC->CR1 &= ~(0x7<<13); // seuls les bits 13-15 du masque valent 0
+   
+   // init de la tranche avec numero
+   ADC->CR1 |= numero<<13 // recopie les 1 de numero décalé au rang 13
+   
+   //Attention si numero >7 ça déborde sur les bits 16 à 31
+   //Un masque doit limiter numero de 0 à 7 : pas plus de trois bits à 1
+   // On préfère donc cette ligne
+   ADC->CR1 |= (numero & 0x7) <<13 // numero est limité
+ }
+\end{lstlisting}
+
