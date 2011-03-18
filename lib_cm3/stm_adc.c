@@ -40,7 +40,11 @@ void Init_Adc(void)
 {
 	
 	#ifdef ADC1_IS_USED
-	(RCC->APB2ENR)=(RCC->APB2ENR) | RCC_ADC1EN; // clock enable
+	(RCC->APB2ENR) |= RCC_ADC1EN; // clock enable
+
+	// Switch on ADC1
+	ADC1->CR2 |= ADC_ADON;
+
 	ADC1->CR1 |= __ADC_MODE ;
 	ADC1->CR2 |= CONV_TYPE ; // CONT bit;
 
@@ -85,6 +89,7 @@ void Init_Adc(void)
 	// DMA configuration
 	#ifdef ADC1_USE_DMA
 	ADC1->CR1 |= ADC_EOCIE ;
+	ADC1->CR2 |= ADC_DMA ;
 
 	RCC->AHBENR |=RCC_DMA1EN;// DMA1 CLOCK ENABLE
 	DMA1_Channel1->CPAR =(u32)&(ADC1->DR); // @ source 
@@ -118,10 +123,9 @@ void Init_Adc(void)
 	#endif	//DMA config
 
 
-	// Switch on ADC1
-	ADC1->CR2 |= ADC_ADON;
 	#endif //ADC1
 	
+	//____________ADC2 config______________________________________
 	#ifdef ADC_2_IS_USED
 	(RCC->APB2ENR)=(RCC->APB2ENR) | RCC_ADC2EN;
 	// NO Mode conf for ADC2 (its done on ADC1)

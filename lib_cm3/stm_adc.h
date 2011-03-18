@@ -26,8 +26,8 @@
 // Go to stm_adc_config to cinfigure adc behaviour
 void Init_Adc(void);
 
-#define ADC1_START_CONV 	ADC1->CR1 |= ADC_ADON
-#define ADC2_START_CONV 	ADC2->CR1 |= ADC_ADON 
+#define ADC1_START_CONV 	ADC1->CR2 |= ADC_ADON
+#define ADC2_START_CONV 	ADC2->CR2 |= ADC_ADON 
 
 
 #endif /* __STM_ADC */

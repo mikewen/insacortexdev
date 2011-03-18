@@ -72,33 +72,11 @@ TODO	ADC_DUALMOD_IS_ALTERNATE
 #ifdef ADC1_IS_USED
 
 	
-	//CONFIGURE scan mode for multiple channel conversion
-	#define SCAN_MODE //TODO et si on mets pas scan ça fait quoi ?
-
-	// CONFIGURE sequence length from 1 to 16
-	#define SEQ_L 1
-	// CONFIGURE sequence of channels to scan
-	#define S1C	10  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S2C	11  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S3C	12  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S4C	13  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S5C	14  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S6C	15  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S7C	16  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S8C	17  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S9C	10  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S10C 0  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S11C 1  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S12C 2  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S13C 3  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S14C 4  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S15C 5  // channel from 0 to  15, or 16=temp or 17=Vref
-	#define S16C 6  // channel from 0 to  15, or 16=temp or 17=Vref
-
 	//CONFIGURE each ADC1 channel sampling time
+	// UNCOMMENT if channel is not used (will not configure pin as analog input)
 	// CxT  =        |0  |1  |2   |3   |4   |5   |6   |7    |
 	// correspond to |1.5|7.5|13.5|28.5|41.5|55.5|71.5|239.5| cycles
-	#define C0T	 0  // 0=1.5 1=7.5 2=13.5 3=28.5 4=41.5 5=55.5 6=71.5 7=239.5
+	//#define C0T	 0  // 0=1.5 1=7.5 2=13.5 3=28.5 4=41.5 5=55.5 6=71.5 7=239.5
 	#define C1T	 1  // 0=1.5 1=7.5 2=13.5 3=28.5 4=41.5 5=55.5 6=71.5 7=239.5
 	#define C2T	 2  // 0=1.5 1=7.5 2=13.5 3=28.5 4=41.5 5=55.5 6=71.5 7=239.5
 	#define C3T	 3  // 0=1.5 1=7.5 2=13.5 3=28.5 4=41.5 5=55.5 6=71.5 7=239.5
@@ -118,12 +96,38 @@ TODO	ADC_DUALMOD_IS_ALTERNATE
 	#define C17T 1  // 0=1.5 1=7.5 2=13.5 3=28.5 4=41.5 5=55.5 6=71.5 7=239.5
 	#define C18T 2  // 0=1.5 1=7.5 2=13.5 3=28.5 4=41.5 5=55.5 6=71.5 7=239.5
 
+	
+	
+	//CONFIGURE scan mode for multiple channel conversion
+	#define SCAN_MODE //TODO et si on mets pas scan ça fait quoi ?
+
+	// CONFIGURE sequence length from 1 to 16
+	#define SEQ_L 1
+	// CONFIGURE sequence of channels to scan
+	#define S1C	14  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S2C	11  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S3C	12  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S4C	13  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S5C	14  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S6C	15  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S7C	16  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S8C	17  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S9C	10  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S10C 0  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S11C 1  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S12C 2  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S13C 3  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S14C 4  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S15C 5  // channel from 0 to  15, or 16=temp or 17=Vref
+	#define S16C 6  // channel from 0 to  15, or 16=temp or 17=Vref
+
+
 	#define IS_CONTINUOUS (ADC_CONT)
 	#define IS_SINGLE (0)
 
 	// CONFIGURE single or continuous conversion mode
 	//#define CONV_TYPE IS_CONTINUOUS 
-	#define CONV_TYPE IS_SINGLE 
+	#define CONV_TYPE IS_CONTINUOUS 
 
 	#if (CONV_TYPE==IS_SINGLE)
 	//CONFIGURE trigger event when single conversion
@@ -198,10 +202,34 @@ TODO	ADC_DUALMOD_IS_ALTERNATE
 
 
 //__________________________________________________________________________
-//  ADC1 master configuration
+//  Input verifications	  DON NOT EDIT BELOW THIS LINE
 //__________________________________________________________________________
 
+#ifdef ADC1_IS_USED
 
-
+	#ifdef C0T
+		#ifndef GPIOA_CRL_RESET
+			#define GPIOA_CRL_RESET = (0xF<<0);
+		#else
+			#define COPIE GPIOA_CRL_RESET
+			#undef GPIOA_CRL_RESET
+			#define GPIOA_CRL_RESET = COPIE | (0xF<<0);						
+		#endif  	
+	#else
+		#define C0T  0
+	#endif // C0T check
+	#ifdef C1T
+		#define NUM  1
+		#ifndef GPIOA_CRL_RESET
+			#define GPIOA_CRL_RESET = (0xF<<(4*NUM));
+		#else
+			#define COPIE GPIOA_CRL_RESET
+			#undef GPIOA_CRL_RESET
+			#define GPIOA_CRL_RESET = COPIE | (0xF<<(4*NUM));						
+		#endif  	
+	#else
+		#define C0T  0
+	#endif // C0T check
+#endif //ADC USED CHECK
 #endif /* __STM_ADC_CONFIG__ */
 
