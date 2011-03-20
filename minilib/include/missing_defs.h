@@ -9,11 +9,12 @@
 #if !defined(__AVR__)
 
 /* Definition of FILE struct */
-struct __FILE
-{
-	int _file; // only field required for our lib C */
-};
-
+#ifndef __cplusplus
+	struct __FILE
+	{
+		int _file; // only field required for our lib C */
+	};
+#endif
 #else
 
 #undef _file

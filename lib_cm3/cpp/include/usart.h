@@ -48,29 +48,12 @@
 #ifndef __LIB_USARTx
 #define __LIB_USARTx
 
-#include "stm_clock.h"
-#include "stm_usartx_config.h"
+#include "stm_regs.h"
+#include "clock.h"
+#include "usart_config.h"
+#include "missing_defs.h"
 
 #include <stdio.h>
-/*----------------------------------------------------------------------------
-  external functions
- *----------------------------------------------------------------------------*/
-
-#if !defined __MINILIB__
-	struct __FILE {
-	  int handle;                 // Add whatever you need here 
-	};
-
-	int fputc(int ch, FILE *f);
-	int fgetc(FILE *f);
-
-#else
-	#include "missing_defs.h"
-
-	int usart_write(int ch);
-	int usart_read(void);
-#endif /* !defined __MINILIB__ */
-
 
 #ifdef USART_POL
 #endif
@@ -98,11 +81,45 @@
 		#undef USART_IRQ
 	#endif
 
-	int uart_buffer_full(void);
 #endif
-//what should we do while waiting ?
-//#define USART_WAIT  os_wait();
 
-void setup_usart(void);
+namespace System
+{
+	namespace Driver
+	{
+		class Usart
+		{
+		private:
+			USART_TypeDef* 			usartPtr;
 
+#if defined ((USART_DMA) || (USART_IRQ))
+			DMA_Channel_TypeDef* 	txDmaChannelPtr;
+			DMA_Channel_TypeDef* 	rxDmaChannelPtr;
+
+			char rxBuffer[RBUF_SIZE];
+			char* rxInPtr;
+			char* rxOutPtr;
+
+			char txBuffer[TBUF_SIZE];
+			char* txInPtr;
+			char* txOutPtr;
+#endif
+		public:
+			char endLine[]="\n";
+
+			void Init(void);
+			int WriteChar(char c);
+			int ReadChar(char* c);
+
+			int Write(char* buffer, int length);
+			int Read(char* buffer, int length);
+
+			int ReadLine(char* buffer);
+
+#if defined ((USART_DMA) || (USART_IRQ))
+			int RxBufferLength(void);
+#endif /* USART_DMA */
+		};
+	}
+}
 #endif /* __LIB_USARTx */
