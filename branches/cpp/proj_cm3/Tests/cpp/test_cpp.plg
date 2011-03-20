@@ -3,7 +3,191 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
-D:\projets\insacortexdev\proj_cm3\Tests\cpp\test_cpp.uvproj
-Project File Date:  03/17/2011
+C:\Data\Projets\insacortexdev\proj_cm3\Tests\cpp\test_cpp.uvproj
+Project File Date:  03/19/2011
 
 <h2>Output:</h2>
+Build target 'Simu'
+assembling Startup_GCC.s...
+assembling STM32F10x_GCC.s...
+compiling clock.cpp...
+../../../lib_cm3/cpp/src/clock.cpp(1): error: target CPU does not support ARM mode
+compiling usart.cpp...
+../../../lib_cm3/cpp/src/usart.cpp(1): error: target CPU does not support ARM mode
+compiling main.cpp...
+main.cpp(1): error: target CPU does not support ARM mode
+Target not created
+Build target 'Simu'
+assembling Startup_GCC.s...
+assembling STM32F10x_GCC.s...
+compiling clock.cpp...
+../../../lib_cm3/stm_clock.h(37): error: fatal error: stm_clock_config.h: No such file or directory
+compiling usart.cpp...
+../../../lib_cm3/stm_clock.h(37): error: fatal error: stm_clock_config.h: No such file or directory
+compiling main.cpp...
+../../../lib_cm3/stm_clock.h(37): error: fatal error: stm_clock_config.h: No such file or directory
+Target not created
+Build target 'Simu'
+assembling Startup_GCC.s...
+assembling STM32F10x_GCC.s...
+compiling clock.cpp...
+../../../lib_cm3/cpp/include/clock.h(37): error: fatal error: clock_config.h: No such file or directory
+compiling usart.cpp...
+../../../lib_cm3/cpp/include/clock.h(37): error: fatal error: clock_config.h: No such file or directory
+compiling main.cpp...
+../../../lib_cm3/stm_clock.h(37): error: fatal error: stm_clock_config.h: No such file or directory
+Target not created
+Build target 'Simu'
+compiling clock.cpp...
+../../../lib_cm3/standard_types.h(134): error: redeclaration of C++ built-in type 'bool'
+compiling usart.cpp...
+../../../lib_cm3/standard_types.h(134): error: redeclaration of C++ built-in type 'bool'
+../../../minilib/include/missing_defs.h(12): error: using typedef-name '__FILE' after 'struct'
+c:\program files\codesourcery\sourcery g++ lite\bin\../lib/gcc/arm-none-eabi/4.5.1/../../../../arm-none-eabi/include/sys/reent.h:286:26: error: '__FILE' has a previous declaration here
+compiling main.cpp...
+../../../minilib/include/missing_defs.h(12): error: using typedef-name '__FILE' after 'struct'
+c:\program files\codesourcery\sourcery g++ lite\bin\../lib/gcc/arm-none-eabi/4.5.1/../../../../arm-none-eabi/include/sys/reent.h:286:26: error: '__FILE' has a previous declaration here
+main.cpp(4): error: '::main' must return 'int'
+Target not created
+Build target 'Simu'
+compiling clock.cpp...
+../../../lib_cm3/standard_types.h(135): error: redeclaration of C++ built-in type 'bool'
+compiling usart.cpp...
+../../../lib_cm3/standard_types.h(135): error: redeclaration of C++ built-in type 'bool'
+../../../minilib/include/missing_defs.h(12): error: using typedef-name '__FILE' after 'struct'
+c:\program files\codesourcery\sourcery g++ lite\bin\../lib/gcc/arm-none-eabi/4.5.1/../../../../arm-none-eabi/include/sys/reent.h:286:26: error: '__FILE' has a previous declaration here
+compiling main.cpp...
+../../../minilib/include/missing_defs.h(12): error: using typedef-name '__FILE' after 'struct'
+c:\program files\codesourcery\sourcery g++ lite\bin\../lib/gcc/arm-none-eabi/4.5.1/../../../../arm-none-eabi/include/sys/reent.h:286:26: error: '__FILE' has a previous declaration here
+Target not created
+Build target 'Simu'
+assembling Startup_GCC.s...
+assembling STM32F10x_GCC.s...
+compiling clock.cpp...
+compiling usart.cpp...
+../../../minilib/include/missing_defs.h(12): error: using typedef-name '__FILE' after 'struct'
+c:\program files\codesourcery\sourcery g++ lite\bin\../lib/gcc/arm-none-eabi/4.5.1/../../../../arm-none-eabi/include/sys/reent.h:286:26: error: '__FILE' has a previous declaration here
+compiling main.cpp...
+../../../minilib/include/missing_defs.h(12): error: using typedef-name '__FILE' after 'struct'
+c:\program files\codesourcery\sourcery g++ lite\bin\../lib/gcc/arm-none-eabi/4.5.1/../../../../arm-none-eabi/include/sys/reent.h:286:26: error: '__FILE' has a previous declaration here
+Target not created
+Build target 'Simu'
+compiling clock.cpp...
+compiling usart.cpp...
+compiling main.cpp...
+linking...
+"test_cpp.elf" - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling clock.cpp...
+../../../lib_cm3/cpp/include/clock.h(38): error: expected '{' before '::' token
+../../../lib_cm3/cpp/include/clock.h(38): error: 'IO' in namespace '::' does not name a type
+../../../lib_cm3/cpp/src/clock.cpp(93): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(157): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(163): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(169): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(177): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(184): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(191): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(194): error: expected '}' at end of input
+../../../lib_cm3/cpp/src/clock.cpp(93): warning: 'void System::Init_Clock_System()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(157): warning: 'unsigned int System::stm32_GetPCLK1()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(163): warning: 'unsigned int System::stm32_GetPCLK2()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(169): warning: 'unsigned int System::stm32_GetHCLK()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(177): warning: 'unsigned int System::stm32_Get_TIMXCLK()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(184): warning: 'unsigned int System::stm32_Get_TIMxCLK()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(191): warning: 'unsigned int System::stm32_Get_ADCCLK()' defined but not used
+compiling usart.cpp...
+../../../lib_cm3/cpp/include/clock.h(38): error: expected '{' before '::' token
+../../../lib_cm3/cpp/include/clock.h(38): error: 'IO' in namespace '::' does not name a type
+../../../lib_cm3/cpp/src/usart.cpp(336): error: expected '}' at end of input
+compiling main.cpp...
+../../../lib_cm3/cpp/include/clock.h(38): error: expected '{' before '::' token
+../../../lib_cm3/cpp/include/clock.h(38): error: 'IO' in namespace '::' does not name a type
+main.cpp(10): error: expected '}' at end of input
+Target not created
+Build target 'Simu'
+compiling clock.cpp...
+../../../lib_cm3/cpp/include/clock.h(38): error: expected '{' before '.' token
+../../../lib_cm3/cpp/include/clock.h(38): error: expected unqualified-id before '.' token
+../../../lib_cm3/cpp/src/clock.cpp(194): error: expected '}' at end of input
+compiling usart.cpp...
+../../../lib_cm3/cpp/include/clock.h(38): error: expected '{' before '.' token
+../../../lib_cm3/cpp/include/clock.h(38): error: expected unqualified-id before '.' token
+../../../lib_cm3/cpp/src/usart.cpp(336): error: expected '}' at end of input
+compiling main.cpp...
+../../../lib_cm3/cpp/include/clock.h(38): error: expected '{' before '.' token
+../../../lib_cm3/cpp/include/clock.h(38): error: expected unqualified-id before '.' token
+main.cpp(10): error: expected '}' at end of input
+Target not created
+Build target 'Simu'
+compiling clock.cpp...
+../../../lib_cm3/cpp/include/clock.h(97): error: expected unqualified-id before '}' token
+../../../lib_cm3/cpp/src/clock.cpp(93): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(157): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(163): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(169): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(177): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(184): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(191): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(93): warning: 'void Init_Clock_System()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(157): warning: 'unsigned int stm32_GetPCLK1()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(163): warning: 'unsigned int stm32_GetPCLK2()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(169): warning: 'unsigned int stm32_GetHCLK()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(177): warning: 'unsigned int stm32_Get_TIMXCLK()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(184): warning: 'unsigned int stm32_Get_TIMxCLK()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(191): warning: 'unsigned int stm32_Get_ADCCLK()' defined but not used
+compiling usart.cpp...
+../../../lib_cm3/cpp/include/clock.h(97): error: expected unqualified-id before '}' token
+compiling main.cpp...
+../../../lib_cm3/cpp/include/clock.h(97): error: expected unqualified-id before '}' token
+Target not created
+Build target 'Simu'
+compiling clock.cpp...
+../../../lib_cm3/cpp/src/clock.cpp(93): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(157): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(163): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(169): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(177): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(184): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(191): error: 'Clock' has not been declared
+../../../lib_cm3/cpp/src/clock.cpp(93): warning: 'void Init_Clock_System()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(157): warning: 'unsigned int stm32_GetPCLK1()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(163): warning: 'unsigned int stm32_GetPCLK2()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(169): warning: 'unsigned int stm32_GetHCLK()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(177): warning: 'unsigned int stm32_Get_TIMXCLK()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(184): warning: 'unsigned int stm32_Get_TIMxCLK()' defined but not used
+../../../lib_cm3/cpp/src/clock.cpp(191): warning: 'unsigned int stm32_Get_ADCCLK()' defined but not used
+compiling usart.cpp...
+compiling main.cpp...
+Target not created
+compiling clock.cpp...
+../../../lib_cm3/cpp/src/clock.cpp(95): error: cannot declare member function 'static void Drivers::Clock::Init_Clock_System()' to have static linkage
+../../../lib_cm3/cpp/src/clock.cpp(159): error: cannot declare member function 'static unsigned int Drivers::Clock::stm32_GetPCLK1()' to have static linkage
+../../../lib_cm3/cpp/src/clock.cpp(165): error: cannot declare member function 'static unsigned int Drivers::Clock::stm32_GetPCLK2()' to have static linkage
+../../../lib_cm3/cpp/src/clock.cpp(171): error: cannot declare member function 'static unsigned int Drivers::Clock::stm32_GetHCLK()' to have static linkage
+../../../lib_cm3/cpp/src/clock.cpp(179): error: cannot declare member function 'static unsigned int Drivers::Clock::stm32_Get_TIMXCLK()' to have static linkage
+../../../lib_cm3/cpp/src/clock.cpp(186): error: cannot declare member function 'static unsigned int Drivers::Clock::stm32_Get_TIMxCLK()' to have static linkage
+../../../lib_cm3/cpp/src/clock.cpp(193): error: cannot declare member function 'static unsigned int Drivers::Clock::stm32_Get_ADCCLK()' to have static linkage
+../../../lib_cm3/cpp/src/clock.cpp - 7 Error(s), 0 Warning(s).
+compiling clock.cpp...
+../../../lib_cm3/cpp/src/clock.cpp - 0 Error(s), 0 Warning(s).
+Build target 'Simu'
+compiling usart.cpp...
+compiling main.cpp...
+linking...
+"test_cpp.elf" - 0 Error(s), 0 Warning(s).
+compiling clock.cpp...
+../../../lib_cm3/cpp/include/clock.h(38): error: expected '{' before '::' token
+../../../lib_cm3/cpp/include/clock.h(38): error: 'Drivers' in namespace '::' does not name a type
+../../../lib_cm3/cpp/src/clock.cpp(47): error: expected '{' before '::' token
+../../../lib_cm3/cpp/src/clock.cpp(47): error: 'Drivers' in namespace '::' does not name a type
+../../../lib_cm3/cpp/src/clock.cpp(198): error: expected '}' at end of input
+../../../lib_cm3/cpp/src/clock.cpp(198): error: expected '}' at end of input
+../../../lib_cm3/cpp/src/clock.cpp - 6 Error(s), 0 Warning(s).
+compiling clock.cpp...
+../../../lib_cm3/cpp/src/clock.cpp - 0 Error(s), 0 Warning(s).
+compiling clock.cpp...
+../../../lib_cm3/cpp/src/clock.cpp(195): error: cannot declare member function 'static unsigned int System::Drivers::Clock::stm32_Get_ADCCLK()' to have static linkage
+../../../lib_cm3/cpp/src/clock.cpp - 1 Error(s), 0 Warning(s).
+compiling clock.cpp...
+../../../lib_cm3/cpp/src/clock.cpp - 0 Error(s), 0 Warning(s).

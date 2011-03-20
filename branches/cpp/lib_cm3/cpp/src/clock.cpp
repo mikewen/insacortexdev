@@ -42,11 +42,14 @@ TODO
 */
 
 #include "stm_regs.h"
-#include "stm_clock.h"
+#include "clock.h"
 
+namespace System
+{
+	namespace Driver
+	{
 #define __RCC_CR_RESET    	0x00000083
 #define __RCC_CFGR_RESET	0x00000000
-//#define __RCC_CIR_VALUE		(HSERDYIE | PLLRDYIE)  //TODO DEBUG car polling ! 0x00001800
 #define __RCC_CIR_RESET		0x00000000
 
 //_______________________________
@@ -89,109 +92,103 @@ TODO
 	#define HSE_IS_USED
 #endif
 
-//____________________________
-void Init_Clock_System()
-{ 
-	RCC->CR		=__RCC_CR_RESET;
-	RCC->CFGR	=__RCC_CFGR_RESET;
-	RCC->CIR	=__RCC_CIR_RESET;
-
-	RCC->CFGR 	=__RCC_CFGR_VALUE;
+		//____________________________
+		void Clock::Set()
+		{ 
+			RCC->CR		=__RCC_CR_RESET;
+			RCC->CFGR	=__RCC_CFGR_RESET;
+			RCC->CIR	=__RCC_CIR_RESET;
+		
+			RCC->CFGR 	=__RCC_CFGR_VALUE;
+			
+			/* Reglage de la flash (waitstates) */
+			FLASH->ACR = 0x0; /* reset du controleur de flash -> 0 WS, pas de buffer de prefetch  */
+		
+			#if (__SYSCLK <=24000000UL)
+				FLASH->ACR |= FLASH_LATENCY_0_WS;
+			#elif (__SYSCLK <=48000000UL) 
+				FLASH->ACR |= FLASH_LATENCY_1_WS;
+			#else
+				FLASH->ACR |= FLASH_LATENCY_2_WS;
+			#endif 	 
+			 
+			#ifdef HSE_IS_USED
+				//activate HSE
+				RCC->CR |= RCC_HSEON;
+				//wait for HSE to be ready
+			  	while((RCC->CR & RCC_HSERDY) == 0);
+			
+				#ifndef PLL_IS_USED
+				// switch clock to HSE
+				RCC->CFGR |= RCC_SW_IS_HSE;
+				#endif
+			#endif  
+		
+			#ifdef HSI_IS_USED
+				//activate HSI
+				RCC->CR |= RCC_HSION;
+				//wait for HSI to be ready
+			  	while((RCC->CR & RCC_HSIRDY) == 0);
+		
+				#ifndef PLL_IS_USED
+				// switch clock to HSI
+				RCC->CFGR |= RCC_SW_IS_HSI;
+				#endif
+			#endif  
+		
+			#ifdef PLL_IS_USED
+				//activate PLL
+				RCC->CR |= RCC_PLLON;
+				//wait for PLL to be ready
+				while((RCC->CR & RCC_PLLRDY) == 0);
+		
+				// switch clock to PLL
+				RCC->CFGR |= RCC_SW_IS_PLL;
+			#endif 
+			
+			FLASH->ACR |= FLASH_PRFTBE; /* Buffer de prefetch activé */
+			
+			#if ((_HPRE == 1) && (__SYSCLK <8000000UL))
+				FLASH->ACR |= FLASH_HLFCYA; /* Half cycle flash access (possible seulement si sysclk < 8Mhz 
+				                               et HCLK == SYSCLK*/	
+			#endif	 	 
+		}
+		
+		//__________________________________________
+		//ensure compatibility with STM32f10x lib
+		//unsigned int stm32_GetPCLK1 (void) __attribute__ ((weak));
+		unsigned int Clock::GetPCLK1 (void) 
+		{
+			return (unsigned int) (__PCLK1) ;
+		}
+		
+		//unsigned int stm32_GetPCLK2 (void) __attribute__ ((weak));
+		unsigned int Clock::GetPCLK2 (void) 
+		{
+			return (unsigned int) (__PCLK2) ;
+		}
+		
+		//unsigned int stm32_GetHCLK (void) __attribute__ ((weak));
+		unsigned int Clock::GetHCLK (void) 
+		{
+			return (unsigned int) (__HCLK) ;
+		}
+		
+		// Recupere l'horloge TIMxCLK, soit celle du timers 1 prescaler compris
+		//unsigned int stm32_Get_TIMxCLK (void) __attribute__ ((weak));
+		unsigned int Clock::GetTIMxCLK (void) 
+		{
+			return (unsigned int) (__TIMxCLK) ;
+		}
+		
+		// Recupere l'horloge ADCCLK, soit celle des ADC 1 et 2
+		//unsigned int stm32_Get_ADCCLK (void) __attribute__ ((weak));
+		unsigned int Clock::GetADCCLK (void) 
+		{
+			return (unsigned int) (__ADCCLK) ;
+		}
 	
-	/* Reglage de la flash (waitstates) */
-	FLASH->ACR = 0x0; /* reset du controleur de flash -> 0 WS, pas de buffer de prefetch  */
-
-	#if (__SYSCLK <=24000000UL)
-		FLASH->ACR |= FLASH_LATENCY_0_WS;
-	#elif (__SYSCLK <=48000000UL) 
-		FLASH->ACR |= FLASH_LATENCY_1_WS;
-	#else
-		FLASH->ACR |= FLASH_LATENCY_2_WS;
-	#endif 	 
-	 
-	#ifdef HSE_IS_USED
-		//activate HSE
-		RCC->CR |= RCC_HSEON;
-		//wait for HSE to be ready
-	  	while((RCC->CR & RCC_HSERDY) == 0);
-	
-		#ifndef PLL_IS_USED
-		// switch clock to HSE
-		RCC->CFGR |= RCC_SW_IS_HSE;
-		#endif
-	#endif  
-
-	#ifdef HSI_IS_USED
-		//activate HSI
-		RCC->CR |= RCC_HSION;
-		//wait for HSI to be ready
-	  	while((RCC->CR & RCC_HSIRDY) == 0);
-
-		#ifndef PLL_IS_USED
-		// switch clock to HSI
-		RCC->CFGR |= RCC_SW_IS_HSI;
-		#endif
-	#endif  
-
-	#ifdef PLL_IS_USED
-		//activate PLL
-		RCC->CR |= RCC_PLLON;
-		//wait for PLL to be ready
-		while((RCC->CR & RCC_PLLRDY) == 0);
-
-		// switch clock to PLL
-		RCC->CFGR |= RCC_SW_IS_PLL;
-	#endif 
-	
-	FLASH->ACR |= FLASH_PRFTBE; /* Buffer de prefetch activé */
-	
-	#if ((_HPRE == 1) && (__SYSCLK <8000000UL))
-		FLASH->ACR |= FLASH_HLFCYA; /* Half cycle flash access (possible seulement si sysclk < 8Mhz 
-		                               et HCLK == SYSCLK*/	
-	#endif	 	 
+	}
 }
-
-//__________________________________________
-//ensure compatibility with STM32f10x lib
-unsigned int stm32_GetPCLK1 (void) __attribute__ ((weak));
-unsigned int stm32_GetPCLK1 (void) 
-{
-	return (unsigned int) (__PCLK1) ;
-}
-
-unsigned int stm32_GetPCLK2 (void) __attribute__ ((weak));
-unsigned int stm32_GetPCLK2 (void) 
-{
-	return (unsigned int) (__PCLK2) ;
-}
-
-unsigned int stm32_GetHCLK (void) __attribute__ ((weak));
-unsigned int stm32_GetHCLK (void) 
-{
-	return (unsigned int) (__HCLK) ;
-}
-
-
-// Recupere l'horloge TIMXCLK, soit celle des timers 2, 3 et 4 prescaler compris
-unsigned int stm32_Get_TIMXCLK (void) __attribute__ ((weak));
-unsigned int stm32_Get_TIMXCLK (void) 
-{
-	return (unsigned int) (__TIMXCLK) ;
-}
-
-// Recupere l'horloge TIMxCLK, soit celle du timers 1 prescaler compris
-unsigned int stm32_Get_TIMxCLK (void) __attribute__ ((weak));
-unsigned int stm32_Get_TIMxCLK (void) 
-{
-	return (unsigned int) (__TIMxCLK) ;
-}
-
-// Recupere l'horloge ADCCLK, soit celle des ADC 1 et 2
-unsigned int stm32_Get_ADCCLK (void) __attribute__ ((weak));
-unsigned int stm32_Get_ADCCLK (void) 
-{
-	return (unsigned int) (__ADCCLK) ;
-}
-
 
 

@@ -27,7 +27,7 @@
     <TargetOption>
       <CLKARM>8000000</CLKARM>
       <OPTTT>
-        <gFlags>0</gFlags>
+        <gFlags>1</gFlags>
         <BeepAtEnd>1</BeepAtEnd>
         <RunSim>1</RunSim>
         <RunTarget>0</RunTarget>
@@ -148,7 +148,7 @@
         <aSer4>0</aSer4>
         <StkLoc>0</StkLoc>
         <TrcWin>0</TrcWin>
-        <newCpu>1</newCpu>
+        <newCpu>0</newCpu>
         <uProt>0</uProt>
       </DebugFlag>
       <LintExecutable></LintExecutable>
@@ -162,8 +162,8 @@
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
-      <GroupNumber>0</GroupNumber>
-      <FileNumber>0</FileNumber>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>1</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -172,12 +172,12 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\system\Startup_GCC.s</PathWithFileName>
+      <PathWithFileName>../../../system/Startup_GCC.s</PathWithFileName>
       <FilenameWithoutPath>Startup_GCC.s</FilenameWithoutPath>
     </File>
     <File>
-      <GroupNumber>0</GroupNumber>
-      <FileNumber>0</FileNumber>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>2</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -186,7 +186,7 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\system\STM32F10x_GCC.s</PathWithFileName>
+      <PathWithFileName>../../../system/STM32F10x_GCC.s</PathWithFileName>
       <FilenameWithoutPath>STM32F10x_GCC.s</FilenameWithoutPath>
     </File>
   </Group>
@@ -197,50 +197,50 @@
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
-      <GroupNumber>0</GroupNumber>
-      <FileNumber>0</FileNumber>
-      <FileType>8</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\lib_cm3\cpp\stm_usart.cpp</PathWithFileName>
-      <FilenameWithoutPath>stm_usart.cpp</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>0</GroupNumber>
+      <GroupNumber>2</GroupNumber>
       <FileNumber>0</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>22</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>25</TopLine>
-      <CurrentLine>45</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\lib_cm3\cpp\stm_clock.cpp</PathWithFileName>
-      <FilenameWithoutPath>stm_clock.cpp</FilenameWithoutPath>
+      <PathWithFileName>../../../lib_cm3/cpp/src/clock.cpp</PathWithFileName>
+      <FilenameWithoutPath>clock.cpp</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>2</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>16</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>110</TopLine>
+      <CurrentLine>110</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>../../../lib_cm3/cpp/src/usart.cpp</PathWithFileName>
+      <FilenameWithoutPath>usart.cpp</FilenameWithoutPath>
     </File>
   </Group>
 
   <Group>
     <GroupName>Apps</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
-      <GroupNumber>0</GroupNumber>
-      <FileNumber>0</FileNumber>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>5</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>11</ColumnNumber>
+      <ColumnNumber>10</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>1</TopLine>
-      <CurrentLine>7</CurrentLine>
+      <CurrentLine>9</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main.cpp</PathWithFileName>
       <FilenameWithoutPath>main.cpp</FilenameWithoutPath>
@@ -248,9 +248,61 @@
   </Group>
 
   <AlienFiles>
-    <PathWithFilename>D:\projets\insacortexdev\lib_cm3\cpp\stm_clock.h</PathWithFilename>
-    <TopLine>27</TopLine>
-    <CurrentLine>27</CurrentLine>
+    <PathWithFilename>C:\Data\Projets\insacortexdev\lib_cm3\cpp\include\usart.h</PathWithFilename>
+    <TopLine>98</TopLine>
+    <CurrentLine>118</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>C:\Data\Projets\insacortexdev\lib_cm3\standard_types.h</PathWithFilename>
+    <TopLine>125</TopLine>
+    <CurrentLine>134</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>C:\Data\Projets\insacortexdev\lib_cm3\stm_regs.h</PathWithFilename>
+    <TopLine>1912</TopLine>
+    <CurrentLine>1932</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -278,25 +330,37 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>2</ActiveTab>
+      <ActiveTab>3</ActiveTab>
       <Documents>
         <Doc>
+          <Name>C:\Data\Projets\insacortexdev\LIB_CM3\STM_REGS.H</Name>
+          <ColumnNumber>51</ColumnNumber>
+          <TopLine>1912</TopLine>
+          <CurrentLine>1932</CurrentLine>
+        </Doc>
+        <Doc>
           <Name>.\main.cpp</Name>
-          <ColumnNumber>11</ColumnNumber>
+          <ColumnNumber>10</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>7</CurrentLine>
+          <CurrentLine>9</CurrentLine>
         </Doc>
         <Doc>
-          <Name>..\..\..\lib_cm3\cpp\stm_clock.cpp</Name>
-          <ColumnNumber>22</ColumnNumber>
-          <TopLine>25</TopLine>
-          <CurrentLine>45</CurrentLine>
+          <Name>../../../lib_cm3/cpp/src/usart.cpp</Name>
+          <ColumnNumber>16</ColumnNumber>
+          <TopLine>110</TopLine>
+          <CurrentLine>110</CurrentLine>
         </Doc>
         <Doc>
-          <Name>D:\projets\insacortexdev\lib_cm3\cpp\stm_clock.h</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>27</TopLine>
-          <CurrentLine>27</CurrentLine>
+          <Name>C:\Data\Projets\insacortexdev\LIB_CM3\CPP\INCLUDE\USART.H</Name>
+          <ColumnNumber>12</ColumnNumber>
+          <TopLine>98</TopLine>
+          <CurrentLine>118</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>C:\DATA\PROJETS\INSACORTEXDEV\LIB_CM3\STANDARD_TYPES.H</Name>
+          <ColumnNumber>19</ColumnNumber>
+          <TopLine>125</TopLine>
+          <CurrentLine>134</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

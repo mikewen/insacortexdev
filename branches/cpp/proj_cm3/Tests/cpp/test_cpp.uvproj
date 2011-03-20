@@ -258,12 +258,12 @@
             <Strict>0</Strict>
             <Optim>0</Optim>
             <wLevel>2</wLevel>
-            <uThumb>0</uThumb>
+            <uThumb>1</uThumb>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..\..\..\minilib\include;..\..\..\lib_cm3;..\..\..\lib_cm3\cpp\include;..\..\..\system;..\cpp</IncludePath>
             </VariousControls>
           </Carm>
           <Aarm>
@@ -279,16 +279,16 @@
           <LDarm>
             <umfTarg>1</umfTarg>
             <enaGarb>0</enaGarb>
-            <noStart>1</noStart>
+            <noStart>0</noStart>
             <noStLib>0</noStLib>
-            <uMathLib>1</uMathLib>
+            <uMathLib>0</uMathLib>
             <TextAddressRange></TextAddressRange>
             <DataAddressRange></DataAddressRange>
             <BSSAddressRange></BSSAddressRange>
             <IncludeLibs></IncludeLibs>
             <IncludeDir></IncludeDir>
-            <Misc></Misc>
-            <ScatterFile></ScatterFile>
+            <Misc>-Wl,--gc-sections</Misc>
+            <ScatterFile>D:\Projets\insacortexdev\system\Linker_Script_GCC.ld</ScatterFile>
           </LDarm>
         </TargetArm>
       </TargetOption>
@@ -299,12 +299,12 @@
             <File>
               <FileName>Startup_GCC.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\system\Startup_GCC.s</FilePath>
+              <FilePath>../../../system/Startup_GCC.s</FilePath>
             </File>
             <File>
               <FileName>STM32F10x_GCC.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\system\STM32F10x_GCC.s</FilePath>
+              <FilePath>../../../system/STM32F10x_GCC.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -312,14 +312,14 @@
           <GroupName>Drivers</GroupName>
           <Files>
             <File>
-              <FileName>stm_usart.cpp</FileName>
+              <FileName>clock.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\..\lib_cm3\cpp\stm_usart.cpp</FilePath>
+              <FilePath>../../../lib_cm3/cpp/src/clock.cpp</FilePath>
             </File>
             <File>
-              <FileName>stm_clock.cpp</FileName>
+              <FileName>usart.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\..\lib_cm3\cpp\stm_clock.cpp</FilePath>
+              <FilePath>../../../lib_cm3/cpp/src/usart.cpp</FilePath>
             </File>
           </Files>
         </Group>

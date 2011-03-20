@@ -1,8 +1,10 @@
-#include "stm_clock.h"
-#include "stm_usart.h"
+#include "clock.h"
+#include "usart.h"
 
-void main (void)
+int main (void)
 {
 
 	while (1);
+
+	return 0;
 }
