@@ -1,0 +1,4 @@
+Dependencies for Project 'exo_TD1', Target 'quick_asm': (DO NOT MODIFY !)
+F (.\STM32F10x.s)(0x4D8368C9)(--cpu Cortex-M3 --pd "__EVAL SETA 1" -g --16 --apcs=interwork --pd "__MICROLIB SETA 1" -I "C:\Keil\ARM\INC" -I "C:\Keil\ARM\INC\ST\STM32F10x" --pd "Registre SETA 2" --list "STM32F10x.lst" --xref -o "STM32F10x.o" --depend "STM32F10x.d")
+F (.\main.c)(0x4D878697)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork -I "C:\Keil\ARM\INC" -I "C:\Keil\ARM\INC\ST\STM32F10x" -o "main.o" --omf_browse "main.crf" --depend "main.d")
+F (.\quick.asm)(0x4D878697)(--cpu Cortex-M3 --pd "__EVAL SETA 1" -g --16 --apcs=interwork --pd "__MICROLIB SETA 1" -I "C:\Keil\ARM\INC" -I "C:\Keil\ARM\INC\ST\STM32F10x" --pd "Registre SETA 2" --list "quick.lst" --xref -o "quick.o" --depend "quick.d")
