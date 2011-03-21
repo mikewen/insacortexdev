@@ -1,0 +1,138 @@
+%% LyX 1.5.5 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[onecolumn,french]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{color}
+%\usepackage{fix2col}
+\makeatletter
+
+%\usepackage{listings}
+\usepackage{../lst_asm}
+\makeatother
+
+\usepackage{babel}
+
+\begin{document}
+
+\title{TD2  Asm Cortex-M3 }
+
+
+\author{Pascal Acco pour l'équipe des branquignolles}
+
+\maketitle
+\begin{abstract}
+Le but de ce TD est de vous exercer à l'utilisation de sauts conditionnels pour réaliser des structures algorithmiques en peu avancées. Vous serrez aussi amenés à utiliser un pointeur pour parcourir un tableau et effectuer des opérations binaires.
+\end{abstract}
+
+
+\section{Petites questions rapides}
+\subsection{Arithmétique signée Zorro}
+Soit les deux programmes suivants
+
+\begin{minipage}{0.4\linewidth}
+\begin{lstlisting}
+zorro 
+	LDR		R0,	=0xFFFFFFFF
+	ADDS		R0,	R0,	#1
+	ADC		R1,	R0
+ \end{lstlisting}
+%  REPONSE NZCVQ = 01100
+% dépassement en non signé , nickel en signé
+%pour corriger le défaut il faut stocker la retenue dans un autre registre (64bits)
+\end{minipage}
+\hfill
+\begin{minipage}{0.4\linewidth}
+\begin{lstlisting}
+zorro
+	LDR		R0,	=0x7FFFFFFF
+	ADDS		R0,	R0,	#1	
+\end{lstlisting}
+%REPONSE NZCVQ=10010
+% overflow en signé , nickel en non signé
+% pour corriger l'erreur il faut inverser le bit de poids fort et étendre sur 64 bits
+\end{minipage}
+
+Indiquez ce que vaut le registre $R_0$ et les fanions $ZCNV$ à la fin de chacun des deux programmes. Donnez l'interprétation signée et non--signée des opérandes et des résultats. Comment faire une addition non-signée sur 64 bits ?
+
+\subsection{Joly Jumper}
+Dans les programmes suivants indiquez le nombre de passages dans la boucle et le point de sortie de chaque boucle.
+
+\begin{minipage}{0.4\linewidth}
+\begin{lstlisting}
+	LDR	R0, = 0XFFFFFFFE
+joly
+		ADDS	R0,	R0,	#1
+	BEQ	jumper
+	BMI	petittonnerre
+	B 	joly	
+\end{lstlisting}
+%REPONSE 1seul passage et saut à petitonnerre car N=1
+\end{minipage}
+\hfill
+\begin{minipage}{0.4\linewidth}
+\begin{lstlisting}
+	LDR	R0,	=0x0FFFFFFE
+joly
+		ADDS		R0, #1
+	BCS		jumper
+	CMP 		R0,	#0x10000000
+	BGT	 	bucephale
+	B 		joly		
+\end{lstlisting}
+%REPONSE deux passages et saut à Jumper 
+\end{minipage}
+
+\section{Problème : Calcul de hachage }
+On se propose de calculer le \emph{hash}\footnote{On nomme fonction de hachage une fonction particulière qui, à partir d'une donnée fournie en entrée, calcule une empreinte servant à identifier rapidement, bien qu'incomplètement, la donnée initiale. Les fonctions de hachage sont utilisées en informatique et en cryptographie.} d'un mot de passe avec l'algorithme ELFhash souvent utiisé dans les systèmes Linux \footnote{Nous choisissons le GNU bien que  l'Afghan soit réputé pour produire du très bon \emph{hash}.}
+
+Il est courant de vérifier l'authenticité d'un mot de passe en comparant le hachage du texte saisi avec le hachage du mot de passe calculé et stocké lors de son initialisation. On évite ainsi de stocker le texte clair dans le programme sensé contrôler un accès.
+
+On peut aussi vérifier l'authenticité d'un long flot de données (plusieurs Mo) en comparant le hash du texte authentique (de courte longueur 32 à 256 bits) avec celui du texte reçu. Dans ce cas, le calcul du hash peut être long~: on fait alors appel à des routines optimisées.
+
+
+\pagebreak
+\subsection*{Question 1: Compiler un algorithme.}
+
+
+Saurez-vous faire mieux en assembleur qu'un compilateur dans le cas de l'algorithme de hachage suivant~:
+\begin{lstlisting}[language={[ANSI]C}, frameround=tttt,frame=single,extendedchars=true]
+	unsigned int ELFHash(char* str, unsigned int len)
+	{
+	   unsigned int hash = 0;
+	   unsigned int x    = 0;
+	   unsigned int i    = 0;
+
+	   for(i = 0; i < len; str++, i++)
+	   {
+		      hash = (hash << 4) + (*str);
+		    
+		      if((x = hash & 0xF0000000L) != 0)
+		      {
+			         hash ^= (x >> 24);
+		      }
+
+		      hash &= ~x;
+	   }
+	   return hash;
+	} 
+\end{lstlisting}
+Traduisez cet algorithme en assembleur en indiquant l'association entre registres et variables du programme. Tentez ensuite d'en optimiser  le temps d'exécution.
+
+
+
+\subsection*{Question 2~: Passage de paramètres.}
+
+
+\'Ecrivez un module assembleur contenant la procédure \verb+HELFHash+ traduite. Cette procédure pourra être appelée en C avec le même prototype. 
+
+Pour cela il suffit d'utiliser R0 et R1 comme paramètre d'entrée de la fonction et de renvoyer le résultat dans R0. L'appel de la fonction assembleur ne peut altérer que les registre R0 à R3 et PC bien sûr. 
+
+
+
+\subsection*{Question 3~: Faire un appel.}
+
+
+\'Ecrire un module appelant la fonction HELHash (écrite dans un autre module) calculant le hash de "Salut les geeks". 
+\end{document}
