@@ -117,6 +117,7 @@ void Init_Clock_System()
 	
 		#ifndef PLL_IS_USED
 		// switch clock to HSE
+		RCC->CFGR &= ~(3<<RCC_SW_SHIFT);
 		RCC->CFGR |= RCC_SW_IS_HSE;
 		#endif
 	#endif  
@@ -129,6 +130,7 @@ void Init_Clock_System()
 
 		#ifndef PLL_IS_USED
 		// switch clock to HSI
+		RCC->CFGR &= ~(3<<RCC_SW_SHIFT);
 		RCC->CFGR |= RCC_SW_IS_HSI;
 		#endif
 	#endif  
@@ -140,6 +142,7 @@ void Init_Clock_System()
 		while((RCC->CR & RCC_PLLRDY) == 0);
 
 		// switch clock to PLL
+		RCC->CFGR &= ~(3<<RCC_SW_SHIFT);
 		RCC->CFGR |= RCC_SW_IS_PLL;
 	#endif 
 	
