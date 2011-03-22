@@ -57,6 +57,14 @@ void Init_IT(void)
 	SYS_ENABLE_FAULT_INTERRUPTS(); */
 }
 
+void SystickSetPeriod(int Freq) 
+{
+int clock;
+
+	clock = __SYSCLK;
+	SysTick->LOAD = (clock/(Freq))-1;
+}
+
 /* 
  * Fonction: 	Demarre_SYSTICK
  * Role: 		Lance le timer SYSTICK ( pour le clignotement des led )
@@ -65,7 +73,7 @@ void Init_IT(void)
  */
 void Demarre_Systick(void)
 {
-	SYSTICK_SET_PERIOD(1250); /* Regle une periode de 800 ns sur le timer system */
+	SystickSetPeriod(1250); /* Regle une periode de 800 ns sur le timer system */
 
 	SYSTICK_CLOCK_AHB();		/* Set AHB (CPU clock) as clock input */
 	SYSTICK_ENABLE_COUNTER(); 	/* Lance le timer system */
