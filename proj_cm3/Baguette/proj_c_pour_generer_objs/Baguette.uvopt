@@ -771,7 +771,7 @@
 
   <AlienFiles>
     <PathWithFilename>C:\Home\ARM\insacortexdev\lib_cm3\lib_baguette.h</PathWithFilename>
-    <TopLine>134</TopLine>
+    <TopLine>137</TopLine>
     <CurrentLine>148</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
@@ -849,7 +849,7 @@
 
   <AlienFiles>
     <PathWithFilename>C:\Home\ARM\insacortexdev\lib_cm3\stm_system.h</PathWithFilename>
-    <TopLine>432</TopLine>
+    <TopLine>445</TopLine>
     <CurrentLine>456</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
@@ -901,7 +901,7 @@
 
   <AlienFiles>
     <PathWithFilename>C:\Home\ARM\insacortexdev\lib_cm3\stm_regs.h</PathWithFilename>
-    <TopLine>1037</TopLine>
+    <TopLine>1039</TopLine>
     <CurrentLine>1050</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
@@ -930,26 +930,8 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>4</ActiveTab>
+      <ActiveTab>0</ActiveTab>
       <Documents>
-        <Doc>
-          <Name>..\..\..\lib_cm3\stm_regs.h</Name>
-          <ColumnNumber>42</ColumnNumber>
-          <TopLine>1037</TopLine>
-          <CurrentLine>1050</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\..\..\lib_cm3\stm_clock.c</Name>
-          <ColumnNumber>34</ColumnNumber>
-          <TopLine>87</TopLine>
-          <CurrentLine>87</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\proj_c_pour_generer_objs\stm_clock_config.h</Name>
-          <ColumnNumber>29</ColumnNumber>
-          <TopLine>17</TopLine>
-          <CurrentLine>30</CurrentLine>
-        </Doc>
         <Doc>
           <Name>..\..\..\lib_cm3\stm_clock.h</Name>
           <ColumnNumber>23</ColumnNumber>
@@ -963,6 +945,24 @@
           <CurrentLine>582</CurrentLine>
         </Doc>
         <Doc>
+          <Name>..\..\..\lib_cm3\stm_regs.h</Name>
+          <ColumnNumber>42</ColumnNumber>
+          <TopLine>1039</TopLine>
+          <CurrentLine>1050</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\..\..\lib_cm3\stm_clock.c</Name>
+          <ColumnNumber>34</ColumnNumber>
+          <TopLine>87</TopLine>
+          <CurrentLine>87</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\proj_c_pour_generer_objs\stm_clock_config.h</Name>
+          <ColumnNumber>29</ColumnNumber>
+          <TopLine>19</TopLine>
+          <CurrentLine>30</CurrentLine>
+        </Doc>
+        <Doc>
           <Name>.\main.c</Name>
           <ColumnNumber>0</ColumnNumber>
           <TopLine>82</TopLine>
@@ -971,7 +971,7 @@
         <Doc>
           <Name>..\..\..\lib_cm3\stm_system.h</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>432</TopLine>
+          <TopLine>445</TopLine>
           <CurrentLine>456</CurrentLine>
         </Doc>
         <Doc>
@@ -1001,7 +1001,7 @@
         <Doc>
           <Name>..\..\..\lib_cm3\lib_baguette.h</Name>
           <ColumnNumber>29</ColumnNumber>
-          <TopLine>134</TopLine>
+          <TopLine>137</TopLine>
           <CurrentLine>148</CurrentLine>
         </Doc>
       </Documents>
